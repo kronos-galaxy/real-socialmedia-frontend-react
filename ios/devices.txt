@@ -1,0 +1,2 @@
+Device ID Device Name
+00008030-000915E02120802E  Yet another phone

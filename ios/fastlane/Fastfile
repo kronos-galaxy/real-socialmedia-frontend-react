@@ -1,0 +1,51 @@
+default_platform(:ios)
+
+platform :ios do
+  desc "Push a new beta build to TestFlight"
+  lane :beta do
+    # register_devices(devices_file: "./devices.txt")
+
+    if ENV["APP_IDENTIFIER"] === "app.real.mobile.beta"
+      add_badge
+    end
+
+    match(
+      app_identifier: ENV["APP_IDENTIFIER"],
+      type: ENV["MATCH_TYPE"],
+      readonly: true
+    )
+
+    settings_to_override = {
+      :BUNDLE_IDENTIFIER => ENV["APP_IDENTIFIER"],
+      :PROVISIONING_PROFILE_SPECIFIER => ENV["APP_IDENTIFIER"],
+      :DEVELOPMENT_TEAM => ENV["TEAM_ID"]
+    }
+
+    update_app_identifier(
+      xcodeproj: "REAL.xcodeproj",
+      plist_path: "REAL/Info.plist",
+      app_identifier: ENV["APP_IDENTIFIER"]
+    )
+
+    increment_build_number(xcodeproj: "REAL.xcodeproj")
+
+    build_app(
+      export_xcargs: "-allowProvisioningUpdates",
+      workspace: "REAL.xcworkspace",
+      scheme: ENV["APP_SCHEME"],
+      export_method: "app-store",
+      output_directory: "../build",
+      output_name: "REAL.development.ipa",
+      export_options: {
+        provisioningProfiles: {
+          "app.real.mobile" => "match AppStore app.real.mobile",
+          "app.real.mobile.beta" => "match AppStore app.real.mobile.beta",
+        }
+      }
+    )
+
+    sh 'git checkout -- ../REAL/Images.xcassets'
+
+    upload_to_testflight
+  end
+end
