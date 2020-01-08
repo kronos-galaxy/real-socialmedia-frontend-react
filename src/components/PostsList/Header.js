@@ -25,6 +25,7 @@ const Header = ({
   postsArchiveRequest,
   postsFlagRequest,
   postsDeleteRequest,
+  postsShareRequest,
   handleProfilePress,
 }) => {
   const styling = styles(theme)
@@ -58,7 +59,7 @@ const Header = ({
         {!path(['mediaObjects', '0', 'isVerified'])(post) ?
           <TouchableOpacity onPress={() => navigation.navigate('Verification')} style={styling.verification}>
             <Caption style={styling.verificationStatus}>{t('Failed Verification')} - {t('Learn More')}</Caption>
-            <VerificationIcon fill={theme.colors.primary} />
+            <VerificationIcon fill="#DC3644" />
           </TouchableOpacity>
         : null}
       </View>
@@ -71,9 +72,9 @@ const Header = ({
 
           <ActionSheet
             ref={actionSheetRef}
-            options={[t('Share'), t('Edit'), t('Archive'), t('Delete'), t('Cancel')]}
-            cancelButtonIndex={4}
-            destructiveButtonIndex={3}
+            options={[t('Share'), t('Edit'), t('Archive'), t('Other'), t('Delete'), t('Cancel')]}
+            cancelButtonIndex={5}
+            destructiveButtonIndex={4}
             onPress={(index) => {
               if (index === 0) {
                 navigation.navigate('PostShare', post)
@@ -85,6 +86,13 @@ const Header = ({
                 postsArchiveRequest({ postId: post.postId })
               }
               if (index === 3) {
+                postsShareRequest({
+                  photoUrl: path(['mediaObjects', '0', 'url'])(post),
+                  type: 'global',
+                  title: 'Share',
+                })
+              }
+              if (index === 4) {
                 postsDeleteRequest({ postId: post.postId })
               }
             }}
@@ -100,14 +108,21 @@ const Header = ({
 
           <ActionSheet
             ref={actionSheetRef}
-            options={[t('Share'), t('Report'), t('Cancel')]}
-            cancelButtonIndex={2}
+            options={[t('Share'), t('Report'), t('Other'), t('Cancel')]}
+            cancelButtonIndex={3}
             onPress={(index) => {
               if (index === 0) {
                 navigation.navigate('PostShare', post)
               }
               if (index === 1) {
                 postsFlagRequest({ postId: post.postId })
+              }
+              if (index === 2) {
+                postsShareRequest({
+                  photoUrl: path(['mediaObjects', '0', 'url'])(post),
+                  type: 'global',
+                  title: 'Share',
+                })
               }
             }}
           />

@@ -52,6 +52,7 @@ const PostComponent = ({
         postsArchiveRequest={postsArchiveRequest}
         postsFlagRequest={postsFlagRequest}
         postsDeleteRequest={postsDeleteRequest}
+        postsShareRequest={postsShareRequest}
         handleProfilePress={handleProfilePress}
       />
       <ListItemComponent post={post}>

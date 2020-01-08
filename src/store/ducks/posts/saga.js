@@ -46,7 +46,7 @@ function* handlePostsShareRequest(payload) {
       markerScale: 0.5,
       quality: 100,
       saveFormat: 'jpg',
-   })
+    })
   }
   
   function* handleInstagramShare(url, title) {
@@ -58,6 +58,16 @@ function* handlePostsShareRequest(payload) {
     }
 
     yield Share.shareSingle(shareOptions)
+  }
+
+  function* handleGlobalShare(url, title) {
+    const shareOptions = {
+      url,
+      type: 'image/jpeg',
+      title,
+    }
+
+    yield Share.open(shareOptions)
   }
 
   function* handleCameraRollSave(path) {
@@ -79,6 +89,12 @@ function* handlePostsShareRequest(payload) {
     if (payload.type === 'instagram') {
       const url = path(['edges', '0', 'node', 'image', 'uri'])(photo)
       yield handleInstagramShare(url, payload.title)
+      res.flush()
+    }
+
+    if (payload.type === 'global') {
+      const url = path(['edges', '0', 'node', 'image', 'uri'])(photo)
+      yield handleGlobalShare(url, payload.title)
       res.flush()
     }
   } else {
