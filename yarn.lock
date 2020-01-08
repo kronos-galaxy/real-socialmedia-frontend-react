@@ -2743,6 +2743,11 @@ domutils@^1.7.0:
     dom-serializer "0"
     domelementtype "1"
 
+dooboolab-welcome@^1.1.1:
+  version "1.1.1"
+  resolved "https://registry.npmjs.org/dooboolab-welcome/-/dooboolab-welcome-1.1.1.tgz#ca2184f6e1f568865d707a6ce3bda7e003550f54"
+  integrity sha512-tQ/9NBCGnalHwKOBjDqTD4t4wQpDfSSbxQGctzkzaLHR3AhN0wCBkIs05JciVtvl/jfLZ+DgAndktAMk3Bu7Vw==
+
 dotenv@^2.0.0:
   version "2.0.0"
   resolved "https://registry.npmjs.org/dotenv/-/dotenv-2.0.0.tgz#bd759c357aaa70365e01c96b7b0bec08a6e0d949"
@@ -6658,6 +6663,13 @@ react-native-gesture-handler@^1.5.0:
     hoist-non-react-statics "^2.3.1"
     invariant "^2.2.4"
     prop-types "^15.7.2"
+
+react-native-iap@^4.4.0-rc.5:
+  version "4.4.0-rc.5"
+  resolved "https://registry.npmjs.org/react-native-iap/-/react-native-iap-4.4.0-rc.5.tgz#46cfd991bd67a19c21bbca50fbefd7ad09ba3b08"
+  integrity sha512-fKVRIT8FfD13ss11O04ehkr8rmJ+A+Pe6n6dsG2znGsrIsLH8+glasHBU3fyI03zh7PxYdmJdlci3ZDr34g/Nw==
+  dependencies:
+    dooboolab-welcome "^1.1.1"
 
 react-native-image-crop-picker@^0.26.1:
   version "0.26.1"

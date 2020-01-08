@@ -18,6 +18,7 @@ import { Text, Caption, Switch } from 'react-native-paper'
 import NextIcon from 'assets/svg/settings/Next'
 import Slider from '@react-native-community/slider'
 import Layout from 'constants/Layout'
+import LifetimeIndicator from 'components/PostCreate/LifetimeIndicator'
 
 import { withTheme } from 'react-native-paper'
 import { withNavigation } from 'react-navigation'
@@ -93,6 +94,11 @@ const PostCreateForm = ({
           value={getIndexByValue(values.lifetime)}
           onValueChange={(value) => setFieldValue('lifetime', getValueByIndex(value))}
         />
+        
+        <View style={styling.sliderIndicator}>
+          <LifetimeIndicator />
+        </View>
+        
         <Text>{t('Post will be available {{lifetime}}', { lifetime: getTextByValue(t)(values.lifetime) })}</Text>
         <Caption>{t('All posts become stories when they are 24 hours from expiring')}</Caption>
       </View>
@@ -169,7 +175,9 @@ const styles = theme => StyleSheet.create({
   slider: {
     width: Layout.window.width - 24,
     height: 40,
-    marginBottom: 12,
+  },
+  sliderIndicator: {
+    marginBottom: 24,
   },
 })
 
