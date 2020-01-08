@@ -27,6 +27,7 @@ import TranslationScreen from 'screens/TranslationScreen'
 import ModalScreen from 'screens/ModalScreen'
 import PayoutScreen from 'screens/PayoutScreen'
 import VerificationScreen from 'screens/VerificationScreen'
+import MembershipScreen from 'screens/MembershipScreen'
 import ProfileArchivedPhotoScreen from 'screens/ProfileArchivedPhotoScreen'
 import { TabBarItem } from 'components/NavigationTab'
 import Layout from 'constants/Layout'
@@ -215,6 +216,7 @@ const ProfileStack = (screenProps) => {
     Translation: TranslationScreen,
     Settings: SettingsScreen,
     Payout: PayoutScreen,
+    Membership: MembershipScreen,
     ProfileArchivedPhoto: ProfileArchivedPhotoScreen,
   }, {
     cardStyle: {

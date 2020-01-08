@@ -21,6 +21,7 @@ import ArchiveIcon from 'assets/svg/settings/Archive'
 import SignoutIcon from 'assets/svg/settings/Signout'
 import PrivacyIcon from 'assets/svg/settings/Privacy'
 import DiamondIcon from 'assets/svg/settings/Diamond'
+import CashIcon from 'assets/svg/settings/Cash'
 import Avatar from 'templates/Avatar'
 import path from 'ramda/src/path'
 
@@ -48,6 +49,10 @@ const Settings = ({
       </TouchableOpacity>
 
       <RowsComponent items={[{
+        label: t('Join Diamond'),
+        onPress: () => navigation.navigate('Membership'),
+        icon: <DiamondIcon fill={theme.colors.text} />,
+      }, {
         label: t('Edit Profile'),
         onPress: () => navigation.navigate('ProfileEdit'),
         icon: <EditIcon fill={theme.colors.text} />,
@@ -74,7 +79,7 @@ const Settings = ({
       }, {
         label: t('Diamond Payout'),
         onPress: () => navigation.navigate('Payout'),
-        icon: <DiamondIcon fill={theme.colors.text} />,
+        icon: <CashIcon fill={theme.colors.text} />,
       }, {
         label: t('Signout'),
         onPress: () => authSignoutRequest(),

@@ -8,7 +8,7 @@ export const versionCheck = (async () => {
 
     const isNeeded = !getReadableVersion().includes('1.0.5')
 
-    if (isNeeded) {
+    if (false) {
       Alert.alert(
         'App Update Available',
         'Please update REAL to continue proceeding',
