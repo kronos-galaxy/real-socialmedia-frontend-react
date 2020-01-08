@@ -15,7 +15,7 @@ class PrivacyScreen extends React.Component {
           {(t) => (
             <NavigationSecondary
               onNavLeftPress={() => this.props.navigation.goBack(null)}
-              title={t('Privacy and Mental Health')}
+              title={t('Mental Health & Privacy Settings')}
             />
           )}
         </Translation>

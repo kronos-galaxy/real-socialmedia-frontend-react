@@ -43,7 +43,8 @@ const styles = theme => StyleSheet.create({
   item: {
     width: '100%',
     height: '100%',
-    backgroundColor: theme.colors.backgroundSecondary,
+    backgroundColor: theme.colors.disabled,
+    opacity: 0.8,
   },
 })
 

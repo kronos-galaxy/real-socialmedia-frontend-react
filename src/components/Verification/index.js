@@ -23,12 +23,13 @@ const Verification = ({
       <Paragraph style={styling.paragraph}>* {t('It’s been modified, cropped, or rotated by another app')}.</Paragraph>
       <Paragraph style={styling.paragraph}>* {t('It’s been copied or was taken using another camera')}.</Paragraph>
       <Paragraph style={styling.paragraph}>* {t('It’s too blurry')}.</Paragraph>
+      <Paragraph style={styling.paragraph}>* {t('It was taken using iOS portrait mode (selective lighting/filter)')}.</Paragraph>
       <Paragraph style={styling.paragraph}>* {t('It has/uses a filter or has been photoshopped')}.</Paragraph>
       <Paragraph style={styling.paragraph}>* {t('It has poor lighting')}.</Paragraph>
       <Paragraph style={styling.paragraph}>* {t('It’s from the internet (copyrighted)')}.</Paragraph>
       <Paragraph style={styling.paragraph}>* {t('It was previously flagged as inappropriate by > 20% of the viewers who saw it')}.</Paragraph>
 
-      <Paragraph style={styling.paragraph}>{t('If you don’t like “Post Verification”, don’t stress! You can disable Post Verification for good for all posts in settings under “Privacy & Mental Health”. Nobody can detect if you have post verification disabled')}.</Paragraph>
+      <Paragraph style={styling.paragraph}>{t('If you don’t like “Post Verification”, don’t stress! You can disable Post Verification for good for all posts in settings under “Mental Health & Privacy Settings”. Nobody can detect if you have post verification disabled')}.</Paragraph>
     </ScrollView>
   )
 }

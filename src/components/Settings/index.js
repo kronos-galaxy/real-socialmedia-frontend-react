@@ -48,7 +48,7 @@ const Settings = ({
       </TouchableOpacity>
 
       <RowsComponent items={[{
-        label: t('Change Details'),
+        label: t('Edit Profile'),
         onPress: () => navigation.navigate('ProfileEdit'),
         icon: <EditIcon fill={theme.colors.text} />,
       }, {
@@ -68,7 +68,7 @@ const Settings = ({
         onPress: () => navigation.navigate('ProfileArchivedPhoto'),
         icon: <ArchiveIcon fill={theme.colors.text} />,
       }, {
-        label: t('Privacy and Mental Health'),
+        label: t('Mental Health & Privacy Settings'),
         onPress: () => navigation.navigate('Privacy'),
         icon: <PrivacyIcon fill={theme.colors.text} />,
       }, {

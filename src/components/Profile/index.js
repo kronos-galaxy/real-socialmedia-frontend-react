@@ -16,7 +16,6 @@ import NativeError from 'templates/NativeError'
 import path from 'ramda/src/path'
 import PostsLoadingComponent from 'components/PostsList/PostsLoading'
 import ProfileStatusComponent from 'components/Profile/Status'
-import { ifIphoneX } from 'react-native-iphone-x-helper'
 
 import { withTheme } from 'react-native-paper'
 import { withNavigation } from 'react-navigation'

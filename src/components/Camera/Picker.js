@@ -12,6 +12,7 @@ import SquareIcon from 'assets/svg/camera/Square'
 import PortraitIcon from 'assets/svg/camera/Portrait'
 
 import { withTheme } from 'react-native-paper'
+import { useTranslation } from 'react-i18next'
 
 const PickerItem = (ref, theme) => ({
   item,
@@ -28,7 +29,7 @@ const PickerItem = (ref, theme) => ({
     <TouchableOpacity onPress={onPress} style={styling.sliderItemWrapper}>
       <View style={styling.sliderItem}>
         <View style={styling.sliderItemIcon}>
-          {item.title === 'Photo' ?
+          {item.title === 'Rectangle' ?
             <PortraitIcon />
           : null}
           {item.title === 'Square' ?
@@ -47,6 +48,7 @@ const Picker = ({
 }) => {
   const styling = styles(theme)
   const pickerRef = useRef(null)
+  const { t } = useTranslation()
 
   return (
     <View style={styling.root}>
@@ -55,14 +57,14 @@ const Picker = ({
         enableMomentum
         ref={pickerRef}
         data={[
-          { title: 'Photo', handleChange: () => setPhotoSize('4:3') },
-          { title: 'Square', handleChange: () => setPhotoSize('1:1') },
+          { title: t('Rectangle'), handleChange: () => setPhotoSize('4:3') },
+          { title: t('Square'), handleChange: () => setPhotoSize('1:1') },
         ]}
         renderItem={PickerItem(pickerRef, theme)}
         sliderWidth={Layout.window.width - 24}
         sliderHeight={30}
         itemHeight={30}
-        itemWidth={100}
+        itemWidth={110}
         removeClippedSubviews={false}
         contentContainerCustomStyle={{
           height: 30,

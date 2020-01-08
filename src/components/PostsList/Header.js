@@ -141,7 +141,7 @@ const styles = theme => StyleSheet.create({
     marginRight: 4,
   },
   verificationStatus: {
-    color: theme.colors.primary,
+    color: '#DC3644',
     marginRight: 4,
   },
   verification: {

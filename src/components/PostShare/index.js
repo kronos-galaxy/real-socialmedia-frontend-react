@@ -68,9 +68,6 @@ const PostShare = ({
       <View style={styling.form}>
         <DefaultButton label={watermark ? t('Remove watermark') : t('Add watermark')} mode="outline" onPress={handleWatermark} />
       </View>
-      <View style={styling.form}>
-        <DefaultButton label={t('Verified watermark')} mode="outline" onPress={handleWatermark} disabled />
-      </View>
     </View>
   )
 }

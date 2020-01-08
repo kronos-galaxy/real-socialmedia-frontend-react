@@ -15,7 +15,7 @@ class ProfileScreen extends React.Component {
           {(t) => (
             <NavigationSecondary
               onNavLeftPress={() => this.props.navigation.goBack(null)}
-              title={t('Profile Edit')}
+              title={t('Edit Profile')}
             />
           )}
         </Translation>        
