@@ -1,4 +1,4 @@
-import React, { useRef, useCallback } from 'react'
+import React, { useRef, useState, useCallback } from 'react'
 import PropTypes from 'prop-types'
 import {
   StyleSheet,
@@ -10,6 +10,7 @@ import ActionComponent from 'components/PostsList/Action'
 import DescriptionComponent from 'components/PostsList/Description'
 import ListItemComponent from 'templates/ListItem'
 import ImageComponent from 'templates/Image'
+import Layout from 'constants/Layout'
 
 import { withTheme } from 'react-native-paper'
 import { withNavigation } from 'react-navigation'
@@ -31,16 +32,19 @@ const PostComponent = ({
   handleProfilePress,
   postsRestoreArchivedRequest,
   onMeasure,
+  scrollPosition,
 }) => {
   const styling = styles(theme)
   const { t } = useTranslation()
 
   const ref = useRef(null)
+  const [position, setPosition] = useState(false)
 
   const handleLayoutChange = useCallback(() => {
     if (!['Feed', 'PostMedia'].includes(navigation.state.routeName)) { return }
     ref.current.measure((fx, fy, width, height, px, py) => {
       onMeasure({ postId: post.postId, measure: { fx, fy, width, height, px, py } })
+      setPosition({ py, height })
     })
   }, [])
 
@@ -61,6 +65,7 @@ const PostComponent = ({
         <ImageComponent
           thumbnailSource={{ uri: path(['mediaObjects', '0', 'url64p'])(post) }}
           imageSource={{ uri: path(['mediaObjects', '0', 'url4k'])(post) }}
+          shouldLoadImage={scrollPosition + position.height + Layout.window.height * 4 > position.py}
         />
       </ListItemComponent>
       <ActionComponent

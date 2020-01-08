@@ -102,7 +102,9 @@ const PostsList = ({
   postsCreateRequest,
   postsCreateQueue,
   handleProfilePress,
+  layoutPostsListItem,
   layoutPostsListItemSuccess,
+  layoutPostsListScroll,
   layoutPostsListScrollSuccess,
 }) => {
   const styling = styles(theme)
@@ -199,6 +201,7 @@ const PostsList = ({
               postsDislikeRequest={postsDislikeRequest}
               handleProfilePress={handleProfilePress}
               onMeasure={layoutPostsListItemSuccess}
+              scrollPosition={layoutPostsListScroll.data.y}
             />
           )
         }}

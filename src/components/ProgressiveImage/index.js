@@ -49,7 +49,7 @@ export default class ProgressiveImage extends Component {
           />
         </Animated.View>
 
-        {this.state.thumbnailLoaded ?
+        {this.props.shouldLoadImage ?
           <Animated.View style={[styles.image, { opacity: this.state.imageOpacity }]}>
             <SimpleCache
               resizeMode={this.props.resizeMode}
@@ -84,6 +84,7 @@ ProgressiveImage.propTypes = {
   thumbnailSource: PropTypes.object.isRequired,
   thumbnailFadeDuration: PropTypes.number.isRequired,
   thumbnailBlurRadius: PropTypes.number,
+  shouldLoadImage: PropTypes.bool,
 }
 
 ProgressiveImage.defaultProps = {
@@ -93,4 +94,5 @@ ProgressiveImage.defaultProps = {
   onLoadThumbnail: Function.prototype,
   onLoadImage: Function.prototype,
   resizeMode: 'cover',
+  shouldLoadImage: true,
 }
