@@ -2,6 +2,7 @@ import React from 'react'
 import DefaultNavigationComponent from 'components/NavigationPrimary/Default'
 import ProfileEditComponent from 'components/ProfileEdit'
 import ProfileEditServiceComponent from 'components/ProfileEdit/index.service'
+import PrivacyServiceComponent from 'components/Privacy/index.service'
 import NavigationSecondary from 'components/NavigationSecondary/Default'
 import { Translation } from 'react-i18next'
 
@@ -21,10 +22,15 @@ class ProfileScreen extends React.Component {
         </Translation>        
 
         <ProfileEditServiceComponent>
-          {(props) => (
-            <ProfileEditComponent
-              {...props}
-            />
+          {(profileEditProps) => (
+            <PrivacyServiceComponent>
+              {(privacyProps) => (
+                <ProfileEditComponent
+                  {...profileEditProps}
+                  {...privacyProps}
+                />
+              )}
+            </PrivacyServiceComponent>
           )}
         </ProfileEditServiceComponent>
       </React.Fragment>

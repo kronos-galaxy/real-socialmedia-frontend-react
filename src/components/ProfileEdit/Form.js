@@ -32,6 +32,7 @@ const ProfileEditForm = ({
   theme,
   handleSubmit,
   loading,
+  PrivacyComponent,
 }) => {
   const styling = styles(theme)
   const { t } = useTranslation()
@@ -52,6 +53,9 @@ const ProfileEditForm = ({
       </View>
       <View style={styling.input}>
         <Field name="phoneNumber" component={TextField} placeholder={t('Phone Number')} keyboardType="phone-pad" autoCompleteType="tel" />
+      </View>
+      <View style={styling.input}>
+        {PrivacyComponent}
       </View>
       <View style={styling.input}>
         <DefaultButton label={t('Update')} onPress={handleSubmit} loading={loading} />
@@ -80,11 +84,11 @@ ProfileEditForm.propTypes = {
 export default withTheme(({
   usersEditProfile,
   usersEditProfileRequest,
-  initialValues,
+  user,
   ...props
 }) => (
   <Formik
-    initialValues={initialValues}
+    initialValues={user}
     validationSchema={formSchema}
     onSubmit={usersEditProfileRequest}
   >

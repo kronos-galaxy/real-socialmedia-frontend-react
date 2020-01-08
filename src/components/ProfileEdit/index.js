@@ -5,6 +5,7 @@ import {
   View,
 } from 'react-native'
 import ProfileEditForm from 'components/ProfileEdit/Form'
+import PrivacyForm from 'components/Privacy/Form'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 
 import { withTheme } from 'react-native-paper'
@@ -13,9 +14,13 @@ import { useTranslation } from 'react-i18next'
 
 const ProfileEdit = ({
   theme,
-  initialValues,
+  user,
   usersEditProfile,
   usersEditProfileRequest,
+  togglePrivacyStatus,
+  toggleFollowCountsHidden,
+  toggleLikesDisabled,
+  toggleCommentsDisabled,
 }) => {
   const styling = styles(theme)
   const { t } = useTranslation()
@@ -25,9 +30,18 @@ const ProfileEdit = ({
       <KeyboardAwareScrollView>
         <View style={styling.form}>
           <ProfileEditForm
-            initialValues={initialValues}
+            user={user}
             usersEditProfile={usersEditProfile}
             usersEditProfileRequest={usersEditProfileRequest}
+            PrivacyComponent={(
+              <PrivacyForm
+                user={user}
+                togglePrivacyStatus={togglePrivacyStatus}
+                toggleFollowCountsHidden={toggleFollowCountsHidden}
+                toggleLikesDisabled={toggleLikesDisabled}
+                toggleCommentsDisabled={toggleCommentsDisabled}
+              />
+            )}
           />
         </View>
       </KeyboardAwareScrollView>
@@ -47,7 +61,7 @@ const styles = theme => StyleSheet.create({
 
 ProfileEdit.propTypes = {
   theme: PropTypes.any,
-  initialValues: PropTypes.any,
+  user: PropTypes.any,
   usersEditProfile: PropTypes.any,
   usersEditProfileRequest: PropTypes.any,
 }

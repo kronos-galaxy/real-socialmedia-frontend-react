@@ -5,12 +5,8 @@ import {
   View,
   ScrollView,
 } from 'react-native'
-import RowsComponent from 'templates/Rows'
-import RowsItemComponent from 'templates/RowsItem'
-import UserRowComponent from 'templates/UserRow'
+import PrivacyForm from 'components/Privacy/Form'
 import Disclaimer from 'components/Privacy/Disclaimer'
-import path from 'ramda/src/path'
-import { Text, Switch, Caption } from 'react-native-paper'
 
 import { withTheme } from 'react-native-paper'
 import { withNavigation } from 'react-navigation'
@@ -31,48 +27,13 @@ const Privacy = ({
   return (
     <ScrollView>
       <View style={styling.root}>
-        <RowsComponent items={[{
-          label: t('Private Account'),
-          caption: t('Approve followers'),
-          onPress: togglePrivacyStatus,
-          enabled: user.privacyStatus === 'PRIVATE',
-        }, {
-          label: t('Hide Total Followers'),
-          caption: t('Followers can\'t view a list of your total followers'),
-          onPress: toggleFollowCountsHidden,
-          enabled: user.followCountsHidden,
-        }, {
-          label: t('Likes'),
-          caption: t('Followers can like posts'),
-          onPress: toggleLikesDisabled,
-          enabled: !user.likesDisabled,
-        }, {
-          label: t('Comments'),
-          caption: t('Followers can comment on posts'),
-          onPress: toggleCommentsDisabled,
-          enabled: !user.commentsDisabled,
-        }]}>
-          {(privacy) => (
-            <RowsItemComponent hasBorders>
-              <UserRowComponent
-                onPress={path(['onPress'])(privacy)}
-                content={
-                  <View>
-                    <Text style={styling.username}>{path(['label'])(privacy)}</Text>
-                    <Caption>{path(['caption'])(privacy)}</Caption>
-                  </View>
-                }
-                action={
-                  <Switch
-                    value={path(['enabled'])(privacy)}
-                    onValueChange={privacy.onPress}
-                  />
-                }
-              />
-            </RowsItemComponent>
-          )}
-        </RowsComponent>
-
+        <PrivacyForm
+          user={user}
+          togglePrivacyStatus={togglePrivacyStatus}
+          toggleFollowCountsHidden={toggleFollowCountsHidden}
+          toggleLikesDisabled={toggleLikesDisabled}
+          toggleCommentsDisabled={toggleCommentsDisabled}
+        />
         <Disclaimer />
       </View>
     </ScrollView>

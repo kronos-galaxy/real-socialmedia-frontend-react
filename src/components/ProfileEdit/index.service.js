@@ -30,14 +30,14 @@ const ProfileEditService = ({ children, navigation }) => {
   useEffect(() => {
     if (usersEditProfile.status === 'success') {
       dispatch(usersActions.usersEditProfileIdle())
-      navigation.navigate('ProfileSelf')
+      // navigation.navigate('ProfileSelf')
     }
   }, [usersEditProfile.status])
 
   return children({
     authSignout,
     authSignoutRequest,
-    initialValues: user,
+    user,
     usersEditProfile,
     usersEditProfileRequest,
   })
