@@ -376,6 +376,11 @@ const postsRestoreArchivedSuccess = (state, action) => update(state, {
     data: { $set: action.payload.data },
     status: { $set: 'success' },
   },
+  postsGetArchived: {
+    data: {
+      $feedPostRemove: { postId: action.payload.data.postId },
+    },
+  },
 })
 
 const postsRestoreArchivedFailure = (state, action) => update(state, {

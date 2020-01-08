@@ -26,6 +26,7 @@ const Header = ({
   postsFlagRequest,
   postsDeleteRequest,
   postsShareRequest,
+  postsRestoreArchivedRequest,
   handleProfilePress,
 }) => {
   const styling = styles(theme)
@@ -33,6 +34,7 @@ const Header = ({
   const actionSheetRef = useRef(null)
 
   const handleOptionsPress = () => actionSheetRef.current.show()
+  const archived = path(['mediaObjects', '0', 'mediaStatus'])(post) === 'ARCHIVED'
 
   return (
     <View style={styling.header}>
@@ -64,7 +66,26 @@ const Header = ({
         : null}
       </View>
 
-      {path(['userId'])(authUser) === path(['postedBy', 'userId'])(post) ?
+      {path(['userId'])(authUser) === path(['postedBy', 'userId'])(post) && archived ?
+        <React.Fragment>
+          <TouchableOpacity style={styling.headerAction} onPress={handleOptionsPress}>
+            <MoreIcon fill={theme.colors.primaryIcon} />
+          </TouchableOpacity>
+
+          <ActionSheet
+            ref={actionSheetRef}
+            options={[t('Restore from Archived'), t('Cancel')]}
+            cancelButtonIndex={1}
+            onPress={(index) => {
+              if (index === 0) {
+                postsRestoreArchivedRequest({ postId: post.postId })
+              }
+            }}
+          />
+        </React.Fragment>
+      : null}
+
+      {path(['userId'])(authUser) === path(['postedBy', 'userId'])(post) && !archived ?
         <React.Fragment>
           <TouchableOpacity style={styling.headerAction} onPress={handleOptionsPress}>
             <MoreIcon fill={theme.colors.primaryIcon} />
@@ -77,10 +98,10 @@ const Header = ({
             destructiveButtonIndex={4}
             onPress={(index) => {
               if (index === 0) {
-                navigation.navigate('PostShare', post)
+                navigation.navigate('PostShare', { post })
               }
               if (index === 1) {
-                navigation.navigate('PostEdit', post)
+                navigation.navigate('PostEdit', { post })
               }
               if (index === 2) {
                 postsArchiveRequest({ postId: post.postId })
@@ -112,7 +133,7 @@ const Header = ({
             cancelButtonIndex={3}
             onPress={(index) => {
               if (index === 0) {
-                navigation.navigate('PostShare', post)
+                navigation.navigate('PostShare', { post })
               }
               if (index === 1) {
                 postsFlagRequest({ postId: post.postId })

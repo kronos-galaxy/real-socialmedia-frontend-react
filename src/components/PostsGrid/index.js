@@ -31,8 +31,9 @@ const PostsGrid = ({
       <GridComponent items={path(['data'])(postsGet)}>
         {(post) => (
           <GridItemComponent onPress={() => navigation.push('PostMedia', {
-            ...post,
+            post,
             theme: themeSelector(themeCode, themeFetch),
+            routeName: navigation.state.routeName,
           })}>
             <ImageComponent
               thumbnailSource={{ uri: path(['mediaObjects', '0', 'url64p'])(post) }}

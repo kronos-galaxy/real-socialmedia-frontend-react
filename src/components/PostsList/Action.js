@@ -58,7 +58,7 @@ const Action = ({
           </TouchableOpacity>
         : null}
 
-        <TouchableOpacity style={styling.actionLeftIcon} onPress={() => navigation.navigate('PostShare', post)}>
+        <TouchableOpacity style={styling.actionLeftIcon} onPress={() => navigation.navigate('PostShare', { post })}>
           <DirectIcon fill={theme.colors.primaryIcon} />
         </TouchableOpacity>
       </View>

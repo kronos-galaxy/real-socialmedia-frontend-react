@@ -90,6 +90,7 @@ const PostsList = ({
   postsShareRequest,
   handleEditPress,
   postsArchiveRequest,
+  postsRestoreArchivedRequest,
   postsFlag,
   postsFlagRequest,
   postsDeleteRequest,
@@ -189,6 +190,7 @@ const PostsList = ({
               post={post}
               handleEditPress={handleEditPress}
               postsArchiveRequest={postsArchiveRequest}
+              postsRestoreArchivedRequest={postsRestoreArchivedRequest}
               postsFlagRequest={postsFlagRequest}
               postsDeleteRequest={postsDeleteRequest}
               postsShareRequest={postsShareRequest}

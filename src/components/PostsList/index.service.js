@@ -12,6 +12,7 @@ const PostsService = ({ children, navigation }) => {
   const postsFeedGet = useSelector(state => state.posts.postsFeedGet)
   const postsDelete = useSelector(state => state.posts.postsDelete)
   const postsArchive = useSelector(state => state.posts.postsArchive)
+  const postsRestoreArchived = useSelector(state => state.posts.postsRestoreArchived)
   const postsAnonymouslyLike = useSelector(state => state.posts.postsAnonymouslyLike)
   const postsOnymouslyLike = useSelector(state => state.posts.postsOnymouslyLike)
   const postsDislike = useSelector(state => state.posts.postsDislike)
@@ -43,6 +44,9 @@ const PostsService = ({ children, navigation }) => {
 
   const postsArchiveRequest = (payload) =>
     dispatch(postsActions.postsArchiveRequest(payload))
+
+  const postsRestoreArchivedRequest = (payload) =>
+    dispatch(postsActions.postsRestoreArchivedRequest(payload))
 
   const postsFlagRequest = (payload) =>
     dispatch(postsActions.postsFlagRequest(payload))
@@ -91,6 +95,11 @@ const PostsService = ({ children, navigation }) => {
       dispatch(postsActions.postsArchiveIdle())
     }
 
+    if (postsRestoreArchived.status === 'success') {
+      dispatch(postsActions.postsRestoreArchivedIdle())
+      navigation.goBack()
+    }
+
     if (postsFlag.status === 'success') {
       dispatch(postsActions.postsFlagIdle())
     }
@@ -98,11 +107,12 @@ const PostsService = ({ children, navigation }) => {
     postsCreate.status,
     postsDelete.status,
     postsArchive.status,
+    postsRestoreArchived.status,
     postsFlag.status,
   ])
 
   const handleEditPress = (post) =>
-    navigation.navigate('PostEdit', { postId: post.postId })
+    navigation.navigate('PostEdit', { post })
 
   /**
    * 
@@ -137,6 +147,8 @@ const PostsService = ({ children, navigation }) => {
     handleEditPress,
     postsArchive,
     postsArchiveRequest,
+    postsRestoreArchived,
+    postsRestoreArchivedRequest,
     postsFlag,
     postsFlagRequest,
     postsDelete,

@@ -24,6 +24,7 @@ const PostMedia = ({
   postsShareRequest,
   handleEditPress,
   postsArchiveRequest,
+  postsRestoreArchivedRequest,
   postsFlag,
   postsFlagRequest,
   postsDeleteRequest,
@@ -37,6 +38,7 @@ const PostMedia = ({
   viewMore,
   handleViewMorePosts,
   postsGetTrendingPosts,
+  routeName,
 }) => {
   const styling = styles(theme)
   const { t } = useTranslation()
@@ -62,9 +64,22 @@ const PostMedia = ({
    * A known bug to be fixed is when you remove delete first post, the sequence will break.
    */
   const flatListType = (path(['data', '0', 'postId'])(postsMediaFeedGet) === path(['data', 'postId'])(postsSingleGet))
-  const flatListData = flatListType ?
-    path(['data'])(postsMediaFeedGet) :
-    path(['data'])(postsGetTrendingPosts)
+
+  const flatListData = (() => {
+    if (routeName === 'FeedProfile') {
+      return path(['data'])(postsMediaFeedGet)
+    }
+
+    if (routeName === 'ProfileSelf') {
+      return path(['data'])(postsMediaFeedGet)
+    }
+
+    if (routeName === 'Search') {
+      return path(['data'])(postsGetTrendingPosts)
+    }
+
+    return [path(['data'])(postsSingleGet)]
+  })()
 
   return (
     <View style={styling.root}>
@@ -88,6 +103,7 @@ const PostMedia = ({
             post={post}
             handleEditPress={handleEditPress}
             postsArchiveRequest={postsArchiveRequest}
+            postsRestoreArchivedRequest={postsRestoreArchivedRequest}
             postsFlagRequest={postsFlagRequest}
             postsDeleteRequest={postsDeleteRequest}
             postsShareRequest={postsShareRequest}
@@ -104,7 +120,7 @@ const PostMedia = ({
         <PostsLoadingComponent />
       : null}
 
-      {viewMore ?
+      {viewMore && flatListData.length > 1 ?
         <MoreComponent onPress={handleViewMorePosts} />
       : null}
     </View>

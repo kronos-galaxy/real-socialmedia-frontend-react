@@ -8,13 +8,12 @@ import path from 'ramda/src/path'
  * @param {*} postsSingleGet 
  * @param {*} navigation 
  */
-export const cachedPostsSingleGet = (postsSingleGet, navigation) => {
-  const cache = pathOr({}, ['state', 'params'], navigation)
+export const cachedPostsSingleGet = (postsSingleGet, cachedPost) => {
   const response = update(postsSingleGet, {
-    data: { $set: cache },
+    data: { $set: cachedPost },
   })
 
-  if (path(['data', 'postId'])(postsSingleGet) === path(['postId'])(cache) && path(['status'])(postsSingleGet) === 'success') {
+  if (path(['data', 'postId'])(postsSingleGet) === path(['postId'])(cachedPost) && path(['status'])(postsSingleGet) === 'success') {
     return postsSingleGet
   }
 

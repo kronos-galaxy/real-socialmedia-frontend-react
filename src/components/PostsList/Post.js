@@ -29,6 +29,7 @@ const PostComponent = ({
   postsOnymouslyLikeRequest,
   postsDislikeRequest,
   handleProfilePress,
+  postsRestoreArchivedRequest,
   onMeasure,
 }) => {
   const styling = styles(theme)
@@ -54,6 +55,7 @@ const PostComponent = ({
         postsDeleteRequest={postsDeleteRequest}
         postsShareRequest={postsShareRequest}
         handleProfilePress={handleProfilePress}
+        postsRestoreArchivedRequest={postsRestoreArchivedRequest}
       />
       <ListItemComponent post={post}>
         <ImageComponent

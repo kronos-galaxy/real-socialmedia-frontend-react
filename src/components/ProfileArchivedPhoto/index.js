@@ -15,6 +15,7 @@ import { useTranslation } from 'react-i18next'
 
 const ProfileArchivedPhoto = ({
   theme,
+  navigation,
   postsGetArchived,
   postsGetArchivedRequest,
 }) => {
@@ -26,7 +27,11 @@ const ProfileArchivedPhoto = ({
       <GridComponent items={path(['data'])(postsGetArchived)}>
         {(post) => (
           <GridItemComponent
-            onPress={() => {}}
+            onPress={() => navigation.push('PostMedia', {
+              post,
+              theme,
+              routeName: navigation.state.routeName,
+            })}
             active={false}
             activeIcon={null}
             inactiveIcon={null}
@@ -57,4 +62,6 @@ ProfileArchivedPhoto.propTypes = {
   postsGetArchivedRequest: PropTypes.any,
 }
 
-export default withTheme(ProfileArchivedPhoto)
+export default withNavigation(
+  withTheme(ProfileArchivedPhoto)
+)

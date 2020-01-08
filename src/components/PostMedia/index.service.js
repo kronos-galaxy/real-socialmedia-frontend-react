@@ -9,8 +9,8 @@ import useDebounce from 'react-use/lib/useDebounce'
 
 const PostMediaService = ({ children, navigation, ...props }) => {
   const dispatch = useDispatch()
-  const postId = navigation.getParam('postId')
-  const userId = path(['userId'])(navigation.getParam('postedBy'))
+  const postId = path(['postId'])(navigation.getParam('post'))
+  const userId = path(['postedBy', 'userId'])(navigation.getParam('post'))
   const postsSingleGet = useSelector(state => state.posts.postsSingleGet)
   const postsDelete = useSelector(state => state.posts.postsDelete)
   const postsGetTrendingPosts = useSelector(state => state.posts.postsGetTrendingPosts)
@@ -60,10 +60,10 @@ const PostMediaService = ({ children, navigation, ...props }) => {
       (Math.abs(curr - goal) < Math.abs(prev - goal) ? curr : prev)
     )
     
-    const postId = layoutPostMediaItem.data[closest].postId
-    dispatch(postsActions.postsReportPostViewsRequest({ postIds: [postId] }))
+    const closestPostId = layoutPostMediaItem.data[closest].postId
+    dispatch(postsActions.postsReportPostViewsRequest({ postIds: [closestPostId] }))
 
-    setViewMore(navigation.getParam('postId') === postId)
+    setViewMore(postId === closestPostId)
   }, 1000, [layoutPostMediaScroll.data.y])
 
   const handleViewMorePosts = () => {
@@ -73,7 +73,7 @@ const PostMediaService = ({ children, navigation, ...props }) => {
   }
 
   return children({
-    postsSingleGet: postsServices.cachedPostsSingleGet(postsSingleGet, navigation),
+    postsSingleGet: postsServices.cachedPostsSingleGet(postsSingleGet, navigation.getParam('post')),
     postsGetTrendingPosts: postsServices.cachedPostsGetTrendingPosts(postsGetTrendingPosts, postId),
     postsSingleGetRequest,
     ...props,
@@ -83,6 +83,7 @@ const PostMediaService = ({ children, navigation, ...props }) => {
     viewMore,
     handleViewMorePosts,
     feedRef,
+    routeName: navigation.getParam('routeName'),
   })
 }
 
