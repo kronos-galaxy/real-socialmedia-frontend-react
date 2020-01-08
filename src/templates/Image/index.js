@@ -15,6 +15,7 @@ const ImageTemplate = ({
   thumbnailSource,
   imageSource,
   resizeMode,
+  shouldLoadImage,
 }) => {
   const styling = styles(theme)
 
@@ -25,6 +26,7 @@ const ImageTemplate = ({
         imageSource={imageSource}
         thumbnailSource={thumbnailSource}
         resizeMode={resizeMode}
+        shouldLoadImage={shouldLoadImage}
       />
     </View>
   )

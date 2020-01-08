@@ -157,6 +157,8 @@ const PostsService = ({ children, navigation }) => {
     postsCreateRequest,
     postsCreateQueue,
     layoutPostsListItemSuccess,
+    layoutPostsListItem,
+    layoutPostsListScroll,
     layoutPostsListScrollSuccess,
   })
 }
