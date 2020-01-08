@@ -27,7 +27,7 @@
       <dict>
         <key>CFBundleURLSchemes</key>
         <array>
-          <string>fb864583797262307</string>
+          <string>$(FACEBOOK_APP_URL)</string>
         </array>
       </dict>
       <dict>
@@ -37,7 +37,7 @@
         <string/>
         <key>CFBundleURLSchemes</key>
         <array>
-          <string>com.googleusercontent.apps.400069738541-j6s8d8j8g4b7vf3g14ukio02d6lde05u</string>
+          <string>$(GOOGLE_APP_URL)</string>
         </array>
       </dict>
       <dict>
@@ -54,7 +54,7 @@
     <key>CFBundleVersion</key>
     <string>142</string>
     <key>FacebookAppID</key>
-    <string>864583797262307</string>
+    <string>$(FACEBOOK_APP_ID)</string>
     <key>FacebookDisplayName</key>
     <string>REAL</string>
     <key>LSApplicationQueriesSchemes</key>
