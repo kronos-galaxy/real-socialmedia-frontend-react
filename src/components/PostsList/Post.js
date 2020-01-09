@@ -48,6 +48,12 @@ const PostComponent = ({
     })
   }, [])
 
+  const shouldLoadImage = (
+    !['Feed', 'PostMedia'].includes(navigation.state.routeName) ||
+    Layout.window.height * 2 > position.py ||
+    (scrollPosition + position.height + Layout.window.height * 2 > position.py)
+  )
+
   return (
     <View style={styling.root} onLayout={handleLayoutChange} ref={ref}>
       <HeaderComponent
@@ -65,7 +71,7 @@ const PostComponent = ({
         <ImageComponent
           thumbnailSource={{ uri: path(['mediaObjects', '0', 'url64p'])(post) }}
           imageSource={{ uri: path(['mediaObjects', '0', 'url4k'])(post) }}
-          shouldLoadImage={scrollPosition + position.height + Layout.window.height * 4 > position.py}
+          shouldLoadImage={shouldLoadImage}
         />
       </ListItemComponent>
       <ActionComponent

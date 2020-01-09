@@ -33,6 +33,7 @@ const PostMedia = ({
   postsDislikeRequest,
   handleProfilePress,
   layoutPostMediaItemSuccess,
+  layoutPostMediaScroll,
   postsSingleGet,
   onScroll,
   viewMore,
@@ -112,6 +113,7 @@ const PostMedia = ({
             postsDislikeRequest={postsDislikeRequest}
             handleProfilePress={handleProfilePress}
             onMeasure={layoutPostMediaItemSuccess}
+            scrollPosition={layoutPostMediaScroll.data.y}
           />
         )}
       />

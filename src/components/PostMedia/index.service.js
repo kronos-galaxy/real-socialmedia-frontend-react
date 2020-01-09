@@ -80,6 +80,7 @@ const PostMediaService = ({ children, navigation, ...props }) => {
     postsMediaFeedGet: postsServices.cachedPostsMediaFeedGet(postsGetCache, userId, postId),
     onScroll: layoutPostMediaScrollSuccess,
     layoutPostMediaItemSuccess,
+    layoutPostMediaScroll,
     viewMore,
     handleViewMorePosts,
     feedRef,
