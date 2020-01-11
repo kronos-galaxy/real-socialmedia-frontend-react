@@ -12,8 +12,9 @@ import 'services/Logger'
 import Config from 'react-native-config'
 
 const codePushOptions = {
-  checkFrequency: codePush.CheckFrequency.ON_APP_START,
+  checkFrequency: codePush.CheckFrequency.ON_APP_RESUME,
   installMode: codePush.InstallMode.IMMEDIATE,
+  mandatoryInstallMode: codePush.InstallMode.IMMEDIATE,
   deploymentKey: Config.CODE_PUSH_DEPLOYMENT_KEY,
   codePushStatusDidChange,
   codePushDownloadDidProgress,
