@@ -155,7 +155,7 @@ const PostsList = ({
             refreshing={scroll.refreshing}
           />
         )}
-        renderItem={({ item: post }) => {
+        renderItem={({ item: post, index }) => {
           if (post.postId === 'story') {
             return (
               <StoriesComponent
@@ -204,6 +204,7 @@ const PostsList = ({
               handleProfilePress={handleProfilePress}
               onMeasure={layoutPostsListItemSuccess}
               scrollPosition={layoutPostsListScroll.data.y}
+              priorityIndex={index}
             />
           )
         }}

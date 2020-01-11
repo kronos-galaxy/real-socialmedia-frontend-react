@@ -21,7 +21,7 @@ const GridTemplate = ({
     <View style={styling.root}>
       {items.map((item, key) => (
         <View style={styling.item} key={key}>
-          {children(item)}
+          {children(item, key)}
         </View>
       ))}
     </View>

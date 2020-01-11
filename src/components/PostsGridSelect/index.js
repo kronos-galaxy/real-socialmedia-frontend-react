@@ -31,7 +31,7 @@ const PostsGridSelect = ({
   return (
     <ScrollView style={styling.root}>
       <GridComponent items={[null, ...path(['data'])(usersMediaObjectsGet)]}>
-        {(media) => {
+        {(media, priorityIndex) => {
           if (!media) {
             return (
               <GridItemComponent
@@ -64,6 +64,7 @@ const PostsGridSelect = ({
               <ImageComponent
                 thumbnailSource={{ uri: path(['url64p'])(media) }}
                 imageSource={{ uri: path(['url1080p'])(media) }}
+                priorityIndex={priorityIndex}
               />
             </GridItemComponent>
           )

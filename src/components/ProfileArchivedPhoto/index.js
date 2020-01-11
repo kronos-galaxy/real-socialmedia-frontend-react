@@ -25,7 +25,7 @@ const ProfileArchivedPhoto = ({
   return (
     <ScrollView style={styling.root}>
       <GridComponent items={path(['data'])(postsGetArchived)}>
-        {(post) => (
+        {(post, priorityIndex) => (
           <GridItemComponent
             onPress={() => navigation.push('PostMedia', {
               post,
@@ -39,6 +39,7 @@ const ProfileArchivedPhoto = ({
             <ImageComponent
               thumbnailSource={{ uri: path(['mediaObjects', '0', 'url64p'])(post) }}
               imageSource={{ uri: path(['mediaObjects', '0', 'url1080p'])(post) }}
+              priorityIndex={priorityIndex}
             />
           </GridItemComponent>
         )}

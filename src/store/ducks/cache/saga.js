@@ -1,33 +1,16 @@
-import { put, fork, take, actionChannel, takeEvery } from 'redux-saga/effects'
+import { put, fork, take, actionChannel } from 'redux-saga/effects'
 import * as actions from 'store/ducks/cache/actions'
 import * as constants from 'store/ducks/cache/constants'
 import RNFS from 'react-native-fs'
 import uuidv5 from 'uuid/v5'
 import qs from 'query-string'
+import PriorityBuffer from 'services/PriorityBuffer'
 
-class Buffer {
-  constructor() {
-    this.queue = []
-    this.length = 0
-  }
-
-  isEmpty() {
-    return this.queue.length === 0
-  }
-
-  put(message) {
-    this.queue.push(message)
-    this.length = this.queue.length
-  }
-
-  take() {
-    const msg = this.queue.shift()
-    this.length = this.queue.length
-
-    return msg
-  }
-}
-
+const buffer = new PriorityBuffer()
+const buffer480p = new PriorityBuffer()
+const buffer1080p = new PriorityBuffer()
+const buffer4k = new PriorityBuffer()
+const buffer64p = new PriorityBuffer()
 
 const generateSignature = (source) => {
   if (typeof source !== 'string' || !source.length) {
@@ -92,7 +75,7 @@ function* handleCacheFetchRequest(payload) {
  * 
  */
 function* cacheFetchSequentialRequest(buffer, action) {
-  const channel = yield actionChannel(action)
+  const channel = yield actionChannel(action, buffer)
 
   while (true) {
     const req = yield take(channel)
@@ -105,25 +88,15 @@ function* cacheFetchSequentialRequest(buffer, action) {
   }
 }
 
-/**
- * 
- */
-function* cacheFetchParallelRequest(req) {
-  try {
-    const data = yield handleCacheFetchRequest(req.payload)
-    yield put(actions.cacheFetchSuccess({ data }))
-  } catch (error) {
-    yield put(actions.cacheFetchFailure({ message: error.message }))
-  }
-}
-
-const buffer = new Buffer()
-
 export default () => [
   fork(cacheFetchSequentialRequest, buffer, constants.CACHE_FETCH_REQUEST),
-  fork(cacheFetchSequentialRequest, buffer, constants.CACHE_FETCH_480P_REQUEST),
-  fork(cacheFetchSequentialRequest, buffer, constants.CACHE_FETCH_1080P_REQUEST),
-  fork(cacheFetchSequentialRequest, buffer, constants.CACHE_FETCH_4K_REQUEST),
+  fork(cacheFetchSequentialRequest, buffer480p, constants.CACHE_FETCH_480P_REQUEST),
+  fork(cacheFetchSequentialRequest, buffer1080p, constants.CACHE_FETCH_1080P_REQUEST),
+  fork(cacheFetchSequentialRequest, buffer4k, constants.CACHE_FETCH_4K_REQUEST),
+  
+  fork(cacheFetchSequentialRequest, buffer64p, constants.CACHE_FETCH_64P_REQUEST),
+  fork(cacheFetchSequentialRequest, buffer64p, constants.CACHE_FETCH_64P_REQUEST),
+  fork(cacheFetchSequentialRequest, buffer64p, constants.CACHE_FETCH_64P_REQUEST),
 
-  takeEvery(constants.CACHE_FETCH_64P_REQUEST, cacheFetchParallelRequest),
+  // takeEvery(constants.CACHE_FETCH_64P_REQUEST, cacheFetchParallelRequest),
 ]

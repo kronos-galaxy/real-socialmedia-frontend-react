@@ -33,6 +33,7 @@ const PostComponent = ({
   postsRestoreArchivedRequest,
   onMeasure,
   scrollPosition,
+  priorityIndex,
 }) => {
   const styling = styles(theme)
   const { t } = useTranslation()
@@ -48,11 +49,11 @@ const PostComponent = ({
     })
   }, [])
 
-  const shouldLoadImage = (
-    !['Feed', 'PostMedia'].includes(navigation.state.routeName) ||
-    Layout.window.height * 2 > position.py ||
-    (scrollPosition + position.height + Layout.window.height * 2 > position.py)
-  )
+  // const shouldLoadImage = (
+  //   !['Feed', 'PostMedia'].includes(navigation.state.routeName) ||
+  //   Layout.window.height * 2 > position.py ||
+  //   (scrollPosition + position.height + Layout.window.height * 2 > position.py)
+  // )
 
   return (
     <View style={styling.root} onLayout={handleLayoutChange} ref={ref}>
@@ -71,7 +72,7 @@ const PostComponent = ({
         <ImageComponent
           thumbnailSource={{ uri: path(['mediaObjects', '0', 'url64p'])(post) }}
           imageSource={{ uri: path(['mediaObjects', '0', 'url4k'])(post) }}
-          shouldLoadImage={shouldLoadImage}
+          priorityIndex={priorityIndex}
         />
       </ListItemComponent>
       <ActionComponent
