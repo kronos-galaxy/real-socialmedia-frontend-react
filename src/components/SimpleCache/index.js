@@ -25,7 +25,7 @@ const SimpleCache = ({
 export default (props) => (
   <SimpleCacheService {...props}>
     {(service) => (
-      <SimpleCache {...props} {...service} />
+      <SimpleCache {...service} {...props} />
     )}
   </SimpleCacheService>
 )
