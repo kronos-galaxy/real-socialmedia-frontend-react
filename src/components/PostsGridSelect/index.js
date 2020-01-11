@@ -63,7 +63,7 @@ const PostsGridSelect = ({
             >
               <ImageComponent
                 thumbnailSource={{ uri: path(['url64p'])(media) }}
-                imageSource={{ uri: path(['url1080p'])(media) }}
+                imageSource={{ uri: path(['url480p'])(media) }}
                 priorityIndex={priorityIndex}
               />
             </GridItemComponent>

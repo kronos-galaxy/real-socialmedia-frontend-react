@@ -38,7 +38,7 @@ const ProfileArchivedPhoto = ({
           >
             <ImageComponent
               thumbnailSource={{ uri: path(['mediaObjects', '0', 'url64p'])(post) }}
-              imageSource={{ uri: path(['mediaObjects', '0', 'url1080p'])(post) }}
+              imageSource={{ uri: path(['mediaObjects', '0', 'url480p'])(post) }}
               priorityIndex={priorityIndex}
             />
           </GridItemComponent>
