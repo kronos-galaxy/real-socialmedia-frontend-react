@@ -10,8 +10,6 @@ import * as themeSelector from 'store/ducks/theme/selectors'
 import ImageComponent from 'templates/Image'
 
 import { withTheme } from 'react-native-paper'
-import { withNavigation } from 'react-navigation'
-import { useTranslation } from 'react-i18next'
 
 const Icon = () => (
   <Svg height={9} width={9} viewBox="0 0 12 12">
@@ -38,7 +36,6 @@ const AvatarTemplate = ({
   const activeTheme = (themeCode && active) ? customTheme : theme
 
   const styling = styles(activeTheme)
-  const { t } = useTranslation()
 
   const componentStyle = [
     size === 'micro' ? styling.sizeMicro : null,
