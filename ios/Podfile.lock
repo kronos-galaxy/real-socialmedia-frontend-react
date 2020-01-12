@@ -338,7 +338,7 @@ PODS:
     - React
   - RNReanimated (1.4.0):
     - React
-  - RNScreens (2.0.0-alpha.22):
+  - RNScreens (2.0.0-alpha.23):
     - React
   - RNSentry (1.2.1):
     - React
@@ -621,7 +621,7 @@ SPEC CHECKSUMS:
   RNImageMarker: 3d2ad96afe3db0965ecff23ca97d65b812d06b47
   RNPermissions: 923c1506d0bde387fbcfc18a8f87945806d03c19
   RNReanimated: b2ab0b693dddd2339bd2f300e770f6302d2e960c
-  RNScreens: 6adf01eb4080f44af6cca551207c6b0505066857
+  RNScreens: 55c735f525774e894be67848c250c95a9c3194c0
   RNSentry: 9b1d983b2d5d1c215ba6490348fd2a4cc23a8a9d
   RNShare: 8b171d4b43c1d886917fdd303bf7a4b87167b05c
   RNSVG: 9d45f03136ecc9b5497e12f6f20838b568acb9f4

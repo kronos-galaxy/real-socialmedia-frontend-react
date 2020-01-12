@@ -1,4 +1,5 @@
 import React from 'react'
+import PostsGridServiceComponent from 'components/PostsGrid/index.service'
 import ProfileSelfServiceComponent from 'components/ProfileSelf/index.service'
 import ProfileComponent from 'components/Profile'
 import NavigationSecondary from 'components/NavigationSecondary/Default'
@@ -24,11 +25,15 @@ class ProfileSelfScreen extends React.Component {
                   onNavRightPress={() => {}}
                   rightLabel="$0.00"
                 />
-                <ProfileComponent
-                  {...profileProps}
-                  {...postsProps}
-                  {...userProps}
-                />
+                <PostsGridServiceComponent>
+                  {(postsProps) => (
+                    <ProfileComponent
+                      {...profileProps}
+                      {...userProps}
+                      {...postsProps}
+                    />
+                  )}
+                </PostsGridServiceComponent>
               </React.Fragment>
             ))}
           </UserServiceProvider>

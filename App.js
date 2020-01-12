@@ -10,6 +10,9 @@ import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
 import 'services/Logger'
 import Config from 'react-native-config'
+import { enableScreens } from 'react-native-screens'
+
+enableScreens()
 
 const codePushOptions = {
   checkFrequency: codePush.CheckFrequency.ON_APP_RESUME,
