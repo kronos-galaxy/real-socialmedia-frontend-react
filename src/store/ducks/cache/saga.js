@@ -55,16 +55,18 @@ function* handleCacheFetchRequest(payload) {
       throw new Error('Image does not exist')
     }
   } catch (error) {
-    const { promise } = RNFS.downloadFile({
+    const { promise, jobId } = RNFS.downloadFile({
       fromUrl: payload.source,
       toFile: signature.path,
       background: true,
       discretionary: true,
       cacheable: true,
-      resumable: RNFS.resumeDownload,
       readTimeout: 10000,
       backgroundTimeout: 180000,
+      resumable: () =>
+        RNFS.isResumable(jobId).then(() => RNFS.resumeDownload(jobId)),
     })
+    yield RNFS.completeHandlerIOS(jobId)
     yield promise
   }
 
