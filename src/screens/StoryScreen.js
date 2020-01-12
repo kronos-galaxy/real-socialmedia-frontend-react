@@ -4,7 +4,7 @@ import StoryComponent from 'components/Story'
 
 class StoryScreen extends React.Component {
   static navigationOptions = ({ navigation, screenProps }) => ({
-    header: null,
+    headerShown: false,
   })
   
   render() {

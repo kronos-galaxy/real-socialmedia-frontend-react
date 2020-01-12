@@ -53,22 +53,28 @@ const HomeStack = (screenProps) => {
     }, {
       initialRouteName: 'Camera',
       headerMode: 'none',
-      cardStyle: {
-        backgroundColor: screenProps.theme.colors.backgroundPrimary,
+      navigationOptions: {
+        cardStyle: {
+          backgroundColor: screenProps.theme.colors.backgroundPrimary,
+        },
       },
     }),
     FeedStack: createStackNavigator({
       Feed: FeedScreen,
     }, {
-      cardStyle: {
-        backgroundColor: screenProps.theme.colors.backgroundPrimary,
+      navigationOptions: {
+        cardStyle: {
+          backgroundColor: screenProps.theme.colors.backgroundPrimary,
+        },
       },
     }),
     ChatStack: createStackNavigator({
       Chat: ChatScreen,
     }, {
-      cardStyle: {
-        backgroundColor: screenProps.theme.colors.backgroundPrimary,
+      navigationOptions: {
+        cardStyle: {
+          backgroundColor: screenProps.theme.colors.backgroundPrimary,
+        },
       },
     }),
   }, {
@@ -120,13 +126,13 @@ const SearchStack = (screenProps) => {
   const Stack = createStackNavigator({
     Search: SearchScreen,
   }, {
-    cardStyle: {
-      backgroundColor: screenProps.theme.colors.backgroundPrimary,
-    },
     defaultNavigationOptions: {
-      gesturesEnabled: true,
+      gestureEnabled: true,
       gestureResponseDistance: {
         horizontal: Layout.window.width,
+      },
+      cardStyle: {
+        backgroundColor: screenProps.theme.colors.backgroundPrimary,
       },
     },
   })
@@ -149,13 +155,13 @@ const NotificationsStack = (screenProps) => {
   const Stack = createStackNavigator({
     Notifications: NotificationsScreen,
   }, {
-    cardStyle: {
-      backgroundColor: screenProps.theme.colors.backgroundPrimary,
-    },
     defaultNavigationOptions: {
-      gesturesEnabled: true,
+      gestureEnabled: true,
       gestureResponseDistance: {
         horizontal: Layout.window.width,
+      },
+      cardStyle: {
+        backgroundColor: screenProps.theme.colors.backgroundPrimary,
       },
     },
   })
@@ -181,13 +187,13 @@ const DatingStack = (screenProps) => {
   const Stack = createStackNavigator({
     Dating: DatingScreen,
   }, {
-    cardStyle: {
-      backgroundColor: screenProps.theme.colors.backgroundPrimary,
-    },
     defaultNavigationOptions: {
-      gesturesEnabled: true,
+      gestureEnabled: true,
       gestureResponseDistance: {
         horizontal: Layout.window.width,
+      },
+      cardStyle: {
+        backgroundColor: screenProps.theme.colors.backgroundPrimary,
       },
     },
   })
@@ -219,13 +225,13 @@ const ProfileStack = (screenProps) => {
     Membership: MembershipScreen,
     ProfileArchivedPhoto: ProfileArchivedPhotoScreen,
   }, {
-    cardStyle: {
-      backgroundColor: screenProps.theme.colors.backgroundPrimary,
-    },
     defaultNavigationOptions: {
-      gesturesEnabled: true,
+      gestureEnabled: true,
       gestureResponseDistance: {
         horizontal: Layout.window.width,
+      },
+      cardStyle: {
+        backgroundColor: screenProps.theme.colors.backgroundPrimary,
       },
     },
   })
@@ -285,15 +291,14 @@ export default (screenProps) => createStackNavigator({
   ProfileFollower: ProfileFollowerScreen,
   Verification: VerificationScreen,
 }, {
-  transparentCard: true,
   headerMode: 'none',
-  cardStyle: {
-    backgroundColor: screenProps.theme.colors.backgroundPrimary,
-  },
   defaultNavigationOptions: {
-    gesturesEnabled: true,
+    gestureEnabled: true,
     gestureResponseDistance: {
       horizontal: Layout.window.width,
+    },
+    cardStyle: {
+      backgroundColor: 'transparent',
     },
   },
 })

@@ -6,7 +6,7 @@ import { Translation } from 'react-i18next'
 
 class VerificationScreen extends React.Component {
   static navigationOptions = ({ navigation, screenProps }) => ({
-    header: null,
+    headerShown: false,
   })
   
   render() {

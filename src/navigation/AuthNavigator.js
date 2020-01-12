@@ -17,13 +17,13 @@ const AuthStack = (screenProps) => createStackNavigator({
   AuthSignupConfirm: AuthSignupConfirmScreen,
   AuthOnboard: AuthOnboardScreen,
 }, {
-  cardStyle: {
-    backgroundColor: screenProps.theme.colors.backgroundPrimary,
-  },
   defaultNavigationOptions: {
-    gesturesEnabled: false,
+    gestureEnabled: false,
     gestureResponseDistance: {
       horizontal: 125,
+    },
+    cardStyle: {
+      backgroundColor: screenProps.theme.colors.backgroundPrimary,
     },
   },
 })

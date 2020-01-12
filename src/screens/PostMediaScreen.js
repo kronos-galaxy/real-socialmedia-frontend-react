@@ -10,7 +10,7 @@ import { Provider as PaperProvider } from 'react-native-paper'
 
 class FeedScreen extends React.Component {
   static navigationOptions = ({ navigation, screenProps }) => ({
-    header: null,
+    headerShown: false,
   })
   
   render() {

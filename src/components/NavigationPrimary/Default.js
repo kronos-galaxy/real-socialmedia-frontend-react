@@ -7,23 +7,25 @@ import DirectIcon from 'assets/svg/header/Direct'
 export default ({ navigation, screenProps }) => ({
   headerStyle: {
     backgroundColor: screenProps.theme.colors.backgroundPrimary,
-    borderBottomWidth: 0,
-    marginBottom: 12,
+    shadowRadius: 0,
+    shadowOffset: {
+      height: 0,
+    },
   },
-  headerLeft: (
+  headerLeft: () => (
     <TouchableOpacity style={{ padding: 12 }} onPress={() => navigation.navigate('Camera')}>
       <CameraIcon
         fill={screenProps.theme.colors.primaryIcon}
       />
     </TouchableOpacity>
   ),
-  headerTitle: (
+  headerTitle: () => (
     <LogoIcon
       height="28"
       fill={screenProps.theme.colors.primaryIcon}
     />
   ),
-  headerRight: (
+  headerRight: () => (
     <TouchableOpacity style={{ padding: 12 }} onPress={() => navigation.navigate('Chat')}>
       <DirectIcon
         fill={screenProps.theme.colors.primaryIcon}
