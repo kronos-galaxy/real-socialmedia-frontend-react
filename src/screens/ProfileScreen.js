@@ -14,34 +14,34 @@ class ProfileScreen extends React.Component {
   
   render() {
     return (
-      <PostsGridServiceComponent>
-        {(postsProps) => (
-          <ProfileServiceComponent>
-            {(profileProps) => (
-              <UserServiceProvider>
-                {((userProps) => (
-                  <PaperProvider theme={this.props.navigation.state.params.theme}>
-                    <SafeAreaView style={{ flex: 1, backgroundColor: this.props.navigation.state.params.theme.colors.background, }}>
-                      <NavigationSecondary
-                        onNavLeftPress={() => this.props.navigation.goBack(null)}
-                        title={(
-                          path(['data', 'username'])(profileProps.usersGetProfile) ||
-                          path(['username'])(profileProps.authUser)
-                        )}
-                      />
+      <ProfileServiceComponent>
+        {(profileProps) => (
+          <UserServiceProvider>
+            {((userProps) => (
+              <PaperProvider theme={this.props.navigation.state.params.theme}>
+                <SafeAreaView style={{ flex: 1, backgroundColor: this.props.navigation.state.params.theme.colors.background, }}>
+                  <NavigationSecondary
+                    onNavLeftPress={() => this.props.navigation.goBack(null)}
+                    title={(
+                      path(['data', 'username'])(profileProps.usersGetProfile) ||
+                      path(['username'])(profileProps.authUser)
+                    )}
+                  />
+                  <PostsGridServiceComponent>
+                    {(postsProps) => (
                       <ProfileComponent
                         {...profileProps}
                         {...postsProps}
                         {...userProps}
                       />
-                    </SafeAreaView>
-                  </PaperProvider>
-                ))}
-              </UserServiceProvider>
-            )}
-          </ProfileServiceComponent>
+                    )}
+                  </PostsGridServiceComponent>
+                </SafeAreaView>
+              </PaperProvider>
+            ))}
+          </UserServiceProvider>
         )}
-      </PostsGridServiceComponent>
+      </ProfileServiceComponent>
     )
   }
 }

@@ -1,4 +1,5 @@
 import { useEffect } from 'react'
+import { InteractionManager } from 'react-native'
 import { useSelector, useDispatch } from 'react-redux'
 import * as usersActions from 'store/ducks/users/actions'
 import * as usersServices from 'store/ducks/users/services'
@@ -49,8 +50,10 @@ const ProfileService = ({ children, navigation }) => {
   ])
 
   useEffect(() => {
-    usersGetProfileRequest({ userId })
-    postsStoriesGetRequest({ userId })
+    InteractionManager.runAfterInteractions(() => {
+      usersGetProfileRequest({ userId })
+      postsStoriesGetRequest({ userId })
+    })
   }, [userId])
 
   return children({

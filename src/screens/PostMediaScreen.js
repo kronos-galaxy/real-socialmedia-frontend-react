@@ -29,7 +29,7 @@ class FeedScreen extends React.Component {
             {(postsProps) => (
               <PostMediaServiceComponent {...postsProps}>
                 {(postsProps) => (
-                  <UserServiceProvider>
+                  <UserServiceProvider navigation={this.props.navigation}>
                     {((userProps) => (
                       <PostMediaComponent
                         {...postsProps}

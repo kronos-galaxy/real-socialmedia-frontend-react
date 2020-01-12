@@ -24,7 +24,7 @@ class ProfileFollowed extends React.Component {
 
         <ProfileFollowerServiceComponent>
           {(props) => (
-            <UserServiceProvider>
+            <UserServiceProvider navigation={this.props.navigation}>
               {((userProps) => (
                 <ProfileFollowerComponent
                   {...props}

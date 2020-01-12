@@ -11,7 +11,7 @@ class SearchScreen extends React.Component {
     return (
       <SearchServiceComponent>
         {(searchProps) => (
-          <UserServiceProvider>
+          <UserServiceProvider navigation={this.props.navigation}>
             {((userProps) => (
               <SearchComponent
                 {...searchProps}

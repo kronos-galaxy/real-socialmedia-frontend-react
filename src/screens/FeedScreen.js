@@ -14,7 +14,7 @@ class FeedScreen extends React.Component {
         {(postsProps) => (
           <StoriesServiceComponent>
             {((storiesProps) => (
-              <UserServiceProvider>
+              <UserServiceProvider navigation={this.props.navigation}>
                 {((userProps) => (
                   <PostsListComponent
                     {...postsProps}

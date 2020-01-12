@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
+import { InteractionManager } from 'react-native'
 import { useSelector, useDispatch } from 'react-redux'
 import * as postsActions from 'store/ducks/posts/actions'
 import * as postsServices from 'store/ducks/posts/services'
@@ -36,9 +37,11 @@ const PostMediaService = ({ children, navigation, ...props }) => {
     dispatch(layoutActions.layoutPostMediaItemSuccess(payload))
 
   useEffect(() => {
-    dispatch(postsActions.postsReportPostViewsRequest({ postIds: [postId] }))
-    dispatch(layoutActions.layoutPostMediaItemIdle())
-    dispatch(layoutActions.layoutPostMediaScrollIdle())
+    InteractionManager.runAfterInteractions(() => {
+      dispatch(postsActions.postsReportPostViewsRequest({ postIds: [postId] }))
+      dispatch(layoutActions.layoutPostMediaItemIdle())
+      dispatch(layoutActions.layoutPostMediaScrollIdle())
+    })
   }, [])
 
   useEffect(() => {

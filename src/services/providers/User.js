@@ -1,5 +1,4 @@
 import { useSelector } from 'react-redux'
-import { withNavigation } from 'react-navigation'
 
 const UserService = ({ children, navigation }) => {
   const themeFetch = useSelector(state => state.theme.themeFetch)
@@ -21,4 +20,4 @@ const UserService = ({ children, navigation }) => {
   })
 }
 
-export default withNavigation(UserService)
+export default UserService
