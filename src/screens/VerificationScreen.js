@@ -1,9 +1,8 @@
 import React from 'react'
-import { View } from 'react-native'
+import { SafeAreaView } from 'react-native'
 import VerificationComponent from 'components/Verification'
 import NavigationSecondary from 'components/NavigationSecondary/Default'
 import { Translation } from 'react-i18next'
-import { ifIphoneX } from 'react-native-iphone-x-helper'
 
 class VerificationScreen extends React.Component {
   static navigationOptions = ({ navigation, screenProps }) => ({
@@ -12,11 +11,7 @@ class VerificationScreen extends React.Component {
   
   render() {
     return (
-      <React.Fragment>
-        <View style={ifIphoneX({
-          height: 44,
-        })} />
-
+      <SafeAreaView style={{ flex: 1 }}>
         <Translation>
           {(t) => (
             <NavigationSecondary
@@ -27,7 +22,7 @@ class VerificationScreen extends React.Component {
         </Translation>
 
         <VerificationComponent />
-      </React.Fragment>
+      </SafeAreaView>
     )
   }
 }

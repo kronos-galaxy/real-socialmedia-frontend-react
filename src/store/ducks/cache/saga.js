@@ -1,4 +1,4 @@
-import { put, fork, take, actionChannel } from 'redux-saga/effects'
+import { put, fork, take, actionChannel, retry } from 'redux-saga/effects'
 import * as actions from 'store/ducks/cache/actions'
 import * as constants from 'store/ducks/cache/constants'
 import RNFS from 'react-native-fs'
@@ -80,7 +80,7 @@ function* cacheFetchSequentialRequest(buffer, action) {
   while (true) {
     const req = yield take(channel)
     try {
-      const data = yield handleCacheFetchRequest(req.payload)
+      const data = yield retry(3, 10000, handleCacheFetchRequest, req.payload)
       yield put(actions.cacheFetchSuccess({ data }))
     } catch (error) {
       yield put(actions.cacheFetchFailure({ message: error.message }))
