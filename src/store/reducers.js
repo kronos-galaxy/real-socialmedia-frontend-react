@@ -28,11 +28,6 @@ const postsPersistConfig = {
   ],
 }
 
-const cachePersistConfig = {
-  key: 'cache',
-  storage: AsyncStorage,
-}
-
 export default combineReducers({
   auth,
   theme,
@@ -41,5 +36,5 @@ export default combineReducers({
   users,
   layout,
   translation,
-  cache: persistReducer(cachePersistConfig, cache),
+  cache,
 })

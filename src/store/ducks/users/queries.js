@@ -62,7 +62,7 @@ const userPostFragment = `
     anonymousLikeCount
     onymouslyLikedBy (limit: 1) {
       items {
-        ...postUserFragment
+        ...userFragment
       }
       nextToken
     }
