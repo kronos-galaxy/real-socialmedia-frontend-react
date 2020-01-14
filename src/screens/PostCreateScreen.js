@@ -17,7 +17,7 @@ class PostCreateScreen extends React.Component {
         <Translation>
           {(t) => (
             <NavigationSecondary
-              onNavLeftPress={() => this.props.navigation.navigate('Camera')}
+              onClosePress={() => this.props.navigation.navigate('Camera')}
               title={t('New Photo')}
             />
           )}

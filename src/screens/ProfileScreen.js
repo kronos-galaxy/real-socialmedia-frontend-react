@@ -21,7 +21,7 @@ class ProfileScreen extends React.Component {
               <PaperProvider theme={this.props.navigation.state.params.theme}>
                 <SafeAreaView style={{ flex: 1, backgroundColor: this.props.navigation.state.params.theme.colors.background, }}>
                   <NavigationSecondary
-                    onNavLeftPress={() => this.props.navigation.goBack(null)}
+                    onClosePress={() => this.props.navigation.goBack(null)}
                     title={(
                       path(['data', 'username'])(profileProps.usersGetProfile) ||
                       path(['username'])(profileProps.authUser)

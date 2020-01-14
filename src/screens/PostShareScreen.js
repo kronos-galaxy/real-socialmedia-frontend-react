@@ -16,7 +16,7 @@ class PostShareScreen extends React.Component {
         <Translation>
           {(t) => (
             <NavigationSecondary
-              onNavLeftPress={() => this.props.navigation.goBack(null)}
+              onClosePress={() => this.props.navigation.goBack(null)}
               title={t('Photo')}
             />
           )}

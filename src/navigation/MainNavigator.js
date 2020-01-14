@@ -1,7 +1,7 @@
 import React from 'react'
 import { createBottomTabNavigator, createMaterialTopTabNavigator } from 'react-navigation-tabs'
 import { getActiveChildNavigationOptions } from 'react-navigation'
-import { createStackNavigator } from 'react-navigation-stack'
+import { createStackNavigator, CardStyleInterpolators } from 'react-navigation-stack'
 import { BottomTabBar } from 'react-navigation-tabs'
 import FeedScreen from 'screens/FeedScreen'
 import SearchScreen from 'screens/SearchScreen'
@@ -291,8 +291,10 @@ export default (screenProps) => createStackNavigator({
   ProfileFollower: ProfileFollowerScreen,
   Verification: VerificationScreen,
 }, {
+  mode: 'modal',
   headerMode: 'none',
   defaultNavigationOptions: {
+    cardStyleInterpolator: CardStyleInterpolators.forModalPresentationIOS,
     gestureEnabled: true,
     gestureResponseDistance: {
       horizontal: Layout.window.width,

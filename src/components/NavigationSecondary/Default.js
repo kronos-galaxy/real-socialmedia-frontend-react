@@ -7,6 +7,7 @@ import {
 } from 'react-native'
 import { Text, Title } from 'react-native-paper'
 import BackIcon from 'assets/svg/header/Back'
+import CloseIcon from 'assets/svg/header/Close'
 
 import { withTheme } from 'react-native-paper'
 import { withNavigation } from 'react-navigation'
@@ -18,6 +19,7 @@ const NavigationHeader = ({
   onNavLeftPress,
   rightLabel,
   onNavRightPress,
+  onClosePress,
 }) => {
   const styling = styles(theme)
   const { t } = useTranslation()
@@ -34,11 +36,21 @@ const NavigationHeader = ({
         <Title>{title}</Title>
       </View>
       
+      {onClosePress ?
+        <TouchableOpacity style={styling.rightNav} onPress={onClosePress}>
+          <CloseIcon fill={theme.colors.primaryIcon} />
+        </TouchableOpacity>
+      : null}
+
       {onNavRightPress ?
         <TouchableOpacity style={styling.rightNav} onPress={onNavRightPress}>
           <Text>{rightLabel}</Text>
         </TouchableOpacity>
-      : <View style={styling.rightNav} />}
+      : null}
+
+      {!onClosePress && !onNavRightPress ?
+        <View style={styling.rightNav} />
+      : null}
     </View>
   )
 }

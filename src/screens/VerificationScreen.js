@@ -16,7 +16,7 @@ class VerificationScreen extends React.Component {
           {(t) => (
             <NavigationSecondary
               title={t('Post Verification')}
-              onNavLeftPress={() => this.props.navigation.goBack(null)}
+              onClosePress={() => this.props.navigation.goBack(null)}
             />
           )}
         </Translation>
