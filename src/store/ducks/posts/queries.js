@@ -178,8 +178,17 @@ export const flagPost = `
 `
 
 export const editPost = `
-  mutation EditPost($postId: ID!, $text: String) {
+  mutation editPost($postId: ID!, $text: String) {
     editPost (postId: $postId, text: $text) {
+      ...postFragment
+    }
+  }
+  ${postFragment}
+`
+
+export const editPostExpiresAt = `
+  mutation editPostExpiresAt($postId: ID!, $expiresAt: AWSDateTime) {
+    editPostExpiresAt (postId: $postId, expiresAt: $expiresAt) {
       ...postFragment
     }
   }

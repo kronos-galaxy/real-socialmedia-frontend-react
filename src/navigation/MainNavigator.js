@@ -298,7 +298,7 @@ export default (screenProps) => createStackNavigator({
       horizontal: Layout.window.width,
     },
     cardStyle: {
-      backgroundColor: 'transparent',
+      backgroundColor: screenProps.theme.colors.backgroundPrimary,
     },
   },
 })
