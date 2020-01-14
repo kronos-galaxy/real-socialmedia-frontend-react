@@ -8,9 +8,13 @@ const UserService = ({ children, navigation }) => {
   const handleProfilePress = (user) => {
     const theme = themeSelector(user.themeCode, themeFetch)
     return () => {
-      navigation.push('FeedProfile', {
-        ...user,
-        theme,
+      navigation.navigate({
+        routeName: 'FeedProfile',
+        params: {
+          ...user,
+          theme,
+        },
+        key: `PostMedia-postid${user.userId}`,
       })
     }
   }

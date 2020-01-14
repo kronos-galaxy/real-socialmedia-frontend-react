@@ -23,8 +23,16 @@ const ProfileCounts = ({
 
   const userId = path(['data', 'userId'])(usersGetProfile)
 
-  const handleProfileFollowerPress = () => navigation.push('ProfileFollower', { userId })
-  const handleProfileFollowedPress = () => navigation.push('ProfileFollowed', { userId })
+  const handleProfileFollowerPress = () => navigation.navigate({
+    routeName: 'ProfileFollower',
+    params: { userId },
+    key: `ProfileFollower-userId${userId}`,
+  })
+  const handleProfileFollowedPress = () => navigation.navigate({
+    routeName: 'ProfileFollowed',
+    params: { userId },
+    key: `ProfileFollowed-userId${userId}`,
+  })
   
   const followerCount = path(['data', 'followerCount'])(usersGetProfile)
   const followedCount = path(['data', 'followedCount'])(usersGetProfile)

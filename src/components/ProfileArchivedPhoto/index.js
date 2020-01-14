@@ -27,10 +27,14 @@ const ProfileArchivedPhoto = ({
       <GridComponent items={path(['data'])(postsGetArchived)}>
         {(post, priorityIndex) => (
           <GridItemComponent
-            onPress={() => navigation.push('PostMedia', {
-              post,
-              theme,
-              routeName: navigation.state.routeName,
+            onPress={() => navigation.navigate({
+              routeName: 'PostMedia',
+              params: {
+                post,
+                theme,
+                routeName: navigation.state.routeName,
+              },
+              key: `PostMedia-postid${post.postId}`,
             })}
             active={false}
             activeIcon={null}
