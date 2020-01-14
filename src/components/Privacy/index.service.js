@@ -29,6 +29,11 @@ const PrivacyService = ({ children, navigation }) => {
       commentsDisabled: !user.commentsDisabled,
     }))
 
+  const toggleVerificationHidden = () =>
+    dispatch(usersActions.usersEditProfileRequest({
+      verificationHidden: !user.verificationHidden,
+    }))
+
   useEffect(() => {
     if (usersEditProfile.status === 'success') {
       dispatch(usersActions.usersEditProfileIdle())
@@ -41,6 +46,7 @@ const PrivacyService = ({ children, navigation }) => {
     toggleFollowCountsHidden,
     toggleLikesDisabled,
     toggleCommentsDisabled,
+    toggleVerificationHidden,
   })
 }
 

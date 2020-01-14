@@ -22,6 +22,7 @@ const Privacy = ({
   toggleFollowCountsHidden,
   toggleLikesDisabled,
   toggleCommentsDisabled,
+  toggleVerificationHidden,
 }) => {
   const styling = styles(theme)
   const { t } = useTranslation()
@@ -48,6 +49,11 @@ const Privacy = ({
         caption: t('Followers can comment on posts'),
         onPress: toggleCommentsDisabled,
         enabled: !user.commentsDisabled,
+      }, {
+        label: t('Verification hidden'),
+        caption: t('Verification label is hidden'),
+        onPress: toggleVerificationHidden,
+        enabled: !user.verificationHidden,
       }]}>
         {(privacy) => (
           <RowsItemComponent hasBorders>

@@ -15,6 +15,7 @@ const postUserFragment = `
     followCountsHidden
     commentsDisabled
     likesDisabled
+    verificationHidden
     postCount
     fullName
     themeCode
@@ -59,10 +60,14 @@ const postFragment = `
     likeStatus
     commentsDisabled
     likesDisabled
+    verificationHidden
     onymousLikeCount
     anonymousLikeCount
     onymouslyLikedBy (limit: 1) {
-      ...postUserFragment
+      items {
+        ...postUserFragment
+      }
+      nextToken
     }
   }
   ${mediaObjectFragment}
@@ -115,8 +120,30 @@ export const getStories = `
 `
 
 export const addPost = `
-  mutation AddMediaPost($postId: ID!, $lifetime: String, $mediaId: ID!, $text: String, $commentsDisabled: Boolean, $likesDisabled: Boolean, $takenInReal: Boolean, $originalFormat: String) {
-    addPost (postId: $postId, lifetime: $lifetime, text: $text, mediaObjectUploads: [{ mediaId: $mediaId, mediaType: IMAGE, takenInReal: $takenInReal, originalFormat: $originalFormat }], commentsDisabled: $commentsDisabled, likesDisabled: $likesDisabled) {
+  mutation AddMediaPost(
+    $postId: ID!,
+    $lifetime: String,
+    $mediaId: ID!,
+    $text: String,
+    $commentsDisabled: Boolean,
+    $likesDisabled: Boolean,
+    $takenInReal: Boolean,
+    $originalFormat: String,
+    $verificationHidden: Boolean
+  ) {
+    addPost (
+      postId: $postId,
+      lifetime: $lifetime,
+      text: $text,
+      commentsDisabled: $commentsDisabled,
+      likesDisabled: $likesDisabled,
+      verificationHidden: $verificationHidden,
+      mediaObjectUploads: [{
+        mediaId: $mediaId,
+        mediaType: IMAGE,
+        takenInReal: $takenInReal,
+        originalFormat: $originalFormat
+      }]) {
       ...postFragment
     }
   }

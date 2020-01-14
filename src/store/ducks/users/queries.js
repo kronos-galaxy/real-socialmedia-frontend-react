@@ -32,6 +32,7 @@ const userFragment = `
     followCountsHidden
     commentsDisabled
     likesDisabled
+    verificationHidden
     postCount
     fullName
     themeCode
@@ -60,7 +61,10 @@ const userPostFragment = `
     onymousLikeCount
     anonymousLikeCount
     onymouslyLikedBy (limit: 1) {
-      ...userFragment
+      items {
+        ...postUserFragment
+      }
+      nextToken
     }
   }
   ${mediaObjectFragment}
@@ -125,8 +129,30 @@ export const user = `
 `
 
 export const setUserDetails = `
-  mutation SetUserDetails($fullName: String, $bio: String, $photoMediaId: ID, $privacyStatus: PrivacyStatus, $followCountsHidden: Boolean, $commentsDisabled: Boolean, $likesDisabled: Boolean, $themeCode: String, $languageCode: String) {
-    setUserDetails(fullName: $fullName, bio: $bio, photoMediaId: $photoMediaId, privacyStatus: $privacyStatus, followCountsHidden: $followCountsHidden, commentsDisabled: $commentsDisabled, likesDisabled: $likesDisabled, themeCode: $themeCode, languageCode: $languageCode) {
+  mutation setUserDetails(
+    $fullName: String,
+    $bio: String,
+    $photoMediaId: ID,
+    $privacyStatus: PrivacyStatus,
+    $followCountsHidden: Boolean,
+    $commentsDisabled: Boolean,
+    $likesDisabled: Boolean,
+    $themeCode: String,
+    $languageCode: String,
+    $verificationHidden: Boolean
+  ) {
+    setUserDetails(
+      fullName: $fullName,
+      bio: $bio,
+      photoMediaId: $photoMediaId,
+      privacyStatus: $privacyStatus,
+      followCountsHidden: $followCountsHidden,
+      commentsDisabled: $commentsDisabled,
+      likesDisabled: $likesDisabled,
+      themeCode: $themeCode,
+      languageCode: $languageCode,
+      verificationHidden: $verificationHidden
+    ) {
       ...userFragment
     }
   }

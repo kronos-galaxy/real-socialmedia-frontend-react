@@ -21,6 +21,7 @@ const ProfileEdit = ({
   toggleFollowCountsHidden,
   toggleLikesDisabled,
   toggleCommentsDisabled,
+  toggleVerificationHidden,
 }) => {
   const styling = styles(theme)
   const { t } = useTranslation()
@@ -40,6 +41,7 @@ const ProfileEdit = ({
                 toggleFollowCountsHidden={toggleFollowCountsHidden}
                 toggleLikesDisabled={toggleLikesDisabled}
                 toggleCommentsDisabled={toggleCommentsDisabled}
+                toggleVerificationHidden={toggleVerificationHidden}
               />
             )}
           />

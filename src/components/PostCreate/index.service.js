@@ -13,7 +13,13 @@ const PostCreateService = ({ children, navigation }) => {
   const postsCreate = useSelector(state => state.posts.postsCreate)
   const cameraCapture = useSelector(state => state.camera.cameraCapture)
 
-  const postsCreateRequest = ({ text = '', lifetime = '', commentsDisabled = false, likesDisabled = false }) => {
+  const postsCreateRequest = ({
+    text = '',
+    lifetime = '',
+    commentsDisabled = true,
+    likesDisabled = true,
+    verificationHidden = false,
+  }) => {
     const postId = uuid()
     const mediaId = uuid()
 
@@ -25,6 +31,7 @@ const PostCreateService = ({ children, navigation }) => {
       images: [path(['data', 'uri'])(cameraCapture)],
       commentsDisabled,
       likesDisabled,
+      verificationHidden,
       takenInReal: path(['data', 'takenInReal'])(cameraCapture),
       originalFormat: path(['data', 'originalFormat'])(cameraCapture),
       createdAt: dayjs().toJSON(),

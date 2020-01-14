@@ -116,6 +116,12 @@ const PostCreateForm = ({
           onPress: () => setFieldValue('likesDisabled', !values.likesDisabled),
           type: 'action',
           enabled: !values.likesDisabled,
+        }, {
+          label: t('Verification hidden'),
+          caption: t('Verification label is hidden'),
+          onPress: () => setFieldValue('verificationHidden', !values.verificationHidden),
+          type: 'action',
+          enabled: !values.verificationHidden,
         }]}>
           {(settings) => (
             <RowsItemComponent hasBorders>
@@ -197,6 +203,7 @@ const FormWrapper = ({
       lifetime: 'P100Y',
       likesDisabled: props.user.likesDisabled || true,
       commentsDisabled: props.user.commentsDisabled || true,
+      verificationHidden: props.user.verificationHidden || false,
       text: '',
     }}
     validationSchema={formSchema}
