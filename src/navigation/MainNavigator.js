@@ -242,10 +242,6 @@ const ProfileStack = (screenProps) => {
         <UserIcon fill={screenProps.theme.colors.primaryIcon} />
       </TabBarItem>
     ),
-    tabBarOnPress: ({ navigation, defaultHandler }) => {
-      navigation.replace('ProfileSelf')
-      defaultHandler()
-    },
   })
 
   return Stack
