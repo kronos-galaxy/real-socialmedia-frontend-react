@@ -73,13 +73,6 @@ const styles = theme => StyleSheet.create({
     flex: 1,
     height: 48,
     justifyContent: 'center',
-    shadowOffset:{
-      width: 0,
-      height: 0,
-    },
-    shadowColor: theme.colors.border,
-    shadowOpacity: 0.6,
-    shadowRadius: 10,
     alignItems: 'center',
   },
   capture: {

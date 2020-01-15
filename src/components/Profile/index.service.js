@@ -5,6 +5,7 @@ import * as usersActions from 'store/ducks/users/actions'
 import * as usersServices from 'store/ducks/users/services'
 import * as postsActions from 'store/ducks/posts/actions'
 import { withNavigation } from 'react-navigation'
+import pathOr from 'ramda/src/pathOr'
 
 const ProfileService = ({ children, navigation }) => {
   const dispatch = useDispatch()
@@ -58,7 +59,7 @@ const ProfileService = ({ children, navigation }) => {
 
   return children({
     authUser,
-    usersGetProfile: usersServices.cachedUsersGetProfile(usersGetProfile, usersGetProfileCache, navigation),
+    usersGetProfile: usersServices.cachedUsersGetProfile(usersGetProfile, usersGetProfileCache, pathOr({}, ['state', 'params'], navigation)),
     usersGetProfileRequest,
     postsStoriesGet,
     postsStoriesGetRequest,

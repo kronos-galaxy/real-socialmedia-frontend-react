@@ -31,7 +31,7 @@ const Uploading = ({
   }
 
   return (
-    <View style={styling.header}>
+    <View style={styling.root}>
       <Avatar
         active={false}
         thumbnailSource={{ uri: path(['payload', 'images', '0'])(post) }}
@@ -81,10 +81,11 @@ const Uploading = ({
 }
 
 const styles = theme => StyleSheet.create({
-  header: {
+  root: {
     flexDirection: 'row',
     alignItems: 'center',
     padding: theme.spacing.base,
+    backgroundColor: theme.colors.backgroundPrimary,
   },
   status: {
     flexDirection: 'row',

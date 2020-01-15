@@ -1,5 +1,4 @@
 import update from 'immutability-helper'
-import pathOr from 'ramda/src/pathOr'
 import path from 'ramda/src/path'
 
 /**
@@ -8,15 +7,14 @@ import path from 'ramda/src/path'
  * @param {*} usersGetProfile 
  * @param {*} navigation 
  */
-export const cachedUsersGetProfile = (usersGetProfile, usersGetProfileCache, navigation) => {
-  const cache = pathOr({}, ['state', 'params'], navigation)
+export const cachedUsersGetProfile = (usersGetProfile, usersGetProfileCache, cache) => {
   const response = update(usersGetProfile, {
     data: { $set: cache },
   })
 
   const cachedUser = path([cache.userId])(usersGetProfileCache)
 
-  if (cachedUser) {
+  if (cachedUser && cachedUser.status === 'success') {
     return cachedUser
   }
 

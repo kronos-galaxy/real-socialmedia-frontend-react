@@ -6,6 +6,7 @@ import * as usersServices from 'store/ducks/users/services'
 import { withNavigation } from 'react-navigation'
 import useCounter from 'react-use/lib/useCounter'
 import path from 'ramda/src/path'
+import pathOr from 'ramda/src/pathOr'
 
 const StoryService = ({ children, navigation }) => {
   const dispatch = useDispatch()
@@ -51,7 +52,7 @@ const StoryService = ({ children, navigation }) => {
   return children({
     postsStoriesGet,
     postsStoriesGetRequest,
-    usersGetProfile: usersServices.cachedUsersGetProfile(usersGetProfile, usersGetProfileCache, navigation),
+    usersGetProfile: usersServices.cachedUsersGetProfile(usersGetProfile, usersGetProfileCache, pathOr({}, ['state', 'params'], navigation)),
     countStories,
     currentStory,
     onNextStory,

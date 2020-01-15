@@ -36,8 +36,8 @@ const PostsGrid = ({
               post,
               theme: themeSelector(themeCode, themeFetch),
               routeName: navigation.state.routeName,
-              key: `PostMedia-postid${post.postId}`,
-            }
+            },
+            key: `PostMedia-postid${post.postId}`,
           })}>
             <ImageComponent
               thumbnailSource={{ uri: path(['mediaObjects', '0', 'url64p'])(post) }}

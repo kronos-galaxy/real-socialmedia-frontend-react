@@ -61,24 +61,10 @@ const styles = theme => StyleSheet.create({
   },
   item: {
     marginRight: 24,
-    shadowOffset:{
-      width: 0,
-      height: 0,
-    },
-    shadowColor: theme.colors.border,
-    shadowOpacity: 0.6,
-    shadowRadius: 10,
     flexDirection: 'row',
   },
   text: {
     marginRight: 24,
-    shadowOffset:{
-      width: 0,
-      height: 0,
-    },
-    shadowColor: theme.colors.border,
-    shadowOpacity: 0.6,
-    shadowRadius: 10,
   },
   notSelected: {
     opacity: 0.5,

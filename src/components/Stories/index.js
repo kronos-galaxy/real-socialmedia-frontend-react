@@ -71,10 +71,6 @@ const styles = theme => StyleSheet.create({
     height: 115,
     padding: theme.spacing.base,
     backgroundColor: theme.colors.backgroundPrimary,
-    borderWidth: 1,
-    borderColor: theme.colors.backgroundPrimary,
-    borderLeftWidth: 0,
-    borderRightWidth: 0,
   },
   story: {
     alignItems: 'center',

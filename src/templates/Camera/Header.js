@@ -55,13 +55,6 @@ const styles = theme => StyleSheet.create({
   },
   actionItem: {
     paddingHorizontal: 12,
-    shadowOffset:{
-      width: 0,
-      height: 0,
-    },
-    shadowColor: theme.colors.border,
-    shadowOpacity: 0.6,
-    shadowRadius: 10,
   },
 })
 
