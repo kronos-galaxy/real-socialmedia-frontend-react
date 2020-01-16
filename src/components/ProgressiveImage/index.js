@@ -45,7 +45,7 @@ export default class ProgressiveImage extends Component {
             <Animated.View style={[styles.image, { opacity: this.state.thumbnailOpacity }]}>
               <Image
                 source={cache.source}
-                onError={cache.onError}
+                onError={({ nativeEvent }) => cache.onError(nativeEvent)}
                 style={styles.image}
                 resizeMode={this.props.resizeMode}
                 onLoad={() => this.onLoadThumbnail()}
@@ -60,7 +60,7 @@ export default class ProgressiveImage extends Component {
             <Animated.View style={[styles.image, { opacity: this.state.imageOpacity }]}>
               <Image
                 source={cache.source}
-                onError={cache.onError}
+                onError={({ nativeEvent }) => cache.onError(nativeEvent)}
                 style={styles.image}
                 resizeMode={this.props.resizeMode}
                 onLoad={() => this.onLoadImage()}

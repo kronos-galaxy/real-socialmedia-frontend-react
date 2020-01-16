@@ -107,7 +107,7 @@ const Profile = ({
         onScroll={scroll.handleScrollChange}
         scrollEventThrottle={400}
       >
-        {self ?
+        {navigation.state.routeName === 'ProfileSelf' ?
           <ProfileStatusComponent />
         : null}
 
