@@ -184,24 +184,28 @@ export const getFollowedUsersWithStories = `
 `
 
 export const getFollowedUsers = `
-  query GetFollowedUsers($userId: ID, $followStatus: FollowStatus) {
-    getFollowedUsers(userId: $userId, followStatus: $followStatus) {
-      items {
-        ...userFragment
+  query GetFollowedUsers($userId: ID!, $followStatus: FollowStatus) {
+    user(userId: $userId) {
+      followedUsers (followStatus: $followStatus) {
+        items {
+          ...userFragment
+        }
+        nextToken
       }
-      nextToken
     }
   }
   ${userFragment}
 `
 
 export const getFollowerUsers = `
-  query GetFollowerUsers($userId: ID, $followStatus: FollowStatus) {
-    getFollowerUsers(userId: $userId, followStatus: $followStatus) {
-      items {
-        ...userFragment
+  query GetFollowerUsers($userId: ID!, $followStatus: FollowStatus) {
+    user(userId: $userId) {
+      followerUsers (followStatus: $followStatus) {
+        items {
+          ...userFragment
+        }
+        nextToken
       }
-      nextToken
     }
   }
   ${userFragment}

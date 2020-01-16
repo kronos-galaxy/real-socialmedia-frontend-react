@@ -45,7 +45,7 @@ function* usersGetFollowerUsersRequest(req) {
 
   try {
     const data = yield AwsAPI.graphql(graphqlOperation(queries.getFollowerUsers, req.payload))
-    const selector = path(['data', 'getFollowerUsers', 'items'])
+    const selector = path(['data', 'user', 'followerUsers', 'items'])
 
     yield put(actions.usersGetFollowerUsersSuccess({ payload: req.payload, data: selector(data), meta: data }))
   } catch (error) {
@@ -61,7 +61,7 @@ function* usersGetFollowedUsersRequest(req) {
 
   try {
     const data = yield AwsAPI.graphql(graphqlOperation(queries.getFollowedUsers, req.payload))
-    const selector = path(['data', 'getFollowedUsers', 'items'])
+    const selector = path(['data', 'user', 'followedUsers', 'items'])
 
     yield put(actions.usersGetFollowedUsersSuccess({ payload: req.payload, data: selector(data), meta: data }))
   } catch (error) {
