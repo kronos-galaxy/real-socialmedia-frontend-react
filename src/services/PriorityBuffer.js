@@ -13,6 +13,9 @@ export default class Buffer {
   }
 
   put(message) {
+    if (this.queue.find(item => item.source === message.payload.source)) {
+      return
+    }
     this.queue.push(message)
     this.length = this.queue.length
   }
