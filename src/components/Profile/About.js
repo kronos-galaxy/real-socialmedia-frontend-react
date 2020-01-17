@@ -4,8 +4,9 @@ import {
   StyleSheet,
   View,
 } from 'react-native'
-import { Subheading, Paragraph } from 'react-native-paper'
+import { Subheading, Paragraph, Caption } from 'react-native-paper'
 import path from 'ramda/src/path'
+import dayjs from 'dayjs'
 
 import { withTheme } from 'react-native-paper'
 import { withNavigation } from 'react-navigation'
@@ -22,6 +23,7 @@ const ProfileAbout = ({
     <View style={styling.root}>
       <Subheading style={styling.itemTitle}>{path(['data', 'fullName'])(usersGetProfile)}</Subheading>
       <Paragraph style={styling.itemText}>{path(['data', 'bio'])(usersGetProfile)}</Paragraph>
+      <Caption style={styling.itemText}>{t('Joined')} {dayjs(path(['data', 'signedUpAt'])(usersGetProfile)).from(dayjs())}</Caption>
     </View>
   )
 }
