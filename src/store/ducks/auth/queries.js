@@ -13,6 +13,7 @@ const authUserFragment = `
     followedCount
     followerCount
     followCountsHidden
+    viewCountsHidden
     commentsDisabled
     likesDisabled
     postCount
@@ -24,6 +25,8 @@ const authUserFragment = `
     email
     phoneNumber
     languageCode
+    signedUpAt
+    postViewedByCount
   }
 `
 

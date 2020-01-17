@@ -146,6 +146,20 @@ function* postsGetMoreRequest(req) {
   }
 }
 
+function* postsViewsGetRequest(req) {
+  const AwsAPI = yield getContext('AwsAPI')
+
+  try {
+    const data = yield AwsAPI.graphql(graphqlOperation(queries.viewedBy, req.payload))
+    const dataSelector = path(['data', 'getPost', 'viewedBy', 'items'])
+    const metaSelector = compose(omit(['items']), path(['data', 'getPost', 'viewedBy']))
+
+    yield put(actions.postsViewsGetSuccess({ payload: req.payload, data: dataSelector(data), meta: metaSelector(data) }))
+  } catch (error) {
+    yield put(actions.postsViewsGetFailure({ payload: req.payload, message: error.message }))
+  }
+}
+
 /**
  *
  */
@@ -544,6 +558,7 @@ function* postsGetTrendingPostsMoreRequest(req) {
 export default () => [
   takeLatest(constants.POSTS_GET_REQUEST, postsGetRequest),
   takeLatest(constants.POSTS_GET_MORE_REQUEST, postsGetMoreRequest),
+  takeLatest(constants.POSTS_VIEWS_GET_REQUEST, postsViewsGetRequest),
 
   takeLatest(constants.POSTS_FEED_GET_REQUEST, postsFeedGetRequest),
   takeLatest(constants.POSTS_FEED_GET_MORE_REQUEST, postsFeedGetMoreRequest),

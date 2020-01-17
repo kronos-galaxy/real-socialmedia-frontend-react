@@ -7,6 +7,7 @@ import FeedScreen from 'screens/FeedScreen'
 import SearchScreen from 'screens/SearchScreen'
 import CameraScreen from 'screens/CameraScreen'
 import PostMediaScreen from 'screens/PostMediaScreen'
+import PostMediaViewsScreen from 'screens/PostMediaViewsScreen'
 import PostCreateScreen from 'screens/PostCreateScreen'
 import PostEditScreen from 'screens/PostEditScreen'
 import StoryScreen from 'screens/StoryScreen'
@@ -282,6 +283,7 @@ export default (screenProps) => createStackNavigator({
   PostCreate: PostCreateScreen,
   PostEdit: PostEditScreen,
   PostMedia: PostMediaScreen,
+  PostMediaViews: PostMediaViewsScreen,
   PostShare: PostShareScreen,
   FeedProfile: ProfileScreen,
   ProfileFollowed: ProfileFollowedScreen,

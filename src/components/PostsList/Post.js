@@ -76,6 +76,7 @@ const PostComponent = ({
         />
       </ListItemComponent>
       <ActionComponent
+        authUser={authUser}
         post={post}
         postsShareRequest={postsShareRequest}
         postsAnonymouslyLikeRequest={postsAnonymouslyLikeRequest}

@@ -20,6 +20,7 @@ const Privacy = ({
   user,
   togglePrivacyStatus,
   toggleFollowCountsHidden,
+  toggleViewCountsHidden,
   toggleLikesDisabled,
   toggleCommentsDisabled,
   toggleVerificationHidden,
@@ -49,6 +50,11 @@ const Privacy = ({
         caption: t('Followers can comment on posts'),
         onPress: toggleCommentsDisabled,
         enabled: !user.commentsDisabled,
+      }, {
+        label: t('Views count'),
+        caption: t('Followers can view total post views'),
+        onPress: toggleViewCountsHidden,
+        enabled: !user.viewCountsHidden,
       }, {
         label: t('Verification hidden'),
         caption: t('Verification label is hidden'),

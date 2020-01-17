@@ -19,6 +19,11 @@ const PrivacyService = ({ children, navigation }) => {
       followCountsHidden: !user.followCountsHidden,
     }))
 
+  const toggleViewCountsHidden = () =>
+    dispatch(usersActions.usersEditProfileRequest({
+      viewCountsHidden: !user.viewCountsHidden,
+    }))
+
   const toggleLikesDisabled = () =>
     dispatch(usersActions.usersEditProfileRequest({
       likesDisabled: !user.likesDisabled,
@@ -44,6 +49,7 @@ const PrivacyService = ({ children, navigation }) => {
     user,
     togglePrivacyStatus,
     toggleFollowCountsHidden,
+    toggleViewCountsHidden,
     toggleLikesDisabled,
     toggleCommentsDisabled,
     toggleVerificationHidden,

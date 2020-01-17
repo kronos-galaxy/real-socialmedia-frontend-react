@@ -18,6 +18,7 @@ const Privacy = ({
   user,
   togglePrivacyStatus,
   toggleFollowCountsHidden,
+  toggleViewCountsHidden,
   toggleLikesDisabled,
   toggleCommentsDisabled,
   toggleVerificationHidden,
@@ -32,6 +33,7 @@ const Privacy = ({
           user={user}
           togglePrivacyStatus={togglePrivacyStatus}
           toggleFollowCountsHidden={toggleFollowCountsHidden}
+          toggleViewCountsHidden={toggleViewCountsHidden}
           toggleLikesDisabled={toggleLikesDisabled}
           toggleCommentsDisabled={toggleCommentsDisabled}
           toggleVerificationHidden={toggleVerificationHidden}

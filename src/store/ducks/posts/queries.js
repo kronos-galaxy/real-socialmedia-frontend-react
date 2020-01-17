@@ -13,6 +13,7 @@ const postUserFragment = `
     followedCount
     followerCount
     followCountsHidden
+    viewCountsHidden
     commentsDisabled
     likesDisabled
     verificationHidden
@@ -25,6 +26,8 @@ const postUserFragment = `
     email
     phoneNumber
     languageCode
+    signedUpAt
+    postViewedByCount
   }
 `
 
@@ -63,6 +66,7 @@ const postFragment = `
     verificationHidden
     onymousLikeCount
     anonymousLikeCount
+    viewedByCount
     onymouslyLikedBy (limit: 1) {
       items {
         ...postUserFragment
@@ -247,4 +251,18 @@ export const trendingPosts = `
     }
   }
   ${postFragment}
+`
+
+export const viewedBy = `
+  query viewedBy($postId: ID!, $limit: Int, $nextToken: String) {
+    getPost(postId: $postId) {
+      viewedBy(limit: $limit, nextToken: $nextToken) {
+        items {
+          ...postUserFragment
+        }
+        nextToken
+      }
+    }
+  }
+  ${postUserFragment}
 `

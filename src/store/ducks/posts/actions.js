@@ -14,6 +14,11 @@ export const postsGetMoreRequest = createAction(constants.POSTS_GET_MORE_REQUEST
 export const postsGetMoreSuccess = createAction(constants.POSTS_GET_MORE_SUCCESS)
 export const postsGetMoreFailure = createAction(constants.POSTS_GET_MORE_FAILURE)
 
+export const postsViewsGetIdle = createAction(constants.POSTS_VIEWS_GET_IDLE)
+export const postsViewsGetRequest = createAction(constants.POSTS_VIEWS_GET_REQUEST)
+export const postsViewsGetSuccess = createAction(constants.POSTS_VIEWS_GET_SUCCESS)
+export const postsViewsGetFailure = createAction(constants.POSTS_VIEWS_GET_FAILURE)
+
 /**
  * 
  */

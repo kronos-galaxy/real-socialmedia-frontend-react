@@ -19,6 +19,7 @@ const ProfileEdit = ({
   usersEditProfileRequest,
   togglePrivacyStatus,
   toggleFollowCountsHidden,
+  toggleViewCountsHidden,
   toggleLikesDisabled,
   toggleCommentsDisabled,
   toggleVerificationHidden,
@@ -39,6 +40,7 @@ const ProfileEdit = ({
                 user={user}
                 togglePrivacyStatus={togglePrivacyStatus}
                 toggleFollowCountsHidden={toggleFollowCountsHidden}
+                toggleViewCountsHidden={toggleViewCountsHidden}
                 toggleLikesDisabled={toggleLikesDisabled}
                 toggleCommentsDisabled={toggleCommentsDisabled}
                 toggleVerificationHidden={toggleVerificationHidden}

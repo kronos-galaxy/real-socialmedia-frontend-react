@@ -30,6 +30,7 @@ const userFragment = `
     followedCount
     followerCount
     followCountsHidden
+    viewCountsHidden
     commentsDisabled
     likesDisabled
     verificationHidden
@@ -42,6 +43,8 @@ const userFragment = `
     email
     phoneNumber
     languageCode
+    signedUpAt
+    postViewedByCount
   }
 `
 
@@ -60,6 +63,7 @@ const userPostFragment = `
     likeStatus
     onymousLikeCount
     anonymousLikeCount
+    viewedByCount
     onymouslyLikedBy (limit: 1) {
       items {
         ...userFragment
@@ -135,6 +139,7 @@ export const setUserDetails = `
     $photoMediaId: ID,
     $privacyStatus: PrivacyStatus,
     $followCountsHidden: Boolean,
+    $viewCountsHidden: Boolean,
     $commentsDisabled: Boolean,
     $likesDisabled: Boolean,
     $themeCode: String,
@@ -147,6 +152,7 @@ export const setUserDetails = `
       photoMediaId: $photoMediaId,
       privacyStatus: $privacyStatus,
       followCountsHidden: $followCountsHidden,
+      viewCountsHidden: $viewCountsHidden,
       commentsDisabled: $commentsDisabled,
       likesDisabled: $likesDisabled,
       themeCode: $themeCode,
@@ -184,7 +190,7 @@ export const getFollowedUsersWithStories = `
 `
 
 export const getFollowedUsers = `
-  query GetFollowedUsers($userId: ID!, $followStatus: FollowStatus) {
+  query getFollowedUsers($userId: ID!, $followStatus: FollowStatus) {
     user(userId: $userId) {
       followedUsers (followStatus: $followStatus) {
         items {
@@ -198,7 +204,7 @@ export const getFollowedUsers = `
 `
 
 export const getFollowerUsers = `
-  query GetFollowerUsers($userId: ID!, $followStatus: FollowStatus) {
+  query getFollowerUsers($userId: ID!, $followStatus: FollowStatus) {
     user(userId: $userId) {
       followerUsers (followStatus: $followStatus) {
         items {

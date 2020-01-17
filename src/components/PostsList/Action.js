@@ -20,12 +20,15 @@ import { useTranslation } from 'react-i18next'
 const Action = ({
   theme,
   navigation,
+  authUser,
   post,
   postsOnymouslyLikeRequest,
   postsDislikeRequest,
 }) => {
   const styling = styles(theme)
   const { t } = useTranslation()
+
+  const self = path(['postedBy', 'userId'])(post) === path(['userId'])(authUser)
 
   const handleCommentPress = () => navigation.navigate('Modal', ({
     cancelAction: () => navigation.goBack(null),
@@ -35,6 +38,17 @@ const Action = ({
     text: `${t('REAL is fully Open Source & built by the people')}. ${t('Help us move faster by contributing code')}.`,
     title: t('Comments Coming Soon'),
   }))
+
+  const handleViewsPress = () => {
+    if (!self) { return }
+    navigation.navigate({
+      routeName: 'PostMediaViews',
+      params: {
+        postId: path(['postId'])(post)
+      },
+      key: `PostMediaViews-postid${post.postId}`,
+    })
+  }
 
   return (
     <View style={styling.action}>
@@ -62,11 +76,28 @@ const Action = ({
           <DirectIcon fill={theme.colors.primaryIcon} />
         </TouchableOpacity>
       </View>
-      <View style={styling.actionRight}>
-        <View style={styling.time}>
-          <Caption style={styling.timeAgo}>{dayjs(post.postedAt).from(dayjs())}</Caption>
+
+      {!post.viewCountsHidden && !path(['postedBy', 'viewCountsHidden'])(post) ?
+        <TouchableOpacity style={styling.actionRight} onPress={handleViewsPress}>
+          <View style={styling.time}>
+            <Caption style={styling.timeAgo}>{post.viewedByCount} {t('views')}</Caption>
+          </View>
+          <View style={styling.time}>
+            <Caption style={styling.timeAgo}> | </Caption>
+          </View>
+          <View style={styling.time}>
+            <Caption style={styling.timeAgo}>{dayjs(post.postedAt).from(dayjs())}</Caption>
+          </View>
+        </TouchableOpacity>
+      : null}
+
+      {post.viewCountsHidden || path(['postedBy', 'viewCountsHidden'])(post) ?
+        <View style={styling.actionRight}>
+          <View style={styling.time}>
+            <Caption style={styling.timeAgo}>{dayjs(post.postedAt).from(dayjs())}</Caption>
+          </View>
         </View>
-      </View>
+      : null}
     </View>
   )
 }

@@ -126,6 +126,7 @@ const styles = theme => StyleSheet.create({
   },
   helper: {
     paddingVertical: 8,
+    paddingBottom: 32,
   }
 })
 

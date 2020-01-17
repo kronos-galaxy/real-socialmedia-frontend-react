@@ -9,6 +9,12 @@ const initialState = {
     error: {},
     payload: {},
   },
+  postsViewsGet: {
+    data: [],
+    status: 'idle',
+    error: {},
+    payload: {},
+  },
   postsGetArchived: {
     data: [],
     status: 'idle',
@@ -172,6 +178,36 @@ const postsGetMoreSuccess = (state, action) => update(state, {
   },
   postsGetCache: {
     $postsGetMoreCacheSuccess: { ...action, initialState: initialState.postsGet },
+  },
+})
+
+/**
+ *
+ */
+const postsViewsGetRequest = (state, action) => update(state, {
+  postsViewsGet: {
+    status: { $set: 'loading' },
+    payload: { $set: action.payload },
+  },
+})
+
+const postsViewsGetSuccess = (state, action) => update(state, {
+  postsViewsGet: {
+    data: { $set: action.payload.data },
+    status: { $set: 'success' },
+  },
+})
+
+const postsViewsGetFailure = (state, action) => update(state, {
+  postsViewsGet: {
+    status: { $set: 'failure' },
+  },
+})
+
+const postsViewsGetIdle = (state, action) => update(state, {
+  postsViewsGet: {
+    data: { $set: initialState.postsViewsGet.data },
+    status: { $set: 'idle' },
   },
 })
 
@@ -932,6 +968,11 @@ export default handleActions({
   [constants.POSTS_GET_IDLE]: postsGetIdle,
   [constants.POSTS_GET_MORE_REQUEST]: postsGetMoreRequest,
   [constants.POSTS_GET_MORE_SUCCESS]: postsGetMoreSuccess,
+
+  [constants.POSTS_VIEWS_GET_REQUEST]: postsViewsGetRequest,
+  [constants.POSTS_VIEWS_GET_SUCCESS]: postsViewsGetSuccess,
+  [constants.POSTS_VIEWS_GET_FAILURE]: postsViewsGetFailure,
+  [constants.POSTS_VIEWS_GET_IDLE]: postsViewsGetIdle,
 
   [constants.POSTS_GET_ARCHIVED_REQUEST]: postsGetArchivedRequest,
   [constants.POSTS_GET_ARCHIVED_SUCCESS]: postsGetArchivedSuccess,

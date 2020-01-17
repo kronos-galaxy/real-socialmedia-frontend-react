@@ -14,6 +14,7 @@ export const usersGetProfileSelector = createSelector(
         phoneNumber: pathOr('', ['data', 'phoneNumber'], usersGetProfile),
         privacyStatus: pathOr('', ['data', 'privacyStatus'], usersGetProfile),
         followCountsHidden: pathOr('', ['data', 'followCountsHidden'], usersGetProfile),
+        viewCountsHidden: pathOr('', ['data', 'viewCountsHidden'], usersGetProfile),
         photoUrl: pathOr('', ['data', 'photoUrl'], usersGetProfile),
         photoUrl64p: pathOr('', ['data', 'photoUrl64p'], usersGetProfile),
         photoUrl480p: pathOr('', ['data', 'photoUrl480p'], usersGetProfile),
