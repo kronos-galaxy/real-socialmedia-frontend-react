@@ -8,6 +8,7 @@ import Config from 'react-native-config'
  * to capture uncaught exceptions and unhandled rejections.
  */
 Sentry.init({
+  environment: Config.ENVIRONMENT,
   dsn: Config.SENTRY_DSN,
 })
 
