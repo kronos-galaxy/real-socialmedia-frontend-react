@@ -78,7 +78,10 @@ const SimpleCacheService = ({ children, source, priorityIndex }) => {
   }
 
   return children({
-    source: { uri },
+    source: {
+      uri,
+      cache: 'reload',
+    },
     onError,
   })
 }
