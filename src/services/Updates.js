@@ -1,14 +1,14 @@
 import { Linking, Alert } from 'react-native'
 import { getReadableVersion } from 'react-native-device-info'
-import Config from 'react-native-config'
+import axios from 'axios'
+import * as Logger from 'services/Logger'
 
 export const versionCheck = (async () => {
   try {
-    if (Config.ENVIRONMENT !== 'production') { return }
+    const data = await axios.get('https://d3dclx0mrf3ube.cloudfront.net/versions/production.json')
+    const isNeeded = !getReadableVersion().includes(data.data.version)
 
-    const isNeeded = !getReadableVersion().includes('1.1.0')
-
-    if (false) {
+    if (isNeeded) {
       Alert.alert(
         'App Update Available',
         'Please update REAL to continue proceeding',
@@ -21,5 +21,6 @@ export const versionCheck = (async () => {
       )
     }
   } catch (error) {
+    Logger.captureException(error)
   }
 })
