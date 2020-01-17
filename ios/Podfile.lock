@@ -322,7 +322,7 @@ PODS:
     - React
   - RNGestureHandler (1.5.2):
     - React
-  - RNGoogleSignin (3.0.3):
+  - RNGoogleSignin (3.0.4):
     - GoogleSignIn (~> 5.0.0)
     - React
   - RNIap (4.4.0-rc.5):
@@ -615,7 +615,7 @@ SPEC CHECKSUMS:
   RNDeviceInfo: c7b1dc457611b9231bb780a882102e2c93edc7af
   RNFS: 0d4191b1052bef9ce70deff00a5b4169c62bbd9b
   RNGestureHandler: 946a7691e41df61e2c4b1884deab41a4cdc3afff
-  RNGoogleSignin: a10b849c165088c737d4465de6c2062f24d06002
+  RNGoogleSignin: a00f87261ea13df9a5cea8deafa6927d6f2c3562
   RNIap: 498abb08d1697030e8d0af691b2fe5c07a799325
   RNImageCropPicker: e1d8c3381e5b05a1bdcd13ea57a4f1c020a09cef
   RNImageMarker: 3d2ad96afe3db0965ecff23ca97d65b812d06b47
