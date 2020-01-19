@@ -60,14 +60,14 @@ function* handleCacheFetchRequest(payload) {
       toFile: signature.path,
       background: true,
       discretionary: true,
-      cacheable: true,
+      cacheable: false,
       readTimeout: 10000,
       backgroundTimeout: 180000,
       resumable: () =>
         RNFS.isResumable(jobId).then(() => RNFS.resumeDownload(jobId)),
     })
-    yield RNFS.completeHandlerIOS(jobId)
     yield promise
+    yield RNFS.completeHandlerIOS(jobId)
   }
 
   return signature

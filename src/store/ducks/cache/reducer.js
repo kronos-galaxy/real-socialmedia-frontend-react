@@ -42,7 +42,7 @@ const cacheFetchFailure = (state, action) => update(state, {
 
 const cacheFetchIdle = (state, action) => update(state, {
   cacheFetch: {
-    data: { $set: initialState.cacheFetch.data },
+    data: { $unset: [action.payload.partial] },
     status: { $set: 'idle' },
   },
 })

@@ -1,5 +1,4 @@
-import { useEffect } from 'react'
-import { InteractionManager } from 'react-native'
+import { useEffect, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import * as cacheActions from 'store/ducks/cache/actions'
 import RNFS from 'react-native-fs'
@@ -7,7 +6,6 @@ import uuidv5 from 'uuid/v5'
 import qs from 'query-string'
 import path from 'ramda/src/path'
 import includes from 'ramda/src/includes'
-import { createSelector } from 'reselect'
 
 const generateSignature = (source) => {
   if (typeof source !== 'string' || !source.length) {
@@ -43,34 +41,38 @@ const SimpleCacheService = ({ children, source, priorityIndex }) => {
 
   const channelType = ['64p', '480p', '1080p', '4k'].find(resolution => includes(resolution, source.uri || ''))
 
-  const cacheFetchRequest = () => {
-    if (typeof source.uri !== 'string' || !source.uri.length) {
+  const cacheFetchRequest = (sourcePath) => {
+    if (typeof sourcePath !== 'string' || !sourcePath.length) {
       return
     }
 
     if (channelType === '64p') {
-      dispatch(cacheActions.cacheFetch64pRequest({ priorityIndex, source: source.uri }))
+      dispatch(cacheActions.cacheFetch64pRequest({ priorityIndex, source: sourcePath }))
     } else if (channelType === '480p') {
-      dispatch(cacheActions.cacheFetch480pRequest({ priorityIndex, source: source.uri }))
+      dispatch(cacheActions.cacheFetch480pRequest({ priorityIndex, source: sourcePath }))
     } else if (channelType === '1080p') {
-      dispatch(cacheActions.cacheFetch1080pRequest({ priorityIndex, source: source.uri }))
+      dispatch(cacheActions.cacheFetch1080pRequest({ priorityIndex, source: sourcePath }))
     } else if (channelType === '4k') {
-      dispatch(cacheActions.cacheFetch4kRequest({ priorityIndex, source: source.uri }))
+      dispatch(cacheActions.cacheFetch4kRequest({ priorityIndex, source: sourcePath }))
     } else {
-      dispatch(cacheActions.cacheFetchRequest({ priorityIndex, source: source.uri }))
+      dispatch(cacheActions.cacheFetchRequest({ priorityIndex, source: sourcePath }))
     }
   }
 
-  useEffect(() => {
-    InteractionManager.runAfterInteractions(() => {
-      cacheFetchRequest()
-    })
-  }, [])
+  const cacheFetchIdle = (sourcePath) => {
+    dispatch(cacheActions.cacheFetchIdle({ source: sourcePath }))
+  }
 
-  const uri = signature.isRemote ? cacheFetchItemPath : source.uri
+  useEffect(() => {
+    cacheFetchRequest(source.uri)
+  }, [source.uri])
+
+  const [hasError, setHasError] = useState(null)
+  const uri = signature.isRemote && !hasError ? cacheFetchItemPath : source.uri
 
   const onError = () => {
-    cacheFetchRequest()
+    setHasError(true)
+    cacheFetchIdle(signature)
   }
 
   if (!uri) {
