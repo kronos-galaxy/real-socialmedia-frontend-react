@@ -80,12 +80,6 @@ const Action = ({
       {!post.viewCountsHidden && !path(['postedBy', 'viewCountsHidden'])(post) ?
         <TouchableOpacity style={styling.actionRight} onPress={handleViewsPress}>
           <View style={styling.time}>
-            <Caption style={styling.timeAgo}>{post.viewedByCount} {t('views')}</Caption>
-          </View>
-          <View style={styling.time}>
-            <Caption style={styling.timeAgo}> | </Caption>
-          </View>
-          <View style={styling.time}>
             <Caption style={styling.timeAgo}>{dayjs(post.postedAt).from(dayjs())}</Caption>
           </View>
         </TouchableOpacity>

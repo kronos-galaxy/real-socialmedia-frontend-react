@@ -1,5 +1,4 @@
 import React from 'react'
-import { SafeAreaView } from 'react-native'
 import PostCreateComponent from 'components/PostCreate'
 import PostCreateServiceComponent from 'components/PostCreate/index.service'
 import PostsPreviewComponent from 'components/PostsPreview/'
@@ -13,7 +12,7 @@ class PostCreateScreen extends React.Component {
   
   render() {
     return (
-      <SafeAreaView style={{ flex: 1 }}>
+      <>
         <Translation>
           {(t) => (
             <NavigationSecondary
@@ -40,7 +39,7 @@ class PostCreateScreen extends React.Component {
             </PostCreateServiceComponent>
           ))}
         </PostsPreviewServiceComponent>
-      </SafeAreaView>
+      </>
     )
   }
 }

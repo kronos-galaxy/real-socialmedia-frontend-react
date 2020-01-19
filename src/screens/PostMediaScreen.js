@@ -1,5 +1,4 @@
 import React from 'react'
-import { SafeAreaView } from 'react-native'
 import PostMediaComponent from 'components/PostMedia'
 import PostMediaServiceComponent from 'components/PostMedia/index.service'
 import UserServiceProvider from 'services/providers/User'
@@ -15,7 +14,7 @@ class FeedScreen extends React.Component {
   
   render() {
     return (
-      <SafeAreaView style={{ flex: 1 }}>
+      <>
         <PaperProvider theme={this.props.navigation.state.params.theme}>
           <Translation>
             {(t) => (
@@ -42,7 +41,7 @@ class FeedScreen extends React.Component {
             )}
           </PostsListServiceComponent>
         </PaperProvider>
-      </SafeAreaView>
+      </>
     )
   }
 }

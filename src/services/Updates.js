@@ -8,7 +8,7 @@ export const versionCheck = (async () => {
     const data = await axios.get('https://d3dclx0mrf3ube.cloudfront.net/versions/production.json')
     const isNeeded = !getReadableVersion().includes(data.data.version)
 
-    if (isNeeded) {
+    if (false) {
       Alert.alert(
         'App Update Available',
         'Please update REAL to continue proceeding',

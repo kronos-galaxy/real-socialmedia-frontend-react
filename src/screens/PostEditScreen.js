@@ -1,5 +1,4 @@
 import React from 'react'
-import { SafeAreaView } from 'react-native'
 import PostEditComponent from 'components/PostEdit'
 import PostEditServiceComponent from 'components/PostEdit/index.service'
 import DefaultNavigationComponent from 'components/NavigationPrimary/Default'
@@ -11,7 +10,7 @@ class PostEditScreen extends React.Component {
   
   render() {
     return (
-      <SafeAreaView style={{ flex: 1 }}>
+      <>
         <Translation>
           {(t) => (
             <NavigationSecondary
@@ -28,7 +27,7 @@ class PostEditScreen extends React.Component {
             />
           )}
         </PostEditServiceComponent>
-      </SafeAreaView>
+      </>
     )
   }
 }

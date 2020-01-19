@@ -1,5 +1,4 @@
 import React from 'react'
-import { SafeAreaView } from 'react-native'
 import PostShareServiceComponent from 'components/PostShare/index.service'
 import PostShareComponent from 'components/PostShare'
 import NavigationSecondary from 'components/NavigationSecondary/Default'
@@ -12,7 +11,7 @@ class PostShareScreen extends React.Component {
   
   render() {
     return (
-      <SafeAreaView style={{ flex: 1 }}>
+      <>
         <Translation>
           {(t) => (
             <NavigationSecondary
@@ -28,7 +27,7 @@ class PostShareScreen extends React.Component {
             />
           ))}
         </PostShareServiceComponent>
-      </SafeAreaView>
+      </>
     )
   }
 }

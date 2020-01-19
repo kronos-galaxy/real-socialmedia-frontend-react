@@ -1,5 +1,4 @@
 import React from 'react'
-import { SafeAreaView } from 'react-native'
 import PostMediaViewsComponent from 'components/PostMediaViews'
 import PostMediaViewsServiceComponent from 'components/PostMediaViews/index.service'
 import DefaultNavigationComponent from 'components/NavigationPrimary/Default'
@@ -12,7 +11,7 @@ class PostMediaViews extends React.Component {
   
   render() {
     return (
-      <SafeAreaView style={{ flex: 1 }}>
+      <>
         <Translation>
           {(t) => (
             <NavigationSecondary
@@ -34,7 +33,7 @@ class PostMediaViews extends React.Component {
             </UserServiceProvider>
           )}
         </PostMediaViewsServiceComponent>
-      </SafeAreaView>
+      </>
     )
   }
 }

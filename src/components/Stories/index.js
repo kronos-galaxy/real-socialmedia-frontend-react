@@ -55,8 +55,8 @@ const Stories = ({
           <Avatar
             active
             size="medium"
-            thumbnailSource={{ uri: path(['photoUrl64p'])(authUser) }}
-            imageSource={{ uri: path(['photoUrl480p'])(authUser) }}
+            thumbnailSource={{ uri: path(['photoUrl64p'])(user) }}
+            imageSource={{ uri: path(['photoUrl480p'])(user) }}
             themeCode={path(['themeCode'])(user)}
           />
           <Caption style={styling.username}>{path(['username'])(user)}</Caption>

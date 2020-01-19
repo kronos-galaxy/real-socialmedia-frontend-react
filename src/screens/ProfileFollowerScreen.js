@@ -1,5 +1,4 @@
 import React from 'react'
-import { SafeAreaView } from 'react-native'
 import ProfileFollowerComponent from 'components/ProfileFollower'
 import ProfileFollowerServiceComponent from 'components/ProfileFollower/index.service'
 import DefaultNavigationComponent from 'components/NavigationPrimary/Default'
@@ -12,7 +11,7 @@ class ProfileFollowed extends React.Component {
   
   render() {
     return (
-      <SafeAreaView style={{ flex: 1 }}>
+      <>
         <Translation>
           {(t) => (
             <NavigationSecondary
@@ -34,7 +33,7 @@ class ProfileFollowed extends React.Component {
             </UserServiceProvider>
           )}
         </ProfileFollowerServiceComponent>
-      </SafeAreaView>
+      </>
     )
   }
 }
