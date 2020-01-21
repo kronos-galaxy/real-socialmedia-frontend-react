@@ -33,40 +33,11 @@ const ReactionsPreviewTemplate = ({
         : null}
 
         {path(['onymouslyLikedBy', 'items', '0', 'username'])(post) ?
-          <React.Fragment>
-            {path(['anonymousLikeCount'])(post) + path(['onymousLikeCount'])(post) > 1 ?
-              <Text style={styling.text}>
-                {t('Liked by {{username}} and many others', {
-                  username: path(['onymouslyLikedBy', 'items', '0', 'username'])(post),
-                  // count: path(['anonymousLikeCount'])(post) + path(['onymousLikeCount'])(post) - 1,
-                })}
-              </Text>
-            :
-              <Text style={styling.text}>
-                {t('Liked by {{username}}', {
-                  username: path(['onymouslyLikedBy', 'items', '0', 'username'])(post),
-                })}
-              </Text>
-            }
-          </React.Fragment>
-        : null}
-
-        {!path(['onymouslyLikedBy', 'items', '0', 'username'])(post) ?
-          <React.Fragment>
-            {path(['anonymousLikeCount'])(post) + path(['onymousLikeCount'])(post) >= 1 ?
-              <Text style={styling.text}>
-                {t('Liked by {{count}} people', {
-                  count: path(['anonymousLikeCount'])(post) + path(['onymousLikeCount'])(post)
-                })}
-              </Text>
-            : null}
-
-            {path(['anonymousLikeCount'])(post) + path(['onymousLikeCount'])(post) < 1 ?
-              <Text style={styling.text}>
-                {t('No reactions yet')}
-              </Text>
-            : null}
-          </React.Fragment>
+          <Text style={styling.text}>
+            {t('liked first by {{username}}', {
+              username: path(['onymouslyLikedBy', 'items', '0', 'username'])(post),
+            })}
+          </Text>
         : null}
       </View>
     </View>

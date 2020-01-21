@@ -115,7 +115,7 @@ const Profile = ({
           <TouchableOpacity style={styling.image} onPress={handleUserStoryPress} disabled={!path(['data', 'length'])(postsStoriesGet)}>
             <Avatar
               size="large"
-              active={!path(['data', 'length'])(postsStoriesGet)}
+              active={path(['data', 'length'])(postsStoriesGet)}
               thumbnailSource={{ uri: path(['data', 'photoUrl64p'])(usersGetProfile) }}
               imageSource={{ uri: path(['data', 'photoUrl480p'])(usersGetProfile) }}
               themeCode={path(['data', 'themeCode'])(usersGetProfile)}

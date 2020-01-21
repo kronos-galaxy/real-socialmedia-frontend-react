@@ -56,6 +56,7 @@ const AvatarTemplate = ({
             imageSource={imageSource}
             style={styling.photo}
             resizeMode="cover"
+            hideProgress
           />
         </View>
 
@@ -104,18 +105,19 @@ const styles = theme => StyleSheet.create({
   photoActive: {
     borderWidth: 2,
     borderColor: theme.colors.navigation,
-    borderRadius: 2,
+    borderRadius: 4,
     padding: 2,
   },
   photoInactive: {
     borderWidth: 2,
     borderColor: 'transparent',
-    borderRadius: 2,
+    borderRadius: 4,
     padding: 2,
   },
   photo: {
     width: '100%',
     height: '100%',
+    borderRadius: 2,
   },
   iconWrapper: {
     position: 'absolute',
