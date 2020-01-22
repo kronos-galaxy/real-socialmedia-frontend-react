@@ -208,18 +208,18 @@ function* postsGetArchivedRequest(req) {
 }
 
 function* handlePostsEditRequest(payload) {
+  const AwsAPI = yield getContext('AwsAPI')
+
   if (payload.expiresAt) {
-    yield AwsAPI.graphql(graphqlOperation(queries.editPostExpiresAt, req.payload))
+    yield AwsAPI.graphql(graphqlOperation(queries.editPostExpiresAt, payload))
   }
-  return yield AwsAPI.graphql(graphqlOperation(queries.editPost, req.payload))
+  return yield AwsAPI.graphql(graphqlOperation(queries.editPost, payload))
 }
 
 /**
  *
  */
 function* postsEditRequest(req) {
-  const AwsAPI = yield getContext('AwsAPI')
-
   try {
     const data = yield handlePostsEditRequest(req.payload)
     const selector = path(['data', 'editPost'])

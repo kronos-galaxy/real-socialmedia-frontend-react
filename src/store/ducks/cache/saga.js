@@ -82,7 +82,7 @@ function* cacheFetchSequentialRequest(buffer, action) {
   while (true) {
     const req = yield take(channel)
     try {
-      const data = yield retry(3, 2000, handleCacheFetchRequest, req.payload)
+      const data = yield retry(3, 200, handleCacheFetchRequest, req.payload)
       yield put(actions.cacheFetchSuccess({ data }))
     } catch (error) {
       yield put(actions.cacheFetchFailure({ message: error.message }))

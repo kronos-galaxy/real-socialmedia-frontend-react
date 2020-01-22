@@ -49,7 +49,6 @@ export default class ProgressiveImage extends Component {
               width={2}
               fill={this.state.progress}
               tintColor="#00e0ff"
-              onAnimationComplete={() => console.log('onAnimationComplete')}
               backgroundColor="#3d5875"
             />
           </View>
