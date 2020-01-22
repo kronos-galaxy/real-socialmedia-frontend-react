@@ -3,10 +3,12 @@ import PropTypes from 'prop-types'
 import {
   StyleSheet,
   View,
+  Text,
+  TouchableOpacity,
 } from 'react-native'
-import { Text } from 'react-native-paper'
-import ReactionsPreviewTemplate from 'templates/ReactionsPreview'
 import path from 'ramda/src/path'
+import reactStringReplace from 'react-string-replace'
+import UserServiceProvider from 'services/providers/User'
 
 import { withTheme } from 'react-native-paper'
 import { withNavigation } from 'react-navigation'
@@ -14,30 +16,62 @@ import { useTranslation } from 'react-i18next'
 
 const Description = ({
   theme,
+  navigation,
   post,
 }) => {
   const styling = styles(theme)
   const { t } = useTranslation()
-
+  const regex = /(?:@)([A-Za-z0-9_](?:(?:[A-Za-z0-9_]|(?:\.(?!\.))){0,28}(?:[A-Za-z0-9_]))?)/g
+  
   return (
-    <View style={styling.root}>
-      {!path(['postedBy', 'likesDisabled'])(post) && !post.likesDisabled ?
-        <View style={styling.likes}>
-          <ReactionsPreviewTemplate
-            post={post}
-          />
-        </View>
-      : null}
+    <UserServiceProvider navigation={navigation}>
+      {((userProps) => (
+        <View style={styling.root}>
+          {/**
+           * Using array based component rendering becauase having a hirarchy like:
+           * Text -> View -> Text will not render correctly. Therefore parsing a string
+           * to find @username pattern, then calculating the theme of next user route param
+           * and returning navigation function.
+           */}
+          {path(['text', 'length'])(post) ?
+            <View style={styling.text}>
+              {[
+                /**
+                 * Username of post owner
+                 */
+                <TouchableOpacity key="username" onPress={userProps.handleProfilePress(post.postedBy)}>
+                  <Text key="username" style={styling.username}>{post.postedBy.username} </Text>
+                </TouchableOpacity>,
 
-      {path(['text', 'length'])(post) ?
-        <View style={styling.desc}>
-          <Text>
-            <Text style={styling.username}>{post.postedBy.username}</Text>
-            <Text style={styling.text}> {post.text}</Text>
-          </Text>
+                /**
+                 * Tagged @username occurrences with attached user object
+                 */
+                ...reactStringReplace(post.text, regex, (match, i) => {
+                  const tagged = path(['textTaggedUsers'])(post).find(textTag => textTag.tag === `@${match}`)
+
+                  if (tagged) {
+                    return (
+                      <TouchableOpacity key={match + i} onPress={userProps.handleProfilePress(tagged.user)}>
+                        <Text style={styling.textUsername}>@{match}</Text>
+                      </TouchableOpacity>
+                    )
+                  }
+                  
+                  return `@${match}`
+                })
+              ].map(
+                item => {
+                  if (typeof item === 'string') {
+                    return <Text>{item}</Text>
+                  }
+                  return item
+                }
+              )}
+            </View>
+          : null}
         </View>
-      : null}
-    </View>
+      ))}
+    </UserServiceProvider>
   )
 }
 
@@ -45,18 +79,22 @@ const styles = theme => StyleSheet.create({
   root: {
   },
   likes: {
-    padding: theme.spacing.base,
-    marginBottom: 8,
   },
   desc: {
     padding: theme.spacing.base,
     flexDirection: 'row',
-  },
-  text: {
-    marginLeft: 4,
+    backgroundColor: 'red',
   },
   username: {
-    fontWeight: '700',
+    fontWeight: '500',
+  },
+  text: {
+    padding: theme.spacing.base,
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+  },
+  textUsername: {
+    color: theme.colors.primary,
   },
 })
 
@@ -65,4 +103,6 @@ Description.propTypes = {
   post: PropTypes.any,
 }
 
-export default withTheme(Description)
+export default withNavigation(
+  withTheme(Description)
+)

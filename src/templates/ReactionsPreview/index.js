@@ -19,6 +19,10 @@ const ReactionsPreviewTemplate = ({
   const styling = styles(theme)
   const { t } = useTranslation()
 
+  if (path(['postedBy', 'likesDisabled'])(post) || post.likesDisabled) {
+    return null
+  }
+
   return (
     <View style={styling.root}>
       <View style={styling.likes}>
@@ -46,6 +50,7 @@ const ReactionsPreviewTemplate = ({
 
 const styles = theme => StyleSheet.create({
   root: {
+    paddingHorizontal: theme.spacing.base,
   },
   profile: {
     marginRight: 8,

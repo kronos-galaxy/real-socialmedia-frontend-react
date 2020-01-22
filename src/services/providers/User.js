@@ -14,7 +14,7 @@ const UserService = ({ children, navigation }) => {
           ...user,
           theme,
         },
-        key: `PostMedia-postid${user.userId}`,
+        key: `Profile-userId${user.userId}`,
       })
     }
   }

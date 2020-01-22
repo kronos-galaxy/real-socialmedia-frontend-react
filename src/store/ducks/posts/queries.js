@@ -57,6 +57,12 @@ const postFragment = `
     }
     expiresAt
     text
+    textTaggedUsers {
+      tag
+      user {
+        ...postUserFragment
+      }
+    }
     mediaObjects {
       ...mediaObjectFragment
     }

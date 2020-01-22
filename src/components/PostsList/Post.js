@@ -10,7 +10,7 @@ import ActionComponent from 'components/PostsList/Action'
 import DescriptionComponent from 'components/PostsList/Description'
 import ListItemComponent from 'templates/ListItem'
 import ImageComponent from 'templates/Image'
-import Layout from 'constants/Layout'
+import ReactionsPreviewTemplate from 'templates/ReactionsPreview'
 
 import { withTheme } from 'react-native-paper'
 import { withNavigation } from 'react-navigation'
@@ -82,6 +82,9 @@ const PostComponent = ({
         postsAnonymouslyLikeRequest={postsAnonymouslyLikeRequest}
         postsOnymouslyLikeRequest={postsOnymouslyLikeRequest}
         postsDislikeRequest={postsDislikeRequest}
+      />
+      <ReactionsPreviewTemplate
+        post={post}
       />
       <DescriptionComponent
         post={post}
