@@ -57,7 +57,14 @@ const SearchComponent = ({
       : null}
 
       {!formFocus ?
-        <ScrollView>
+        <ScrollView
+          refreshControl={
+            <RefreshControl
+              tintColor={theme.colors.border}
+              refreshing={postsGetTrendingPosts.status === 'loading'}
+            />
+          }
+        >
           <PostsGridComponent
             postsGet={postsGetTrendingPosts}
             themeFetch={themeFetch}
@@ -67,7 +74,14 @@ const SearchComponent = ({
       : null}
 
       {formFocus && formChange ?
-        <ScrollView refreshControl={<RefreshControl tintColor={theme.colors.border} refreshing={usersSearch.status === 'loading'} />}>
+        <ScrollView
+          refreshControl={
+            <RefreshControl
+              tintColor={theme.colors.border}
+              refreshing={usersSearch.status === 'loading'}
+            />
+          }
+        >
           <Subheading style={styling.subheading}>{t('Search Result')}</Subheading>
           <ResultComponent
             usersSearch={usersSearch}
@@ -83,7 +97,14 @@ const SearchComponent = ({
       : null}
 
       {formFocus && !formChange ?
-        <ScrollView refreshControl={<RefreshControl tintColor={theme.colors.border} refreshing={usersGetTrendingUsers.status === 'loading'} />}>
+        <ScrollView
+          refreshControl={
+            <RefreshControl
+              tintColor={theme.colors.border}
+              refreshing={usersGetTrendingUsers.status === 'loading'}
+            />
+          }
+        >
           <Subheading style={styling.subheading}>{t('Trending Users')}</Subheading>
           <ResultComponent
             usersSearch={usersGetTrendingUsers}
