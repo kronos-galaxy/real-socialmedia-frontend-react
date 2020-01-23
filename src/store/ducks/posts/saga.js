@@ -210,9 +210,7 @@ function* postsGetArchivedRequest(req) {
 function* handlePostsEditRequest(payload) {
   const AwsAPI = yield getContext('AwsAPI')
 
-  if (payload.expiresAt) {
-    yield AwsAPI.graphql(graphqlOperation(queries.editPostExpiresAt, payload))
-  }
+  yield AwsAPI.graphql(graphqlOperation(queries.editPostExpiresAt, payload))
   return yield AwsAPI.graphql(graphqlOperation(queries.editPost, payload))
 }
 

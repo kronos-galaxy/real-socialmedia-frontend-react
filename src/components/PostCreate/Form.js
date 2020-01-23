@@ -34,7 +34,7 @@ const getTextByValue = (t) => (lifetime) => {
   if (lifetime === 'P7D') { return t('for a Week') }
   if (lifetime === 'P1M') { return t('for a Month') }
   if (lifetime === 'P1Y') { return t('for a Year') }
-  if (lifetime === 'P100Y') { return t('Forever') }
+  if (lifetime === null) { return t('Forever') }
 }
 
 const getIndexByValue = (lifetime) => {
@@ -42,7 +42,7 @@ const getIndexByValue = (lifetime) => {
   if (lifetime === 'P7D') { return 2 }
   if (lifetime === 'P1M') { return 3 }
   if (lifetime === 'P1Y') { return 4 }
-  if (lifetime === 'P100Y') { return 5 }
+  if (lifetime === null) { return 5 }
 }
 
 const getValueByIndex = (lifetime) => {
@@ -50,7 +50,7 @@ const getValueByIndex = (lifetime) => {
   if (lifetime === 2) { return 'P7D' }
   if (lifetime === 3) { return 'P1M' }
   if (lifetime === 4) { return 'P1Y' }
-  if (lifetime === 5) { return 'P100Y' }
+  if (lifetime === 5) { return null }
 }
 
 const PostCreateForm = ({
@@ -194,7 +194,7 @@ const FormWrapper = ({
 }) => (
   <Formik
     initialValues={{
-      lifetime: 'P100Y',
+      lifetime: null,
       likesDisabled: props.user.likesDisabled || true,
       commentsDisabled: props.user.commentsDisabled || true,
       verificationHidden: props.user.verificationHidden || false,

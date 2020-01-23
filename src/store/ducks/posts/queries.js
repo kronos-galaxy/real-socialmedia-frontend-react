@@ -188,8 +188,18 @@ export const flagPost = `
 `
 
 export const editPost = `
-  mutation editPost($postId: ID!, $text: String) {
-    editPost (postId: $postId, text: $text) {
+  mutation editPost(
+    $postId: ID!,
+    $text: String,
+    $commentsDisabled: Boolean,
+    $likesDisabled: Boolean,
+  ) {
+    editPost (
+      postId: $postId,
+      text: $text,
+      commentsDisabled: $commentsDisabled,
+      likesDisabled: $likesDisabled,
+    ) {
       ...postFragment
     }
   }

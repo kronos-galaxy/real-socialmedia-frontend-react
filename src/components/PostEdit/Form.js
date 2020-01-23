@@ -10,7 +10,7 @@ import path from 'ramda/src/path'
 import RowsComponent from 'templates/Rows'
 import RowsItemComponent from 'templates/RowsItem'
 import UserRowComponent from 'templates/UserRow'
-import { Text, Caption } from 'react-native-paper'
+import { Text, Caption, Switch } from 'react-native-paper'
 import dayjs from 'dayjs'
 import Slider from '@react-native-community/slider'
 import Layout from 'constants/Layout'
@@ -26,7 +26,7 @@ const formSchema = Yup.object().shape({
 
 const getInitialLifetime = (expiresAt) => {
   if (!expiresAt) {
-    return 'P100Y'
+    return null
   }
 
   if (dayjs(expiresAt).isBefore(dayjs().add(1, 'day'))) {
@@ -45,7 +45,7 @@ const getTextByValue = (t) => (lifetime) => {
   if (lifetime === 'P7D') { return t('for a Week') }
   if (lifetime === 'P1M') { return t('for a Month') }
   if (lifetime === 'P1Y') { return t('for a Year') }
-  if (lifetime === 'P100Y') { return t('Forever') }
+  if (lifetime === null) { return t('Forever') }
   return t('Forever')
 }
 
@@ -54,7 +54,7 @@ const getIndexByValue = (lifetime) => {
   if (lifetime === 'P7D') { return 2 }
   if (lifetime === 'P1M') { return 3 }
   if (lifetime === 'P1Y') { return 4 }
-  if (lifetime === 'P100Y') { return 5 }
+  if (lifetime === null) { return 5 }
 }
 
 const getValueByIndex = (lifetime) => {
@@ -62,8 +62,8 @@ const getValueByIndex = (lifetime) => {
   if (lifetime === 2) { return 'P7D' }
   if (lifetime === 3) { return 'P1M' }
   if (lifetime === 4) { return 'P1Y' }
-  if (lifetime === 5) { return 'P100Y' }
-  return 'P100Y'
+  if (lifetime === 5) { return null }
+  return null
 }
 
 const getArgumentsByIndex = (lifetime) => {
@@ -127,16 +127,26 @@ const PostEditForm = ({
         </View>
         
         <Text>{t('Post availability')}</Text>
-        <Caption>{values.expiresAt ?
+        <Caption>
+          {values.expiresAt ?
             t('This post will expire {{expiresAt}}', { expiresAt: dayjs(values.expiresAt).from(dayjs()) }) :
-            t('This post will be available forever')}</Caption>
+            t('This post will be available forever')}
+        </Caption>
       </View>
 
       <View style={styling.input}>
         <RowsComponent items={[{
-          label: t('Comments are disabled'),
+          label: t('Comments'),
+          caption: t('Followers can comment on posts'),
+          onPress: () => setFieldValue('commentsDisabled', !values.commentsDisabled),
+          type: 'action',
+          enabled: !values.commentsDisabled,
         }, {
-          label: t('Likes are enabled'),
+          label: t('Likes'),
+          caption: t('Followers can like posts'),
+          onPress: () => setFieldValue('likesDisabled', !values.likesDisabled),
+          type: 'action',
+          enabled: !values.likesDisabled,
         }]}>
           {(settings) => (
             <RowsItemComponent hasBorders>
@@ -145,7 +155,18 @@ const PostEditForm = ({
                 content={
                   <View style={styling.user}>
                     <Text style={styling.username}>{path(['label'])(settings)}</Text>
+                    <Caption>{path(['caption'])(settings)}</Caption>
                   </View>
+                }
+                action={
+                  path(['type'])(settings) === 'navigation' ? (
+                    <NextIcon fill={theme.colors.text} />
+                  ) : (
+                    <Switch
+                      value={path(['enabled'])(settings)}
+                      onValueChange={settings.onPress}
+                    />
+                  )
                 }
               />
             </RowsItemComponent>
@@ -211,6 +232,8 @@ export default withTheme(({
       uri: path(['mediaObjects', '0', 'url1080p'])(postsSingleGet.data),
       text: postsSingleGet.data.text,
       expiresAt: postsSingleGet.data.expiresAt,
+      commentsDisabled: postsSingleGet.data.commentsDisabled,
+      likesDisabled: postsSingleGet.data.likesDisabled,
       lifetime: getInitialLifetime(postsSingleGet.data.expiresAt),
     }}
     validationSchema={formSchema}
