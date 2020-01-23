@@ -3,7 +3,6 @@ import { persistStore, persistReducer } from 'redux-persist'
 import createSagaMiddleware from 'redux-saga'
 import rootReducer from 'store/reducers'
 import rootSaga from 'store/sagas'
-import { amplifyConfig } from 'services/AWS'
 import { Credentials } from '@aws-amplify/core'
 import Auth from '@aws-amplify/auth'
 import Cache from '@aws-amplify/cache'
@@ -12,8 +11,6 @@ import * as Logger from 'services/Logger'
 import AsyncStorage from '@react-native-community/async-storage'
 import autoMergeLevel2 from 'redux-persist/lib/stateReconciler/autoMergeLevel2'
 import { composeWithDevTools } from 'redux-devtools-extension/developmentOnly'
-
-amplifyConfig()
 
 const persistConfig = {
   key: 'root',

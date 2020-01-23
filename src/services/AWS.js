@@ -95,7 +95,15 @@ const handleFacebookRefresh = async () => {
  */
 export const federatedGoogleSignin = async () => {
   await GoogleSignin.hasPlayServices()
-  const googleUser = await GoogleSignin.signIn()
+
+  const googleUser = await (async () => {
+    if (await GoogleSignin.isSignedIn()) {
+      await GoogleSignin.signInSilently()
+      return await GoogleSignin.getCurrentUser()
+    } else {
+      return await GoogleSignin.signIn()
+    }
+  })()
 
   return {
     token: googleUser.idToken,
