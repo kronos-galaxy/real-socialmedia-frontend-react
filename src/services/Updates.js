@@ -5,10 +5,12 @@ import * as Logger from 'services/Logger'
 
 export const versionCheck = (async () => {
   try {
-    const data = await axios.get('https://d3dclx0mrf3ube.cloudfront.net/versions/production.json')
+    const data = await axios.get('https://d3dclx0mrf3ube.cloudfront.net/versions/production.json', {
+      timestamp: new Date().getTime()
+    })
     const isNeeded = !getReadableVersion().includes(data.data.version)
 
-    if (false) {
+    if (isNeeded) {
       Alert.alert(
         'App Update Available',
         'Please update REAL to continue proceeding',
