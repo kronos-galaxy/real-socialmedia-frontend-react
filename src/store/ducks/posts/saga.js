@@ -386,7 +386,7 @@ function* postsCreateRequest(req) {
       }
 
       if (upload.status === 'success') {
-        yield delay(3000)
+        yield delay(7000)
         yield put(actions.postsCreateSuccess({ data: {}, payload: req.payload, meta }))
         yield delay(5000)
         yield put(actions.postsCreateIdle({ data: {}, payload: req.payload, meta }))
