@@ -62,7 +62,7 @@ const Description = ({
               ].map(
                 item => {
                   if (typeof item === 'string') {
-                    return <Text>{item}</Text>
+                    return <Text style={styling.textDefault}>{item}</Text>
                   }
                   return item
                 }
@@ -86,12 +86,17 @@ const styles = theme => StyleSheet.create({
     backgroundColor: 'red',
   },
   username: {
+    color: theme.colors.text,
     fontWeight: '500',
   },
   text: {
     padding: theme.spacing.base,
     flexDirection: 'row',
     flexWrap: 'wrap',
+    color: 'red',
+  },
+  textDefault: {
+    color: theme.colors.text,
   },
   textUsername: {
     color: theme.colors.primary,
