@@ -21,6 +21,7 @@ const Privacy = ({
   toggleViewCountsHidden,
   toggleLikesDisabled,
   toggleCommentsDisabled,
+  toggleSharingDisabled,
   toggleVerificationHidden,
 }) => {
   const styling = styles(theme)
@@ -36,6 +37,7 @@ const Privacy = ({
           toggleViewCountsHidden={toggleViewCountsHidden}
           toggleLikesDisabled={toggleLikesDisabled}
           toggleCommentsDisabled={toggleCommentsDisabled}
+          toggleSharingDisabled={toggleSharingDisabled}
           toggleVerificationHidden={toggleVerificationHidden}
         />
         <Disclaimer />

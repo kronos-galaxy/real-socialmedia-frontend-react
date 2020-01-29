@@ -18,6 +18,7 @@ const PostCreateService = ({ children, navigation }) => {
     lifetime = '',
     commentsDisabled = true,
     likesDisabled = true,
+    sharingDisabled = true,
     verificationHidden = false,
   }) => {
     const postId = uuid()
@@ -31,6 +32,7 @@ const PostCreateService = ({ children, navigation }) => {
       images: [path(['data', 'uri'])(cameraCapture)],
       commentsDisabled,
       likesDisabled,
+      sharingDisabled,
       verificationHidden,
       takenInReal: path(['data', 'takenInReal'])(cameraCapture),
       originalFormat: path(['data', 'originalFormat'])(cameraCapture),

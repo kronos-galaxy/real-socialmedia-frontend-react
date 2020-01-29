@@ -22,6 +22,7 @@ const ProfileEdit = ({
   toggleViewCountsHidden,
   toggleLikesDisabled,
   toggleCommentsDisabled,
+  toggleSharingDisabled,
   toggleVerificationHidden,
 }) => {
   const styling = styles(theme)
@@ -43,6 +44,7 @@ const ProfileEdit = ({
                 toggleViewCountsHidden={toggleViewCountsHidden}
                 toggleLikesDisabled={toggleLikesDisabled}
                 toggleCommentsDisabled={toggleCommentsDisabled}
+                toggleSharingDisabled={toggleSharingDisabled}
                 toggleVerificationHidden={toggleVerificationHidden}
               />
             )}

@@ -147,6 +147,12 @@ const PostEditForm = ({
           onPress: () => setFieldValue('likesDisabled', !values.likesDisabled),
           type: 'action',
           enabled: !values.likesDisabled,
+        }, {
+          label: t('Share'),
+          caption: t('Followers can share posts'),
+          onPress: () => setFieldValue('sharingDisabled', !values.sharingDisabled),
+          type: 'action',
+          enabled: !values.sharingDisabled,
         }]}>
           {(settings) => (
             <RowsItemComponent hasBorders>
@@ -234,6 +240,7 @@ export default withTheme(({
       expiresAt: postsSingleGet.data.expiresAt,
       commentsDisabled: postsSingleGet.data.commentsDisabled,
       likesDisabled: postsSingleGet.data.likesDisabled,
+      sharingDisabled: postsSingleGet.data.sharingDisabled,
       lifetime: getInitialLifetime(postsSingleGet.data.expiresAt),
     }}
     validationSchema={formSchema}

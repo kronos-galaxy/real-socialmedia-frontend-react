@@ -51,6 +51,7 @@ const AvatarPickerService = ({ children, navigation }) => {
       images: [avatar],
       commentsDisabled: true,
       likesDisabled: true,
+      sharingDisabled: true,
       takenInReal,
       originalFormat,
     }))

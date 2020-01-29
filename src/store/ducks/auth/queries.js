@@ -16,6 +16,7 @@ const authUserFragment = `
     viewCountsHidden
     commentsDisabled
     likesDisabled
+    sharingDisabled
     postCount
     fullName
     themeCode

@@ -33,6 +33,7 @@ const userFragment = `
     viewCountsHidden
     commentsDisabled
     likesDisabled
+    sharingDisabled
     verificationHidden
     postCount
     fullName
@@ -148,6 +149,7 @@ export const setUserDetails = `
     $viewCountsHidden: Boolean,
     $commentsDisabled: Boolean,
     $likesDisabled: Boolean,
+    $sharingDisabled: Boolean,
     $themeCode: String,
     $languageCode: String,
     $verificationHidden: Boolean
@@ -161,6 +163,7 @@ export const setUserDetails = `
       viewCountsHidden: $viewCountsHidden,
       commentsDisabled: $commentsDisabled,
       likesDisabled: $likesDisabled,
+      sharingDisabled: $sharingDisabled,
       themeCode: $themeCode,
       languageCode: $languageCode,
       verificationHidden: $verificationHidden

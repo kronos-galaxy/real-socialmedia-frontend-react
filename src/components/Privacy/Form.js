@@ -23,6 +23,7 @@ const Privacy = ({
   toggleViewCountsHidden,
   toggleLikesDisabled,
   toggleCommentsDisabled,
+  toggleSharingDisabled,
   toggleVerificationHidden,
 }) => {
   const styling = styles(theme)
@@ -50,6 +51,11 @@ const Privacy = ({
         caption: t('Followers can comment on posts'),
         onPress: toggleCommentsDisabled,
         enabled: !user.commentsDisabled,
+      }, {
+        label: t('Share'),
+        caption: t('Followers can share posts'),
+        onPress: toggleSharingDisabled,
+        enabled: !user.sharingDisabled,
       }, {
         label: t('Views count'),
         caption: t('Followers can view total post views'),

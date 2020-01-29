@@ -16,6 +16,7 @@ const postUserFragment = `
     viewCountsHidden
     commentsDisabled
     likesDisabled
+    sharingDisabled
     verificationHidden
     postCount
     fullName
@@ -69,6 +70,7 @@ const postFragment = `
     likeStatus
     commentsDisabled
     likesDisabled
+    sharingDisabled
     verificationHidden
     onymousLikeCount
     anonymousLikeCount
@@ -137,6 +139,7 @@ export const addPost = `
     $text: String,
     $commentsDisabled: Boolean,
     $likesDisabled: Boolean,
+    $sharingDisabled: Boolean,
     $takenInReal: Boolean,
     $originalFormat: String,
     $verificationHidden: Boolean
@@ -147,6 +150,7 @@ export const addPost = `
       text: $text,
       commentsDisabled: $commentsDisabled,
       likesDisabled: $likesDisabled,
+      sharingDisabled: $sharingDisabled,
       verificationHidden: $verificationHidden,
       mediaObjectUploads: [{
         mediaId: $mediaId,
@@ -193,12 +197,14 @@ export const editPost = `
     $text: String,
     $commentsDisabled: Boolean,
     $likesDisabled: Boolean,
+    $sharingDisabled: Boolean,
   ) {
     editPost (
       postId: $postId,
       text: $text,
       commentsDisabled: $commentsDisabled,
       likesDisabled: $likesDisabled,
+      sharingDisabled: $sharingDisabled,
     ) {
       ...postFragment
     }

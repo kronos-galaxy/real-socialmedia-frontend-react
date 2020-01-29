@@ -57,8 +57,8 @@ const Action = ({
    * - Like hasn't been set before, which allows only 1 like per post
    */
   const likeButtonVisibility = (
-    !path(['postedBy', 'likesDisabled'])(post) &&
     !post.likesDisabled &&
+    !path(['postedBy', 'likesDisabled'])(post) &&
     !path(['onymouslyLikedBy', 'items', '0'])(post)
   )
 
@@ -70,6 +70,16 @@ const Action = ({
   const commentButtonVisibility = (
     !post.commentsDisabled &&
     !path(['postedBy', 'commentsDisabled'])(post)
+  )
+
+  /**
+   * Visibility of share button, share button will be visible if:
+   * - Post owner has enabled shares
+   * - Current authenticated user has shares enabled in settings
+   */
+  const shareButtonVisibility = (
+    !post.sharingDisabled &&
+    !path(['postedBy', 'sharingDisabled'])(post)
   )
 
   return (
@@ -94,9 +104,11 @@ const Action = ({
           </TouchableOpacity>
         : null}
 
-        <TouchableOpacity style={styling.actionLeftIcon} onPress={() => navigation.navigate('PostShare', { post })}>
-          <DirectIcon fill={theme.colors.primaryIcon} />
-        </TouchableOpacity>
+        {shareButtonVisibility ?
+          <TouchableOpacity style={styling.actionLeftIcon} onPress={() => navigation.navigate('PostShare', { post })}>
+            <DirectIcon fill={theme.colors.primaryIcon} />
+          </TouchableOpacity>
+        : null}
       </View>
 
       {!post.viewCountsHidden && !path(['postedBy', 'viewCountsHidden'])(post) ?

@@ -116,6 +116,12 @@ const PostCreateForm = ({
           onPress: () => setFieldValue('likesDisabled', !values.likesDisabled),
           type: 'action',
           enabled: !values.likesDisabled,
+        }, {
+          label: t('Sharing'),
+          caption: t('Followers can share posts'),
+          onPress: () => setFieldValue('sharingDisabled', !values.sharingDisabled),
+          type: 'action',
+          enabled: !values.sharingDisabled,
         }]}>
           {(settings) => (
             <RowsItemComponent hasBorders>
@@ -197,6 +203,7 @@ const FormWrapper = ({
       lifetime: null,
       likesDisabled: props.user.likesDisabled || true,
       commentsDisabled: props.user.commentsDisabled || true,
+      sharingDisabled: props.user.sharingDisabled || false,
       verificationHidden: props.user.verificationHidden || false,
       text: '',
     }}
