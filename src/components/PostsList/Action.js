@@ -51,6 +51,12 @@ const Action = ({
   }
 
   /**
+   * See if current authenticated user is tagged in post by author
+   */
+  const tagged = (path(['textTaggedUsers'])(post) || [])
+    .find(textTag => textTag.tag === `@${path(['username'])(authUser)}`)
+
+  /**
    * Visibility of like button, like button will be visible if:
    * - Post owner has enabled likes
    * - Current authenticated user has like enabled in settings
@@ -76,11 +82,12 @@ const Action = ({
    * Visibility of share button, share button will be visible if:
    * - Post owner has enabled shares
    * - Current authenticated user has shares enabled in settings
+   * - Current authenticated user is tagged in post by author
    */
-  const shareButtonVisibility = (
+  const shareButtonVisibility = ((
     !post.sharingDisabled &&
     !path(['postedBy', 'sharingDisabled'])(post)
-  )
+  ) || tagged)
 
   return (
     <View style={styling.action}>
