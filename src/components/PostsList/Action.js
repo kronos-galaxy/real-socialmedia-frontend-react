@@ -50,23 +50,45 @@ const Action = ({
     })
   }
 
+  /**
+   * Visibility of like button, like button will be visible if:
+   * - Post owner has enabled likes
+   * - Current authenticated user has like enabled in settings
+   * - Like hasn't been set before, which allows only 1 like per post
+   */
+  const likeButtonVisibility = (
+    !path(['postedBy', 'likesDisabled'])(post) &&
+    !post.likesDisabled &&
+    !path(['onymouslyLikedBy', 'items', '0'])(post)
+  )
+
+  /**
+   * Visibility of comment button, comment button will be visible if:
+   * - Post owner has enabled comments
+   * - Current authenticated user has comments enabled in settings
+   */
+  const commentButtonVisibility = (
+    !post.commentsDisabled &&
+    !path(['postedBy', 'commentsDisabled'])(post)
+  )
+
   return (
     <View style={styling.action}>
       <View style={styling.actionLeft}>
 
-        {!path(['postedBy', 'likesDisabled'])(post) && !post.likesDisabled && post.likeStatus === 'NOT_LIKED' ?
+        {likeButtonVisibility && post.likeStatus === 'NOT_LIKED' ?
           <TouchableOpacity style={styling.actionLeftIcon} onPress={() => postsOnymouslyLikeRequest({ postId: path(['postId'])(post), userId: path(['postedBy', 'userId'])(post) })}>
             <LikeIcon fill={theme.colors.primaryIcon} />
           </TouchableOpacity>
         : null}
 
-        {!path(['postedBy', 'likesDisabled'])(post) && !post.likesDisabled && post.likeStatus !== 'NOT_LIKED' ?
+        {likeButtonVisibility && post.likeStatus !== 'NOT_LIKED' ?
           <TouchableOpacity style={styling.actionLeftIcon} onPress={() => postsDislikeRequest({ postId: path(['postId'])(post), userId: path(['postedBy', 'userId'])(post) })}>
             <UnlikeIcon fill={theme.colors.primary} />
           </TouchableOpacity>
         : null}
         
-        {!post.commentsDisabled && !path(['postedBy', 'commentsDisabled'])(post) ?
+        {commentButtonVisibility ?
           <TouchableOpacity style={styling.actionLeftIcon} onPress={handleCommentPress}>
             <BubbleIcon fill={theme.colors.primaryIcon} />
           </TouchableOpacity>
