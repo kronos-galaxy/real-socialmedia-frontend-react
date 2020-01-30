@@ -5,6 +5,7 @@ import {
   View,
   TouchableOpacity,
   ScrollView,
+  RefreshControl,
   ActivityIndicator,
 } from 'react-native'
 import PostsGridComponent from 'components/PostsGrid'
@@ -22,8 +23,13 @@ import { withNavigation } from 'react-navigation'
 import { useTranslation } from 'react-i18next'
 
 const ScrollHelper = ({
+  userId,
   postsGet,
+  postsGetRequest,
   postsGetMoreRequest,
+  usersGetProfileRequest,
+  usersGetProfileSelfRequest,
+  postsStoriesGetRequest,
 }) => {
   const handleLoadMore = () => {
     if (
@@ -53,6 +59,16 @@ const ScrollHelper = ({
   )
 
   const handleRefresh = () => {
+    if (typeof usersGetProfileRequest === 'function') {
+      usersGetProfileRequest({ userId })
+    }
+
+    if (typeof usersGetProfileSelfRequest === 'function') {
+      usersGetProfileSelfRequest({ userId })
+    }
+
+    postsGetRequest({ userId })
+    postsStoriesGetRequest({ userId })
   }
 
   return {
@@ -81,6 +97,9 @@ const Profile = ({
   postsGetRequest,
   postsGetMoreRequest,
   themeFetch,
+  usersGetProfileRequest,
+  usersGetProfileSelfRequest,
+  postsStoriesGetRequest,
 }) => {
   const styling = styles(theme)
   const { t } = useTranslation()
@@ -89,8 +108,13 @@ const Profile = ({
   const self = path(['data', 'userId'])(usersGetProfile) === path(['userId'])(authUser)
 
   const scroll = ScrollHelper({
+    userId: path(['data', 'userId'])(usersGetProfile),
     postsGet,
+    postsGetRequest,
     postsGetMoreRequest,
+    usersGetProfileRequest,
+    usersGetProfileSelfRequest,
+    postsStoriesGetRequest,
   })
 
   return (
@@ -106,6 +130,13 @@ const Profile = ({
       <ScrollView
         onScroll={scroll.handleScrollChange}
         scrollEventThrottle={400}
+        refreshControl={(
+          <RefreshControl
+            tintColor={theme.colors.border}
+            onRefresh={scroll.handleRefresh}
+            refreshing={scroll.refreshing}
+          />
+        )}
       >
         {navigation.state.routeName === 'ProfileSelf' ?
           <ProfileStatusComponent />

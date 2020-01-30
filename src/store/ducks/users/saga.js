@@ -158,6 +158,7 @@ function* usersGetProfileSelfRequest(req) {
     const selector = path(['data', 'self'])
 
     yield put(actions.usersGetProfileSelfSuccess({ data: selector(data), meta: data }))
+    yield put(actions.globalAuthUserTrigger({ data: selector(data) }))
   } catch (error) {
     yield put(actions.usersGetProfileSelfFailure({ message: error.message }))
   }
