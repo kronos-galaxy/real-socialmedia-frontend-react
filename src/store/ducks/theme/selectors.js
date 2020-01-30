@@ -2,7 +2,7 @@ import { createSelector } from 'reselect'
 import pathOr from 'ramda/src/pathOr'
 
 export const themeCodeSelector = 
-  state => pathOr('black.red', ['auth', 'user', 'themeCode'], state)
+  state => pathOr('black.green', ['auth', 'user', 'themeCode'], state)
 
 export const themeFetchSelector =
   state => pathOr([], ['theme', 'themeFetch', 'data'], state)

@@ -21,7 +21,7 @@ const ThemeModal = ({
   onApplyClick,
   onDiscardClick,
 }) => {
-  const customTheme = useSelector(themeSelector.userThemeSelector('black.red'))
+  const customTheme = useSelector(themeSelector.userThemeSelector('black.green'))
 
   const styling = styles(theme)
   const { t } = useTranslation()

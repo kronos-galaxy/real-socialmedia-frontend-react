@@ -29,7 +29,7 @@ export const languageCodeSelector =
   state => pathOr('', ['auth', 'user', 'languageCode'], state)
 
 export const themeCodeSelector = 
-  state => pathOr('black.red', ['auth', 'user', 'themeCode'], state)
+  state => pathOr('black.green', ['auth', 'user', 'themeCode'], state)
 
 export const themeFetchSelector =
   state => pathOr([], ['theme', 'themeFetch', 'data'], state)

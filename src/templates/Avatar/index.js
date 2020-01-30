@@ -32,7 +32,7 @@ const AvatarTemplate = ({
    * User theme color around story of that user. For example if I (ian) follow mike, and Mike has the green theme set,
    * I (ian) should see a green outline around mikes story (if he has one) at the top of my news feed.
    */
-  const customTheme = useSelector(themeSelector.userThemeSelector(themeCode || 'black.red'))
+  const customTheme = useSelector(themeSelector.userThemeSelector(themeCode || 'black.green'))
   const activeTheme = (themeCode && active) ? customTheme : theme
 
   const styling = styles(activeTheme)
