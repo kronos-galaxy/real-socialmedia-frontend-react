@@ -50,7 +50,7 @@ function* handlePostsShareRequest(payload) {
     })
   }
   
-  function* handleInstagramShare(url, title) {
+  function* handleInstagramShare({ url, title }) {
     const shareOptions = {
       url,
       type: 'image/jpeg',
@@ -61,7 +61,7 @@ function* handlePostsShareRequest(payload) {
     yield Share.shareSingle(shareOptions)
   }
 
-  function* handleGlobalShare(url, title) {
+  function* handleNativeShare({ url, title }) {
     const shareOptions = {
       url,
       type: 'image/jpeg',
@@ -69,6 +69,23 @@ function* handlePostsShareRequest(payload) {
     }
 
     yield Share.open(shareOptions)
+  }
+
+  function* handleRepost({ url, title, post }) {
+    const postId = uuid()
+    const mediaId = uuid()
+    return yield put(actions.postsCreateRequest({
+      postId,
+      mediaId,
+      lifetime: null,
+      text: post.text,
+      images: [url],
+      commentsDisabled: post.commentsDisabled,
+      likesDisabled: post.likesDisabled,
+      sharingDisabled: post.sharingDisabled,
+      takenInReal: true,
+      originalFormat: 'jpg',
+    }))
   }
 
   function* handleCameraRollSave(path) {
@@ -86,18 +103,21 @@ function* handlePostsShareRequest(payload) {
   if(status === 200) {
     const watermarked = yield handeImageWatermark(res.path(), payload.watermark)
     const photo = yield handleCameraRollSave(watermarked)
+    const url = path(['edges', '0', 'node', 'image', 'uri'])(photo)
 
     if (payload.type === 'instagram') {
-      const url = path(['edges', '0', 'node', 'image', 'uri'])(photo)
-      yield handleInstagramShare(url, payload.title)
-      res.flush()
+      yield handleInstagramShare({ url, title: payload.title })
     }
 
     if (payload.type === 'global') {
-      const url = path(['edges', '0', 'node', 'image', 'uri'])(photo)
-      yield handleGlobalShare(url, payload.title)
-      res.flush()
+      yield handleNativeShare({ url, title: payload.title })
     }
+
+    if (payload.type === 'repost') {
+      yield handleRepost({ url, title: payload.title, post: payload.post })
+    }
+
+    res.flush()
   } else {
     throw new Error('Can not proceed')
   }
