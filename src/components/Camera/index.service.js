@@ -108,6 +108,7 @@ const CameraService = ({ children, navigation }) => {
       })
       
       const croppedPhoto = await CropPicker.openCropper({
+        avoidEmptySpaceAroundImage: false,
         path: snappedPhoto.uri,
         width: getScreenAspectRatio(photoSize, snappedPhoto.width).x,
         height: getScreenAspectRatio(photoSize, snappedPhoto.width).y,
@@ -145,6 +146,7 @@ const CameraService = ({ children, navigation }) => {
     }
 
     const croppedPhoto = await CropPicker.openCropper({
+      avoidEmptySpaceAroundImage: false,
       path: response.uri,
       width: getScreenAspectRatio(photoSize, response.width).x,
       height: getScreenAspectRatio(photoSize, response.width).y,
