@@ -142,8 +142,8 @@ const PostEditForm = ({
           type: 'action',
           enabled: !values.commentsDisabled,
         }, {
-          label: t('Likes'),
-          caption: t('Followers can like posts'),
+          label: t('First Like'),
+          caption: t('See the first user to like your post'),
           onPress: () => setFieldValue('likesDisabled', !values.likesDisabled),
           type: 'action',
           enabled: !values.likesDisabled,
