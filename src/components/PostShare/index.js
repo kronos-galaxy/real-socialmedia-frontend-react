@@ -39,15 +39,6 @@ const PostShare = ({
 
   return (
     <View style={styling.root}>
-      <NativeError
-        handleCancelPress={() => {}}
-        titleText={t('All good!')}
-        messageText={t('This post has been saved')}
-        actionText={t('Done')}
-        status={postsShare.status}
-        triggerOn="success"
-      />
-
       <View style={styling.form}>
         <Avatar
           size="large"

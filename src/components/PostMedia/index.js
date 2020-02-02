@@ -88,7 +88,7 @@ const PostMedia = ({
         status={postsFlag.status}
         triggerOn="success"
       />
-    
+
       <FlatList
         ref={feedRef}
         keyExtractor={item => item.postId}
