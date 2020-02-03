@@ -19,6 +19,7 @@ import { useTranslation } from 'react-i18next'
 const Uploading = ({
   theme,
   navigation,
+  authUser,
   post,
   postsCreateRequest,
   postsCreateIdle,
@@ -28,6 +29,18 @@ const Uploading = ({
 
   if (!['loading', 'failure', 'success'].includes(post.status)) {
     return null
+  }
+
+  /**
+   * Immitating post object
+   */
+  const pseudoPost = {
+    mediaObjects: [{
+      url64p: path(['payload', 'images', '0'])(post),
+      url1080p: path(['payload', 'images', '0'])(post),
+    }],
+    postedBy: authUser,
+    postedAt: Date.now(),
   }
 
   return (
@@ -40,7 +53,7 @@ const Uploading = ({
 
       {post.status === 'loading' ?
         <View style={styling.status}>
-          <TouchableOpacity style={styling.content} onPress={() => navigation.navigate('Verification')}>
+          <TouchableOpacity style={styling.content} onPress={() => navigation.navigate('Verification', { post: pseudoPost })}>
             <Text style={styling.title}>Uploading {post.meta.progress || 0}%</Text>
             <View style={styling.caption}>
               <Caption style={styling.subtitle}>{t('Pending Verification')} - {t('Learn More')}</Caption>

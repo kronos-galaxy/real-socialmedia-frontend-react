@@ -22,13 +22,19 @@ const Verification = ({
   navigation,
   authUser,
   postsSingleGet,
-  postsShare,
-  postsShareRequest,
-  watermark,
-  handleWatermark,
 }) => {
   const styling = styles(theme)
   const { t } = useTranslation()
+
+  /**
+   * Hide verification if:
+   * - Post does not belong to currently authenticated user
+   * - Post is not uploaded yet
+   */
+  const verificationVisibility = (
+    authUser.userId === path(['data', 'postedBy', 'userId'])(postsSingleGet) &&
+    path(['data', 'postId'])(postsSingleGet)
+  )
 
   return (
     <View style={styling.root}>
@@ -75,12 +81,14 @@ const Verification = ({
           <View style={styling.bottomSpacing} />
         </View>
 
-        <View style={styling.content}>
-          <DefaultButton label={t('Disable verification on this post')} onPress={() => {}} />
-          <View style={styling.bottomSpacing} />
-          <View style={styling.bottomSpacing} />
-          <View style={styling.bottomSpacing} />
-        </View>
+        {verificationVisibility ?
+          <View style={styling.content}>
+            <DefaultButton label={t('Disable verification on this post')} onPress={() => {}} />
+            <View style={styling.bottomSpacing} />
+            <View style={styling.bottomSpacing} />
+            <View style={styling.bottomSpacing} />
+          </View>
+        : null}
       </ScrollView>
     </View>
   )
