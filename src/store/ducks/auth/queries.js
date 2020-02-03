@@ -17,11 +17,10 @@ const authUserFragment = `
     commentsDisabled
     likesDisabled
     sharingDisabled
+    verificationHidden
     postCount
     fullName
     themeCode
-    blockedStatus
-    blockerStatus
     bio
     email
     phoneNumber

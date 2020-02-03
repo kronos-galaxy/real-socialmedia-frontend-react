@@ -2,8 +2,8 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import {
   StyleSheet,
-  View,
   ScrollView,
+  View,
 } from 'react-native'
 import path from 'ramda/src/path'
 import { Headline, Caption } from 'react-native-paper'
@@ -11,15 +11,13 @@ import AccordionComponent from 'templates/Accordion'
 import ModalProfileComponent from 'templates/ModalProfile'
 import ModalHeaderComponent from 'templates/ModalHeader'
 import ModalPreviewComponent from 'templates/ModalPreview'
-import dayjs from 'dayjs'
 
 import { withTheme } from 'react-native-paper'
 import { withNavigation } from 'react-navigation'
 import { useTranslation } from 'react-i18next'
 
-const PostShare = ({
+const Album = ({
   theme,
-  navigation,
   authUser,
   postsSingleGet,
   postsShare,
@@ -41,62 +39,26 @@ const PostShare = ({
     tagged
   )
 
-  const handleGallerySave = () => postsShareRequest({
-    photoUrl: path(['data', 'mediaObjects', '0', 'url'])(postsSingleGet),
-    type: 'cameraroll',
-    title: 'Camera roll export',
-    watermark,
-  })
-
-  const handleRepost = () => postsShareRequest({
-    photoUrl: path(['data', 'mediaObjects', '0', 'url'])(postsSingleGet),
-    type: 'repost',
-    title: 'Repost',
-    watermark,
-    post: path(['data'])(postsSingleGet),
-  })
-
-  const handleInstagramPost = () => postsShareRequest({
-    photoUrl: path(['data', 'mediaObjects', '0', 'url'])(postsSingleGet),
-    type: 'instagramPost',
-    title: 'Instagram export',
-    watermark,
-  })
-
-  const handleInstagramStory = () => postsShareRequest({
-    photoUrl: path(['data', 'mediaObjects', '0', 'url'])(postsSingleGet),
-    type: 'instagramStory',
-    title: 'Instagram export',
-    watermark,
-  })
-
-  const handleFacebookPost = () => postsShareRequest({
-    photoUrl: path(['data', 'mediaObjects', '0', 'url'])(postsSingleGet),
-    type: 'facebook',
-    title: 'Facebook export',
-    watermark,
-  })
-
   return (
     <View style={styling.root}>
       <View style={styling.header}>
         <ModalHeaderComponent
-          onPress={() => navigation.goBack()}
+          onPress={() => {}}
         />
       </View>
 
       <ScrollView bounces={false}>
         <ModalPreviewComponent
-          thumbnailSource={{ uri: path(['data', 'mediaObjects', '0', 'url64p'])(postsSingleGet) }}
-          imageSource={{ uri: path(['data', 'mediaObjects', '0', 'url1080p'])(postsSingleGet) }}
+          thumbnailSource={{ uri: 'https://i.imgur.com/q6Y6vaS.jpg' }}
+          imageSource={{ uri: 'https://i.imgur.com/q6Y6vaS.jpg' }}
         />
 
         <View style={styling.content}>
           <ModalProfileComponent
-            thumbnailSource={{ uri: path(['data', 'postedBy', 'photoUrl64p'])(postsSingleGet) }}
-            imageSource={{ uri: path(['data', 'postedBy', 'photoUrl480p'])(postsSingleGet) }}
-            title={path(['data', 'postedBy', 'username'])(postsSingleGet)}
-            subtitle={`${t('Posted')} ${dayjs(path(['data', 'postedAt'])(postsSingleGet)).from(dayjs())}`}
+            thumbnailSource={{ uri: 'https://i.imgur.com/q6Y6vaS.jpg' }}
+            imageSource={{ uri: 'https://i.imgur.com/q6Y6vaS.jpg' }}
+            title="azimgd"
+            subtitle="Posted 12 hours ago"
           />
         </View>
 
@@ -105,19 +67,16 @@ const PostShare = ({
           <AccordionComponent
             items={[
               {
-                text: t('Share on Instagram As Post'),
-                onPress: handleInstagramPost,
-                loading: postsShare.status === 'loading' && postsShare.payload.type === 'instagramPost',
+                text: t('Share on Instagram Post'),
+                onPress: () => {},
               },
               {
-                text: t('Share on Instagram As Story'),
-                onPress: handleInstagramStory,
-                loading: postsShare.status === 'loading' && postsShare.payload.type === 'instagramStory',
+                text: t('Share on Instagram Story'),
+                onPress: () => {},
               },
               {
                 text: t('Share on Facebook'),
-                onPress: handleFacebookPost,
-                loading: postsShare.status === 'loading' && postsShare.payload.type === 'facebook',
+                onPress: () => {},
               },
             ]}
           />
@@ -131,14 +90,11 @@ const PostShare = ({
             items={[
               {
                 text: t('Copy to Photos'),
-                onPress: handleGallerySave,
-                loading: postsShare.status === 'loading' && postsShare.payload.type === 'cameraroll',
+                onPress: () => {},
               },
               {
                 text: t('Repost on REAL'),
-                onPress: handleRepost,
-                loading: postsShare.status === 'loading' && postsShare.payload.type === 'repost',
-                disabled: !repostButtonVisibility,
+                onPress: () => {},
               },
             ]}
           />
@@ -171,13 +127,11 @@ const styles = theme => StyleSheet.create({
   },
 })
 
-PostShare.propTypes = {
+Album.propTypes = {
   theme: PropTypes.any,
   postsSingleGet: PropTypes.any,
   postsShare: PropTypes.any,
   postsShareRequest: PropTypes.any,
 }
 
-export default withNavigation(
-  withTheme(PostShare)
-)
+export default withTheme(Album)

@@ -38,8 +38,6 @@ const userFragment = `
     postCount
     fullName
     themeCode
-    blockedStatus
-    blockerStatus
     bio
     email
     phoneNumber

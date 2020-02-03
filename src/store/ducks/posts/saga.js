@@ -50,11 +50,33 @@ function* handlePostsShareRequest(payload) {
     })
   }
   
-  function* handleInstagramShare({ url, title }) {
+  function* handleInstagramPostShare({ url, title }) {
     const shareOptions = {
       url,
       type: 'image/jpeg',
       social: Share.Social.INSTAGRAM,
+      title,
+    }
+
+    yield Share.shareSingle(shareOptions)
+  }
+  
+  function* handleInstagramStoryShare({ url, title }) {
+    const shareOptions = {
+      url,
+      type: 'image/jpeg',
+      social: Share.Social.INSTAGRAM,
+      title,
+    }
+
+    yield Share.shareSingle(shareOptions)
+  }
+  
+  function* handleFacebookShare({ url, title }) {
+    const shareOptions = {
+      url,
+      type: 'image/jpeg',
+      social: Share.Social.FACEBOOK,
       title,
     }
 
@@ -105,8 +127,16 @@ function* handlePostsShareRequest(payload) {
     const photo = yield handleCameraRollSave(watermarked)
     const url = path(['edges', '0', 'node', 'image', 'uri'])(photo)
 
-    if (payload.type === 'instagram') {
-      yield handleInstagramShare({ url, title: payload.title })
+    if (payload.type === 'instagramPost') {
+      yield handleInstagramPostShare({ url, title: payload.title })
+    }
+
+    if (payload.type === 'instagramStory') {
+      yield handleInstagramStoryShare({ url, title: payload.title })
+    }
+
+    if (payload.type === 'facebook') {
+      yield handleFacebookShare({ url, title: payload.title })
     }
 
     if (payload.type === 'global') {

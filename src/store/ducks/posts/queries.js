@@ -21,8 +21,6 @@ const postUserFragment = `
     postCount
     fullName
     themeCode
-    blockedStatus
-    blockerStatus
     bio
     email
     phoneNumber
@@ -84,6 +82,30 @@ const postFragment = `
   }
   ${mediaObjectFragment}
   ${postUserFragment}
+`
+
+const albumFragment = `
+  fragment albumFragment on Album {
+    albumId
+    createdAt
+    ownedBy
+    name
+    description
+    url
+    url4k
+    url1080p
+    url480p
+    url64p
+    posts(limit: 10) {
+      items {
+        ...postFragment
+      }
+      nextToken
+    }
+    postCount
+    postsLastUpdatedAt
+  }
+  ${postFragment}
 `
 
 export const getPosts = `

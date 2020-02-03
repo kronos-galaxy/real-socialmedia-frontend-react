@@ -10,7 +10,7 @@ export const versionCheck = (async () => {
     })
     const isNeeded = !getReadableVersion().includes(data.data.version)
 
-    if (isNeeded) {
+    if (false) {
       Alert.alert(
         'App Update Available',
         'Please update REAL to continue proceeding',
