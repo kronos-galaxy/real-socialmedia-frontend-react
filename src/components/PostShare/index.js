@@ -101,7 +101,8 @@ const PostShare = ({
         </View>
 
         <View style={styling.content}>
-          <Headline style={[styling.headline, styling.bottomSpacing]}>{t('Share as')}</Headline>
+          <Headline style={styling.headline}>{t('Share as')}</Headline>
+          <View style={styling.bottomSpacing} />
           <AccordionComponent
             items={[
               {
@@ -126,7 +127,8 @@ const PostShare = ({
         </View>
 
         <View style={styling.content}>
-          <Headline style={[styling.headline, styling.bottomSpacing]}>{t('Store as')}</Headline>
+          <Headline style={styling.headline}>{t('Store as')}</Headline>
+          <View style={styling.bottomSpacing} />
           <AccordionComponent
             items={[
               {
