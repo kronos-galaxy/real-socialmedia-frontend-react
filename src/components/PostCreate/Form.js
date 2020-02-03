@@ -14,6 +14,7 @@ import path from 'ramda/src/path'
 import RowsComponent from 'templates/Rows'
 import RowsItemComponent from 'templates/RowsItem'
 import UserRowComponent from 'templates/UserRow'
+import AlbumsComponent from 'templates/Albums'
 import { Text, Caption, Switch } from 'react-native-paper'
 import NextIcon from 'assets/svg/settings/Next'
 import Slider from '@react-native-community/slider'
@@ -147,6 +148,10 @@ const PostCreateForm = ({
             </RowsItemComponent>
           )}
         </RowsComponent>
+      </View>
+
+      <View style={styling.input}>
+        <AlbumsComponent />
       </View>
 
       <View style={styling.input}>

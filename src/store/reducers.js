@@ -7,6 +7,7 @@ import auth from 'store/ducks/auth/reducer'
 import camera from 'store/ducks/camera/reducer'
 import theme from 'store/ducks/theme/reducer'
 import posts from 'store/ducks/posts/reducer'
+import albums from 'store/ducks/albums/reducer'
 import users from 'store/ducks/users/reducer'
 import layout from 'store/ducks/layout/reducer'
 import translation from 'store/ducks/translation/reducer'
@@ -32,6 +33,7 @@ export default combineReducers({
   auth,
   theme,
   camera,
+  albums,
   posts: persistReducer(postsPersistConfig, posts),
   users,
   layout,
