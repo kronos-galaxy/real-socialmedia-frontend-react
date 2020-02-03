@@ -27,6 +27,8 @@ const authUserFragment = `
     languageCode
     signedUpAt
     postViewedByCount
+    blockedStatus
+    blockerStatus
   }
 `
 

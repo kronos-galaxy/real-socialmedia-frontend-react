@@ -33,6 +33,7 @@ function* usersStoriesGetRequest(req) {
 
     yield put(actions.usersStoriesGetSuccess({ data: selector(data), meta: data }))
   } catch (error) {
+    console.log(error)
     yield put(actions.usersStoriesGetFailure({ message: error.message }))
   }
 }

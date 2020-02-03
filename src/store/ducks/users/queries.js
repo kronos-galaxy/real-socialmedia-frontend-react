@@ -44,6 +44,8 @@ const userFragment = `
     languageCode
     signedUpAt
     postViewedByCount
+    blockedStatus
+    blockerStatus
   }
 `
 
@@ -59,7 +61,7 @@ const userPostFragment = `
     textTaggedUsers {
       tag
       user {
-        ...postUserFragment
+        ...userFragment
       }
     }
     mediaObjects {
