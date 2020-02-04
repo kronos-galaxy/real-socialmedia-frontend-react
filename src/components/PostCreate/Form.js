@@ -14,7 +14,7 @@ import path from 'ramda/src/path'
 import RowsComponent from 'templates/Rows'
 import RowsItemComponent from 'templates/RowsItem'
 import UserRowComponent from 'templates/UserRow'
-import AlbumsComponent from 'templates/Albums'
+import AlbumsComponent from 'components/PostCreate/Albums'
 import { Text, Caption, Switch } from 'react-native-paper'
 import NextIcon from 'assets/svg/settings/Next'
 import Slider from '@react-native-community/slider'
@@ -63,6 +63,9 @@ const PostCreateForm = ({
   handlePostPress,
   setFieldValue,
   cameraCapture,
+  albumsGet,
+  albumId,
+  setAlbumId,
 }) => {
   const styling = styles(theme)
   const { t } = useTranslation()
@@ -151,7 +154,11 @@ const PostCreateForm = ({
       </View>
 
       <View style={styling.input}>
-        <AlbumsComponent />
+        <AlbumsComponent
+          items={albumsGet.data}
+          albumId={albumId}
+          setAlbumId={setAlbumId}
+        />
       </View>
 
       <View style={styling.input}>
@@ -211,6 +218,7 @@ const FormWrapper = ({
       sharingDisabled: props.user.sharingDisabled || false,
       verificationHidden: props.user.verificationHidden || false,
       text: '',
+      albumId: null,
     }}
     validationSchema={formSchema}
     onSubmit={postsCreateRequest}

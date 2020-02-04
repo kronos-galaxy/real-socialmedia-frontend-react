@@ -4,7 +4,10 @@ import {
   StyleSheet,
   View,
   ScrollView,
+  TouchableOpacity,
 } from 'react-native'
+import ImageComponent from 'templates/Image'
+import path from 'ramda/src/path'
 
 import { withTheme } from 'react-native-paper'
 import { withNavigation } from 'react-navigation'
@@ -13,18 +16,23 @@ import { useTranslation } from 'react-i18next'
 const Albums = ({
   theme,
   items,
+  albumId,
+  setAlbumId,
 }) => {
   const styling = styles(theme)
 
   return (
     <ScrollView horizontal>
       <View style={styling.root} horizontal>
-        <View style={[styling.album, styling.spacingRight]}>
-        </View>
-        <View style={[styling.album, styling.spacingRight]}>
-        </View>
-        <View style={[styling.album, styling.spacingRight]}>
-        </View>
+        {items.map((album, key) => (
+          <TouchableOpacity style={[styling.album, styling.spacingRight]} key={key} onPress={() => setAlbumId(album.albumId)}>
+            <ImageComponent
+              thumbnailSource={{ uri: path(['url64p'])(album) }}
+              imageSource={{ uri: path(['url480p'])(album) }}
+              priorityIndex={key}
+            />
+          </TouchableOpacity>
+        ))}
       </View>
     </ScrollView>
   )
