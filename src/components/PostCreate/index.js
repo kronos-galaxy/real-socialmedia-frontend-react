@@ -23,17 +23,19 @@ const PostCreateComponent = ({
   const { t } = useTranslation()
 
   return (
-    <KeyboardAwareScrollView>
-      <View style={styling.form}>
-        <PostCreateForm
-          user={user}
-          postsCreate={postsCreate}
-          postsCreateRequest={postsCreateRequest}
-          cameraCapture={cameraCapture}
-          handlePostPress={handlePostPress}
-        />
-      </View>
-    </KeyboardAwareScrollView>
+    <View style={styling.root}>
+      <KeyboardAwareScrollView>
+        <View style={styling.form}>
+          <PostCreateForm
+            user={user}
+            postsCreate={postsCreate}
+            postsCreateRequest={postsCreateRequest}
+            cameraCapture={cameraCapture}
+            handlePostPress={handlePostPress}
+          />
+        </View>
+      </KeyboardAwareScrollView>
+    </View>
   )
 }
 

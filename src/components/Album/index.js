@@ -5,12 +5,9 @@ import {
   ScrollView,
   View,
 } from 'react-native'
-import path from 'ramda/src/path'
-import { Headline, Caption } from 'react-native-paper'
-import AccordionComponent from 'templates/Accordion'
-import ModalProfileComponent from 'templates/ModalProfile'
-import ModalHeaderComponent from 'templates/ModalHeader'
-import ModalPreviewComponent from 'templates/ModalPreview'
+import Albums from 'components/Album/Albums'
+import Layout from 'constants/Layout'
+import DefaultButton from 'components/Formik/Button/DefaultButton'
 
 import { withTheme } from 'react-native-paper'
 import { withNavigation } from 'react-navigation'
@@ -18,89 +15,23 @@ import { useTranslation } from 'react-i18next'
 
 const Album = ({
   theme,
-  authUser,
-  postsSingleGet,
-  postsShare,
-  postsShareRequest,
-  watermark,
-  handleWatermark,
+  navigation,
+  albumsGet,
 }) => {
   const styling = styles(theme)
   const { t } = useTranslation()
 
-  const tagged = (path(['data', 'textTaggedUsers'])(postsSingleGet) || [])
-    .find(textTag => textTag.tag === `@${path(['username'])(authUser)}`)
-
-  /**
-   * Visibility of repost button, repost button will be visible if:
-   * - Post owner has tagged current authenticated user
-   */
-  const repostButtonVisibility = (
-    tagged
-  )
-
   return (
     <View style={styling.root}>
-      <View style={styling.header}>
-        <ModalHeaderComponent
-          onPress={() => {}}
-        />
-      </View>
-
       <ScrollView bounces={false}>
-        <ModalPreviewComponent
-          thumbnailSource={{ uri: 'https://i.imgur.com/q6Y6vaS.jpg' }}
-          imageSource={{ uri: 'https://i.imgur.com/q6Y6vaS.jpg' }}
-        />
-
         <View style={styling.content}>
-          <ModalProfileComponent
-            thumbnailSource={{ uri: 'https://i.imgur.com/q6Y6vaS.jpg' }}
-            imageSource={{ uri: 'https://i.imgur.com/q6Y6vaS.jpg' }}
-            title="azimgd"
-            subtitle="Posted 12 hours ago"
+          <Albums
+            items={albumsGet.data}
           />
         </View>
 
         <View style={styling.content}>
-          <Headline style={[styling.headline, styling.bottomSpacing]}>{t('Share as')}</Headline>
-          <AccordionComponent
-            items={[
-              {
-                text: t('Share on Instagram Post'),
-                onPress: () => {},
-              },
-              {
-                text: t('Share on Instagram Story'),
-                onPress: () => {},
-              },
-              {
-                text: t('Share on Facebook'),
-                onPress: () => {},
-              },
-            ]}
-          />
-          <View style={styling.bottomSpacing} />
-          <Caption style={[styling.bottomSpacing]}>{t('Prove your post is verified by sharing a link to your REAL profile in it\'s description')}</Caption>
-        </View>
-
-        <View style={styling.content}>
-          <Headline style={[styling.headline, styling.bottomSpacing]}>{t('Store as')}</Headline>
-          <AccordionComponent
-            items={[
-              {
-                text: t('Copy to Photos'),
-                onPress: () => {},
-              },
-              {
-                text: t('Repost on REAL'),
-                onPress: () => {},
-              },
-            ]}
-          />
-          <View style={styling.bottomSpacing} />
-          <Caption style={[styling.bottomSpacing]}>{t('Prove your post is verified by sharing a link to your REAL profile in it\'s description')}</Caption>
-          <View style={styling.bottomSpacing} />
+          <DefaultButton label={t('Create Album')} onPress={() => navigation.navigate('AlbumCreate')} />
         </View>
       </ScrollView>
     </View>
@@ -125,6 +56,22 @@ const styles = theme => StyleSheet.create({
   bottomSpacing: {
     marginBottom: theme.spacing.base,
   },
+
+  albums: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+  },
+  albumWrapper: {
+    width: Layout.window.width / 2 - 12,
+    height: Layout.window.width / 2 - 12,
+    padding: 12,
+  },
+  album: {
+    width: '100%',
+    height: '100%',
+    backgroundColor: 'red',
+    borderRadius: 4,
+  },
 })
 
 Album.propTypes = {
@@ -134,4 +81,6 @@ Album.propTypes = {
   postsShareRequest: PropTypes.any,
 }
 
-export default withTheme(Album)
+export default withNavigation(
+  withTheme(Album)
+)

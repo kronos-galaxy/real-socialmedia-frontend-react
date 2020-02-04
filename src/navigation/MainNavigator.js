@@ -32,6 +32,7 @@ import PayoutScreen from 'screens/PayoutScreen'
 import VerificationScreen from 'screens/VerificationScreen'
 import MembershipScreen from 'screens/MembershipScreen'
 import AlbumScreen from 'screens/AlbumScreen'
+import AlbumCreateScreen from 'screens/AlbumCreateScreen'
 import ProfileArchivedPhotoScreen from 'screens/ProfileArchivedPhotoScreen'
 import { TabBarItem } from 'components/NavigationTab'
 import Layout from 'constants/Layout'
@@ -290,12 +291,12 @@ export default (screenProps) => createStackNavigator({
   PostShare: PostShareScreen,
   FeedProfile: ProfileScreen,
   Album: AlbumScreen,
+  AlbumCreate: AlbumCreateScreen,
   ProfileFollowed: ProfileFollowedScreen,
   ProfileFollower: ProfileFollowerScreen,
   ProfileRequests: ProfileRequestsScreen,
   Verification: VerificationScreen,
 }, {
-  // initialRouteName: 'Album',
   mode: 'modal',
   headerMode: 'none',
   defaultNavigationOptions: {

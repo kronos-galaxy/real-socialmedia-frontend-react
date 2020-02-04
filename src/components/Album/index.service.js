@@ -1,45 +1,26 @@
 import { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import * as postsActions from 'store/ducks/posts/actions'
+import * as albumsActions from 'store/ducks/albums/actions'
 import * as postsServices from 'store/ducks/posts/services'
 import { withNavigation } from 'react-navigation'
-import useToggle from 'react-use/lib/useToggle'
-import path from 'ramda/src/path'
 
 const AlbumService = ({ children, navigation }) => {
   const dispatch = useDispatch()
-  const postId = path(['postId'])(navigation.getParam('post'))
   const authUser = useSelector(state => state.auth.user)
-  const postsSingleGet = useSelector(state => state.posts.postsSingleGet)
-  const postsShare = useSelector(state => state.posts.postsShare)
+  const albumsGet = useSelector(state => state.albums.albumsGet)
+  const albumsGetCache = useSelector(state => state.albums.albumsGetCache)
 
-  const [watermark, handleWatermark] = useToggle(true)
-  
-  const postsSingleGetRequest = ({ postId }) =>
-    dispatch(postsActions.postsSingleGetRequest({ postId }))
-
-  const postsShareRequest = (payload) =>
-    dispatch(postsActions.postsShareRequest(payload))
+  const albumsGetRequest = () =>
+    dispatch(albumsActions.albumsGetRequest({ userId: authUser.userId }))
 
   useEffect(() => {
-    dispatch(postsActions.postsSingleGetRequest({ postId }))
-  }, [postId])
-
-  useEffect(() => {
-    if (postsShare.status === 'success') {
-      dispatch(postsActions.postsShareIdle())
-      navigation.goBack()
-    }
-  }, [postsShare.status])
+    dispatch(albumsActions.albumsGetRequest({ userId: authUser.userId }))
+  }, [])
 
   return children({
     authUser,
-    postsSingleGet: postsServices.cachedPostsSingleGet(postsSingleGet, navigation.getParam('post')),
-    postsSingleGetRequest,
-    postsShare,
-    postsShareRequest,
-    watermark,
-    handleWatermark,
+    albumsGet: postsServices.cachedPostsGet(albumsGet, albumsGetCache, authUser.userId),
+    albumsGetRequest,
   })
 }
 

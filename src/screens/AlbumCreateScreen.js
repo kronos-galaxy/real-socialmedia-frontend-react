@@ -1,10 +1,10 @@
 import React from 'react'
-import AlbumServiceComponent from 'components/Album/index.service'
-import AlbumComponent from 'components/Album'
+import AlbumCreateServiceComponent from 'components/AlbumCreate/index.service'
+import AlbumCreateComponent from 'components/AlbumCreate'
 import NavigationSecondary from 'components/NavigationSecondary/Default'
 import { Translation } from 'react-i18next'
 
-class AlbumScreen extends React.Component {
+class AlbumCreateScreen extends React.Component {
   static navigationOptions = ({ navigation, screenProps }) => ({
     headerShown: false,
   })
@@ -16,21 +16,21 @@ class AlbumScreen extends React.Component {
           {(t) => (
             <NavigationSecondary
               onClosePress={() => this.props.navigation.goBack(null)}
-              title={t('Albums')}
+              title={t('Edit Post')}
             />
           )}
         </Translation>
 
-        <AlbumServiceComponent>
+        <AlbumCreateServiceComponent>
           {((shareProps) => (
-            <AlbumComponent
+            <AlbumCreateComponent
               {...shareProps}
             />
           ))}
-        </AlbumServiceComponent>
+        </AlbumCreateServiceComponent>
       </>
     )
   }
 }
 
-export default AlbumScreen
+export default AlbumCreateScreen

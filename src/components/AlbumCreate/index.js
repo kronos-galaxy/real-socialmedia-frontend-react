@@ -5,18 +5,18 @@ import {
   StyleSheet,
 } from 'react-native'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
-import PostEditForm from 'components/PostEdit/Form'
+import AlbumCreateForm from 'components/AlbumCreate/Form'
 
 import { withTheme } from 'react-native-paper'
 import { withNavigation } from 'react-navigation'
 import { useTranslation } from 'react-i18next'
 
-const PostEditComponent = ({
+const AlbumCreateComponent = ({
   theme,
   navigation,
-  postsEditRequest,
-  postsEdit,
-  postsSingleGet,
+  authUser,
+  albumsCreate,
+  albumsCreateRequest,
 }) => {
   const styling = styles(theme)
   const { t } = useTranslation()
@@ -25,11 +25,11 @@ const PostEditComponent = ({
     <View style={styling.root}>
       <KeyboardAwareScrollView>
         <View style={styling.form}>
-          <PostEditForm
+          <AlbumCreateForm
             navigation={navigation}
-            postsEdit={postsEdit}
-            postsEditRequest={postsEditRequest}
-            postsSingleGet={postsSingleGet}
+            authUser={authUser}
+            albumsCreate={albumsCreate}
+            albumsCreateRequest={albumsCreateRequest}
           />
         </View>
       </KeyboardAwareScrollView>
@@ -37,12 +37,12 @@ const PostEditComponent = ({
   )
 }
 
-PostEditComponent.propTypes = {
+AlbumCreateComponent.propTypes = {
   theme: PropTypes.any,
   navigation: PropTypes.any,
-  postsEditRequest: PropTypes.any,
-  postsEdit: PropTypes.any,
-  postsSingleGet: PropTypes.any,
+  authUser: PropTypes.any,
+  albumsCreate: PropTypes.any,
+  albumsCreateRequest: PropTypes.any,
 }
 
 const styles = theme => StyleSheet.create({
@@ -56,5 +56,5 @@ const styles = theme => StyleSheet.create({
 })
 
 export default withNavigation(
-  withTheme(PostEditComponent)
+  withTheme(AlbumCreateComponent)
 )

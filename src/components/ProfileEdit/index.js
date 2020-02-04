@@ -70,6 +70,13 @@ ProfileEdit.propTypes = {
   user: PropTypes.any,
   usersEditProfile: PropTypes.any,
   usersEditProfileRequest: PropTypes.any,
+  togglePrivacyStatus: PropTypes.any,
+  toggleFollowCountsHidden: PropTypes.any,
+  toggleViewCountsHidden: PropTypes.any,
+  toggleLikesDisabled: PropTypes.any,
+  toggleCommentsDisabled: PropTypes.any,
+  toggleSharingDisabled: PropTypes.any,
+  toggleVerificationHidden: PropTypes.any,
 }
 
 export default withNavigation(

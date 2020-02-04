@@ -4,6 +4,14 @@ import * as constants from 'store/ducks/albums/constants'
 /**
  * 
  */
+export const albumsGetIdle = createAction(constants.ALBUMS_GET_IDLE)
+export const albumsGetRequest = createAction(constants.ALBUMS_GET_REQUEST)
+export const albumsGetSuccess = createAction(constants.ALBUMS_GET_SUCCESS)
+export const albumsGetFailure = createAction(constants.ALBUMS_GET_FAILURE)
+
+/**
+ * 
+ */
 export const albumsCreateIdle = createAction(constants.ALBUMS_CREATE_IDLE)
 export const albumsCreateRequest = createAction(constants.ALBUMS_CREATE_REQUEST)
 export const albumsCreateSuccess = createAction(constants.ALBUMS_CREATE_SUCCESS)

@@ -3,6 +3,12 @@ import update from 'immutability-helper'
 import * as constants from 'store/ducks/albums/constants'
 
 const initialState = {
+  albumsGet: {
+    data: [],
+    status: 'idle',
+    error: {},
+    payload: {},
+  },
   albumsCreate: {
     data: [],
     status: 'idle',
@@ -21,7 +27,52 @@ const initialState = {
     error: {},
     payload: {},
   },
+
+  albumsGetCache: {},
 }
+
+/**
+ *
+ */
+const albumsGetRequest = (state, action) => update(state, {
+  albumsGet: {
+    status: { $set: 'loading' },
+    payload: { $set: action.payload },
+  },
+  albumsGetCache: {
+    $postsGetCacheRequest: { ...action, initialState: initialState.albumsGet },
+  },
+})
+
+const albumsGetSuccess = (state, action) => update(state, {
+  albumsGet: {
+    status: { $set: 'success' },
+    payload: { $set: action.payload },
+  },
+  albumsGetCache: {
+    $postsGetCacheSuccess: { ...action, initialState: initialState.albumsGet },
+  },
+})
+
+const albumsGetFailure = (state, action) => update(state, {
+  albumsGet: {
+    status: { $set: 'failure' },
+    payload: { $set: action.payload },
+  },
+  albumsGetCache: {
+    $postsGetCacheFailure: { ...action, initialState: initialState.albumsGet },
+  },
+})
+
+const albumsGetIdle = (state, action) => update(state, {
+  albumsGet: {
+    status: { $set: 'idle' },
+    payload: { $set: action.payload },
+  },
+  albumsGetCache: {
+    $postsGetCacheIdle: { ...action, initialState: initialState.albumsGet },
+  },
+})
 
 /**
  *
@@ -117,6 +168,11 @@ const albumsDeleteIdle = (state, action) => update(state, {
 })
 
 export default handleActions({
+  [constants.ALBUMS_GET_REQUEST]: albumsGetRequest,
+  [constants.ALBUMS_GET_SUCCESS]: albumsGetSuccess,
+  [constants.ALBUMS_GET_FAILURE]: albumsGetFailure,
+  [constants.ALBUMS_GET_IDLE]: albumsGetIdle,
+
   [constants.ALBUMS_CREATE_REQUEST]: albumsCreateRequest,
   [constants.ALBUMS_CREATE_SUCCESS]: albumsCreateSuccess,
   [constants.ALBUMS_CREATE_FAILURE]: albumsCreateFailure,
