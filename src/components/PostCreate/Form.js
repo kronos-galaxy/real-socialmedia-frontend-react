@@ -37,6 +37,7 @@ const PostCreateForm = ({
   setFieldValue,
   cameraCapture,
   formLifetime: FormLifetime,
+  formAlbums: FormAlbums,
 }) => {
   const styling = styles(theme)
   const { t } = useTranslation()
@@ -58,8 +59,15 @@ const PostCreateForm = ({
         </View>
       </View>
 
-      <View>
+      <View style={styling.bordered}>
         <FormLifetime
+          values={values}
+          setFieldValue={setFieldValue}
+        />
+      </View>
+
+      <View style={styling.bordered}>
+        <FormAlbums
           values={values}
           setFieldValue={setFieldValue}
         />
@@ -131,6 +139,13 @@ const styles = theme => StyleSheet.create({
   input: {
     marginBottom: 12,
   },
+  bordered: {
+    borderBottomColor: '#33333340',
+    borderBottomWidth: 1,
+    paddingTop: 6,
+    paddingBottom: 6,
+    marginBottom: 6,
+  }
 })
 
 PostCreateForm.propTypes = {

@@ -46,6 +46,8 @@ const PostEditForm = ({
   loading,
   setFieldValue,
   formLifetime: FormLifetime,
+  formAlbums: FormAlbums,
+  albumsGet,
 }) => {
   const styling = styles(theme)
   const { t } = useTranslation()
@@ -66,10 +68,18 @@ const PostEditForm = ({
         </View>
       </View>
 
-      <View>
+      <View style={styling.bordered}>
         <FormLifetime
           values={values}
           setFieldValue={setFieldValue}
+        />
+      </View>
+
+      <View style={styling.bordered}>
+        <FormAlbums
+          values={values}
+          setFieldValue={setFieldValue}
+          albumsGet={albumsGet}
         />
       </View>
 
@@ -140,6 +150,13 @@ const styles = theme => StyleSheet.create({
   },
   input: {
     marginBottom: 12,
+  },
+  bordered: {
+    borderBottomColor: '#33333340',
+    borderBottomWidth: 1,
+    paddingTop: 6,
+    paddingBottom: 6,
+    marginBottom: 6,
   },
 })
 

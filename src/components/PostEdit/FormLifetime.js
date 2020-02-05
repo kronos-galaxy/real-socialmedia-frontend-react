@@ -48,7 +48,7 @@ const FormLifetime = ({
   const { t } = useTranslation()
 
   return (
-    <View style={styling.sliderWrapper}>
+    <View style={styling.root}>
       <Slider
         style={styling.slider}
         minimumValue={1}
@@ -84,14 +84,7 @@ const FormLifetime = ({
 }
 
 const styles = theme => StyleSheet.create({
-  sliderWrapper: {
-    borderTopColor: '#33333340',
-    borderTopWidth: 1,
-    borderBottomColor: '#33333340',
-    borderBottomWidth: 1,
-    paddingTop: 6,
-    paddingBottom: 6,
-    marginBottom: 6,
+  root: {
   },
   slider: {
     width: Layout.window.width - 24,
