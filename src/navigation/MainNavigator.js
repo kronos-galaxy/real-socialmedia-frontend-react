@@ -31,7 +31,7 @@ import ModalScreen from 'screens/ModalScreen'
 import PayoutScreen from 'screens/PayoutScreen'
 import VerificationScreen from 'screens/VerificationScreen'
 import MembershipScreen from 'screens/MembershipScreen'
-import AlbumScreen from 'screens/AlbumScreen'
+import AlbumsScreen from 'screens/AlbumsScreen'
 import AlbumCreateScreen from 'screens/AlbumCreateScreen'
 import ProfileArchivedPhotoScreen from 'screens/ProfileArchivedPhotoScreen'
 import { TabBarItem } from 'components/NavigationTab'
@@ -290,7 +290,7 @@ export default (screenProps) => createStackNavigator({
   PostMediaViews: PostMediaViewsScreen,
   PostShare: PostShareScreen,
   FeedProfile: ProfileScreen,
-  Album: AlbumScreen,
+  Albums: AlbumsScreen,
   AlbumCreate: AlbumCreateScreen,
   ProfileFollowed: ProfileFollowedScreen,
   ProfileFollower: ProfileFollowerScreen,

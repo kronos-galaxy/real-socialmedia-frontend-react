@@ -6,6 +6,7 @@ import {
 } from 'react-native'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import PostCreateForm from 'components/PostCreate/Form'
+import FormLifetime from 'components/PostCreate/FormLifetime'
 
 import { withTheme } from 'react-native-paper'
 import { withNavigation } from 'react-navigation'
@@ -18,9 +19,6 @@ const PostCreateComponent = ({
   postsCreateRequest,
   postsCreate,
   handlePostPress,
-  albumsGet,
-  albumId,
-  setAlbumId,
 }) => {
   const styling = styles(theme)
   const { t } = useTranslation()
@@ -35,9 +33,7 @@ const PostCreateComponent = ({
             postsCreateRequest={postsCreateRequest}
             cameraCapture={cameraCapture}
             handlePostPress={handlePostPress}
-            albumsGet={albumsGet}
-            albumId={albumId}
-            setAlbumId={setAlbumId}
+            formLifetime={FormLifetime}
           />
         </View>
       </KeyboardAwareScrollView>

@@ -56,7 +56,7 @@ const styles = theme => StyleSheet.create({
     justifyContent: 'space-between',
   },
   accordionItemDivider: {
-    borderBottomColor: theme.colors.border,
+    borderBottomColor: `${theme.colors.border}20`,
     borderBottomWidth: 0.5,
   },
   icon: {

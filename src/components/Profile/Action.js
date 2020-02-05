@@ -35,7 +35,7 @@ const ProfileAction = ({
           <DefaultButton label={t('Settings')} onPress={() => navigation.navigate('Settings')} />
         </View>
         <View style={styling.item}>
-          <DefaultButton label={t('Albums')} onPress={() => navigation.navigate('Album')} />
+          <DefaultButton label={t('Albums')} onPress={() => navigation.navigate('Albums')} />
         </View>
       </> : null}
 

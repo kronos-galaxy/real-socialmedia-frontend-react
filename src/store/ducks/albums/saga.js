@@ -40,10 +40,14 @@ function* albumsCreateRequest(req) {
 /**
  * 
  */
-function* albumsEditRequest() {
+function* albumsEditRequest(req) {
+  const AwsAPI = yield getContext('AwsAPI')
+  
   try {
-    const data = yield () => {}
-    yield put(actions.albumsEditSuccess({ data }))
+    const data = yield AwsAPI.graphql(graphqlOperation(queries.editAlbum, req.payload))
+    const selector = path(['data', 'user', 'albums', 'items'])
+  
+    yield put(actions.albumsEditSuccess({ data: selector(data), payload: req.payload, meta: data }))
   } catch (error) {
     yield put(actions.albumsEditFailure({ message: error.message }))
   }
@@ -52,10 +56,14 @@ function* albumsEditRequest() {
 /**
  * 
  */
-function* albumsDeleteRequest() {
+function* albumsDeleteRequest(req) {
+  const AwsAPI = yield getContext('AwsAPI')
+  
   try {
-    const data = yield () => {}
-    yield put(actions.albumsDeleteSuccess({ data }))
+    const data = yield AwsAPI.graphql(graphqlOperation(queries.deleteAlbum, req.payload))
+    const selector = path(['data', 'user', 'albums', 'items'])
+    
+    yield put(actions.albumsDeleteSuccess({ data: selector(data), payload: req.payload, meta: data }))
   } catch (error) {
     yield put(actions.albumsDeleteFailure({ message: error.message }))
   }

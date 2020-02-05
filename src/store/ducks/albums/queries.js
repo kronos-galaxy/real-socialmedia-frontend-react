@@ -32,3 +32,7 @@ export const getAlbums = `
   }
   ${albumFragment}
 `
+
+export const editAlbum = ``
+
+export const deleteAlbum = ``

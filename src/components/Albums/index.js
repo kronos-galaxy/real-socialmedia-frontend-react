@@ -5,7 +5,7 @@ import {
   ScrollView,
   View,
 } from 'react-native'
-import Albums from 'components/Album/Albums'
+import Albums from 'components/Albums/Albums'
 import Layout from 'constants/Layout'
 import DefaultButton from 'components/Formik/Button/DefaultButton'
 

@@ -1,10 +1,10 @@
 import React from 'react'
-import AlbumServiceComponent from 'components/Album/index.service'
-import AlbumComponent from 'components/Album'
+import AlbumsServiceComponent from 'components/Albums/index.service'
+import AlbumsComponent from 'components/Albums'
 import NavigationSecondary from 'components/NavigationSecondary/Default'
 import { Translation } from 'react-i18next'
 
-class AlbumScreen extends React.Component {
+class AlbumsScreen extends React.Component {
   static navigationOptions = ({ navigation, screenProps }) => ({
     headerShown: false,
   })
@@ -21,16 +21,16 @@ class AlbumScreen extends React.Component {
           )}
         </Translation>
 
-        <AlbumServiceComponent>
+        <AlbumsServiceComponent>
           {((shareProps) => (
-            <AlbumComponent
+            <AlbumsComponent
               {...shareProps}
             />
           ))}
-        </AlbumServiceComponent>
+        </AlbumsServiceComponent>
       </>
     )
   }
 }
 
-export default AlbumScreen
+export default AlbumsScreen

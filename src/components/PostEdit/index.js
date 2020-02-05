@@ -6,6 +6,7 @@ import {
 } from 'react-native'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import PostEditForm from 'components/PostEdit/Form'
+import FormLifetime from 'components/PostEdit/FormLifetime'
 
 import { withTheme } from 'react-native-paper'
 import { withNavigation } from 'react-navigation'
@@ -30,6 +31,7 @@ const PostEditComponent = ({
             postsEdit={postsEdit}
             postsEditRequest={postsEditRequest}
             postsSingleGet={postsSingleGet}
+            formLifetime={FormLifetime}
           />
         </View>
       </KeyboardAwareScrollView>
