@@ -1,4 +1,4 @@
-import React, { useRef, useState, useCallback } from 'react'
+import React, { useRef, useState } from 'react'
 import PropTypes from 'prop-types'
 import {
   StyleSheet,
@@ -12,10 +12,36 @@ import DescriptionComponent from 'components/PostsList/Description'
 import ListItemComponent from 'templates/ListItem'
 import ImageComponent from 'templates/Image'
 import ReactionsPreviewTemplate from 'templates/ReactionsPreview'
+import Carousel, { Pagination } from 'react-native-snap-carousel'
+import Layout from 'constants/Layout'
 
 import { withTheme } from 'react-native-paper'
 import { withNavigation } from 'react-navigation'
 import { useTranslation } from 'react-i18next'
+
+const PickerItem = (
+  ref,
+  theme,
+  handleScrollPrev,
+  handleScrollNext,
+) => ({
+  item: post,
+  index,
+}) => {
+  const styling = styles(theme)
+
+  return (
+    <ListItemComponent post={post}>
+      <ImageComponent
+        thumbnailSource={{ uri: path(['mediaObjects', '0', 'url64p'])(post) }}
+        imageSource={{ uri: path(['mediaObjects', '0', 'url4k'])(post) }}
+        priorityIndex={index}
+      />
+      <TouchableOpacity style={styling.prev} onPress={handleScrollPrev} />
+      <TouchableOpacity style={styling.next} onPress={handleScrollNext} />
+    </ListItemComponent>
+  )
+}
 
 const PostComponent = ({
   theme,
@@ -40,6 +66,9 @@ const PostComponent = ({
   const { t } = useTranslation()
 
   const ref = useRef(null)
+  const carouselRef = useRef(null)
+  const [activeDotIndex, setActiveDotIndex] = useState(0)
+  const albumLength = path(['album', 'posts', 'items', 'length'])(post) || 0
 
   return (
     <View style={styling.root} ref={ref}>
@@ -55,15 +84,36 @@ const PostComponent = ({
         postsRestoreArchivedRequest={postsRestoreArchivedRequest}
       />
 
-      <ListItemComponent post={post}>
-        <ImageComponent
-          thumbnailSource={{ uri: path(['mediaObjects', '0', 'url64p'])(post) }}
-          imageSource={{ uri: path(['mediaObjects', '0', 'url4k'])(post) }}
-          priorityIndex={priorityIndex}
+      {albumLength > 1 ?
+        <Carousel
+          firstItem={0}
+          ref={carouselRef}
+          data={path(['album', 'posts', 'items'])(post)}
+          renderItem={PickerItem(carouselRef, theme, handleScrollPrev, handleScrollNext)}
+          sliderWidth={Layout.window.width}
+          itemWidth={Layout.window.width}
+          removeClippedSubviews={false}
+          slideStyle={{
+            margin: 0,
+            padding: 0,
+          }}
+          onSnapToItem={setActiveDotIndex}
+          inactiveSlideScale={0.9}
+          inactiveSlideOpacity={0.5}
         />
-        <TouchableOpacity style={styling.prev} onPress={handleScrollPrev} />
-        <TouchableOpacity style={styling.next} onPress={handleScrollNext} />
-      </ListItemComponent>
+      : null}
+
+      {albumLength <= 1 ?
+        <ListItemComponent post={post}>
+          <ImageComponent
+            thumbnailSource={{ uri: path(['mediaObjects', '0', 'url64p'])(post) }}
+            imageSource={{ uri: path(['mediaObjects', '0', 'url4k'])(post) }}
+            priorityIndex={priorityIndex}
+          />
+          <TouchableOpacity style={styling.prev} onPress={handleScrollPrev} />
+          <TouchableOpacity style={styling.next} onPress={handleScrollNext} />
+        </ListItemComponent>
+      : null}
 
       <ActionComponent
         authUser={authUser}
@@ -72,6 +122,24 @@ const PostComponent = ({
         postsAnonymouslyLikeRequest={postsAnonymouslyLikeRequest}
         postsOnymouslyLikeRequest={postsOnymouslyLikeRequest}
         postsDislikeRequest={postsDislikeRequest}
+        pagination={
+          <Pagination
+            dotsLength={albumLength}
+            activeDotIndex={activeDotIndex}
+            containerStyle={{
+              paddingVertical: 4,
+            }}
+            dotStyle={{
+              width: 6,
+              height: 6,
+              borderRadius: 3,
+            }}
+            inactiveDotOpacity={0.6}
+            inactiveDotScale={0.8}
+            dotColor={theme.colors.primary}
+            inactiveDotColor={theme.colors.disabled}
+          />
+        }
       />
       <ReactionsPreviewTemplate
         post={post}

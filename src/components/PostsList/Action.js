@@ -24,6 +24,7 @@ const Action = ({
   post,
   postsOnymouslyLikeRequest,
   postsDislikeRequest,
+  pagination: Pagination,
 }) => {
   const styling = styles(theme)
   const { t } = useTranslation()
@@ -118,6 +119,11 @@ const Action = ({
         : null}
       </View>
 
+      <View style={styling.actionCenter}>
+        {Pagination}
+      </View>
+
+
       {!post.viewCountsHidden && !path(['postedBy', 'viewCountsHidden'])(post) ?
         <TouchableOpacity style={styling.actionRight} onPress={handleViewsPress}>
           <View style={styling.time}>
@@ -148,6 +154,9 @@ const styles = theme => StyleSheet.create({
     marginRight: 18,
   },
   actionLeft: {
+    flexDirection: 'row',
+  },
+  actionCenter: {
     flexDirection: 'row',
   },
   actionRight: {

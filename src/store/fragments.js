@@ -70,6 +70,26 @@ export const postFragment = `
     album {
       albumId
       createdAt
+      ownedBy {
+        ...userFragment
+      }
+      name
+      description
+      url
+      url4k
+      url1080p
+      url480p
+      url64p
+      postCount
+      postsLastUpdatedAt
+      posts(limit: 10) {
+        items {
+          mediaObjects {
+            ...mediaObjectFragment
+          }
+        }
+        nextToken
+      }
     }
     likeStatus
     commentsDisabled

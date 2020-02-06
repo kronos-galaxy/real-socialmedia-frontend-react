@@ -46,7 +46,6 @@ const styles = theme => StyleSheet.create({
     width: 80,
     height: 80,
     borderRadius: 4,
-    backgroundColor: 'red',
   },
   spacingRight: {
     marginRight: theme.spacing.base,

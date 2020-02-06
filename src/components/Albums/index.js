@@ -69,7 +69,6 @@ const styles = theme => StyleSheet.create({
   album: {
     width: '100%',
     height: '100%',
-    backgroundColor: 'red',
     borderRadius: 4,
   },
 })
