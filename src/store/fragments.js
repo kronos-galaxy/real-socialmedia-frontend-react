@@ -67,6 +67,10 @@ export const postFragment = `
     mediaObjects {
       ...mediaObjectFragment
     }
+    album {
+      albumId
+      createdAt
+    }
     likeStatus
     commentsDisabled
     likesDisabled

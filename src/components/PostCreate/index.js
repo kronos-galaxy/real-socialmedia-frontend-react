@@ -20,6 +20,7 @@ const PostCreateComponent = ({
   postsCreateRequest,
   postsCreate,
   handlePostPress,
+  albumsGet,
 }) => {
   const styling = styles(theme)
   const { t } = useTranslation()
@@ -36,6 +37,7 @@ const PostCreateComponent = ({
             handlePostPress={handlePostPress}
             formLifetime={FormLifetime}
             formAlbums={FormAlbums}
+            albumsGet={albumsGet}
           />
         </View>
       </KeyboardAwareScrollView>

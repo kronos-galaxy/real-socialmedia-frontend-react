@@ -38,6 +38,7 @@ const PostCreateForm = ({
   cameraCapture,
   formLifetime: FormLifetime,
   formAlbums: FormAlbums,
+  albumsGet,
 }) => {
   const styling = styles(theme)
   const { t } = useTranslation()
@@ -70,6 +71,7 @@ const PostCreateForm = ({
         <FormAlbums
           values={values}
           setFieldValue={setFieldValue}
+          albumsGet={albumsGet}
         />
       </View>
 

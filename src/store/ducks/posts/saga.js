@@ -261,6 +261,7 @@ function* handlePostsEditRequest(payload) {
   const AwsAPI = yield getContext('AwsAPI')
 
   yield AwsAPI.graphql(graphqlOperation(queries.editPostExpiresAt, payload))
+  yield AwsAPI.graphql(graphqlOperation(queries.editPostAlbum, payload))
   return yield AwsAPI.graphql(graphqlOperation(queries.editPost, payload))
 }
 

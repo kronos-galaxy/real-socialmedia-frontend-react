@@ -51,6 +51,7 @@ export const getStories = `
 export const addPost = `
   mutation AddMediaPost(
     $postId: ID!,
+    $albumId: ID,
     $lifetime: String,
     $mediaId: ID!,
     $text: String,
@@ -63,6 +64,7 @@ export const addPost = `
   ) {
     addPost (
       postId: $postId,
+      albumId: $albumId,
       lifetime: $lifetime,
       text: $text,
       commentsDisabled: $commentsDisabled,
@@ -132,6 +134,15 @@ export const editPost = `
 export const editPostExpiresAt = `
   mutation editPostExpiresAt($postId: ID!, $expiresAt: AWSDateTime) {
     editPostExpiresAt (postId: $postId, expiresAt: $expiresAt) {
+      ...postFragment
+    }
+  }
+  ${postFragment}
+`
+
+export const editPostAlbum = `
+  mutation editPostAlbum($postId: ID!, $albumId: ID) {
+    editPostAlbum (postId: $postId, albumId: $albumId) {
       ...postFragment
     }
   }

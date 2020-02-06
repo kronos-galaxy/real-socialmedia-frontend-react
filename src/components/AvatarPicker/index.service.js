@@ -45,6 +45,7 @@ const AvatarPickerService = ({ children, navigation }) => {
 
     dispatch(postsActions.postsCreateRequest({
       postId,
+      albumId: null,
       lifetime: 'P1D',
       mediaId,
       text: '',

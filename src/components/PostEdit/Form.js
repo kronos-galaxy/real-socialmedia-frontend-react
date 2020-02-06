@@ -182,6 +182,7 @@ export default withTheme(({
       likesDisabled: postsSingleGet.data.likesDisabled,
       sharingDisabled: postsSingleGet.data.sharingDisabled,
       lifetime: getInitialLifetime(postsSingleGet.data.expiresAt),
+      albumId: path(['album', 'albumId'])(postsSingleGet.data),
     }}
     validationSchema={formSchema}
     onSubmit={postsEditRequest}
