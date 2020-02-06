@@ -85,10 +85,10 @@ const Action = ({
    * - Current authenticated user has shares enabled in settings
    * - Current authenticated user is tagged in post by author
    */
-  const shareButtonVisibility = ((
-    !post.sharingDisabled &&
-    !path(['postedBy', 'sharingDisabled'])(post)
-  ) || tagged)
+  const shareButtonVisibility = (
+    !post.sharingDisabled ||
+    tagged
+  )
 
   return (
     <View style={styling.action}>

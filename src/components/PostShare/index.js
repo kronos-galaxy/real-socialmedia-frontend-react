@@ -38,6 +38,7 @@ const PostShare = ({
    * - Post owner has tagged current authenticated user
    */
   const repostButtonVisibility = (
+    !path(['data', 'sharingDisabled'])(postsSingleGet) ||
     tagged
   )
 
@@ -46,6 +47,7 @@ const PostShare = ({
     type: 'cameraroll',
     title: 'Camera roll export',
     watermark,
+    post: path(['data'])(postsSingleGet),
   })
 
   const handleRepost = () => postsShareRequest({
@@ -60,20 +62,6 @@ const PostShare = ({
     photoUrl: path(['data', 'mediaObjects', '0', 'url'])(postsSingleGet),
     type: 'instagramPost',
     title: 'Instagram export',
-    watermark,
-  })
-
-  const handleInstagramStory = () => postsShareRequest({
-    photoUrl: path(['data', 'mediaObjects', '0', 'url'])(postsSingleGet),
-    type: 'instagramStory',
-    title: 'Instagram export',
-    watermark,
-  })
-
-  const handleFacebookPost = () => postsShareRequest({
-    photoUrl: path(['data', 'mediaObjects', '0', 'url'])(postsSingleGet),
-    type: 'facebook',
-    title: 'Facebook export',
     watermark,
   })
 
@@ -104,23 +92,11 @@ const PostShare = ({
           <Headline style={styling.headline}>{t('Share as')}</Headline>
           <View style={styling.bottomSpacing} />
           <AccordionComponent
-            items={[
-              {
-                text: t('Share on Instagram As Post'),
-                onPress: handleInstagramPost,
-                loading: postsShare.status === 'loading' && postsShare.payload.type === 'instagramPost',
-              },
-              {
-                text: t('Share on Instagram As Story'),
-                onPress: handleInstagramStory,
-                loading: postsShare.status === 'loading' && postsShare.payload.type === 'instagramStory',
-              },
-              {
-                text: t('Share on Facebook'),
-                onPress: handleFacebookPost,
-                loading: postsShare.status === 'loading' && postsShare.payload.type === 'facebook',
-              },
-            ]}
+            items={[{
+              text: t('Share on Instagram'),
+              onPress: handleInstagramPost,
+              loading: postsShare.status === 'loading' && postsShare.payload.type === 'instagramPost',
+            }]}
           />
           <View style={styling.bottomSpacing} />
           <Caption style={[styling.bottomSpacing]}>{t('Prove your post is verified by sharing a link to your REAL profile in it\'s description')}</Caption>
