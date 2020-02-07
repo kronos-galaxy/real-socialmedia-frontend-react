@@ -38,14 +38,14 @@ const userFragment = `
     postCount
     fullName
     themeCode
-    blockedStatus
-    blockerStatus
     bio
     email
     phoneNumber
     languageCode
     signedUpAt
     postViewedByCount
+    blockedStatus
+    blockerStatus
   }
 `
 
@@ -61,7 +61,7 @@ const userPostFragment = `
     textTaggedUsers {
       tag
       user {
-        ...postUserFragment
+        ...userFragment
       }
     }
     mediaObjects {

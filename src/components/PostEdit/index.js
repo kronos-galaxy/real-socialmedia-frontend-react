@@ -6,6 +6,8 @@ import {
 } from 'react-native'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import PostEditForm from 'components/PostEdit/Form'
+import FormLifetime from 'components/PostEdit/FormLifetime'
+import FormAlbums from 'components/PostEdit/FormAlbums'
 
 import { withTheme } from 'react-native-paper'
 import { withNavigation } from 'react-navigation'
@@ -17,26 +19,33 @@ const PostEditComponent = ({
   postsEditRequest,
   postsEdit,
   postsSingleGet,
+  albumsGet,
 }) => {
   const styling = styles(theme)
   const { t } = useTranslation()
 
   return (
-    <KeyboardAwareScrollView>
-      <View style={styling.form}>
-        <PostEditForm
-          navigation={navigation}
-          postsEdit={postsEdit}
-          postsEditRequest={postsEditRequest}
-          postsSingleGet={postsSingleGet}
-        />
-      </View>
-    </KeyboardAwareScrollView>
+    <View style={styling.root}>
+      <KeyboardAwareScrollView>
+        <View style={styling.form}>
+          <PostEditForm
+            navigation={navigation}
+            postsEdit={postsEdit}
+            postsEditRequest={postsEditRequest}
+            postsSingleGet={postsSingleGet}
+            formLifetime={FormLifetime}
+            formAlbums={FormAlbums}
+            albumsGet={albumsGet}
+          />
+        </View>
+      </KeyboardAwareScrollView>
+    </View>
   )
 }
 
 PostEditComponent.propTypes = {
   theme: PropTypes.any,
+  navigation: PropTypes.any,
   postsEditRequest: PropTypes.any,
   postsEdit: PropTypes.any,
   postsSingleGet: PropTypes.any,

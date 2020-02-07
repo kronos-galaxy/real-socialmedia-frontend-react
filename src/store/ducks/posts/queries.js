@@ -1,90 +1,7 @@
-const postUserFragment = `
-  fragment postUserFragment on User {
-    userId
-    username
-    photoUrl
-    photoUrl64p
-    photoUrl480p
-    photoUrl1080p
-    photoUrl4k
-    privacyStatus
-    followedStatus
-    followerStatus
-    followedCount
-    followerCount
-    followCountsHidden
-    viewCountsHidden
-    commentsDisabled
-    likesDisabled
-    sharingDisabled
-    verificationHidden
-    postCount
-    fullName
-    themeCode
-    blockedStatus
-    blockerStatus
-    bio
-    email
-    phoneNumber
-    languageCode
-    signedUpAt
-    postViewedByCount
-  }
-`
-
-const mediaObjectFragment = `
-  fragment mediaObjectFragment on MediaObject {
-    mediaId
-    mediaType
-    mediaStatus
-    url
-    url64p
-    url480p
-    url1080p
-    url4k
-    uploadUrl
-    width
-    height
-    isVerified
-  }
-`
-
-const postFragment = `
-  fragment postFragment on Post {
-    postId
-    postedAt
-    postedBy {
-      ...postUserFragment
-    }
-    expiresAt
-    text
-    textTaggedUsers {
-      tag
-      user {
-        ...postUserFragment
-      }
-    }
-    mediaObjects {
-      ...mediaObjectFragment
-    }
-    likeStatus
-    commentsDisabled
-    likesDisabled
-    sharingDisabled
-    verificationHidden
-    onymousLikeCount
-    anonymousLikeCount
-    viewedByCount
-    onymouslyLikedBy (limit: 1) {
-      items {
-        ...postUserFragment
-      }
-      nextToken
-    }
-  }
-  ${mediaObjectFragment}
-  ${postUserFragment}
-`
+import {
+  userFragment,
+  postFragment,
+} from 'store/fragments'
 
 export const getPosts = `
   query GetPosts($userId: ID, $postStatus: PostStatus, $nextToken: String = null) {
@@ -134,6 +51,7 @@ export const getStories = `
 export const addPost = `
   mutation AddMediaPost(
     $postId: ID!,
+    $albumId: ID,
     $lifetime: String,
     $mediaId: ID!,
     $text: String,
@@ -146,6 +64,7 @@ export const addPost = `
   ) {
     addPost (
       postId: $postId,
+      albumId: $albumId,
       lifetime: $lifetime,
       text: $text,
       commentsDisabled: $commentsDisabled,
@@ -221,6 +140,15 @@ export const editPostExpiresAt = `
   ${postFragment}
 `
 
+export const editPostAlbum = `
+  mutation editPostAlbum($postId: ID!, $albumId: ID) {
+    editPostAlbum (postId: $postId, albumId: $albumId) {
+      ...postFragment
+    }
+  }
+  ${postFragment}
+`
+
 export const deletePost = `
   mutation DeletePost($postId: ID!) {
     deletePost (postId: $postId) {
@@ -280,11 +208,11 @@ export const viewedBy = `
     post(postId: $postId) {
       viewedBy(limit: $limit, nextToken: $nextToken) {
         items {
-          ...postUserFragment
+          ...userFragment
         }
         nextToken
       }
     }
   }
-  ${postUserFragment}
+  ${userFragment}
 `

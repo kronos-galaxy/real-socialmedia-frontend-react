@@ -30,11 +30,14 @@ const ProfileAction = ({
 
   return (
     <View style={styling.root}>
-      {self ?
+      {self ? <>
         <View style={styling.item}>
           <DefaultButton label={t('Settings')} onPress={() => navigation.navigate('Settings')} />
         </View>
-      : null}
+        <View style={styling.item}>
+          <DefaultButton label={t('Albums')} onPress={() => navigation.navigate('Albums')} />
+        </View>
+      </> : null}
 
       {!self ?
         <React.Fragment>

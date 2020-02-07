@@ -34,27 +34,55 @@ function* postsStoriesGetRequest(req) {
 }
 
 function* handlePostsShareRequest(payload) {
-  function* handeImageWatermark(url, hasWatermark) {
+  function* handeImageWatermark(url, hasWatermark, post) {
     if (!hasWatermark) {
       return url
     }
 
-    return yield Marker.markImage({
+    return yield Marker.markText({
       src: url,
-      markerSrc: Icon,
-      position: 'bottomRight',
-      scale: 1,
-      markerScale: 0.5,
+      text: `REAL \n@${post.postedBy.username}`,
+      color: '#000000',
+      fontName: 'AppleSDGothicNeo-Bold',
+      position: 'bottomLeft',
+      fontSize: post.mediaObjects[0].height / 30,
+      textBackgroundStyle: {
+        paddingX: 12,
+        paddingY: 6,
+        color: '#ffffff',
+      },
+      scale: 1, 
       quality: 100,
-      saveFormat: 'jpg',
     })
   }
   
-  function* handleInstagramShare({ url, title }) {
+  function* handleInstagramPostShare({ url, title }) {
     const shareOptions = {
       url,
       type: 'image/jpeg',
       social: Share.Social.INSTAGRAM,
+      title,
+    }
+
+    yield Share.shareSingle(shareOptions)
+  }
+  
+  function* handleInstagramStoryShare({ url, title }) {
+    const shareOptions = {
+      url,
+      type: 'image/jpeg',
+      social: Share.Social.INSTAGRAM,
+      title,
+    }
+
+    yield Share.shareSingle(shareOptions)
+  }
+  
+  function* handleFacebookShare({ url, title }) {
+    const shareOptions = {
+      url,
+      type: 'image/jpeg',
+      social: Share.Social.FACEBOOK,
       title,
     }
 
@@ -74,6 +102,7 @@ function* handlePostsShareRequest(payload) {
   function* handleRepost({ url, title, post }) {
     const postId = uuid()
     const mediaId = uuid()
+
     return yield put(actions.postsCreateRequest({
       postId,
       mediaId,
@@ -83,7 +112,7 @@ function* handlePostsShareRequest(payload) {
       commentsDisabled: post.commentsDisabled,
       likesDisabled: post.likesDisabled,
       sharingDisabled: post.sharingDisabled,
-      takenInReal: true,
+      takenInReal: path(['mediaObjects', '0', 'isVerified'])(post),
       originalFormat: 'jpg',
     }))
   }
@@ -101,12 +130,20 @@ function* handlePostsShareRequest(payload) {
   const status = res.info().status
 
   if(status === 200) {
-    const watermarked = yield handeImageWatermark(res.path(), payload.watermark)
+    const watermarked = yield handeImageWatermark(res.path(), payload.watermark, payload.post)
     const photo = yield handleCameraRollSave(watermarked)
     const url = path(['edges', '0', 'node', 'image', 'uri'])(photo)
 
-    if (payload.type === 'instagram') {
-      yield handleInstagramShare({ url, title: payload.title })
+    if (payload.type === 'instagramPost') {
+      yield handleInstagramPostShare({ url, title: payload.title })
+    }
+
+    if (payload.type === 'instagramStory') {
+      yield handleInstagramStoryShare({ url, title: payload.title })
+    }
+
+    if (payload.type === 'facebook') {
+      yield handleFacebookShare({ url, title: payload.title })
     }
 
     if (payload.type === 'global') {
@@ -231,6 +268,7 @@ function* handlePostsEditRequest(payload) {
   const AwsAPI = yield getContext('AwsAPI')
 
   yield AwsAPI.graphql(graphqlOperation(queries.editPostExpiresAt, payload))
+  yield AwsAPI.graphql(graphqlOperation(queries.editPostAlbum, payload))
   return yield AwsAPI.graphql(graphqlOperation(queries.editPost, payload))
 }
 

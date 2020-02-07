@@ -13,7 +13,10 @@ export const cachedPostsSingleGet = (postsSingleGet, cachedPost) => {
     data: { $set: cachedPost },
   })
 
-  if (path(['data', 'postId'])(postsSingleGet) === path(['postId'])(cachedPost) && path(['status'])(postsSingleGet) === 'success') {
+  if (
+    path(['data', 'postId'])(postsSingleGet) === path(['postId'])(cachedPost) &&
+    path(['status'])(postsSingleGet) === 'success'
+  ) {
     return postsSingleGet
   }
 

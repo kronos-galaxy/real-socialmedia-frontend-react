@@ -1,7 +1,6 @@
 import React from 'react'
 import VerificationComponent from 'components/Verification'
-import NavigationSecondary from 'components/NavigationSecondary/Default'
-import { Translation } from 'react-i18next'
+import VerificationServiceComponent from 'components/Verification/index.service'
 
 class VerificationScreen extends React.Component {
   static navigationOptions = ({ navigation, screenProps }) => ({
@@ -11,16 +10,13 @@ class VerificationScreen extends React.Component {
   render() {
     return (
       <>
-        <Translation>
-          {(t) => (
-            <NavigationSecondary
-              title={t('Post Verification')}
-              onClosePress={() => this.props.navigation.goBack(null)}
+        <VerificationServiceComponent>
+          {((shareProps) => (
+            <VerificationComponent
+              {...shareProps}
             />
-          )}
-        </Translation>
-
-        <VerificationComponent />
+          ))}
+        </VerificationServiceComponent>
       </>
     )
   }

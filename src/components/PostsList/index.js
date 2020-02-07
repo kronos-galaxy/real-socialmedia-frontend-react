@@ -175,6 +175,7 @@ const PostsList = ({
                 {Object.values(post.postsCreateQueue).map((post) => (
                   <UploadingComponent
                     key={post.postId}
+                    authUser={authUser}
                     post={post}
                     postsCreateRequest={postsCreateRequest}
                     postsCreateIdle={postsCreateIdle}

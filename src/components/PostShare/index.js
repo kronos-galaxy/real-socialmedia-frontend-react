@@ -3,12 +3,15 @@ import PropTypes from 'prop-types'
 import {
   StyleSheet,
   View,
+  ScrollView,
 } from 'react-native'
 import path from 'ramda/src/path'
-import Avatar from 'templates/Avatar'
-import { Text } from 'react-native-paper'
-import DefaultButton from 'components/Formik/Button/DefaultButton'
-import NativeError from 'templates/NativeError'
+import { Headline, Caption } from 'react-native-paper'
+import AccordionComponent from 'templates/Accordion'
+import ModalProfileComponent from 'templates/ModalProfile'
+import ModalHeaderComponent from 'templates/ModalHeader'
+import ModalPreviewComponent from 'templates/ModalPreview'
+import dayjs from 'dayjs'
 
 import { withTheme } from 'react-native-paper'
 import { withNavigation } from 'react-navigation'
@@ -16,6 +19,7 @@ import { useTranslation } from 'react-i18next'
 
 const PostShare = ({
   theme,
+  navigation,
   authUser,
   postsSingleGet,
   postsShare,
@@ -34,54 +38,93 @@ const PostShare = ({
    * - Post owner has tagged current authenticated user
    */
   const repostButtonVisibility = (
+    !path(['data', 'sharingDisabled'])(postsSingleGet) ||
     tagged
   )
 
+  const handleGallerySave = () => postsShareRequest({
+    photoUrl: path(['data', 'mediaObjects', '0', 'url'])(postsSingleGet),
+    type: 'cameraroll',
+    title: 'Camera roll export',
+    watermark,
+    post: path(['data'])(postsSingleGet),
+  })
+
+  const handleRepost = () => postsShareRequest({
+    photoUrl: path(['data', 'mediaObjects', '0', 'url'])(postsSingleGet),
+    type: 'repost',
+    title: 'Repost',
+    watermark,
+    post: path(['data'])(postsSingleGet),
+  })
+
+  const handleInstagramPost = () => postsShareRequest({
+    photoUrl: path(['data', 'mediaObjects', '0', 'url'])(postsSingleGet),
+    type: 'instagramPost',
+    title: 'Instagram export',
+    watermark,
+  })
+
   return (
     <View style={styling.root}>
-      <View style={styling.form}>
-        <Avatar
-          size="large"
-          thumbnailSource={{ uri: path(['data', 'mediaObjects', '0', 'url1080p'])(postsSingleGet) }}
-          imageSource={{ uri: path(['data', 'mediaObjects', '0', 'url1080p'])(postsSingleGet) }}
+      <View style={styling.header}>
+        <ModalHeaderComponent
+          onPress={() => navigation.goBack()}
         />
       </View>
 
-      <View style={styling.form}>
-        <Text style={styling.text}>{t('Share verified REAL post')}</Text>
-        <Text style={styling.text}>{t('Prove your post is verified by sharing a link to your REAL profile in it\'s description')}</Text>
-      </View>
+      <ScrollView bounces={false}>
+        <ModalPreviewComponent
+          thumbnailSource={{ uri: path(['data', 'mediaObjects', '0', 'url64p'])(postsSingleGet) }}
+          imageSource={{ uri: path(['data', 'mediaObjects', '0', 'url1080p'])(postsSingleGet) }}
+        />
 
-      <View style={styling.form}>
-        <DefaultButton label={t('Copy to Photos')} onPress={() => postsShareRequest({
-          photoUrl: path(['data', 'mediaObjects', '0', 'url'])(postsSingleGet),
-          type: 'cameraroll',
-          title: 'Camera roll export',
-          watermark,
-        })} loading={postsShare.status === 'loading' && postsShare.payload.type === 'cameraroll'} />
-      </View>
-      <View style={styling.form}>
-        <DefaultButton label={t('Share to Instagram')} onPress={() => postsShareRequest({
-          photoUrl: path(['data', 'mediaObjects', '0', 'url'])(postsSingleGet),
-          type: 'instagram',
-          title: 'Instagram export',
-          watermark,
-        })} loading={postsShare.status === 'loading' && postsShare.payload.type === 'instagram'} />
-      </View>
-      {repostButtonVisibility ?
-        <View style={styling.form}>
-          <DefaultButton label={t('Repost')} onPress={() => postsShareRequest({
-            photoUrl: path(['data', 'mediaObjects', '0', 'url'])(postsSingleGet),
-            type: 'repost',
-            title: 'Repost',
-            watermark,
-            post: path(['data'])(postsSingleGet),
-          })} loading={postsShare.status === 'loading' && postsShare.payload.type === 'repost'} />
+        <View style={styling.content}>
+          <ModalProfileComponent
+            thumbnailSource={{ uri: path(['data', 'postedBy', 'photoUrl64p'])(postsSingleGet) }}
+            imageSource={{ uri: path(['data', 'postedBy', 'photoUrl480p'])(postsSingleGet) }}
+            title={path(['data', 'postedBy', 'username'])(postsSingleGet)}
+            subtitle={`${t('Posted')} ${dayjs(path(['data', 'postedAt'])(postsSingleGet)).from(dayjs())}`}
+          />
         </View>
-      : null}
-      <View style={styling.form}>
-        <DefaultButton label={watermark ? t('Remove watermark') : t('Add watermark')} mode="outline" onPress={handleWatermark} />
-      </View>
+
+        <View style={styling.content}>
+          <Headline style={styling.headline}>{t('Share as')}</Headline>
+          <View style={styling.bottomSpacing} />
+          <AccordionComponent
+            items={[{
+              text: t('Share on Instagram'),
+              onPress: handleInstagramPost,
+              loading: postsShare.status === 'loading' && postsShare.payload.type === 'instagramPost',
+            }]}
+          />
+          <View style={styling.bottomSpacing} />
+          <Caption style={[styling.bottomSpacing]}>{t('Prove your post is verified by sharing a link to your REAL profile in it\'s description')}</Caption>
+        </View>
+
+        <View style={styling.content}>
+          <Headline style={styling.headline}>{t('Store as')}</Headline>
+          <View style={styling.bottomSpacing} />
+          <AccordionComponent
+            items={[
+              {
+                text: t('Copy to Photos'),
+                onPress: handleGallerySave,
+                loading: postsShare.status === 'loading' && postsShare.payload.type === 'cameraroll',
+              },
+              {
+                text: t('Repost on REAL'),
+                onPress: handleRepost,
+                loading: postsShare.status === 'loading' && postsShare.payload.type === 'repost',
+                disabled: !repostButtonVisibility,
+              },
+            ]}
+          />
+          <View style={styling.bottomSpacing} />
+          <Caption style={[styling.bottomSpacing]}>{t('Prove your post is verified by sharing a link to your REAL profile in it\'s description')}</Caption>
+          <View style={styling.bottomSpacing} />
+        </View>
+      </ScrollView>
     </View>
   )
 }
@@ -91,12 +134,18 @@ const styles = theme => StyleSheet.create({
     flex: 1,
     backgroundColor: theme.colors.backgroundPrimary,
   },
-  form: {
+  header: {
+    zIndex: 2,
+  },
+  content: {
     padding: theme.spacing.base,
   },
-  component: {
-    width: 160,
-    height: 160,
+  headline: {
+    fontSize: 20,
+    fontWeight: '600',
+  },
+  bottomSpacing: {
+    marginBottom: theme.spacing.base,
   },
 })
 
@@ -107,4 +156,6 @@ PostShare.propTypes = {
   postsShareRequest: PropTypes.any,
 }
 
-export default withTheme(PostShare)
+export default withNavigation(
+  withTheme(PostShare)
+)

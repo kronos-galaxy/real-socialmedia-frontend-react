@@ -59,7 +59,7 @@ const Header = ({
         : null}
 
         {!path(['mediaObjects', '0', 'isVerified'])(post) ?
-          <TouchableOpacity onPress={() => navigation.navigate('Verification')} style={styling.verification}>
+          <TouchableOpacity onPress={() => navigation.navigate('Verification', { post })} style={styling.verification}>
             <Caption style={styling.verificationStatus}>{t('Failed Verification')} - {t('Learn More')}</Caption>
             <VerificationIcon fill="#DC3644" />
           </TouchableOpacity>
