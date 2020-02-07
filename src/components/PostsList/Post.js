@@ -135,7 +135,7 @@ const PostComponent = ({
               borderRadius: 3,
             }}
             inactiveDotOpacity={0.6}
-            inactiveDotScale={0.8}
+            inactiveDotScale={1}
             dotColor={theme.colors.primary}
             inactiveDotColor={theme.colors.disabled}
           />

@@ -154,13 +154,17 @@ const styles = theme => StyleSheet.create({
     marginRight: 18,
   },
   actionLeft: {
+    flex: 1,
     flexDirection: 'row',
   },
   actionCenter: {
+    flex: 1,
+    justifyContent: 'center',
     flexDirection: 'row',
   },
   actionRight: {
-    flexDirection: 'row',
+    flex: 1,
+    flexDirection: 'row-reverse',
   },
   time: {
     flexDirection: 'row',

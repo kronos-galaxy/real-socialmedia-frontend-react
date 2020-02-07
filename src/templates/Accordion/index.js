@@ -23,18 +23,18 @@ const Accordion = ({
     <View style={styling.accordion}>
       {list.map((item, key) => {
         const style = (key + 1 !== list.length) ?
-          [styling.accordionItem, styling.accordionItemDivider] :
-          [styling.accordionItem]
+          [styling.divider] :
+          null
 
-        return (        
-          <View style={style} key={key}>
-            <TouchableOpacity onPress={item.onPress}>
+        return (
+          <View key={key} style={style}>
+            <TouchableOpacity style={styling.accordionItem} onPress={item.onPress}>
               <Text style={styling.text}>{item.text}</Text>
-            </TouchableOpacity>
 
-            {item.loading ?
-              <ActivityIndicator size={8} style={styling.icon} />
-            : null}
+              {item.loading ?
+                <ActivityIndicator size={8} style={styling.icon} />
+              : null}
+            </TouchableOpacity>
           </View>
         )
       })}
@@ -55,7 +55,7 @@ const styles = theme => StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
-  accordionItemDivider: {
+  divider: {
     borderBottomColor: `${theme.colors.border}20`,
     borderBottomWidth: 0.5,
   },
