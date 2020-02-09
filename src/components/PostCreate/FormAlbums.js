@@ -31,6 +31,16 @@ const FormAlbums = ({
     navigation.navigate('Albums')
   }
 
+  const seeMoreVisibility = (
+    pathOr([], ['status'])(albumsGet) === 'success' &&
+    pathOr([], ['data', 'length'])(albumsGet)
+  )
+
+  const createVisibility = (
+    pathOr([], ['status'])(albumsGet) === 'success' &&
+    !pathOr([], ['data', 'length'])(albumsGet)
+  )
+
   return (
     <View style={styling.root}>
       <Text style={styling.text}>{t('Albums')}</Text>
@@ -48,9 +58,17 @@ const FormAlbums = ({
           )
         })}
 
-        <TouchableOpacity style={styling.album} onPress={handleSeeMore}>
-          <Text>See more</Text>
-        </TouchableOpacity>
+        {createVisibility ?
+          <TouchableOpacity style={[styling.album, styling.albumCreate]} onPress={handleSeeMore}>
+            <Text>{t('Create an Album')}</Text>
+          </TouchableOpacity>
+        : null}
+
+        {seeMoreVisibility ?
+          <TouchableOpacity style={styling.album} onPress={handleSeeMore}>
+            <Text>{t('See more')}</Text>
+          </TouchableOpacity>
+        : null}
       </ScrollView>
     </View>
   )
@@ -69,6 +87,9 @@ const styles = theme => StyleSheet.create({
     padding: 8,
     borderRadius: 4,
     marginRight: theme.spacing.base,
+  },
+  albumCreate: {
+    backgroundColor: theme.colors.backgroundSecondary,
   },
   albumSelected: {
     backgroundColor: theme.colors.primary,
