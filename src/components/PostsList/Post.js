@@ -34,15 +34,17 @@ const PostCarousel = (
   const styling = styles(theme)
 
   return (
-    <ListItemComponent post={post}>
-      <ImageComponent
-        thumbnailSource={{ uri: path(['mediaObjects', '0', 'url64p'])(post) }}
-        imageSource={{ uri: path(['mediaObjects', '0', 'url4k'])(post) }}
-        priorityIndex={index}
-      />
-      <TouchableOpacity style={styling.prev} onPress={handleScrollPrev} />
-      <TouchableOpacity style={styling.next} onPress={handleScrollNext} />
-    </ListItemComponent>
+    <View style={styling.carouselItem}>
+      <ListItemComponent post={post}>
+        <ImageComponent
+          thumbnailSource={{ uri: path(['mediaObjects', '0', 'url64p'])(post) }}
+          imageSource={{ uri: path(['mediaObjects', '0', 'url4k'])(post) }}
+          priorityIndex={index}
+        />
+        <TouchableOpacity style={styling.prev} onPress={handleScrollPrev} />
+        <TouchableOpacity style={styling.next} onPress={handleScrollNext} />
+      </ListItemComponent>
+    </View>
   )
 }
 
@@ -70,8 +72,11 @@ const PostComponent = ({
 
   const ref = useRef(null)
   const carouselRef = useRef(null)
-  const [activeDotIndex, setActiveDotIndex] = useState(0)
   const albumLength = path(['album', 'posts', 'items', 'length'])(post) || 0
+  const firstItem = albumLength ?
+    path(['album', 'posts', 'items'])(post).findIndex(item => item.postId === post.postId) :
+    null
+  const [activeDotIndex, setActiveDotIndex] = useState(firstItem)
 
   return (
     <View style={styling.root} ref={ref}>
@@ -89,7 +94,7 @@ const PostComponent = ({
 
       {albumLength > 1 ?
         <Carousel
-          firstItem={0}
+          firstItem={firstItem}
           ref={carouselRef}
           data={path(['album', 'posts', 'items'])(post)}
           renderItem={PostCarousel(carouselRef, theme, handleScrollPrev, handleScrollNext)}
@@ -185,6 +190,12 @@ const styles = theme => StyleSheet.create({
   commentCount: {
     padding: theme.spacing.base,
     opacity: 0.6,
+  },
+  carouselItem: {
+    width: '100%',
+    height: '100%',
+    justifyContent: 'center',
+    alignItems: 'center'
   },
 })
 

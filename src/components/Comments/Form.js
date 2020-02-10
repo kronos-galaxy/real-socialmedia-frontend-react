@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import {
   StyleSheet,
   View,
-  TouchableOpacity,
+  Keyboard,
 } from 'react-native'
 import TextField from 'components/Formik/TextField'
 import DefaultButton from 'components/Formik/Button/DefaultButton'
@@ -85,6 +85,7 @@ export default withTheme(({
     onSubmit={(values, { resetForm }) => {
       commentsAddRequest(values)
       resetForm()
+      Keyboard.dismiss()
     }}
   >
     {(formikProps) => (

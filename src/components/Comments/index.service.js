@@ -1,9 +1,11 @@
-import { useEffect } from 'react'
+import { Keyboard } from 'react-native'
+import { useEffect, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import * as postsActions from 'store/ducks/posts/actions'
 import { withNavigation } from 'react-navigation'
 import uuid from 'uuid/v4'
 import path from 'ramda/src/path'
+import { ifIphoneX } from 'react-native-iphone-x-helper'
 
 const CommentsService = ({ children, navigation }) => {
   const dispatch = useDispatch()
@@ -27,11 +29,37 @@ const CommentsService = ({ children, navigation }) => {
       text,
     }))
   }
+
+  /**
+   * Keyboard movement calculator
+   */
+  const [offset, setOffset] = useState(0)
+
+  const keyboardWillShow = (event) => {
+    setOffset(event.endCoordinates.height - ifIphoneX(40, 0) + 12)
+  }
+
+  const keyboardWillHide = (event) => {
+    setOffset(0)
+  }
+
+  useEffect(() => {
+    const keyboardWillShowSub = Keyboard.addListener('keyboardWillShow', keyboardWillShow)
+    const keyboardWillHideSub = Keyboard.addListener('keyboardWillHide', keyboardWillHide)
+
+    return () => {
+      keyboardWillShowSub.remove()
+      keyboardWillHideSub.remove()
+    }
+  }, [])
+
+  const marginBottom = offset + ifIphoneX(40, 0)
   
   return children({
     commentsAdd,
     commentsAddRequest,
     postsCommentsGet,
+    marginBottom,
   })
 }
 

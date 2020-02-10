@@ -102,6 +102,7 @@ export const postFragment = `
       postsLastUpdatedAt
       posts(limit: 10) {
         items {
+          postId
           mediaObjects {
             ...mediaObjectFragment
           }

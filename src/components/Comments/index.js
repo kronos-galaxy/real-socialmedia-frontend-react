@@ -19,6 +19,7 @@ const Comments = ({
   commentsAdd,
   commentsAddRequest,
   postsCommentsGet,
+  marginBottom,
 }) => {
   const styling = styles(theme)
   const { t } = useTranslation()
@@ -32,7 +33,7 @@ const Comments = ({
           </View>
         )))}
       </ScrollView>
-      <View style={styling.form}>
+      <View style={{ marginBottom }}>
         <FormComponent
           commentsAdd={commentsAdd}
           commentsAddRequest={commentsAddRequest}
