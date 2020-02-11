@@ -204,7 +204,11 @@ const usersGetFollowedUsersRequest = (state, action) => update(state, {
     payload: { $set: action.payload },
   },
   usersGetFollowedUsersCache: {
-    $userCacheRequest: action,
+    $resourceCacheSetRequest: {
+      ...action,
+      resourceKey: action.payload.userId,
+      initialState: initialState.usersGetFollowedUsers,
+    },
   },
 })
 
@@ -214,7 +218,11 @@ const usersGetFollowedUsersSuccess = (state, action) => update(state, {
     status: { $set: 'success' },
   },
   usersGetFollowedUsersCache: {
-    $userCacheSuccess: action,
+    $resourceCacheSetSuccess: {
+      ...action,
+      resourceKey: action.payload.payload.userId,
+      initialState: initialState.usersGetFollowedUsers,
+    },
   },
 })
 
@@ -223,7 +231,11 @@ const usersGetFollowedUsersFailure = (state, action) => update(state, {
     status: { $set: 'failure' },
   },
   usersGetFollowedUsersCache: {
-    $userCacheFailure: action,
+    $resourceCacheSetFailure: {
+      ...action,
+      resourceKey: action.payload.payload.userId,
+      initialState: initialState.usersGetFollowedUsers,
+    },
   },
 })
 
@@ -233,7 +245,11 @@ const usersGetFollowedUsersIdle = (state, action) => update(state, {
     status: { $set: 'idle' },
   },
   usersGetFollowedUsersCache: {
-    $userCacheIdle: action,
+    $resourceCacheSetIdle: {
+      ...action,
+      resourceKey: action.payload.payload.userId,
+      initialState: initialState.usersGetFollowedUsers,
+    },
   },
 })
 
@@ -246,7 +262,11 @@ const usersGetFollowerUsersRequest = (state, action) => update(state, {
     payload: { $set: action.payload },
   },
   usersGetFollowerUsersCache: {
-    $userCacheRequest: action,
+    $resourceCacheSetRequest: {
+      ...action,
+      resourceKey: action.payload.userId,
+      initialState: initialState.usersGetFollowerUsers,
+    },
   },
 })
 
@@ -256,7 +276,11 @@ const usersGetFollowerUsersSuccess = (state, action) => update(state, {
     status: { $set: 'success' },
   },
   usersGetFollowerUsersCache: {
-    $userCacheSuccess: action,
+    $resourceCacheSetSuccess: {
+      ...action,
+      resourceKey: action.payload.payload.userId,
+      initialState: initialState.usersGetFollowerUsers,
+    },
   },
 })
 
@@ -265,7 +289,11 @@ const usersGetFollowerUsersFailure = (state, action) => update(state, {
     status: { $set: 'failure' },
   },
   usersGetFollowerUsersCache: {
-    $userCacheFailure: action,
+    $resourceCacheSetFailure: {
+      ...action,
+      resourceKey: action.payload.payload.userId,
+      initialState: initialState.usersGetFollowerUsers,
+    },
   },
 })
 
@@ -275,7 +303,11 @@ const usersGetFollowerUsersIdle = (state, action) => update(state, {
     status: { $set: 'idle' },
   },
   usersGetFollowerUsersCache: {
-    $userCacheIdle: action,
+    $resourceCacheSetIdle: {
+      ...action,
+      resourceKey: action.payload.payload.userId,
+      initialState: initialState.usersGetFollowerUsers,
+    },
   },
 })
 
@@ -288,7 +320,11 @@ const usersGetPendingFollowersRequest = (state, action) => update(state, {
     payload: { $set: action.payload },
   },
   usersGetFollowerUsersCache: {
-    $userCacheRequest: action,
+    $resourceCacheSetRequest: {
+      ...action,
+      resourceKey: action.payload.userId,
+      initialState: initialState.usersGetPendingFollowers,
+    },
   },
 })
 
@@ -298,7 +334,11 @@ const usersGetPendingFollowersSuccess = (state, action) => update(state, {
     status: { $set: 'success' },
   },
   usersGetFollowerUsersCache: {
-    $userCacheSuccess: action,
+    $resourceCacheSetSuccess: {
+      ...action,
+      resourceKey: action.payload.payload.userId,
+      initialState: initialState.usersGetPendingFollowers,
+    },
   },
 })
 
@@ -307,7 +347,11 @@ const usersGetPendingFollowersFailure = (state, action) => update(state, {
     status: { $set: 'failure' },
   },
   usersGetFollowerUsersCache: {
-    $userCacheFailure: action,
+    $resourceCacheSetFailure: {
+      ...action,
+      resourceKey: action.payload.payload.userId,
+      initialState: initialState.usersGetPendingFollowers,
+    },
   },
 })
 
@@ -317,7 +361,11 @@ const usersGetPendingFollowersIdle = (state, action) => update(state, {
     status: { $set: 'idle' },
   },
   usersGetFollowerUsersCache: {
-    $userCacheIdle: action,
+    $resourceCacheSetIdle: {
+      ...action,
+      resourceKey: action.payload.payload.userId,
+      initialState: initialState.usersGetPendingFollowers,
+    },
   },
 })
 
@@ -330,7 +378,11 @@ const usersFollowRequest = (state, action) => update(state, {
     payload: { $set: action.payload },
   },
   usersGetProfileCache: {
-    $usersGetProfileCacheRequest: { ...action, initialState: initialState.usersGetProfile },
+    $resourceCacheSetRequest: {
+      ...action,
+      resourceKey: action.payload.userId,
+      initialState: initialState.usersGetProfile,
+    },
   },
 })
 
@@ -340,7 +392,11 @@ const usersFollowSuccess = (state, action) => update(state, {
     status: { $set: 'success' },
   },
   usersGetProfileCache: {
-    $usersGetProfileCacheSuccess: action,
+    $resourceCacheSetSuccess: {
+      action,
+      resourceKey: action.payload.payload.userId,
+      initialState: initialState.usersGetProfile,
+    },
   },
 })
 
@@ -366,7 +422,11 @@ const usersUnfollowRequest = (state, action) => update(state, {
     payload: { $set: action.payload },
   },
   usersGetProfileCache: {
-    $usersGetProfileCacheRequest: { ...action, initialState: initialState.usersGetProfile },
+    $resourceCacheSetRequest: {
+      ...action,
+      resourceKey: action.payload.userId,
+      initialState: initialState.usersGetProfile,
+    },
   },
 })
 
@@ -376,7 +436,11 @@ const usersUnfollowSuccess = (state, action) => update(state, {
     status: { $set: 'success' },
   },
   usersGetProfileCache: {
-    $usersGetProfileCacheSuccess: action,
+    $resourceCacheSetSuccess: {
+      action,
+      resourceKey: action.payload.payload.userId,
+      initialState: initialState.usersGetProfile,
+    },
   },
 })
 
@@ -402,7 +466,11 @@ const usersAcceptFollowerUserRequest = (state, action) => update(state, {
     payload: { $set: action.payload },
   },
   usersGetProfileCache: {
-    $usersGetProfileCacheRequest: { ...action, initialState: initialState.usersGetProfile },
+    $resourceCacheSetRequest: {
+      ...action,
+      resourceKey: action.payload.userId,
+      initialState: initialState.usersGetProfile,
+    },
   },
 })
 
@@ -412,7 +480,11 @@ const usersAcceptFollowerUserSuccess = (state, action) => update(state, {
     status: { $set: 'success' },
   },
   usersGetProfileCache: {
-    $usersGetProfileCacheSuccess: action,
+    $resourceCacheSetSuccess: {
+      ...action,
+      resourceKey: action.payload.payload.userId,
+      initialState: initialState.usersGetProfile,
+    },
   },
 })
 
@@ -438,7 +510,11 @@ const usersBlockRequest = (state, action) => update(state, {
     payload: { $set: action.payload },
   },
   usersGetProfileCache: {
-    $usersGetProfileCacheRequest: { ...action, initialState: initialState.usersGetProfile },
+    $resourceCacheSetRequest: {
+      ...action,
+      resourceKey: action.payload.userId,
+      initialState: initialState.usersGetProfile,
+    },
   },
 })
 
@@ -448,7 +524,11 @@ const usersBlockSuccess = (state, action) => update(state, {
     status: { $set: 'success' },
   },
   usersGetProfileCache: {
-    $usersGetProfileCacheSuccess: action,
+    $resourceCacheSetSuccess: {
+      ...action,
+      resourceKey: action.payload.payload.userId,
+      initialState: initialState.usersGetProfile,
+    },
   },
 })
 
@@ -474,7 +554,11 @@ const usersUnblockRequest = (state, action) => update(state, {
     payload: { $set: action.payload },
   },
   usersGetProfileCache: {
-    $usersGetProfileCacheRequest: { ...action, initialState: initialState.usersGetProfile },
+    $resourceCacheSetRequest: {
+      ...action,
+      resourceKey: action.payload.userId,
+      initialState: initialState.usersGetProfile,
+    },
   },
 })
 
@@ -484,7 +568,11 @@ const usersUnblockSuccess = (state, action) => update(state, {
     status: { $set: 'success' },
   },
   usersGetProfileCache: {
-    $usersGetProfileCacheSuccess: action,
+    $resourceCacheSetSuccess: {
+      ...action,
+      resourceKey: action.payload.payload.userId,
+      initialState: initialState.usersGetProfile,
+    },
   },
 })
 
@@ -510,7 +598,11 @@ const usersGetProfileRequest = (state, action) => update(state, {
     payload: { $set: action.payload },
   },
   usersGetProfileCache: {
-    $usersGetProfileCacheRequest: { ...action, initialState: initialState.usersGetProfile },
+    $resourceCacheSetRequest: {
+      ...action,
+      resourceKey: action.payload.userId,
+      initialState: initialState.usersGetProfile,
+    },
   },
 })
 
@@ -520,7 +612,11 @@ const usersGetProfileSuccess = (state, action) => update(state, {
     status: { $set: 'success' },
   },
   usersGetProfileCache: {
-    $usersGetProfileCacheSuccess: action,
+    $resourceCacheSetSuccess: {
+      ...action,
+      resourceKey: action.payload.payload.userId,
+      initialState: initialState.usersGetProfile,
+    },
   },
 })
 

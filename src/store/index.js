@@ -12,6 +12,7 @@ import AsyncStorage from '@react-native-community/async-storage'
 import autoMergeLevel2 from 'redux-persist/lib/stateReconciler/autoMergeLevel2'
 import { composeWithDevTools } from 'redux-devtools-extension/developmentOnly'
 import path from 'ramda/src/path'
+import 'store/updates'
 
 const persistConfig = {
   key: 'root',

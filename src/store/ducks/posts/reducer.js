@@ -8,66 +8,77 @@ const initialState = {
     status: 'idle',
     error: {},
     payload: {},
+    meta: {},
   },
   postsViewsGet: {
     data: [],
     status: 'idle',
     error: {},
     payload: {},
+    meta: {},
   },
   postsGetArchived: {
     data: [],
     status: 'idle',
     error: {},
     payload: {},
+    meta: {},
   },
   postsEdit: {
     data: [],
     status: 'idle',
     error: {},
     payload: {},
+    meta: {},
   },
   postsDelete: {
     data: [],
     status: 'idle',
     error: {},
     payload: {},
+    meta: {},
   },
   postsArchive: {
     data: [],
     status: 'idle',
     error: {},
     payload: {},
+    meta: {},
   },
   postsRestoreArchived: {
     data: [],
     status: 'idle',
     error: {},
     payload: {},
+    meta: {},
   },
   postsFlag: {
     data: [],
     status: 'idle',
     error: {},
     payload: {},
+    meta: {},
   },
   postsSingleGet: {
     data: [],
     status: 'idle',
     error: {},
     payload: {},
+    meta: {},
   },
   postsFeedGet: {
     data: [],
     status: 'idle',
     error: {},
     payload: {},
+    meta: {},
   },
   postsStoriesGet: {
     data: [],
     status: 'idle',
     error: {},
     payload: {},
+    meta: {},
   },
   postsCreate: {
     data: {},
@@ -76,54 +87,63 @@ const initialState = {
     payload: {
       images: [],
     },
+    meta: {},
   },
   postsOnymouslyLike: {
     data: {},
     status: 'idle',
     error: {},
     payload: {},
+    meta: {},
   },
   postsAnonymouslyLike: {
     data: {},
     status: 'idle',
     error: {},
     payload: {},
+    meta: {},
   },
   postsDislike: {
     data: {},
     status: 'idle',
     error: {},
     payload: {},
+    meta: {},
   },
   postsShare: {
     data: {},
     status: 'idle',
     error: {},
     payload: {},
+    meta: {},
   },
   postsReportPostViews: {
     data: {},
     status: 'idle',
     error: {},
     payload: {},
+    meta: {},
   },
   postsGetTrendingPosts: {
     data: [],
     status: 'idle',
     error: {},
     payload: {},
+    meta: {},
   },
   postsCommentsGet: {
     data: [],
     status: 'idle',
     error: {},
     payload: {},
+    meta: {},
   },
   commentsAdd: {
     data: [],
     status: 'idle',
     error: {},
     payload: {},
+    meta: {},
   },
 
   postsCreateQueue: {},
@@ -140,7 +160,11 @@ const postsGetRequest = (state, action) => update(state, {
     payload: { $set: action.payload },
   },
   postsGetCache: {
-    $postsGetCacheRequest: { ...action, initialState: initialState.postsGet },
+    $resourceCacheSetRequest: {
+      ...action,
+      resourceKey: action.payload.userId,
+      initialState: initialState.postsGet,
+    },
   },
 })
 
@@ -150,7 +174,11 @@ const postsGetSuccess = (state, action) => update(state, {
     payload: { $set: action.payload },
   },
   postsGetCache: {
-    $postsGetCacheSuccess: { ...action, initialState: initialState.postsGet },
+    $resourceCacheSetSuccess: {
+      ...action,
+      resourceKey: action.payload.payload.userId,
+      initialState: initialState.postsGet,
+    },
   },
 })
 
@@ -160,7 +188,11 @@ const postsGetFailure = (state, action) => update(state, {
     payload: { $set: action.payload },
   },
   postsGetCache: {
-    $postsGetCacheFailure: { ...action, initialState: initialState.postsGet },
+    $resourceCacheSetFailure: {
+      ...action,
+      resourceKey: action.payload.payload.userId,
+      initialState: initialState.postsGet,
+    },
   },
 })
 
@@ -170,7 +202,11 @@ const postsGetIdle = (state, action) => update(state, {
     payload: { $set: action.payload },
   },
   postsGetCache: {
-    $postsGetCacheIdle: { ...action, initialState: initialState.postsGet },
+    $resourceCacheSetIdle: {
+      ...action,
+      resourceKey: action.payload.payload.userId,
+      initialState: initialState.postsGet,
+    },
   },
 })
 
@@ -180,7 +216,11 @@ const postsGetMoreRequest = (state, action) => update(state, {
     payload: { $set: action.payload },
   },
   postsGetCache: {
-    $postsGetMoreCacheRequest: { ...action, initialState: initialState.postsGet },
+    $resourceCachePushRequest: {
+      ...action,
+      resourceKey: action.payload.userId,
+      initialState: initialState.postsGet,
+    },
   },
 })
 
@@ -190,7 +230,11 @@ const postsGetMoreSuccess = (state, action) => update(state, {
     payload: { $set: action.payload },
   },
   postsGetCache: {
-    $postsGetMoreCacheSuccess: { ...action, initialState: initialState.postsGet },
+    $resourceCachePushSuccess: {
+      ...action,
+      resourceKey: action.payload.payload.userId,
+      initialState: initialState.postsGet,
+    },
   },
 })
 
@@ -595,7 +639,11 @@ const postsCreateRequest = (state, action) => update(state, {
     payload: { $set: action.payload },
   },
   postsCreateQueue: {
-    $postsCreateQueueRequest: action,
+    $resourceCacheSetRequest: {
+      ...action,
+      resourceKey: action.payload.postId,
+      initialState: initialState.postsCreate,
+    },
   },
 })
 
@@ -605,7 +653,11 @@ const postsCreateSuccess = (state, action) => update(state, {
     status: { $set: 'success' },
   },
   postsCreateQueue: {
-    $postsCreateQueueSuccess: action,
+    $resourceCacheSetSuccess: {
+      ...action,
+      resourceKey: action.payload.payload.postId,
+      initialState: initialState.postsCreate,
+    },
   },
 })
 
@@ -614,7 +666,11 @@ const postsCreateFailure = (state, action) => update(state, {
     status: { $set: 'failure' },
   },
   postsCreateQueue: {
-    $postsCreateQueueFailure: action,
+    $resourceCacheSetFailure: {
+      ...action,
+      resourceKey: action.payload.payload.postId,
+      initialState: initialState.postsCreate,
+    },
   },
 })
 
@@ -624,7 +680,11 @@ const postsCreateIdle = (state, action) => update(state, {
     status: { $set: 'idle' },
   },
   postsCreateQueue: {
-    $postsCreateQueueIdle: action,
+    $resourceCacheSetIdle: {
+      ...action,
+      resourceKey: action.payload.payload.postId,
+      initialState: initialState.postsCreate,
+    },
   },
 })
 
@@ -634,7 +694,11 @@ const postsCreateProgress = (state, action) => update(state, {
     meta: { $set: action.payload.meta },
   },
   postsCreateQueue: {
-    $postsCreateQueueProgress: action,
+    $resourceCacheAlterRequest: {
+      ...action,
+      resourceKey: action.payload.payload.postId,
+      initialState: initialState.postsCreate,
+    },
   },
 })
 

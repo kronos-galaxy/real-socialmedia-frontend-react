@@ -40,7 +40,11 @@ const albumsGetRequest = (state, action) => update(state, {
     payload: { $set: action.payload },
   },
   albumsGetCache: {
-    $postsGetCacheRequest: { ...action, initialState: initialState.albumsGet },
+    $resourceCacheSetRequest: {
+      ...action,
+      resourceKey: action.payload.userId,
+      initialState: initialState.albumsGet,
+    },
   },
 })
 
@@ -50,7 +54,11 @@ const albumsGetSuccess = (state, action) => update(state, {
     payload: { $set: action.payload },
   },
   albumsGetCache: {
-    $postsGetCacheSuccess: { ...action, initialState: initialState.albumsGet },
+    $resourceCacheSetSuccess: {
+      ...action,
+      resourceKey: action.payload.payload.userId,
+      initialState: initialState.albumsGet,
+    },
   },
 })
 
@@ -60,7 +68,11 @@ const albumsGetFailure = (state, action) => update(state, {
     payload: { $set: action.payload },
   },
   albumsGetCache: {
-    $postsGetCacheFailure: { ...action, initialState: initialState.albumsGet },
+    $resourceCacheSetFailure: {
+      ...action,
+      resourceKey: action.payload.payload.userId,
+      initialState: initialState.albumsGet,
+    },
   },
 })
 
@@ -70,7 +82,11 @@ const albumsGetIdle = (state, action) => update(state, {
     payload: { $set: action.payload },
   },
   albumsGetCache: {
-    $postsGetCacheIdle: { ...action, initialState: initialState.albumsGet },
+    $resourceCacheSetIdle: {
+      ...action,
+      resourceKey: action.payload.payload.userId,
+      initialState: initialState.albumsGet,
+    },
   },
 })
 
