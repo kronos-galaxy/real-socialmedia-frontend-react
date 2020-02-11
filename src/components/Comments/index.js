@@ -4,6 +4,7 @@ import {
   StyleSheet,
   View,
   ScrollView,
+  RefreshControl,
 } from 'react-native'
 import FormComponent from 'components/Comments/Form'
 import { ifIphoneX } from 'react-native-iphone-x-helper'
@@ -26,7 +27,15 @@ const Comments = ({
 
   return (
     <View style={styling.root}>
-      <ScrollView style={styling.comments}>
+      <ScrollView
+        style={styling.comments}
+        refreshControl={
+          <RefreshControl
+            tintColor={theme.colors.border}
+            refreshing={postsCommentsGet.status === 'loading'}
+          />
+        }
+      >
         {pathOr([], ['data'])(postsCommentsGet).map(((comment, key) => (
           <View style={styling.comment}>
             <CommentComponent key={key} comment={comment} />

@@ -4,6 +4,7 @@ import {
   StyleSheet,
   ScrollView,
   TouchableOpacity,
+  RefreshControl,
 } from 'react-native'
 import path from 'ramda/src/path'
 import { Text } from 'react-native-paper'
@@ -28,12 +29,21 @@ const Result = ({
   usersAcceptFollowerUser,
   usersAcceptFollowerUserRequest,
   handleProfilePress,
+  loading = false,
 }) => {
   const styling = styles(theme)
   const { t } = useTranslation()
 
   return (
-    <ScrollView style={styling.root}>
+    <ScrollView
+      style={styling.root}
+      refreshControl={
+        <RefreshControl
+          tintColor={theme.colors.border}
+          refreshing={loading}
+        />
+      }
+    >
       <RowsComponent items={path(['data'])(usersSearch)}>
         {(user) => (
           <RowsItemComponent>

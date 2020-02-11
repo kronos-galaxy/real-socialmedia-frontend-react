@@ -44,6 +44,10 @@ const PostMediaService = ({ children, navigation, ...props }) => {
     const postIds = viewableItems.map(viewable => path(['item', 'postId'])(viewable))
       .filter(item => item)
 
+    if (!Array.isArray(postIds) || !postIds.length) {
+      return
+    }
+
     dispatch(postsActions.postsReportPostViewsRequest({ postIds }))
   }
 

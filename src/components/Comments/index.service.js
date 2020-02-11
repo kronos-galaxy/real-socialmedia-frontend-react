@@ -2,6 +2,7 @@ import { Keyboard } from 'react-native'
 import { useEffect, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import * as postsActions from 'store/ducks/posts/actions'
+import * as postsServices from 'store/ducks/posts/services'
 import { withNavigation } from 'react-navigation'
 import uuid from 'uuid/v4'
 import path from 'ramda/src/path'
@@ -12,6 +13,7 @@ const CommentsService = ({ children, navigation }) => {
   const postId = path(['postId'])(navigation.getParam('post'))
   const commentsAdd = useSelector(state => state.posts.commentsAdd)
   const postsCommentsGet = useSelector(state => state.posts.postsCommentsGet)
+  const postsCommentsGetCache = useSelector(state => state.posts.postsCommentsGetCache)
 
   useEffect(() => {
     dispatch(postsActions.postsCommentsGetRequest({ postId }))
@@ -19,6 +21,7 @@ const CommentsService = ({ children, navigation }) => {
 
   useEffect(() => {
     dispatch(postsActions.postsCommentsGetRequest({ postId }))
+    dispatch(postsActions.postsSingleGetRequest({ postId }))
   }, [commentsAdd.status === 'success'])
 
   const commentsAddRequest = ({ text }) => {
@@ -31,7 +34,7 @@ const CommentsService = ({ children, navigation }) => {
   }
 
   /**
-   * Keyboard movement calculator
+   * Keyboard movement calculator 
    */
   const [offset, setOffset] = useState(0)
 
@@ -58,7 +61,7 @@ const CommentsService = ({ children, navigation }) => {
   return children({
     commentsAdd,
     commentsAddRequest,
-    postsCommentsGet,
+    postsCommentsGet: postsServices.cachedPostsGet(postsCommentsGet, postsCommentsGetCache, postId),
     marginBottom,
   })
 }

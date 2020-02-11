@@ -318,11 +318,6 @@ const postsEditSuccess = (state, action) => update(state, {
       $feedPostUpdate: { postId: action.payload.data.postId, post: action.payload.data },
     },
   },
-  postsGetArchived: {
-    data: {
-      $feedPostUpdate: { postId: action.payload.data.postId, post: action.payload.data },
-    },
-  },
   postsGet: {
     data: {
       $feedPostUpdate: { postId: action.payload.data.postId, post: action.payload.data },
@@ -333,6 +328,11 @@ const postsEditSuccess = (state, action) => update(state, {
       data: {
         $feedPostUpdate: { postId: action.payload.data.postId, post: action.payload.data },
       },
+    },
+  },
+  postsGetArchived: {
+    data: {
+      $feedPostUpdate: { postId: action.payload.data.postId, post: action.payload.data },
     },
   },
 })
@@ -538,6 +538,23 @@ const postsSingleGetSuccess = (state, action) => update(state, {
   postsSingleGet: {
     data: { $set: action.payload.data },
     status: { $set: 'success' },
+  },
+  postsFeedGet: {
+    data: {
+      $feedPostUpdate: { postId: action.payload.data.postId, post: action.payload.data },
+    },
+  },
+  postsGet: {
+    data: {
+      $feedPostUpdate: { postId: action.payload.data.postId, post: action.payload.data },
+    },
+  },
+  postsGetCache: {
+    [action.payload.data.postedBy.userId]: {
+      data: {
+        $feedPostUpdate: { postId: action.payload.data.postId, post: action.payload.data },
+      },
+    },
   },
 })
 
@@ -1046,6 +1063,13 @@ const postsCommentsGetRequest = (state, action) => update(state, {
     status: { $set: 'loading' },
     payload: { $set: action.payload },
   },
+  postsCommentsGetCache: {
+    $resourceCacheSetRequest: {
+      ...action,
+      resourceKey: action.payload.postId,
+      initialState: initialState.postsCommentsGet,
+    },
+  },
 })
 
 const postsCommentsGetSuccess = (state, action) => update(state, {
@@ -1053,11 +1077,25 @@ const postsCommentsGetSuccess = (state, action) => update(state, {
     data: { $set: action.payload.data },
     status: { $set: 'success' },
   },
+  postsCommentsGetCache: {
+    $resourceCacheSetSuccess: {
+      ...action,
+      resourceKey: action.payload.payload.postId,
+      initialState: initialState.postsCommentsGet,
+    },
+  },
 })
 
 const postsCommentsGetFailure = (state, action) => update(state, {
   postsCommentsGet: {
     status: { $set: 'failure' },
+  },
+  postsCommentsGetCache: {
+    $resourceCacheSetFailure: {
+      ...action,
+      resourceKey: action.payload.payload.postId,
+      initialState: initialState.postsCommentsGet,
+    },
   },
 })
 
@@ -1065,6 +1103,13 @@ const postsCommentsGetIdle = (state, action) => update(state, {
   postsCommentsGet: {
     data: { $set: initialState.postsCommentsGet.data },
     status: { $set: 'idle' },
+  },
+  postsCommentsGetCache: {
+    $resourceCacheSetIdle: {
+      ...action,
+      resourceKey: action.payload.payload.postId,
+      initialState: initialState.postsCommentsGet,
+    },
   },
 })
 

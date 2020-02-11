@@ -35,6 +35,7 @@ const ProfileFollower = ({
         handleProfilePress={handleProfilePress}
         usersAcceptFollowerUser={usersAcceptFollowerUser}
         usersAcceptFollowerUserRequest={usersAcceptFollowerUserRequest}
+        loading={usersGetFollowerUsers.status === 'loading'}
       />
     </View>
   )

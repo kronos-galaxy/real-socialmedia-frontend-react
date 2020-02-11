@@ -90,6 +90,7 @@ const PostMedia = ({
       />
 
       <FlatList
+        bounces={false}
         ref={feedRef}
         keyExtractor={item => item.postId}
         data={flatListData.slice(0, 6)}
