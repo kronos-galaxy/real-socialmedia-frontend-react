@@ -6,8 +6,9 @@ import {
   Text,
 } from 'react-native'
 import Layout from 'constants/Layout'
-import ImageComponent from 'templates/Image'
-import path from 'ramda/src/path'
+import pathOr from 'ramda/src/pathOr'
+import { StaticCollage } from 'react-native-images-collage'
+import LinearGradient from 'react-native-linear-gradient'
 
 import { withTheme } from 'react-native-paper'
 import { withNavigation } from 'react-navigation'
@@ -20,6 +21,29 @@ const AlbumLarge = ({
   const styling = styles(theme)
   const { t } = useTranslation()
 
+  const getCollageMatrix = (album) => {
+    const albumPosts = pathOr([], ['posts', 'items'])(album)
+    if (albumPosts.length <= 1) {
+      return [1]
+    }
+    if (albumPosts.length === 2) {
+      return [1, 1]
+    }
+    if (albumPosts.length > 2) {
+      return [1, 2]
+    }
+  }
+
+  const getCollagePhotos = (album) => {
+    const albumPosts = pathOr([], ['posts', 'items'])(album)
+
+    if (!albumPosts.length) {
+      return [pathOr('', ['url480p'])(album)]
+    }
+
+    return albumPosts.map(post => post.mediaObjects[0].url480p)
+  }
+
   return (
     <View style={styling.root}>
       <View style={styling.albums}>
@@ -30,17 +54,23 @@ const AlbumLarge = ({
           <View key={key}>
             <View key={key} style={styling.albumWrapper}>
               <View style={styling.album}>
-                <ImageComponent
-                  thumbnailSource={{ uri: path(['url64p'])(album) }}
-                  imageSource={{ uri: path(['url480p'])(album) }}
-                  priorityIndex={key}
+                <LinearGradient
+                  colors={[`${theme.colors.backgroundPrimary}10`, `${theme.colors.backgroundSecondary}50`]}
+                  style={styling.gradient}
+                />
+
+                <StaticCollage
+                  width={Layout.window.width / 2 - 6}
+                  height={Layout.window.width / 2 - 6}
+                  images={getCollagePhotos(album)}
+                  matrix={getCollageMatrix(album)}
                 />
               </View>
             </View>
 
             <View key={key} style={styling.albumText}>
-              <Text style={styling.text}>{path(['name'])(album)}</Text>
-              <Text style={styling.text}>{path(['description'])(album)}</Text>
+              <Text style={styling.text}>{pathOr(t('Default Album'), ['name'])(album)}</Text>
+              <Text style={styling.text}>{pathOr('', ['description'])(album)}</Text>
             </View>
           </View>
         ))}
@@ -78,6 +108,10 @@ const styles = theme => StyleSheet.create({
   },
   text: {
     color: theme.colors.text,
+  },
+  gradient: {
+    ...StyleSheet.absoluteFill,
+    zIndex: 1,
   },
 })
 

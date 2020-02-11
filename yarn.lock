@@ -7277,6 +7277,11 @@ react-native-image-zoom-viewer@^2.2.27:
   dependencies:
     react-native-image-pan-zoom "^2.1.9"
 
+react-native-images-collage@^3.2.5:
+  version "3.2.5"
+  resolved "https://registry.npmjs.org/react-native-images-collage/-/react-native-images-collage-3.2.5.tgz#3e1bc84ccde798fd38eae92499318b44023a81be"
+  integrity sha512-MdmOhkzWYuDhFRKczyvNJ01R5j0QkhIDfKEoh7sZPnXvXkmswVz2NsRBYJ1aK2G1BzpQEU3Sd2Qt2k0LxwtFVw==
+
 react-native-iphone-x-helper@^1.0.3, react-native-iphone-x-helper@^1.2.1:
   version "1.2.1"
   resolved "https://registry.npmjs.org/react-native-iphone-x-helper/-/react-native-iphone-x-helper-1.2.1.tgz#645e2ffbbb49e80844bb4cbbe34a126fda1e6772"
