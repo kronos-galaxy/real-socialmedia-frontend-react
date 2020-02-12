@@ -4,6 +4,7 @@ import {
   StyleSheet,
   TouchableOpacity,
   View,
+  Image,
 } from 'react-native'
 import path from 'ramda/src/path'
 import pathOr from 'ramda/src/pathOr'
@@ -17,6 +18,7 @@ import ReactionsPreviewTemplate from 'templates/ReactionsPreview'
 import Carousel, { Pagination } from 'react-native-snap-carousel'
 import Layout from 'constants/Layout'
 import { Text } from 'react-native-paper'
+import { BlurView } from '@react-native-community/blur'
 
 import { withTheme } from 'react-native-paper'
 import { withNavigation } from 'react-navigation'
@@ -35,6 +37,18 @@ const PostCarousel = (
 
   return (
     <View style={styling.carouselItem}>
+      <Image
+        source={{ uri: path(['mediaObjects', '0', 'url64p'])(post) }}
+        priorityIndex={index}
+        style={styling.gradient}
+      />
+
+      <BlurView
+        style={styling.gradient}
+        blurType="regular"
+        blurAmount={100}
+      />
+
       <ListItemComponent post={post}>
         <ImageComponent
           thumbnailSource={{ uri: path(['mediaObjects', '0', 'url64p'])(post) }}
@@ -196,6 +210,9 @@ const styles = theme => StyleSheet.create({
     height: '100%',
     justifyContent: 'center',
     alignItems: 'center'
+  },
+  gradient: {
+    ...StyleSheet.absoluteFill,
   },
 })
 

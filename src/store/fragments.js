@@ -46,6 +46,11 @@ export const mediaObjectFragment = `
     width
     height
     isVerified
+    colors {
+      r
+      g
+      b
+    }
   }
 `
 
