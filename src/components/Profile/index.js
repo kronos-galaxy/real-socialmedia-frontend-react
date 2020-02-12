@@ -17,6 +17,7 @@ import NativeError from 'templates/NativeError'
 import path from 'ramda/src/path'
 import PostsLoadingComponent from 'components/PostsList/PostsLoading'
 import ProfileStatusComponent from 'components/Profile/Status'
+import ProfilePrivateComponent from 'components/Profile/Private'
 
 import { withTheme } from 'react-native-paper'
 import { withNavigation } from 'react-navigation'
@@ -179,11 +180,18 @@ const Profile = ({
           />
         </View>
 
-        <PostsGridComponent
-          postsGet={postsGet}
-          themeFetch={themeFetch}
-          themeCode={path(['data', 'themeCode'])(usersGetProfile)}
-        />
+        {(
+          path(['data', 'privacyStatus'])(usersGetProfile) === 'PRIVATE' &&
+          path(['data', 'followedStatus'])(usersGetProfile) === 'NOT_FOLLOWING'
+        ) ? (
+          <ProfilePrivateComponent />
+        ) : (
+          <PostsGridComponent
+            postsGet={postsGet}
+            themeFetch={themeFetch}
+            themeCode={path(['data', 'themeCode'])(usersGetProfile)}
+          />
+        )}
 
         {(path(['status'])(postsGet) === 'loading' && !path(['data', 'length'])(postsGet)) ?
           <PostsLoadingComponent />

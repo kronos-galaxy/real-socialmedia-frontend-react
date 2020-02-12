@@ -11,7 +11,7 @@ import { withTheme } from 'react-native-paper'
 import { withNavigation } from 'react-navigation'
 import { useTranslation } from 'react-i18next'
 
-const ProfileStatus = ({
+const Private = ({
   theme,
   navigation,
 }) => {
@@ -20,20 +20,17 @@ const ProfileStatus = ({
 
   return (
     <View style={styling.root}>
-      <TouchableOpacity onPress={() => navigation.navigate('Payout')}>
-        <Text>
-          <Caption>{t('You will be paid {{amount}} dollars per view from other diamond members', { amount: '$0.11' })} </Caption>
-          <Caption style={styling.link}>{t('learn more')}</Caption>
-        </Text>
-      </TouchableOpacity>
+      <Text>{t('This account is private')} </Text>
+      <Caption>{t('Follow this account to see their photos')}</Caption>
     </View>
   )
 }
 
 const styles = theme => StyleSheet.create({
   root: {
-    paddingHorizontal: theme.spacing.base,
-    paddingTop: theme.spacing.base,
+    padding: theme.spacing.base,
+    marginVertical: theme.spacing.base,
+    alignItems: 'center',
   },
   link: {
     color: theme.colors.primary,
@@ -41,11 +38,11 @@ const styles = theme => StyleSheet.create({
   },
 })
 
-ProfileStatus.propTypes = {
+Private.propTypes = {
   theme: PropTypes.any,
   navigation: PropTypes.any,
 }
 
 export default withNavigation(
-  withTheme(ProfileStatus)
+  withTheme(Private)
 )
