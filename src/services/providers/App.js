@@ -65,6 +65,7 @@ export const AuthProvider = ({
     Updates.versionCheck()
     const appStateListener = (nextAppState) => {
       if (nextAppState === 'active') {
+        authCheckRequest({})
         Updates.versionCheck()
       }
     }
