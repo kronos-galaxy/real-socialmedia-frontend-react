@@ -1,13 +1,14 @@
 import { Linking, Alert } from 'react-native'
 import { getReadableVersion } from 'react-native-device-info'
-import axios from 'axios'
 import * as Logger from 'services/Logger'
 
 export const versionCheck = (async () => {
   try {
-    const data = await axios.get('https://d3dclx0mrf3ube.cloudfront.net/versions/production.json', {
-      timestamp: new Date().getTime()
-    })
+    const data = (async () => {
+      const data = await fetch('https://d3dclx0mrf3ube.cloudfront.net/versions/production.json')
+      return await data.json()
+    })()
+
     const isNeeded = !getReadableVersion().includes(data.data.version)
 
     if (false) {

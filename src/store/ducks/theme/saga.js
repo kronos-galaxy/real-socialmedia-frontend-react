@@ -1,14 +1,13 @@
 import { put, takeLatest } from 'redux-saga/effects'
 import * as actions from 'store/ducks/theme/actions'
 import * as constants from 'store/ducks/theme/constants'
-import axios from 'axios'
 
 /**
  *
  */
 function* handleThemeFetchRequest() {
-  const data = yield axios.get('https://d3dclx0mrf3ube.cloudfront.net/themes.json')
-  return data.data
+  const data = yield fetch('https://d3dclx0mrf3ube.cloudfront.net/themes.json')
+  return yield data.json()
 }
 
 /**
