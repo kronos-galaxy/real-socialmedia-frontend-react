@@ -1,6 +1,5 @@
 import { useEffect, useRef } from 'react'
-import { useSelector, useDispatch } from 'react-redux'
-import * as postsActions from 'store/ducks/posts/actions'
+import { useDispatch } from 'react-redux'
 import * as usersActions from 'store/ducks/users/actions'
 import { withNavigation } from 'react-navigation'
 import useCounter from 'react-use/lib/useCounter'
@@ -9,12 +8,11 @@ import pathOr from 'ramda/src/pathOr'
 const StoryService = ({ children, navigation }) => {
   const dispatch = useDispatch()
   const userId = navigation.getParam('user').userId
-  const usersGetFollowedUsersWithStories = useSelector(state => state.users.usersGetFollowedUsersWithStories)
+  const usersGetFollowedUsersWithStories = navigation.getParam('usersGetFollowedUsersWithStories')
 
   const [currentStory, { inc: nextStory, dec: prevStory, reset: resetStory }] = useCounter(0)
 
   useEffect(() => {
-    dispatch(postsActions.postsStoriesGetRequest({ userId }))
     dispatch(usersActions.usersGetProfileRequest({ userId }))
   }, [])
 

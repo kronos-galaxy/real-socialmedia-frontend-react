@@ -9,12 +9,6 @@ const initialState = {
     error: {},
     payload: {},
   },
-  usersStoriesGet: {
-    data: [],
-    status: 'idle',
-    error: {},
-    payload: {},
-  },
   usersGetFollowedUsersWithStories: {
     data: [],
     status: 'idle',
@@ -131,36 +125,6 @@ const usersSearchFailure = (state, action) => update(state, {
 const usersSearchIdle = (state, action) => update(state, {
   usersSearch: {
     data: { $set: initialState.usersSearch.data },
-    status: { $set: 'idle' },
-  },
-})
-
-/**
- *
- */
-const usersStoriesGetRequest = (state, action) => update(state, {
-  usersStoriesGet: {
-    status: { $set: 'loading' },
-    payload: { $set: action.payload },
-  },
-})
-
-const usersStoriesGetSuccess = (state, action) => update(state, {
-  usersStoriesGet: {
-    data: { $set: action.payload.data },
-    status: { $set: 'success' },
-  },
-})
-
-const usersStoriesGetFailure = (state, action) => update(state, {
-  usersStoriesGet: {
-    status: { $set: 'failure' },
-  },
-})
-
-const usersStoriesGetIdle = (state, action) => update(state, {
-  usersStoriesGet: {
-    data: { $set: initialState.usersStoriesGet.data },
     status: { $set: 'idle' },
   },
 })
@@ -758,11 +722,6 @@ export default handleActions({
   [constants.USERS_SEARCH_SUCCESS]: usersSearchSuccess,
   [constants.USERS_SEARCH_FAILURE]: usersSearchFailure,
   [constants.USERS_SEARCH_IDLE]: usersSearchIdle,
-
-  [constants.USERS_STORIES_GET_REQUEST]: usersStoriesGetRequest,
-  [constants.USERS_STORIES_GET_SUCCESS]: usersStoriesGetSuccess,
-  [constants.USERS_STORIES_GET_FAILURE]: usersStoriesGetFailure,
-  [constants.USERS_STORIES_GET_IDLE]: usersStoriesGetIdle,
 
   [constants.USERS_GET_FOLLOWED_USERS_WITH_STORIES_REQUEST]: usersGetFollowedUsersWithStoriesRequest,
   [constants.USERS_GET_FOLLOWED_USERS_WITH_STORIES_SUCCESS]: usersGetFollowedUsersWithStoriesSuccess,

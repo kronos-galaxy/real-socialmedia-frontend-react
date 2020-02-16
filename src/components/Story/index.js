@@ -15,6 +15,7 @@ import CameraHeaderTemplate from 'templates/Camera/Header'
 import ImageTemplate from 'templates/Image'
 import { BlurView } from '@react-native-community/blur'
 import LinearGradient from 'react-native-linear-gradient'
+import pathOr from 'ramda/src/pathOr'
 
 import { withTheme } from 'react-native-paper'
 import { withNavigation } from 'react-navigation'
@@ -34,19 +35,10 @@ const StoryCarousel = ({
 }) => {
   const styling = styles(theme)
 
-  const story = user.stories.items[currentStory || 0]
+  const story = pathOr(0, ['stories', 'items', currentStory], user)
 
   if (!story) {
-    return (
-      <View style={styling.sliderItem}>
-        <View style={styling.backdrop} />
-        <BlurView style={styling.blur} />
-        <LinearGradient
-          colors={[theme.colors.backgroundPrimary, `transparent`]}
-          style={styling.gradient}
-        />
-      </View>
-    )
+    return null
   }
 
   return (
@@ -107,6 +99,13 @@ const Story = ({
   
   return (
     <View style={styling.root} key={currentStory}>
+      <View style={styling.backdrop} />
+      <BlurView style={styling.blur} />
+      <LinearGradient
+        colors={[theme.colors.backgroundPrimary, `transparent`]}
+        style={styling.gradient}
+      />
+
       <Carousel
         firstItem={usersGetFollowedUsersWithStories.data.findIndex(user => user.userId === userId)}
         enableMomentum
@@ -149,7 +148,7 @@ const styles = theme => StyleSheet.create({
   },
   wrapperLeft: {
     position: 'absolute',
-    top: 70,
+    top: 120,
     left: 0,
     bottom: 0,
     zIndex: 1,
@@ -157,7 +156,7 @@ const styles = theme => StyleSheet.create({
   },
   wrapperRight: {
     position: 'absolute',
-    top: 70,
+    top: 120,
     right: 0,
     bottom: 0,
     zIndex: 1,
@@ -200,7 +199,7 @@ const styles = theme => StyleSheet.create({
   },
   gradient: {
     ...StyleSheet.absoluteFill,
-    height: 130,
+    height: 140,
   },
 })
 

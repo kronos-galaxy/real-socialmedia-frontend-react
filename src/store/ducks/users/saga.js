@@ -25,23 +25,6 @@ function* usersSearchRequest(req) {
 /**
  *
  */
-function* usersStoriesGetRequest(req) {
-  const AwsAPI = yield getContext('AwsAPI')
-  const errorWrapper = yield getContext('errorWrapper')
-
-  try {
-    const data = yield AwsAPI.graphql(graphqlOperation(queries.getStories, req.payload))
-    const selector = path(['data', 'getStories', 'items'])
-
-    yield put(actions.usersStoriesGetSuccess({ data: selector(data), meta: data }))
-  } catch (error) {
-    yield put(actions.usersStoriesGetFailure({ message: errorWrapper(error) }))
-  }
-}
-
-/**
- *
- */
 function* usersGetFollowerUsersRequest(req) {
   const AwsAPI = yield getContext('AwsAPI')
   const errorWrapper = yield getContext('errorWrapper')
@@ -103,6 +86,7 @@ function* usersGetFollowedUsersWithStoriesRequest(req) {
 
     yield put(actions.usersGetFollowedUsersWithStoriesSuccess({ data: selector(data), meta: data }))
   } catch (error) {
+    console.log(error)
     yield put(actions.usersGetFollowedUsersWithStoriesFailure({ message: errorWrapper(error) }))
   }
 }
@@ -298,7 +282,6 @@ function* usersGetTrendingUsersRequest(req) {
 
 export default () => [
   takeLatest(constants.USERS_SEARCH_REQUEST, usersSearchRequest),
-  takeLatest(constants.USERS_STORIES_GET_REQUEST, usersStoriesGetRequest),
   takeLatest(constants.USERS_GET_FOLLOWED_USERS_WITH_STORIES_REQUEST, usersGetFollowedUsersWithStoriesRequest),
   takeLatest(constants.USERS_GET_FOLLOWER_USERS_REQUEST, usersGetFollowerUsersRequest),
   takeLatest(constants.USERS_GET_FOLLOWED_USERS_REQUEST, usersGetFollowedUsersRequest),

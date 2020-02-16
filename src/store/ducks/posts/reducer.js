@@ -73,13 +73,6 @@ const initialState = {
     payload: {},
     meta: {},
   },
-  postsStoriesGet: {
-    data: [],
-    status: 'idle',
-    error: {},
-    payload: {},
-    meta: {},
-  },
   postsCreate: {
     data: {},
     status: 'idle',
@@ -149,7 +142,6 @@ const initialState = {
   postsCreateQueue: {},
   postsGetCache: {},
   postsCommentsGetCache: {},
-  postsStoriesGetCache: {},
   postsViewsGetCache: {},
 }
 
@@ -644,64 +636,6 @@ const postsFeedGetMoreSuccess = (state, action) => update(state, {
     data: { $push: action.payload.data },
     status: { $set: 'success' },
     meta: { $set: action.payload.meta },
-  },
-})
-
-/**
- *
- */
-const postsStoriesGetRequest = (state, action) => update(state, {
-  postsStoriesGet: {
-    status: { $set: 'loading' },
-    payload: { $set: action.payload },
-  },
-  postsStoriesGetCache: {
-    $resourceCacheSetRequest: {
-      ...action,
-      resourceKey: action.payload.userId,
-      initialState: initialState.postsGet,
-    },
-  },
-})
-
-const postsStoriesGetSuccess = (state, action) => update(state, {
-  postsStoriesGet: {
-    data: { $set: action.payload.data },
-    status: { $set: 'success' },
-  },
-  postsStoriesGetCache: {
-    $resourceCacheSetSuccess: {
-      ...action,
-      resourceKey: action.payload.payload.userId,
-      initialState: initialState.postsGet,
-    },
-  },
-})
-
-const postsStoriesGetFailure = (state, action) => update(state, {
-  postsStoriesGet: {
-    status: { $set: 'failure' },
-  },
-  postsStoriesGetCache: {
-    $resourceCacheSetFailure: {
-      ...action,
-      resourceKey: action.payload.payload.userId,
-      initialState: initialState.postsGet,
-    },
-  },
-})
-
-const postsStoriesGetIdle = (state, action) => update(state, {
-  postsStoriesGet: {
-    data: { $set: initialState.postsStoriesGet.data },
-    status: { $set: 'idle' },
-  },
-  postsStoriesGetCache: {
-    $resourceCacheSetIdle: {
-      ...action,
-      resourceKey: action.payload.payload.userId,
-      initialState: initialState.postsGet,
-    },
   },
 })
 
@@ -1255,11 +1189,6 @@ export default handleActions({
   [constants.POSTS_FEED_GET_IDLE]: postsFeedGetIdle,
   [constants.POSTS_FEED_GET_MORE_REQUEST]: postsFeedGetMoreRequest,
   [constants.POSTS_FEED_GET_MORE_SUCCESS]: postsFeedGetMoreSuccess,
-
-  [constants.POSTS_STORIES_GET_REQUEST]: postsStoriesGetRequest,
-  [constants.POSTS_STORIES_GET_SUCCESS]: postsStoriesGetSuccess,
-  [constants.POSTS_STORIES_GET_FAILURE]: postsStoriesGetFailure,
-  [constants.POSTS_STORIES_GET_IDLE]: postsStoriesGetIdle,
 
   [constants.POSTS_CREATE_REQUEST]: postsCreateRequest,
   [constants.POSTS_CREATE_SUCCESS]: postsCreateSuccess,

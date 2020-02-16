@@ -14,14 +14,6 @@ export const usersSearchFailure = createAction(constants.USERS_SEARCH_FAILURE)
 /**
  * 
  */
-export const usersStoriesGetIdle = createAction(constants.USERS_STORIES_GET_IDLE)
-export const usersStoriesGetRequest = createAction(constants.USERS_STORIES_GET_REQUEST)
-export const usersStoriesGetSuccess = createAction(constants.USERS_STORIES_GET_SUCCESS)
-export const usersStoriesGetFailure = createAction(constants.USERS_STORIES_GET_FAILURE)
-
-/**
- * 
- */
 export const usersGetFollowedUsersWithStoriesIdle = createAction(constants.USERS_GET_FOLLOWED_USERS_WITH_STORIES_IDLE)
 export const usersGetFollowedUsersWithStoriesRequest = createAction(constants.USERS_GET_FOLLOWED_USERS_WITH_STORIES_REQUEST)
 export const usersGetFollowedUsersWithStoriesSuccess = createAction(constants.USERS_GET_FOLLOWED_USERS_WITH_STORIES_SUCCESS)

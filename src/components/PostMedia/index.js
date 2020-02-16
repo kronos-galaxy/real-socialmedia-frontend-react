@@ -157,8 +157,6 @@ PostMedia.propTypes = {
   feedRef: PropTypes.any,
   postsMediaFeedGet: PropTypes.any,
   postsMediaFeedGetRequest: PropTypes.any,
-  usersStoriesGet: PropTypes.any,
-  usersStoriesGetRequest: PropTypes.any,
   postsShareRequest: PropTypes.any,
   handleEditPress: PropTypes.any,
   postsArchiveRequest: PropTypes.any,

@@ -37,18 +37,6 @@ export const getFeed = `
   ${postFragment}
 `
 
-export const getStories = `
-  query GetStories($userId: ID, $limit: Int, $nextToken: String = null) {
-    getStories(userId: $userId, limit: $limit, nextToken: $nextToken) {
-      items {
-        ...postFragment
-      }
-      nextToken
-    }
-  }
-  ${postFragment}
-`
-
 export const addPost = `
   mutation AddMediaPost(
     $postId: ID!,

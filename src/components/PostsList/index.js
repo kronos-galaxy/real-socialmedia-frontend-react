@@ -22,10 +22,8 @@ const ScrollHelper = ({
   navigation,
   postsFeedGet,
   postsFeedGetMoreRequest,
-  usersStoriesGet,
   usersGetFollowedUsersWithStories,
   postsFeedGetRequest,
-  usersStoriesGetRequest,
   usersGetFollowedUsersWithStoriesRequest,
 }) => {
   const handleLoadMore = () => {
@@ -50,7 +48,6 @@ const ScrollHelper = ({
   const refreshing = (
     navigation.state.routeName !== 'Theme' && (
       postsFeedGet.status === 'loading' ||
-      usersStoriesGet.status === 'loading' ||
       usersGetFollowedUsersWithStories.status === 'loading'
     )
   )
@@ -61,7 +58,6 @@ const ScrollHelper = ({
 
   const handleRefresh = () => {
     postsFeedGetRequest({})
-    usersStoriesGetRequest()
     usersGetFollowedUsersWithStoriesRequest()
   }
 
@@ -81,8 +77,6 @@ const PostsList = ({
   postsFeedGet,
   postsFeedGetRequest,
   postsFeedGetMoreRequest,
-  usersStoriesGet,
-  usersStoriesGetRequest,
   postsShareRequest,
   handleEditPress,
   postsArchiveRequest,
@@ -109,10 +103,8 @@ const PostsList = ({
     navigation,
     postsFeedGet,
     postsFeedGetMoreRequest,
-    usersStoriesGet,
     usersGetFollowedUsersWithStories,
     postsFeedGetRequest,
-    usersStoriesGetRequest,
     usersGetFollowedUsersWithStoriesRequest,
   })
 
@@ -164,7 +156,6 @@ const PostsList = ({
               <StoriesComponent
                 authUser={authUser}
                 usersGetFollowedUsersWithStories={usersGetFollowedUsersWithStories}
-                usersStoriesGet={usersStoriesGet}
               />
             )
           }
@@ -268,8 +259,6 @@ PostsList.propTypes = {
   feedRef: PropTypes.any,
   postsFeedGet: PropTypes.any,
   postsFeedGetRequest: PropTypes.any,
-  usersStoriesGet: PropTypes.any,
-  usersStoriesGetRequest: PropTypes.any,
   postsShareRequest: PropTypes.any,
   handleEditPress: PropTypes.any,
   postsArchiveRequest: PropTypes.any,

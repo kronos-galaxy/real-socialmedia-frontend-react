@@ -1,86 +1,7 @@
-const mediaObjectFragment = `
-  fragment mediaObjectFragment on MediaObject {
-    mediaId
-    mediaType
-    mediaStatus
-    url
-    url480p
-    url64p
-    url1080p
-    url4k
-    uploadUrl
-    width
-    height
-    isVerified
-  }
-`
-
-const userFragment = `
-  fragment userFragment on User {
-    userId
-    username
-    photoUrl
-    photoUrl64p
-    photoUrl480p
-    photoUrl1080p
-    photoUrl4k
-    privacyStatus
-    followedStatus
-    followerStatus
-    followedCount
-    followerCount
-    followCountsHidden
-    viewCountsHidden
-    commentsDisabled
-    likesDisabled
-    sharingDisabled
-    verificationHidden
-    postCount
-    fullName
-    themeCode
-    bio
-    email
-    phoneNumber
-    languageCode
-    signedUpAt
-    postViewedByCount
-    blockedStatus
-    blockerStatus
-  }
-`
-
-const userPostFragment = `
-  fragment userPostFragment on Post {
-    postId
-    postedAt
-    postedBy {
-      ...userFragment
-    }
-    expiresAt
-    text
-    textTaggedUsers {
-      tag
-      user {
-        ...userFragment
-      }
-    }
-    mediaObjects {
-      ...mediaObjectFragment
-    }
-    likeStatus
-    onymousLikeCount
-    anonymousLikeCount
-    viewedByCount
-    onymouslyLikedBy (limit: 1) {
-      items {
-        ...userFragment
-      }
-      nextToken
-    }
-  }
-  ${mediaObjectFragment}
-  ${userFragment}
-`
+import {
+  mediaObjectFragment,
+  userFragment,
+} from 'store/fragments'
 
 export const searchUsers = `
   query SearchUsers($searchToken: String!, $limit: Int, $nextToken: String) {
@@ -134,9 +55,35 @@ export const user = `
   query user($userId: ID!) {
     user(userId: $userId) {
       ...userFragment
+      stories (limit: 10) {
+        items {
+          postId
+          postedAt
+          postedBy {
+            ...userFragment
+          }
+          expiresAt
+          text
+          textTaggedUsers {
+            tag
+            user {
+              ...userFragment
+            }
+          }
+          mediaObjects {
+            ...mediaObjectFragment
+          }
+          likeStatus
+          onymousLikeCount
+          anonymousLikeCount
+          viewedByCount
+        }
+        nextToken 
+      }
     }
   }
   ${userFragment}
+  ${mediaObjectFragment}
 `
 
 export const setUserDetails = `
@@ -268,18 +215,6 @@ export const denyFollowerUser = `
     }
   }
   ${userFragment}
-`
-
-export const getStories = `
-  query GetStories {
-    getStories {
-      items {
-        ...userPostFragment
-      }
-      nextToken
-    }
-  }
-  ${userPostFragment}
 `
 
 export const self = `

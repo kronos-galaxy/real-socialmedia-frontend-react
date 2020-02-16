@@ -99,14 +99,6 @@ export const postsShareFailure = createAction(constants.POSTS_SHARE_FAILURE)
 /**
  * 
  */
-export const postsStoriesGetIdle = createAction(constants.POSTS_STORIES_GET_IDLE)
-export const postsStoriesGetRequest = createAction(constants.POSTS_STORIES_GET_REQUEST)
-export const postsStoriesGetSuccess = createAction(constants.POSTS_STORIES_GET_SUCCESS)
-export const postsStoriesGetFailure = createAction(constants.POSTS_STORIES_GET_FAILURE)
-
-/**
- * 
- */
 export const postsCreateIdle = createAction(constants.POSTS_CREATE_IDLE)
 export const postsCreateRequest = createAction(constants.POSTS_CREATE_REQUEST)
 export const postsCreateSuccess = createAction(constants.POSTS_CREATE_SUCCESS)

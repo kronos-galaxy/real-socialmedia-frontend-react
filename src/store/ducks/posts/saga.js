@@ -16,23 +16,6 @@ import dayjs from 'dayjs'
 import uuid from 'uuid/v4'
 import RNFS from 'react-native-fs'
 
-/**
- *
- */
-function* postsStoriesGetRequest(req) {
-  const AwsAPI = yield getContext('AwsAPI')
-  const errorWrapper = yield getContext('errorWrapper')
-
-  try {
-    const data = yield AwsAPI.graphql(graphqlOperation(queries.getStories, req.payload))
-    const selector = path(['data', 'getStories', 'items'])
-
-    yield put(actions.postsStoriesGetSuccess({ payload: req.payload, data: selector(data), meta: data }))
-  } catch (error) {
-    yield put(actions.postsStoriesGetFailure({ payload: req.payload, message: errorWrapper(error) }))
-  }
-}
-
 function* handlePostsShareRequest(payload) {
   function* handeImageWatermark(url, hasWatermark, post) {
     if (!hasWatermark) {
@@ -686,7 +669,6 @@ export default () => [
   takeLatest(constants.POSTS_FLAG_REQUEST, postsFlagRequest),
   takeLatest(constants.POSTS_SINGLE_GET_REQUEST, postsSingleGetRequest),
   takeLatest(constants.POSTS_SHARE_REQUEST, postsShareRequest),
-  takeLatest(constants.POSTS_STORIES_GET_REQUEST, postsStoriesGetRequest),
 
   takeEvery(constants.POSTS_CREATE_REQUEST, postsCreateRequest),
   takeEvery(constants.POSTS_CREATE_SCHEDULER_REQUEST, postsCreateSchedulerRequest),

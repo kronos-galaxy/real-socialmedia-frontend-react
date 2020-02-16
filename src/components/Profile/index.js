@@ -18,6 +18,7 @@ import path from 'ramda/src/path'
 import PostsLoadingComponent from 'components/PostsList/PostsLoading'
 import ProfileStatusComponent from 'components/Profile/Status'
 import ProfilePrivateComponent from 'components/Profile/Private'
+import pathOr from 'ramda/src/pathOr'
 
 import { withTheme } from 'react-native-paper'
 import { withNavigation } from 'react-navigation'
@@ -30,7 +31,6 @@ const ScrollHelper = ({
   postsGetMoreRequest,
   usersGetProfileRequest,
   usersGetProfileSelfRequest,
-  postsStoriesGetRequest,
 }) => {
   const handleLoadMore = () => {
     if (
@@ -69,7 +69,6 @@ const ScrollHelper = ({
     }
 
     postsGetRequest({ userId })
-    postsStoriesGetRequest({ userId })
   }
 
   return {
@@ -85,7 +84,6 @@ const Profile = ({
   navigation,
   usersGetProfile,
   authUser,
-  postsStoriesGet,
   usersBlock,
   usersBlockRequest,
   usersUnblock,
@@ -100,12 +98,25 @@ const Profile = ({
   themeFetch,
   usersGetProfileRequest,
   usersGetProfileSelfRequest,
-  postsStoriesGetRequest,
 }) => {
   const styling = styles(theme)
   const { t } = useTranslation()
 
-  const handleUserStoryPress = () => navigation.push('Story', usersGetProfile.data)
+  const handleUserStoryPress = () => {
+    if (!pathOr(0, ['data', 'stories', 'items', 'length'], usersGetProfile)) {
+      return
+    }
+
+    navigation.navigate({
+      routeName: 'Story',
+      params: {
+        user: usersGetProfile.data,
+        usersGetFollowedUsersWithStories: { data: [usersGetProfile.data] },
+      },
+      key: `Story-postid${usersGetProfile.data.userId}`,
+    })
+  }
+
   const self = path(['data', 'userId'])(usersGetProfile) === path(['userId'])(authUser)
 
   const scroll = ScrollHelper({
@@ -115,7 +126,6 @@ const Profile = ({
     postsGetMoreRequest,
     usersGetProfileRequest,
     usersGetProfileSelfRequest,
-    postsStoriesGetRequest,
   })
 
   return (
@@ -144,10 +154,10 @@ const Profile = ({
         : null}
 
         <View style={styling.component}>
-          <TouchableOpacity style={styling.image} onPress={handleUserStoryPress} disabled={!path(['data', 'length'])(postsStoriesGet)}>
+          <TouchableOpacity style={styling.image} onPress={handleUserStoryPress}>
             <Avatar
               size="large"
-              active={path(['data', 'length'])(postsStoriesGet)}
+              active
               thumbnailSource={{ uri: path(['data', 'photoUrl64p'])(usersGetProfile) }}
               imageSource={{ uri: path(['data', 'photoUrl480p'])(usersGetProfile) }}
               themeCode={path(['data', 'themeCode'])(usersGetProfile)}
@@ -242,7 +252,6 @@ Profile.propTypes = {
   navigation: PropTypes.any,
   usersGetProfile: PropTypes.any,
   authUser: PropTypes.any,
-  postsStoriesGet: PropTypes.any,
   usersBlock: PropTypes.any,
   usersBlockRequest: PropTypes.any,
   usersUnblock: PropTypes.any,

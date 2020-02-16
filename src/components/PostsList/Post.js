@@ -226,8 +226,6 @@ PostComponent.propTypes = {
   feedRef: PropTypes.any,
   postsFeedGet: PropTypes.any,
   postsFeedGetRequest: PropTypes.any,
-  usersStoriesGet: PropTypes.any,
-  usersStoriesGetRequest: PropTypes.any,
   postsShareRequest: PropTypes.any,
   handleEditPress: PropTypes.any,
   postsArchiveRequest: PropTypes.any,

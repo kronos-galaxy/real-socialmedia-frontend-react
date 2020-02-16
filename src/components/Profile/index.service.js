@@ -3,7 +3,6 @@ import { InteractionManager } from 'react-native'
 import { useSelector, useDispatch } from 'react-redux'
 import * as usersActions from 'store/ducks/users/actions'
 import * as usersServices from 'store/ducks/users/services'
-import * as postsActions from 'store/ducks/posts/actions'
 import { withNavigation } from 'react-navigation'
 import pathOr from 'ramda/src/pathOr'
 
@@ -14,16 +13,12 @@ const ProfileService = ({ children, navigation }) => {
   const usersGetProfileCache = useSelector(state => state.users.usersGetProfileCache)
   const usersBlock = useSelector(state => state.users.usersBlock)
   const usersUnblock = useSelector(state => state.users.usersUnblock)
-  const postsStoriesGet = useSelector(state => state.posts.postsStoriesGet)
   const usersFollow = useSelector(state => state.users.usersFollow)
   const usersUnfollow = useSelector(state => state.users.usersUnfollow)
   const userId = navigation.getParam('userId')
 
   const usersGetProfileRequest = ({ userId }) => 
     dispatch(usersActions.usersGetProfileRequest({ userId }))
-
-  const postsStoriesGetRequest = ({ userId }) =>
-    dispatch(postsActions.postsStoriesGetRequest({ userId }))
 
   const usersUnblockRequest = ({ userId }) =>
     dispatch(usersActions.usersUnblockRequest({ userId }))
@@ -53,7 +48,6 @@ const ProfileService = ({ children, navigation }) => {
   useEffect(() => {
     InteractionManager.runAfterInteractions(() => {
       usersGetProfileRequest({ userId })
-      postsStoriesGetRequest({ userId })
     })
   }, [userId])
 
@@ -61,8 +55,6 @@ const ProfileService = ({ children, navigation }) => {
     authUser,
     usersGetProfile: usersServices.cachedUsersGetProfile(usersGetProfile, usersGetProfileCache, pathOr({}, ['state', 'params'], navigation)),
     usersGetProfileRequest,
-    postsStoriesGet,
-    postsStoriesGetRequest,
     usersUnblock,
     usersUnblockRequest,
     usersBlock,

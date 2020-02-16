@@ -18,13 +18,19 @@ const Stories = ({
   navigation,
   authUser,
   usersGetFollowedUsersWithStories,
-  usersStoriesGet,
 }) => {
   const styling = styles(theme)
   const { t } = useTranslation()
 
   const handleUserStoryPress = (user) => () => {
-    navigation.push('Story', { user })
+    navigation.navigate({
+      routeName: 'Story',
+      params: {
+        user,
+        usersGetFollowedUsersWithStories,
+      },
+      key: `Story-postid${user.userId}`,
+    })
   }
 
   return (
@@ -35,7 +41,7 @@ const Stories = ({
     >
       <TouchableOpacity
         key={authUser.userId}
-        onPress={!path(['data', 'length'])(usersStoriesGet) ? () => navigation.navigate('Camera') : handleUserStoryPress(authUser)}
+        onPress={() => navigation.navigate('Camera')}
         style={styling.story}
       >
         <Avatar
@@ -43,7 +49,7 @@ const Stories = ({
           size="medium"
           thumbnailSource={{ uri: path(['photoUrl64p'])(authUser) }}
           imageSource={{ uri: path(['photoUrl480p'])(authUser) }}
-          icon={!path(['data', 'length'])(usersStoriesGet)}
+          icon={true}
         />
         <Caption style={styling.username}>{path(['username'])(authUser)}</Caption>
       </TouchableOpacity>
@@ -89,7 +95,6 @@ Stories.propTypes = {
   navigation: PropTypes.any,
   authUser: PropTypes.any,
   usersGetFollowedUsersWithStories: PropTypes.any,
-  usersStoriesGet: PropTypes.any,
 }
 
 export default withNavigation(

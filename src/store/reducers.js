@@ -24,7 +24,6 @@ const postsPersistConfig = {
     'postsGet',
     'postsGetCache',
     'postsGetTrendingPosts',
-    'postsStoriesGet',
     'postsCreateQueue',
   ],
 }
