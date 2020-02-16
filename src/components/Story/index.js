@@ -14,6 +14,7 @@ import CameraTemplate from 'templates/Camera'
 import CameraHeaderTemplate from 'templates/Camera/Header'
 import ImageTemplate from 'templates/Image'
 import { BlurView } from '@react-native-community/blur'
+import LinearGradient from 'react-native-linear-gradient'
 
 import { withTheme } from 'react-native-paper'
 import { withNavigation } from 'react-navigation'
@@ -40,6 +41,10 @@ const StoryCarousel = ({
       <View style={styling.sliderItem}>
         <View style={styling.backdrop} />
         <BlurView style={styling.blur} />
+        <LinearGradient
+          colors={[theme.colors.backgroundPrimary, `transparent`]}
+          style={styling.gradient}
+        />
       </View>
     )
   }
@@ -48,6 +53,10 @@ const StoryCarousel = ({
     <View style={styling.sliderItem}>
       <View style={styling.backdrop} />
       <BlurView style={styling.blur} />
+      <LinearGradient
+        colors={[theme.colors.backgroundPrimary, `transparent`]}
+        style={styling.gradient}
+      />
 
       <CameraTemplate
         steps={(
@@ -188,6 +197,10 @@ const styles = theme => StyleSheet.create({
     zIndex: 1,
     height: 30,
     paddingHorizontal: 10,
+  },
+  gradient: {
+    ...StyleSheet.absoluteFill,
+    height: 130,
   },
 })
 

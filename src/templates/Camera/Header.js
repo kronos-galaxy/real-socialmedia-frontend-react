@@ -43,7 +43,7 @@ const styles = theme => StyleSheet.create({
   },
   content: {
     flex: 3,
-    paddingHorizontal: 24,
+    paddingHorizontal: theme.spacing.base,
   },
   action: {
     flex: 1,
@@ -54,7 +54,7 @@ const styles = theme => StyleSheet.create({
     width: '100%',
   },
   actionItem: {
-    paddingHorizontal: 12,
+    paddingHorizontal: theme.spacing.base,
   },
 })
 

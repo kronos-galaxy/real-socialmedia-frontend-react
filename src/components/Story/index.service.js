@@ -11,7 +11,6 @@ const StoryService = ({ children, navigation }) => {
   const userId = navigation.getParam('user').userId
   const usersGetFollowedUsersWithStories = useSelector(state => state.users.usersGetFollowedUsersWithStories)
 
-  const countStories = usersGetFollowedUsersWithStories.data.find(user => user.userId === userId).stories.items.length
   const [currentStory, { inc: nextStory, dec: prevStory, reset: resetStory }] = useCounter(0)
 
   useEffect(() => {
@@ -20,9 +19,11 @@ const StoryService = ({ children, navigation }) => {
   }, [])
 
   const storyRef = useRef(null)
-  const userStoryIndex = usersGetFollowedUsersWithStories.data.findIndex(user => user.userId === userId)
-  const nextUserStoryIndex = usersGetFollowedUsersWithStories.data[userStoryIndex + 1]
-  const prevUserStoryIndex = usersGetFollowedUsersWithStories.data[userStoryIndex - 1]
+  const currentUserStory = pathOr([], ['data'], usersGetFollowedUsersWithStories).find(user => user.userId === userId)
+  const countStories = pathOr(0, ['stories', 'items', 'length'], currentUserStory)
+  const userStoryIndex = pathOr([], ['data'], usersGetFollowedUsersWithStories).findIndex(user => user.userId === userId)
+  const nextUserStoryIndex = pathOr([], ['data', userStoryIndex + 1], usersGetFollowedUsersWithStories)
+  const prevUserStoryIndex = pathOr([], ['data', userStoryIndex - 1], usersGetFollowedUsersWithStories)
 
   const onSnapItem = (index) => {
     navigation.setParams({

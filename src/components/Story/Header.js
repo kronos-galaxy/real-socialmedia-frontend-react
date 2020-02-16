@@ -4,7 +4,7 @@ import {
   StyleSheet,
   View,
 } from 'react-native'
-import { Text } from 'react-native-paper'
+import { Text, Caption } from 'react-native-paper'
 import Avatar from 'templates/Avatar'
 import path from 'ramda/src/path'
 import dayjs from 'dayjs'
@@ -25,14 +25,13 @@ const Header = ({
     <View style={styling.root}>
       <View style={styling.action}>
         <Avatar
-          size="small"
           thumbnailSource={{ uri: path(['data', 'photoUrl64p'])(usersGetProfile) }}
           imageSource={{ uri: path(['data', 'photoUrl64p'])(usersGetProfile) }}
         />
 
         <View style={styling.text}>
           <Text style={styling.user}>{path(['data', 'username'])(usersGetProfile)}</Text>
-          <Text style={styling.date}>{dayjs(story.postedAt).from(dayjs())}</Text>
+          <Caption style={styling.date}>{t('Expires {{expiry}}', { expiry: dayjs(story.expiresAt).fromNow() })}</Caption>
         </View>
       </View>
     </View>
@@ -48,14 +47,13 @@ const styles = theme => StyleSheet.create({
   },
   text: {
     flex: 1,
-    flexDirection: 'row',
-    alignItems: 'center',
+    justifyContent: 'center',
   },
   user: {
-    marginLeft: 6,
+    marginLeft: theme.spacing.base,
   },
   date: {
-    marginLeft: 12,
+    marginLeft: theme.spacing.base,
   },
 })
 
