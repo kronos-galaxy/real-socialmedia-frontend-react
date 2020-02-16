@@ -51,7 +51,7 @@ const Action = ({
   /**
    * Visibility of like button, like button will be visible if:
    * - Post owner has enabled likes
-   * - Current authenticated user has like enabled in settings
+   * - Post owner has not enabled likesDisabled global setting
    * - Like hasn't been set before, which allows only 1 like per post
    */
   const likeButtonVisibility = (
@@ -63,7 +63,7 @@ const Action = ({
   /**
    * Visibility of comment button, comment button will be visible if:
    * - Post owner has enabled comments
-   * - Current authenticated user has comments enabled in settings
+   * - Post owner has not enabled commentsDisabled global setting
    */
   const commentButtonVisibility = (
     !post.commentsDisabled &&
@@ -79,6 +79,18 @@ const Action = ({
   const shareButtonVisibility = (
     !post.sharingDisabled ||
     tagged
+  )
+
+  /**
+   * Visibility of seen by text, text will be visible if:
+   * - Current authenticated user owns the post
+   * - Post has not enabled viewCountsHidden setting
+   * - Post owner has not enabled viewCountsHidden global setting
+   */
+  const seenByVisibility = (
+    self &&
+    !post.viewCountsHidden &&
+    !path(['postedBy', 'viewCountsHidden'])(post)
   )
 
   return (
@@ -114,22 +126,15 @@ const Action = ({
         {Pagination}
       </View>
 
-
-      {!post.viewCountsHidden && !path(['postedBy', 'viewCountsHidden'])(post) ?
+      {seenByVisibility ?
         <TouchableOpacity style={styling.actionRight} onPress={handleViewsPress}>
-          <View style={styling.time}>
-            <Caption style={styling.timeAgo}>{dayjs(post.postedAt).from(dayjs())}</Caption>
-          </View>
+          <Caption>{t('Seen by {{viewedByCount}} people', { viewedByCount: post.viewedByCount })}</Caption>
         </TouchableOpacity>
-      : null}
-
-      {post.viewCountsHidden || path(['postedBy', 'viewCountsHidden'])(post) ?
+      :
         <View style={styling.actionRight}>
-          <View style={styling.time}>
-            <Caption style={styling.timeAgo}>{dayjs(post.postedAt).from(dayjs())}</Caption>
-          </View>
+          <Caption>{dayjs(post.postedAt).from(dayjs())}</Caption>
         </View>
-      : null}
+      }
     </View>
   )
 }
@@ -156,12 +161,6 @@ const styles = theme => StyleSheet.create({
   actionRight: {
     flex: 1,
     flexDirection: 'row-reverse',
-  },
-  time: {
-    flexDirection: 'row',
-    paddingVertical: 6,
-  },
-  timeAgo: {
   },
 })
 

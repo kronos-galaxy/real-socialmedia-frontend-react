@@ -150,6 +150,7 @@ const initialState = {
   postsGetCache: {},
   postsCommentsGetCache: {},
   postsStoriesGetCache: {},
+  postsViewsGetCache: {},
 }
 
 /**
@@ -247,6 +248,13 @@ const postsViewsGetRequest = (state, action) => update(state, {
     status: { $set: 'loading' },
     payload: { $set: action.payload },
   },
+  postsViewsGetCache: {
+    $resourceCacheSetRequest: {
+      ...action,
+      resourceKey: action.payload.postId,
+      initialState: initialState.postsViewsGet,
+    },
+  },
 })
 
 const postsViewsGetSuccess = (state, action) => update(state, {
@@ -254,11 +262,25 @@ const postsViewsGetSuccess = (state, action) => update(state, {
     data: { $set: action.payload.data },
     status: { $set: 'success' },
   },
+  postsViewsGetCache: {
+    $resourceCacheSetSuccess: {
+      ...action,
+      resourceKey: action.payload.payload.postId,
+      initialState: initialState.postsViewsGet,
+    },
+  },
 })
 
 const postsViewsGetFailure = (state, action) => update(state, {
   postsViewsGet: {
     status: { $set: 'failure' },
+  },
+  postsViewsGetCache: {
+    $resourceCacheSetFailure: {
+      ...action,
+      resourceKey: action.payload.payload.postId,
+      initialState: initialState.postsViewsGet,
+    },
   },
 })
 
@@ -266,6 +288,13 @@ const postsViewsGetIdle = (state, action) => update(state, {
   postsViewsGet: {
     data: { $set: initialState.postsViewsGet.data },
     status: { $set: 'idle' },
+  },
+  postsViewsGetCache: {
+    $resourceCacheSetIdle: {
+      ...action,
+      resourceKey: action.payload.payload.postId,
+      initialState: initialState.postsViewsGet,
+    },
   },
 })
 
