@@ -282,7 +282,21 @@ const tabNavigator = (screenProps) => createBottomTabNavigator({
 export default (screenProps) => createStackNavigator({
   Content: tabNavigator(screenProps),
   Modal: ModalScreen,
-  Story: StoryScreen,
+  Story: {
+    screen: StoryScreen,
+    navigationOptions: {
+      cardStyleInterpolator: CardStyleInterpolators.forVerticalIOS,
+      gestureEnabled: true,
+      gestureResponseDistance: {
+        horizontal: Layout.window.width,
+        vertical: Layout.window.height,
+      },
+      gestureDirection: 'vertical',
+      cardStyle: {
+        backgroundColor: 'transparent',
+      },
+    },
+  },
 
   PostCreate: PostCreateScreen,
   PostEdit: PostEditScreen,
@@ -306,7 +320,9 @@ export default (screenProps) => createStackNavigator({
     gestureEnabled: true,
     gestureResponseDistance: {
       horizontal: Layout.window.width,
+      vertical: Layout.window.height,
     },
+    gestureDirection: 'vertical',
     cardStyle: {
       backgroundColor: screenProps.theme.colors.backgroundPrimary,
     },

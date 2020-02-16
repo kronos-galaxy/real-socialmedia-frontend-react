@@ -23,7 +23,9 @@ const Stories = ({
   const styling = styles(theme)
   const { t } = useTranslation()
 
-  const handleUserStoryPress = (user) => () => navigation.push('Story', user)
+  const handleUserStoryPress = (user) => () => {
+    navigation.push('Story', { user })
+  }
 
   return (
     <ScrollView

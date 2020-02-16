@@ -4,7 +4,7 @@ import {
   View,
   StyleSheet,
 } from 'react-native'
-import RNModal from 'react-native-modal'
+import Modal from 'react-native-modal'
 import DefaultButton from 'components/Formik/Button/DefaultButton'
 import { Provider as PaperProvider } from 'react-native-paper'
 import { useSelector } from 'react-redux'
@@ -27,7 +27,7 @@ const ThemeModal = ({
   const { t } = useTranslation()
 
   return (
-    <RNModal isVisible={isVisible}>
+    <Modal isVisible={isVisible}>
       <View style={styling.root}>
         <View style={styling.header}>
           <PaperProvider theme={customTheme}>
@@ -51,7 +51,7 @@ const ThemeModal = ({
           {children}
         </View>
       </View>
-    </RNModal>
+    </Modal>
   )
 }
 

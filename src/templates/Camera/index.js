@@ -81,7 +81,6 @@ const styles = theme => StyleSheet.create({
     }),
   },
   camera: {
-    backgroundColor: theme.colors.backgroundPrimary,
     width: Layout.window.width,
     height: Layout.window.height,
     flex: 1,

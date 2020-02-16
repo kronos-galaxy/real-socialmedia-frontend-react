@@ -48,7 +48,7 @@ const styles = theme => StyleSheet.create({
   },
   progressItem: {
     flex: 1,
-    height: 1,
+    height: 2,
     backgroundColor: theme.colors.primaryIcon,
     marginHorizontal: 4,
   },

@@ -191,11 +191,37 @@ export const getFollowedUsersWithStories = `
     getFollowedUsersWithStories(limit: $limit, nextToken: $nextToken) {
       items {
         ...userFragment
+        stories (limit: 10) {
+          items {
+            postId
+            postedAt
+            postedBy {
+              ...userFragment
+            }
+            expiresAt
+            text
+            textTaggedUsers {
+              tag
+              user {
+                ...userFragment
+              }
+            }
+            mediaObjects {
+              ...mediaObjectFragment
+            }
+            likeStatus
+            onymousLikeCount
+            anonymousLikeCount
+            viewedByCount
+          }
+          nextToken 
+        }
       }
       nextToken
     }
   }
   ${userFragment}
+  ${mediaObjectFragment}
 `
 
 export const getFollowedUsers = `
