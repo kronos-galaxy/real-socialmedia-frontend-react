@@ -33,10 +33,6 @@ const AlbumCreateForm = ({
       </View>
 
       <View style={styling.input}>
-        <Field name="description" component={TextField} placeholder={t('Album Description')} />
-      </View>
-
-      <View style={styling.input}>
         <DefaultButton label={t('Create Album')} onPress={handleSubmit} loading={loading} />
       </View>
     </View>

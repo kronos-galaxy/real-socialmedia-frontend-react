@@ -3,13 +3,12 @@ import PropTypes from 'prop-types'
 import {
   StyleSheet,
   View,
-  TouchableOpacity,
+  Text,
 } from 'react-native'
 import Layout from 'constants/Layout'
 import pathOr from 'ramda/src/pathOr'
 import { StaticCollage } from 'react-native-images-collage'
 import LinearGradient from 'react-native-linear-gradient'
-import { Subheading } from 'react-native-paper'
 
 import { withTheme } from 'react-native-paper'
 import { withNavigation } from 'react-navigation'
@@ -17,7 +16,6 @@ import { useTranslation } from 'react-i18next'
 
 const AlbumLarge = ({
   theme,
-  navigation,
   items,
 }) => {
   const styling = styles(theme)
@@ -53,25 +51,13 @@ const AlbumLarge = ({
          * Albums list
          */}
         {items.map((album, key) => (
-          <TouchableOpacity key={key} onPress={() => navigation.navigate({
-            routeName: 'Album',
-            params: {
-              album,
-            },
-            key: `Album-albumId${album.albumId}`,
-          })}>
-            <View style={styling.albumWrapper}>
+          <View key={key}>
+            <View key={key} style={styling.albumWrapper}>
               <View style={styling.album}>
                 <LinearGradient
-                  colors={[`${theme.colors.backgroundSecondary}`, `${theme.colors.backgroundSecondary}50`]}
+                  colors={[`${theme.colors.backgroundPrimary}10`, `${theme.colors.backgroundSecondary}50`]}
                   style={styling.gradient}
                 />
-
-                <View style={styling.gradient}>
-                  <View style={styling.albumText}>
-                    <Subheading style={styling.text}>{pathOr(t('Default Album'), ['name'])(album)}</Subheading>
-                  </View>
-                </View>
 
                 <StaticCollage
                   width={Layout.window.width / 2 - 6}
@@ -81,7 +67,11 @@ const AlbumLarge = ({
                 />
               </View>
             </View>
-          </TouchableOpacity>
+
+            <View key={key} style={styling.albumText}>
+              <Text style={styling.text}>{pathOr(t('Default Album'), ['name'])(album)}</Text>
+            </View>
+          </View>
         ))}
       </View>
     </View>
@@ -131,6 +121,4 @@ AlbumLarge.propTypes = {
   postsShareRequest: PropTypes.any,
 }
 
-export default withNavigation(
-  withTheme(AlbumLarge)
-)
+export default withTheme(AlbumLarge)
