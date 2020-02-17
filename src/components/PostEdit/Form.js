@@ -10,7 +10,7 @@ import path from 'ramda/src/path'
 import RowsComponent from 'templates/Rows'
 import RowsItemComponent from 'templates/RowsItem'
 import UserRowComponent from 'templates/UserRow'
-import { Text, Caption, Switch } from 'react-native-paper'
+import { Text, Caption, Title, Switch } from 'react-native-paper'
 import dayjs from 'dayjs'
 import Layout from 'constants/Layout'
 
@@ -54,28 +54,25 @@ const PostEditForm = ({
 
   return (
     <View style={styling.root}>
-      <View style={styling.header}>
-        <View style={styling.avatar}>
-          <Avatar
-            size="bigger"
-            thumbnailSource={{ uri: values.uri }}
-            imageSource={{ uri: values.uri }}
-          />
-        </View>
+      <View style={styling.input}>
+        <View style={styling.header}>
+          <View style={styling.avatar}>
+            <Avatar
+              size="bigger"
+              thumbnailSource={{ uri: values.uri }}
+              imageSource={{ uri: values.uri }}
+            />
+          </View>
 
-        <View style={styling.text}>
-          <Field name="text" component={TextDemo} placeholder={t('Write a caption')} multiline={true} />
+          <View style={styling.text}>
+            <Field name="text" component={TextDemo} placeholder={t('Write a caption')} multiline={true} />
+          </View>
         </View>
       </View>
 
-      <View style={styling.bordered}>
-        <FormLifetime
-          values={values}
-          setFieldValue={setFieldValue}
-        />
-      </View>
+      <View style={styling.input}>
+        <Title style={styling.title}>Albums</Title>
 
-      <View style={styling.bordered}>
         <FormAlbums
           values={values}
           setFieldValue={setFieldValue}
@@ -84,6 +81,8 @@ const PostEditForm = ({
       </View>
 
       <View style={styling.input}>
+        <Title style={styling.title}>Privacy</Title>
+        
         <RowsComponent items={[{
           label: t('Comments'),
           caption: t('Followers can comment on posts'),
@@ -130,6 +129,15 @@ const PostEditForm = ({
       </View>
 
       <View style={styling.input}>
+        <Title style={styling.title}>Lifetime</Title>
+
+        <FormLifetime
+          values={values}
+          setFieldValue={setFieldValue}
+        />
+      </View>
+
+      <View style={styling.input}>
         <DefaultButton label={t('Edit Post')} onPress={handleSubmit} loading={loading} />
       </View>
     </View>
@@ -141,22 +149,15 @@ const styles = theme => StyleSheet.create({
   },
   header: {
     flexDirection: 'row',
-    marginBottom: 12,
-  },
-  avatar: {
   },
   text: {
     flex: 1,
   },
   input: {
-    marginBottom: 12,
+    marginBottom: 24,
   },
-  bordered: {
-    borderBottomColor: '#33333340',
-    borderBottomWidth: 1,
-    paddingTop: 6,
-    paddingBottom: 6,
-    marginBottom: 6,
+  title: {
+    marginBottom: theme.spacing.base,
   },
 })
 

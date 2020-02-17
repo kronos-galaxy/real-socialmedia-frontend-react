@@ -86,7 +86,6 @@ function* usersGetFollowedUsersWithStoriesRequest(req) {
 
     yield put(actions.usersGetFollowedUsersWithStoriesSuccess({ data: selector(data), meta: data }))
   } catch (error) {
-    console.log(error)
     yield put(actions.usersGetFollowedUsersWithStoriesFailure({ message: errorWrapper(error) }))
   }
 }

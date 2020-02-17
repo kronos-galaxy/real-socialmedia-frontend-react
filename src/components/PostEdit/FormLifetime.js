@@ -49,6 +49,13 @@ const FormLifetime = ({
 
   return (
     <View style={styling.root}>
+      <Text>{t('Post availability')}</Text>
+      <Caption>
+        {values.expiresAt ?
+          t('This post will expire {{expiresAt}}', { expiresAt: dayjs(values.expiresAt).from(dayjs()) }) :
+          t('This post will be available forever')}
+      </Caption>
+
       <Slider
         style={styling.slider}
         minimumValue={1}
@@ -72,13 +79,6 @@ const FormLifetime = ({
       <View style={styling.sliderIndicator}>
         <LifetimeIndicator />
       </View>
-      
-      <Text>{t('Post availability')}</Text>
-      <Caption>
-        {values.expiresAt ?
-          t('This post will expire {{expiresAt}}', { expiresAt: dayjs(values.expiresAt).from(dayjs()) }) :
-          t('This post will be available forever')}
-      </Caption>
     </View>
   )
 }
@@ -88,10 +88,10 @@ const styles = theme => StyleSheet.create({
   },
   slider: {
     width: Layout.window.width - 24,
-    height: 40,
+    height: 30,
+    marginTop: theme.spacing.base,
   },
   sliderIndicator: {
-    marginBottom: 24,
   },
 })
 

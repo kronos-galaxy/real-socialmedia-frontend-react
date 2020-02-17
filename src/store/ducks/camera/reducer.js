@@ -4,8 +4,8 @@ import * as constants from 'store/ducks/camera/constants'
 
 const initialState = {
   cameraCapture: {
-    data: {},
-    payload: {},
+    data: [],
+    payload: [],
     status: 'idle',
   },
 }
@@ -35,7 +35,7 @@ const cameraCaptureFailure = (state, action) => update(state, {
 
 const cameraCaptureIdle = (state, action) => update(state, {
   cameraCapture: {
-    data: { $set: initialState.cameraCapture.data },
+    data: { $set: state.cameraCapture.data.filter(item => item.uri !== action.payload.payload.uri) },
     status: { $set: 'idle' },
   },
 })

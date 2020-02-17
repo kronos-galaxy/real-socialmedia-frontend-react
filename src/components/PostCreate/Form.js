@@ -14,7 +14,7 @@ import path from 'ramda/src/path'
 import RowsComponent from 'templates/Rows'
 import RowsItemComponent from 'templates/RowsItem'
 import UserRowComponent from 'templates/UserRow'
-import { Text, Caption, Switch } from 'react-native-paper'
+import { Text, Caption, Title, Switch } from 'react-native-paper'
 import NextIcon from 'assets/svg/settings/Next'
 import Layout from 'constants/Layout'
 
@@ -35,39 +35,34 @@ const PostCreateForm = ({
   loading,
   handlePostPress,
   setFieldValue,
-  cameraCapture,
   formLifetime: FormLifetime,
   formAlbums: FormAlbums,
   albumsGet,
 }) => {
   const styling = styles(theme)
   const { t } = useTranslation()
-  const uri = path(['data', 'uri'])(cameraCapture) || navigation.getParam('base64')
 
   return (
     <View style={styling.root}>
-      <View style={styling.header}>
-        <TouchableOpacity onPress={() => handlePostPress({ mediaObjects: [{ 'url4k': uri }] })}>
-          <Avatar
-            size="bigger"
-            thumbnailSource={{ uri }}
-            imageSource={{ uri }}
-          />
-        </TouchableOpacity>
+      <View style={styling.input}>
+        <View style={styling.header}>
+          <TouchableOpacity onPress={() => handlePostPress({ mediaObjects: [{ 'url4k': values.images[0] }] })}>
+            <Avatar
+              size="bigger"
+              thumbnailSource={{ uri: values.images[0] }}
+              imageSource={{ uri: values.images[0] }}
+            />
+          </TouchableOpacity>
 
-        <View style={styling.text}>
-          <Field name="text" component={TextDemo} placeholder={t('Write a caption')} multiline={true} />
+          <View style={styling.text}>
+            <Field name="text" component={TextDemo} placeholder={t('Write a caption')} multiline={true} />
+          </View>
         </View>
       </View>
 
-      <View style={styling.bordered}>
-        <FormLifetime
-          values={values}
-          setFieldValue={setFieldValue}
-        />
-      </View>
+      <View style={styling.input}>
+        <Title style={styling.title}>Albums</Title>
 
-      <View style={styling.bordered}>
         <FormAlbums
           values={values}
           setFieldValue={setFieldValue}
@@ -76,6 +71,8 @@ const PostCreateForm = ({
       </View>
 
       <View style={styling.input}>
+        <Title style={styling.title}>Privacy</Title>
+
         <RowsComponent items={[{
           label: t('Comments'),
           caption: t('Followers can comment on posts'),
@@ -122,7 +119,16 @@ const PostCreateForm = ({
       </View>
 
       <View style={styling.input}>
-        <DefaultButton label={t('Create Post')} onPress={handleSubmit} loading={loading} disabled={!uri} />
+        <Title style={styling.title}>Lifetime</Title>
+
+        <FormLifetime
+          values={values}
+          setFieldValue={setFieldValue}
+        />
+      </View>
+
+      <View style={styling.input}>
+        <DefaultButton label={t('Create Post')} onPress={handleSubmit} loading={loading} disabled={!values.images[0]} />
       </View>
     </View>
   )
@@ -133,21 +139,16 @@ const styles = theme => StyleSheet.create({
   },
   header: {
     flexDirection: 'row',
-    marginBottom: 12,
   },
   text: {
     flex: 1,
   },
   input: {
-    marginBottom: 12,
+    marginBottom: 24,
   },
-  bordered: {
-    borderBottomColor: '#33333340',
-    borderBottomWidth: 1,
-    paddingTop: 6,
-    paddingBottom: 6,
-    marginBottom: 6,
-  }
+  title: {
+    marginBottom: theme.spacing.base,
+  },
 })
 
 PostCreateForm.propTypes = {
@@ -159,6 +160,7 @@ PostCreateForm.propTypes = {
 const FormWrapper = ({
   postsCreate,
   postsCreateRequest,
+  cameraCapture,
   ...props
 }) => (
   <Formik
@@ -169,6 +171,9 @@ const FormWrapper = ({
       sharingDisabled: props.user.sharingDisabled || false,
       verificationHidden: props.user.verificationHidden || false,
       text: '',
+      images: [path(['uri'])(cameraCapture)],
+      takenInReal: path(['takenInReal'])(cameraCapture),
+      originalFormat: path(['originalFormat'])(cameraCapture)
     }}
     validationSchema={formSchema}
     onSubmit={postsCreateRequest}

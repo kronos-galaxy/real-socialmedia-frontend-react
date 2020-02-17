@@ -6,13 +6,9 @@ import * as cameraActions from 'store/ducks/camera/actions'
 import { withNavigation } from 'react-navigation'
 import { PERMISSIONS, RESULTS, check } from 'react-native-permissions'
 import CropPicker from 'react-native-image-crop-picker'
-import ImagePicker from 'react-native-image-picker'
 import qs from 'query-string'
 import { getScreenAspectRatio } from 'services/Camera'
-
-const launchImageLibrary = (options) => new Promise((resolve, reject) => {
-  ImagePicker.launchImageLibrary(options, resolve)
-})
+import series from 'async/series'
 
 const cameraManager = (cameraRef) => ({
   resumePreview: props => {
@@ -116,14 +112,14 @@ const CameraService = ({ children, navigation }) => {
         compressImageQuality: 1,
       })
   
-      cameraCaptureRequest({
+      cameraCaptureRequest([{
         uri: croppedPhoto.path,
         photoSize,
         takenInReal: true,
         originalFormat: 'jpg',
-      })
+      }])
   
-      navigation.navigate(navigation.getParam('nextRoute') || 'PostCreate', { base64: croppedPhoto.path })
+      navigation.navigate(navigation.getParam('nextRoute') || 'PostCreate', { photos: [croppedPhoto.path] })
     } catch (error) {
 
     } finally {
@@ -132,36 +128,34 @@ const CameraService = ({ children, navigation }) => {
   }
 
   const handleLibrarySnap = async () => {
-    const options = {
-      storageOptions: {
-        skipBackup: true,
-        path: 'images'
-      }
-    }
-
-    const response = await launchImageLibrary(options)
-
-    if (response.didCancel) {
-      return
-    }
-
-    const croppedPhoto = await CropPicker.openCropper({
-      avoidEmptySpaceAroundImage: false,
-      path: response.uri,
-      width: getScreenAspectRatio(photoSize, response.width).x,
-      height: getScreenAspectRatio(photoSize, response.width).y,
-      includeExif: true,
-      compressImageQuality: 1,
+    const responses = await CropPicker.openPicker({
+      multiple: true,
     })
 
-    cameraCaptureRequest({
-      uri: croppedPhoto.path,
+    const cropped = await series(
+      responses.map(response => (callback) => {
+        CropPicker.openCropper({
+          avoidEmptySpaceAroundImage: false,
+          path: response.path,
+          width: getScreenAspectRatio(photoSize, response.width).x,
+          height: getScreenAspectRatio(photoSize, response.width).y,
+          includeExif: true,
+          compressImageQuality: 1,
+        })
+        .then(res => callback(null, res))
+        .catch(callback)
+      })
+    )
+    
+    const photos = cropped.map(photo => ({
+      uri: photo.path,
       photoSize,
       takenInReal: false,
-      originalFormat: qs.parseUrl(response.origURL || '').query.ext,
-    })
+      originalFormat: qs.parseUrl(photo.origURL || '').query.ext,
+    }))
 
-    navigation.navigate(navigation.getParam('nextRoute') || 'PostCreate', { base64: croppedPhoto.path })
+    cameraCaptureRequest(photos)
+    navigation.navigate(navigation.getParam('nextRoute') || 'PostCreate', { photos })
   }
 
   return children({

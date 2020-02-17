@@ -7,7 +7,6 @@ import * as cameraActions from 'store/ducks/camera/actions'
 import * as albumsActions from 'store/ducks/albums/actions'
 import * as postsServices from 'store/ducks/posts/services'
 import { withNavigation } from 'react-navigation'
-import path from 'ramda/src/path'
 import dayjs from 'dayjs'
 
 const PostCreateService = ({ children, navigation }) => {
@@ -17,19 +16,26 @@ const PostCreateService = ({ children, navigation }) => {
   const cameraCapture = useSelector(state => state.camera.cameraCapture)
   const albumsGet = useSelector(state => state.albums.albumsGet)
   const albumsGetCache = useSelector(state => state.albums.albumsGetCache)
+  const postsCreateQueue = useSelector(state => state.posts.postsCreateQueue)
 
   useEffect(() => {
     dispatch(albumsActions.albumsGetRequest({ userId: user.userId }))
   }, [])
-  
+
+  const postsCreateIdle = (payload) =>
+    dispatch(postsActions.postsCreateIdle({ payload }))
+
   const postsCreateRequest = ({
     albumId = null,
     text = '',
+    images = [],
     lifetime = '',
     commentsDisabled = true,
     likesDisabled = true,
     sharingDisabled = true,
     verificationHidden = false,
+    takenInReal = false,
+    originalFormat = 'jpg',
   }) => {
     const postId = uuid()
     const mediaId = uuid()
@@ -40,18 +46,17 @@ const PostCreateService = ({ children, navigation }) => {
       lifetime,
       mediaId,
       text,
-      images: [path(['data', 'uri'])(cameraCapture)],
+      images,
       commentsDisabled,
       likesDisabled,
       sharingDisabled,
       verificationHidden,
-      takenInReal: path(['data', 'takenInReal'])(cameraCapture),
-      originalFormat: path(['data', 'originalFormat'])(cameraCapture),
+      takenInReal,
+      originalFormat,
       createdAt: dayjs().toJSON(),
       attempt: 0,
     }))
-    dispatch(cameraActions.cameraCaptureIdle())
-    navigation.navigate('Feed')
+    dispatch(cameraActions.cameraCaptureIdle({ payload: { uri: images[0] } }))
   }
 
   const handleClosePress = () => {
@@ -63,8 +68,10 @@ const PostCreateService = ({ children, navigation }) => {
     user,
     postsCreate,
     postsCreateRequest,
+    postsCreateIdle,
     handleClosePress,
     cameraCapture,
+    postsCreateQueue,
   })
 }
 

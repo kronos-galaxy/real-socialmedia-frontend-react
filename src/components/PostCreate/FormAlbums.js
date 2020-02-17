@@ -43,8 +43,6 @@ const FormAlbums = ({
 
   return (
     <View style={styling.root}>
-      <Text style={styling.text}>{t('Albums')}</Text>
-
       <ScrollView style={styling.albums} horizontal>
         {pathOr([], ['data'])(albumsGet).map((album, key) => {
           const style = (values.albumId === album.albumId) ?
@@ -81,7 +79,6 @@ const styles = theme => StyleSheet.create({
   },
   albums: {
     flexDirection: 'row',
-    paddingVertical: 8,
   },
   album: {
     padding: 8,

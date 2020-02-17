@@ -13,7 +13,10 @@ const AvatarPickerService = ({ children, navigation }) => {
   const postsCreate = useSelector(state => state.posts.postsCreate)
   const usersEditProfile = useSelector(state => state.users.usersEditProfile)
 
-  const avatar = navigation.getParam('base64')
+  /**
+   * picking first photo from array, used to be base64
+   */
+  const [avatar] = navigation.getParam('photos')
 
   const checkCameraPermissions = async () => {
     await request(PERMISSIONS.IOS.CAMERA)
