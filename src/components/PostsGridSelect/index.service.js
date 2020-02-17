@@ -10,14 +10,14 @@ const PostsService = ({ children, navigation }) => {
   const usersMediaObjectsGet = useSelector(state => state.users.usersMediaObjectsGet)
   const usersEditProfile = useSelector(state => state.users.usersEditProfile)
 
-  const usersMediaObjectsGetRequest = () =>
-    dispatch(usersActions.usersMediaObjectsGetRequest())
+  const usersMediaObjectsGetRequest = (payload) =>
+    dispatch(usersActions.usersMediaObjectsGetRequest(payload))
 
   const usersEditProfileRequest = () =>
     dispatch(usersActions.usersEditProfileRequest({ photoMediaId: selectedMedia.mediaId }))
 
   useEffect(() => {
-    usersMediaObjectsGetRequest()
+    usersMediaObjectsGetRequest({ userId: user.userId })
   }, [])
 
   useEffect(() => {

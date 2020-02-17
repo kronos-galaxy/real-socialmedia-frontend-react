@@ -166,8 +166,8 @@ function* postsGetRequest(req) {
 
   try {
     const data = yield AwsAPI.graphql(graphqlOperation(queries.getPosts, { ...req.payload, postStatus: 'COMPLETED' }))
-    const dataSelector = path(['data', 'getPosts', 'items'])
-    const metaSelector = compose(omit(['items']), path(['data', 'getPosts']))
+    const dataSelector = path(['data', 'user', 'posts', 'items'])
+    const metaSelector = compose(omit(['items']), path(['data', 'user', 'posts']))
 
     yield put(actions.postsGetSuccess({ payload: req.payload, data: dataSelector(data), meta: metaSelector(data) }))
   } catch (error) {
@@ -181,8 +181,8 @@ function* postsGetMoreRequest(req) {
 
   try {
     const data = yield AwsAPI.graphql(graphqlOperation(queries.getPosts, { ...req.payload, postStatus: 'COMPLETED' }))
-    const dataSelector = path(['data', 'getPosts', 'items'])
-    const metaSelector = compose(omit(['items']), path(['data', 'getPosts']))
+    const dataSelector = path(['data', 'user', 'posts', 'items'])
+    const metaSelector = compose(omit(['items']), path(['data', 'user', 'posts']))
 
     yield put(actions.postsGetMoreSuccess({ payload: req.payload, data: dataSelector(data), meta: metaSelector(data) }))
   } catch (error) {
@@ -214,8 +214,8 @@ function* postsFeedGetRequest(req) {
 
   try {
     const data = yield AwsAPI.graphql(graphqlOperation(queries.getFeed, req.payload))
-    const dataSelector = path(['data', 'getFeed', 'items'])
-    const metaSelector = compose(omit(['items']), path(['data', 'getFeed']))
+    const dataSelector = path(['data', 'self', 'feed', 'items'])
+    const metaSelector = compose(omit(['items']), path(['data', 'self', 'feed']))
 
     yield put(actions.postsFeedGetSuccess({ data: dataSelector(data), payload: req.payload, meta: metaSelector(data) }))
   } catch (error) {
@@ -229,8 +229,8 @@ function* postsFeedGetMoreRequest(req) {
 
   try {
     const data = yield AwsAPI.graphql(graphqlOperation(queries.getFeed, req.payload))
-    const dataSelector = path(['data', 'getFeed', 'items'])
-    const metaSelector = compose(omit(['items']), path(['data', 'getFeed']))
+    const dataSelector = path(['data', 'self', 'feed', 'items'])
+    const metaSelector = compose(omit(['items']), path(['data', 'self', 'feed']))
 
     yield put(actions.postsFeedGetMoreSuccess({ data: dataSelector(data), payload: req.payload, meta: metaSelector(data) }))
   } catch (error) {
@@ -247,7 +247,7 @@ function* postsGetArchivedRequest(req) {
 
   try {
     const data = yield AwsAPI.graphql(graphqlOperation(queries.getPosts, { ...req.payload, postStatus: 'ARCHIVED' }))
-    const selector = path(['data', 'getPosts', 'items'])
+    const selector = path(['data', 'user', 'posts', 'items'])
 
     yield put(actions.postsGetArchivedSuccess({ data: selector(data), meta: data }))
   } catch (error) {

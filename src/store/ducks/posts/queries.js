@@ -5,12 +5,14 @@ import {
 } from 'store/fragments'
 
 export const getPosts = `
-  query GetPosts($userId: ID, $postStatus: PostStatus, $nextToken: String = null) {
-    getPosts(userId: $userId, postStatus: $postStatus, nextToken: $nextToken) {
-      items {
-        ...postFragment
+  query GetPosts($userId: ID!, $postStatus: PostStatus, $nextToken: String = null) {
+    user(userId: $userId) {
+      posts(postStatus: $postStatus, nextToken: $nextToken) {
+        items {
+          ...postFragment
+        }
+        nextToken
       }
-      nextToken
     }
   }
   ${postFragment}
@@ -27,11 +29,13 @@ export const getPost = `
 
 export const getFeed = `
   query GetFeed($limit: Int = 20, $nextToken: String = null) {
-    getFeed(limit: $limit, nextToken: $nextToken) {
-      items {
-        ...postFragment
+    self {
+      feed(limit: $limit, nextToken: $nextToken) {
+        items {
+          ...postFragment
+        }
+        nextToken
       }
-      nextToken
     }
   }
   ${postFragment}

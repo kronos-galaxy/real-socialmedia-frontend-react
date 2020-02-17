@@ -122,12 +122,14 @@ export const setUserDetails = `
 `
 
 export const getMediaObjects = `
-  query GetMediaObjects($userId: ID) {
-    getMediaObjects(userId: $userId) {
-      items {
-        ...mediaObjectFragment
+  query GetMediaObjects($userId: ID!) {
+    user(userId: $userId) {
+      mediaObjects {
+        items {
+          ...mediaObjectFragment
+        }
+        nextToken
       }
-      nextToken
     }
   }
   ${mediaObjectFragment}
@@ -135,36 +137,38 @@ export const getMediaObjects = `
 
 export const getFollowedUsersWithStories = `
   query GetFollowedUsersWithStories($limit: Int, $nextToken: String) {
-    getFollowedUsersWithStories(limit: $limit, nextToken: $nextToken) {
-      items {
-        ...userFragment
-        stories (limit: 10) {
-          items {
-            postId
-            postedAt
-            postedBy {
-              ...userFragment
-            }
-            expiresAt
-            text
-            textTaggedUsers {
-              tag
-              user {
+    self {
+      followedUsersWithStories(limit: $limit, nextToken: $nextToken) {
+        items {
+          ...userFragment
+          stories (limit: 10) {
+            items {
+              postId
+              postedAt
+              postedBy {
                 ...userFragment
               }
+              expiresAt
+              text
+              textTaggedUsers {
+                tag
+                user {
+                  ...userFragment
+                }
+              }
+              mediaObjects {
+                ...mediaObjectFragment
+              }
+              likeStatus
+              onymousLikeCount
+              anonymousLikeCount
+              viewedByCount
             }
-            mediaObjects {
-              ...mediaObjectFragment
-            }
-            likeStatus
-            onymousLikeCount
-            anonymousLikeCount
-            viewedByCount
+            nextToken 
           }
-          nextToken 
         }
+        nextToken
       }
-      nextToken
     }
   }
   ${userFragment}
