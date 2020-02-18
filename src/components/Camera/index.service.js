@@ -82,8 +82,6 @@ const CameraService = ({ children, navigation }) => {
   const handleCameraSnap = async () => {
     if (!cameraRef.current) { return }
 
-    cameraCaptureIdle()
-    
     camera.pausePreview()
 
     const quality = (() => {
@@ -110,6 +108,7 @@ const CameraService = ({ children, navigation }) => {
         includeExif: true,
         compressImageQuality: 1,
       })
+
   
       cameraCaptureRequest([{
         uri: croppedPhoto.path,

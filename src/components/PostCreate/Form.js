@@ -166,10 +166,10 @@ const FormWrapper = ({
   <Formik
     initialValues={{
       lifetime: null,
-      likesDisabled: props.user.likesDisabled || true,
-      commentsDisabled: props.user.commentsDisabled || true,
-      sharingDisabled: props.user.sharingDisabled || false,
-      verificationHidden: props.user.verificationHidden || false,
+      likesDisabled: props.user.likesDisabled,
+      commentsDisabled: props.user.commentsDisabled,
+      sharingDisabled: props.user.sharingDisabled,
+      verificationHidden: props.user.verificationHidden,
       text: '',
       images: [path(['uri'])(cameraCapture)],
       takenInReal: path(['takenInReal'])(cameraCapture),
