@@ -299,7 +299,13 @@ export default (screenProps) => createStackNavigator({
     },
   },
 
-  PostCreate: PostCreateScreen,
+  PostCreate: {
+    screen: PostCreateScreen,
+    navigationOptions: {
+      gestureEnabled: false,
+    },
+  },
+
   PostEdit: PostEditScreen,
   PostMedia: PostMediaScreen,
   PostMediaLikes: PostMediaLikesScreen,

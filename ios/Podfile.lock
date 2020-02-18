@@ -234,13 +234,13 @@ PODS:
     - React
   - react-native-blur (0.8.0):
     - React
-  - react-native-camera (3.17.0):
+  - react-native-camera (3.18.0):
     - React
-    - react-native-camera/RCT (= 3.17.0)
-    - react-native-camera/RN (= 3.17.0)
-  - react-native-camera/RCT (3.17.0):
+    - react-native-camera/RCT (= 3.18.0)
+    - react-native-camera/RN (= 3.18.0)
+  - react-native-camera/RCT (3.18.0):
     - React
-  - react-native-camera/RN (3.17.0):
+  - react-native-camera/RN (3.18.0):
     - React
   - react-native-cameraroll (1.4.1):
     - React
@@ -309,15 +309,15 @@ PODS:
   - RNAWSCognito (3.2.4):
     - JKBigInteger2 (= 0.0.5)
     - React
-  - RNCAsyncStorage (1.7.1):
+  - RNCAsyncStorage (1.8.0):
     - React
   - RNCMaskedView (0.1.6):
     - React
-  - RNDeviceInfo (5.5.2):
+  - RNDeviceInfo (5.5.3):
     - React
   - RNFS (2.16.4):
     - React
-  - RNGestureHandler (1.5.6):
+  - RNGestureHandler (1.6.0):
     - React
   - RNGoogleSignin (3.0.4):
     - GoogleSignIn (~> 5.0.0)
@@ -339,7 +339,7 @@ PODS:
     - React
   - RNReanimated (1.7.0):
     - React
-  - RNScreens (2.0.0-beta.2):
+  - RNScreens (2.0.0-beta.6):
     - React
   - RNSentry (1.3.1):
     - React
@@ -585,7 +585,7 @@ SPEC CHECKSUMS:
   React-jsinspector: fa0ecc501688c3c4c34f28834a76302233e29dc0
   react-native-background-timer: 1b6e6b4e10f1b74c367a1fdc3c72b67c619b222b
   react-native-blur: cad4d93b364f91e7b7931b3fa935455487e5c33c
-  react-native-camera: c549d50495c989688ef1819dab49441c7dc7c17d
+  react-native-camera: 3308898e1b09bf6211647c6e3e42d5f7aa02259e
   react-native-cameraroll: 875e31fc43d4a5d8694c85a71c53dcf42f72f608
   react-native-config: f2c2ae45625a068c35681a16b9bfb1ca58b0adc7
   react-native-fbsdk: c35d42169e64aaf66f01713c1e18d0674f7f6519
@@ -605,18 +605,18 @@ SPEC CHECKSUMS:
   ReactCommon: 198c7c8d3591f975e5431bec1b0b3b581aa1c5dd
   rn-fetch-blob: f065bb7ab7fb48dd002629f8bdcb0336602d3cba
   RNAWSCognito: 9fb91d3bfaebd85b3d6ee680f8e8d258580dec58
-  RNCAsyncStorage: 44395cb9c7c1523104c2b499eb426ef7aff82bca
+  RNCAsyncStorage: 5d83b49070d41fd72906a116c5e7bdac4ea3a814
   RNCMaskedView: a88953beefbd347a29072d9eba90e42945fe291e
-  RNDeviceInfo: 37a32b690c7a1f84037531cd9381ba921b611362
+  RNDeviceInfo: 310c1f43d418d950a193c7650de2f9559c906048
   RNFS: 90d1a32d3bc8f75cc7fc3dd2f67506049664346b
-  RNGestureHandler: 911d3b110a7a233a34c4f800e7188a84b75319c6
+  RNGestureHandler: dde546180bf24af0b5f737c8ad04b6f3fa51609a
   RNGoogleSignin: a00f87261ea13df9a5cea8deafa6927d6f2c3562
   RNIap: 2948ae82122330e76f82328c4005f3168e63b9e6
   RNImageCropPicker: cf129d17e042ce3e96fb9ada967c28f21f977c82
   RNImageMarker: 3d2ad96afe3db0965ecff23ca97d65b812d06b47
   RNPermissions: 2f74237e97b08beda01e914301e12524ddddf5b8
   RNReanimated: 031fe8d9ea93c2bd689a40f05320ef9d96f74d7f
-  RNScreens: 5e4758109c6d35f9a009ce72af873df907548020
+  RNScreens: c2c8bdde0146f16eb6bf092dd7485534851f2711
   RNSentry: 6458ba85aa3f8ae291abed4f72abbd7080839c71
   RNShare: 0e19ddb0bf338b62702ce1d9e001ee14effa68a8
   RNSVG: 67f1f12dae2cef6ed59a42cae74a6b8f5a9e7b46

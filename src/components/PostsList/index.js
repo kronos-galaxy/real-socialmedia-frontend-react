@@ -95,6 +95,8 @@ const PostsList = ({
   handleProfilePress,
   usersGetPendingFollowers,
   onViewableItemsChanged,
+  handleScrollPrev,
+  handleScrollNext,
 }) => {
   const styling = styles(theme)
   const { t } = useTranslation()
@@ -215,16 +217,8 @@ const PostsList = ({
               handleProfilePress={handleProfilePress}
               priorityIndex={index}
 
-              handleScrollPrev={() => {
-                feedRef.current.scrollToIndex({
-                  index: index - 1,
-                })
-              }}
-              handleScrollNext={() => {
-                feedRef.current.scrollToIndex({
-                  index: index + 1,
-                })
-              }}
+              handleScrollPrev={handleScrollPrev(index)}
+              handleScrollNext={handleScrollNext(index)}
             />
           )
         }}

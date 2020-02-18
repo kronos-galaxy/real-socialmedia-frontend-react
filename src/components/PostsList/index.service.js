@@ -5,6 +5,7 @@ import * as postsActions from 'store/ducks/posts/actions'
 import * as usersActions from 'store/ducks/users/actions'
 import { withNavigation } from 'react-navigation'
 import path from 'ramda/src/path'
+import intersection from 'ramda/src/intersection'
 
 const PostsService = ({ children, navigation }) => {
   const dispatch = useDispatch()
@@ -83,16 +84,26 @@ const PostsService = ({ children, navigation }) => {
     usersGetPendingFollowersRequest({ userId: authUser.userId })
   }, [])
 
+  const uploadPending = Object.values(postsCreateQueue)
+    .filter(item => item.status === 'loading' || item.status === 'success')
+    .filter(item => item.meta.progress === 100)
+
+  useEffect(() => {
+    const pending = uploadPending.map(item => item.payload.postId)
+    const uploaded = postsFeedGet.data.map(item => item.postId)
+    
+    const complete = intersection(pending, uploaded)
+    
+    complete.forEach(postId => {
+      dispatch(postsActions.postsCreateIdle({ payload: { postId } }))
+    })
+  }, [postsFeedGet.status === 'success'])
+
   useEffect(() => {
     usersGetPendingFollowersRequest({ userId: authUser.userId })
   }, [usersAcceptFollowerUser.status])
 
   useEffect(() => {
-    if (postsCreate.status === 'success') {
-      dispatch(postsActions.postsFeedGetRequest({}))
-      dispatch(postsActions.postsCreateIdle({ payload: postsCreate.payload }))
-    }
-
     if (postsDelete.status === 'success') {
       dispatch(postsActions.postsDeleteIdle())
     }
@@ -110,7 +121,6 @@ const PostsService = ({ children, navigation }) => {
       dispatch(postsActions.postsFlagIdle())
     }
   }, [
-    postsCreate.status,
     postsDelete.status,
     postsArchive.status,
     postsRestoreArchived.status,
@@ -129,6 +139,22 @@ const PostsService = ({ children, navigation }) => {
     }
 
     dispatch(postsActions.postsReportPostViewsRequest({ postIds }))
+  }
+
+  const handleScrollPrev = (index) => () => {
+    try {
+      feedRef.current.scrollToIndex({
+        index: index - 1,
+      })
+    } catch (error) {}
+  }
+
+  const handleScrollNext = (index) => () => {
+    try {
+      feedRef.current.scrollToIndex({
+        index: index + 1,
+      })
+    } catch (error) {}
   }
 
   return children({
@@ -159,6 +185,8 @@ const PostsService = ({ children, navigation }) => {
     postsCreateQueue,
     usersGetPendingFollowers,
     onViewableItemsChanged,
+    handleScrollPrev,
+    handleScrollNext,
   })
 }
 

@@ -51,6 +51,22 @@ const PostMediaService = ({ children, navigation, ...props }) => {
     dispatch(postsActions.postsReportPostViewsRequest({ postIds }))
   }
 
+  const handleScrollPrev = (index) => () => {
+    try {
+      feedRef.current.scrollToIndex({
+        index: index - 1,
+      })
+    } catch (error) {}
+  }
+
+  const handleScrollNext = (index) => () => {
+    try {
+      feedRef.current.scrollToIndex({
+        index: index + 1,
+      })
+    } catch (error) {}
+  }
+
   return children({
     postsSingleGet: postsServices.cachedPostsSingleGet(postsSingleGet, navigation.getParam('post')),
     postsGetTrendingPosts: postsServices.cachedPostsGetTrendingPosts(postsGetTrendingPosts, postId),
@@ -60,6 +76,8 @@ const PostMediaService = ({ children, navigation, ...props }) => {
     feedRef,
     routeName: navigation.getParam('routeName'),
     onViewableItemsChanged,
+    handleScrollPrev,
+    handleScrollNext,
   })
 }
 

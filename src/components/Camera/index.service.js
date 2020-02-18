@@ -6,7 +6,6 @@ import * as cameraActions from 'store/ducks/camera/actions'
 import { withNavigation } from 'react-navigation'
 import { PERMISSIONS, RESULTS, check } from 'react-native-permissions'
 import CropPicker from 'react-native-image-crop-picker'
-import qs from 'query-string'
 import { getScreenAspectRatio } from 'services/Camera'
 import series from 'async/series'
 
@@ -102,7 +101,7 @@ const CameraService = ({ children, navigation }) => {
         quality,
         base64: false,
       })
-      
+
       const croppedPhoto = await CropPicker.openCropper({
         avoidEmptySpaceAroundImage: false,
         path: snappedPhoto.uri,
@@ -116,7 +115,7 @@ const CameraService = ({ children, navigation }) => {
         uri: croppedPhoto.path,
         photoSize,
         takenInReal: true,
-        originalFormat: 'jpg',
+        originalFormat: snappedPhoto.uri.split('.').pop(),
       }])
   
       navigation.navigate(navigation.getParam('nextRoute') || 'PostCreate', { photos: [croppedPhoto.path] })
@@ -133,7 +132,7 @@ const CameraService = ({ children, navigation }) => {
     })
 
     const cropped = await series(
-      responses.map(response => (callback) => {
+      responses.map(response => (callback) =>
         CropPicker.openCropper({
           avoidEmptySpaceAroundImage: false,
           path: response.path,
@@ -142,16 +141,17 @@ const CameraService = ({ children, navigation }) => {
           includeExif: true,
           compressImageQuality: 1,
         })
+        .then(res => ({ ...res, originalFormat: response.filename.split('.').pop() }))
         .then(res => callback(null, res))
         .catch(callback)
-      })
+      )
     )
-    
+
     const photos = cropped.map(photo => ({
       uri: photo.path,
       photoSize,
       takenInReal: false,
-      originalFormat: qs.parseUrl(photo.origURL || '').query.ext,
+      originalFormat: photo.originalFormat,
     }))
 
     cameraCaptureRequest(photos)

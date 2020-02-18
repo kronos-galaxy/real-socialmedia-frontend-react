@@ -35,6 +35,9 @@ const PostMedia = ({
   postsGetTrendingPosts,
   routeName,
   onViewableItemsChanged,
+
+  handleScrollNext,
+  handleScrollPrev,
 }) => {
   const styling = styles(theme)
   const { t } = useTranslation()
@@ -112,20 +115,8 @@ const PostMedia = ({
             handleProfilePress={handleProfilePress}
             priorityIndex={index}
 
-            handleScrollPrev={() => {
-              const nextIndex = index - 1
-              if (nextIndex < 0) return
-              feedRef.current.scrollToIndex({
-                index: nextIndex,
-              })
-            }}
-            handleScrollNext={() => {
-              const nextIndex = index + 1
-              if (nextIndex > 5) return
-              feedRef.current.scrollToIndex({
-                index: nextIndex,
-              })
-            }}
+            handleScrollPrev={handleScrollPrev(index)}
+            handleScrollNext={handleScrollNext(index)}
           />
         )}
       />
