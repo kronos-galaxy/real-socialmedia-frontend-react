@@ -64,6 +64,10 @@ const messageCodes = {
       code: 'USER_NOT_CONFIRMED',
       text: 'User is not confirmed',
     },
+    INVALID_PARAMETER: {
+      code: 'INVALID_PARAMETER',
+      text: 'Username or Password field has invalid characters',
+    },
   },
 
   /**

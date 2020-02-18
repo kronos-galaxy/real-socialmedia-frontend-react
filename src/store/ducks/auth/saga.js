@@ -226,6 +226,10 @@ function* authSigninRequest(req) {
       yield put(actions.authSigninFailure({
         message: errors.getMessagePayload(constants.AUTH_SIGNIN_FAILURE, 'USER_NOT_AUTHORIZED'),
       }))
+    } else if (error.code === 'InvalidParameterException') {
+      yield put(actions.authSigninFailure({
+        message: errors.getMessagePayload(constants.AUTH_SIGNIN_FAILURE, 'INVALID_PARAMETER'),
+      }))
     } else {
       yield put(actions.authSigninFailure({
         message: errors.getMessagePayload(constants.AUTH_SIGNIN_FAILURE, 'GENERIC', error.message),
