@@ -57,29 +57,6 @@ export const federatedFacebookSignin = async () => {
   }
 }
 
-GoogleSignin.configure({
-  offlineAccess: false,
-  iosClientId: Config.GOOGLE_SIGNIN_IOS_CLIENT_ID,
-  webClientId: Config.GOOGLE_SIGNIN_ANDROID_CLIENT_ID,
-})
-
-const handleGoogleRefresh = async () => {
-  const getToken = (async () => {
-    try {
-      return await GoogleSignin.getTokens()
-    } catch (error) {
-      return await GoogleSignin.signInSilently()
-    }
-  })
-
-  const tokens = await getToken()
-
-  return {
-    token: tokens.idToken,
-    expires_at: 3600 * 1000 + new Date().getTime(),
-  }
-}
-
 const handleFacebookRefresh = async () => {
   await LoginManager.logInWithPermissions(['public_profile', 'email'])
   const payload = await AccessToken.getCurrentAccessToken()
@@ -90,24 +67,47 @@ const handleFacebookRefresh = async () => {
   }
 }
 
+GoogleSignin.configure({
+  offlineAccess: false,
+  iosClientId: Config.GOOGLE_SIGNIN_IOS_CLIENT_ID,
+  webClientId: Config.GOOGLE_SIGNIN_ANDROID_CLIENT_ID,
+})
+
+const handleGoogleRefresh = async () => {
+  await GoogleSignin.hasPlayServices()
+
+  const googleUser = await GoogleSignin.signInSilently()
+
+  const tokeninfo = await (async (idToken) => {
+    const data = await fetch(`https://oauth2.googleapis.com/tokeninfo?id_token=${idToken}`)
+    return await data.json()
+  })(googleUser.idToken)
+
+  return {
+    token: googleUser.idToken,
+    expires_at: tokeninfo.exp,
+  }
+}
+
 /**
  * 
  */
 export const federatedGoogleSignin = async () => {
   await GoogleSignin.hasPlayServices()
 
-  const googleUser = await (async () => {
-    if (await GoogleSignin.isSignedIn()) {
-      await GoogleSignin.signInSilently()
-      return await GoogleSignin.getCurrentUser()
-    } else {
-      return await GoogleSignin.signIn()
-    }
-  })()
+  const googleUser = (
+    await GoogleSignin.getCurrentUser() ||
+    await GoogleSignin.signIn()
+  )
+
+  const tokeninfo = await (async (idToken) => {
+    const data = await fetch(`https://oauth2.googleapis.com/tokeninfo?id_token=${idToken}`)
+    return await data.json()
+  })(googleUser.idToken)
 
   return {
     token: googleUser.idToken,
-    expires_at: 3600 * 1000 + new Date().getTime(),
+    expires_at: tokeninfo.exp,
     user: googleUser.user,
   }
 }
