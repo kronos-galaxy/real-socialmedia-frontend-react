@@ -64,7 +64,7 @@ const TextField = ({
 
       {!hideError ?
         <ErrorMessage name={name} render={msg => <Text style={styling.error}>{msg}</Text>} />
-        : null}
+      : null}
     </View>
   )
 }
@@ -83,6 +83,7 @@ const styles = theme => StyleSheet.create({
   error: {
     textAlign: 'right',
     fontSize: 11,
+    color: 'red',
   },
 })
 
