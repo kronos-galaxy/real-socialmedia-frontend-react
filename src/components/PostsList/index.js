@@ -165,9 +165,9 @@ const PostsList = ({
           if (post.postId === 'uploading') {
             return (
               <View style={styling.uploading}>
-                {Object.values(post.postsCreateQueue).map((post) => (
+                {Object.values(post.postsCreateQueue).map((post, key) => (
                   <UploadingComponent
-                    key={post.postId}
+                    key={key}
                     authUser={authUser}
                     post={post}
                     postsCreateRequest={postsCreateRequest}

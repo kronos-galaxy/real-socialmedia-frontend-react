@@ -88,8 +88,7 @@ const PostComponent = ({
   const carouselRef = useRef(null)
   const albumLength = path(['album', 'posts', 'items', 'length'])(post) || 0
   const firstItem = albumLength ?
-    path(['album', 'posts', 'items'])(post).findIndex(item => item.postId === post.postId) :
-    null
+    path(['album', 'posts', 'items'])(post).findIndex(item => item.postId === post.postId) : 0
   const [activeDotIndex, setActiveDotIndex] = useState(firstItem)
 
   return (

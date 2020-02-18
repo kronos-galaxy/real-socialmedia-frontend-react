@@ -32,9 +32,9 @@ const PostCreateComponent = ({
   return (
     <View style={styling.root}>
       <KeyboardAwareScrollView>
-        {Object.values(postsCreateQueue).map((post) => (
+        {Object.values(postsCreateQueue).map((post, key) => (
           <UploadingComponent
-            key={post.postId}
+            key={key}
             authUser={user}
             post={post}
             postsCreateRequest={postsCreateRequest}

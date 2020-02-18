@@ -116,9 +116,35 @@ export const setUserDetails = `
       verificationHidden: $verificationHidden
     ) {
       ...userFragment
+      stories (limit: 10) {
+        items {
+          postId
+          postedAt
+          postedBy {
+            ...userFragment
+          }
+          expiresAt
+          text
+          textTaggedUsers {
+            tag
+            user {
+              ...userFragment
+            }
+          }
+          mediaObjects {
+            ...mediaObjectFragment
+          }
+          likeStatus
+          onymousLikeCount
+          anonymousLikeCount
+          viewedByCount
+        }
+        nextToken 
+      }
     }
   }
   ${userFragment}
+  ${mediaObjectFragment}
 `
 
 export const getMediaObjects = `
@@ -225,9 +251,35 @@ export const self = `
   query self {
     self {
       ...userFragment
+      stories (limit: 10) {
+        items {
+          postId
+          postedAt
+          postedBy {
+            ...userFragment
+          }
+          expiresAt
+          text
+          textTaggedUsers {
+            tag
+            user {
+              ...userFragment
+            }
+          }
+          mediaObjects {
+            ...mediaObjectFragment
+          }
+          likeStatus
+          onymousLikeCount
+          anonymousLikeCount
+          viewedByCount
+        }
+        nextToken 
+      }
     }
   }
   ${userFragment}
+  ${mediaObjectFragment}
 `
 
 export const trendingUsers = `
