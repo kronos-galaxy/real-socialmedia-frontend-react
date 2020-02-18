@@ -4,7 +4,6 @@ import {
   StyleSheet,
   TouchableOpacity,
   View,
-  Image,
 } from 'react-native'
 import path from 'ramda/src/path'
 import pathOr from 'ramda/src/pathOr'
@@ -18,7 +17,7 @@ import ReactionsPreviewTemplate from 'templates/ReactionsPreview'
 import Carousel, { Pagination } from 'react-native-snap-carousel'
 import Layout from 'constants/Layout'
 import { Text } from 'react-native-paper'
-import { BlurView } from '@react-native-community/blur'
+import LinearGradient from 'react-native-linear-gradient'
 
 import { withTheme } from 'react-native-paper'
 import { withNavigation } from 'react-navigation'
@@ -26,6 +25,7 @@ import { useTranslation } from 'react-i18next'
 
 const PostCarousel = (
   ref,
+  album,
   theme,
   handleScrollPrev,
   handleScrollNext,
@@ -34,19 +34,20 @@ const PostCarousel = (
   index,
 }) => {
   const styling = styles(theme)
+  const primaryColor = `rgba(
+    ${path(['mediaObjects', '0', 'colors', '1', 'r'])(post)},
+    ${path(['mediaObjects', '0', 'colors', '1', 'g'])(post)},
+    ${path(['mediaObjects', '0', 'colors', '1', 'b'])(post)},
+    0.4
+  )`
+
+  const tertiaryColor = `${theme.colors.backgroundPrimary}`
 
   return (
     <View style={styling.carouselItem}>
-      <Image
-        source={{ uri: path(['mediaObjects', '0', 'url64p'])(post) }}
-        priorityIndex={index}
+      <LinearGradient
+        colors={[primaryColor, tertiaryColor]}
         style={styling.gradient}
-      />
-
-      <BlurView
-        style={styling.gradient}
-        blurType="regular"
-        blurAmount={100}
       />
 
       <ListItemComponent post={post}>
@@ -58,6 +59,12 @@ const PostCarousel = (
         <TouchableOpacity style={styling.prev} onPress={handleScrollPrev} />
         <TouchableOpacity style={styling.next} onPress={handleScrollNext} />
       </ListItemComponent>
+
+      <View style={styling.gradient}>
+        <View style={styling.album}>
+          <Text>{path(['name'])(album)}</Text>
+        </View>
+      </View>
     </View>
   )
 }
@@ -110,7 +117,7 @@ const PostComponent = ({
           firstItem={firstItem}
           ref={carouselRef}
           data={path(['album', 'posts', 'items'])(post)}
-          renderItem={PostCarousel(carouselRef, theme, handleScrollPrev, handleScrollNext)}
+          renderItem={PostCarousel(carouselRef, path(['album'])(post), theme, handleScrollPrev, handleScrollNext)}
           sliderWidth={Layout.window.width}
           itemWidth={Layout.window.width}
           removeClippedSubviews={false}
@@ -212,6 +219,16 @@ const styles = theme => StyleSheet.create({
   },
   gradient: {
     ...StyleSheet.absoluteFill,
+    justifyContent: 'flex-end',
+  },
+  album: {
+    alignSelf: 'flex-end',
+    paddingVertical: 6,
+    paddingHorizontal: theme.spacing.base,
+    margin: theme.spacing.base,
+    borderRadius: 4,
+    borderColor: theme.colors.primary,
+    borderWidth: 1,
   },
 })
 
