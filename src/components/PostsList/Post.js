@@ -35,11 +35,10 @@ const PostCarousel = ({
   index,
 }) => {
   const styling = styles(theme)
-  const primaryColor = `rgba(
-    ${path(['mediaObjects', '0', 'colors', '1', 'r'])(post)},
-    ${path(['mediaObjects', '0', 'colors', '1', 'g'])(post)},
-    ${path(['mediaObjects', '0', 'colors', '1', 'b'])(post)},
-    0.4
+  const primaryColor = `rgb(
+    ${path(['mediaObjects', '0', 'colors', '0', 'r'])(post)},
+    ${path(['mediaObjects', '0', 'colors', '0', 'g'])(post)},
+    ${path(['mediaObjects', '0', 'colors', '0', 'b'])(post)}
   )`
 
   const tertiaryColor = `${theme.colors.backgroundPrimary}`

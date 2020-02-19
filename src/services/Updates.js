@@ -4,7 +4,7 @@ import * as Logger from 'services/Logger'
 
 export const versionCheck = (async () => {
   try {
-    const data = (async () => {
+    const data = await (async () => {
       const data = await fetch('https://d3dclx0mrf3ube.cloudfront.net/versions/production.json')
       return await data.json()
     })()
@@ -14,7 +14,7 @@ export const versionCheck = (async () => {
     if (false) {
       Alert.alert(
         'App Update Available',
-        'Please update REAL to continue proceeding',
+        'Please update REAL to continue',
         [{
           text: 'Done',
           onPress: () => Linking.openURL('https://apps.apple.com/us/app/real-social-media/id1485194570?ls=1').catch(console.log),
