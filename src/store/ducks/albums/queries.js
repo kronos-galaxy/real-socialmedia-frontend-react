@@ -5,13 +5,11 @@ import {
 export const addAlbum = `
   mutation addAlbum(
     $albumId: ID!,
-    $name: String!,
-    $description: String
+    $name: String!
   ) {
     addAlbum(
       albumId: $albumId,
-      name: $name,
-      description: $description
+      name: $name
     ) {
       ...albumFragment
     }

@@ -25,6 +25,7 @@ const TextField = ({
   disabled,
   hideError,
   autoCompleteType = 'off',
+  secureTextEntry,
 }) => {
   const styling = styles(theme)
   const { t } = useTranslation()
@@ -60,6 +61,7 @@ const TextField = ({
         label={placeholder}
         disabled={disabled}
         autoCompleteType={autoCompleteType}
+        secureTextEntry={secureTextEntry}
       />
 
       {!hideError ?

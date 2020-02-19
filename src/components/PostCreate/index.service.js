@@ -18,9 +18,20 @@ const PostCreateService = ({ children, navigation }) => {
   const albumsGetCache = useSelector(state => state.albums.albumsGetCache)
   const postsCreateQueue = useSelector(state => state.posts.postsCreateQueue)
 
+  const postsDoneUploading = (
+    !cameraCapture.data.length &&
+    !Object.values(postsCreateQueue).filter(item => item.status === 'loading').length
+  )
+
   useEffect(() => {
     dispatch(albumsActions.albumsGetRequest({ userId: user.userId }))
   }, [])
+
+  useEffect(() => {
+    if (postsDoneUploading) {
+      navigation.navigate('Feed')
+    }
+  }, [postsDoneUploading])
 
   const postsCreateIdle = (payload) =>
     dispatch(postsActions.postsCreateIdle({ payload }))

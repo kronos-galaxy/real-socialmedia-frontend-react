@@ -50,7 +50,7 @@ const ForgotConfirmForm = ({
         <Field name="code" component={TextField} placeholder={t('Confirmation code')} />
       </View>
       <View style={styling.input}>
-        <Field name="password" component={TextField} placeholder={t('New Password')} />
+        <Field name="password" component={TextField} placeholder={t('New Password')} secureTextEntry />
       </View>
       <View style={styling.input}>
         <DefaultButton label={t('Done')} onPress={handleSubmit} loading={loading} />

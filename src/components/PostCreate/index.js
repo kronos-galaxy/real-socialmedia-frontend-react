@@ -8,7 +8,7 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 import PostCreateForm from 'components/PostCreate/Form'
 import FormLifetime from 'components/PostCreate/FormLifetime'
 import FormAlbums from 'components/PostCreate/FormAlbums'
-import Success from 'components/PostCreate/Success'
+import SuccessComponent from 'components/PostCreate/Success'
 import UploadingComponent from 'components/PostsList/Uploading'
 
 import { withTheme } from 'react-native-paper'
@@ -57,8 +57,11 @@ const PostCreateComponent = ({
           </View>
         ))}
 
-        {!cameraCapture.data.length ?
-          <Success />
+        {(
+          !cameraCapture.data.length &&
+          !Object.values(postsCreateQueue).filter(item => item.status === 'loading').length
+        ) ?
+          <SuccessComponent />
         : null}
       </KeyboardAwareScrollView>
     </View>
