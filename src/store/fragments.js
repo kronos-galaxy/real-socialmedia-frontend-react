@@ -90,31 +90,6 @@ export const postFragment = `
     mediaObjects {
       ...mediaObjectFragment
     }
-    album {
-      albumId
-      createdAt
-      ownedBy {
-        ...userFragment
-      }
-      name
-      description
-      url
-      url4k
-      url1080p
-      url480p
-      url64p
-      postCount
-      postsLastUpdatedAt
-      posts(limit: 10) {
-        items {
-          postId
-          mediaObjects {
-            ...mediaObjectFragment
-          }
-        }
-        nextToken
-      }
-    }
     likeStatus
     commentCount
     commentsDisabled
@@ -145,6 +120,75 @@ export const postFragment = `
             userId
           }
         }
+      }
+    }
+    album {
+      albumId
+      createdAt
+      ownedBy {
+        ...userFragment
+      }
+      name
+      description
+      url
+      url4k
+      url1080p
+      url480p
+      url64p
+      postCount
+      postsLastUpdatedAt
+      posts(limit: 10) {
+        items {
+          postId
+          postedAt
+          postedBy {
+            ...userFragment
+          }
+          expiresAt
+          text
+          textTaggedUsers {
+            tag
+            user {
+              ...userFragment
+            }
+          }
+          mediaObjects {
+            ...mediaObjectFragment
+          }
+          likeStatus
+          commentCount
+          commentsDisabled
+          likesDisabled
+          sharingDisabled
+          verificationHidden
+          onymousLikeCount
+          anonymousLikeCount
+          viewedByCount
+          onymouslyLikedBy (limit: 1) {
+            items {
+              ...userFragment
+            }
+            nextToken
+          }
+          comments (limit: 3) {
+            items {
+              commentId
+              commentedAt
+              commentedBy {
+                userId
+                username
+              }
+              text
+              textTaggedUsers {
+                tag
+                user {
+                  userId
+                }
+              }
+            }
+          }
+        }
+        nextToken
       }
     }
   }

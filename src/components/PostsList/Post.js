@@ -23,13 +23,14 @@ import { withTheme } from 'react-native-paper'
 import { withNavigation } from 'react-navigation'
 import { useTranslation } from 'react-i18next'
 
-const PostCarousel = (
+const PostCarousel = ({
   ref,
+  navigation,
   album,
   theme,
   handleScrollPrev,
   handleScrollNext,
-) => ({
+}) => ({
   item: post,
   index,
 }) => {
@@ -50,6 +51,18 @@ const PostCarousel = (
         style={styling.gradient}
       />
 
+      <View style={styling.gradient}>
+        <TouchableOpacity style={styling.album} onPress={() => navigation.navigate({
+            routeName: 'Album',
+            params: {
+              album,
+            },
+            key: `Album-albumId${album.albumId}`,
+          })}>
+          <Text>{path(['name'])(album)}</Text>
+        </TouchableOpacity>
+      </View>
+
       <ListItemComponent post={post}>
         <ImageComponent
           thumbnailSource={{ uri: path(['mediaObjects', '0', 'url64p'])(post) }}
@@ -59,12 +72,6 @@ const PostCarousel = (
         <TouchableOpacity style={styling.prev} onPress={handleScrollPrev} />
         <TouchableOpacity style={styling.next} onPress={handleScrollNext} />
       </ListItemComponent>
-
-      <View style={styling.gradient}>
-        <View style={styling.album}>
-          <Text>{path(['name'])(album)}</Text>
-        </View>
-      </View>
     </View>
   )
 }
@@ -117,7 +124,14 @@ const PostComponent = ({
           firstItem={firstItem}
           ref={carouselRef}
           data={path(['album', 'posts', 'items'])(post)}
-          renderItem={PostCarousel(carouselRef, path(['album'])(post), theme, handleScrollPrev, handleScrollNext)}
+          renderItem={PostCarousel({
+            carouselRef,
+            navigation,
+            album: path(['album'])(post),
+            theme,
+            handleScrollPrev,
+            handleScrollNext,
+          })}
           sliderWidth={Layout.window.width}
           itemWidth={Layout.window.width}
           removeClippedSubviews={false}
@@ -156,6 +170,9 @@ const PostComponent = ({
             activeDotIndex={activeDotIndex}
             containerStyle={{
               paddingVertical: 4,
+            }}
+            dotContainerStyle={{
+              marginHorizontal: 4,
             }}
             dotStyle={{
               width: 6,
@@ -199,6 +216,7 @@ const styles = theme => StyleSheet.create({
     left: 0,
     right: '50%',
     bottom: 0,
+    zIndex: 2,
   },
   next: {
     position: 'absolute',
@@ -206,6 +224,7 @@ const styles = theme => StyleSheet.create({
     left: '50%',
     right: 0,
     bottom: 0,
+    zIndex: 2,
   },
   commentCount: {
     padding: theme.spacing.base,
@@ -229,6 +248,7 @@ const styles = theme => StyleSheet.create({
     borderRadius: 4,
     borderColor: theme.colors.primary,
     borderWidth: 1,
+    zIndex: 3,
   },
 })
 

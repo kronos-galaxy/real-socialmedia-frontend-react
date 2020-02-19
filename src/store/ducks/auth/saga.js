@@ -1,7 +1,11 @@
 import * as AWS from 'aws-sdk/global'
 import { put, takeLatest, getContext } from 'redux-saga/effects'
 import path from 'ramda/src/path'
-import { federatedFacebookSignin, federatedGoogleSignin } from 'services/AWS'
+import {
+  federatedFacebookSignin,
+  federatedGoogleSignin,
+  federatedGoogleSignout,
+} from 'services/AWS'
 import { graphqlOperation } from '@aws-amplify/api'
 import * as actions from 'store/ducks/auth/actions'
 import * as queries from 'store/ducks/auth/queries'
@@ -555,6 +559,10 @@ function* handleAuthSignoutRequest(payload) {
   const AwsAuth = yield getContext('AwsAuth')
   const AwsCache = yield getContext('AwsCache')
   const AwsCredentials = yield getContext('AwsCredentials')
+
+  try {
+    yield federatedGoogleSignout()
+  } catch (error) {}
 
   yield AwsAuth.signOut({ global: true })
   yield AwsCredentials.clear()

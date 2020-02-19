@@ -15,7 +15,6 @@ import { useTranslation } from 'react-i18next'
 
 const formSchema = Yup.object().shape({
   name: Yup.string().min(1).max(50).required(),
-  description: Yup.string().min(1).max(50).required(),
 })
 
 const AlbumCreateForm = ({

@@ -3,6 +3,8 @@ import Api from '@aws-amplify/api'
 import { LoginManager, AccessToken, GraphRequest, GraphRequestManager } from 'react-native-fbsdk'
 import { GoogleSignin } from '@react-native-community/google-signin'
 import Config from 'react-native-config'
+import * as Logger from 'services/Logger'
+import dayjs from 'dayjs'
 
 /**
  * AWS Configuration
@@ -73,11 +75,17 @@ GoogleSignin.configure({
   webClientId: Config.GOOGLE_SIGNIN_ANDROID_CLIENT_ID,
 })
 
-const handleGoogleRefresh = async () => {
+const _handleGoogleRefresh = async () => {
   await GoogleSignin.hasPlayServices()
 
-  const googleUser = await GoogleSignin.signInSilently()
-
+  const googleUser = await (async () => {
+    try {
+      return await GoogleSignin.getTokens()
+    } catch (error) {
+      return await GoogleSignin.signInSilently()
+    }
+  })()
+  
   const tokeninfo = await (async (idToken) => {
     const data = await fetch(`https://oauth2.googleapis.com/tokeninfo?id_token=${idToken}`)
     return await data.json()
@@ -89,16 +97,33 @@ const handleGoogleRefresh = async () => {
   }
 }
 
+export const handleGoogleRefresh = async (payload) => {
+  try {
+    const response = await _handleGoogleRefresh(payload)
+    Logger.withScope(scope => {
+      scope.setExtra('current', dayjs.unix())
+      scope.setExtra('expiry', response.expires_at)
+      Logger.captureMessage('FEDERATED_GOOGLE_REFRESH_SUCCESS')
+    })
+    return response
+  } catch (error) {
+    Logger.captureException(error)
+    throw error
+  }
+}
+
 /**
  * 
  */
-export const federatedGoogleSignin = async () => {
+const _federatedGoogleSignin = async () => {
   await GoogleSignin.hasPlayServices()
 
-  const googleUser = (
-    await GoogleSignin.getCurrentUser() ||
-    await GoogleSignin.signIn()
-  )
+  const googleUser = await (async () => {
+    return (
+      await GoogleSignin.getCurrentUser() ||
+      await GoogleSignin.signIn()
+    )
+  })()
 
   const tokeninfo = await (async (idToken) => {
     const data = await fetch(`https://oauth2.googleapis.com/tokeninfo?id_token=${idToken}`)
@@ -110,4 +135,24 @@ export const federatedGoogleSignin = async () => {
     expires_at: tokeninfo.exp,
     user: googleUser.user,
   }
+}
+
+export const federatedGoogleSignin = async (payload) => {
+  try {
+    const response = await _federatedGoogleSignin(payload)
+    Logger.withScope(scope => {
+      scope.setExtra('current', dayjs().unix())
+      scope.setExtra('expiry', response.expires_at)
+      Logger.captureMessage('FEDERATED_GOOGLE_SIGNIN_SUCCESS')
+    })
+    return response
+  } catch (error) {
+    Logger.captureException(error)
+    throw error
+  }
+}
+
+export const federatedGoogleSignout = async () => {
+  await GoogleSignin.revokeAccess()
+  await GoogleSignin.signOut()
 }
