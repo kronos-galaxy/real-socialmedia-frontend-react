@@ -6,11 +6,13 @@ import * as postsActions from 'store/ducks/posts/actions'
 import * as cameraActions from 'store/ducks/camera/actions'
 import * as albumsActions from 'store/ducks/albums/actions'
 import * as postsServices from 'store/ducks/posts/services'
-import { withNavigation } from 'react-navigation'
+import { useNavigation } from '@react-navigation/native'
 import dayjs from 'dayjs'
+import * as navigationActions from 'navigation/actions'
 
-const PostCreateService = ({ children, navigation }) => {
+const PostCreateService = ({ children, }) => {
   const dispatch = useDispatch()
+  const navigation = useNavigation()
   const user = useSelector(authSelector.authUserSelector)
   const postsCreate = useSelector(state => state.posts.postsCreate)
   const cameraCapture = useSelector(state => state.camera.cameraCapture)
@@ -29,7 +31,7 @@ const PostCreateService = ({ children, navigation }) => {
 
   useEffect(() => {
     if (postsDoneUploading) {
-      navigation.navigate('Feed')
+      navigationActions.navigateHome(navigation)()
     }
   }, [postsDoneUploading])
 
@@ -70,20 +72,15 @@ const PostCreateService = ({ children, navigation }) => {
     dispatch(cameraActions.cameraCaptureIdle({ payload: { uri: images[0] } }))
   }
 
-  const handleClosePress = () => {
-    navigation.navigate('Feed')
-  }
-
   return children({
     albumsGet: postsServices.cachedPostsGet(albumsGet, albumsGetCache, user.userId),
     user,
     postsCreate,
     postsCreateRequest,
     postsCreateIdle,
-    handleClosePress,
     cameraCapture,
     postsCreateQueue,
   })
 }
 
-export default withNavigation(PostCreateService)
+export default PostCreateService

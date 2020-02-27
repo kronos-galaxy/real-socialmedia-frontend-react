@@ -18,9 +18,10 @@ import Carousel, { Pagination } from 'react-native-snap-carousel'
 import Layout from 'constants/Layout'
 import { Text } from 'react-native-paper'
 import LinearGradient from 'react-native-linear-gradient'
+import * as navigationActions from 'navigation/actions'
 
 import { withTheme } from 'react-native-paper'
-import { withNavigation } from 'react-navigation'
+import { useNavigation } from '@react-navigation/native'
 import { useTranslation } from 'react-i18next'
 
 const PostCarousel = ({
@@ -51,13 +52,7 @@ const PostCarousel = ({
       />
 
       <View style={styling.gradient}>
-        <TouchableOpacity style={styling.album} onPress={() => navigation.navigate({
-            routeName: 'Album',
-            params: {
-              album,
-            },
-            key: `Album-albumId${album.albumId}`,
-          })}>
+        <TouchableOpacity style={styling.album} onPress={navigationActions.navigateAlbum({ album })}>
           <Text>{path(['name'])(album)}</Text>
         </TouchableOpacity>
       </View>
@@ -77,7 +72,6 @@ const PostCarousel = ({
 
 const PostComponent = ({
   theme,
-  navigation,
   authUser,
   post,
   postsShareRequest,
@@ -88,7 +82,6 @@ const PostComponent = ({
   postsAnonymouslyLikeRequest,
   postsOnymouslyLikeRequest,
   postsDislikeRequest,
-  handleProfilePress,
   postsRestoreArchivedRequest,
   priorityIndex,
   handleScrollPrev,
@@ -96,6 +89,7 @@ const PostComponent = ({
 }) => {
   const styling = styles(theme)
   const { t } = useTranslation()
+  const navigation = useNavigation()
 
   const ref = useRef(null)
   const carouselRef = useRef(null)
@@ -114,7 +108,6 @@ const PostComponent = ({
         postsFlagRequest={postsFlagRequest}
         postsDeleteRequest={postsDeleteRequest}
         postsShareRequest={postsShareRequest}
-        handleProfilePress={handleProfilePress}
         postsRestoreArchivedRequest={postsRestoreArchivedRequest}
       />
 
@@ -193,7 +186,7 @@ const PostComponent = ({
       />
 
       {pathOr(0, ['commentCount'], post) > 3 ?
-        <TouchableOpacity onPress={() => navigation.navigate('Comments', { post })}>
+        <TouchableOpacity onPress={navigationActions.navigateComments({ post })}>
           <Text style={styling.commentCount}>{t('View all {{commentCount}} comments', { commentCount: pathOr(0, ['commentCount'], post) })}</Text>
         </TouchableOpacity>
       : null}
@@ -274,6 +267,4 @@ PostComponent.propTypes = {
   usersGetFollowedUsersWithStoriesRequest: PropTypes.any, 
 }
 
-export default withNavigation(
-  withTheme(PostComponent)
-)
+export default withTheme(PostComponent)

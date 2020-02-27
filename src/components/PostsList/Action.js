@@ -14,12 +14,11 @@ import { Caption } from 'react-native-paper'
 import dayjs from 'dayjs'
 
 import { withTheme } from 'react-native-paper'
-import { withNavigation } from 'react-navigation'
+import { useNavigation } from '@react-navigation/native'
 import { useTranslation } from 'react-i18next'
 
 const Action = ({
   theme,
-  navigation,
   authUser,
   post,
   postsOnymouslyLikeRequest,
@@ -28,17 +27,14 @@ const Action = ({
 }) => {
   const styling = styles(theme)
   const { t } = useTranslation()
+  const navigation = useNavigation()
 
   const self = path(['postedBy', 'userId'])(post) === path(['userId'])(authUser)
 
   const handleViewsPress = () => {
     if (!self) { return }
-    navigation.navigate({
-      routeName: 'PostMediaViews',
-      params: {
-        postId: path(['postId'])(post)
-      },
-      key: `PostMediaViews-postid${post.postId}`,
+    navigation.push('PostViews', {
+      postId: path(['postId'])(post)
     })
   }
 
@@ -110,13 +106,13 @@ const Action = ({
         : null}
         
         {commentButtonVisibility ?
-          <TouchableOpacity style={styling.actionLeftIcon} onPress={() => navigation.navigate('Comments', { post })}>
+          <TouchableOpacity style={styling.actionLeftIcon} onPress={() => navigation.push('Comments', { post })}>
             <BubbleIcon fill={theme.colors.primaryIcon} />
           </TouchableOpacity>
         : null}
 
         {shareButtonVisibility ?
-          <TouchableOpacity style={styling.actionLeftIcon} onPress={() => navigation.navigate('PostShare', { post })}>
+          <TouchableOpacity style={styling.actionLeftIcon} onPress={() => navigation.push('PostShare', { post })}>
             <DirectIcon fill={theme.colors.primaryIcon} />
           </TouchableOpacity>
         : null}
@@ -166,12 +162,10 @@ const styles = theme => StyleSheet.create({
 
 Action.propTypes = {
   theme: PropTypes.any,
-  navigation: PropTypes.any,
+  
   post: PropTypes.any,
   postsOnymouslyLikeRequest: PropTypes.any,
   postsDislikeRequest: PropTypes.any,
 }
 
-export default withNavigation(
-  withTheme(Action)
-)
+export default withTheme(Action)
