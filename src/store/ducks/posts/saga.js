@@ -1,3 +1,4 @@
+import { Image } from 'react-native'
 import { graphqlOperation } from '@aws-amplify/api'
 import { call, put, takeEvery, takeLatest, getContext, delay, select } from 'redux-saga/effects'
 import { eventChannel } from 'redux-saga'
@@ -13,7 +14,7 @@ import Share from 'react-native-share'
 import Marker from 'react-native-image-marker'
 import promiseRetry from 'promise-retry'
 import dayjs from 'dayjs'
-import uuid from 'uuid/v4'
+import { v4 as uuid } from 'uuid'
 import RNFS from 'react-native-fs'
 
 function* handlePostsShareRequest(payload) {
@@ -22,21 +23,53 @@ function* handlePostsShareRequest(payload) {
       return url
     }
 
-    return yield Marker.markText({
+    const getSize = new Promise((resolve, reject) => Image.getSize(url, (width, height) => resolve({ width, height }), reject))
+    const size = yield getSize
+
+    const fontSizeFirstLine = size.height / 30
+    const fontSizeSecondLine = size.height / 60
+
+    const rgbToHex = (rgb) => {
+      let hex = Number(rgb).toString(16)
+      if (hex.length < 2) {
+        hex = `0${hex}`
+      }
+      return hex
+    }
+    const fullColorHex = (r, g, b) => {
+      const red = rgbToHex(r)
+      const green = rgbToHex(g)
+      const blue = rgbToHex(b)
+      return `#${red}${green}${blue}`
+    }
+
+    const color = post.mediaObjects[0].colors[1]
+
+    const firstLine = yield Marker.markText({
       src: url,
-      text: `REAL \n@${post.postedBy.username}`,
-      color: '#000000',
+      text: `REAL`,
+      color: fullColorHex(color.r, color.g, color.b),
       fontName: 'AppleSDGothicNeo-Bold',
-      position: 'bottomLeft',
-      fontSize: post.mediaObjects[0].height / 30,
-      textBackgroundStyle: {
-        paddingX: 12,
-        paddingY: 6,
-        color: '#ffffff',
-      },
+      fontSize: fontSizeFirstLine,
+      X: 10,
+      Y: size.height - fontSizeFirstLine * 2,
       scale: 1, 
       quality: 100,
     })
+
+    const secondLine = yield Marker.markText({
+      src: firstLine,
+      text: `${post.postedBy.username}`,
+      color: fullColorHex(color.r, color.g, color.b),
+      fontName: 'AppleSDGothicNeo-Bold',
+      fontSize: fontSizeSecondLine,
+      X: 15,
+      Y: size.height - fontSizeFirstLine * 2 + fontSizeFirstLine,
+      scale: 1, 
+      quality: 100,
+    })
+
+    return secondLine
   }
   
   function* handleInstagramPostShare({ url, title }) {

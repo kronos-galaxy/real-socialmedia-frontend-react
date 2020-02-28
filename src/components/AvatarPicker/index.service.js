@@ -4,7 +4,7 @@ import * as authSelector from 'store/ducks/auth/selectors'
 import * as postsActions from 'store/ducks/posts/actions'
 import * as usersActions from 'store/ducks/users/actions'
 import { useNavigation, useRoute } from '@react-navigation/native'
-import uuid from 'uuid/v4'
+import { v4 as uuid } from 'uuid';
 import { PERMISSIONS, request } from 'react-native-permissions'
 import path from 'ramda/src/path'
 

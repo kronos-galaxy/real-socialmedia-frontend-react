@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import * as postsActions from 'store/ducks/posts/actions'
 import * as postsServices from 'store/ducks/posts/services'
 import { useNavigation, useRoute } from '@react-navigation/native'
-import uuid from 'uuid/v4'
+import { v4 as uuid } from 'uuid';
 import path from 'ramda/src/path'
 import { ifIphoneX } from 'react-native-iphone-x-helper'
 

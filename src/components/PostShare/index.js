@@ -44,7 +44,7 @@ const PostShare = ({
   )
 
   const handleGallerySave = () => postsShareRequest({
-    photoUrl: path(['data', 'mediaObjects', '0', 'url'])(postsSingleGet),
+    photoUrl: path(['data', 'mediaObjects', '0', 'url4k'])(postsSingleGet),
     type: 'cameraroll',
     title: 'Camera roll export',
     watermark,
@@ -52,7 +52,7 @@ const PostShare = ({
   })
 
   const handleRepost = () => postsShareRequest({
-    photoUrl: path(['data', 'mediaObjects', '0', 'url'])(postsSingleGet),
+    photoUrl: path(['data', 'mediaObjects', '0', 'url4k'])(postsSingleGet),
     type: 'repost',
     title: 'Repost',
     watermark,
@@ -60,7 +60,7 @@ const PostShare = ({
   })
 
   const handleInstagramPost = () => postsShareRequest({
-    photoUrl: path(['data', 'mediaObjects', '0', 'url'])(postsSingleGet),
+    photoUrl: path(['data', 'mediaObjects', '0', 'url4k'])(postsSingleGet),
     type: 'instagramPost',
     title: 'Instagram export',
     watermark,
