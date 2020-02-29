@@ -1,4 +1,5 @@
 import 'react-native-gesture-handler'
+import 'react-native-get-random-values'
 import { gestureHandlerRootHOC } from 'react-native-gesture-handler'
 import { AppRegistry } from 'react-native'
 import { enableScreens } from 'react-native-screens'
