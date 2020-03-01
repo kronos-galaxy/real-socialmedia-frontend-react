@@ -64,6 +64,7 @@ export const stackNavigatorDefaultProps = ({ theme }) => ({
   cardStyle: {
     backgroundColor: theme.colors.backgroundPrimary,
   },
+  gestureEnabled: 'vertical',
 })
 
 export const stackNavigatorCardProps = ({ theme }) => ({
@@ -115,6 +116,7 @@ export const stackScreenBlankProps = ({ theme }) => ({
  */
 export const stackScreenModalProps = ({ theme }) => ({
   options: (props) => ({
+    gestureDirection: 'vertical',
     gestureResponseDistance: {
       horizontal: Layout.window.width,
       vertical: Layout.window.height,
@@ -124,6 +126,7 @@ export const stackScreenModalProps = ({ theme }) => ({
       gestureDirection: 'vertical',
     },
     headerShown: false,
+    cardStyleInterpolator: CardStyleInterpolators.forVerticalIOS,
   }),
 })
 

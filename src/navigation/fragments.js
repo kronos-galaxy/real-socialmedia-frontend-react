@@ -9,6 +9,9 @@ import AlbumScreen from 'screens/AlbumScreen'
 import ProfileFollowedScreen from 'screens/ProfileFollowedScreen'
 import ProfileFollowerScreen from 'screens/ProfileFollowerScreen'
 import VerificationScreen from 'screens/VerificationScreen'
+import PostEditScreen from 'screens/PostEditScreen'
+import PostCreateScreen from 'screens/PostCreateScreen'
+import CommentsScreen from 'screens/CommentsScreen'
 
 export const media = ({
   Stack,
@@ -45,6 +48,24 @@ export const media = ({
         name="PostViews"
         component={PostViewsScreen}
         {...stackScreenPageProps({ options: { title: 'Views' } })}
+      />
+
+      <Stack.Screen
+        name="PostCreate"
+        component={PostCreateScreen}
+        {...stackScreenPageProps({ options: { title: 'New Post' } })}
+      />
+
+      <Stack.Screen
+        name="PostEdit"
+        component={PostEditScreen}
+        {...stackScreenPageProps({ options: { title: 'Edit Post' } })}
+      />
+
+      <Stack.Screen
+        name="Comments"
+        component={CommentsScreen}
+        {...stackScreenPageProps({ options: { title: 'Comments' } })}
       />
 
       <Stack.Screen

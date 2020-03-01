@@ -57,7 +57,10 @@ const PostComponent = ({
       />
 
       {post.postType === 'TEXT_ONLY' ?
-        <TextOnlyComponent text={post.text} />
+        <TextOnlyComponent text={post.text}>
+          <TouchableOpacity style={styling.prev} onPress={handleScrollPrev} />
+          <TouchableOpacity style={styling.next} onPress={handleScrollNext} />
+        </TextOnlyComponent>
       : null}
 
       {post.postType === 'IMAGE' ?

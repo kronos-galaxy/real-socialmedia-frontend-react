@@ -15,6 +15,7 @@ import { useTranslation } from 'react-i18next'
 
 const TextComponent = ({
   theme,
+  children,
   text,
 }) => {
   const styling = styles(theme)
@@ -27,6 +28,7 @@ const TextComponent = ({
         style={styling.gradient}
       />
       <Text style={styling.text}>{text}</Text>
+      {children}
     </View>
   )
 }
