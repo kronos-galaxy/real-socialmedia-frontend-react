@@ -10,7 +10,6 @@ import * as navigationFragments from 'navigation/fragments'
 import CameraScreen from 'screens/CameraScreen'
 import ChatScreen from 'screens/ChatScreen'
 import FeedScreen from 'screens/FeedScreen'
-import PostCreateScreen from 'screens/PostCreateScreen'
 import AlbumsScreen from 'screens/AlbumsScreen'
 import AlbumCreateScreen from 'screens/AlbumCreateScreen'
 import ProfileRequestsScreen from 'screens/ProfileRequestsScreen'
@@ -90,12 +89,6 @@ const AppNavigator = () => {
         name="Feed"
         component={HomeNavigator}
         {...stackScreenBlankProps}
-      />
-
-      <Stack.Screen
-        name="PostCreate"
-        component={PostCreateScreen}
-        {...stackScreenCardProps}
       />
 
       <Stack.Screen

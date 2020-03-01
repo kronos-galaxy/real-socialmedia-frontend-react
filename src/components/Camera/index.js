@@ -9,7 +9,6 @@ import CameraTemplate from 'templates/Camera'
 import CameraHeaderTemplate from 'templates/Camera/Header'
 import ShutterComponent from 'components/Camera/Shutter'
 import PickerComponent from 'components/Camera/Picker'
-import QualityComponent from 'components/Camera/Quality'
 import { RNCamera } from 'react-native-camera'
 import Layout from 'constants/Layout'
 import usePrevious from 'react-use/lib/usePrevious'
@@ -42,8 +41,6 @@ const CameraComponent = ({
   handleFlashToggle,
   postsCreateRequest,
   postsCreate,
-  photoQuality,
-  setPhotoQuality,
   cameraEnabled,
 }) => {
   const styling = styles(theme)
@@ -63,12 +60,6 @@ const CameraComponent = ({
         header={(
           <CameraHeaderTemplate
             handleClosePress={navigationActions.navigateHome(navigation)}
-            content={(
-              <QualityComponent
-                photoQuality={photoQuality}
-                setPhotoQuality={setPhotoQuality}
-              />
-            )}
           />
         )}
         content={(

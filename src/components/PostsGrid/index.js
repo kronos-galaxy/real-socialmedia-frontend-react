@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import {
   StyleSheet,
@@ -7,6 +7,7 @@ import {
 import GridComponent from 'templates/Grid'
 import GridItemComponent from 'templates/GridItem'
 import ImageComponent from 'templates/Image'
+import TextOnlyComponent from 'templates/TextOnly/Thumbnail'
 import path from 'ramda/src/path'
 import * as navigationActions from 'navigation/actions'
 
@@ -30,11 +31,19 @@ const PostsGrid = ({
       <GridComponent items={path(['data'])(postsGet)}>
         {(post, priorityIndex) => (
           <GridItemComponent onPress={navigationActions.navigatePostMedia(navigation, { post })}>
-            <ImageComponent
-              thumbnailSource={{ uri: path(['mediaObjects', '0', 'url64p'])(post) }}
-              imageSource={{ uri: path(['mediaObjects', '0', 'url480p'])(post) }}
-              priorityIndex={priorityIndex}
-            />
+            {post.postType === 'IMAGE' ?
+              <ImageComponent
+                thumbnailSource={{ uri: path(['mediaObjects', '0', 'url64p'])(post) }}
+                imageSource={{ uri: path(['mediaObjects', '0', 'url480p'])(post) }}
+                priorityIndex={priorityIndex}
+              />
+            : null}
+
+            {post.postType === 'TEXT_ONLY' ?
+              <TextOnlyComponent
+                text={post.text}
+              />
+            : null}
           </GridItemComponent>
         )}
       </GridComponent>

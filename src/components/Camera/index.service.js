@@ -76,26 +76,15 @@ const CameraService = ({ children, }) => {
   }, [])
 
   const [photoSize, setPhotoSize] = useState('4:3')
-  const [photoQuality, setPhotoQuality] = useState('default')
 
   const handleCameraSnap = async () => {
     if (!cameraRef.current) { return }
 
     camera.pausePreview()
 
-    const quality = (() => {
-      if (photoQuality === 'maximum') {
-        return 1
-      }
-      if (photoQuality === 'default') {
-        return 0.6
-      }
-      return 1
-    })()
-
     try {
       const snappedPhoto = await camera.takePictureAsync({
-        quality,
+        quality: 1,
         base64: false,
       })
 
@@ -118,7 +107,7 @@ const CameraService = ({ children, }) => {
       if (route.params && route.params.nextRoute) {
         navigation.navigate(path(['params', 'nextRoute'])(route), { photos: [croppedPhoto.path] })
       } else {
-        navigationActions.navigatePostCreate(navigation, { photos: [croppedPhoto.path] })()
+        navigationActions.navigatePostCreate(navigation, { type: 'IMAGE', photos: [croppedPhoto.path] })()
       }
     } catch (error) {
 
@@ -160,7 +149,7 @@ const CameraService = ({ children, }) => {
     if (route.params && route.params.nextRoute) {
       navigation.navigate(path(['params', 'nextRoute'])(route), { photos })
     } else {
-      navigationActions.navigatePostCreate(navigation, { photos })()
+      navigationActions.navigatePostCreate(navigation, { type: 'IMAGE', photos })()
     }
   }
 
@@ -169,8 +158,6 @@ const CameraService = ({ children, }) => {
     cameraRef,
     photoSize,
     setPhotoSize,
-    photoQuality,
-    setPhotoQuality,
     flashMode,
     flipMode,
     handleLibrarySnap,

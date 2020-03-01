@@ -75,6 +75,7 @@ export const commentFragment = `
 export const postFragment = `
   fragment postFragment on Post {
     postId
+    postType
     postedAt
     postedBy {
       ...userFragment
@@ -140,6 +141,7 @@ export const postFragment = `
       posts(limit: 10) {
         items {
           postId
+          postType
           postedAt
           postedBy {
             ...userFragment

@@ -6,19 +6,21 @@ import * as postsActions from 'store/ducks/posts/actions'
 import * as cameraActions from 'store/ducks/camera/actions'
 import * as albumsActions from 'store/ducks/albums/actions'
 import * as postsServices from 'store/ducks/posts/services'
-import { useNavigation } from '@react-navigation/native'
+import { useNavigation, useRoute} from '@react-navigation/native'
 import dayjs from 'dayjs'
 import * as navigationActions from 'navigation/actions'
 
 const PostCreateService = ({ children, }) => {
   const dispatch = useDispatch()
   const navigation = useNavigation()
+  const route = useRoute()
   const user = useSelector(authSelector.authUserSelector)
   const postsCreate = useSelector(state => state.posts.postsCreate)
   const cameraCapture = useSelector(state => state.camera.cameraCapture)
   const albumsGet = useSelector(state => state.albums.albumsGet)
   const albumsGetCache = useSelector(state => state.albums.albumsGetCache)
   const postsCreateQueue = useSelector(state => state.posts.postsCreateQueue)
+  const type = route.params.type
 
   const postsDoneUploading = (
     !cameraCapture.data.length &&
@@ -30,16 +32,28 @@ const PostCreateService = ({ children, }) => {
   }, [])
 
   useEffect(() => {
-    if (postsDoneUploading) {
+    if (postsDoneUploading && type === 'IMAGE') {
       navigationActions.navigateHome(navigation)()
     }
   }, [postsDoneUploading])
+
+
+  useEffect(() => {
+    if (postsCreate.status === 'success' && type === 'TEXT_ONLY') {
+      navigationActions.navigateHome(navigation)()
+    }
+
+    if (postsCreate.status === 'loading' && type === 'TEXT_ONLY') {
+      navigationActions.navigateHome(navigation)()
+    }
+  }, [postsCreate.status])
 
   const postsCreateIdle = (payload) =>
     dispatch(postsActions.postsCreateIdle({ payload }))
 
   const postsCreateRequest = ({
     albumId = null,
+    postType = 'IMAGE',
     text = '',
     images = [],
     lifetime = '',
@@ -55,6 +69,7 @@ const PostCreateService = ({ children, }) => {
 
     dispatch(postsActions.postsCreateRequest({
       postId,
+      postType,
       albumId,
       lifetime,
       mediaId,
@@ -73,6 +88,7 @@ const PostCreateService = ({ children, }) => {
   }
 
   return children({
+    type,
     albumsGet: postsServices.cachedPostsGet(albumsGet, albumsGetCache, user.userId),
     user,
     postsCreate,

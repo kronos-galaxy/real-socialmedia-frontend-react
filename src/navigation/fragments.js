@@ -1,14 +1,11 @@
 import React from 'react'
 
-import StoryScreen from 'screens/StoryScreen'
-import PostEditScreen from 'screens/PostEditScreen'
 import PostMediaScreen from 'screens/PostMediaScreen'
 import PostLikesScreen from 'screens/PostLikesScreen'
 import PostViewsScreen from 'screens/PostViewsScreen'
 import PostShareScreen from 'screens/PostShareScreen'
 import ProfileScreen from 'screens/ProfileScreen'
 import AlbumScreen from 'screens/AlbumScreen'
-import CommentsScreen from 'screens/CommentsScreen'
 import ProfileFollowedScreen from 'screens/ProfileFollowedScreen'
 import ProfileFollowerScreen from 'screens/ProfileFollowerScreen'
 import VerificationScreen from 'screens/VerificationScreen'
@@ -45,18 +42,6 @@ export const media = ({
       />
 
       <Stack.Screen
-        name="Story"
-        component={StoryScreen}
-        {...stackScreenCardProps}
-      />
-
-      <Stack.Screen
-        name="PostEdit"
-        component={PostEditScreen}
-        {...stackScreenCardProps}
-      />
-
-      <Stack.Screen
         name="PostLikes"
         component={PostLikesScreen}
         {...stackScreenCardProps}
@@ -77,12 +62,6 @@ export const media = ({
       <Stack.Screen
         name="Album"
         component={AlbumScreen}
-        {...stackScreenCardProps}
-      />
-
-      <Stack.Screen
-        name="Comments"
-        component={CommentsScreen}
         {...stackScreenCardProps}
       />
 

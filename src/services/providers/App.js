@@ -120,8 +120,6 @@ export const AuthProvider = ({
     )
   )
 
-  console.log(authenticated)
-
   return children({
     initialRouteName: nextRoute,
     theme,

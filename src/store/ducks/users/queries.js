@@ -58,6 +58,7 @@ export const user = `
       stories (limit: 10) {
         items {
           postId
+          postType
           postedAt
           postedBy {
             ...userFragment
@@ -119,6 +120,7 @@ export const setUserDetails = `
       stories (limit: 10) {
         items {
           postId
+          postType
           postedAt
           postedBy {
             ...userFragment
@@ -254,6 +256,7 @@ export const self = `
       stories (limit: 10) {
         items {
           postId
+          postType
           postedAt
           postedBy {
             ...userFragment

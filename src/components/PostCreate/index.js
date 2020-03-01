@@ -25,6 +25,7 @@ const PostCreateComponent = ({
   handlePostPress,
   albumsGet,
   postsCreateQueue,
+  type,
 }) => {
   const styling = styles(theme)
   const { t } = useTranslation()
@@ -53,13 +54,31 @@ const PostCreateComponent = ({
               formLifetime={FormLifetime}
               formAlbums={FormAlbums}
               albumsGet={albumsGet}
+              postType={type}
             />
           </View>
         ))}
 
+        {type === 'TEXT_ONLY' ?
+          <View style={styling.form}>
+            <PostCreateForm
+              user={user}
+              postsCreate={postsCreate}
+              postsCreateRequest={postsCreateRequest}
+              cameraCapture={{ data: {} }}
+              handlePostPress={handlePostPress}
+              formLifetime={FormLifetime}
+              formAlbums={FormAlbums}
+              albumsGet={albumsGet}
+              postType={type}
+            />
+          </View>
+        : null}
+
         {(
           !cameraCapture.data.length &&
-          !Object.values(postsCreateQueue).filter(item => item.status === 'loading').length
+          !Object.values(postsCreateQueue).filter(item => item.status === 'loading').length &&
+          type === 'IMAGE'
         ) ?
           <SuccessComponent />
         : null}

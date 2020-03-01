@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import * as usersActions from 'store/ducks/users/actions'
 import * as authSelector from 'store/ducks/auth/selectors'
 import { useNavigation } from '@react-navigation/native'
+import * as navigationActions from 'navigation/actions'
 
 const PostsGridSelectService = ({ children, }) => {
   const dispatch = useDispatch()
@@ -23,7 +24,7 @@ const PostsGridSelectService = ({ children, }) => {
 
   useEffect(() => {
     if (usersEditProfile.status === 'success') {
-      navigation.navigate('ProfileSelf')
+      navigationActions.navigateProfileSelf(navigation)()
       dispatch(usersActions.usersEditProfileIdle())
     }
   }, [usersEditProfile.status])

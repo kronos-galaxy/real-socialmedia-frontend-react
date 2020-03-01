@@ -13,6 +13,7 @@ import HeaderComponent from 'components/Story/Header'
 import CameraTemplate from 'templates/Camera'
 import CameraHeaderTemplate from 'templates/Camera/Header'
 import ImageTemplate from 'templates/Image'
+import TextOnlyComponent from 'templates/TextOnly'
 import { BlurView } from '@react-native-community/blur'
 import LinearGradient from 'react-native-linear-gradient'
 import pathOr from 'ramda/src/pathOr'
@@ -63,11 +64,19 @@ const StoryCarousel = ({
           />
         )}
         content={(
-          <ImageTemplate
-            thumbnailSource={{ uri: path(['mediaObjects', '0', 'url64p'])(story) }}
-            imageSource={{ uri: path(['mediaObjects', '0', 'url4k'])(story) }}
-            resizeMode="contain"
-          />
+          <>
+            {story.postType === 'IMAGE' ?
+              <ImageTemplate
+                thumbnailSource={{ uri: path(['mediaObjects', '0', 'url64p'])(story) }}
+                imageSource={{ uri: path(['mediaObjects', '0', 'url4k'])(story) }}
+                resizeMode="contain"
+              />
+            : null}
+
+            {story.postType === 'TEXT_ONLY' ?
+              <TextOnlyComponent text={story.text} />
+            : null}
+          </>
         )}
         footer={null}
         selector={null}

@@ -1,6 +1,7 @@
 import { HeaderStyleInterpolators, CardStyleInterpolators, TransitionPresets } from '@react-navigation/stack'
 import DefaultNavigationComponent from 'components/NavigationPrimary/Default'
 import path from 'ramda/src/path'
+import Layout from 'constants/Layout'
 
 /**
  * Recursive search for the latest active screen in the stack
@@ -71,6 +72,10 @@ export const stackNavigatorCardProps = ({ theme }) => ({
 export const stackScreenDefaultProps = ({ theme }) => ({
   options: (props) => ({
     ...DefaultNavigationComponent({ ...props, theme }),
+    gestureResponseDistance: {
+      horizontal: Layout.window.width,
+      vertical: Layout.window.height,
+    },
     cardStyle: {
       backgroundColor: theme.colors.backgroundPrimary,
     },
@@ -82,6 +87,10 @@ export const stackScreenDefaultProps = ({ theme }) => ({
  */
 export const stackScreenBlankProps = ({ theme }) => ({
   options: (props) => ({
+    gestureResponseDistance: {
+      horizontal: Layout.window.width,
+      vertical: Layout.window.height,
+    },
     cardStyle: {
       backgroundColor: theme.colors.backgroundPrimary,
     },
@@ -94,8 +103,13 @@ export const stackScreenBlankProps = ({ theme }) => ({
  */
 export const stackScreenModalProps = ({ theme }) => ({
   options: (props) => ({
+    gestureResponseDistance: {
+      horizontal: Layout.window.width,
+      vertical: Layout.window.height,
+    },
     cardStyle: {
       backgroundColor: 'transparent',
+      gestureDirection: 'vertical',
     },
     headerShown: false,
   }),
@@ -122,6 +136,10 @@ export const stackScreenPageProps = ({ theme, themes }) => ({ options } = {}) =>
     return ({
       cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
       gestureDirection: 'horizontal',
+      gestureResponseDistance: {
+        horizontal: Layout.window.width,
+        vertical: Layout.window.height,
+      },
       cardStyle: {
         backgroundColor,
       },
@@ -149,6 +167,10 @@ export const stackScreenPageProps = ({ theme, themes }) => ({ options } = {}) =>
  */
 export const stackScreenCardProps = ({ theme }) => ({
   options: (props) => ({
+    gestureResponseDistance: {
+      horizontal: Layout.window.width,
+      vertical: Layout.window.height,
+    },
     cardStyle: {
       backgroundColor: theme.colors.backgroundPrimary,
     },

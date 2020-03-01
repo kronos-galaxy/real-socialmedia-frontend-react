@@ -12,6 +12,7 @@ import UnlikeIcon from 'assets/svg/action/Unlike'
 import path from 'ramda/src/path'
 import { Caption } from 'react-native-paper'
 import dayjs from 'dayjs'
+import * as navigationActions from 'navigation/actions'
 
 import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
@@ -106,13 +107,13 @@ const Action = ({
         : null}
         
         {commentButtonVisibility ?
-          <TouchableOpacity style={styling.actionLeftIcon} onPress={() => navigation.push('Comments', { post })}>
+          <TouchableOpacity style={styling.actionLeftIcon} onPress={navigationActions.navigateComments(navigation, { post })}>
             <BubbleIcon fill={theme.colors.primaryIcon} />
           </TouchableOpacity>
         : null}
 
         {shareButtonVisibility ?
-          <TouchableOpacity style={styling.actionLeftIcon} onPress={() => navigation.push('PostShare', { post })}>
+          <TouchableOpacity style={styling.actionLeftIcon} onPress={navigationActions.navigatePostShare(navigation, { post })}>
             <DirectIcon fill={theme.colors.primaryIcon} />
           </TouchableOpacity>
         : null}

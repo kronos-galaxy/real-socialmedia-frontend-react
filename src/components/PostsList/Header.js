@@ -98,10 +98,10 @@ const Header = ({
             destructiveButtonIndex={3}
             onPress={(index) => {
               if (index === 0) {
-                navigationActions.navigatePostShare(navigation, { post })
+                navigationActions.navigatePostShare(navigation, { post })()
               }
               if (index === 1) {
-                navigationActions.navigatePostEdit(navigation, { post })
+                navigationActions.navigatePostEdit(navigation, { post })()
               }
               if (index === 2) {
                 postsArchiveRequest({ postId: post.postId })
