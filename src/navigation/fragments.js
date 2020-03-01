@@ -69,6 +69,12 @@ export const media = ({
       />
 
       <Stack.Screen
+        name="Album"
+        component={AlbumScreen}
+        {...stackScreenPageProps({ options: { title: 'Album' } })}
+      />
+
+      <Stack.Screen
         name="PostLikes"
         component={PostLikesScreen}
         {...stackScreenCardProps}
@@ -77,12 +83,6 @@ export const media = ({
       <Stack.Screen
         name="PostShare"
         component={PostShareScreen}
-        {...stackScreenCardProps}
-      />
-
-      <Stack.Screen
-        name="Album"
-        component={AlbumScreen}
         {...stackScreenCardProps}
       />
 

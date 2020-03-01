@@ -11,6 +11,7 @@ import HeaderComponent from 'components/PostsList/Header'
 import ActionComponent from 'components/PostsList/Action'
 import DescriptionComponent from 'components/PostsList/Description'
 import CommentComponent from 'components/PostsList/Comment'
+import AlbumComponent from 'components/PostsList/Album'
 import ListItemComponent from 'templates/ListItem'
 import ImageComponent from 'templates/Image'
 import TextOnlyComponent from 'templates/TextOnly'
@@ -43,6 +44,8 @@ const PostComponent = ({
   const { t } = useTranslation()
   const navigation = useNavigation()
 
+  const albumLength = path(['album', 'posts', 'items', 'length'])(post) || 0
+
   return (
     <View style={styling.root}>
       <HeaderComponent
@@ -73,6 +76,10 @@ const PostComponent = ({
           <TouchableOpacity style={styling.prev} onPress={handleScrollPrev} />
           <TouchableOpacity style={styling.next} onPress={handleScrollNext} />
         </ListItemComponent>
+      : null}
+
+      {albumLength > 1 ?
+        <AlbumComponent post={post} />
       : null}
 
       <ActionComponent
