@@ -1,7 +1,19 @@
+import React from 'react'
+import { TouchableOpacity, Text } from 'react-native'
 import { HeaderStyleInterpolators, CardStyleInterpolators, TransitionPresets } from '@react-navigation/stack'
 import DefaultNavigationComponent from 'components/NavigationPrimary/Default'
 import path from 'ramda/src/path'
 import Layout from 'constants/Layout'
+import BackIcon from 'assets/svg/header/Back'
+
+const headerLeft = (fill) => ({ onPress, label, labelStyle }) => {
+  if (!onPress) { return null }
+  return (
+    <TouchableOpacity style={{ paddingHorizontal: 12 }} onPress={onPress}>
+      <BackIcon fill="#fff" />
+    </TouchableOpacity>
+  )
+}
 
 /**
  * Recursive search for the latest active screen in the stack
@@ -155,8 +167,9 @@ export const stackScreenPageProps = ({ theme, themes }) => ({ options } = {}) =>
         borderBottomWidth: 0,
         shadowColor: 'transparent',
       },
-      headerLeft: () => null,
+      headerLeft: headerLeft(theme.colors.text),
       headerRight: () => null,
+      headerTintColor: 'red',
       ...options,
     })
   },

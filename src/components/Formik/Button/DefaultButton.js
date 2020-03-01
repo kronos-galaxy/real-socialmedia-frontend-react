@@ -44,6 +44,7 @@ const styles = theme => StyleSheet.create({
   text: {
     fontWeight: '500',
     letterSpacing: 0.25,
+    fontSize: 15,
   },
 })
 

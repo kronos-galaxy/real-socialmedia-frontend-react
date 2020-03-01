@@ -26,7 +26,7 @@ export const media = ({
       <Stack.Screen
         name="PostMedia"
         component={PostMediaScreen}
-        {...stackScreenPageProps({ options: { title: 'Profile' } })}
+        {...stackScreenPageProps({ options: { title: 'Post' } })}
       />
 
       <Stack.Screen
@@ -42,14 +42,14 @@ export const media = ({
       />
 
       <Stack.Screen
-        name="PostLikes"
-        component={PostLikesScreen}
-        {...stackScreenCardProps}
+        name="PostViews"
+        component={PostViewsScreen}
+        {...stackScreenPageProps({ options: { title: 'Views' } })}
       />
 
       <Stack.Screen
-        name="PostViews"
-        component={PostViewsScreen}
+        name="PostLikes"
+        component={PostLikesScreen}
         {...stackScreenCardProps}
       />
 

@@ -55,6 +55,7 @@ const Comments = ({
 const styles = theme => StyleSheet.create({
   root: {
     flex: 1,
+    backgroundColor: theme.colors.backgroundPrimary,
   },
   comments: {
     flex: 1,

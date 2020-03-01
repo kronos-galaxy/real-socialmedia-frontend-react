@@ -14,13 +14,13 @@ import CommentsScreen from 'screens/CommentsScreen'
 const AppNavigator = () => {
   const Stack = createStackNavigator()
   const { theme, themes } = useContext(ThemesContext)
-  const stackNavigatorCardProps = navigationOptions.stackNavigatorCardProps({ theme, themes })
+  const stackNavigatorDefaultProps = navigationOptions.stackNavigatorDefaultProps({ theme, themes })
   const stackScreenBlankProps = navigationOptions.stackScreenBlankProps({ theme, themes })
   const stackScreenModalProps = navigationOptions.stackScreenModalProps({ theme, themes })
   const stackScreenPageProps = navigationOptions.stackScreenPageProps({ theme, themes })
 
   return (
-    <Stack.Navigator {...stackNavigatorCardProps}>
+    <Stack.Navigator {...stackNavigatorDefaultProps}>
       <Stack.Screen
         name="Tab"
         component={TabNavigator}
@@ -54,7 +54,7 @@ const AppNavigator = () => {
       <Stack.Screen
         name="Comments"
         component={CommentsScreen}
-        {...stackScreenPageProps}
+        {...stackScreenPageProps({ options: { title: 'Comments' } })}
       />
     </Stack.Navigator>
   )
