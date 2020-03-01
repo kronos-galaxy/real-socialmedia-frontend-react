@@ -1,5 +1,6 @@
 import {
-  mediaObjectFragment,
+  imageFragment,
+  postFragment,
   userFragment,
 } from 'store/fragments'
 
@@ -58,6 +59,7 @@ export const user = `
       stories (limit: 10) {
         items {
           postId
+          postStatus
           postType
           postedAt
           postedBy {
@@ -71,9 +73,10 @@ export const user = `
               ...userFragment
             }
           }
-          mediaObjects {
-            ...mediaObjectFragment
+          image {
+            ...imageFragment
           }
+          isVerified
           likeStatus
           onymousLikeCount
           anonymousLikeCount
@@ -83,15 +86,15 @@ export const user = `
       }
     }
   }
+  ${imageFragment}
   ${userFragment}
-  ${mediaObjectFragment}
 `
 
 export const setUserDetails = `
   mutation setUserDetails(
     $fullName: String,
     $bio: String,
-    $photoMediaId: ID,
+    $photoPostId: ID,
     $privacyStatus: PrivacyStatus,
     $followCountsHidden: Boolean,
     $viewCountsHidden: Boolean,
@@ -105,7 +108,7 @@ export const setUserDetails = `
     setUserDetails(
       fullName: $fullName,
       bio: $bio,
-      photoMediaId: $photoMediaId,
+      photoPostId: $photoPostId,
       privacyStatus: $privacyStatus,
       followCountsHidden: $followCountsHidden,
       viewCountsHidden: $viewCountsHidden,
@@ -120,6 +123,7 @@ export const setUserDetails = `
       stories (limit: 10) {
         items {
           postId
+          postStatus
           postType
           postedAt
           postedBy {
@@ -133,9 +137,10 @@ export const setUserDetails = `
               ...userFragment
             }
           }
-          mediaObjects {
-            ...mediaObjectFragment
+          image {
+            ...imageFragment
           }
+          isVerified
           likeStatus
           onymousLikeCount
           anonymousLikeCount
@@ -145,22 +150,22 @@ export const setUserDetails = `
       }
     }
   }
+  ${imageFragment}
   ${userFragment}
-  ${mediaObjectFragment}
 `
 
-export const getMediaObjects = `
-  query GetMediaObjects($userId: ID!) {
+export const getImagePosts = `
+  query GetImagePosts($userId: ID!) {
     user(userId: $userId) {
-      mediaObjects {
+      posts(postType: 'IMAGE') {
         items {
-          ...mediaObjectFragment
+          ...postFragment
         }
         nextToken
       }
     }
   }
-  ${mediaObjectFragment}
+  ${postFragment}
 `
 
 export const getFollowedUsersWithStories = `
@@ -172,6 +177,7 @@ export const getFollowedUsersWithStories = `
           stories (limit: 10) {
             items {
               postId
+              postStatus
               postedAt
               postedBy {
                 ...userFragment
@@ -184,9 +190,10 @@ export const getFollowedUsersWithStories = `
                   ...userFragment
                 }
               }
-              mediaObjects {
-                ...mediaObjectFragment
+              image {
+                ...imageFragment
               }
+              isVerified
               likeStatus
               onymousLikeCount
               anonymousLikeCount
@@ -199,8 +206,8 @@ export const getFollowedUsersWithStories = `
       }
     }
   }
+  ${imageFragment}
   ${userFragment}
-  ${mediaObjectFragment}
 `
 
 export const getFollowedUsers = `
@@ -256,6 +263,7 @@ export const self = `
       stories (limit: 10) {
         items {
           postId
+          postStatus
           postType
           postedAt
           postedBy {
@@ -269,9 +277,10 @@ export const self = `
               ...userFragment
             }
           }
-          mediaObjects {
-            ...mediaObjectFragment
+          image {
+            ...imageFragment
           }
+          isVerified
           likeStatus
           onymousLikeCount
           anonymousLikeCount
@@ -281,8 +290,8 @@ export const self = `
       }
     }
   }
+  ${imageFragment}
   ${userFragment}
-  ${mediaObjectFragment}
 `
 
 export const trendingUsers = `

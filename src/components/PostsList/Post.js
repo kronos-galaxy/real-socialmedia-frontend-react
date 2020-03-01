@@ -69,8 +69,8 @@ const PostComponent = ({
       {post.postType === 'IMAGE' ?
         <ListItemComponent post={post}>
           <ImageComponent
-            thumbnailSource={{ uri: path(['mediaObjects', '0', 'url64p'])(post) }}
-            imageSource={{ uri: path(['mediaObjects', '0', 'url4k'])(post) }}
+            thumbnailSource={{ uri: path(['image', 'url64p'])(post) }}
+            imageSource={{ uri: path(['image', 'url4k'])(post) }}
             priorityIndex={priorityIndex}
           />
           <TouchableOpacity style={styling.prev} onPress={handleScrollPrev} />

@@ -9,17 +9,17 @@ const PostsGridSelectService = ({ children, }) => {
   const dispatch = useDispatch()
   const navigation = useNavigation()
   const user = useSelector(authSelector.authUserSelector)
-  const usersMediaObjectsGet = useSelector(state => state.users.usersMediaObjectsGet)
+  const usersImagePostsGet = useSelector(state => state.users.usersImagePostsGet)
   const usersEditProfile = useSelector(state => state.users.usersEditProfile)
 
-  const usersMediaObjectsGetRequest = (payload) =>
-    dispatch(usersActions.usersMediaObjectsGetRequest(payload))
+  const usersImagePostsGetRequest = (payload) =>
+    dispatch(usersActions.usersImagePostsGetRequest(payload))
 
   const usersEditProfileRequest = () =>
-    dispatch(usersActions.usersEditProfileRequest({ photoMediaId: selectedMedia.mediaId }))
+    dispatch(usersActions.usersEditProfileRequest({ photoPostId: selectedPost.postId }))
 
   useEffect(() => {
-    usersMediaObjectsGetRequest({ userId: user.userId })
+    usersImagePostsGetRequest({ userId: user.userId })
   }, [])
 
   useEffect(() => {
@@ -29,15 +29,15 @@ const PostsGridSelectService = ({ children, }) => {
     }
   }, [usersEditProfile.status])
 
-  const [selectedMedia, setSelectedMedia] = useState({})
-  const handleMediaPress = (media) => setSelectedMedia(media)
+  const [selectedPost, setSelectedPost] = useState({})
+  const handlePostPress = (post) => setSelectedPost(post)
 
   return children({
     user,
-    usersMediaObjectsGet,
-    usersMediaObjectsGetRequest,
-    handleMediaPress,
-    selectedMedia,
+    usersImagePostsGet,
+    usersImagePostsGetRequest,
+    handlePostPress,
+    selectedPost,
     usersEditProfileRequest,
   })
 }

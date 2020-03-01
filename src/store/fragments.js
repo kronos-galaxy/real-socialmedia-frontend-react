@@ -32,20 +32,15 @@ export const userFragment = `
   }
 `
 
-export const mediaObjectFragment = `
-  fragment mediaObjectFragment on MediaObject {
-    mediaId
-    mediaType
-    mediaStatus
+export const imageFragment = `
+  fragment imageFragment on Image {
     url
     url64p
     url480p
     url1080p
     url4k
-    uploadUrl
     width
     height
-    isVerified
     colors {
       r
       g
@@ -75,6 +70,7 @@ export const commentFragment = `
 export const postFragment = `
   fragment postFragment on Post {
     postId
+    postStatus
     postType
     postedAt
     postedBy {
@@ -88,9 +84,11 @@ export const postFragment = `
         ...userFragment
       }
     }
-    mediaObjects {
-      ...mediaObjectFragment
+    image {
+      ...imageFragment
     }
+    imageUploadUrl
+    isVerified
     likeStatus
     commentCount
     commentsDisabled
@@ -154,9 +152,10 @@ export const postFragment = `
               ...userFragment
             }
           }
-          mediaObjects {
-            ...mediaObjectFragment
+          image {
+            ...imageFragment
           }
+          isVerified
           likeStatus
           commentCount
           commentsDisabled
@@ -194,8 +193,8 @@ export const postFragment = `
       }
     }
   }
-  ${mediaObjectFragment}
   ${userFragment}
+  ${imageFragment}
 `
 
 export const albumFragment = `

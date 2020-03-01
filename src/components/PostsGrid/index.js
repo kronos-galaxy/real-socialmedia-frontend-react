@@ -33,8 +33,8 @@ const PostsGrid = ({
           <GridItemComponent onPress={navigationActions.navigatePostMedia(navigation, { post })}>
             {post.postType === 'IMAGE' ?
               <ImageComponent
-                thumbnailSource={{ uri: path(['mediaObjects', '0', 'url64p'])(post) }}
-                imageSource={{ uri: path(['mediaObjects', '0', 'url480p'])(post) }}
+                thumbnailSource={{ uri: path(['image', 'url64p'])(post) }}
+                imageSource={{ uri: path(['image', 'url480p'])(post) }}
                 priorityIndex={priorityIndex}
               />
             : null}
