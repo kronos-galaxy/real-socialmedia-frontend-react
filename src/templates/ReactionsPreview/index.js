@@ -48,7 +48,7 @@ const ReactionsPreviewTemplate = ({
             </TouchableOpacity>
 
             <TouchableOpacity onPress={navigationActions.navigateProfile(navigation, { user: path(['onymouslyLikedBy', 'items', '0'])(post) })}>
-              <Text style={styling.text}>
+              <Text style={[styling.text, styling.author]}>
                 {path(['onymouslyLikedBy', 'items', '0', 'username'])(post)}
               </Text>
             </TouchableOpacity>
@@ -73,6 +73,9 @@ const styles = theme => StyleSheet.create({
   text: {
     alignItems: 'center',
     marginRight: 4,
+  },
+  author: {
+    fontWeight: '700',
   },
 })
 

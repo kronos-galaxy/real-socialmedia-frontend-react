@@ -63,18 +63,6 @@ export const media = ({
       />
 
       <Stack.Screen
-        name="Comments"
-        component={CommentsScreen}
-        {...stackScreenPageProps({ options: { title: 'Comments' } })}
-      />
-
-      <Stack.Screen
-        name="Album"
-        component={AlbumScreen}
-        {...stackScreenPageProps({ options: { title: 'Album' } })}
-      />
-
-      <Stack.Screen
         name="PostLikes"
         component={PostLikesScreen}
         {...stackScreenCardProps}

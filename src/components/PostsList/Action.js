@@ -138,6 +138,7 @@ const Action = ({
 
 const styles = theme => StyleSheet.create({
   action: {
+    zIndex: 1,
     flexDirection: 'row',
     padding: theme.spacing.base,
     alignItems: 'center',

@@ -3,8 +3,8 @@ import PropTypes from 'prop-types'
 import {
   View,
   StyleSheet,
+  ScrollView,
 } from 'react-native'
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import PostCreateForm from 'components/PostCreate/Form'
 import FormLifetime from 'components/PostCreate/FormLifetime'
 import FormAlbums from 'components/PostCreate/FormAlbums'
@@ -32,7 +32,7 @@ const PostCreateComponent = ({
 
   return (
     <View style={styling.root}>
-      <KeyboardAwareScrollView>
+      <ScrollView keyboardShouldPersistTaps="never">
         {Object.values(postsCreateQueue).map((post, key) => (
           <UploadingComponent
             key={key}
@@ -82,7 +82,7 @@ const PostCreateComponent = ({
         ) ?
           <SuccessComponent />
         : null}
-      </KeyboardAwareScrollView>
+      </ScrollView>
     </View>
   )
 }

@@ -57,6 +57,7 @@ const SearchComponent = ({
 
       {!formFocus ?
         <ScrollView
+          keyboardShouldPersistTaps="never"
           refreshControl={
             <RefreshControl
               tintColor={theme.colors.border}
@@ -74,6 +75,7 @@ const SearchComponent = ({
 
       {formFocus && formChange ?
         <ScrollView
+          keyboardShouldPersistTaps="never"
           refreshControl={
             <RefreshControl
               tintColor={theme.colors.border}
@@ -96,6 +98,7 @@ const SearchComponent = ({
 
       {formFocus && !formChange ?
         <ScrollView
+          keyboardShouldPersistTaps="never"
           refreshControl={
             <RefreshControl
               tintColor={theme.colors.border}

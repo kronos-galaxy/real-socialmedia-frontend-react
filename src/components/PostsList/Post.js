@@ -90,17 +90,25 @@ const PostComponent = ({
         postsOnymouslyLikeRequest={postsOnymouslyLikeRequest}
         postsDislikeRequest={postsDislikeRequest}
       />
-      <ReactionsPreviewTemplate
-        post={post}
-      />
-      <DescriptionComponent
-        post={post}
-      />
+
+      <View style={styling.spacing}>
+        <ReactionsPreviewTemplate
+          post={post}
+        />
+      </View>
+
+      <View style={styling.spacing}>
+        <DescriptionComponent
+          post={post}
+        />
+      </View>
 
       {pathOr(0, ['commentCount'], post) > 3 ?
-        <TouchableOpacity onPress={navigationActions.navigateComments({ post })}>
-          <Text style={styling.commentCount}>{t('View all {{commentCount}} comments', { commentCount: pathOr(0, ['commentCount'], post) })}</Text>
-        </TouchableOpacity>
+        <View style={styling.spacing}>
+          <TouchableOpacity onPress={navigationActions.navigateComments({ post })}>
+            <Text style={styling.count}>{t('View all {{commentCount}} comments', { commentCount: pathOr(0, ['commentCount'], post) })}</Text>
+          </TouchableOpacity>
+        </View>
       : null}
 
       {pathOr([], ['comments', 'items'], post).map((comment, key) => (
@@ -113,6 +121,7 @@ const styles = theme => StyleSheet.create({
   root: {
     flex: 1,
     backgroundColor: theme.colors.backgroundPrimary,
+    marginBottom: theme.spacing.base,
   },
   prev: {
     position: 'absolute',
@@ -130,9 +139,13 @@ const styles = theme => StyleSheet.create({
     bottom: 0,
     zIndex: 2,
   },
-  commentCount: {
-    padding: theme.spacing.base,
+  count: {
+    paddingHorizontal: theme.spacing.base,
+    paddingVertical: 6,
     opacity: 0.6,
+  },
+  spacing: {
+    marginBottom: 6,
   },
 })
 

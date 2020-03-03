@@ -8,6 +8,7 @@ import {
 import LinearGradient from 'react-native-linear-gradient'
 import TextIcon from 'assets/svg/types/Text'
 import PhotoIcon from 'assets/svg/types/Photo'
+import GalleryIcon from 'assets/svg/types/Gallery'
 import { Subheading } from 'react-native-paper'
 import * as navigationActions from 'navigation/actions'
 
@@ -39,6 +40,12 @@ const PostType = ({
             </View>
             <Subheading style={styling.text}>{t('Photo')}</Subheading>
           </TouchableOpacity>
+          <TouchableOpacity style={styling.type} onPress={navigationActions.navigateCamera(navigation)}>
+            <View style={styling.icon}>
+              <GalleryIcon fill="#333333" />
+            </View>
+            <Subheading style={styling.text}>{t('Gallery')}</Subheading>
+          </TouchableOpacity>
           <TouchableOpacity style={styling.type} onPress={navigationActions.navigatePostCreate(navigation, { type: 'TEXT_ONLY', })}>
             <View style={styling.icon}>
               <TextIcon fill="#333333" />
@@ -64,19 +71,23 @@ const styles = theme => StyleSheet.create({
     zIndex: 1,
   },
   component: {
-    height: 240,
+    height: 180,
     width: '100%',
     borderRadius: 38,
     overflow: 'hidden',
-  },
-  types: {
-    marginTop: 50,
     flexDirection: 'row',
-    zIndex: 2,
     justifyContent: 'center',
   },
+  types: {
+    marginTop: 30,
+    flexDirection: 'row',
+    zIndex: 2,
+    justifyContent: 'space-around',
+    alignItems: 'flex-start',     
+    maxWidth: 300,
+    flex: 1,
+  },
   type: {
-    marginHorizontal: theme.spacing.base * 2,
     justifyContent: 'center',
     alignItems: 'center',
   },

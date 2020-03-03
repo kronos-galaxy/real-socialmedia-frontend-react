@@ -45,7 +45,11 @@ const AvatarTemplate = ({
     size === 'bigger' ? styling.sizeBigger : null,
     size === 'large' ? styling.sizeLarge : null,
   ]
-  const photoStyle = active ? styling.photoActive : styling.photoInactive
+
+  const photoStyle = [
+    size !== 'micro' && active ? styling.photoActive : null,
+    size !== 'micro' && !active ? styling.photoInactive : null,
+  ]
 
   return (
     <View style={styling.root}>
@@ -79,8 +83,8 @@ const styles = theme => StyleSheet.create({
     alignItems: 'center',
   },
   sizeMicro: {
-    width: 24,
-    height: 24,
+    width: 18,
+    height: 18,
   },
   sizeSmall: {
     width: 32,

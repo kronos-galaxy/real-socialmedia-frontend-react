@@ -4,6 +4,7 @@ import {
   StyleSheet,
   View,
   TouchableOpacity,
+  Keyboard,
 } from 'react-native'
 import TextField from 'components/Formik/TextField'
 import { Formik, Field } from 'formik'
@@ -36,6 +37,7 @@ const SearchForm = ({
   const formChange = path(['searchToken', 'length'])(values)
 
   const close = (event) => {
+    Keyboard.dismiss()
     handleReset()
   }
 

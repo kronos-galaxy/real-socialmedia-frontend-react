@@ -7,6 +7,7 @@ import * as navigationOptions from 'navigation/options'
 import TabNavigator from 'navigation/TabNavigator'
 import StoryScreen from 'screens/StoryScreen'
 import PostTypeScreen from 'screens/PostTypeScreen'
+import CommentsScreen from 'screens/CommentsScreen'
 
 const AppNavigator = () => {
   const Stack = createStackNavigator()
@@ -14,6 +15,7 @@ const AppNavigator = () => {
   const stackNavigatorDefaultProps = navigationOptions.stackNavigatorDefaultProps({ theme, themes })
   const stackScreenBlankProps = navigationOptions.stackScreenBlankProps({ theme, themes })
   const stackScreenModalProps = navigationOptions.stackScreenModalProps({ theme, themes })
+  const stackScreenPageProps = navigationOptions.stackScreenPageProps({ theme, themes })
 
   return (
     <Stack.Navigator {...stackNavigatorDefaultProps}>
@@ -33,6 +35,12 @@ const AppNavigator = () => {
         name="Story"
         component={StoryScreen}
         {...stackScreenModalProps}
+      />
+
+      <Stack.Screen
+        name="Comments"
+        component={CommentsScreen}
+        {...stackScreenPageProps({ options: { title: 'Comments' } })}
       />
     </Stack.Navigator>
   )

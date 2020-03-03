@@ -2,11 +2,11 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import {
   StyleSheet,
-  TouchableOpacity,
   View,
 } from 'react-native'
 import path from 'ramda/src/path'
 import { getPhotoProportions } from 'services/Camera'
+import PinchZoom from 'templates/ListItem/PinchZoom'
 
 import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
@@ -32,19 +32,21 @@ const ListItemTemplate = ({
   }
 
   return (
-    <View style={[styling.root, getDimensionsFromPostSize(image)]}>
+    <PinchZoom style={[styling.root, getDimensionsFromPostSize(image)]}>
       <View style={styling.component}>
         {children}
       </View>
-    </View>
+    </PinchZoom>
   )
 }
 
 const styles = theme => StyleSheet.create({
   root: {
     position: 'relative',
+    zIndex: 10,
   },
   component: {
+    ...StyleSheet.absoluteFill,
     width: '100%',
     height: '100%',
   },

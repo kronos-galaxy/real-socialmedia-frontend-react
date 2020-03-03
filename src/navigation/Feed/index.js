@@ -10,6 +10,7 @@ import * as navigationFragments from 'navigation/fragments'
 import CameraScreen from 'screens/CameraScreen'
 import ChatScreen from 'screens/ChatScreen'
 import FeedScreen from 'screens/FeedScreen'
+import AlbumScreen from 'screens/AlbumScreen'
 import AlbumsScreen from 'screens/AlbumsScreen'
 import AlbumCreateScreen from 'screens/AlbumCreateScreen'
 import ProfileRequestsScreen from 'screens/ProfileRequestsScreen'
@@ -94,19 +95,25 @@ const AppNavigator = () => {
       <Stack.Screen
         name="Albums"
         component={AlbumsScreen}
-        {...stackScreenCardProps}
+        {...stackScreenPageProps({ options: { title: 'Albums' } })}
+      />
+
+      <Stack.Screen
+        name="Album"
+        component={AlbumScreen}
+        {...stackScreenPageProps({ options: { title: 'Album' } })}
       />
 
       <Stack.Screen
         name="AlbumCreate"
         component={AlbumCreateScreen}
-        {...stackScreenCardProps}
+        {...stackScreenPageProps({ options: { title: 'Create Album' } })}
       />
 
       <Stack.Screen
         name="ProfileRequests"
         component={ProfileRequestsScreen}
-        {...stackScreenCardProps}
+        {...stackScreenPageProps({ options: { title: 'Friend Requests' } })}
       />
       
       {navigationFragments.media({

@@ -60,7 +60,7 @@ const styles = theme => StyleSheet.create({
   },
   username: {
     color: theme.colors.text,
-    fontWeight: '500',
+    fontWeight: '700',
   },
   text: {
     paddingHorizontal: theme.spacing.base,

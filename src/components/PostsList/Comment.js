@@ -34,7 +34,7 @@ const styles = theme => StyleSheet.create({
     marginBottom: 4,
   },
   author: {
-    fontWeight: '600',
+    fontWeight: '700',
   },
   comment: {
     marginLeft: theme.spacing.base,

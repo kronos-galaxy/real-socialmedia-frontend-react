@@ -6,7 +6,7 @@ import {
   TouchableWithoutFeedback,
   ScrollView,
 } from 'react-native'
-import { Text } from 'react-native-paper'
+import { Text, Caption } from 'react-native-paper'
 import Avatar from 'templates/Avatar'
 import path from 'ramda/src/path'
 import LinearGradient from 'react-native-linear-gradient'
@@ -51,7 +51,8 @@ const Album = ({
           ))}
         </ScrollView>
         <View style={styling.more}>
-          <Text>{t('View album')}</Text>
+          <Caption style={styling.caption}>{t('View album')}</Caption>
+          <Text style={styling.text}>{path(['album', 'name'])(post)}</Text>
         </View>
       </View>
     </TouchableWithoutFeedback>
@@ -72,6 +73,13 @@ const styles = theme => StyleSheet.create({
   more: {
     justifyContent: 'center',
     paddingHorizontal: theme.spacing.base,
+  },
+  text: {
+    textAlign: 'right',
+  },
+  caption: {
+    textAlign: 'right',
+    lineHeight: 14,
   },
   gradient: {
     ...StyleSheet.absoluteFill,

@@ -43,9 +43,6 @@ const CameraService = ({ children, }) => {
   const cameraCaptureRequest = (payload) =>
     dispatch(cameraActions.cameraCaptureRequest(payload))
 
-  const cameraCaptureIdle = (payload) =>
-    dispatch(cameraActions.cameraCaptureIdle(payload))
-
   const cameraRef = useRef(null)
   const camera = cameraManager(cameraRef)
   const [cameraEnabled, setCameraEnabled] = useState(true)
@@ -160,7 +157,6 @@ const CameraService = ({ children, }) => {
     setPhotoSize,
     flashMode,
     flipMode,
-    handleLibrarySnap,
     handleCameraSnap,
     handleLibrarySnap,
     handleFlashToggle,
