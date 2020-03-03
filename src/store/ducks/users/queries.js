@@ -178,6 +178,7 @@ export const getFollowedUsersWithStories = `
             items {
               postId
               postStatus
+              postType
               postedAt
               postedBy {
                 ...userFragment

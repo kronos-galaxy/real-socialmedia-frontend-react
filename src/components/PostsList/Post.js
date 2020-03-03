@@ -60,7 +60,7 @@ const PostComponent = ({
       />
 
       {post.postType === 'TEXT_ONLY' ?
-        <TextOnlyComponent text={post.text}>
+        <TextOnlyComponent text={post.text} themeCode={post.postedBy.themeCode}>
           <TouchableOpacity style={styling.prev} onPress={handleScrollPrev} />
           <TouchableOpacity style={styling.next} onPress={handleScrollNext} />
         </TextOnlyComponent>

@@ -3,11 +3,11 @@ import PropTypes from 'prop-types'
 import {
   View,
   StyleSheet,
-  ScrollView,
   TouchableOpacity,
 } from 'react-native'
-import { Text } from 'react-native-paper'
+import { Text, Caption } from 'react-native-paper'
 import pathOr from 'ramda/src/pathOr'
+import * as navigationActions from 'navigation/actions'
 
 import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
@@ -27,10 +27,6 @@ const FormAlbums = ({
     setFieldValue('albumId', albumId)
   }
 
-  const handleSeeMore = () => {
-    navigation.push('Albums')
-  }
-
   const seeMoreVisibility = (
     pathOr([], ['status'])(albumsGet) === 'success' &&
     pathOr([], ['data', 'length'])(albumsGet)
@@ -43,7 +39,7 @@ const FormAlbums = ({
 
   return (
     <View style={styling.root}>
-      <ScrollView style={styling.albums} horizontal>
+      <View style={styling.albums} horizontal>
         {pathOr([], ['data'])(albumsGet).map((album, key) => {
           const style = (values.albumId === album.albumId) ?
             [styling.album, styling.albumSelected] :
@@ -57,17 +53,19 @@ const FormAlbums = ({
         })}
 
         {createVisibility ?
-          <TouchableOpacity style={[styling.album, styling.albumCreate]} onPress={handleSeeMore}>
-            <Text>{t('Create an Album')}</Text>
+          <TouchableOpacity style={[styling.album, styling.albumCreate]} onPress={navigationActions.navigateAlbums(navigation)}>
+            <Text>{t('Create new album')}</Text>
           </TouchableOpacity>
         : null}
 
         {seeMoreVisibility ?
-          <TouchableOpacity style={styling.album} onPress={handleSeeMore}>
-            <Text>{t('See more')}</Text>
+          <TouchableOpacity style={styling.album} onPress={navigationActions.navigateAlbums(navigation)}>
+            <Text>{t('Create new album')}</Text>
           </TouchableOpacity>
         : null}
-      </ScrollView>
+      </View>
+
+      <Caption>{t('Choose an album from the list to group your posts')}</Caption>
     </View>
   )
 }
@@ -78,12 +76,14 @@ const styles = theme => StyleSheet.create({
   text: {
   },
   albums: {
+    flexWrap: 'wrap',
     flexDirection: 'row',
   },
   album: {
-    padding: 8,
     borderRadius: 4,
     marginRight: theme.spacing.base,
+    marginBottom: 6,
+    padding: 6,
   },
   albumCreate: {
     backgroundColor: theme.colors.backgroundSecondary,

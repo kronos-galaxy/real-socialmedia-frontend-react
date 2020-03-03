@@ -42,6 +42,9 @@ export const navigateProfileRequests = (navigation, params) => () =>
 export const navigateAlbum = (navigation, params) => () =>
   navigation.navigate('Album', params)
 
+export const navigateAlbums = (navigation, params) => () =>
+  navigation.navigate('Albums', params)
+
 export const navigateComments = (navigation, params) => () =>
   navigation.navigate('Comments', params)
 

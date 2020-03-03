@@ -16,7 +16,6 @@ import RowsItemComponent from 'templates/RowsItem'
 import UserRowComponent from 'templates/UserRow'
 import { Text, Caption, Title, Switch } from 'react-native-paper'
 import NextIcon from 'assets/svg/settings/Next'
-import Layout from 'constants/Layout'
 
 import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
