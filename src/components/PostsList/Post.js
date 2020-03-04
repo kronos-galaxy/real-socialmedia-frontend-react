@@ -6,7 +6,6 @@ import {
   View,
 } from 'react-native'
 import path from 'ramda/src/path'
-import pathOr from 'ramda/src/pathOr'
 import HeaderComponent from 'components/PostsList/Header'
 import ActionComponent from 'components/PostsList/Action'
 import DescriptionComponent from 'components/PostsList/Description'
@@ -16,8 +15,6 @@ import ListItemComponent from 'templates/ListItem'
 import ImageComponent from 'templates/Image'
 import TextOnlyComponent from 'templates/TextOnly'
 import ReactionsPreviewTemplate from 'templates/ReactionsPreview'
-import { Text } from 'react-native-paper'
-import * as navigationActions from 'navigation/actions'
 
 import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
@@ -103,17 +100,9 @@ const PostComponent = ({
         />
       </View>
 
-      {pathOr(0, ['commentCount'], post) > 3 ?
-        <View style={styling.spacing}>
-          <TouchableOpacity onPress={navigationActions.navigateComments({ post })}>
-            <Text style={styling.count}>{t('View all {{commentCount}} comments', { commentCount: pathOr(0, ['commentCount'], post) })}</Text>
-          </TouchableOpacity>
-        </View>
-      : null}
-
-      {pathOr([], ['comments', 'items'], post).map((comment, key) => (
-        <CommentComponent key={key} comment={comment} />
-      ))}
+      <View style={styling.spacing}>
+        <CommentComponent post={post} />
+      </View>
     </View>
   )
 }
@@ -138,11 +127,6 @@ const styles = theme => StyleSheet.create({
     right: 0,
     bottom: 0,
     zIndex: 2,
-  },
-  count: {
-    paddingHorizontal: theme.spacing.base,
-    paddingVertical: 6,
-    opacity: 0.6,
   },
   spacing: {
     marginBottom: 6,

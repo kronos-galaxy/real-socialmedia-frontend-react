@@ -1,3 +1,6 @@
+export const navigateBack = (navigation, params) => () =>
+  navigation.goBack()
+
 export const navigateHome = (navigation, params) => () =>
   navigation.navigate('Tab', {
     screen: 'Feed',

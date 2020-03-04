@@ -23,10 +23,11 @@ const StoryService = ({ children, }) => {
   const currentUserStory = pathOr([], ['data'], usersGetFollowedUsersWithStories).find(user => user.userId === userId)
   const countStories = pathOr(0, ['stories', 'items', 'length'], currentUserStory)
   const userStoryIndex = pathOr([], ['data'], usersGetFollowedUsersWithStories).findIndex(user => user.userId === userId)
-  const nextUserStoryIndex = pathOr([], ['data', userStoryIndex + 1], usersGetFollowedUsersWithStories)
-  const prevUserStoryIndex = pathOr([], ['data', userStoryIndex - 1], usersGetFollowedUsersWithStories)
+  const nextUserStoryPool = pathOr([], ['data', userStoryIndex + 1], usersGetFollowedUsersWithStories)
+  const prevUserStoryPool = pathOr([], ['data', userStoryIndex - 1], usersGetFollowedUsersWithStories)
 
   const onSnapItem = (index) => {
+    console.log(index)
     navigation.setParams({
       user: usersGetFollowedUsersWithStories.data[index]
     })
@@ -38,15 +39,15 @@ const StoryService = ({ children, }) => {
       return nextStory()
     }
 
-    if (nextUserStoryIndex) {
+    if (nextUserStoryPool.length) {
       navigation.setParams({
-        user: nextUserStoryIndex
+        user: nextUserStoryPool
       })
       resetStory()
       storyRef.current.snapToNext()
     } else {
       resetStory()
-      navigationActions.navigateHome(navigation)()
+      navigationActions.navigateBack(navigation)()
     }
   }
     
@@ -55,21 +56,21 @@ const StoryService = ({ children, }) => {
       return prevStory()
     }
     
-    if (prevUserStoryIndex) {
+    if (prevUserStoryPool.length) {
       navigation.setParams({
-        user: prevUserStoryIndex
+        user: prevUserStoryPool
       })
       resetStory()
       storyRef.current.snapToPrev()
     } else {
       resetStory()
-      navigationActions.navigateHome(navigation)()
+      navigationActions.navigateBack(navigation)()
     }
   }
 
   const onCloseStory = () => {
     resetStory()
-    navigationActions.navigateHome(navigation)()
+    navigationActions.navigateBack(navigation)()
   }
 
   return children({

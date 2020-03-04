@@ -204,10 +204,7 @@ export const tabNavigatorProps = ({ theme, themes, route }) => {
     path(['colors', 'primaryIcon'])(theme)
   )
 
-  const inactiveTintColor = (
-    path(['colors', 'disabled'])(activeTheme) ||
-    path(['colors', 'disabled'])(theme)
-  )
+  const inactiveTintColor = `${activeTintColor}90`
 
   const backgroundColor = (
     path(['colors', 'backgroundPrimary'])(activeTheme) ||

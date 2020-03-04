@@ -58,7 +58,7 @@ const SearchForm = ({
       </View>
       {formFocus ?
         <TouchableOpacity style={styling.icon} onPress={close}>
-          <CloseIcon />
+          <CloseIcon fill="#fafafa" />
         </TouchableOpacity>
       : null}
     </View>

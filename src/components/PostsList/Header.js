@@ -36,6 +36,15 @@ const Header = ({
   const handleOptionsPress = () => actionSheetRef.current.show()
   const archived = path(['postStatus'])(post) === 'ARCHIVED'
 
+  const failedVerificationVisibility = (
+    !path(['isVerified'])(post) &&
+    path(['postType'])(post) !== 'TEXT_ONLY'
+  )
+
+  const expiryVisiblity = !failedVerificationVisibility && (
+    path(['expiresAt'])(post)
+  )
+
   return (
     <View style={styling.header}>
       <TouchableOpacity onPress={navigationActions.navigateProfile(navigation, { user: post.postedBy })}>
@@ -52,13 +61,13 @@ const Header = ({
           <Text style={styling.headerUsername}>{post.postedBy.username}</Text>
         </TouchableOpacity>
 
-        {path(['isVerified'])(post) && post.expiresAt ?
+        {expiryVisiblity ?
           <View style={styling.verification}>
             <Caption style={styling.headerStatus}>{t('Expires {{expiry}}', { expiry: dayjs(post.expiresAt).from(dayjs()) })}</Caption>
           </View>
         : null}
 
-        {!path(['isVerified'])(post) ?
+        {failedVerificationVisibility ?
           <TouchableOpacity onPress={navigationActions.navigateVerification(navigation, { post })} style={styling.verification}>
             <Caption style={styling.verificationStatus}>{t('Failed Verification')} - {t('Learn More')}</Caption>
             <VerificationIcon fill="#DC3644" />

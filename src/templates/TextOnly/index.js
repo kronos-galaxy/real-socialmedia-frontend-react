@@ -42,8 +42,7 @@ const TextComponent = ({
 const styles = theme => StyleSheet.create({
   root: {
     flex: 1,
-    width: Layout.window.width,
-    height: Layout.window.width,
+    minHeight: 240,
     padding: theme.spacing.base * 2,
     alignItems: 'center',
     justifyContent: 'center',

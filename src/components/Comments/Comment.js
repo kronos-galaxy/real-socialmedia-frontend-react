@@ -3,11 +3,13 @@ import PropTypes from 'prop-types'
 import {
   StyleSheet,
   View,
+  TouchableOpacity,
 } from 'react-native'
 import { Paragraph, Caption } from 'react-native-paper'
 import Avatar from 'templates/Avatar'
 import path from 'ramda/src/path'
 import dayjs from 'dayjs'
+import * as navigationActions from 'navigation/actions'
 
 import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
@@ -19,15 +21,16 @@ const Comment = ({
 }) => {
   const styling = styles(theme)
   const { t } = useTranslation()
+  const navigation = useNavigation()
 
   return (
     <View style={styling.root}>
-      <View style={styling.image}>
+      <TouchableOpacity style={styling.image} onPress={navigationActions.navigateProfile(navigation, { user: comment.commentedBy })}>
         <Avatar
           thumbnailSource={{ uri: path(['commentedBy', 'photoUrl64p'])(comment) }}
           imageSource={{ uri: path(['commentedBy', 'photoUrl64p'])(comment) }}
         />
-      </View>
+      </TouchableOpacity>
       <View style={styling.comment}>
         <Paragraph>{path(['text'])(comment)}</Paragraph>
         <Caption>{dayjs(path(['commentedAt'])(comment)).from(dayjs())}</Caption>
