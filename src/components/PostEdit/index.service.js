@@ -36,7 +36,7 @@ const PostEditService = ({ children, }) => {
   useEffect(() => {
     if (postsEdit.status === 'success') {
       dispatch(postsActions.postsEditIdle())
-      navigationActions.navigateHome(navigation)()
+      navigationActions.navigateBack(navigation)()
     }
   }, [postsEdit.status])
 

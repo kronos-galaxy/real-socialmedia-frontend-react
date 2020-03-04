@@ -31,6 +31,41 @@ const cameraManager = (cameraRef) => ({
   },
 })
 
+export const handleGallery = async () => {
+  try {
+    const responses = await CropPicker.openPicker({
+      multiple: true,
+    })
+  
+    const cropped = await series(
+      responses.map(response => (callback) =>
+        CropPicker.openCropper({
+          avoidEmptySpaceAroundImage: false,
+          path: response.path,
+          width: getScreenAspectRatio(photoSize, response.width).x,
+          height: getScreenAspectRatio(photoSize, response.width).y,
+          includeExif: true,
+          compressImageQuality: 1,
+        })
+        .then(res => ({ ...res, originalFormat: response.filename.split('.').pop() }))
+        .then(res => callback(null, res))
+        .catch(callback)
+      )
+    )
+  
+    const photos = cropped.map(photo => ({
+      uri: photo.path,
+      photoSize,
+      takenInReal: false,
+      originalFormat: photo.originalFormat,
+    }))
+  
+    return photos
+  } catch (error) {
+    return []
+  }
+}
+
 const CameraService = ({ children, }) => {
   const dispatch = useDispatch()
   const navigation = useNavigation()
@@ -114,35 +149,14 @@ const CameraService = ({ children, }) => {
   }
 
   const handleLibrarySnap = async () => {
-    const responses = await CropPicker.openPicker({
-      multiple: true,
-    })
-
-    const cropped = await series(
-      responses.map(response => (callback) =>
-        CropPicker.openCropper({
-          avoidEmptySpaceAroundImage: false,
-          path: response.path,
-          width: getScreenAspectRatio(photoSize, response.width).x,
-          height: getScreenAspectRatio(photoSize, response.width).y,
-          includeExif: true,
-          compressImageQuality: 1,
-        })
-        .then(res => ({ ...res, originalFormat: response.filename.split('.').pop() }))
-        .then(res => callback(null, res))
-        .catch(callback)
-      )
-    )
-
-    const photos = cropped.map(photo => ({
-      uri: photo.path,
-      photoSize,
-      takenInReal: false,
-      originalFormat: photo.originalFormat,
-    }))
-
-    cameraCaptureRequest(photos)
+    const photos = await handleGallery()
+  
+    if (!photos.length) {
+      return
+    }
     
+    cameraCaptureRequest(photos)
+  
     if (route.params && route.params.nextRoute) {
       navigation.navigate(path(['params', 'nextRoute'])(route), { photos })
     } else {

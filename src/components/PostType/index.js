@@ -18,6 +18,7 @@ import { useTranslation } from 'react-i18next'
 
 const PostType = ({
   theme,
+  handleLibrarySnap,
 }) => {
   const styling = styles(theme)
   const { t } = useTranslation()
@@ -25,7 +26,7 @@ const PostType = ({
 
   return (
     <View style={styling.root}>
-      <TouchableOpacity style={styling.backdrop} onPress={() => navigation.goBack()} />
+      <TouchableOpacity style={styling.backdrop} onPress={navigationActions.navigateBack(navigation)} />
     
       <View style={styling.component}>
         <LinearGradient
@@ -36,23 +37,27 @@ const PostType = ({
         <View style={styling.types}>
           <TouchableOpacity style={styling.type} onPress={navigationActions.navigateCamera(navigation)}>
             <View style={styling.icon}>
-              <PhotoIcon fill="#333333" />
+              <PhotoIcon fill="#000000" />
             </View>
             <Subheading style={styling.text}>{t('Photo')}</Subheading>
           </TouchableOpacity>
-          <TouchableOpacity style={styling.type} onPress={navigationActions.navigateCamera(navigation)}>
+          <TouchableOpacity style={styling.type} onPress={handleLibrarySnap}>
             <View style={styling.icon}>
-              <GalleryIcon fill="#333333" />
+              <GalleryIcon fill="#000000" />
             </View>
             <Subheading style={styling.text}>{t('Gallery')}</Subheading>
           </TouchableOpacity>
           <TouchableOpacity style={styling.type} onPress={navigationActions.navigatePostCreate(navigation, { type: 'TEXT_ONLY', })}>
             <View style={styling.icon}>
-              <TextIcon fill="#333333" />
+              <TextIcon fill="#000000" />
             </View>
             <Subheading style={styling.text}>{t('Text')}</Subheading>
           </TouchableOpacity>
         </View>
+
+        <TouchableOpacity style={styling.close} onPress={navigationActions.navigateBack(navigation)}>
+          <Subheading style={styling.closeText}>{t('x close')}</Subheading>
+        </TouchableOpacity>
       </View>
     </View>
   )
@@ -75,21 +80,22 @@ const styles = theme => StyleSheet.create({
     width: '100%',
     borderRadius: 38,
     overflow: 'hidden',
-    flexDirection: 'row',
-    justifyContent: 'center',
   },
   types: {
-    marginTop: 30,
-    flexDirection: 'row',
     zIndex: 2,
-    justifyContent: 'space-around',
-    alignItems: 'flex-start',     
     maxWidth: 300,
-    flex: 1,
+    flexDirection: 'row',
+    alignSelf: 'center',
+    paddingTop: theme.spacing.base * 2,
+    paddingBottom: theme.spacing.base,
   },
   type: {
-    justifyContent: 'center',
-    alignItems: 'center',
+    paddingHorizontal: theme.spacing.base,
+  },
+  close: {
+    zIndex: 2,
+    alignSelf: 'center',
+    paddingHorizontal: theme.spacing.base * 2,
   },
   icon: {
     width: 70,
@@ -100,8 +106,12 @@ const styles = theme => StyleSheet.create({
     alignItems: 'center',
   },
   text: {
-    color: '#333333',
+    color: '#000000',
     fontWeight: '500',
+    alignSelf: 'center',
+  },
+  closeText: {
+    color: '#333333',
   },
 })
 
