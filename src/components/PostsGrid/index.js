@@ -42,6 +42,7 @@ const PostsGrid = ({
             {post.postType === 'TEXT_ONLY' ?
               <TextOnlyComponent
                 text={post.text}
+                themeCode={post.postedBy.themeCode}
               />
             : null}
           </GridItemComponent>

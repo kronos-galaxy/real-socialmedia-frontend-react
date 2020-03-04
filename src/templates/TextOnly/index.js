@@ -26,7 +26,7 @@ const TextComponent = ({
   const themes = useSelector(state => state.theme.themeFetch.data)
   const themeSelector = (activeThemeCode) =>
     ((themes || []).find(theme => theme.key === activeThemeCode) || {}).theme
-  const activeTheme = themeSelector(themeCode)
+  const activeTheme = themeSelector(themeCode) || theme
 
   return (
     <View style={styling.root}>

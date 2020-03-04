@@ -74,7 +74,7 @@ const StoryCarousel = ({
             : null}
 
             {story.postType === 'TEXT_ONLY' ?
-              <TextOnlyComponent text={story.text} />
+              <TextOnlyComponent text={story.text} themeCode={story.postedBy.themeCode} />
             : null}
           </>
         )}
