@@ -13,6 +13,7 @@ const PostEditService = ({ children, }) => {
   const route = useRoute()
   const authUser = useSelector(state => state.auth.user)
   const postId = path(['params', 'post', 'postId'])(route)
+  const postUserId = path(['params', 'post', 'postedBy', 'userId'])(route)
   const postsSingleGet = useSelector(state => state.posts.postsSingleGet)
   const postsEdit = useSelector(state => state.posts.postsEdit)
   const albumsGet = useSelector(state => state.albums.albumsGet)
@@ -23,13 +24,13 @@ const PostEditService = ({ children, }) => {
   }, [])
 
   const postsSingleGetRequest = ({ postId }) =>
-    dispatch(postsActions.postsSingleGetRequest({ postId }))
+    dispatch(postsActions.postsSingleGetRequest({ postId, userId: postUserId }))
 
   const postsEditRequest = (payload) =>
-    dispatch(postsActions.postsEditRequest(payload))
+    dispatch(postsActions.postsEditRequest({ ...payload, userId: postUserId }))
 
   useEffect(() => {
-    dispatch(postsActions.postsSingleGetRequest({ postId }))
+    dispatch(postsActions.postsSingleGetRequest({ postId, userId: postUserId }))
   }, [postId])
 
   useEffect(() => {

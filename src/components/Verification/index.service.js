@@ -10,14 +10,15 @@ const VerificationService = ({ children, }) => {
   const navigation = useNavigation()
   const route = useRoute()
   const postId = path(['params', 'post', 'postId'])(route)
+  const postUserId = path(['params', 'post', 'postedBy', 'userId'])(route)
   const authUser = useSelector(state => state.auth.user)
   const postsSingleGet = useSelector(state => state.posts.postsSingleGet)
 
   const postsSingleGetRequest = ({ postId }) =>
-    dispatch(postsActions.postsSingleGetRequest({ postId }))
+    dispatch(postsActions.postsSingleGetRequest({ postId, userId: postUserId }))
 
   useEffect(() => {
-    dispatch(postsActions.postsSingleGetRequest({ postId }))
+    dispatch(postsActions.postsSingleGetRequest({ postId, userId: postUserId }))
   }, [postId])
 
   return children({

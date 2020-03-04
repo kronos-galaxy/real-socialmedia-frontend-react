@@ -12,6 +12,7 @@ const ShareService = ({ children, }) => {
   const navigation = useNavigation()
   const route = useRoute()
   const postId = path(['postId'])(route.params.post)
+  const postUserId = path(['params', 'post', 'postedBy', 'userId'])(route)
   const authUser = useSelector(state => state.auth.user)
   const postsSingleGet = useSelector(state => state.posts.postsSingleGet)
   const postsShare = useSelector(state => state.posts.postsShare)
@@ -19,13 +20,13 @@ const ShareService = ({ children, }) => {
   const [watermark, handleWatermark] = useToggle(true)
   
   const postsSingleGetRequest = ({ postId }) =>
-    dispatch(postsActions.postsSingleGetRequest({ postId }))
+    dispatch(postsActions.postsSingleGetRequest({ postId, userId: postUserId }))
 
   const postsShareRequest = (payload) =>
     dispatch(postsActions.postsShareRequest(payload))
 
   useEffect(() => {
-    dispatch(postsActions.postsSingleGetRequest({ postId }))
+    dispatch(postsActions.postsSingleGetRequest({ postId, userId: postUserId }))
   }, [postId])
 
   useEffect(() => {

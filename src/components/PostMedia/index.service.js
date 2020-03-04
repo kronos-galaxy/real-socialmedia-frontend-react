@@ -12,7 +12,7 @@ const PostMediaService = ({ children, ...props }) => {
   const navigation = useNavigation()
   const route = useRoute()
   const postId = path(['params', 'post', 'postId'])(route)
-  const userId = path(['params', 'post', 'postedBy', 'userId'])(route)
+  const postUserId = path(['params', 'post', 'postedBy', 'userId'])(route)
   const postsSingleGet = useSelector(state => state.posts.postsSingleGet)
   const postsDelete = useSelector(state => state.posts.postsDelete)
   const postsGetTrendingPosts = useSelector(state => state.posts.postsGetTrendingPosts)
@@ -30,10 +30,10 @@ const PostMediaService = ({ children, ...props }) => {
   })
 
   const postsSingleGetRequest = ({ postId }) =>
-    dispatch(postsActions.postsSingleGetRequest({ postId }))
+    dispatch(postsActions.postsSingleGetRequest({ postId, userId: postUserId }))
 
   useEffect(() => {
-    dispatch(postsActions.postsSingleGetRequest({ postId }))
+    dispatch(postsActions.postsSingleGetRequest({ postId, userId: postUserId }))
   }, [postId])
 
   useEffect(() => {
@@ -85,7 +85,7 @@ const PostMediaService = ({ children, ...props }) => {
     postsGetTrendingPosts: postsServices.cachedPostsGetTrendingPosts(postsGetTrendingPosts, postId),
     postsSingleGetRequest,
     ...props,
-    postsMediaFeedGet: postsServices.cachedPostsMediaFeedGet(postsGetCache, userId, postId),
+    postsMediaFeedGet: postsServices.cachedPostsMediaFeedGet(postsGetCache, postUserId, postId),
     feedRef,
     routeName: route.name,
     onViewableItemsChanged,

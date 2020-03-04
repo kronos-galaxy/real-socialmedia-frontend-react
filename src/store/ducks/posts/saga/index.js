@@ -99,9 +99,9 @@ function* postsGetArchivedRequest(req) {
     const data = yield AwsAPI.graphql(graphqlOperation(queries.getPosts, { ...req.payload, postStatus: 'ARCHIVED' }))
     const selector = path(['data', 'user', 'posts', 'items'])
 
-    yield put(actions.postsGetArchivedSuccess({ data: selector(data), meta: data }))
+    yield put(actions.postsGetArchivedSuccess({ data: selector(data), payload: req.payload, meta: data }))
   } catch (error) {
-    yield put(actions.postsGetArchivedFailure({ message: errorWrapper(error) }))
+    yield put(actions.postsGetArchivedFailure({ message: errorWrapper(error), payload: req.payload }))
   }
 }
 
@@ -123,9 +123,9 @@ function* postsEditRequest(req) {
     const data = yield handlePostsEditRequest(req.payload)
     const selector = path(['data', 'editPost'])
 
-    yield put(actions.postsEditSuccess({ data: selector(data), meta: data }))
+    yield put(actions.postsEditSuccess({ data: selector(data), payload: req.payload, meta: data }))
   } catch (error) {
-    yield put(actions.postsEditFailure({ message: errorWrapper(error) }))
+    yield put(actions.postsEditFailure({ message: errorWrapper(error), payload: req.payload }))
   }
 }
 
@@ -140,9 +140,9 @@ function* postsDeleteRequest(req) {
     const data = yield AwsAPI.graphql(graphqlOperation(queries.deletePost, req.payload))
     const selector = path(['data', 'deletePost'])
 
-    yield put(actions.postsDeleteSuccess({ data: selector(data), meta: data }))
+    yield put(actions.postsDeleteSuccess({ data: selector(data), payload: req.payload, meta: data }))
   } catch (error) {
-    yield put(actions.postsDeleteFailure({ message: errorWrapper(error) }))
+    yield put(actions.postsDeleteFailure({ message: errorWrapper(error), payload: req.payload }))
   }
 }
 
@@ -157,9 +157,9 @@ function* postsArchiveRequest(req) {
     const data = yield AwsAPI.graphql(graphqlOperation(queries.archivePost, req.payload))
     const selector = path(['data', 'archivePost'])
 
-    yield put(actions.postsArchiveSuccess({ data: selector(data), meta: data }))
+    yield put(actions.postsArchiveSuccess({ data: selector(data), payload: req.payload, meta: data }))
   } catch (error) {
-    yield put(actions.postsArchiveFailure({ message: errorWrapper(error) }))
+    yield put(actions.postsArchiveFailure({ message: errorWrapper(error), payload: req.payload }))
   }
 }
 
@@ -174,9 +174,9 @@ function* postsRestoreArchivedRequest(req) {
     const data = yield AwsAPI.graphql(graphqlOperation(queries.restoreArchivedPost, req.payload))
     const selector = path(['data', 'restoreArchivedPost'])
 
-    yield put(actions.postsRestoreArchivedSuccess({ data: selector(data), meta: data }))
+    yield put(actions.postsRestoreArchivedSuccess({ data: selector(data), payload: req.payload, meta: data }))
   } catch (error) {
-    yield put(actions.postsRestoreArchivedFailure({ message: errorWrapper(error) }))
+    yield put(actions.postsRestoreArchivedFailure({ message: errorWrapper(error), payload: req.payload }))
   }
 }
 
@@ -191,9 +191,9 @@ function* postsFlagRequest(req) {
     const data = yield AwsAPI.graphql(graphqlOperation(queries.flagPost, req.payload))
     const selector = path(['data', 'flagPost'])
 
-    yield put(actions.postsFlagSuccess({ data: selector(data), meta: data }))
+    yield put(actions.postsFlagSuccess({ data: selector(data), payload: req.payload, meta: data }))
   } catch (error) {
-    yield put(actions.postsFlagFailure({ message: errorWrapper(error) }))
+    yield put(actions.postsFlagFailure({ message: errorWrapper(error), payload: req.payload }))
   }
 }
 
@@ -208,9 +208,9 @@ function* postsSingleGetRequest(req) {
     const data = yield AwsAPI.graphql(graphqlOperation(queries.getPost, req.payload))
     const selector = path(['data', 'post'])
 
-    yield put(actions.postsSingleGetSuccess({ data: selector(data), meta: data }))
+    yield put(actions.postsSingleGetSuccess({ data: selector(data), payload: req.payload, meta: data }))
   } catch (error) {
-    yield put(actions.postsSingleGetFailure({ message: errorWrapper(error) }))
+    yield put(actions.postsSingleGetFailure({ message: errorWrapper(error), payload: req.payload }))
   }
 }
 

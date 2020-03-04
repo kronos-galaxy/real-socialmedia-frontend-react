@@ -7,7 +7,6 @@ import {
 } from 'react-native'
 import { Text } from 'react-native-paper'
 import Layout from 'constants/Layout'
-import path from 'ramda/src/path'
 import LinearGradient from 'react-native-linear-gradient'
 
 import { withTheme } from 'react-native-paper'

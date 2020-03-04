@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { useSelector } from 'react-redux'
 import {
   StyleSheet,
   View,
@@ -14,14 +15,20 @@ import { useTranslation } from 'react-i18next'
 const TextOnlyComponent = ({
   theme,
   text,
+  themeCode,
 }) => {
   const styling = styles(theme)
   const { t } = useTranslation()
 
+  const themes = useSelector(state => state.theme.themeFetch.data)
+  const themeSelector = (activeThemeCode) =>
+    ((themes || []).find(theme => theme.key === activeThemeCode) || {}).theme
+  const activeTheme = themeSelector(themeCode) || theme
+
   return (
     <View style={styling.root}>
       <LinearGradient
-        colors={[`${theme.colors.primary}`, `${theme.colors.primary}90`]}
+        colors={[`${activeTheme.colors.primary}`, `${activeTheme.colors.primary}90`]}
         style={styling.gradient}
       />
       <Text style={styling.text}>{text}</Text>

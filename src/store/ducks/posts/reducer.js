@@ -328,6 +328,13 @@ const postsEditRequest = (state, action) => update(state, {
     status: { $set: 'loading' },
     payload: { $set: action.payload },
   },
+  postsGetCache: {
+    $resourceCacheSetRequest: {
+      ...action,
+      resourceKey: action.payload.userId,
+      initialState: initialState.postsGet,
+    },
+  },
 })
 
 const postsEditSuccess = (state, action) => update(state, {
@@ -380,6 +387,13 @@ const postsDeleteRequest = (state, action) => update(state, {
     status: { $set: 'loading' },
     payload: { $set: action.payload },
   },
+  postsGetCache: {
+    $resourceCacheSetRequest: {
+      ...action,
+      resourceKey: action.payload.userId,
+      initialState: initialState.postsGet,
+    },
+  },
 })
 
 const postsDeleteSuccess = (state, action) => update(state, {
@@ -431,6 +445,13 @@ const postsArchiveRequest = (state, action) => update(state, {
   postsArchive: {
     status: { $set: 'loading' },
     payload: { $set: action.payload },
+  },
+  postsGetCache: {
+    $resourceCacheSetRequest: {
+      ...action,
+      resourceKey: action.payload.userId,
+      initialState: initialState.postsGet,
+    },
   },
 })
 
@@ -553,6 +574,13 @@ const postsSingleGetRequest = (state, action) => update(state, {
   postsSingleGet: {
     status: { $set: 'loading' },
     payload: { $set: action.payload },
+  },
+  postsGetCache: {
+    $resourceCacheSetRequest: {
+      ...action,
+      resourceKey: action.payload.userId,
+      initialState: initialState.postsGet,
+    },
   },
 })
 
@@ -739,6 +767,13 @@ const postsOnymouslyLikeRequest = (state, action) => update(state, {
       $feedPostLikeStatusUpdate: { postId: action.payload.postId, likeStatus: 'ONYMOUSLY_LIKED' },
     },
   },
+  postsGetCache: {
+    $resourceCacheSetRequest: {
+      ...action,
+      resourceKey: action.payload.userId,
+      initialState: initialState.postsGet,
+    },
+  },
 })
 
 const postsOnymouslyLikeSuccess = (state, action) => update(state, {
@@ -821,6 +856,13 @@ const postsAnonymouslyLikeRequest = (state, action) => update(state, {
       $feedPostLikeStatusUpdate: { postId: action.payload.postId, likeStatus: 'ANONYMOUSLY_LIKED' },
     },
   },
+  postsGetCache: {
+    $resourceCacheSetRequest: {
+      ...action,
+      resourceKey: action.payload.userId,
+      initialState: initialState.postsGet,
+    },
+  },
 })
 
 const postsAnonymouslyLikeSuccess = (state, action) => update(state, {
@@ -901,6 +943,13 @@ const postsDislikeRequest = (state, action) => update(state, {
   postsGet: {
     data: {
       $feedPostLikeStatusUpdate: { postId: action.payload.postId, likeStatus: 'NOT_LIKED' },
+    },
+  },
+  postsGetCache: {
+    $resourceCacheSetRequest: {
+      ...action,
+      resourceKey: action.payload.userId,
+      initialState: initialState.postsGet,
     },
   },
 })

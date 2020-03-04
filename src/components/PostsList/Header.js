@@ -104,10 +104,10 @@ const Header = ({
                 navigationActions.navigatePostEdit(navigation, { post })()
               }
               if (index === 2) {
-                postsArchiveRequest({ postId: post.postId })
+                postsArchiveRequest({ postId: post.postId, userId: post.postedBy.userId })
               }
               if (index === 3) {
-                postsDeleteRequest({ postId: post.postId })
+                postsDeleteRequest({ postId: post.postId, userId: post.postedBy.userId })
               }
             }}
           />

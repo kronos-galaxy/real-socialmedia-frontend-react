@@ -13,17 +13,18 @@ const CommentsService = ({ children, }) => {
   const navigation = useNavigation()
   const route = useRoute()
   const postId = path(['params', 'post', 'postId'])(route)
+  const postUserId = path(['params', 'post', 'postedBy', 'userId'])(route)
   const commentsAdd = useSelector(state => state.posts.commentsAdd)
   const postsCommentsGet = useSelector(state => state.posts.postsCommentsGet)
   const postsCommentsGetCache = useSelector(state => state.posts.postsCommentsGetCache)
 
   useEffect(() => {
-    dispatch(postsActions.postsCommentsGetRequest({ postId }))
+    dispatch(postsActions.postsCommentsGetRequest({ postId, userId: postUserId }))
   }, [])
 
   useEffect(() => {
-    dispatch(postsActions.postsCommentsGetRequest({ postId }))
-    dispatch(postsActions.postsSingleGetRequest({ postId }))
+    dispatch(postsActions.postsCommentsGetRequest({ postId, userId: postUserId }))
+    dispatch(postsActions.postsSingleGetRequest({ postId, userId: postUserId }))
   }, [commentsAdd.status === 'success'])
 
   const commentsAddRequest = ({ text }) => {

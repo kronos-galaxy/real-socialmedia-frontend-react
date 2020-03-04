@@ -97,12 +97,7 @@ const styles = theme => StyleSheet.create({
 PendingRequests.propTypes = {
   theme: PropTypes.any,
   
-  authUser: PropTypes.any,
-  post: PropTypes.any,
-  handleEditPress: PropTypes.any,
-  postsArchiveRequest: PropTypes.any,
-  postsFlagRequest: PropTypes.any,
-  postsDeleteRequest: PropTypes.any,
+  usersGetPendingFollowers: PropTypes.any,
 }
 
 export default withTheme(PendingRequests)

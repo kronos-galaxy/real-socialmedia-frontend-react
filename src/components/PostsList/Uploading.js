@@ -137,7 +137,6 @@ Uploading.propTypes = {
   handleEditPress: PropTypes.any,
   postsArchiveRequest: PropTypes.any,
   postsFlagRequest: PropTypes.any,
-  postsDeleteRequest: PropTypes.any,
 }
 
 export default withTheme(Uploading)
