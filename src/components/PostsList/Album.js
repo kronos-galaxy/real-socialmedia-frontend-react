@@ -46,7 +46,7 @@ const Album = ({
           {(path(['album', 'posts', 'items'])(post) || []).map(album => (
             <Avatar
               thumbnailSource={{ uri: path(['image', 'url64p'])(album) }}
-              imageSource={{ uri: path(['image', 'url4k'])(album) }}
+              imageSource={{ uri: path(['image', 'url480p'])(album) }}
             />
           ))}
         </ScrollView>

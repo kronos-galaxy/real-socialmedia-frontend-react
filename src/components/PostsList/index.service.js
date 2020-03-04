@@ -75,16 +75,8 @@ const PostsListService = ({ children, }) => {
   const postsCreateIdle = (payload) =>
     dispatch(postsActions.postsCreateIdle({ payload }))
 
-  // const scrollToTop = () => {
-  //   if (!feedRef.current || typeof feedRef.current.scrollToOffset !== 'function') { return }
-  //   feedRef.current.scrollToOffset({ animated: true, offset: 0 })
-  // }
-
   useEffect(() => {
-    // navigation.setParams({
-    //   scrollToTop,
-    // })
-    postsFeedGetRequest({ limit: 6 })
+    postsFeedGetRequest({ limit: 20 })
     usersGetPendingFollowersRequest({ userId: authUser.userId })
   }, [])
 

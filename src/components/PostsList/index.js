@@ -136,6 +136,8 @@ const PostsList = ({
           { postId: 'loading' },
         ])}
         onScroll={scroll.handleScrollChange}
+        onEndReached={scroll.handleLoadMore}
+        onEndReachedThreshold={0.4}
         scrollEventThrottle={500}
         refreshControl={(
           <RefreshControl
