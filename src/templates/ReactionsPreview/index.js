@@ -17,19 +17,27 @@ import { useTranslation } from 'react-i18next'
 const ReactionsPreviewTemplate = ({
   theme,
   post,
+  authUser,
 }) => {
   const styling = styles(theme)
   const { t } = useTranslation()
   const navigation = useNavigation()
 
-  if (path(['postedBy', 'likesDisabled'])(post) || post.likesDisabled) {
+  const visibility = (
+    path(['onymouslyLikedBy', 'items', '0', 'username'])(post) &&
+    !path(['postedBy', 'likesDisabled'])(post) &&
+    !post.likesDisabled &&
+    post.postedBy.userId === authUser.userId
+  )
+  
+  if (!visibility) {
     return null
   }
 
   return (
-    <View style={styling.root}>
-      <View style={styling.row}>
-        {path(['onymouslyLikedBy', 'items', '0', 'username'])(post) ?
+    <TouchableOpacity onPress={navigationActions.navigatePostLikes(navigation, { post })}>
+      <View style={styling.root}>
+        <View style={styling.row}>
           <View style={styling.profile}>
             <Avatar
               size="micro"
@@ -37,31 +45,32 @@ const ReactionsPreviewTemplate = ({
               imageSource={{ uri: path(['onymouslyLikedBy', 'items', '0', 'photoUrl64p'])(post) }}
             />
           </View>
-        : null}
 
-        {path(['onymouslyLikedBy', 'items', '0', 'username'])(post) ?
           <View style={styling.row}>
-            <TouchableOpacity onPress={() => navigation.navigate('PostLikes')}>
-              <Text style={styling.text}>
-                {t('liked first by')}
-              </Text>
-            </TouchableOpacity>
+            <Text style={styling.text}>
+              {t('liked by')}
+            </Text>
 
-            <TouchableOpacity onPress={navigationActions.navigateProfile(navigation, { user: path(['onymouslyLikedBy', 'items', '0'])(post) })}>
-              <Text style={[styling.text, styling.author]}>
-                {path(['onymouslyLikedBy', 'items', '0', 'username'])(post)}
+            <Text style={[styling.text, styling.author]}>
+              {path(['onymouslyLikedBy', 'items', '0', 'username'])(post)}
+            </Text>
+
+            {post.onymousLikeCount > 1 ?
+              <Text style={styling.text}>
+                {t('and {{onymousLikeCount}} others', { onymousLikeCount: post.onymousLikeCount - 1 })}
               </Text>
-            </TouchableOpacity>
+            : null}
           </View>
-        : null}
+        </View>
       </View>
-    </View>
+    </TouchableOpacity>
   )
 }
 
 const styles = theme => StyleSheet.create({
   root: {
     paddingHorizontal: theme.spacing.base,
+    marginBottom: 6,
   },
   profile: {
     marginRight: 8,

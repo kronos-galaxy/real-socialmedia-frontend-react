@@ -55,6 +55,22 @@ function* postsViewsGetRequest(req) {
   }
 }
 
+
+function* postsLikesGetRequest(req) {
+  const AwsAPI = yield getContext('AwsAPI')
+  const errorWrapper = yield getContext('errorWrapper')
+
+  try {
+    const data = yield AwsAPI.graphql(graphqlOperation(queries.onymouslyLikedBy, req.payload))
+    const dataSelector = path(['data', 'post', 'onymouslyLikedBy', 'items'])
+    const metaSelector = compose(omit(['items']), path(['data', 'post', 'onymouslyLikedBy']))
+
+    yield put(actions.postsLikesGetSuccess({ payload: req.payload, data: dataSelector(data), meta: metaSelector(data) }))
+  } catch (error) {
+    yield put(actions.postsLikesGetFailure({ payload: req.payload, message: errorWrapper(error) }))
+  }
+}
+
 /**
  *
  */
@@ -351,6 +367,7 @@ export default () => [
   takeLatest(constants.POSTS_GET_REQUEST, postsGetRequest),
   takeLatest(constants.POSTS_GET_MORE_REQUEST, postsGetMoreRequest),
   takeLatest(constants.POSTS_VIEWS_GET_REQUEST, postsViewsGetRequest),
+  takeLatest(constants.POSTS_LIKES_GET_REQUEST, postsLikesGetRequest),
 
   takeLatest(constants.POSTS_FEED_GET_REQUEST, postsFeedGetRequest),
   takeLatest(constants.POSTS_FEED_GET_MORE_REQUEST, postsFeedGetMoreRequest),

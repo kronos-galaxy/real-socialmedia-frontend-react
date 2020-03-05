@@ -88,21 +88,16 @@ const PostComponent = ({
         postsDislikeRequest={postsDislikeRequest}
       />
 
-      <View style={styling.spacing}>
-        <ReactionsPreviewTemplate
-          post={post}
-        />
-      </View>
+      <ReactionsPreviewTemplate
+        post={post}
+        authUser={authUser}
+      />
 
-      <View style={styling.spacing}>
-        <DescriptionComponent
-          post={post}
-        />
-      </View>
+      <DescriptionComponent
+        post={post}
+      />
 
-      <View style={styling.spacing}>
-        <CommentComponent post={post} />
-      </View>
+      <CommentComponent post={post} />
     </View>
   )
 }
@@ -127,9 +122,6 @@ const styles = theme => StyleSheet.create({
     right: 0,
     bottom: 0,
     zIndex: 2,
-  },
-  spacing: {
-    marginBottom: 6,
   },
 })
 

@@ -241,6 +241,20 @@ export const viewedBy = `
   ${userFragment}
 `
 
+export const onymouslyLikedBy = `
+  query onymouslyLikedBy($postId: ID!, $limit: Int, $nextToken: String) {
+    post(postId: $postId) {
+      onymouslyLikedBy(limit: $limit, nextToken: $nextToken) {
+        items {
+          ...userFragment
+        }
+        nextToken
+      }
+    }
+  }
+  ${userFragment}
+`
+
 export const addComment = `
   mutation addComment(
     $postId: ID!,

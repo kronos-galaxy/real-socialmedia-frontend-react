@@ -20,41 +20,46 @@ const Description = ({
   const styling = styles(theme)
   const navigation = useNavigation()
   const regex = /(?:@)([A-Za-z0-9_](?:(?:[A-Za-z0-9_]|(?:\.(?!\.))){0,28}(?:[A-Za-z0-9_]))?)/g
+  const visibility = path(['text', 'length'])(post)
+
+  if (!visibility) {
+    return null
+  }
   
   return (
     <View style={styling.root}>
-      {path(['text', 'length'])(post) ?
-        <Text style={styling.text}>
-          {[
-            /**
-             * Username of post owner
-             */
-            <Text key="username" onPress={navigationActions.navigateProfile(navigation, { user: post.postedBy })} style={styling.username}>{post.postedBy.username} </Text>,
+      <Text style={styling.text}>
+        {[
+          /**
+           * Username of post owner
+           */
+          <Text key="username" onPress={navigationActions.navigateProfile(navigation, { user: post.postedBy })} style={styling.username}>{post.postedBy.username} </Text>,
 
-            /**
-             * Tagged @username occurrences with attached user object
-             */
-            ...reactStringReplace(post.text.trim(), regex, (match, i) => {
-              const tagged = (path(['textTaggedUsers'])(post) || [])
-                .find(textTag => textTag.tag === `@${match}`)
+          /**
+           * Tagged @username occurrences with attached user object
+           */
+          ...reactStringReplace(post.text.trim(), regex, (match, i) => {
+            const tagged = (path(['textTaggedUsers'])(post) || [])
+              .find(textTag => textTag.tag === `@${match}`)
 
-              if (tagged) {
-                return (
-                  <Text key={match + i} onPress={navigationActions.navigateProfile(navigation, { user: tagged.user })} style={styling.textUsername}>@{match}</Text>
-                )
-              }
-              
-              return <Text style={styling.textDefault}>{`@${match}`}</Text>
-            })
-          ]}
-        </Text>
-      : null}
+            if (tagged) {
+              return (
+                <Text key={match + i} onPress={navigationActions.navigateProfile(navigation, { user: tagged.user })} style={styling.textUsername}>@{match}</Text>
+              )
+            }
+            
+            return <Text style={styling.textDefault}>{`@${match}`}</Text>
+          })
+        ]}
+      </Text>
     </View>
   )
 }
 
 const styles = theme => StyleSheet.create({
   root: {
+    paddingHorizontal: theme.spacing.base,
+    marginBottom: 6,
   },
   likes: {
   },
@@ -63,7 +68,6 @@ const styles = theme => StyleSheet.create({
     fontWeight: '700',
   },
   text: {
-    paddingHorizontal: theme.spacing.base,
     flexDirection: 'row',
     flexWrap: 'wrap',
   },

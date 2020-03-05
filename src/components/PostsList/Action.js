@@ -32,13 +32,6 @@ const Action = ({
 
   const self = path(['postedBy', 'userId'])(post) === path(['userId'])(authUser)
 
-  const handleViewsPress = () => {
-    if (!self) { return }
-    navigation.push('PostViews', {
-      postId: path(['postId'])(post)
-    })
-  }
-
   /**
    * See if current authenticated user is tagged in post by author
    */
@@ -53,8 +46,7 @@ const Action = ({
    */
   const likeButtonVisibility = (
     !post.likesDisabled &&
-    !path(['postedBy', 'likesDisabled'])(post) &&
-    !path(['onymouslyLikedBy', 'items', '0'])(post)
+    !path(['postedBy', 'likesDisabled'])(post)
   )
 
   /**
@@ -124,7 +116,7 @@ const Action = ({
       </View>
 
       {seenByVisibility ?
-        <TouchableOpacity style={styling.actionRight} onPress={handleViewsPress}>
+        <TouchableOpacity style={styling.actionRight} onPress={navigationActions.navigatePostViews(navigation, { post })}>
           <Caption>{t('Seen by {{viewedByCount}} people', { viewedByCount: post.viewedByCount })}</Caption>
         </TouchableOpacity>
       :

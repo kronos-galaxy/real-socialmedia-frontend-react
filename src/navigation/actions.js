@@ -68,3 +68,9 @@ export const navigateProfileFollowed = (navigation, params) => () =>
 
 export const navigatePostMedia = (navigation, params) => () =>
   navigation.push('PostMedia', params)
+
+export const navigatePostLikes = (navigation, params) => () =>
+  navigation.push('PostLikes', params)
+
+export const navigatePostViews = (navigation, params) => () =>
+  navigation.push('PostViews', params)

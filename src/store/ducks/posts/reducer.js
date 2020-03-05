@@ -17,6 +17,13 @@ const initialState = {
     payload: {},
     meta: {},
   },
+  postsLikesGet: {
+    data: [],
+    status: 'idle',
+    error: {},
+    payload: {},
+    meta: {},
+  },
   postsGetArchived: {
     data: [],
     status: 'idle',
@@ -143,6 +150,7 @@ const initialState = {
   postsGetCache: {},
   postsCommentsGetCache: {},
   postsViewsGetCache: {},
+  postsLikesGetCache: {},
 }
 
 /**
@@ -282,6 +290,64 @@ const postsViewsGetIdle = (state, action) => update(state, {
     status: { $set: 'idle' },
   },
   postsViewsGetCache: {
+    $resourceCacheSetIdle: {
+      ...action,
+      resourceKey: action.payload.payload.postId,
+      initialState: initialState.postsViewsGet,
+    },
+  },
+})
+
+/**
+ *
+ */
+const postsLikesGetRequest = (state, action) => update(state, {
+  postsLikesGet: {
+    status: { $set: 'loading' },
+    payload: { $set: action.payload },
+  },
+  postsLikesGetCache: {
+    $resourceCacheSetRequest: {
+      ...action,
+      resourceKey: action.payload.postId,
+      initialState: initialState.postsLikesGet,
+    },
+  },
+})
+
+const postsLikesGetSuccess = (state, action) => update(state, {
+  postsLikesGet: {
+    data: { $set: action.payload.data },
+    status: { $set: 'success' },
+  },
+  postsLikesGetCache: {
+    $resourceCacheSetSuccess: {
+      ...action,
+      resourceKey: action.payload.payload.postId,
+      initialState: initialState.postsLikesGet,
+    },
+  },
+})
+
+const postsLikesGetFailure = (state, action) => update(state, {
+  postsLikesGet: {
+    status: { $set: 'failure' },
+  },
+  postsLikesGetCache: {
+    $resourceCacheSetFailure: {
+      ...action,
+      resourceKey: action.payload.payload.postId,
+      initialState: initialState.postsLikesGet,
+    },
+  },
+})
+
+const postsLikesGetIdle = (state, action) => update(state, {
+  postsLikesGet: {
+    data: { $set: initialState.postsLikesGet.data },
+    status: { $set: 'idle' },
+  },
+  postsLikesGetCache: {
     $resourceCacheSetIdle: {
       ...action,
       resourceKey: action.payload.payload.postId,
@@ -1196,6 +1262,11 @@ export default handleActions({
   [constants.POSTS_VIEWS_GET_SUCCESS]: postsViewsGetSuccess,
   [constants.POSTS_VIEWS_GET_FAILURE]: postsViewsGetFailure,
   [constants.POSTS_VIEWS_GET_IDLE]: postsViewsGetIdle,
+
+  [constants.POSTS_LIKES_GET_REQUEST]: postsLikesGetRequest,
+  [constants.POSTS_LIKES_GET_SUCCESS]: postsLikesGetSuccess,
+  [constants.POSTS_LIKES_GET_FAILURE]: postsLikesGetFailure,
+  [constants.POSTS_LIKES_GET_IDLE]: postsLikesGetIdle,
 
   [constants.POSTS_GET_ARCHIVED_REQUEST]: postsGetArchivedRequest,
   [constants.POSTS_GET_ARCHIVED_SUCCESS]: postsGetArchivedSuccess,

@@ -2,47 +2,66 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import {
   StyleSheet,
+  View,
   ScrollView,
+  RefreshControl,
 } from 'react-native'
-import { Paragraph } from 'react-native-paper'
+import ResultComponent from 'components/Search/Result'
 
 import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
 import { useTranslation } from 'react-i18next'
 
-const Verification = ({
+const PostLikes = ({
   theme,
+  postsLikesGet,
+  usersFollow,
+  usersFollowRequest,
+  usersUnfollow,
+  usersUnfollowRequest,
+  usersAcceptFollowerUser,
+  usersAcceptFollowerUserRequest,
 }) => {
   const styling = styles(theme)
   const { t } = useTranslation()
 
   return (
-    <ScrollView style={styling.root}>
-      <Paragraph style={styling.paragraph}>{t('On REAL, we don\'t want you to feel like you need likes')}.</Paragraph>
-      <Paragraph style={styling.paragraph}>{t('It\'s our goal to keep you mentally healthy')}.</Paragraph>
-      <Paragraph style={styling.paragraph}>{t('For that reason, nobody can see a posts total likes, or who liked it, aside from the first person to like the post')}.</Paragraph>
-    </ScrollView>
+    <View style={styling.root}>
+      <ScrollView
+        refreshControl={
+          <RefreshControl
+            tintColor={theme.colors.border}
+            refreshing={postsLikesGet.status === 'loading'}
+          />
+        }
+      >
+        <ResultComponent
+          usersSearch={postsLikesGet}
+          usersFollow={usersFollow}
+          usersFollowRequest={usersFollowRequest}
+          usersUnfollow={usersUnfollow}
+          usersUnfollowRequest={usersUnfollowRequest}
+          usersAcceptFollowerUser={usersAcceptFollowerUser}
+          usersAcceptFollowerUserRequest={usersAcceptFollowerUserRequest}
+        />
+      </ScrollView>
+    </View>
   )
 }
-  
+
 const styles = theme => StyleSheet.create({
   root: {
     flex: 1,
-    backgroundColor: theme.colors.backgroundPrimary,
-    padding: 16,
-    marginBottom: 16,
-  },
-  title: {
-    textAlign: 'center',
-    marginBottom: 12,
-  },
-  paragraph: {
-    marginBottom: 12,
   },
 })
 
-Verification.propTypes = {
+PostLikes.propTypes = {
   theme: PropTypes.any,
+  postsLikesGet: PropTypes.any,
+  usersFollow: PropTypes.any,
+  usersFollowRequest: PropTypes.any,
+  usersUnfollow: PropTypes.any,
+  usersUnfollowRequest: PropTypes.any,
 }
 
-export default withTheme(Verification)
+export default withTheme(PostLikes)

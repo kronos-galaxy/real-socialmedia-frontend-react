@@ -5,13 +5,11 @@ import PostLikesScreen from 'screens/PostLikesScreen'
 import PostViewsScreen from 'screens/PostViewsScreen'
 import PostShareScreen from 'screens/PostShareScreen'
 import ProfileScreen from 'screens/ProfileScreen'
-import AlbumScreen from 'screens/AlbumScreen'
 import ProfileFollowedScreen from 'screens/ProfileFollowedScreen'
 import ProfileFollowerScreen from 'screens/ProfileFollowerScreen'
 import VerificationScreen from 'screens/VerificationScreen'
 import PostEditScreen from 'screens/PostEditScreen'
 import PostCreateScreen from 'screens/PostCreateScreen'
-import CommentsScreen from 'screens/CommentsScreen'
 
 export const media = ({
   Stack,
@@ -51,6 +49,12 @@ export const media = ({
       />
 
       <Stack.Screen
+        name="PostLikes"
+        component={PostLikesScreen}
+        {...stackScreenPageProps({ options: { title: 'Likes' } })}
+      />
+
+      <Stack.Screen
         name="PostCreate"
         component={PostCreateScreen}
         {...stackScreenPageProps({ options: { title: 'New Post' } })}
@@ -60,12 +64,6 @@ export const media = ({
         name="PostEdit"
         component={PostEditScreen}
         {...stackScreenPageProps({ options: { title: 'Edit Post' } })}
-      />
-
-      <Stack.Screen
-        name="PostLikes"
-        component={PostLikesScreen}
-        {...stackScreenCardProps}
       />
 
       <Stack.Screen

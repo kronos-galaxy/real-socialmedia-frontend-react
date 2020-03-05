@@ -46,6 +46,7 @@ const TextDemo = ({
         dense={true}
         label={placeholder}
         disabled={disabled}
+        maxLength={255}
       />
       <ErrorMessage name={name} render={msg => <Text style={styling.error}>{msg}</Text>} />
     </View>

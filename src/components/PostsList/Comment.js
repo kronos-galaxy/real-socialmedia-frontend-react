@@ -24,9 +24,7 @@ const Comment = ({
   return (
     <TouchableOpacity onPress={navigationActions.navigateComments(navigation, { post })} style={styling.root}>
       {pathOr(0, ['commentCount'], post) > 0 ?
-        <View style={styling.spacing}>
-          <Text style={styling.count}>{t('View all comments')}</Text>
-        </View>
+        <Text style={styling.count}>{t('View all comments')}</Text>
       : null}
 
       {pathOr([], ['comments', 'items'], post).map((comment, key) => (
@@ -40,18 +38,17 @@ const Comment = ({
 
 const styles = theme => StyleSheet.create({
   root: {
-    flex: 1,
+    paddingHorizontal: theme.spacing.base,
+    marginBottom: 6,
   },
   author: {
     fontWeight: '700',
   },
   comment: {
-    marginLeft: theme.spacing.base,
     marginBottom: 4,
     flex: 1,
   },
   count: {
-    paddingHorizontal: theme.spacing.base,
     paddingVertical: 6,
     opacity: 0.6,
   },
