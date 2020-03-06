@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useState, useCallback } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import * as cacheActions from 'store/ducks/cache/actions'
 import RNFS from 'react-native-fs'
@@ -35,10 +35,8 @@ const cacheFetchItemPathSelector = partial => path(['cache', 'cacheFetch', 'data
 const SimpleCacheService = ({ children, source, priorityIndex }) => {
   const dispatch = useDispatch()
 
-  const signature = generateSignature(source.uri)
-
+  const signature = useCallback(() => generateSignature(source.uri), [source.uri])()
   const cacheFetchItemPath = useSelector(cacheFetchItemPathSelector(signature.partial))
-
   const channelType = ['64p', '480p', '1080p', '4k'].find(resolution => includes(resolution, source.uri || ''))
 
   const cacheFetchRequest = (sourcePath) => {
@@ -63,9 +61,7 @@ const SimpleCacheService = ({ children, source, priorityIndex }) => {
     dispatch(cacheActions.cacheFetchIdle({ source: sourcePath }))
   }
 
-  useEffect(() => {
-    cacheFetchRequest(source.uri)
-  }, [source.uri])
+  useCallback(() => cacheFetchRequest(source.uri), [source.uri])()
 
   const [hasError, setHasError] = useState(null)
   const uri = signature.isRemote && !hasError ? cacheFetchItemPath : source.uri

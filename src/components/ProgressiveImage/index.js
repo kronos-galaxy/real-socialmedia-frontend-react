@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { memo, useState } from 'react'
 import PropTypes from 'prop-types'
 import {
   Animated,
@@ -9,85 +9,62 @@ import {
 import SimpleCacheService from 'components/SimpleCache/index.service'
 import { AnimatedCircularProgress } from 'react-native-circular-progress'
 
-export default class ProgressiveImage extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      imageOpacity: new Animated.Value(0),
-      thumbnailOpacity: new Animated.Value(0),
-      thumbnailLoaded: false,
-      progress: 0,
-    }
-  }
+const ProgressiveImage = ({
+  style,
+  hideProgress,
+  thumbnailSource,
+  priorityIndex,
+  resizeMode,
+  thumbnailBlurRadius,
+  imageSource,
+}) => {
+  const [progress, setProgress] = useState(0)
 
-  onLoadThumbnail() {
-    Animated.timing(this.state.thumbnailOpacity, {
-      toValue: 1,
-      duration: this.props.thumbnailFadeDuration,
-      useNativeDriver: true,
-    }).start()
-    this.props.onLoadThumbnail()
-    this.setState({ thumbnailLoaded: true })
-  }
+  return (
+    <View style={style}>
+      {!hideProgress ?
+        <View style={styles.progress}>
+          <AnimatedCircularProgress
+            size={50}
+            width={2}
+            fill={progress}
+            tintColor="#00e0ff"
+            backgroundColor="#3d5875"
+          />
+        </View>
+      : null}
 
-  onLoadImage() {
-    Animated.timing(this.state.imageOpacity, {
-      toValue: 1,
-      duration: this.props.imageFadeDuration,
-      useNativeDriver: true,
-    }).start()
-    this.props.onLoadImage()
-  }
-
-  render() {
-    return (
-      <View style={this.props.style}>
-        {!this.props.hideProgress ?
-          <View style={styles.progress}>
-            <AnimatedCircularProgress
-              size={50}
-              width={2}
-              fill={this.state.progress}
-              tintColor="#00e0ff"
-              backgroundColor="#3d5875"
+      <SimpleCacheService source={thumbnailSource} priorityIndex={priorityIndex}>
+        {(cache) => (
+          <Animated.View style={[styles.image]}>
+            <Image
+              source={cache.source}
+              onError={({ nativeEvent }) => cache.onError(nativeEvent)}
+              style={[styles.image, styles.thumbnail, style]}
+              resizeMode={resizeMode}
+              blurRadius={thumbnailBlurRadius}
             />
-          </View>
-        : null}
+          </Animated.View>
+        )}
+      </SimpleCacheService>
 
-        <SimpleCacheService source={this.props.thumbnailSource} priorityIndex={this.props.priorityIndex}>
-          {(cache) => (
-            <Animated.View style={[styles.image, { opacity: this.state.thumbnailOpacity }]}>
-              <Image
-                source={cache.source}
-                onError={({ nativeEvent }) => cache.onError(nativeEvent)}
-                style={[styles.image, styles.thumbnail, this.props.style]}
-                resizeMode={this.props.resizeMode}
-                onLoad={() => this.onLoadThumbnail()}
-                blurRadius={this.props.thumbnailBlurRadius}
-              />
-            </Animated.View>
-          )}
-        </SimpleCacheService>
-
-        <SimpleCacheService source={this.props.imageSource} priorityIndex={this.props.priorityIndex}>
-          {(cache) => (
-            <Animated.View style={[styles.image, { opacity: this.state.imageOpacity }]}>
-              <Image
-                source={cache.source}
-                onError={({ nativeEvent }) => cache.onError(nativeEvent)}
-                style={[styles.image, this.props.style]}
-                resizeMode={this.props.resizeMode}
-                onLoad={() => this.onLoadImage()}
-                onProgress={({ nativeEvent: { loaded, total } }) => {
-                  this.setState({ progress: parseInt(loaded / total * 100, 10) })
-                }}
-              />
-            </Animated.View>
-          )}
-        </SimpleCacheService>
-      </View>
-    )
-  }
+      <SimpleCacheService source={imageSource} priorityIndex={priorityIndex}>
+        {(cache) => (
+          <Animated.View style={[styles.image]}>
+            <Image
+              source={cache.source}
+              onError={({ nativeEvent }) => cache.onError(nativeEvent)}
+              style={[styles.image, style]}
+              resizeMode={resizeMode}
+              onProgress={({ nativeEvent: { loaded, total } }) => {
+                setProgress(parseInt(loaded / total * 100, 10))
+              }}
+            />
+          </Animated.View>
+        )}
+      </SimpleCacheService>
+    </View>
+  )
 }
 
 const styles = StyleSheet.create({
@@ -113,24 +90,25 @@ const styles = StyleSheet.create({
  })
 
 ProgressiveImage.propTypes = {
-  placeHolderColor: PropTypes.string,
-  placeHolderSource: PropTypes.number,
-  imageSource: PropTypes.object.isRequired,
-  imageFadeDuration: PropTypes.number.isRequired,
-  onLoadThumbnail: PropTypes.func.isRequired,
-  onLoadImage: PropTypes.func.isRequired,
-  thumbnailSource: PropTypes.object.isRequired,
-  thumbnailFadeDuration: PropTypes.number.isRequired,
-  thumbnailBlurRadius: PropTypes.number,
-  shouldLoadImage: PropTypes.bool,
+  style: PropTypes.any,
+  hideProgress: PropTypes.any,
+  thumbnailSource: PropTypes.any,
+  priorityIndex: PropTypes.any,
+  resizeMode: PropTypes.any,
+  thumbnailBlurRadius: PropTypes.any,
+  imageSource: PropTypes.any,
 }
 
 ProgressiveImage.defaultProps = {
-  thumbnailFadeDuration: 250,
-  imageFadeDuration: 250,
   thumbnailBlurRadius: 5,
-  onLoadThumbnail: Function.prototype,
-  onLoadImage: Function.prototype,
   resizeMode: 'cover',
-  shouldLoadImage: true,
 }
+
+function areEqual(prevProps, nextProps) {
+  return (
+    prevProps.imageSource.uri ===  nextProps.imageSource.uri &&
+    prevProps.thumbnailSource.uri ===  nextProps.thumbnailSource.uri
+  )
+}
+
+export default memo(ProgressiveImage, areEqual)
