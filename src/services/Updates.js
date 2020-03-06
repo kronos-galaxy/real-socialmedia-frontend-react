@@ -9,15 +9,19 @@ export const versionCheck = (async () => {
       return await data.json()
     })()
 
-    const isNeeded = !getReadableVersion().includes(data.data.version)
+    const forced = (
+      Config.ENVIRONMENT !== 'development' &&
+      !getReadableVersion().includes(data.minor) &&
+      !getReadableVersion().includes(data.major)
+    )
 
-    if (false) {
+    if (forced) {
       Alert.alert(
         'App Update Available',
         'Please update REAL to continue',
         [{
-          text: 'Done',
-          onPress: () => Linking.openURL('https://apps.apple.com/us/app/real-social-media/id1485194570?ls=1').catch(console.log),
+          text: 'Update Now',
+          onPress: () => Linking.openURL('itms-apps://itunes.apple.com/app/id1485194570'),
           style: 'cancel',
         }],
         { cancelable: false },
