@@ -4,9 +4,9 @@ import {
   View,
   StyleSheet,
 } from 'react-native'
-import Subtitle from 'components/Onboard/Subtitle'
-import UsernameForm from 'components/Onboard/UsernameForm'
-import Federated from 'components/Onboard/Federated'
+import AuthForm from 'components/Auth/Form'
+import Federated from 'components/Auth/Federated'
+import Subtitle from 'templates/Subtitle'
 import NativeError from 'templates/NativeError'
 import path from 'ramda/src/path'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
@@ -64,7 +64,7 @@ const Auth = ({
           }]} />
         </View>
         <View style={styling.form}>
-          <UsernameForm
+          <AuthForm
             authSignin={authSignin}
             authSigninRequest={authSigninRequest}
           />

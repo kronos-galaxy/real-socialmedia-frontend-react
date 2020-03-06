@@ -4,8 +4,8 @@ import {
   View,
   StyleSheet,
 } from 'react-native'
-import ConfirmForm from 'components/Onboard/ConfirmForm'
-import Subtitle from 'components/Onboard/Subtitle'
+import ConfirmForm from 'components/SignupConfirm/Form'
+import Subtitle from 'templates/Subtitle'
 import { Subheading } from 'react-native-paper'
 import NativeError from 'templates/NativeError'
 import path from 'ramda/src/path'

@@ -5,8 +5,8 @@ import {
   StyleSheet,
   Linking,
 } from 'react-native'
-import FullnameForm from 'components/Onboard/FullnameForm'
-import Subtitle from 'components/Onboard/Subtitle'
+import FullnameForm from 'components/Fullname/Form'
+import Subtitle from 'templates/Subtitle'
 import NativeError from 'templates/NativeError'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import { Subheading } from 'react-native-paper'

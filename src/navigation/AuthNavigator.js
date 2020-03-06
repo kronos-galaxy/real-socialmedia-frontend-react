@@ -15,44 +15,44 @@ const AuthNavigator = ({ theme }) => {
   const Stack = createStackNavigator()
 
   const stackNavigatorDefaultProps = navigationOptions.stackNavigatorDefaultProps({ theme })
-  const stackScreenDefaultProps = navigationOptions.stackScreenDefaultProps({ theme })
+  const stackScreenAuthProps = navigationOptions.stackScreenAuthProps({ theme })
 
   return (
     <Stack.Navigator {...stackNavigatorDefaultProps}>
       <Stack.Screen
         name="Auth"
         component={AuthScreen}
-        {...stackScreenDefaultProps}
+        {...stackScreenAuthProps}
       />
 
       <Stack.Screen
         name="AuthForgot"
         component={AuthForgotScreen}
-        {...stackScreenDefaultProps}
+        {...stackScreenAuthProps}
       />
 
       <Stack.Screen
         name="AuthForgotConfirm"
         component={AuthForgotConfirmScreen}
-        {...stackScreenDefaultProps}
+        {...stackScreenAuthProps}
       />
 
       <Stack.Screen
         name="AuthSignup"
         component={AuthSignupScreen}
-        {...stackScreenDefaultProps}
+        {...stackScreenAuthProps}
       />
 
       <Stack.Screen
         name="AuthSignupConfirm"
         component={AuthSignupConfirmScreen}
-        {...stackScreenDefaultProps}
+        {...stackScreenAuthProps}
       />
 
       <Stack.Screen
         name="AuthOnboard"
         component={AuthOnboardScreen}
-        {...stackScreenDefaultProps}
+        {...stackScreenAuthProps}
       />
     </Stack.Navigator>
   )

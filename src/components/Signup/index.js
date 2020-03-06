@@ -5,8 +5,8 @@ import {
   StyleSheet,
   Linking,
 } from 'react-native'
-import SignupForm from 'components/Onboard/SignupForm'
-import Subtitle from 'components/Onboard/Subtitle'
+import SignupForm from 'components/Signup/Form'
+import Subtitle from 'templates/Subtitle'
 import NativeError from 'templates/NativeError'
 import { Subheading } from 'react-native-paper'
 import path from 'ramda/src/path'

@@ -116,7 +116,7 @@ const AuthComponentService = ({ children, }) => {
      * Authorization for existing user
      */
     if (authSignupConfirm.status === 'success') {
-      navigation.push('Auth')
+      navigation.navigate('Auth')
       dispatch(authActions.authSignupIdle())
       dispatch(authActions.authSigninIdle())
       dispatch(authActions.authSignupConfirmIdle())
@@ -133,12 +133,12 @@ const AuthComponentService = ({ children, }) => {
     }
 
     if (authForgot.status === 'success') {
-      navigation.push('AuthForgotConfirm')
+      navigation.navigate('AuthForgotConfirm')
       dispatch(authActions.authForgotIdle())
     }
 
     if (authForgotConfirm.status === 'success') {
-      navigation.push('Auth')
+      navigation.navigate('Auth')
       dispatch(authActions.authForgotConfirmIdle())
     }
   }, [
@@ -150,11 +150,11 @@ const AuthComponentService = ({ children, }) => {
 
   useEffect(() => {
     if (authSignup.status === 'success') {
-      navigation.push('AuthSignupConfirm')
+      navigation.navigate('AuthSignupConfirm')
     }
 
     if (authSignup.status === 'failure' && authSignup.nextRoute) {
-      navigation.push(authSignup.nextRoute)
+      navigation.navigate(authSignup.nextRoute)
       authSignupResendRequest()
     }
   }, [
@@ -191,7 +191,7 @@ const AuthComponentService = ({ children, }) => {
     }
 
     if (authSignin.status === 'failure' && authSignin.nextRoute) {
-      navigation.push(authSignin.nextRoute)
+      navigation.navigate(authSignin.nextRoute)
       dispatch(authActions.authSigninIdle())
     }
   }, [

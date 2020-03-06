@@ -1,5 +1,4 @@
 import React from 'react'
-import AuthNavigationComponent from 'components/NavigationPrimary/Auth'
 import FullnameComponent from 'components/Fullname'
 import AuthServiceComponent from 'components/Auth/index.service'
 

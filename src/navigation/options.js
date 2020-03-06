@@ -1,12 +1,16 @@
 import React from 'react'
-import { TouchableOpacity, Text } from 'react-native'
+import { TouchableOpacity } from 'react-native'
 import { HeaderStyleInterpolators, CardStyleInterpolators, TransitionPresets } from '@react-navigation/stack'
-import DefaultNavigationComponent from 'components/NavigationPrimary/Default'
+import * as navigationActions from 'navigation/actions'
 import path from 'ramda/src/path'
 import Layout from 'constants/Layout'
+
+import LogoIcon from 'assets/svg/header/Logo'
+import CameraIcon from 'assets/svg/header/Camera'
+import DirectIcon from 'assets/svg/header/Direct'
 import BackIcon from 'assets/svg/header/Back'
 
-const headerLeft = (fill) => ({ onPress, label, labelStyle }) => {
+const pageHeaderLeft = (fill) => ({ onPress, label, labelStyle }) => {
   if (!onPress) { return null }
   return (
     <TouchableOpacity style={{ paddingHorizontal: 12 }} onPress={onPress}>
@@ -14,6 +18,58 @@ const headerLeft = (fill) => ({ onPress, label, labelStyle }) => {
     </TouchableOpacity>
   )
 }
+
+const homeHeaderLeft = ({ theme, navigation }) => () => (
+  <TouchableOpacity style={{ padding: 12 }} onPress={navigationActions.navigateCamera(navigation)}>
+    <CameraIcon
+      fill={theme.colors.primaryIcon}
+    />
+  </TouchableOpacity>
+)
+
+const homeHeaderTitle = ({ theme }) => () => (
+  <LogoIcon
+    height="28"
+    fill={theme.colors.primaryIcon}
+  />
+)
+
+const homeHeaderRight = ({ theme, navigation }) => () => (
+  <TouchableOpacity style={{ padding: 12 }} onPress={navigationActions.navigateChat(navigation)}>
+    <DirectIcon
+      fill={theme.colors.primaryIcon}
+    />
+  </TouchableOpacity>
+)
+
+const AuthNavigationComponent = ({ navigation, theme }) => ({
+  headerStyle: {
+    backgroundColor: theme.colors.backgroundPrimary,
+    shadowRadius: 0,
+    shadowOffset: {
+      height: 0,
+    },
+    borderBottomWidth: 0,
+    shadowColor: 'transparent',
+  },
+    headerLeft: pageHeaderLeft(theme.colors.text),
+  headerTitle: homeHeaderTitle({ navigation, theme }),
+})
+
+const HomeNavigationComponent = ({ navigation, theme }) => ({
+  headerStyle: {
+    backgroundColor: theme.colors.backgroundPrimary,
+    shadowRadius: 0,
+    shadowOffset: {
+      height: 0,
+    },
+    borderBottomWidth: 0,
+    shadowColor: 'transparent',
+  },
+  headerLeft: homeHeaderLeft({ navigation, theme }),
+  headerTitle: homeHeaderTitle({ navigation, theme }),
+  headerRight: homeHeaderRight({ navigation, theme }),
+})
 
 /**
  * Recursive search for the latest active screen in the stack
@@ -84,7 +140,23 @@ export const stackNavigatorCardProps = ({ theme }) => ({
  */
 export const stackScreenDefaultProps = ({ theme }) => ({
   options: (props) => ({
-    ...DefaultNavigationComponent({ ...props, theme }),
+    ...HomeNavigationComponent({ ...props, theme }),
+    gestureResponseDistance: {
+      horizontal: Layout.window.width,
+      vertical: Layout.window.height,
+    },
+    cardStyle: {
+      backgroundColor: theme.colors.backgroundPrimary,
+    },
+  }),
+})
+
+/**
+ * Used for Main Screens with application logo
+ */
+export const stackScreenAuthProps = ({ theme }) => ({
+  options: (props) => ({
+    ...AuthNavigationComponent({ ...props, theme }),
     gestureResponseDistance: {
       horizontal: Layout.window.width,
       vertical: Layout.window.height,
@@ -170,7 +242,7 @@ export const stackScreenPageProps = ({ theme, themes }) => ({ options } = {}) =>
         borderBottomWidth: 0,
         shadowColor: 'transparent',
       },
-      headerLeft: headerLeft(theme.colors.text),
+      headerLeft: pageHeaderLeft(theme.colors.text),
       headerRight: () => null,
       headerTintColor: 'red',
       ...options,
