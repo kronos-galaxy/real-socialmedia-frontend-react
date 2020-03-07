@@ -24,7 +24,7 @@ const Action = ({
   post,
   postsOnymouslyLikeRequest,
   postsDislikeRequest,
-  textPostRef,
+  handlePostShare,
 }) => {
   const styling = styles(theme)
   const { t } = useTranslation()
@@ -81,16 +81,6 @@ const Action = ({
     !post.viewCountsHidden &&
     !path(['postedBy', 'viewCountsHidden'])(post)
   )
-
-  const handlePostShare = () => {
-    if (post.postType === 'TEXT_ONLY') {
-      textPostRef.current.capture()
-    }
-
-    if (post.postType === 'IMAGE') {
-      navigationActions.navigatePostShare(navigation, { post })()
-    }
-  }
 
   return (
     <View style={styling.action}>

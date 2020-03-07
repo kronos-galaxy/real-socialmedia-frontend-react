@@ -27,6 +27,7 @@ const Header = ({
   postsDeleteRequest,
   postsShareRequest,
   postsRestoreArchivedRequest,
+  handlePostShare,
 }) => {
   const styling = styles(theme)
   const { t } = useTranslation()
@@ -107,7 +108,7 @@ const Header = ({
             destructiveButtonIndex={3}
             onPress={(index) => {
               if (index === 0) {
-                navigationActions.navigatePostShare(navigation, { post })()
+                handlePostShare()
               }
               if (index === 1) {
                 navigationActions.navigatePostEdit(navigation, { post })()
@@ -135,7 +136,7 @@ const Header = ({
             cancelButtonIndex={2}
             onPress={(index) => {
               if (index === 0) {
-                navigationActions.navigatePostShare(navigation, { post })
+                handlePostShare()
               }
               if (index === 1) {
                 postsFlagRequest({ postId: post.postId })

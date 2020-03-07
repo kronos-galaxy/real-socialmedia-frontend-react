@@ -50,6 +50,16 @@ const PostComponent = ({
     navigationActions.navigatePostShare(navigation, { post, renderUri })()
   }
 
+  const handlePostShare = () => {
+    if (post.postType === 'TEXT_ONLY') {
+      textPostRef.current.capture()
+    }
+
+    if (post.postType === 'IMAGE') {
+      navigationActions.navigatePostShare(navigation, { post })()
+    }
+  }
+
   return (
     <View style={styling.root}>
       <HeaderComponent
@@ -61,6 +71,7 @@ const PostComponent = ({
         postsDeleteRequest={postsDeleteRequest}
         postsShareRequest={postsShareRequest}
         postsRestoreArchivedRequest={postsRestoreArchivedRequest}
+        handlePostShare={handlePostShare}
       />
 
       {post.postType === 'TEXT_ONLY' ?
@@ -95,7 +106,7 @@ const PostComponent = ({
         postsAnonymouslyLikeRequest={postsAnonymouslyLikeRequest}
         postsOnymouslyLikeRequest={postsOnymouslyLikeRequest}
         postsDislikeRequest={postsDislikeRequest}
-        textPostRef={textPostRef}
+        handlePostShare={handlePostShare}
       />
 
       <ReactionsPreviewTemplate
