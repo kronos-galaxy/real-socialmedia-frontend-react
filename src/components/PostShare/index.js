@@ -15,7 +15,7 @@ import dayjs from 'dayjs'
 import * as navigationActions from 'navigation/actions'
 
 import { withTheme } from 'react-native-paper'
-import { useNavigation } from '@react-navigation/native'
+import { useNavigation, useRoute } from '@react-navigation/native'
 import { useTranslation } from 'react-i18next'
 
 const PostShare = ({
@@ -30,6 +30,7 @@ const PostShare = ({
   const styling = styles(theme)
   const { t } = useTranslation()
   const navigation = useNavigation()
+  const route = useRoute()
 
   const tagged = (path(['data', 'textTaggedUsers'])(postsSingleGet) || [])
     .find(textTag => textTag.tag === `@${path(['username'])(authUser)}`)
@@ -43,8 +44,13 @@ const PostShare = ({
     tagged
   )
 
+  const photoUrl = (
+    route.params.renderUri ||
+    path(['data', 'image', 'url'])(postsSingleGet)
+  )
+
   const handleGallerySave = () => postsShareRequest({
-    photoUrl: path(['data', 'image', 'url'])(postsSingleGet),
+    photoUrl,
     type: 'cameraroll',
     title: 'Camera roll export',
     watermark,
@@ -52,7 +58,7 @@ const PostShare = ({
   })
 
   const handleRepost = () => postsShareRequest({
-    photoUrl: path(['data', 'image', 'url'])(postsSingleGet),
+    photoUrl,
     type: 'repost',
     title: 'Repost',
     watermark,
@@ -60,7 +66,7 @@ const PostShare = ({
   })
 
   const handleInstagramPost = () => postsShareRequest({
-    photoUrl: path(['data', 'image', 'url'])(postsSingleGet),
+    photoUrl,
     type: 'instagramPost',
     title: 'Instagram export',
     watermark,
@@ -76,8 +82,8 @@ const PostShare = ({
 
       <ScrollView bounces={false}>
         <ModalPreviewComponent
-          thumbnailSource={{ uri: path(['data', 'image', 'url64p'])(postsSingleGet) }}
-          imageSource={{ uri: path(['data', 'image', 'url1080p'])(postsSingleGet) }}
+          post={path(['data'])(postsSingleGet)}
+          renderUri={route.params.renderUri}
         />
 
         <View style={styling.content}>

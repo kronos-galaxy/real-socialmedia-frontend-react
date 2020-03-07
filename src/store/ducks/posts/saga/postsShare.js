@@ -28,6 +28,7 @@ function* handlePostsShareRequest(payload) {
       }
       return hex
     }
+
     const fullColorHex = (r, g, b) => {
       const red = rgbToHex(r)
       const green = rgbToHex(g)
@@ -35,7 +36,7 @@ function* handlePostsShareRequest(payload) {
       return `#${red}${green}${blue}`
     }
 
-    const color = post.image.colors[1]
+    const color = path(['image', 'colors', 1])(post) || { r: 255, b: 255, g: 255 }
 
     const firstLine = yield Marker.markText({
       src: url,
@@ -125,46 +126,50 @@ function* handlePostsShareRequest(payload) {
     }))
   }
 
-  function* handleCameraRollSave(path) {
-    yield CameraRoll.saveToCameraRoll(path)
-    return yield CameraRoll.getPhotos({
+  function* handleCameraRollSave(photoUri) {
+    yield CameraRoll.saveToCameraRoll(photoUri)
+    const photo = yield CameraRoll.getPhotos({
       first: 1,
       assetType: 'All',
     })
+    return path(['edges', '0', 'node', 'image', 'uri'])(photo)
   }
 
-  const fetchConfig = { fileCache: true, appendExt: 'iga' }
-  const res = yield RNFetchBlob.config(fetchConfig).fetch('GET', payload.photoUrl)
-  const status = res.info().status
-
-  if(status === 200) {
-    const watermarked = yield handeImageWatermark(res.path(), payload.watermark, payload.post)
-    const photo = yield handleCameraRollSave(watermarked)
-    const url = path(['edges', '0', 'node', 'image', 'uri'])(photo)
-
-    if (payload.type === 'instagramPost') {
-      yield handleInstagramPostShare({ url, title: payload.title })
+  const res = yield (function* () {
+    if (!payload.photoUrl.includes('http')) {
+      return payload.photoUrl
     }
 
-    if (payload.type === 'instagramStory') {
-      yield handleInstagramStoryShare({ url, title: payload.title })
+    const fetchConfig = { fileCache: true, appendExt: 'iga' }
+    const response = yield RNFetchBlob.config(fetchConfig).fetch('GET', payload.photoUrl)
+    const status = response.info().status
+    if(status !== 200) {
+      throw new Error('error occured')
     }
+    return response.path()
+  })()
 
-    if (payload.type === 'facebook') {
-      yield handleFacebookShare({ url, title: payload.title })
-    }
+  const watermarked = yield handeImageWatermark(res, payload.watermark, payload.post)
+  const url = yield handleCameraRollSave(watermarked)
 
-    if (payload.type === 'global') {
-      yield handleNativeShare({ url, title: payload.title })
-    }
+  if (payload.type === 'instagramPost') {
+    yield handleInstagramPostShare({ url, title: payload.title })
+  }
 
-    if (payload.type === 'repost') {
-      yield handleRepost({ url, title: payload.title, post: payload.post })
-    }
+  if (payload.type === 'instagramStory') {
+    yield handleInstagramStoryShare({ url, title: payload.title })
+  }
 
-    res.flush()
-  } else {
-    throw new Error('Can not proceed')
+  if (payload.type === 'facebook') {
+    yield handleFacebookShare({ url, title: payload.title })
+  }
+
+  if (payload.type === 'global') {
+    yield handleNativeShare({ url, title: payload.title })
+  }
+
+  if (payload.type === 'repost') {
+    yield handleRepost({ url, title: payload.title, post: payload.post })
   }
 }
 
@@ -178,6 +183,7 @@ function* postsShareRequest(req) {
     yield handlePostsShareRequest(req.payload)
     yield put(actions.postsShareSuccess({ data: {}, meta: {} }))
   } catch (error) {
+    console.log(error)
     yield put(actions.postsShareFailure({ message: errorWrapper(error) }))
   }
 }

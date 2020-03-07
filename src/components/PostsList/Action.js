@@ -24,7 +24,7 @@ const Action = ({
   post,
   postsOnymouslyLikeRequest,
   postsDislikeRequest,
-  pagination: Pagination,
+  textPostRef,
 }) => {
   const styling = styles(theme)
   const { t } = useTranslation()
@@ -82,6 +82,16 @@ const Action = ({
     !path(['postedBy', 'viewCountsHidden'])(post)
   )
 
+  const handlePostShare = () => {
+    if (post.postType === 'TEXT_ONLY') {
+      textPostRef.current.capture()
+    }
+
+    if (post.postType === 'IMAGE') {
+      navigationActions.navigatePostShare(navigation, { post })()
+    }
+  }
+
   return (
     <View style={styling.action}>
       <View style={styling.actionLeft}>
@@ -105,14 +115,13 @@ const Action = ({
         : null}
 
         {shareButtonVisibility ?
-          <TouchableOpacity style={styling.actionLeftIcon} onPress={navigationActions.navigatePostShare(navigation, { post })}>
+          <TouchableOpacity style={styling.actionLeftIcon} onPress={handlePostShare}>
             <DirectIcon fill={theme.colors.primaryIcon} />
           </TouchableOpacity>
         : null}
       </View>
 
       <View style={styling.actionCenter}>
-        {Pagination}
       </View>
 
       {seenByVisibility ?

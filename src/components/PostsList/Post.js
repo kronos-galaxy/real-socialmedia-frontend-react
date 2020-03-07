@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useRef } from 'react'
 import PropTypes from 'prop-types'
 import {
   StyleSheet,
@@ -15,6 +15,8 @@ import ListItemComponent from 'templates/ListItem'
 import ImageComponent from 'templates/Image'
 import TextOnlyComponent from 'templates/TextOnly'
 import ReactionsPreviewTemplate from 'templates/ReactionsPreview'
+import ViewShot from 'react-native-view-shot'
+import * as navigationActions from 'navigation/actions'
 
 import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
@@ -41,7 +43,12 @@ const PostComponent = ({
   const { t } = useTranslation()
   const navigation = useNavigation()
 
+  const textPostRef = useRef(null)
   const albumLength = path(['album', 'posts', 'items', 'length'])(post) || 0
+
+  const onCapture = (renderUri) => {
+    navigationActions.navigatePostShare(navigation, { post, renderUri })()
+  }
 
   return (
     <View style={styling.root}>
@@ -57,10 +64,12 @@ const PostComponent = ({
       />
 
       {post.postType === 'TEXT_ONLY' ?
-        <TextOnlyComponent text={post.text} themeCode={post.postedBy.themeCode}>
-          <TouchableOpacity style={styling.prev} onPress={handleScrollPrev} />
-          <TouchableOpacity style={styling.next} onPress={handleScrollNext} />
-        </TextOnlyComponent>
+        <ViewShot ref={textPostRef} onCapture={onCapture}>
+          <TextOnlyComponent text={post.text} themeCode={post.postedBy.themeCode}>
+            <TouchableOpacity style={styling.prev} onPress={handleScrollPrev} />
+            <TouchableOpacity style={styling.next} onPress={handleScrollNext} />
+          </TextOnlyComponent>
+        </ViewShot>
       : null}
 
       {post.postType === 'IMAGE' ?
@@ -86,6 +95,7 @@ const PostComponent = ({
         postsAnonymouslyLikeRequest={postsAnonymouslyLikeRequest}
         postsOnymouslyLikeRequest={postsOnymouslyLikeRequest}
         postsDislikeRequest={postsDislikeRequest}
+        textPostRef={textPostRef}
       />
 
       <ReactionsPreviewTemplate
