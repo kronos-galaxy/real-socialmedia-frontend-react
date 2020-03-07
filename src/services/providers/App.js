@@ -121,7 +121,6 @@ export const AuthProvider = ({
   )
 
   return children({
-    initialRouteName: nextRoute,
     theme,
     themes: themeFetch.data,
     authenticated,

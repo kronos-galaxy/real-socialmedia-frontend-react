@@ -211,6 +211,21 @@ const AuthComponentService = ({ children, }) => {
     path(['params', 'confirmationCode'])(route),
   ])
 
+  useEffect(() => {
+    const shouldRedirect = [
+      'Auth',
+      'AuthOnboard',
+      'AuthSignup',
+      'AuthSignupConfirm',
+    ].includes(authCheck.nextRoute)
+    console.log(authCheck.nextRoute, shouldRedirect)
+    if (shouldRedirect) {
+      navigation.navigate(authCheck.nextRoute)
+    }
+  }, [
+    authCheck.nextRoute
+  ])
+
   return children({
     authCheck,
     authFacebook,

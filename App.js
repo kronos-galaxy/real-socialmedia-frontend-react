@@ -50,7 +50,7 @@ if (Text.defaultProps == null) {
 const App = () => (
   <Provider store={store}>
     <AuthProvider>
-      {({ initialRouteName, theme, themes, authenticated }) => (
+      {({ theme, themes, authenticated }) => (
         <ThemesContext.Provider value={{ theme, themes }}>
           <StatusBar barStyle={theme.dark ? 'light-content' : 'dark-content'} />
           <NavigationContainer theme={theme}>

@@ -183,7 +183,6 @@ function* postsShareRequest(req) {
     yield handlePostsShareRequest(req.payload)
     yield put(actions.postsShareSuccess({ data: {}, meta: {} }))
   } catch (error) {
-    console.log(error)
     yield put(actions.postsShareFailure({ message: errorWrapper(error) }))
   }
 }
