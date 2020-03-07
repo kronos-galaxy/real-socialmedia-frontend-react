@@ -93,9 +93,11 @@ const PostComponent = ({
         authUser={authUser}
       />
 
-      <DescriptionComponent
-        post={post}
-      />
+      {post.postType === 'IMAGE' ?
+        <DescriptionComponent
+          post={post}
+        />
+      : null}
 
       <CommentComponent post={post} />
     </View>
