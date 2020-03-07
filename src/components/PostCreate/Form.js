@@ -14,8 +14,8 @@ import path from 'ramda/src/path'
 import RowsComponent from 'templates/Rows'
 import RowsItemComponent from 'templates/RowsItem'
 import UserRowComponent from 'templates/UserRow'
-import { Text, Caption, Title, Switch } from 'react-native-paper'
-import NextIcon from 'assets/svg/settings/Next'
+import CollapsableComponent from 'templates/Collapsable'
+import { Text, Caption, Switch } from 'react-native-paper'
 
 import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
@@ -65,19 +65,34 @@ const PostCreateForm = ({
         </View>
       </View>
 
-      <View style={styling.input}>
-        <Title style={styling.title}>Albums</Title>
+      <CollapsableComponent
+        style={styling.input}
+        title="Lifetime"
+        helper="Change post expiry, set expiry to 1 day to post story"
+      >
+        <FormLifetime
+          values={values}
+          setFieldValue={setFieldValue}
+        />
+      </CollapsableComponent>
 
+      <CollapsableComponent
+        style={styling.input}
+        title="Albums"
+        helper="Add this post to an album"
+      >
         <FormAlbums
           values={values}
           setFieldValue={setFieldValue}
           albumsGet={albumsGet}
         />
-      </View>
+      </CollapsableComponent>
 
-      <View style={styling.input}>
-        <Title style={styling.title}>Privacy</Title>
-
+      <CollapsableComponent
+        style={styling.input}
+        title="Privacy"
+        helper="Allow others to comment, like, and share your post"
+      >
         <RowsComponent items={[{
           label: t('Comments'),
           caption: t('Followers can comment on posts'),
@@ -108,29 +123,16 @@ const PostCreateForm = ({
                   </View>
                 }
                 action={
-                  path(['type'])(settings) === 'navigation' ? (
-                    <NextIcon fill={theme.colors.text} />
-                  ) : (
-                    <Switch
-                      value={path(['enabled'])(settings)}
-                      onValueChange={settings.onPress}
-                    />
-                  )
+                  <Switch
+                    value={path(['enabled'])(settings)}
+                    onValueChange={settings.onPress}
+                  />
                 }
               />
             </RowsItemComponent>
           )}
         </RowsComponent>
-      </View>
-
-      <View style={styling.input}>
-        <Title style={styling.title}>Lifetime</Title>
-
-        <FormLifetime
-          values={values}
-          setFieldValue={setFieldValue}
-        />
-      </View>
+      </CollapsableComponent>
 
       <View style={styling.input}>
         <DefaultButton label={t('Create Post')} onPress={handleSubmit} loading={loading} />
@@ -149,7 +151,7 @@ const styles = theme => StyleSheet.create({
     flex: 1,
   },
   input: {
-    marginBottom: 24,
+    marginBottom: theme.spacing.base,
   },
   title: {
     marginBottom: theme.spacing.base,

@@ -21,23 +21,23 @@ const LifetimeIndicator = ({
   return (
     <View style={styling.root}>
       <View style={[{ left: '0%' }, styling.indicator]}>
-        <View style={[styling.bar, { marginLeft: 2 }]} />
+        <View style={styling.bar} />
         <Caption style={[styling.caption, styling.captionStart]}>{t('Day')}</Caption>
       </View>
       <View style={[{ left: '25%', }, styling.indicator]}>
-        <View style={[styling.bar, { marginLeft: 2 }]} />
+        <View style={styling.bar} />
         <Caption style={styling.caption}>{t('Week')}</Caption>
       </View>
       <View style={[{ left: '50%', }, styling.indicator]}>
-        <View style={[styling.bar, { marginLeft: 2 }]} />
+        <View style={styling.bar} />
         <Caption style={styling.caption}>{t('Month')}</Caption>
       </View>
       <View style={[{ left: '75%', }, styling.indicator]}>
-        <View style={[styling.bar, { marginLeft: 2 }]} />
+        <View style={styling.bar} />
         <Caption style={styling.caption}>{t('Year')}</Caption>
       </View>
       <View style={[{ left: '100%', }, styling.indicator]}>
-        <View style={[styling.bar, { marginLeft: 2 }]} />
+        <View style={styling.bar} />
         <Caption style={[styling.caption, styling.captionEnd]}>{t('Forever')}</Caption>
       </View>
     </View>
@@ -48,7 +48,8 @@ const styles = theme => StyleSheet.create({
   root: {
     flexDirection: 'row',
     width: trackerWidth,
-    height: 36,
+    height: 20,
+    marginBottom: 6,
   },
   indicator: {
     width: 24,
@@ -57,16 +58,17 @@ const styles = theme => StyleSheet.create({
     alignItems: 'center',
   },
   bar: {
-    width: 2,
-    borderRadius: 1,
-    height: 10,
-    backgroundColor: theme.colors.disabled,
+    height: 6,
+    backgroundColor: theme.colors.border,
+    marginLeft: 2,
   },
   caption: {
     position: 'absolute',
     width: 100,
-    paddingTop: 12,
+    paddingTop: 2,
     textAlign: 'center',
+    color: theme.colors.border,
+    marginLeft: 2,
   },
   captionStart: {
     textAlign: 'left',
