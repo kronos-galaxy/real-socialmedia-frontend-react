@@ -23,7 +23,7 @@ const Comment = ({
 
   return (
     <TouchableOpacity onPress={navigationActions.navigateComments(navigation, { post })} style={styling.root}>
-      {pathOr(0, ['commentCount'], post) > 0 ?
+      {pathOr(0, ['commentCount'], post) > 3 ?
         <Text style={styling.count}>{t('View all comments')}</Text>
       : null}
 
