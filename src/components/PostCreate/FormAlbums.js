@@ -4,6 +4,7 @@ import {
   View,
   StyleSheet,
   TouchableOpacity,
+  ScrollView,
 } from 'react-native'
 import { Text, Caption } from 'react-native-paper'
 import pathOr from 'ramda/src/pathOr'
@@ -29,7 +30,7 @@ const FormAlbums = ({
 
   return (
     <View style={styling.root}>
-      <View style={styling.albums} horizontal>
+      <ScrollView style={styling.albums} horizontal>
         {pathOr([], ['data'])(albumsGet).map((album, key) => {
           const style = (values.albumId === album.albumId) ?
             [styling.album, styling.albumSelected] :
@@ -43,11 +44,13 @@ const FormAlbums = ({
         })}
 
         <TouchableOpacity style={[styling.album, styling.albumCreate]} onPress={navigationActions.navigateAlbums(navigation)}>
-          <Text>{t('All albums')}</Text>
+          <Text>{t('Create new album')}</Text>
         </TouchableOpacity>
-      </View>
+      </ScrollView>
 
-      <Caption>{t('Choose an album from the list to group your posts')}</Caption>
+      <TouchableOpacity onPress={navigationActions.navigateAlbums(navigation)}>
+        <Caption>{t('Choose an album from the list to group your posts')}, {t('or click here to browse all your albums')}</Caption>
+      </TouchableOpacity>
     </View>
   )
 }
