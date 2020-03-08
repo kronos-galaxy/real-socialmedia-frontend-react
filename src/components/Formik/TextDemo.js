@@ -28,12 +28,23 @@ const TextDemo = ({
   const styling = styles(theme)
   const { t } = useTranslation()
 
+  /**
+   * Prevent too much multiline characters
+   * - no more than 4 lines
+   * - sequential lines will be replaces by single line
+   */
+  const onChangeText = (event) => {
+    const newlines = event.match(/(\r\n|\n|\r)/gm) || []
+    if (newlines.length > 4) return
+    form.handleChange(name)(event.replace(/(\n\n|\r\r|\r\n\r\n)/gm, '\n'))
+  }
+
   return (
     <View style={styling.root}>
       <TextInput
         style={styling.input}
         name={name}
-        onChangeText={form.handleChange(name)}
+        onChangeText={onChangeText}
         onBlur={form.handleBlur(name)}
         value={value}
         placeholder={placeholder}
@@ -47,6 +58,8 @@ const TextDemo = ({
         label={placeholder}
         disabled={disabled}
         maxLength={255}
+        // returnKeyType="done"
+        // blurOnSubmit={true}
       />
       <ErrorMessage name={name} render={msg => <Text style={styling.error}>{msg}</Text>} />
     </View>

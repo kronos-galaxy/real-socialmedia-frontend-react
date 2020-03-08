@@ -114,6 +114,7 @@ function* handlePostsShareRequest(payload) {
 
     return yield put(actions.postsCreateRequest({
       postId,
+      postType: 'IMAGE',
       mediaId,
       lifetime: null,
       text: post.text,

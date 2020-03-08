@@ -62,6 +62,7 @@ const TextField = ({
         disabled={disabled}
         autoCompleteType={autoCompleteType}
         secureTextEntry={secureTextEntry}
+        returnKeyType="done"
       />
 
       {!hideError ?
