@@ -218,7 +218,6 @@ const AuthComponentService = ({ children, }) => {
       'AuthSignup',
       'AuthSignupConfirm',
     ].includes(authCheck.nextRoute)
-    console.log(authCheck.nextRoute, shouldRedirect)
     if (shouldRedirect) {
       navigation.navigate(authCheck.nextRoute)
     }
