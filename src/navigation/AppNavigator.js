@@ -8,6 +8,8 @@ import TabNavigator from 'navigation/TabNavigator'
 import StoryScreen from 'screens/StoryScreen'
 import PostTypeScreen from 'screens/PostTypeScreen'
 import CommentsScreen from 'screens/CommentsScreen'
+import PostEditScreen from 'screens/PostEditScreen'
+import PostCreateScreen from 'screens/PostCreateScreen'
 
 const AppNavigator = () => {
   const Stack = createStackNavigator()
@@ -41,6 +43,18 @@ const AppNavigator = () => {
         name="Comments"
         component={CommentsScreen}
         {...stackScreenPageProps({ options: { title: 'Comments' } })}
+      />
+
+      <Stack.Screen
+        name="PostCreate"
+        component={PostCreateScreen}
+        {...stackScreenPageProps({ options: { title: 'New Post' } })}
+      />
+
+      <Stack.Screen
+        name="PostEdit"
+        component={PostEditScreen}
+        {...stackScreenPageProps({ options: { title: 'Edit Post' } })}
       />
     </Stack.Navigator>
   )

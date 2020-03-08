@@ -8,8 +8,6 @@ import ProfileScreen from 'screens/ProfileScreen'
 import ProfileFollowedScreen from 'screens/ProfileFollowedScreen'
 import ProfileFollowerScreen from 'screens/ProfileFollowerScreen'
 import VerificationScreen from 'screens/VerificationScreen'
-import PostEditScreen from 'screens/PostEditScreen'
-import PostCreateScreen from 'screens/PostCreateScreen'
 import AlbumScreen from 'screens/AlbumScreen'
 
 export const media = ({
@@ -53,18 +51,6 @@ export const media = ({
         name="PostLikes"
         component={PostLikesScreen}
         {...stackScreenPageProps({ options: { title: 'Likes' } })}
-      />
-
-      <Stack.Screen
-        name="PostCreate"
-        component={PostCreateScreen}
-        {...stackScreenPageProps({ options: { title: 'New Post' } })}
-      />
-
-      <Stack.Screen
-        name="PostEdit"
-        component={PostEditScreen}
-        {...stackScreenPageProps({ options: { title: 'Edit Post' } })}
       />
 
       <Stack.Screen

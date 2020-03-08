@@ -20,7 +20,7 @@ const TextDemo = ({
   },
   form,
   placeholder,
-  multiline = false,
+  multiline = true,
   keyboardType = 'default',
   onSubmitEditing,
   disabled,
@@ -35,7 +35,7 @@ const TextDemo = ({
    */
   const onChangeText = (event) => {
     const newlines = event.match(/(\r\n|\n|\r)/gm) || []
-    if (newlines.length > 4) return
+    if (newlines.length > 5) return
     form.handleChange(name)(event.replace(/(\n\n|\r\r|\r\n\r\n)/gm, '\n'))
   }
 
@@ -60,6 +60,7 @@ const TextDemo = ({
         maxLength={255}
         // returnKeyType="done"
         // blurOnSubmit={true}
+        scrollEnabled={true}
       />
       <ErrorMessage name={name} render={msg => <Text style={styling.error}>{msg}</Text>} />
     </View>
@@ -76,7 +77,6 @@ const styles = theme => StyleSheet.create({
     margin: 0,
     fontSize: 14,
     color: theme.colors.text,
-    height: '100%',
     textAlignVertical: 'top',
   },
   error: {
