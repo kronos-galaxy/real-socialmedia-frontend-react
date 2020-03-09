@@ -9,6 +9,7 @@ import Subtitle from 'templates/Subtitle'
 import NativeError from 'templates/NativeError'
 import { Subheading } from 'react-native-paper'
 import path from 'ramda/src/path'
+import * as navigationActions from 'navigation/actions'
 
 import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
@@ -49,13 +50,13 @@ const ForgotConfirm = ({
         </View>
         <View style={styling.subtitle}>
           <Subtitle actions={[{
-            onPress: () => navigation.push('Auth'),
+            onPress: navigationActions.navigateAuth(navigation),
             title: t('Change Email Address'),
           }, {
             onPress: null,
             title: t('or'),
           }, {
-            onPress: () => navigation.push('Auth'),
+            onPress: navigationActions.navigateAuth(navigation),
             title: t('Resend Email'),
           }]} />
         </View>

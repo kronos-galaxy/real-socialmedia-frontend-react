@@ -12,11 +12,11 @@ import AboutComponent from 'components/Profile/About'
 import ActionComponent from 'components/Profile/Action'
 import ProfileStatusComponent from 'components/Profile/Status'
 import ProfileTabViewComponent from 'components/Profile/ProfileTabView'
-
 import Avatar from 'templates/Avatar'
 import NativeError from 'templates/NativeError'
 import path from 'ramda/src/path'
 import pathOr from 'ramda/src/pathOr'
+import * as navigationActions from 'navigation/actions'
 
 import { withTheme } from 'react-native-paper'
 import { useNavigation, useRoute } from '@react-navigation/native'
@@ -107,10 +107,10 @@ const Profile = ({
       return
     }
 
-    navigation.push('Story', {
+    navigationActions.navigateStory(navigation, {
       user: usersGetProfile.data,
       usersGetFollowedUsersWithStories: { data: [usersGetProfile.data] },
-    })
+    })()
   }
 
   const scroll = PostsScrollHelper({

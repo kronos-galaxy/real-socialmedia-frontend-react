@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
 } from 'react-native'
 import { Caption, Text } from 'react-native-paper'
+import * as navigationActions from 'navigation/actions'
 
 import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
@@ -20,7 +21,7 @@ const ProfileStatus = ({
 
   return (
     <View style={styling.root}>
-      <TouchableOpacity onPress={() => navigation.navigate('Payout')}>
+      <TouchableOpacity onPress={navigationActions.navigatePayout(navigation)}>
         <Text>
           <Caption>{t('You will be paid {{amount}} dollars per view from other diamond members', { amount: '$0.11' })} </Caption>
           <Caption style={styling.link}>{t('learn more')}</Caption>

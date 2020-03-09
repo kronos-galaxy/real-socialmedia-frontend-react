@@ -10,6 +10,7 @@ import { RNCamera } from 'react-native-camera'
 import CameraIcon from 'assets/svg/header/Camera'
 import Avatar from 'templates/Avatar'
 import { Text } from 'react-native-paper'
+import * as navigationActions from 'navigation/actions'
 
 import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
@@ -71,7 +72,7 @@ const AvatarPicker = ({
 
       {postsCreate.status !== 'loading' ?
         <View style={styling.form}>
-          <DefaultButton label={t('Skip')} mode="outlined" onPress={() => navigation.push('Main')} />
+          <DefaultButton label={t('Skip')} mode="outlined" onPress={navigationActions.navigateHome(navigation)} />
         </View>
       : null}
 

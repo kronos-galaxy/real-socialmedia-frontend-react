@@ -8,6 +8,7 @@ import {
 import path from 'ramda/src/path'
 import Avatar from 'templates/Avatar'
 import { Caption } from 'react-native-paper'
+import * as navigationActions from 'navigation/actions'
 
 import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
@@ -22,12 +23,10 @@ const Stories = ({
   const { t } = useTranslation()
   const navigation = useNavigation()
 
-  const handleUserStoryPress = (user) => () => {
-    navigation.navigate('Story', {
-      user,
-      usersGetFollowedUsersWithStories,
-    })
-  }
+  const handleUserStoryPress = (user) => navigationActions.navigateStory(navigation, {
+    user,
+    usersGetFollowedUsersWithStories,
+  })
 
   return (
     <ScrollView
@@ -37,7 +36,7 @@ const Stories = ({
     >
       <TouchableOpacity
         key={authUser.userId}
-        onPress={() => navigation.navigate('Camera')}
+        onPress={navigationActions.navigateCamera(navigation)}
         style={styling.story}
       >
         <Avatar

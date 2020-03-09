@@ -35,7 +35,10 @@ const PostType = ({
         />
 
         <View style={styling.types}>
-          <TouchableOpacity style={styling.type} onPress={navigationActions.navigateCamera(navigation)}>
+          <TouchableOpacity style={styling.type} onPress={() => {
+            navigation.pop()
+            navigationActions.navigateCamera(navigation)()
+          }}>
             <View style={styling.icon}>
               <PhotoIcon fill="#000000" />
             </View>
@@ -47,7 +50,10 @@ const PostType = ({
             </View>
             <Subheading style={styling.text}>{t('Gallery')}</Subheading>
           </TouchableOpacity>
-          <TouchableOpacity style={styling.type} onPress={navigationActions.navigatePostCreate(navigation, { type: 'TEXT_ONLY', })}>
+          <TouchableOpacity style={styling.type} onPress={() => {
+            navigation.pop()
+            navigationActions.navigatePostCreate(navigation, { type: 'TEXT_ONLY', })()
+          }}>
             <View style={styling.icon}>
               <TextIcon fill="#000000" />
             </View>
@@ -55,7 +61,10 @@ const PostType = ({
           </TouchableOpacity>
         </View>
 
-        <TouchableOpacity style={styling.close} onPress={navigationActions.navigateBack(navigation)}>
+        <TouchableOpacity style={styling.close} onPress={() => {
+          navigation.pop()
+          navigationActions.navigateBack(navigation)()
+        }}>
           <Subheading style={styling.closeText}>{t('x close')}</Subheading>
         </TouchableOpacity>
       </View>

@@ -10,6 +10,7 @@ import Subtitle from 'templates/Subtitle'
 import NativeError from 'templates/NativeError'
 import { Subheading } from 'react-native-paper'
 import path from 'ramda/src/path'
+import * as navigationActions from 'navigation/actions'
 
 import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
@@ -53,7 +54,7 @@ const Signup = ({
             onPress: () => Linking.openURL('https://real.app/real-eula-html-english.html').catch(() => {}),
             title: t('By tapping to continue, you are indicating that you have read the EULA and agree to the Terms of Service'),
           }, {
-            onPress: () => navigation.navigate('Auth'),
+            onPress: navigationActions.navigateAuth(navigation),
             title: t('Change Email Address'),
           }]} />
         </View>

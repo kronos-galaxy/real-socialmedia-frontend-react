@@ -6,6 +6,7 @@ import {
 } from 'react-native'
 import DefaultButton from 'components/Formik/Button/DefaultButton'
 import path from 'ramda/src/path'
+import * as navigationActions from 'navigation/actions'
 
 import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
@@ -32,7 +33,7 @@ const ProfileAction = ({
     <View style={styling.root}>
       {self ?
         <View style={styling.item}>
-          <DefaultButton label={t('Settings')} onPress={() => navigation.navigate('Settings')} mode="outlined" size="compact" />
+          <DefaultButton label={t('Settings')} onPress={navigationActions.navigateSettings(navigation)} mode="outlined" size="compact" />
         </View>
       : null}
 

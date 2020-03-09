@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useCallback } from 'react'
 import { TouchableOpacity } from 'react-native'
 import { HeaderStyleInterpolators, CardStyleInterpolators, TransitionPresets } from '@react-navigation/stack'
 import * as navigationActions from 'navigation/actions'
@@ -10,7 +10,7 @@ import CameraIcon from 'assets/svg/header/Camera'
 import DirectIcon from 'assets/svg/header/Direct'
 import BackIcon from 'assets/svg/header/Back'
 
-const pageHeaderLeft = (fill) => ({ onPress, label, labelStyle }) => {
+const pageHeaderLeft = ({ onPress, label, labelStyle }) => {
   if (!onPress) { return null }
   return (
     <TouchableOpacity style={{ paddingHorizontal: 12 }} onPress={onPress}>
@@ -52,7 +52,7 @@ const AuthNavigationComponent = ({ navigation, theme }) => ({
     borderBottomWidth: 0,
     shadowColor: 'transparent',
   },
-  headerLeft: pageHeaderLeft(theme.colors.text),
+  headerLeft: pageHeaderLeft,
   headerTitle: homeHeaderTitle({ navigation, theme }),
 })
 
@@ -80,16 +80,12 @@ export const getActiveRouteName = (item) => {
   const nextRoute = path(['state', 'routes', index])(item)
 
   if (nextRoute && nextRoute.state) {
-    return getActiveRouteName(nextRoute)
+    return useCallback(() => getActiveRouteName(nextRoute), [nextRoute])
   } else if (nextRoute) {
     return nextRoute
   } else {
     return item
   }
-}
-
-export const activeRouteIs = (route, name) => {
-  return path(['name'])(getActiveRouteName(route)) === name
 }
 
 const getActiveTheme = ({ theme, themes, route }) => {
@@ -242,7 +238,7 @@ export const stackScreenPageProps = ({ theme, themes }) => ({ options } = {}) =>
         borderBottomWidth: 0,
         shadowColor: 'transparent',
       },
-      headerLeft: pageHeaderLeft(theme.colors.text),
+      headerLeft: pageHeaderLeft,
       headerRight: () => null,
       headerTintColor: 'red',
       ...options,
@@ -268,8 +264,8 @@ export const stackScreenCardProps = ({ theme }) => ({
 })
 
 export const tabNavigatorProps = ({ theme, themes, route }) => {
-  const active = getActiveRouteName(route)
-  const activeTheme = getActiveTheme({ theme, themes, route: active })
+  const active = useCallback(() => getActiveRouteName(route), [route])
+  const activeTheme = useCallback(() => getActiveTheme({ theme, themes, route: active }), [active])
 
   const activeTintColor =  (
     path(['colors', 'primaryIcon'])(activeTheme) ||

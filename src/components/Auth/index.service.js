@@ -116,7 +116,7 @@ const AuthComponentService = ({ children, }) => {
      * Authorization for existing user
      */
     if (authSignupConfirm.status === 'success') {
-      navigation.navigate('Auth')
+      navigationActions.navigateAuth(navigation)()
       dispatch(authActions.authSignupIdle())
       dispatch(authActions.authSigninIdle())
       dispatch(authActions.authSignupConfirmIdle())
@@ -133,12 +133,12 @@ const AuthComponentService = ({ children, }) => {
     }
 
     if (authForgot.status === 'success') {
-      navigation.navigate('AuthForgotConfirm')
+      navigationActions.navigateAuthForgotConfirm(navigation)()
       dispatch(authActions.authForgotIdle())
     }
 
     if (authForgotConfirm.status === 'success') {
-      navigation.navigate('Auth')
+      navigationActions.navigateAuth(navigation)()
       dispatch(authActions.authForgotConfirmIdle())
     }
   }, [
@@ -150,7 +150,7 @@ const AuthComponentService = ({ children, }) => {
 
   useEffect(() => {
     if (authSignup.status === 'success') {
-      navigation.navigate('AuthSignupConfirm')
+      navigationActions.navigateAuthSignupConfirm(navigation)()
     }
 
     if (authSignup.status === 'failure' && authSignup.nextRoute) {

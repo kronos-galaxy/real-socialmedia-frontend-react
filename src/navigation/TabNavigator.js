@@ -26,7 +26,6 @@ const TabNavigator = ({ navigation, route }) => {
   const feedTabScreenPropsCard = {
     options: {
       tabBarIcon: FeedTabIconComponent,
-      tabBarVisible: !navigationOptions.activeRouteIs(route, 'Camera'),
     },
   }
   

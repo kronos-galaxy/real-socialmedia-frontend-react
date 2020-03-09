@@ -1,5 +1,7 @@
 import React, { useContext } from 'react'
 import { createStackNavigator } from '@react-navigation/stack'
+import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs'
+import { withTheme } from 'react-native-paper'
 
 import { ThemesContext } from 'navigation/context'
 import * as navigationOptions from 'navigation/options'
@@ -10,8 +12,26 @@ import PostTypeScreen from 'screens/PostTypeScreen'
 import CommentsScreen from 'screens/CommentsScreen'
 import PostEditScreen from 'screens/PostEditScreen'
 import PostCreateScreen from 'screens/PostCreateScreen'
+import CameraScreen from 'screens/CameraScreen'
+import ChatScreen from 'screens/ChatScreen'
 
-const AppNavigator = () => {
+const ChatNavigator = withTheme(({ theme }) => {
+  const Stack = createStackNavigator()
+  const stackNavigatorDefaultProps = navigationOptions.stackNavigatorDefaultProps({ theme })
+  const stackScreenDefaultProps = navigationOptions.stackScreenDefaultProps({ theme })
+
+  return (
+    <Stack.Navigator {...stackNavigatorDefaultProps}>
+      <Stack.Screen
+        name="Chat"
+        component={ChatScreen}
+        {...stackScreenDefaultProps}
+      />
+    </Stack.Navigator>
+  )
+})
+
+const RootNavigator = () => {
   const Stack = createStackNavigator()
   const { theme, themes } = useContext(ThemesContext)
   const stackNavigatorDefaultProps = navigationOptions.stackNavigatorDefaultProps({ theme, themes })
@@ -22,7 +42,7 @@ const AppNavigator = () => {
   return (
     <Stack.Navigator {...stackNavigatorDefaultProps}>
       <Stack.Screen
-        name="Tab"
+        name="Home"
         component={TabNavigator}
         {...stackScreenBlankProps}
       />
@@ -59,5 +79,36 @@ const AppNavigator = () => {
     </Stack.Navigator>
   )
 }
+
+
+const AppNavigator = withTheme(({ theme }) => {
+  const Tab = createMaterialTopTabNavigator()
+
+  const tabNavigatorProps = {
+    initialRouteName: 'Root',
+    tabBar: () => null,
+    lazy: true,
+    sceneContainerStyle: {
+      backgroundColor: 'transparent',
+    },
+  }
+
+  return (
+    <Tab.Navigator {...tabNavigatorProps}>
+      <Tab.Screen
+        name="Camera"
+        component={CameraScreen}
+      />
+      <Tab.Screen
+        name="Root"
+        component={RootNavigator}
+      />
+      <Tab.Screen
+        name="Chat"
+        component={ChatNavigator}
+      />
+    </Tab.Navigator>
+  )
+})
 
 export default AppNavigator

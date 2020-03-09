@@ -8,6 +8,7 @@ import {
 import Albums from 'components/Albums/Albums'
 import Layout from 'constants/Layout'
 import DefaultButton from 'components/Formik/Button/DefaultButton'
+import * as navigationActions from 'navigation/actions'
 
 import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
@@ -31,7 +32,7 @@ const Album = ({
         </View>
 
         <View style={styling.content}>
-          <DefaultButton label={t('Create Album')} onPress={() => navigation.push('AlbumCreate')} />
+          <DefaultButton label={t('Create Album')} onPress={navigationActions.navigateAlbumCreate(navigation)} />
         </View>
       </ScrollView>
     </View>

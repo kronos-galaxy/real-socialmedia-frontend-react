@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
 } from 'react-native'
 import { Text } from 'react-native-paper'
+import * as navigationActions from 'navigation/actions'
 
 import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
@@ -18,12 +19,10 @@ const Footer = ({
   const { t } = useTranslation()
   const navigation = useNavigation()
 
-  const handleSignupPress = () => navigation.navigate('Auth')
-
   return (
     <View style={styling.root}>
       <View style={styling.option}>
-        <TouchableOpacity onPress={handleSignupPress}>
+        <TouchableOpacity onPress={navigationActions.navigateAuth(navigation)}>
           <Text style={styling.optionText}>{t('Already have an account')}? {t('Sign In')}.</Text>
         </TouchableOpacity>
       </View>

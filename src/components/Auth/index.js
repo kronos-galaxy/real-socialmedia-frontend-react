@@ -11,6 +11,7 @@ import NativeError from 'templates/NativeError'
 import path from 'ramda/src/path'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import { Subheading } from 'react-native-paper'
+import * as navigationActions from 'navigation/actions'
 
 import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
@@ -71,7 +72,7 @@ const Auth = ({
         </View>
         <View style={styling.subtitle}>
           <Subtitle actions={[{
-            onPress: () => navigation.push('AuthForgot'),
+            onPress: navigationActions.navigateAuthForgot(navigation),
             title: t('Forgot Password'),
           }]} />
         </View>

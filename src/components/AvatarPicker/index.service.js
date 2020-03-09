@@ -7,6 +7,7 @@ import { useNavigation, useRoute } from '@react-navigation/native'
 import { v4 as uuid } from 'uuid';
 import { PERMISSIONS, request } from 'react-native-permissions'
 import path from 'ramda/src/path'
+import * as navigationActions from 'navigation/actions'
 
 const AvatarPickerService = ({ children, }) => {
   const dispatch = useDispatch()
@@ -41,7 +42,7 @@ const AvatarPickerService = ({ children, }) => {
   useEffect(() => {
     if (usersEditProfile.status === 'success') {
       dispatch(usersActions.usersEditProfileIdle({ }))
-      navigation.push('Main')
+      navigationActions.navigateHome(navigation)()
     }
   }, [usersEditProfile.status])
 
@@ -65,9 +66,7 @@ const AvatarPickerService = ({ children, }) => {
     }))
   }
 
-  const handleCameraPress = async () => {
-    navigation.push('Camera', { nextRoute: 'AvatarPicker' })
-  }
+  const handleCameraPress = navigationActions.navigateCamera(navigation, { nextRoute: 'AvatarPicker' })
 
   return children({
     user,

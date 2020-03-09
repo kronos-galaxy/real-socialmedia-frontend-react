@@ -10,6 +10,7 @@ import pathOr from 'ramda/src/pathOr'
 import { StaticCollage } from 'react-native-images-collage'
 import LinearGradient from 'react-native-linear-gradient'
 import { Subheading } from 'react-native-paper'
+import * as navigationActions from 'navigation/actions'
 
 import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
@@ -53,7 +54,7 @@ const AlbumLarge = ({
          * Albums list
          */}
         {items.map((album, key) => (
-          <TouchableOpacity key={key} onPress={() => navigation.push('Album', {
+          <TouchableOpacity key={key} onPress={navigationActions.navigateAlbum(navigation, {
             album,
           })}>
             <View style={styling.albumWrapper}>
