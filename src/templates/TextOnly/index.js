@@ -50,11 +50,9 @@ const styles = theme => StyleSheet.create({
   text: {
     fontSize: 28,
     textAlign: 'center',
-    zIndex: 2,
   },
   gradient: {
     ...StyleSheet.absoluteFill,
-    zIndex: 1,
   },
 })
 

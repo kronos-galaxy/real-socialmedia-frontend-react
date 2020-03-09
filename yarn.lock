@@ -1418,6 +1418,18 @@
     shortid "^2.2.15"
     use-subscription "^1.3.0"
 
+"@react-navigation/core@^5.2.1":
+  version "5.2.1"
+  resolved "https://registry.npmjs.org/@react-navigation/core/-/core-5.2.1.tgz#8fae1b40b3fbaeb70c6182e00899a2e4d281a12f"
+  integrity sha512-fRezZDtVFMfPtCkFUXFZlhrtECXuuFE9t2LnSyZdm3hZXBf7Gp6KvcMrlzAVXC/n8YCDSqhtDYz7EbF2gX6DJg==
+  dependencies:
+    "@react-navigation/routers" "^5.1.0"
+    escape-string-regexp "^2.0.0"
+    query-string "^6.10.1"
+    react-is "^16.12.0"
+    shortid "^2.2.15"
+    use-subscription "^1.3.0"
+
 "@react-navigation/material-top-tabs@^5.1.0":
   version "5.1.0"
   resolved "https://registry.npmjs.org/@react-navigation/material-top-tabs/-/material-top-tabs-5.1.0.tgz#478745b428ee40ccb7250d104b5528d04447a0d5"
@@ -1436,6 +1448,13 @@
   version "5.0.3"
   resolved "https://registry.npmjs.org/@react-navigation/routers/-/routers-5.0.3.tgz#8c8518013ace8a277d1e8ccd780d91db3df3867b"
   integrity sha512-RlFP6Vpw3JWJrGzGDtnwNvy5OzMcnRn87xTFCHysC8qZC+g4EWfgveVDdc5+Unt/L8FqZAMqwcd3zdm3ZMy6OA==
+  dependencies:
+    shortid "^2.2.15"
+
+"@react-navigation/routers@^5.1.0":
+  version "5.1.0"
+  resolved "https://registry.npmjs.org/@react-navigation/routers/-/routers-5.1.0.tgz#ec741e734d501b7024120bef3d109b17f69a7b6b"
+  integrity sha512-sY+eCIcWheflQIfGMSnWomnjP8d+7ZPmH1dKZ1pRezTqLWVlCFntQfQSr2FfM5LLVWty4gZ/K9D+o6UT4ntc3w==
   dependencies:
     shortid "^2.2.15"
 

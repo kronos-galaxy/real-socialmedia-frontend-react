@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import {
   StyleSheet,
@@ -12,7 +12,6 @@ import AboutComponent from 'components/Profile/About'
 import ActionComponent from 'components/Profile/Action'
 import ProfileStatusComponent from 'components/Profile/Status'
 import ProfileTabViewComponent from 'components/Profile/ProfileTabView'
-import ProfileContext from 'components/Profile/Context'
 
 import Avatar from 'templates/Avatar'
 import NativeError from 'templates/NativeError'
@@ -70,6 +69,8 @@ const PostsScrollHelper = ({
 
 const Profile = ({
   theme,
+  profileRef,
+
   authUser,
   usersBlock,
   usersGetProfile,
@@ -94,18 +95,12 @@ const Profile = ({
   const { t } = useTranslation()
   const navigation = useNavigation()
   const route = useRoute()
-  const profileRef = useRef(null)
-  const [profileLayout, setProfileLayout] = useState({})
 
   const [index, setIndex] = React.useState(0)
   const [routes] = React.useState([
     { key: 'feed', title: 'Feed' },
     { key: 'albums', title: 'Albums' },
   ])
-
-  const onLayout = (event) => {
-    setProfileLayout(event.nativeEvent.layout)
-  }
 
   const handleUserStoryPress = () => {
     if (!pathOr(0, ['data', 'stories', 'items', 'length'], usersGetProfile)) {
@@ -129,6 +124,7 @@ const Profile = ({
 
   return (
     <ScrollView
+      ref={profileRef}
       style={styling.root}
       onScroll={scroll.handleScrollChange}
       scrollEventThrottle={400}
@@ -149,34 +145,32 @@ const Profile = ({
         triggerOn="success"
       />
 
-      <View ref={profileRef} onLayout={onLayout}>
-        {route.name === 'ProfileSelf' ?
-          <ProfileStatusComponent />
-        : null}
+      {route.name === 'ProfileSelf' ?
+        <ProfileStatusComponent />
+      : null}
 
-        <View style={styling.component}>
-          <TouchableOpacity style={styling.image} onPress={handleUserStoryPress}>
-            <Avatar
-              size="large"
-              active
-              thumbnailSource={{ uri: path(['data', 'photo', 'url64p'])(usersGetProfile) }}
-              imageSource={{ uri: path(['data', 'photo', 'url480p'])(usersGetProfile) }}
-              themeCode={path(['data', 'themeCode'])(usersGetProfile)}
-            />
-          </TouchableOpacity>
-          <View style={styling.counts}>
-            <CountsComponent
-              usersGetProfile={usersGetProfile}
-            />
-          </View>
-        </View>
-
-        <View style={styling.about}>
-          <AboutComponent
-            authUser={authUser}
+      <View style={styling.component}>
+        <TouchableOpacity style={styling.image} onPress={handleUserStoryPress}>
+          <Avatar
+            size="large"
+            active
+            thumbnailSource={{ uri: path(['data', 'photo', 'url64p'])(usersGetProfile) }}
+            imageSource={{ uri: path(['data', 'photo', 'url480p'])(usersGetProfile) }}
+            themeCode={path(['data', 'themeCode'])(usersGetProfile)}
+          />
+        </TouchableOpacity>
+        <View style={styling.counts}>
+          <CountsComponent
             usersGetProfile={usersGetProfile}
           />
         </View>
+      </View>
+
+      <View style={styling.about}>
+        <AboutComponent
+          authUser={authUser}
+          usersGetProfile={usersGetProfile}
+        />
       </View>
 
       <View style={styling.action}>
@@ -194,13 +188,11 @@ const Profile = ({
         />
       </View>
 
-      <ProfileContext.Provider value={{ profileRef, profileLayout }}>
-        <ProfileTabViewComponent
-          index={index}
-          setIndex={setIndex}
-          routes={routes}
-        />
-      </ProfileContext.Provider>
+      <ProfileTabViewComponent
+        index={index}
+        setIndex={setIndex}
+        routes={routes}
+      />
     </ScrollView>
   )
 }

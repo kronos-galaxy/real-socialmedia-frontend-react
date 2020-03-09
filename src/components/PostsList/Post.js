@@ -62,6 +62,9 @@ const PostComponent = ({
 
   return (
     <View style={styling.root}>
+      <TouchableOpacity style={styling.prev} onPress={handleScrollPrev} />
+      <TouchableOpacity style={styling.next} onPress={handleScrollNext} />
+
       <HeaderComponent
         authUser={authUser}
         post={post}
@@ -136,7 +139,6 @@ const styles = theme => StyleSheet.create({
     left: 0,
     right: '50%',
     bottom: 0,
-    zIndex: 2,
   },
   next: {
     position: 'absolute',
@@ -144,7 +146,6 @@ const styles = theme => StyleSheet.create({
     left: '50%',
     right: 0,
     bottom: 0,
-    zIndex: 2,
   },
 })
 

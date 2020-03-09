@@ -52,7 +52,7 @@ const AuthNavigationComponent = ({ navigation, theme }) => ({
     borderBottomWidth: 0,
     shadowColor: 'transparent',
   },
-    headerLeft: pageHeaderLeft(theme.colors.text),
+  headerLeft: pageHeaderLeft(theme.colors.text),
   headerTitle: homeHeaderTitle({ navigation, theme }),
 })
 
