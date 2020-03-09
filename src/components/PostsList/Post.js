@@ -131,7 +131,7 @@ const styles = theme => StyleSheet.create({
   root: {
     flex: 1,
     backgroundColor: theme.colors.backgroundPrimary,
-    marginBottom: theme.spacing.base,
+    paddingBottom: theme.spacing.base,
   },
   prev: {
     position: 'absolute',

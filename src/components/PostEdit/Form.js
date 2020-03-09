@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import {
   View,
   StyleSheet,
+  TouchableOpacity,
 } from 'react-native'
 import TextDemo from 'components/Formik/TextDemo'
 import DefaultButton from 'components/Formik/Button/DefaultButton'
@@ -53,6 +54,15 @@ const PostEditForm = ({
 }) => {
   const styling = styles(theme)
   const { t } = useTranslation()
+  const navigation = useNavigation()
+
+  navigation.setOptions({
+    headerRight: () => (
+      <TouchableOpacity onPress={handleSubmit}>
+        <Text style={styling.headerRight}>Update</Text>
+      </TouchableOpacity>
+    ),
+  })
 
   return (
     <View style={styling.root}>
@@ -162,6 +172,12 @@ const styles = theme => StyleSheet.create({
   },
   title: {
     marginBottom: theme.spacing.base,
+  },
+  headerRight: {
+    paddingHorizontal: theme.spacing.base,
+    fontSize: 16,
+    fontWeight: '700',
+    color: '#3498db',
   },
 })
 

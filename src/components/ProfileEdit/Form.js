@@ -3,12 +3,13 @@ import PropTypes from 'prop-types'
 import {
   StyleSheet,
   View,
+  TouchableOpacity,
 } from 'react-native'
 import TextField from 'components/Formik/TextField'
 import DefaultButton from 'components/Formik/Button/DefaultButton'
 import { Formik, Field } from 'formik'
 import * as Yup from 'yup'
-
+import { Text } from 'react-native-paper'
 
 import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
@@ -36,6 +37,15 @@ const ProfileEditForm = ({
 }) => {
   const styling = styles(theme)
   const { t } = useTranslation()
+  const navigation = useNavigation()
+
+  navigation.setOptions({
+    headerRight: () => (
+      <TouchableOpacity onPress={handleSubmit}>
+        <Text style={styling.headerRight}>Update</Text>
+      </TouchableOpacity>
+    ),
+  })
 
   return (
     <View style={styling.root}>
@@ -69,6 +79,12 @@ const styles = theme => StyleSheet.create({
   },
   input: {
     marginBottom: 12,
+  },
+  headerRight: {
+    paddingHorizontal: theme.spacing.base,
+    fontSize: 16,
+    fontWeight: '700',
+    color: '#3498db',
   },
 })
 

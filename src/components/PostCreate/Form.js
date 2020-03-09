@@ -39,11 +39,20 @@ const PostCreateForm = ({
 }) => {
   const styling = styles(theme)
   const { t } = useTranslation()
+  const navigation = useNavigation()
   const image = {
     url4k: values.images[0],
     url64p: values.images[0],
     url1080p: values.images[0],
   }
+
+  navigation.setOptions({
+    headerRight: () => (
+      <TouchableOpacity onPress={handleSubmit}>
+        <Text style={styling.headerRight}>Post</Text>
+      </TouchableOpacity>
+    ),
+  })
 
   return (
     <View style={styling.root}>
@@ -155,6 +164,12 @@ const styles = theme => StyleSheet.create({
   },
   title: {
     marginBottom: theme.spacing.base,
+  },
+  headerRight: {
+    paddingHorizontal: theme.spacing.base,
+    fontSize: 16,
+    fontWeight: '700',
+    color: '#3498db',
   },
 })
 
