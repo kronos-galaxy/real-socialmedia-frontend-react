@@ -15,6 +15,7 @@ import * as CognitoIdentity from 'amazon-cognito-identity-js'
 import Config from 'react-native-config'
 import { promisify } from 'es6-promisify'
 import AsyncStorage from '@react-native-community/async-storage'
+import { checkInternetConnection } from 'react-native-offline'
 
 function* getSignupStage({ username }) {
   return yield AsyncStorage.getItem(`@real:signup:${username}`)
@@ -172,6 +173,14 @@ function* authCheckRequest(req) {
       nextRoute: 'Root',
     }))
   } catch (error) {
+    console.log(error)
+    const isConnected = yield checkInternetConnection()
+    if (path(['errors', '0', 'message'])(error) === 'Network Error' || !isConnected) {
+      // handle offline connection
+    } else {
+      yield put(actions.authCheckReset())
+    }
+
     if (path(['errors', '0', 'path', '0'])(error) === 'self') {
       yield put(actions.authCheckFailure({
         message: errors.getMessagePayload(constants.AUTH_CHECK_FAILURE, 'USER_JUST_CREATED'),

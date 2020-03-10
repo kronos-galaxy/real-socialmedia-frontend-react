@@ -162,7 +162,6 @@ const authCheckSuccess = (state, action) => update(state, {
 })
 
 const authCheckFailure = (state, action) => update(state, {
-  user: { $set: initialState.user },
   authCheck: {
     message: { $set: action.payload.message },
     error: { $set: action.payload.error },
@@ -178,6 +177,10 @@ const authCheckIdle = (state, action) => update(state, {
     status: { $set: 'idle' },
     nextRoute: { $set: path(['payload', 'nextRoute'])(action) || path(['authCheck', 'nextRoute'])(state) },
   },
+})
+
+const authCheckReset = (state, action) => update(state, {
+  user: { $set: initialState.user },
 })
 
 /**
@@ -486,6 +489,7 @@ export default handleActions({
   [constants.AUTH_CHECK_SUCCESS]: authCheckSuccess,
   [constants.AUTH_CHECK_FAILURE]: authCheckFailure,
   [constants.AUTH_CHECK_IDLE]: authCheckIdle,
+  [constants.AUTH_CHECK_RESET]: authCheckReset,
 
   [constants.AUTH_SIGNIN_REQUEST]: authSigninRequest,
   [constants.AUTH_SIGNIN_SUCCESS]: authSigninSuccess,
