@@ -1,6 +1,7 @@
 import { Linking, Alert } from 'react-native'
 import { getReadableVersion } from 'react-native-device-info'
 import * as Logger from 'services/Logger'
+import Config from 'react-native-config'
 
 export const versionCheck = (async () => {
   try {

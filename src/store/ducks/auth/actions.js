@@ -18,6 +18,7 @@ export const authCheckIdle = createAction(constants.AUTH_CHECK_IDLE)
 export const authCheckRequest = createAction(constants.AUTH_CHECK_REQUEST)
 export const authCheckSuccess = createAction(constants.AUTH_CHECK_SUCCESS)
 export const authCheckFailure = createAction(constants.AUTH_CHECK_FAILURE)
+export const authCheckReset = createAction(constants.AUTH_CHECK_RESET)
 
 /**
  * 
