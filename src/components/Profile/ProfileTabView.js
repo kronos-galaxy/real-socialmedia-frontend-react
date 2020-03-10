@@ -1,4 +1,4 @@
-import React, { useRef } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import {
   StyleSheet,
@@ -7,7 +7,7 @@ import {
 } from 'react-native'
 import FeedComponent from 'components/Profile/Feed'
 import AlbumsComponent from 'components/Profile/Albums'
-import { TabView, TabBar, SceneMap, ScrollPager } from 'react-native-tab-view'
+import { TabView, TabBar, SceneMap } from 'react-native-tab-view'
 import { Text } from 'react-native-paper'
 
 import { withTheme } from 'react-native-paper'
@@ -15,6 +15,7 @@ import { useNavigation, useRoute } from '@react-navigation/native'
 import { useTranslation } from 'react-i18next'
 
 const ProfileTabView = ({
+  theme,
   index,
   setIndex,
   routes,
@@ -27,10 +28,12 @@ const ProfileTabView = ({
   const renderTabBar = props => (
     <TabBar
       {...props}
-      indicatorStyle={{ backgroundColor: 'white' }}
+      activeColor={theme.colors.primary}
+      inactiveColor={theme.colors.text}
+      indicatorStyle={{ backgroundColor: theme.colors.primary }}
       style={{ backgroundColor: 'transparent' }}
       renderLabel={({ route, focused, color }) => (
-        <Text style={{ color, margin: 8 }}>
+        <Text style={{ color, fontSize: 14, fontWeight: '600', margin: 8 }}>
           {route.title}
         </Text>
       )}
@@ -61,6 +64,7 @@ const Profile = ({
   return (
     <View style={styling.root}>
       <ProfileTabView
+        theme={theme}
         index={index}
         setIndex={setIndex}
         routes={routes}

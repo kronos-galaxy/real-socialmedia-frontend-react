@@ -173,7 +173,6 @@ function* authCheckRequest(req) {
       nextRoute: 'Root',
     }))
   } catch (error) {
-    console.log(error)
     const isConnected = yield checkInternetConnection()
     if (path(['errors', '0', 'message'])(error) === 'Network Error' || !isConnected) {
       // handle offline connection
