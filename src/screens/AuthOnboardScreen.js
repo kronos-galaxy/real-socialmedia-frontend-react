@@ -1,17 +1,17 @@
 import React from 'react'
 import FullnameComponent from 'components/Fullname'
-import AuthServiceComponent from 'components/Auth/index.service'
+import FullnameServiceComponent from 'components/Fullname/index.service'
 
 class AuthOnboardScreen extends React.Component {
   render() {
     return (
-      <AuthServiceComponent>
+      <FullnameServiceComponent>
         {(props) => (
           <FullnameComponent
             {...props}
           />
         )}
-      </AuthServiceComponent>
+      </FullnameServiceComponent>
     )
   }
 }

@@ -114,7 +114,7 @@ export const AuthProvider = ({
   const authenticated = (
     authUserId && (
       nextRoute === null ||
-      nextRoute === 'Main'
+      nextRoute === 'Root'
     ) && (
       status !== 'failure'
     )

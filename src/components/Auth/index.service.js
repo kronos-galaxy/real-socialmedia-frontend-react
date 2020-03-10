@@ -4,7 +4,6 @@ import * as authActions from 'store/ducks/auth/actions'
 import { useNavigation, useRoute } from '@react-navigation/native'
 import toLower from 'ramda/src/toLower'
 import path from 'ramda/src/path'
-import * as navigationActions from 'navigation/actions'
 
 const AuthComponentService = ({ children, }) => {
   const guessUsernameType = (username) => {
@@ -25,12 +24,6 @@ const AuthComponentService = ({ children, }) => {
   const authFacebook = useSelector(state => state.auth.authFacebook)
   const authGoogle = useSelector(state => state.auth.authGoogle)
   const authSignin = useSelector(state => state.auth.authSignin)
-  const authSignup = useSelector(state => state.auth.authSignup)
-  const authSignupConfirm = useSelector(state => state.auth.authSignupConfirm)
-  const authOnboard = useSelector(state => state.auth.authOnboard)
-  const authForgot = useSelector(state => state.auth.authForgot)
-  const authSignout = useSelector(state => state.auth.authSignout)
-  const authForgotConfirm = useSelector(state => state.auth.authForgotConfirm)
 
   const authFacebookRequest = () => 
     dispatch(authActions.authFacebookRequest())
@@ -49,117 +42,6 @@ const AuthComponentService = ({ children, }) => {
   
   const authSigninIdle = () => 
     dispatch(authActions.authSigninIdle())
-
-  const authSignupRequest = () => {
-    const usernameType = guessUsernameType(authSignin.payload.username)
-    dispatch(authActions.authSignupRequest({
-      usernameType,
-      password: authSignin.payload.password,
-      email: toLower(authSignin.payload.username),
-      phone: authSignin.payload.username,
-    }))
-  }
-
-  const authSignupIdle = () => 
-    dispatch(authActions.authSignupIdle())
-
-  const authSignupResendRequest = () => {
-    dispatch(authActions.authSignupResendRequest({
-      username: authSignin.payload.username,
-    }))
-  }
-
-  const authSignupResendIdle = () => 
-    dispatch(authActions.authSignupResendIdle())
-
-  const authSignupConfirmRequest = (payload) => {
-    dispatch(authActions.authSignupConfirmRequest({
-      username: authSignup.data.username,
-      password: authSignup.payload.password,
-      confirmationCode: payload.confirmationCode,
-    }))
-  }
-
-  const authOnboardRequest = (payload) => {
-    dispatch(authActions.authOnboardRequest({
-      username: toLower(payload.username),
-      fullName: payload.fullName,
-    }))
-  }
-
-  const authOnboardIdle = () =>
-    dispatch(authActions.authOnboardIdle())
-
-  const authForgotRequest = (payload) =>
-    dispatch(authActions.authForgotRequest({
-      username: toLower(payload.username),
-    }))
-
-  const authForgotIdle = () =>
-    dispatch(authActions.authForgotIdle())
-
-  const authForgotConfirmRequest = (payload) =>
-    dispatch(authActions.authForgotConfirmRequest({
-      username: toLower(payload.username),
-      code: payload.code,
-      password: payload.password,
-    }))
-
-  const authForgotConfirmIdle = () =>
-    dispatch(authActions.authForgotConfirmIdle())
-
-  const authSignoutRequest = (payload) =>
-    dispatch(authActions.authSignoutRequest(payload))
-
-  useEffect(() => {
-    /**
-     * Authorization for existing user
-     */
-    if (authSignupConfirm.status === 'success') {
-      navigationActions.navigateAuth(navigation)()
-      dispatch(authActions.authSignupIdle())
-      dispatch(authActions.authSigninIdle())
-      dispatch(authActions.authSignupConfirmIdle())
-      dispatch(authActions.authCheckIdle())
-    }
-
-    if (authOnboard.status === 'success') {
-      navigationActions.navigateHome(navigation)()
-      
-      dispatch(authActions.authSignupIdle())
-      dispatch(authActions.authSigninIdle())
-      dispatch(authActions.authSignupConfirmIdle())
-      dispatch(authActions.authCheckIdle({ nextRoute: 'AvatarPicker' }))
-    }
-
-    if (authForgot.status === 'success') {
-      navigationActions.navigateAuthForgotConfirm(navigation)()
-      dispatch(authActions.authForgotIdle())
-    }
-
-    if (authForgotConfirm.status === 'success') {
-      navigationActions.navigateAuth(navigation)()
-      dispatch(authActions.authForgotConfirmIdle())
-    }
-  }, [
-    authSignupConfirm.status,
-    authOnboard.status,
-    authForgot.status,
-    authForgotConfirm.status,
-  ])
-
-  useEffect(() => {
-    if (authSignup.status === 'success') {
-      navigationActions.navigateAuthSignupConfirm(navigation)()
-    }
-
-    if (authSignup.status === 'failure' && authSignup.nextRoute) {
-      navigation.navigate(authSignup.nextRoute)
-      authSignupResendRequest()
-    }
-  }, [
-    authSignup.status,
-  ])
 
   useEffect(() => {
     if (authFacebook.status === 'success') {
@@ -234,22 +116,6 @@ const AuthComponentService = ({ children, }) => {
     authSignin,
     authSigninRequest,
     authSigninIdle,
-    authSignup,
-    authSignupRequest,
-    authSignupIdle,
-    authSignupConfirm,
-    authSignupConfirmRequest,
-    authOnboard,
-    authOnboardRequest,
-    authOnboardIdle,
-    authForgot,
-    authForgotRequest,
-    authForgotIdle,
-    authForgotConfirm,
-    authForgotConfirmRequest,
-    authForgotConfirmIdle,
-    authSignout,
-    authSignoutRequest,
   })
 }
 

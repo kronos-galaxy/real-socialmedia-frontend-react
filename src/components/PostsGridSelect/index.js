@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import {
   StyleSheet,
   ScrollView,
-  View,
+  TouchableOpacity,
 } from 'react-native'
 import path from 'ramda/src/path'
 import GridComponent from 'templates/Grid'
@@ -11,9 +11,7 @@ import GridItemComponent from 'templates/GridItem'
 import ImageComponent from 'templates/Image'
 import CheckedIcon from 'assets/svg/other/Checked'
 import UncheckedIcon from 'assets/svg/other/Unchecked'
-import { RNCamera } from 'react-native-camera'
-import CameraIcon from 'assets/svg/header/Camera'
-import * as navigationActions from 'navigation/actions'
+import { Text } from 'react-native-paper'
 
 import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
@@ -24,52 +22,39 @@ const PostsGridSelect = ({
   usersImagePostsGet,
   handlePostPress,
   selectedPost,
+  usersEditProfileRequest,
 }) => {
   const styling = styles(theme)
   const { t } = useTranslation()
   const navigation = useNavigation()
 
+  navigation.setOptions({
+    headerRight: () => selectedPost.postId ? (
+      <TouchableOpacity onPress={usersEditProfileRequest}>
+        <Text style={styling.headerRight}>Update</Text>
+      </TouchableOpacity>
+    ) : null,
+  })
+
   return (
     <ScrollView style={styling.root}>
-      <GridComponent items={[null, ...path(['data'])(usersImagePostsGet)]}>
-        {(post, priorityIndex) => {
-          if (!post) {
-            return (
-              <GridItemComponent
-                onPress={navigationActions.navigateCamera(navigation)}
-                active={false}
-                activeIcon={null}
-                inactiveIcon={null}
-              >
-                <View style={styling.wrapper}>
-                  <CameraIcon fill={theme.colors.text} style={styling.icon} />
-                </View>
-                <RNCamera
-                  key="camera"
-                  captureAudio={false}
-                  style={styling.camera}
-                />
-              </GridItemComponent>
-            )
-          }
-
-          return (
-            <GridItemComponent
-              onPress={() => handlePostPress(post)}
-              active={(
-                selectedPost.postId === post.postId
-              )}
-              activeIcon={<CheckedIcon fill={theme.colors.iconPrimary} />}
-              inactiveIcon={<UncheckedIcon fill={theme.colors.iconPrimary} />}
-            >
-              <ImageComponent
-                thumbnailSource={{ uri: path(['image', 'url64p'])(post) }}
-                imageSource={{ uri: path(['image', 'url480p'])(post) }}
-                priorityIndex={priorityIndex}
-              />
-            </GridItemComponent>
-          )
-        }}
+      <GridComponent items={path(['data'])(usersImagePostsGet)}>
+        {(post, priorityIndex) => (
+          <GridItemComponent
+            onPress={() => handlePostPress(post)}
+            active={(
+              selectedPost.postId === post.postId
+            )}
+            activeIcon={<CheckedIcon fill={theme.colors.iconPrimary} />}
+            inactiveIcon={<UncheckedIcon fill={theme.colors.iconPrimary} />}
+          >
+            <ImageComponent
+              thumbnailSource={{ uri: path(['image', 'url64p'])(post) }}
+              imageSource={{ uri: path(['image', 'url480p'])(post) }}
+              priorityIndex={priorityIndex}
+            />
+          </GridItemComponent>
+        )}
       </GridComponent>
     </ScrollView>
   )
@@ -80,17 +65,11 @@ const styles = theme => StyleSheet.create({
     backgroundColor: theme.colors.backgroundPrimary,
     flexWrap: 'wrap',
   },
-  camera: {
-    height: '100%',
-    width: '100%',
-  },
-  wrapper: {
-    position: 'absolute',
-    zIndex: 2,
-    height: '100%',
-    width: '100%',
-    justifyContent: 'center',
-    alignItems: 'center',
+  headerRight: {
+    paddingHorizontal: theme.spacing.base,
+    fontSize: 16,
+    fontWeight: '700',
+    color: '#3498db',
   },
 })
 

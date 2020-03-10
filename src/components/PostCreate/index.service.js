@@ -37,7 +37,6 @@ const PostCreateService = ({ children, }) => {
     }
   }, [postsDoneUploading])
 
-
   useEffect(() => {
     if (postsCreate.status === 'success' && type === 'TEXT_ONLY') {
       navigationActions.navigateBack(navigation)()

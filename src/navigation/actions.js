@@ -17,6 +17,12 @@ export const navigateHome = (navigation, params) => () =>
     },
   })
 
+export const navigatePostCreate = (navigation, params) => () =>
+  navigation.navigate('Root', {
+    screen: 'PostCreate',
+    params,
+  })
+
 export const navigateCamera = (navigation, params) => () =>
   navigation.navigate('Camera', params)
 
@@ -25,9 +31,6 @@ export const navigateStory = (navigation, params) => () =>
 
 export const navigateChat = (navigation, params) => () =>
   navigation.navigate('Chat')
-
-export const navigatePostCreate = (navigation, params) => () =>
-  navigation.navigate('PostCreate', params)
 
 export const navigateVerification = (navigation, params) => () =>
   navigation.navigate('Verification', params)

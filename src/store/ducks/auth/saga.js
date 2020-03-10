@@ -123,7 +123,7 @@ function* authOnboardRequest(req) {
     yield put(actions.authOnboardSuccess({
       message: errors.getMessagePayload(constants.AUTH_ONBOARD_SUCCESS, 'GENERIC'),
       data: selector(data),
-      nextRoute: 'Main',
+      nextRoute: 'Root',
     }))
   } catch (error) {
     if (path(['errors', '0', 'path', '0'])(error) === 'createCognitoOnlyUser') {
@@ -169,7 +169,7 @@ function* authCheckRequest(req) {
     yield put(actions.authCheckSuccess({
       message: errors.getMessagePayload(constants.AUTH_CHECK_SUCCESS, 'GENERIC'),
       data: selector(data),
-      nextRoute: 'Main',
+      nextRoute: 'Root',
     }))
   } catch (error) {
     if (path(['errors', '0', 'path', '0'])(error) === 'self') {
@@ -214,7 +214,7 @@ function* handleAuthSigninRequest(payload) {
 function* authSigninRequest(req) {
   try {
     const data = yield handleAuthSigninRequest(req.payload)
-    yield put(actions.authSigninSuccess({ data, nextRoute: 'Main' }))
+    yield put(actions.authSigninSuccess({ data, nextRoute: 'Root' }))
   } catch (error) {
     if (error.code === 'UserNotConfirmedException') {
       yield put(actions.authSigninFailure({

@@ -19,7 +19,6 @@ const SignupConfirm = ({
   theme,
   authSignin,
   authSignup,
-  authSignupRequest,
   authSignupConfirm,
   authSignupConfirmRequest,
   authSignupConfirmIdle,
@@ -72,7 +71,7 @@ const SignupConfirm = ({
             onPress: null,
             title: t('or'),
           }, {
-            onPress: () => authSignupRequest(),
+            onPress: navigationActions.navigateAuth(navigation),
             title: t('Resend Email'),
           }]} />
         </View>

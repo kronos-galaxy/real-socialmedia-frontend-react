@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useRef } from 'react'
 import PropTypes from 'prop-types'
 import {
   StyleSheet,
@@ -8,6 +8,7 @@ import {
 } from 'react-native'
 import { Text, Caption } from 'react-native-paper'
 import { getReadableVersion } from 'react-native-device-info'
+import ActionSheet from 'react-native-actionsheet'
 import RowsComponent from 'templates/Rows'
 import RowsItemComponent from 'templates/RowsItem'
 import UserRowComponent from 'templates/UserRow'
@@ -24,6 +25,7 @@ import DiamondIcon from 'assets/svg/settings/Diamond'
 import CashIcon from 'assets/svg/settings/Cash'
 import Avatar from 'templates/Avatar'
 import path from 'ramda/src/path'
+import * as navigationActions from 'navigation/actions'
 
 import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
@@ -37,6 +39,7 @@ const Settings = ({
   const styling = styles(theme)
   const { t } = useTranslation()
   const navigation = useNavigation()
+  const actionSheetRef = useRef(null)
 
   return (
     <ScrollView style={styling.root}>
@@ -48,6 +51,20 @@ const Settings = ({
         />
       </TouchableOpacity>
 
+      <ActionSheet
+        ref={actionSheetRef}
+        options={[t('Take a Photo'), t('Choose From Gallery'), t('Cancel')]}
+        cancelButtonIndex={2}
+        onPress={(index) => {
+          if (index === 0) {
+            navigationActions.navigateCamera(navigation, { nextRoute: 'ProfilePhoto' })()
+          }
+          if (index === 1) {
+            navigation.navigate('ProfilePhoto')
+          }
+        }}
+      />
+
       <RowsComponent items={[{
         label: t('Join Diamond'),
         onPress: () => navigation.navigate('Membership'),
@@ -58,7 +75,7 @@ const Settings = ({
         icon: <EditIcon fill={theme.colors.text} />,
       }, {
         label: t('Change Profile Photo'),
-        onPress: () => navigation.navigate('ProfilePhoto'),
+        onPress: () => actionSheetRef.current.show(),
         icon: <PhotoIcon fill={theme.colors.text} />,
       }, {
         label: t('Change Language'),

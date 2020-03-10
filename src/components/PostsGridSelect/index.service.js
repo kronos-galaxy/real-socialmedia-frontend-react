@@ -2,15 +2,52 @@ import { useEffect, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import * as usersActions from 'store/ducks/users/actions'
 import * as authSelector from 'store/ducks/auth/selectors'
-import { useNavigation } from '@react-navigation/native'
+import * as postsActions from 'store/ducks/posts/actions'
+import { useNavigation, useRoute } from '@react-navigation/native'
 import * as navigationActions from 'navigation/actions'
+import { v4 as uuid } from 'uuid';
+import path from 'ramda/src/path'
 
 const PostsGridSelectService = ({ children, }) => {
   const dispatch = useDispatch()
   const navigation = useNavigation()
+  const route = useRoute()
   const user = useSelector(authSelector.authUserSelector)
   const usersImagePostsGet = useSelector(state => state.users.usersImagePostsGet)
   const usersEditProfile = useSelector(state => state.users.usersEditProfile)
+  const postsCreate = useSelector(state => state.posts.postsCreate)
+
+  const [avatar] = path(['params', 'photos'])(route) || []
+
+  const postsCreateRequest = ({ uri }) => {
+    const postId = uuid()
+    const mediaId = uuid()
+
+    dispatch(postsActions.postsCreateRequest({
+      postId,
+      postType: 'IMAGE',
+      albumId: null,
+      lifetime: 'P1D',
+      mediaId,
+      text: '',
+      images: [uri],
+      commentsDisabled: true,
+      likesDisabled: true,
+      sharingDisabled: true,
+      takenInReal: true,
+      originalFormat: 'jpg',
+    }))
+  }
+
+  useEffect(() => {
+    postsCreateRequest({ uri: avatar.uri })
+  }, [avatar.uri])
+
+  useEffect(() => {
+    if (postsCreate.status === 'success') {
+      dispatch(usersActions.usersEditProfileRequest(postsCreate.payload))
+    }
+  }, [postsCreate.status])
 
   const usersImagePostsGetRequest = (payload) =>
     dispatch(usersActions.usersImagePostsGetRequest(payload))

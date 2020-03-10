@@ -29,6 +29,13 @@ const PostCreateComponent = ({
 }) => {
   const styling = styles(theme)
   const { t } = useTranslation()
+  const navigation = useNavigation()
+
+  if (!cameraCapture.data.length && type !== 'TEXT_ONLY') {
+    navigation.setOptions({
+      headerRight: () => null,
+    })
+  }
 
   return (
     <View style={styling.root}>

@@ -3,7 +3,6 @@ import PropTypes from 'prop-types'
 import {
   StyleSheet,
   View,
-  Alert,
 } from 'react-native'
 import DefaultButton from 'components/Formik/Button/DefaultButton'
 import { Formik } from 'formik'

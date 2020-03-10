@@ -1,17 +1,17 @@
 import React from 'react'
 import ForgotComponent from 'components/Forgot'
-import AuthServiceComponent from 'components/Auth/index.service'
+import ForgotServiceComponent from 'components/Forgot/index.service'
 
 class AuthForgotScreen extends React.Component {
   render() {
     return (
-      <AuthServiceComponent>
+      <ForgotServiceComponent>
         {(props) => (
           <ForgotComponent
             {...props}
           />
         )}
-      </AuthServiceComponent>
+      </ForgotServiceComponent>
     )
   }
 }

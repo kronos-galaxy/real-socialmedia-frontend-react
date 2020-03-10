@@ -61,7 +61,7 @@ const TabNavigator = ({ navigation, route }) => {
 
   const Tab = createBottomTabNavigator()
 
-  const Camera = () => {}
+  const PostType = () => null
 
   return (
     <Tab.Navigator {...tabNavigatorProps}>
@@ -76,8 +76,8 @@ const TabNavigator = ({ navigation, route }) => {
         {...searchTabScreenPropsCard}
       />
       <Tab.Screen
-        name="Camera"
-        component={Camera}
+        name="PostType"
+        component={PostType}
         {...cameraTabScreenPropsCard}
       />
       <Tab.Screen

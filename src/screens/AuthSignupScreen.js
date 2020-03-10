@@ -1,17 +1,17 @@
 import React from 'react'
 import SignupComponent from 'components/Signup'
-import AuthServiceComponent from 'components/Auth/index.service'
+import SignupServiceComponent from 'components/Signup/index.service'
 
 class AuthSignupScreen extends React.Component {
   render() {
     return (
-      <AuthServiceComponent>
+      <SignupServiceComponent>
         {(props) => (
           <SignupComponent
             {...props}
           />
         )}
-      </AuthServiceComponent>
+      </SignupServiceComponent>
     )
   }
 }

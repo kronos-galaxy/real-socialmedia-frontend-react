@@ -9,6 +9,7 @@ import CropPicker from 'react-native-image-crop-picker'
 import { getScreenAspectRatio } from 'services/Camera'
 import series from 'async/series'
 import * as navigationActions from 'navigation/actions'
+import path from 'ramda/src/path'
 
 const cameraManager = (cameraRef) => ({
   resumePreview: props => {
@@ -75,9 +76,6 @@ const CameraService = ({ children, }) => {
   const [flashMode, handleFlashToggle] = useToggle(false)
   const [flipMode, handleFlipToggle] = useToggle(false)
 
-  const cameraCaptureRequest = (payload) =>
-    dispatch(cameraActions.cameraCaptureRequest(payload))
-
   const cameraRef = useRef(null)
   const camera = cameraManager(cameraRef)
   const [cameraEnabled, setCameraEnabled] = useState(true)
@@ -129,16 +127,15 @@ const CameraService = ({ children, }) => {
         compressImageQuality: 1,
       })
 
-      cameraActions.cameraCaptureRequest([{
-        uri: croppedPhoto.path,
-        photoSize,
-        takenInReal: true,
-        originalFormat: snappedPhoto.uri.split('.').pop(),
-      }])
-  
       if (route.params && route.params.nextRoute) {
-        navigation.navigate(path(['params', 'nextRoute'])(route), { photos: [croppedPhoto.path] })
+        navigation.navigate(path(['params', 'nextRoute'])(route), { type: 'IMAGE', photos: [croppedPhoto.path] })
       } else {
+        cameraActions.cameraCaptureRequest([{
+          uri: croppedPhoto.path,
+          photoSize,
+          takenInReal: true,
+          originalFormat: snappedPhoto.uri.split('.').pop(),
+        }])
         navigationActions.navigatePostCreate(navigation, { type: 'IMAGE', photos: [croppedPhoto.path] })()
       }
     } catch (error) {
@@ -150,16 +147,15 @@ const CameraService = ({ children, }) => {
 
   const handleLibrarySnap = async () => {
     const photos = await handleGallery(photoSize)
-  
+
     if (!photos.length) {
       return
     }
-    
-    cameraActions.cameraCaptureRequest(photos)
-  
+
     if (route.params && route.params.nextRoute) {
-      navigation.navigate(path(['params', 'nextRoute'])(route), { photos })
+      navigation.navigate(path(['params', 'nextRoute'])(route), { type: 'IMAGE', photos })
     } else {
+      dispatch(cameraActions.cameraCaptureRequest(photos))
       navigationActions.navigatePostCreate(navigation, { type: 'IMAGE', photos })()
     }
   }

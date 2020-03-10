@@ -99,7 +99,7 @@ export const setUserDetails = `
 export const getImagePosts = `
   query GetImagePosts($userId: ID!) {
     user(userId: $userId) {
-      posts(postType: 'IMAGE') {
+      posts(postType: IMAGE) {
         items {
           ...postFragment
         }
