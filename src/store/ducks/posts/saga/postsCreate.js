@@ -58,11 +58,12 @@ function* handlePostsCreateRequest(payload) {
   const data = yield AwsAPI.graphql(graphqlOperation(queries.addPhotoPost, payload))
 
   const currentIndex = 0
-  const selector = path(['data', 'addPost', 'imageUploadUrl'])
+  const selector = path(['data', 'addPost'])
   const imageSelector = path(['images', currentIndex])
 
   return {
-    imageUrl: selector(data),
+    userId: selector(data).postedBy.userId,
+    imageUrl: selector(data).imageUploadUrl,
     image: imageSelector(payload),
   }
 }
@@ -76,10 +77,12 @@ function* handleTextOnlyPost(req) {
 
   try {
     const data = yield AwsAPI.graphql(graphqlOperation(queries.addTextOnlyPost, req.payload))
+    const userIdSelector = path(['data', 'addPost', 'postedBy', 'userId'])
     const meta = { attempt: 1, progress: 100 }
 
     yield put(actions.postsCreateSuccess({ data: {}, payload: req.payload, meta }))
     yield put(actions.postsFeedGetRequest({  }))
+    yield put(actions.postsGetRequest({ userId: userIdSelector(data) }))
   } catch (error) {
     yield put(actions.postsCreateFailure({
       message: errorWrapper(error),
@@ -118,6 +121,7 @@ function* handleImagePost(req) {
         yield put(actions.postsCreateSuccess({ data: {}, payload: req.payload, meta }))
         yield delay(10000)
         yield put(actions.postsFeedGetRequest({  }))
+        yield put(actions.postsGetRequest({ userId: data.userId }))
       }
 
       if (upload.status === 'failure') {

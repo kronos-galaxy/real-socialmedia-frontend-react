@@ -17,32 +17,6 @@ const PostsGridSelectService = ({ children, }) => {
   const usersEditProfile = useSelector(state => state.users.usersEditProfile)
   const postsCreate = useSelector(state => state.posts.postsCreate)
 
-  const [avatar] = path(['params', 'photos'])(route) || []
-
-  const postsCreateRequest = ({ uri }) => {
-    const postId = uuid()
-    const mediaId = uuid()
-
-    dispatch(postsActions.postsCreateRequest({
-      postId,
-      postType: 'IMAGE',
-      albumId: null,
-      lifetime: 'P1D',
-      mediaId,
-      text: '',
-      images: [uri],
-      commentsDisabled: true,
-      likesDisabled: true,
-      sharingDisabled: true,
-      takenInReal: true,
-      originalFormat: 'jpg',
-    }))
-  }
-
-  useEffect(() => {
-    postsCreateRequest({ uri: avatar.uri })
-  }, [avatar.uri])
-
   useEffect(() => {
     if (postsCreate.status === 'success') {
       dispatch(usersActions.usersEditProfileRequest(postsCreate.payload))

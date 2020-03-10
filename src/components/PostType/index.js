@@ -115,12 +115,14 @@ const styles = theme => StyleSheet.create({
     alignItems: 'center',
   },
   text: {
-    color: '#000000',
+    color: '#ffffff',
     fontWeight: '500',
     alignSelf: 'center',
+    fontSize: 14,
   },
   closeText: {
-    color: '#333333',
+    color: '#eeeeee',
+    fontSize: 14,
   },
 })
 

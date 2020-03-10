@@ -130,12 +130,12 @@ const CameraService = ({ children, }) => {
       if (route.params && route.params.nextRoute) {
         navigation.navigate(path(['params', 'nextRoute'])(route), { type: 'IMAGE', photos: [croppedPhoto.path] })
       } else {
-        cameraActions.cameraCaptureRequest([{
+        dispatch(cameraActions.cameraCaptureRequest([{
           uri: croppedPhoto.path,
           photoSize,
           takenInReal: true,
           originalFormat: snappedPhoto.uri.split('.').pop(),
-        }])
+        }]))
         navigationActions.navigatePostCreate(navigation, { type: 'IMAGE', photos: [croppedPhoto.path] })()
       }
     } catch (error) {
