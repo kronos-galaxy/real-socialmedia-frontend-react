@@ -46,9 +46,21 @@ const Header = ({
     path(['expiresAt'])(post)
   )
 
+  const onProfilePhotoPress = () => {
+    const hasStories = path(['stories', 'items', 'length'])(post.postedBy)
+    if (hasStories) {
+      navigationActions.navigateStory(navigation, {
+        user: post.postedBy,
+        usersGetFollowedUsersWithStories: { data: [post.postedBy] },
+      })()
+    } else {
+      navigationActions.navigateProfile(navigation, { user: post.postedBy })()
+    }
+  }
+
   return (
     <View style={styling.header}>
-      <TouchableOpacity onPress={navigationActions.navigateProfile(navigation, { user: post.postedBy })}>
+      <TouchableOpacity onPress={onProfilePhotoPress}>
         <Avatar
           active
           thumbnailSource={{ uri: path(['postedBy', 'photo', 'url64p'])(post) }}
