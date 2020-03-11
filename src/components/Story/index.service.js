@@ -4,14 +4,15 @@ import * as usersActions from 'store/ducks/users/actions'
 import { useNavigation, useRoute } from '@react-navigation/native'
 import useCounter from 'react-use/lib/useCounter'
 import pathOr from 'ramda/src/pathOr'
+import path from 'ramda/src/path'
 import * as navigationActions from 'navigation/actions'
 
 const StoryService = ({ children, }) => {
   const dispatch = useDispatch()
   const navigation = useNavigation()
   const route = useRoute()
-  const userId = route.params.user.userId
-  const usersGetFollowedUsersWithStories = route.params.usersGetFollowedUsersWithStories
+  const userId = path(['user', 'userId'])(route.params)
+  const usersGetFollowedUsersWithStories = path(['usersGetFollowedUsersWithStories'])(route.params)
 
   const [currentStory, { inc: nextStory, dec: prevStory, reset: resetStory }] = useCounter(0)
 

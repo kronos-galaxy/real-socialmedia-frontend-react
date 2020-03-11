@@ -46,10 +46,6 @@ const StoryCarousel = ({
     <View style={styling.sliderItem}>
       <View style={styling.backdrop} />
       <BlurView style={styling.blur} />
-      <LinearGradient
-        colors={[theme.colors.backgroundPrimary, `transparent`]}
-        style={styling.gradient}
-      />
 
       <CameraTemplate
         steps={(

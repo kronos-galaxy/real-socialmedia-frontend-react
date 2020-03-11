@@ -80,7 +80,7 @@ export const getActiveRouteName = (item) => {
   const nextRoute = path(['state', 'routes', index])(item)
 
   if (nextRoute && nextRoute.state) {
-    return useCallback(() => getActiveRouteName(nextRoute), [nextRoute])
+    return getActiveRouteName(nextRoute)
   } else if (nextRoute) {
     return nextRoute
   } else {
@@ -264,8 +264,8 @@ export const stackScreenCardProps = ({ theme }) => ({
 })
 
 export const tabNavigatorProps = ({ theme, themes, route }) => {
-  const active = useCallback(() => getActiveRouteName(route), [route])
-  const activeTheme = useCallback(() => getActiveTheme({ theme, themes, route: active }), [active])
+  const active = getActiveRouteName(route)
+  const activeTheme = getActiveTheme({ theme, themes, route: active })
 
   const activeTintColor =  (
     path(['colors', 'primaryIcon'])(activeTheme) ||

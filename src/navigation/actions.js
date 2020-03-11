@@ -27,10 +27,10 @@ export const navigateCamera = (navigation, params) => () =>
   navigation.navigate('Camera', params)
 
 export const navigateStory = (navigation, params) => () =>
-  navigation.push('Story')
+  navigation.push('Story', params)
 
 export const navigateChat = (navigation, params) => () =>
-  navigation.navigate('Chat')
+  navigation.navigate('Chat', params)
 
 export const navigateVerification = (navigation, params) => () =>
   navigation.navigate('Verification', params)
