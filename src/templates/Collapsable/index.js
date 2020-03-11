@@ -64,6 +64,9 @@ const styles = theme => StyleSheet.create({
   },
   icon: {
   },
+  title: {
+    fontSize: 18,
+  },
 })
 
 Collapsable.propTypes = {

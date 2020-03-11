@@ -92,7 +92,7 @@ export default withTheme(({
       <CommentsForm
         {...formikProps}
         {...props}
-        loading={false}
+        loading={commentsAdd.status === 'loading'}
       />
     )}
   </Formik>

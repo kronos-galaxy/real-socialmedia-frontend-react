@@ -7,6 +7,7 @@ import {
   RefreshControl,
 } from 'react-native'
 import ResultComponent from 'components/Search/Result'
+import { Caption } from 'react-native-paper'
 
 import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
@@ -27,6 +28,9 @@ const PostLikes = ({
 
   return (
     <View style={styling.root}>
+      <View style={styling.info}>
+        <Caption>{t('Only you can see who liked your post')}</Caption>
+      </View>
       <ScrollView
         refreshControl={
           <RefreshControl
@@ -52,6 +56,10 @@ const PostLikes = ({
 const styles = theme => StyleSheet.create({
   root: {
     flex: 1,
+  },
+  info: {
+    paddingHorizontal: theme.spacing.base,
+    alignItems: 'center',
   },
 })
 
