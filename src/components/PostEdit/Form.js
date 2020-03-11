@@ -47,6 +47,7 @@ const PostEditForm = ({
   handleSubmit,
   values,
   loading,
+  handlePostPress,
   setFieldValue,
   formLifetime: FormLifetime,
   formAlbums: FormAlbums,
@@ -55,6 +56,11 @@ const PostEditForm = ({
   const styling = styles(theme)
   const { t } = useTranslation()
   const navigation = useNavigation()
+  const image = {
+    url4k: values.uri,
+    url64p: values.uri,
+    url1080p: values.uri,
+  }
 
   navigation.setOptions({
     headerRight: () => (
@@ -68,13 +74,15 @@ const PostEditForm = ({
     <View style={styling.root}>
       <View style={styling.input}>
         <View style={styling.header}>
-          <View style={styling.avatar}>
-            <Avatar
-              size="bigger"
-              thumbnailSource={{ uri: values.uri }}
+          {values.postType === 'IMAGE' ?
+            <TouchableOpacity onPress={() => handlePostPress({ image })}>
+              <Avatar
+                size="bigger"
+                thumbnailSource={{ uri: values.uri }}
               imageSource={{ uri: values.uri }}
-            />
-          </View>
+              />
+            </TouchableOpacity>
+          : null}
 
           <View style={styling.text}>
             <Field name="text" component={TextDemo} placeholder={t('Write a caption')} multiline={true} />
@@ -195,6 +203,7 @@ export default withTheme(({
 }) => (
   <Formik
     initialValues={{
+      postType: postsSingleGet.data.postType,
       postId: postsSingleGet.data.postId,
       uri: path(['image', 'url1080p'])(postsSingleGet.data),
       text: postsSingleGet.data.text,

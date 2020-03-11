@@ -17,6 +17,7 @@ const PostEditComponent = ({
   theme,
   postsEditRequest,
   postsEdit,
+  handlePostPress,
   postsSingleGet,
   albumsGet,
 }) => {
@@ -36,6 +37,7 @@ const PostEditComponent = ({
             formLifetime={FormLifetime}
             formAlbums={FormAlbums}
             albumsGet={albumsGet}
+            handlePostPress={handlePostPress}
           />
         </View>
       </KeyboardAwareScrollView>
