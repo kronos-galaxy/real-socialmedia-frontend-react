@@ -4,7 +4,7 @@ It’s a camera app and social media platform designed with mental health in min
 
 |home   |profile   |create   |
 |---|---|---|
-|![home](https://raw.githubusercontent.com/real-social-media/frontend/readme/docs/assets/home.png)|![home](https://raw.githubusercontent.com/real-social-media/frontend/readme/docs/assets/profile.png)   |![home](https://raw.githubusercontent.com/real-social-media/frontend/readme/docs/assets/create.png)   |
+|![home](https://raw.githubusercontent.com/real-social-media/frontend/master/docs/assets/home.png)|![home](https://raw.githubusercontent.com/real-social-media/frontend/master/docs/assets/profile.png)   |![home](https://raw.githubusercontent.com/real-social-media/frontend/master/docs/assets/create.png)   |
 
 ## Setup Development Environment
 - execute `yarn install` from `[root]` folder to get npm dependencies
