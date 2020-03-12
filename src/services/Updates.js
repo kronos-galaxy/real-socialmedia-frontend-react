@@ -5,8 +5,9 @@ import Config from 'react-native-config'
 
 export const versionCheck = (async () => {
   try {
+    const timestamp = Date.now()
     const data = await (async () => {
-      const data = await fetch('https://d3dclx0mrf3ube.cloudfront.net/versions/production.json')
+      const data = await fetch(`https://d3dclx0mrf3ube.cloudfront.net/versions/production.json?timestamp=${timestamp}`, { cache: 'no-store' })
       return await data.json()
     })()
 
