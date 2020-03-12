@@ -43,7 +43,7 @@ const Album = ({
           style={styling.gradient}
         />
         <ScrollView style={styling.album} horizontal>
-          {(path(['album', 'posts', 'items'])(post) || []).map(album => (
+          {(path(['album', 'posts', 'items'])(post) || []).filter(item => item.postType !== 'TEXT_ONLY').map(album => (
             <Avatar
               thumbnailSource={{ uri: path(['image', 'url64p'])(album) }}
               imageSource={{ uri: path(['image', 'url480p'])(album) }}
