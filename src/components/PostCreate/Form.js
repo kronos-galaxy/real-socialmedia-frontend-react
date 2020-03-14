@@ -19,7 +19,7 @@ import { Text, Caption, Switch } from 'react-native-paper'
 
 import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
-import { useTranslation } from 'react-i18next'
+import { withTranslation } from 'react-i18next'
 
 const formSchema = Yup.object().shape({
   lifetime: Yup.string().nullable(),
@@ -27,6 +27,7 @@ const formSchema = Yup.object().shape({
 })
 
 const PostCreateForm = ({
+  t,
   theme,
   handleSubmit,
   values,
@@ -38,7 +39,6 @@ const PostCreateForm = ({
   albumsGet,
 }) => {
   const styling = styles(theme)
-  const { t } = useTranslation()
   const navigation = useNavigation()
   const image = {
     url4k: values.images[0],
@@ -211,4 +211,4 @@ const FormWrapper = ({
   </Formik>
 )
 
-export default withTheme(FormWrapper)
+export default withTranslation()(withTheme(FormWrapper))

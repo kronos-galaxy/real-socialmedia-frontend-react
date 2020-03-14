@@ -20,7 +20,7 @@ import dayjs from 'dayjs'
 
 import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
-import { useTranslation } from 'react-i18next'
+import { withTranslation } from 'react-i18next'
 
 const formSchema = Yup.object().shape({
   text: Yup.string().nullable(),
@@ -43,6 +43,7 @@ const getInitialLifetime = (expiresAt) => {
 }
 
 const PostEditForm = ({
+  t,
   theme,
   handleSubmit,
   values,
@@ -54,7 +55,6 @@ const PostEditForm = ({
   albumsGet,
 }) => {
   const styling = styles(theme)
-  const { t } = useTranslation()
   const navigation = useNavigation()
   const image = {
     url4k: values.uri,
@@ -195,7 +195,7 @@ PostEditForm.propTypes = {
   postEdit: PropTypes.any,
 }
 
-export default withTheme(({
+export default withTranslation()(withTheme(({
   postsEdit,
   postsEditRequest,
   postsSingleGet,
@@ -226,4 +226,4 @@ export default withTheme(({
       />
     )}
   </Formik>
-))
+)))

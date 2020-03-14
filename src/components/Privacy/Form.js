@@ -12,9 +12,10 @@ import { Text, Switch, Caption } from 'react-native-paper'
 
 import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
-import { useTranslation } from 'react-i18next'
+import { withTranslation } from 'react-i18next'
 
 const Privacy = ({
+  t,
   theme,
   user,
   togglePrivacyStatus,
@@ -26,8 +27,7 @@ const Privacy = ({
   toggleVerificationHidden,
 }) => {
   const styling = styles(theme)
-  const { t } = useTranslation()
-
+  
   return (
     <View style={styling.root}>
       <RowsComponent items={[{
@@ -105,4 +105,4 @@ Privacy.propTypes = {
   toggleFollowCountsHidden: PropTypes.any,
 }
 
-export default withTheme(Privacy)
+export default withTranslation()(withTheme(Privacy))

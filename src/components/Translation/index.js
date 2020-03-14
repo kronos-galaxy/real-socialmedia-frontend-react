@@ -14,17 +14,17 @@ import path from 'ramda/src/path'
 
 import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
-import { useTranslation } from 'react-i18next'
+import { withTranslation } from 'react-i18next'
 
 const Translation = ({
+  t,
   theme,
   user,
   usersEditProfileRequest,
   translationFetch,
 }) => {
   const styling = styles(theme)
-  const { t } = useTranslation()
-
+  
   return (
     <ScrollView>
       <View style={styling.root}>
@@ -73,4 +73,4 @@ Translation.propTypes = {
   translationUpdateRequest: PropTypes.any,
 }
 
-export default withTheme(Translation)
+export default withTranslation()(withTheme(Translation))

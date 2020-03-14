@@ -14,9 +14,10 @@ import * as navigationActions from 'navigation/actions'
 
 import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
-import { useTranslation } from 'react-i18next'
+import { withTranslation } from 'react-i18next'
 
 const Signup = ({
+  t,
   theme,
   authSignin,
   authSignup,
@@ -24,7 +25,6 @@ const Signup = ({
   authSignupIdle,
 }) => {
   const styling = styles(theme)
-  const { t } = useTranslation()
   const navigation = useNavigation()
 
   return (
@@ -88,4 +88,4 @@ Signup.propTypes = {
   authSignupRequest: PropTypes.any,
 }
 
-export default withTheme(Signup)
+export default withTranslation()(withTheme(Signup))

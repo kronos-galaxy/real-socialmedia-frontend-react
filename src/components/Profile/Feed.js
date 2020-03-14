@@ -11,14 +11,14 @@ import PostsLoadingComponent from 'components/PostsList/PostsLoading'
 
 import { withTheme } from 'react-native-paper'
 import { useNavigation, useRoute } from '@react-navigation/native'
-import { useTranslation } from 'react-i18next'
+import { withTranslation } from 'react-i18next'
 
 const ProfileFeed = ({
+  t,
   theme,
 }) => {
   const styling = styles(theme)
-  const { t } = useTranslation()
-
+  
   return (
     <PostsGridServiceComponent>
       {(postsProps) => (
@@ -50,4 +50,4 @@ ProfileFeed.propTypes = {
   theme: PropTypes.any,
 }
 
-export default withTheme(ProfileFeed)
+export default withTranslation()(withTheme(ProfileFeed))

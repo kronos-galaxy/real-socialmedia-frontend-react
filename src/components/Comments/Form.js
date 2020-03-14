@@ -13,13 +13,14 @@ import path from 'ramda/src/path'
 
 import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
-import { useTranslation } from 'react-i18next'
+import { withTranslation } from 'react-i18next'
 
 const formSchema = Yup.object().shape({
   text: Yup.string().min(1).max(50).required(),
 })
 
 const CommentsForm = ({
+  t,
   theme,
   handleSubmit,
   handleFormFocus,
@@ -30,7 +31,6 @@ const CommentsForm = ({
   values,
 }) => {
   const styling = styles(theme)
-  const { t } = useTranslation()
 
   return (
     <View style={styling.root}>
@@ -72,7 +72,7 @@ CommentsForm.propTypes = {
   loading: PropTypes.any,
 }
 
-export default withTheme(({
+export default withTranslation()(withTheme(({
   commentsAdd,
   commentsAddRequest,
   ...props
@@ -96,4 +96,4 @@ export default withTheme(({
       />
     )}
   </Formik>
-))
+)))

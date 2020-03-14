@@ -20,7 +20,7 @@ import * as navigationActions from 'navigation/actions'
 
 import { withTheme } from 'react-native-paper'
 import { useNavigation, useRoute } from '@react-navigation/native'
-import { useTranslation } from 'react-i18next'
+import { withTranslation } from 'react-i18next'
 
 const PostsScrollHelper = ({
   userId,
@@ -68,6 +68,7 @@ const PostsScrollHelper = ({
 }
 
 const Profile = ({
+  t,
   theme,
   profileRef,
 
@@ -92,7 +93,6 @@ const Profile = ({
   usersUnfollowRequest,
 }) => {
   const styling = styles(theme)
-  const { t } = useTranslation()
   const navigation = useNavigation()
   const route = useRoute()
 
@@ -235,4 +235,4 @@ Profile.propTypes = {
   postsGet: PropTypes.any,
 }
 
-export default withTheme(Profile)
+export default withTranslation()(withTheme(Profile))

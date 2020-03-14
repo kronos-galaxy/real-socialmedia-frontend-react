@@ -14,14 +14,14 @@ import * as navigationActions from 'navigation/actions'
 
 import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
-import { useTranslation } from 'react-i18next'
+import { withTranslation } from 'react-i18next'
 
 const Album = ({
+  t,
   theme,
   post,
 }) => {
   const styling = styles(theme)
-  const { t } = useTranslation()
   const navigation = useNavigation()
 
   const colorFrom = path(['image', 'colors', '4'])(post)
@@ -86,4 +86,4 @@ const styles = theme => StyleSheet.create({
   },
 })
 
-export default withTheme(Album)
+export default withTranslation()(withTheme(Album))

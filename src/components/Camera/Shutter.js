@@ -8,9 +8,10 @@ import FlashOffIcon from 'assets/svg/camera/FlashOff'
 
 import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
-import { useTranslation } from 'react-i18next'
+import { withTranslation } from 'react-i18next'
 
 const Shutter = ({
+  t,
   theme,
   flashMode,
   handleFlipToggle,
@@ -19,8 +20,7 @@ const Shutter = ({
   handleFlashToggle,
 }) => {
   const styling = styles(theme)
-  const { t } = useTranslation()
-
+  
   return (
     <View style={styling.root}>
       <View style={styling.action}>
@@ -95,4 +95,4 @@ Shutter.propTypes = {
   handleFlashToggle: PropTypes.any,
 }
 
-export default withTheme(Shutter)
+export default withTranslation()(withTheme(Shutter))

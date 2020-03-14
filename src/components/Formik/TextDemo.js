@@ -10,9 +10,10 @@ import { ErrorMessage } from 'formik'
 
 import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
-import { useTranslation } from 'react-i18next'
+import { withTranslation } from 'react-i18next'
 
 const TextDemo = ({
+  t,
   theme,
   field: {
     value,
@@ -26,7 +27,7 @@ const TextDemo = ({
   disabled,
 }) => {
   const styling = styles(theme)
-  const { t } = useTranslation()
+  
 
   /**
    * Prevent too much multiline characters
@@ -97,4 +98,4 @@ TextDemo.propTypes = {
   disabled: PropTypes.any,
 }
 
-export default withTheme(TextDemo)
+export default withTranslation()(withTheme(TextDemo))

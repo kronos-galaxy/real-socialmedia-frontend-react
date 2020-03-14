@@ -16,9 +16,10 @@ import * as navigationActions from 'navigation/actions'
 
 import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
-import { useTranslation } from 'react-i18next'
+import { withTranslation } from 'react-i18next'
 
 const Header = ({
+  t,
   theme,
   authUser,
   post,
@@ -32,7 +33,6 @@ const Header = ({
   actionSheetRef,
 }) => {
   const styling = styles(theme)
-  const { t } = useTranslation()
   const navigation = useNavigation()
 
   const handleOptionsPress = () => actionSheetRef.show()
@@ -206,4 +206,4 @@ Header.propTypes = {
   postsDeleteRequest: PropTypes.any,
 }
 
-export default withTheme(Header)
+export default withTranslation()(withTheme(Header))

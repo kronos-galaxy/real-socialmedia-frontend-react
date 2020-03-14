@@ -8,14 +8,14 @@ import { Subheading } from 'react-native-paper'
 
 import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
-import { useTranslation } from 'react-i18next'
+import { withTranslation } from 'react-i18next'
 
 const Success = ({
+  t,
   theme,
 }) => {
   const styling = styles(theme)
-  const { t } = useTranslation()
-
+  
   return (
     <View style={styling.root}>
       <Subheading>{t('All posts have been submitted')}</Subheading>
@@ -39,4 +39,4 @@ Success.propTypes = {
   setFieldValue: PropTypes.any,
 }
 
-export default withTheme(Success)
+export default withTranslation()(withTheme(Success))

@@ -12,9 +12,10 @@ import * as themeSelector from 'store/ducks/theme/selectors'
 
 import { withTheme, Paragraph } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
-import { useTranslation } from 'react-i18next'
+import { withTranslation } from 'react-i18next'
 
 const ThemeModal = ({
+  t,
   theme,
   isVisible,
   children,
@@ -24,8 +25,7 @@ const ThemeModal = ({
   const activeTheme = useSelector(themeSelector.userThemeSelector('black.green'))
 
   const styling = styles(theme)
-  const { t } = useTranslation()
-
+  
   return (
     <Modal isVisible={isVisible}>
       <View style={styling.root}>
@@ -97,4 +97,4 @@ ThemeModal.propTypes = {
   onDiscardClick: PropTypes.any,
 }
 
-export default withTheme(ThemeModal)
+export default withTranslation()(withTheme(ThemeModal))

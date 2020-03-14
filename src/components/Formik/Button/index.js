@@ -9,9 +9,10 @@ import {
 
 import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
-import { useTranslation } from 'react-i18next'
+import { withTranslation } from 'react-i18next'
 
 const Button = ({
+  t,
   theme,
   children,
   style,
@@ -19,8 +20,7 @@ const Button = ({
   ...props
 }) => {
   const styling = styles(theme)
-  const { t } = useTranslation()
-
+  
   return (
     <TouchableOpacity
       {...props}
@@ -74,4 +74,4 @@ Button.propTypes = {
   loading: PropTypes.any,
 }
 
-export default withTheme(Button)
+export default withTranslation()(withTheme(Button))

@@ -12,9 +12,10 @@ import { Text } from 'react-native-paper'
 
 import { withTheme } from 'react-native-paper'
 import { useNavigation, useRoute } from '@react-navigation/native'
-import { useTranslation } from 'react-i18next'
+import { withTranslation } from 'react-i18next'
 
 const ProfileTabView = ({
+  t,
   theme,
   index,
   setIndex,
@@ -53,14 +54,14 @@ const ProfileTabView = ({
 }
 
 const Profile = ({
+  t,
   theme,
   index,
   setIndex,
   routes,
 }) => {
   const styling = styles(theme)
-  const { t } = useTranslation()
-
+  
   return (
     <View style={styling.root}>
       <ProfileTabView
@@ -95,4 +96,4 @@ Profile.propTypes = {
   postsGet: PropTypes.any,
 }
 
-export default withTheme(Profile)
+export default withTranslation()(withTheme(Profile))

@@ -12,7 +12,7 @@ import SquareIcon from 'assets/svg/camera/Square'
 import PortraitIcon from 'assets/svg/camera/Portrait'
 
 import { withTheme } from 'react-native-paper'
-import { useTranslation } from 'react-i18next'
+import { withTranslation } from 'react-i18next'
 
 const PickerItem = (ref, theme) => ({
   item,
@@ -43,12 +43,12 @@ const PickerItem = (ref, theme) => ({
 }
 
 const Picker = ({
+  t,
   setPhotoSize,
   theme,
 }) => {
   const styling = styles(theme)
   const pickerRef = useRef(null)
-  const { t } = useTranslation()
 
   return (
     <View style={styling.root}>
@@ -137,4 +137,4 @@ const styles = theme => StyleSheet.create({
   },
 })
 
-export default withTheme(Picker)
+export default withTranslation()(withTheme(Picker))

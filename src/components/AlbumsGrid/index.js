@@ -13,16 +13,16 @@ import * as navigationActions from 'navigation/actions'
 
 import { withTheme } from 'react-native-paper'
 import { useNavigation, useRoute } from '@react-navigation/native'
-import { useTranslation } from 'react-i18next'
+import { withTranslation } from 'react-i18next'
 
 const AlbumsGrid = ({
+  t,
   theme,
   albumsGet,
   themeFetch,
   themeCode,
 }) => {
   const styling = styles(theme)
-  const { t } = useTranslation()
   const navigation = useNavigation()
   const route = useRoute()
 
@@ -63,4 +63,4 @@ AlbumsGrid.propTypes = {
   albumsGet: PropTypes.any,
 }
 
-export default withTheme(AlbumsGrid)
+export default withTranslation()(withTheme(AlbumsGrid))

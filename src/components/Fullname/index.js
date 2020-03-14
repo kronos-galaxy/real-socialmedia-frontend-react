@@ -14,9 +14,10 @@ import path from 'ramda/src/path'
 
 import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
-import { useTranslation } from 'react-i18next'
+import { withTranslation } from 'react-i18next'
 
 const Fullname = ({
+  t,
   theme,
   authCheck,
   authOnboard,
@@ -25,8 +26,7 @@ const Fullname = ({
   authSignoutRequest,
 }) => {
   const styling = styles(theme)
-  const { t } = useTranslation()
-
+  
   return (
     <KeyboardAwareScrollView contentContainerStyle={styling.wrapper} extraScrollHeight={160}>
       <NativeError
@@ -95,4 +95,4 @@ Fullname.propTypes = {
   authSignoutRequest: PropTypes.any,
 }
 
-export default withTheme(Fullname)
+export default withTranslation()(withTheme(Fullname))

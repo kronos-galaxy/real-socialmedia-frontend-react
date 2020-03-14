@@ -13,14 +13,14 @@ import * as navigationActions from 'navigation/actions'
 
 import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
-import { useTranslation } from 'react-i18next'
+import { withTranslation } from 'react-i18next'
 
 const Comment = ({
+  t,
   theme,
   comment,
 }) => {
   const styling = styles(theme)
-  const { t } = useTranslation()
   const navigation = useNavigation()
 
   return (
@@ -55,4 +55,4 @@ Comment.propTypes = {
   theme: PropTypes.any,
 }
 
-export default withTheme(Comment)
+export default withTranslation()(withTheme(Comment))

@@ -15,9 +15,10 @@ import ThemeAvatar from 'templates/ThemeAvatar'
 
 import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
-import { useTranslation } from 'react-i18next'
+import { withTranslation } from 'react-i18next'
 
 const Theme = ({
+  t,
   theme,
   user,
   themeFetch,
@@ -26,8 +27,7 @@ const Theme = ({
   themePreviewIdle,
 }) => {
   const styling = styles(theme)
-  const { t } = useTranslation()
-
+  
   return (
     <ScrollView style={styling.root}>
       <RowsComponent items={path(['data'])(themeFetch)}>
@@ -91,4 +91,4 @@ Theme.propTypes = {
   themePreviewIdle: PropTypes.any,
 }
 
-export default withTheme(Theme)
+export default withTranslation()(withTheme(Theme))

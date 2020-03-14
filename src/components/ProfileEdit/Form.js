@@ -13,7 +13,7 @@ import { Text } from 'react-native-paper'
 
 import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
-import { useTranslation } from 'react-i18next'
+import { withTranslation } from 'react-i18next'
 
 const formSchema = Yup.object().shape({
   username: Yup.string()
@@ -30,13 +30,13 @@ const formSchema = Yup.object().shape({
 })
 
 const ProfileEditForm = ({
+  t,
   theme,
   handleSubmit,
   loading,
   PrivacyComponent,
 }) => {
   const styling = styles(theme)
-  const { t } = useTranslation()
   const navigation = useNavigation()
 
   navigation.setOptions({
@@ -97,7 +97,7 @@ ProfileEditForm.propTypes = {
   values: PropTypes.any,
 }
 
-export default withTheme(({
+export default withTranslation()(withTheme(({
   usersEditProfile,
   usersEditProfileRequest,
   user,
@@ -116,4 +116,4 @@ export default withTheme(({
       />
     )}
   </Formik>
-))
+)))

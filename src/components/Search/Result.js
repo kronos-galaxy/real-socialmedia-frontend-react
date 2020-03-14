@@ -17,9 +17,10 @@ import * as navigationActions from 'navigation/actions'
 
 import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
-import { useTranslation } from 'react-i18next'
+import { withTranslation } from 'react-i18next'
 
 const Result = ({
+  t,
   theme,
   usersSearch,
   usersFollow,
@@ -32,7 +33,7 @@ const Result = ({
 }) => {
   const styling = styles(theme)
   const navigation = useNavigation()
-  const { t } = useTranslation()
+  
 
   return (
     <ScrollView
@@ -115,4 +116,4 @@ Result.propTypes = {
   usersUnfollowRequest: PropTypes.any,
 }
 
-export default withTheme(Result)
+export default withTranslation()(withTheme(Result))

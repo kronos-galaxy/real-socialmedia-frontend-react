@@ -12,9 +12,10 @@ import PostsLoadingComponent from 'components/PostsList/PostsLoading'
 
 import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
-import { useTranslation } from 'react-i18next'
+import { withTranslation } from 'react-i18next'
 
 const PostMedia = ({
+  t,
   theme,
   authUser,
   postsMediaFeedGet,
@@ -42,7 +43,7 @@ const PostMedia = ({
   viewabilityConfigRef,
 }) => {
   const styling = styles(theme)
-  const { t } = useTranslation()
+  
 
   /**
    * Component responsible for rendering a selected post + suggested post list
@@ -158,4 +159,4 @@ PostMedia.propTypes = {
   usersGetFollowedUsersWithStoriesRequest: PropTypes.any,
 }
 
-export default withTheme(PostMedia)
+export default withTranslation()(withTheme(PostMedia))

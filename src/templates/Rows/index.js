@@ -7,16 +7,16 @@ import {
 
 import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
-import { useTranslation } from 'react-i18next'
+import { withTranslation } from 'react-i18next'
 
 const RowsTemplate = ({
+  t,
   theme,
   children,
   items,
 }) => {
   const styling = styles(theme)
-  const { t } = useTranslation()
-
+  
   return (
     <View style={styling.root}>
       {items.map((item, key) => (
@@ -44,4 +44,4 @@ RowsTemplate.propTypes = {
   items: PropTypes.any,
 }
 
-export default withTheme(RowsTemplate)
+export default withTranslation()(withTheme(RowsTemplate))

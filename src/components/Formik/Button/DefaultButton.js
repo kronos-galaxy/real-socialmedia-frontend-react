@@ -8,9 +8,10 @@ import { Button, Text } from 'react-native-paper'
 
 import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
-import { useTranslation } from 'react-i18next'
+import { withTranslation } from 'react-i18next'
 
 const DefaultButton = ({
+  t,
   theme,
   label,
   size,
@@ -18,7 +19,7 @@ const DefaultButton = ({
   ...props
 }) => {
   const styling = styles(theme)
-  const { t } = useTranslation()
+  
 
   const contentStyle = (size === 'compact') ? styling.compactContent : styling.defaultContent
   const colorStyle = (mode === 'contained') ? { color: theme.colors.buttonText } : {}
@@ -58,4 +59,4 @@ DefaultButton.defaultProps = {
   size: 'default',
 }
 
-export default withTheme(DefaultButton)
+export default withTranslation()(withTheme(DefaultButton))

@@ -10,9 +10,10 @@ import * as Animatable from 'react-native-animatable'
 
 import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
-import { useTranslation } from 'react-i18next'
+import { withTranslation } from 'react-i18next'
 
 const PostsGrid = ({
+  t,
   theme,
 }) => {
   const styling = styles(theme)
@@ -58,4 +59,4 @@ PostsGrid.propTypes = {
   postsGet: PropTypes.any,
 }
 
-export default withTheme(PostsGrid)
+export default withTranslation()(withTheme(PostsGrid))

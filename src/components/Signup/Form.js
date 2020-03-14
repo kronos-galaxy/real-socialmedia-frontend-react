@@ -9,16 +9,16 @@ import { Formik } from 'formik'
 
 import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
-import { useTranslation } from 'react-i18next'
+import { withTranslation } from 'react-i18next'
 
 const SignupForm = ({
+  t,
   theme,
   handleSubmit,
   loading,
 }) => {
   const styling = styles(theme)
-  const { t } = useTranslation()
-
+  
   return (
     <View style={styling.root}>
       <View style={styling.input}>
@@ -45,7 +45,7 @@ SignupForm.propTypes = {
   authSignup: PropTypes.any,
 }
 
-export default withTheme(({
+export default withTranslation()(withTheme(({
   authSignup,
   authSignupRequest,
   ...props
@@ -65,4 +65,4 @@ export default withTheme(({
       />
     )}
   </Formik>
-))
+)))

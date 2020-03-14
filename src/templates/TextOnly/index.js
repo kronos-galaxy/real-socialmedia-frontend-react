@@ -11,9 +11,10 @@ import LinearGradient from 'react-native-linear-gradient'
 
 import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
-import { useTranslation } from 'react-i18next'
+import { withTranslation } from 'react-i18next'
 
 const TextComponent = ({
+  t,
   theme,
   themes,
   children,
@@ -21,7 +22,7 @@ const TextComponent = ({
   themeCode,
 }) => {
   const styling = styles(theme)
-  const { t } = useTranslation()
+  
 
   const themeSelector = (activeThemeCode) =>
     ((themes || []).find(theme => theme.key === activeThemeCode) || {}).theme
@@ -61,4 +62,4 @@ TextComponent.propTypes = {
   post: PropTypes.any,
 }
 
-export default withTheme(TextComponent)
+export default withTranslation()(withTheme(TextComponent))

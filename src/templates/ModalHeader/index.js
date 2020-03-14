@@ -9,9 +9,10 @@ import CloseIcon from 'assets/svg/header/Close'
 
 import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
-import { useTranslation } from 'react-i18next'
+import { withTranslation } from 'react-i18next'
 
 const ModalHeader = ({
+  t,
   theme,
   onPress,
 }) => {
@@ -45,4 +46,4 @@ ModalHeader.propTypes = {
   theme: PropTypes.any,
 }
 
-export default withTheme(ModalHeader)
+export default withTranslation()(withTheme(ModalHeader))

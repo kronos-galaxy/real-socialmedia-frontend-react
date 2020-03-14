@@ -11,9 +11,10 @@ import TickIcon from 'assets/svg/membership/Tick'
 
 import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
-import { useTranslation } from 'react-i18next'
+import { withTranslation } from 'react-i18next'
 
 const Feature = ({
+  t,
   theme,
   children,
   active,
@@ -35,11 +36,11 @@ const Feature = ({
 const FeatureComponent = withTheme(Feature)
 
 const Membership = ({
+  t,
   theme,
 }) => {
   const styling = styles(theme)
-  const { t } = useTranslation()
-
+  
   return (
     <ScrollView style={styling.root}>
       <View>
@@ -108,4 +109,4 @@ Membership.propTypes = {
   theme: PropTypes.any,
 }
 
-export default withTheme(Membership)
+export default withTranslation()(withTheme(Membership))

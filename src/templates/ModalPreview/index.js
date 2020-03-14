@@ -12,9 +12,10 @@ import path from 'ramda/src/path'
 
 import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
-import { useTranslation } from 'react-i18next'
+import { withTranslation } from 'react-i18next'
 
 const ModalPreview = ({
+  t,
   theme,
   post,
   renderUri,
@@ -69,4 +70,4 @@ ModalPreview.propTypes = {
   imageSource: PropTypes.any,
 }
 
-export default withTheme(ModalPreview)
+export default withTranslation()(withTheme(ModalPreview))

@@ -11,7 +11,7 @@ import LifetimeIndicator from 'components/PostCreate/LifetimeIndicator'
 
 import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
-import { useTranslation } from 'react-i18next'
+import { withTranslation } from 'react-i18next'
 
 const getTextByValue = (t) => (lifetime) => {
   if (lifetime === 'P1D') { return t('for a Day') }
@@ -38,13 +38,13 @@ const getValueByIndex = (lifetime) => {
 }
 
 const FormLifetime = ({
+  t,
   theme,
   values,
   setFieldValue,
 }) => {
   const styling = styles(theme)
-  const { t } = useTranslation()
-
+  
   return (
     <View style={styling.root}>
       <Text>{t('Post will be available {{lifetime}}', { lifetime: getTextByValue(t)(values.lifetime) })}</Text>
@@ -86,4 +86,4 @@ FormLifetime.propTypes = {
   setFieldValue: PropTypes.any,
 }
 
-export default withTheme(FormLifetime)
+export default withTranslation()(withTheme(FormLifetime))

@@ -15,9 +15,10 @@ import * as Animatable from 'react-native-animatable'
 
 import { withTheme, Caption } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
-import { useTranslation } from 'react-i18next'
+import { withTranslation } from 'react-i18next'
 
 const PostsPreview = ({
+  t,
   theme,
   selectedPost,
   handlePostClose,
@@ -100,4 +101,4 @@ const styles = theme => StyleSheet.create({
   },
 })
 
-export default withTheme(PostsPreview)
+export default withTranslation()(withTheme(PostsPreview))

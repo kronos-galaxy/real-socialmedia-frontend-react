@@ -12,15 +12,15 @@ import * as navigationActions from 'navigation/actions'
 
 import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
-import { useTranslation } from 'react-i18next'
+import { withTranslation } from 'react-i18next'
 
 const Stories = ({
+  t,
   theme,
   authUser,
   usersGetFollowedUsersWithStories,
 }) => {
   const styling = styles(theme)
-  const { t } = useTranslation()
   const navigation = useNavigation()
 
   const handleUserStoryPress = (user) => navigationActions.navigateStory(navigation, {
@@ -91,4 +91,4 @@ Stories.propTypes = {
   usersGetFollowedUsersWithStories: PropTypes.any,
 }
 
-export default withTheme(Stories)
+export default withTranslation()(withTheme(Stories))

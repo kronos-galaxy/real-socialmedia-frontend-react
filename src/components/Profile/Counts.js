@@ -12,14 +12,14 @@ import * as navigationActions from 'navigation/actions'
 
 import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
-import { useTranslation } from 'react-i18next'
+import { withTranslation } from 'react-i18next'
 
 const ProfileCounts = ({
+  t,
   theme,
   usersGetProfile,
 }) => {
   const styling = styles(theme)
-  const { t } = useTranslation()
   const navigation = useNavigation()
 
   const followerCount = path(['data', 'followerCount'])(usersGetProfile)
@@ -77,4 +77,4 @@ ProfileCounts.propTypes = {
   usersGetProfile: PropTypes.any,
 }
 
-export default withTheme(ProfileCounts)
+export default withTranslation()(withTheme(ProfileCounts))

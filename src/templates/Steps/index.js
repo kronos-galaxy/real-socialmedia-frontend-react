@@ -7,16 +7,16 @@ import {
 
 import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
-import { useTranslation } from 'react-i18next'
+import { withTranslation } from 'react-i18next'
 
 const StepsTemplate = ({
+  t,
   theme,
   steps,
   currentStep,
 }) => {
   const styling = styles(theme)
-  const { t } = useTranslation()
-
+  
   return (
     <View style={styling.root}>
       <View style={styling.progress}>
@@ -65,4 +65,4 @@ StepsTemplate.propTypes = {
   currentStep: PropTypes.any,
 }
 
-export default withTheme(StepsTemplate)
+export default withTranslation()(withTheme(StepsTemplate))

@@ -14,14 +14,14 @@ import * as navigationActions from 'navigation/actions'
 
 import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
-import { useTranslation } from 'react-i18next'
+import { withTranslation } from 'react-i18next'
 
 const AlbumLarge = ({
+  t,
   theme,
   items,
 }) => {
   const styling = styles(theme)
-  const { t } = useTranslation()
   const navigation = useNavigation()
 
   const getCollageMatrix = (album) => {
@@ -128,4 +128,4 @@ AlbumLarge.propTypes = {
   postsShareRequest: PropTypes.any,
 }
 
-export default withTheme(AlbumLarge)
+export default withTranslation()(withTheme(AlbumLarge))

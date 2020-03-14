@@ -12,15 +12,15 @@ import * as navigationActions from 'navigation/actions'
 
 import { withTheme } from 'react-native-paper'
 import { useNavigation, useRoute } from '@react-navigation/native'
-import { useTranslation } from 'react-i18next'
+import { withTranslation } from 'react-i18next'
 
 const Archived = ({
+  t,
   theme,
   postsGetArchived,
   postsGetArchivedRequest,
 }) => {
   const styling = styles(theme)
-  const { t } = useTranslation()
   const navigation = useNavigation()
   const route = useRoute()
 
@@ -61,4 +61,4 @@ Archived.propTypes = {
   postsGetArchivedRequest: PropTypes.any,
 }
 
-export default withTheme(Archived)
+export default withTranslation()(withTheme(Archived))

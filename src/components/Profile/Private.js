@@ -9,14 +9,14 @@ import { Caption, Text } from 'react-native-paper'
 
 import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
-import { useTranslation } from 'react-i18next'
+import { withTranslation } from 'react-i18next'
 
 const Private = ({
+  t,
   theme,
 }) => {
   const styling = styles(theme)
-  const { t } = useTranslation()
-
+  
   return (
     <View style={styling.root}>
       <Text>{t('This account is private')} </Text>
@@ -42,4 +42,4 @@ Private.propTypes = {
   
 }
 
-export default withTheme(Private)
+export default withTranslation()(withTheme(Private))

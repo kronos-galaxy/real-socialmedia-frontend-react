@@ -8,9 +8,10 @@ import DefaultButton from 'components/Formik/Button/DefaultButton'
 
 import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
-import { useTranslation } from 'react-i18next'
+import { withTranslation } from 'react-i18next'
 
 const Federated = ({
+  t,
   theme,
   authFacebook,
   authFacebookRequest,
@@ -18,8 +19,7 @@ const Federated = ({
   authGoogleRequest,
 }) => {
   const styling = styles(theme)
-  const { t } = useTranslation()
-
+  
   return (
     <View style={styling.root}>
       <View style={styling.item}>
@@ -45,4 +45,4 @@ const styles = theme => StyleSheet.create({
   },
 })
 
-export default withTheme(Federated)
+export default withTranslation()(withTheme(Federated))

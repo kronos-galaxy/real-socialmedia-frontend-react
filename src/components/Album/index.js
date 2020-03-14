@@ -12,16 +12,16 @@ import path from 'ramda/src/path'
 
 import { withTheme } from 'react-native-paper'
 import { useNavigation, useRoute } from '@react-navigation/native'
-import { useTranslation } from 'react-i18next'
+import { withTranslation } from 'react-i18next'
 
 const Album = ({
+  t,
   theme,
   themes,
   albumsGet,
   themeFetch,
 }) => {
   const styling = styles(theme)
-  const { t } = useTranslation()
   const navigation = useNavigation()
   const route = useRoute()
   const album = path(['params', 'album'])(route)
@@ -93,4 +93,6 @@ Album.propTypes = {
   postsShareRequest: PropTypes.any,
 }
 
-export default withTheme(Album)
+export default withTranslation()(
+  withTheme(Album)
+)

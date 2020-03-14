@@ -8,9 +8,10 @@ import ResultComponent from 'components/Search/Result'
 
 import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
-import { useTranslation } from 'react-i18next'
+import { withTranslation } from 'react-i18next'
 
 const ProfileFollower = ({
+  t,
   theme,
   usersGetFollowerUsers,
   usersFollow,
@@ -21,8 +22,7 @@ const ProfileFollower = ({
   usersAcceptFollowerUserRequest,
 }) => {
   const styling = styles(theme)
-  const { t } = useTranslation()
-
+  
   return (
     <View style={styling.root}>
       <ResultComponent
@@ -54,4 +54,4 @@ ProfileFollower.propTypes = {
   usersUnfollowRequest: PropTypes.any,
 }
 
-export default withTheme(ProfileFollower)
+export default withTranslation()(withTheme(ProfileFollower))

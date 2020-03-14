@@ -11,20 +11,20 @@ import * as Yup from 'yup'
 
 import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
-import { useTranslation } from 'react-i18next'
+import { withTranslation } from 'react-i18next'
 
 const formSchema = Yup.object().shape({
   confirmationCode: Yup.string().min(2).max(50).required(),
 })
 
 const ConfirmForm = ({
+  t,
   theme,
   handleSubmit,
   loading,
 }) => {
   const styling = styles(theme)
-  const { t } = useTranslation()
-
+  
   return (
     <View style={styling.root}>
       <View style={styling.input}>
@@ -54,7 +54,7 @@ ConfirmForm.propTypes = {
   authSignupConfirm: PropTypes.any,
 }
 
-export default withTheme(({
+export default withTranslation()(withTheme(({
   authSignupConfirm,
   authSignupConfirmRequest,
   ...props
@@ -74,4 +74,4 @@ export default withTheme(({
       />
     )}
   </Formik>
-))
+)))

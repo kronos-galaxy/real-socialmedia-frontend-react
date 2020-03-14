@@ -20,6 +20,7 @@ const Icon = () => (
 )
 
 const AvatarTemplate = ({
+  t,
   theme,
   thumbnailSource,
   imageSource,

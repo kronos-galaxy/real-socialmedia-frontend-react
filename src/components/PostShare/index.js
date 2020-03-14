@@ -16,9 +16,10 @@ import * as navigationActions from 'navigation/actions'
 
 import { withTheme } from 'react-native-paper'
 import { useNavigation, useRoute } from '@react-navigation/native'
-import { useTranslation } from 'react-i18next'
+import { withTranslation } from 'react-i18next'
 
 const PostShare = ({
+  t,
   theme,
   authUser,
   postsSingleGet,
@@ -28,7 +29,6 @@ const PostShare = ({
   handleWatermark,
 }) => {
   const styling = styles(theme)
-  const { t } = useTranslation()
   const navigation = useNavigation()
   const route = useRoute()
 
@@ -164,4 +164,4 @@ PostShare.propTypes = {
   postsShareRequest: PropTypes.any,
 }
 
-export default withTheme(PostShare)
+export default withTranslation()(withTheme(PostShare))

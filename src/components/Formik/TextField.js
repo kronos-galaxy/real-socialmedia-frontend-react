@@ -9,9 +9,10 @@ import { ErrorMessage } from 'formik'
 
 import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
-import { useTranslation } from 'react-i18next'
+import { withTranslation } from 'react-i18next'
 
 const TextField = ({
+  t,
   theme,
   field: {
     value,
@@ -28,7 +29,7 @@ const TextField = ({
   secureTextEntry,
 }) => {
   const styling = styles(theme)
-  const { t } = useTranslation()
+  
 
   const onFocus = () => {
     form.setFieldTouched(name, true)
@@ -102,4 +103,4 @@ TextField.propTypes = {
   disabled: PropTypes.any,
 }
 
-export default withTheme(TextField)
+export default withTranslation()(withTheme(TextField))

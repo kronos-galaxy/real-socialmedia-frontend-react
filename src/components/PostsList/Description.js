@@ -11,9 +11,10 @@ import * as navigationActions from 'navigation/actions'
 
 import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
-import { useTranslation } from 'react-i18next'
+import { withTranslation } from 'react-i18next'
 
 const Description = ({
+  t,
   theme,
   post,
 }) => {
@@ -84,4 +85,4 @@ Description.propTypes = {
   post: PropTypes.any,
 }
 
-export default withTheme(Description)
+export default withTranslation()(withTheme(Description))

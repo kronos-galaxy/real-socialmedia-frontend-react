@@ -7,15 +7,16 @@ import useBoolean from 'react-use/lib/useBoolean'
 
 import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
-import { useTranslation } from 'react-i18next'
+import { withTranslation } from 'react-i18next'
 
 const Button = ({
+  t,
   theme,
   handleCameraRecordStart,
   handleCameraRecordStop,
 }) => {
   const styling = styles(theme)
-  const { t } = useTranslation()
+  
 
   const [count, setCount] = React.useState(0)
   const [isRunning, toggleIsRunning] = useBoolean(false)
@@ -67,4 +68,4 @@ Button.propTypes = {
   handleCameraRecordStop: PropTypes.any,
 }
 
-export default withTheme(Button)
+export default withTranslation()(withTheme(Button))

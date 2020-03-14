@@ -4,7 +4,6 @@ import {
   Alert,
 } from 'react-native'
 import usePrevious from 'react-use/lib/usePrevious'
-import { useTranslation } from 'react-i18next'
 
 const NativeError = ({
   titleText,

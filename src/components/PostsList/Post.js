@@ -20,9 +20,10 @@ import * as navigationActions from 'navigation/actions'
 
 import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
-import { useTranslation } from 'react-i18next'
+import { withTranslation } from 'react-i18next'
 
 const PostComponent = ({
+  t,
   theme,
   themes,
   authUser,
@@ -46,7 +47,6 @@ const PostComponent = ({
   textPostRef,
 }) => {
   const styling = styles(theme)
-  const { t } = useTranslation()
   const navigation = useNavigation()
 
   const albumLength = path(['album', 'posts', 'items', 'length'])(post) || 0
@@ -183,4 +183,4 @@ PostComponent.propTypes = {
   usersGetFollowedUsersWithStoriesRequest: PropTypes.any, 
 }
 
-export default withTheme(PostComponent)
+export default withTranslation()(withTheme(PostComponent))

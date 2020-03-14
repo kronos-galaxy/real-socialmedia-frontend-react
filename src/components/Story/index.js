@@ -20,7 +20,7 @@ import pathOr from 'ramda/src/pathOr'
 
 import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
-import { useTranslation } from 'react-i18next'
+import { withTranslation } from 'react-i18next'
 
 const StoryCarousel = ({
   ref,
@@ -93,6 +93,7 @@ const StoryCarousel = ({
 }
 
 const Story = ({
+  t,
   theme,
   userId,
   usersGetFollowedUsersWithStories,
@@ -105,7 +106,7 @@ const Story = ({
   onSnapItem,
 }) => {
   const styling = styles(theme)
-  const { t } = useTranslation()
+  
   
   return (
     <View style={styling.root} key={currentStory}>
@@ -222,4 +223,4 @@ Story.propTypes = {
   onCloseStory: PropTypes.any,
 }
 
-export default withTheme(Story)
+export default withTranslation()(withTheme(Story))

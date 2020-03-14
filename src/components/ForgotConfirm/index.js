@@ -13,9 +13,10 @@ import * as navigationActions from 'navigation/actions'
 
 import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
-import { useTranslation } from 'react-i18next'
+import { withTranslation } from 'react-i18next'
 
 const ForgotConfirm = ({
+  t,
   theme,
   authForgot,
   authForgotConfirm,
@@ -23,7 +24,6 @@ const ForgotConfirm = ({
   authForgotConfirmIdle,
 }) => {
   const styling = styles(theme)
-  const { t } = useTranslation()
   const navigation = useNavigation()
 
   return (
@@ -87,4 +87,4 @@ ForgotConfirm.propTypes = {
   authForgotConfirmRequest: PropTypes.any,
 }
 
-export default withTheme(ForgotConfirm)
+export default withTranslation()(withTheme(ForgotConfirm))

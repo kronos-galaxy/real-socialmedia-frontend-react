@@ -13,9 +13,10 @@ import pathOr from 'ramda/src/pathOr'
 
 import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
-import { useTranslation } from 'react-i18next'
+import { withTranslation } from 'react-i18next'
 
 const Comments = ({
+  t,
   theme,
   commentsAdd,
   commentsAddRequest,
@@ -23,8 +24,7 @@ const Comments = ({
   marginBottom,
 }) => {
   const styling = styles(theme)
-  const { t } = useTranslation()
-
+  
   return (
     <View style={styling.root}>
       <ScrollView
@@ -77,4 +77,4 @@ Comments.propTypes = {
   theme: PropTypes.any,
 }
 
-export default withTheme(Comments)
+export default withTranslation()(withTheme(Comments))

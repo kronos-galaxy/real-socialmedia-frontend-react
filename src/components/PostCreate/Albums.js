@@ -11,9 +11,10 @@ import path from 'ramda/src/path'
 
 import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
-import { useTranslation } from 'react-i18next'
+import { withTranslation } from 'react-i18next'
 
 const Albums = ({
+  t,
   theme,
   items,
   albumId,
@@ -57,4 +58,4 @@ Albums.propTypes = {
   items: PropTypes.any,
 }
 
-export default withTheme(Albums)
+export default withTranslation()(withTheme(Albums))

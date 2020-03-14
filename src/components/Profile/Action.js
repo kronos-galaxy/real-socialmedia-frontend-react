@@ -10,9 +10,10 @@ import * as navigationActions from 'navigation/actions'
 
 import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
-import { useTranslation } from 'react-i18next'
+import { withTranslation } from 'react-i18next'
 
 const ProfileAction = ({
+  t,
   theme,
   self,
   usersGetProfile,
@@ -26,7 +27,6 @@ const ProfileAction = ({
   usersUnfollowRequest,
 }) => {
   const styling = styles(theme)
-  const { t } = useTranslation()
   const navigation = useNavigation()
 
   return (
@@ -142,4 +142,4 @@ ProfileAction.propTypes = {
   usersUnfollowRequest: PropTypes.any,
 }
 
-export default withTheme(ProfileAction)
+export default withTranslation()(withTheme(ProfileAction))

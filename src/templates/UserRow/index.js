@@ -8,9 +8,10 @@ import {
 
 import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
-import { useTranslation } from 'react-i18next'
+import { withTranslation } from 'react-i18next'
 
 const UserRowTemplate = ({
+  t,
   theme,
   avatar,
   content,
@@ -18,8 +19,7 @@ const UserRowTemplate = ({
   onPress,
 }) => {
   const styling = styles(theme)
-  const { t } = useTranslation()
-
+  
   return (
     <TouchableOpacity style={styling.root} onPress={onPress} disabled={!onPress}>
       <View style={styling.component}>
@@ -58,4 +58,4 @@ UserRowTemplate.propTypes = {
   onPress: PropTypes.any,
 }
 
-export default withTheme(UserRowTemplate)
+export default withTranslation()(withTheme(UserRowTemplate))

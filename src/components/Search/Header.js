@@ -7,15 +7,15 @@ import {
 
 import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
-import { useTranslation } from 'react-i18next'
+import { withTranslation } from 'react-i18next'
 
 const Header = ({
+  t,
   theme,
   children,
 }) => {
   const styling = styles(theme)
-  const { t } = useTranslation()
-
+  
   return (
     <View style={styling.root}>
       {children}
@@ -34,4 +34,4 @@ Header.propTypes = {
   children: PropTypes.any,
 }
 
-export default withTheme(Header)
+export default withTranslation()(withTheme(Header))

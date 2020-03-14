@@ -14,14 +14,14 @@ import * as navigationActions from 'navigation/actions'
 
 import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
-import { useTranslation } from 'react-i18next'
+import { withTranslation } from 'react-i18next'
 
 const PostType = ({
+  t,
   theme,
   handleLibrarySnap,
 }) => {
   const styling = styles(theme)
-  const { t } = useTranslation()
   const navigation = useNavigation()
 
   return (
@@ -130,4 +130,4 @@ PostType.propTypes = {
   theme: PropTypes.any,
 }
 
-export default withTheme(PostType)
+export default withTranslation()(withTheme(PostType))

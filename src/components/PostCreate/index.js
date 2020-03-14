@@ -13,9 +13,10 @@ import UploadingComponent from 'components/PostsList/Uploading'
 
 import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
-import { useTranslation } from 'react-i18next'
+import { withTranslation } from 'react-i18next'
 
 const PostCreateComponent = ({
+  t,
   theme,
   user,
   cameraCapture,
@@ -28,7 +29,6 @@ const PostCreateComponent = ({
   type,
 }) => {
   const styling = styles(theme)
-  const { t } = useTranslation()
   const navigation = useNavigation()
 
   if (!cameraCapture.data.length && type !== 'TEXT_ONLY') {
@@ -111,4 +111,4 @@ const styles = theme => StyleSheet.create({
   },
 })
 
-export default withTheme(PostCreateComponent)
+export default withTranslation()(withTheme(PostCreateComponent))

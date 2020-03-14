@@ -11,9 +11,10 @@ import FormAlbums from 'components/PostEdit/FormAlbums'
 
 import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
-import { useTranslation } from 'react-i18next'
+import { withTranslation } from 'react-i18next'
 
 const PostEditComponent = ({
+  t,
   theme,
   postsEditRequest,
   postsEdit,
@@ -22,7 +23,6 @@ const PostEditComponent = ({
   albumsGet,
 }) => {
   const styling = styles(theme)
-  const { t } = useTranslation()
   const navigation = useNavigation()
 
   return (
@@ -63,4 +63,4 @@ const styles = theme => StyleSheet.create({
   },
 })
 
-export default withTheme(PostEditComponent)
+export default withTranslation()(withTheme(PostEditComponent))

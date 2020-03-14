@@ -15,13 +15,14 @@ import CloseIcon from 'assets/svg/camera/Close'
 
 import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
-import { useTranslation } from 'react-i18next'
+import { withTranslation } from 'react-i18next'
 
 const formSchema = Yup.object().shape({
   searchToken: Yup.string().min(1).max(50).required(),
 })
 
 const SearchForm = ({
+  t,
   theme,
   handleSubmit,
   handleFormFocus,
@@ -31,7 +32,7 @@ const SearchForm = ({
   values,
 }) => {
   const styling = styles(theme)
-  const { t } = useTranslation()
+  
 
   const formFocus = getFieldMeta('searchToken').touched
   const formChange = path(['searchToken', 'length'])(values)
@@ -94,7 +95,7 @@ SearchForm.propTypes = {
   usersSearch: PropTypes.any,
 }
 
-export default withTheme(({
+export default withTranslation()(withTheme(({
   usersSearch,
   usersSearchRequest,
   ...props
@@ -114,4 +115,4 @@ export default withTheme(({
       />
     )}
   </Formik>
-))
+)))

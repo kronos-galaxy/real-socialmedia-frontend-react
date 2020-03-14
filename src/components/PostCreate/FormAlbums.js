@@ -12,16 +12,16 @@ import * as navigationActions from 'navigation/actions'
 
 import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
-import { useTranslation } from 'react-i18next'
+import { withTranslation } from 'react-i18next'
 
 const FormAlbums = ({
+  t,
   theme,
   values,
   setFieldValue,
   albumsGet,
 }) => {
   const styling = styles(theme)
-  const { t } = useTranslation()
   const navigation = useNavigation()
 
   const handleAlbumPress = (albumId) => () => {
@@ -89,4 +89,4 @@ FormAlbums.propTypes = {
   setFieldValue: PropTypes.any,
 }
 
-export default withTheme(FormAlbums)
+export default withTranslation()(withTheme(FormAlbums))

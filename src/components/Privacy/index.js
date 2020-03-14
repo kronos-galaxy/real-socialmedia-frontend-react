@@ -10,9 +10,10 @@ import Disclaimer from 'components/Privacy/Disclaimer'
 
 import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
-import { useTranslation } from 'react-i18next'
+import { withTranslation } from 'react-i18next'
 
 const Privacy = ({
+  t,
   theme,
   user,
   togglePrivacyStatus,
@@ -24,8 +25,7 @@ const Privacy = ({
   toggleVerificationHidden,
 }) => {
   const styling = styles(theme)
-  const { t } = useTranslation()
-
+  
   return (
     <ScrollView>
       <View style={styling.root}>
@@ -63,4 +63,4 @@ Privacy.propTypes = {
   toggleFollowCountsHidden: PropTypes.any,
 }
 
-export default withTheme(Privacy)
+export default withTranslation()(withTheme(Privacy))

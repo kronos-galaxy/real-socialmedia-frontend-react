@@ -16,9 +16,10 @@ import { Text, Caption } from 'react-native-paper'
 
 import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
-import { useTranslation } from 'react-i18next'
+import { withTranslation } from 'react-i18next'
 
 const PostsGridSelect = ({
+  t,
   theme,
   usersImagePostsGet,
   handlePostPress,
@@ -26,7 +27,6 @@ const PostsGridSelect = ({
   usersEditProfileRequest,
 }) => {
   const styling = styles(theme)
-  const { t } = useTranslation()
   const navigation = useNavigation()
 
   navigation.setOptions({
@@ -94,4 +94,4 @@ PostsGridSelect.propTypes = {
   selectedPost: PropTypes.any,
 }
 
-export default withTheme(PostsGridSelect)
+export default withTranslation()(withTheme(PostsGridSelect))

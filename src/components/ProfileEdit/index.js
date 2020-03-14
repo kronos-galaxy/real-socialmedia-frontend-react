@@ -10,9 +10,10 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 
 import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
-import { useTranslation } from 'react-i18next'
+import { withTranslation } from 'react-i18next'
 
 const ProfileEdit = ({
+  t,
   theme,
   user,
   usersEditProfile,
@@ -26,8 +27,7 @@ const ProfileEdit = ({
   toggleVerificationHidden,
 }) => {
   const styling = styles(theme)
-  const { t } = useTranslation()
-
+  
   return (
     <View style={styling.root}>
       <KeyboardAwareScrollView>
@@ -79,5 +79,5 @@ ProfileEdit.propTypes = {
   toggleVerificationHidden: PropTypes.any,
 }
 
-export default withTheme(ProfileEdit)
+export default withTranslation()(withTheme(ProfileEdit))
 

@@ -29,15 +29,15 @@ import * as navigationActions from 'navigation/actions'
 
 import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
-import { useTranslation } from 'react-i18next'
+import { withTranslation } from 'react-i18next'
 
 const Settings = ({
+  t,
   theme,
   authSignoutRequest,
   user,
 }) => {
   const styling = styles(theme)
-  const { t } = useTranslation()
   const navigation = useNavigation()
   const actionSheetRef = useRef(null)
 
@@ -154,4 +154,4 @@ Settings.propTypes = {
   user: PropTypes.any,
 }
 
-export default withTheme(Settings)
+export default withTranslation()(withTheme(Settings))

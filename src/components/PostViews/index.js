@@ -11,9 +11,10 @@ import { Caption } from 'react-native-paper'
 
 import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
-import { useTranslation } from 'react-i18next'
+import { withTranslation } from 'react-i18next'
 
 const PostViews = ({
+  t,
   theme,
   postsViewsGet,
   usersFollow,
@@ -24,8 +25,7 @@ const PostViews = ({
   usersAcceptFollowerUserRequest,
 }) => {
   const styling = styles(theme)
-  const { t } = useTranslation()
-
+  
   return (
     <View style={styling.root}>
       <View style={styling.info}>
@@ -72,4 +72,4 @@ PostViews.propTypes = {
   usersUnfollowRequest: PropTypes.any,
 }
 
-export default withTheme(PostViews)
+export default withTranslation()(withTheme(PostViews))

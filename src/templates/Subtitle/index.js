@@ -9,14 +9,15 @@ import { Text } from 'react-native-paper'
 
 import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
-import { useTranslation } from 'react-i18next'
+import { withTranslation } from 'react-i18next'
 
 const Subtitle = ({
+  t,
   theme,
   actions,
 }) => {
   const styling = styles(theme)
-  const { t } = useTranslation()
+  
   
   return (
     <View style={styling.root}>
@@ -53,4 +54,4 @@ const styles = theme => StyleSheet.create({
   },
 })
 
-export default withTheme(Subtitle)
+export default withTranslation()(withTheme(Subtitle))

@@ -11,7 +11,7 @@ import * as Yup from 'yup'
 
 import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
-import { useTranslation } from 'react-i18next'
+import { withTranslation } from 'react-i18next'
 
 const formSchema = Yup.object().shape({
   username: Yup.string()
@@ -30,13 +30,13 @@ const formSchema = Yup.object().shape({
 })
 
 const UsernameForm = ({
+  t,
   theme,
   handleSubmit,
   loading,
 }) => {
   const styling = styles(theme)
-  const { t } = useTranslation()
-
+  
   return (
     <View style={styling.root}>
       <View style={styling.input}>
@@ -66,7 +66,7 @@ UsernameForm.propTypes = {
   authSignin: PropTypes.any,
 }
 
-export default withTheme(({
+export default withTranslation()(withTheme(({
   authSignin,
   authSigninRequest,
   ...props
@@ -87,4 +87,4 @@ export default withTheme(({
       />
     )}
   </Formik>
-))
+)))

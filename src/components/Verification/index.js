@@ -16,15 +16,15 @@ import * as navigationActions from 'navigation/actions'
 
 import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
-import { useTranslation } from 'react-i18next'
+import { withTranslation } from 'react-i18next'
 
 const Verification = ({
+  t,
   theme,
   authUser,
   postsSingleGet,
 }) => {
   const styling = styles(theme)
-  const { t } = useTranslation()
   const navigation = useNavigation()
 
   /**
@@ -124,4 +124,4 @@ Verification.propTypes = {
   postsShareRequest: PropTypes.any,
 }
 
-export default withTheme(Verification)
+export default withTranslation()(withTheme(Verification))

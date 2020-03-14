@@ -10,15 +10,16 @@ import PinchZoom from 'templates/ListItem/PinchZoom'
 
 import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
-import { useTranslation } from 'react-i18next'
+import { withTranslation } from 'react-i18next'
 
 const ListItemTemplate = ({
+  t,
   theme,
   children,
   post,
 }) => {
   const styling = styles(theme)
-  const { t } = useTranslation()
+  
 
   const image = path(['image'])(post)
 
@@ -60,4 +61,4 @@ ListItemTemplate.propTypes = {
   children: PropTypes.any,
 }
 
-export default withTheme(ListItemTemplate)
+export default withTranslation()(withTheme(ListItemTemplate))

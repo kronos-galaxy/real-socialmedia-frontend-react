@@ -8,15 +8,15 @@ import DefaultButton from 'components/Formik/Button/DefaultButton'
 
 import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
-import { useTranslation } from 'react-i18next'
+import { withTranslation } from 'react-i18next'
 
 const MoreComponent = ({
+  t,
   theme,
   onPress,
 }) => {
   const styling = styles(theme)
-  const { t } = useTranslation()
-
+  
   return (
     <View style={styling.root}>
       <View style={styling.helper}>
@@ -48,4 +48,4 @@ MoreComponent.propTypes = {
   
 }
 
-export default withTheme(MoreComponent)
+export default withTranslation()(withTheme(MoreComponent))

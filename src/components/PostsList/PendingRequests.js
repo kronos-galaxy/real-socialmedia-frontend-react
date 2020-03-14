@@ -11,14 +11,14 @@ import * as navigationActions from 'navigation/actions'
 
 import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
-import { useTranslation } from 'react-i18next'
+import { withTranslation } from 'react-i18next'
 
 const PendingRequests = ({
+  t,
   theme,
   usersGetPendingFollowers,
 }) => {
   const styling = styles(theme)
-  const { t } = useTranslation()
   const navigation = useNavigation()
 
   if (!usersGetPendingFollowers.data.length) {
@@ -104,4 +104,4 @@ PendingRequests.propTypes = {
   usersGetPendingFollowers: PropTypes.any,
 }
 
-export default withTheme(PendingRequests)
+export default withTranslation()(withTheme(PendingRequests))

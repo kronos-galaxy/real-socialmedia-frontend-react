@@ -16,7 +16,7 @@ import StoriesComponent from 'components/Stories'
 
 import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
-import { useTranslation } from 'react-i18next'
+import { withTranslation } from 'react-i18next'
 
 const ScrollHelper = ({
   postsFeedGet,
@@ -67,6 +67,7 @@ const ScrollHelper = ({
 }
 
 const PostsList = ({
+  t,
   theme,
   themes,
   authUser,
@@ -100,7 +101,7 @@ const PostsList = ({
   viewabilityConfigRef,
 }) => {
   const styling = styles(theme)
-  const { t } = useTranslation()
+  
 
   const scroll = ScrollHelper({
     postsFeedGet,
@@ -237,4 +238,4 @@ PostsList.propTypes = {
   usersGetFollowedUsersWithStoriesRequest: PropTypes.any, 
 }
 
-export default withTheme(PostsList)
+export default withTranslation()(withTheme(PostsList))

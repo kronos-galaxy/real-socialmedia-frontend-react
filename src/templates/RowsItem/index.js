@@ -8,15 +8,16 @@ import Layout from 'constants/Layout'
 
 import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
-import { useTranslation } from 'react-i18next'
+import { withTranslation } from 'react-i18next'
 
 const RowsItemTemplate = ({
+  t,
   theme,
   children,
   hasBorders,
 }) => {
   const styling = styles(theme)
-  const { t } = useTranslation()
+  
   const rootStyle = hasBorders ? styling.rootBorder : styling.rootDefault
 
   return (
@@ -56,4 +57,4 @@ RowsItemTemplate.propTypes = {
   hasBorders: PropTypes.any,
 }
 
-export default withTheme(RowsItemTemplate)
+export default withTranslation()(withTheme(RowsItemTemplate))

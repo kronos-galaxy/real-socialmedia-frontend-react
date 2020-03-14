@@ -10,14 +10,14 @@ import Formula from 'components/Payout/Formula'
 
 import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
-import { useTranslation } from 'react-i18next'
+import { withTranslation } from 'react-i18next'
 
 const Payout = ({
+  t,
   theme,
 }) => {
   const styling = styles(theme)
-  const { t } = useTranslation()
-
+  
   return (
     <ScrollView style={styling.root}>
       <Title style={styling.title}>{t('Starting March of 2019')}</Title>
@@ -84,4 +84,4 @@ Payout.propTypes = {
   theme: PropTypes.any,
 }
 
-export default withTheme(Payout)
+export default withTranslation()(withTheme(Payout))

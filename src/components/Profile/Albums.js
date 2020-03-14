@@ -11,14 +11,14 @@ import PostsLoadingComponent from 'components/PostsList/PostsLoading'
 
 import { withTheme } from 'react-native-paper'
 import { useNavigation, useRoute } from '@react-navigation/native'
-import { useTranslation } from 'react-i18next'
+import { withTranslation } from 'react-i18next'
 
 const ProfileAlbums = ({
+  t,
   theme,
 }) => {
   const styling = styles(theme)
-  const { t } = useTranslation()
-
+  
   return (
     <AlbumsGridServiceComponent>
       {(albumsProps) => (
@@ -49,4 +49,4 @@ ProfileAlbums.propTypes = {
   theme: PropTypes.any,
 }
 
-export default withTheme(ProfileAlbums)
+export default withTranslation()(withTheme(ProfileAlbums))

@@ -15,9 +15,10 @@ import * as navigationActions from 'navigation/actions'
 
 import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
-import { useTranslation } from 'react-i18next'
+import { withTranslation } from 'react-i18next'
 
 const Uploading = ({
+  t,
   theme,
   authUser,
   post,
@@ -25,7 +26,6 @@ const Uploading = ({
   postsCreateIdle,
 }) => {
   const styling = styles(theme)
-  const { t } = useTranslation()
   const navigation = useNavigation()
 
   if (!['loading', 'failure', 'success'].includes(post.status)) {
@@ -139,4 +139,4 @@ Uploading.propTypes = {
   postsFlagRequest: PropTypes.any,
 }
 
-export default withTheme(Uploading)
+export default withTranslation()(withTheme(Uploading))

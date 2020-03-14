@@ -9,9 +9,10 @@ import { ifIphoneX } from 'react-native-iphone-x-helper'
 
 import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
-import { useTranslation } from 'react-i18next'
+import { withTranslation } from 'react-i18next'
 
 const CameraComponent = ({
+  t,
   theme,
   steps,
   header,
@@ -21,8 +22,7 @@ const CameraComponent = ({
   wrapper,
 }) => {
   const styling = styles(theme)
-  const { t } = useTranslation()
-
+  
   return (
     <View style={styling.root}>
       {wrapper}
@@ -118,4 +118,4 @@ CameraComponent.propTypes = {
   wrapper: PropTypes.any,
 }
 
-export default withTheme(CameraComponent)
+export default withTranslation()(withTheme(CameraComponent))

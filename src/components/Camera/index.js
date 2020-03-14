@@ -19,7 +19,7 @@ import * as navigationActions from 'navigation/actions'
 
 import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
-import { useTranslation } from 'react-i18next'
+import { withTranslation } from 'react-i18next'
 
 const usePulse = (fromValue, toValue) => {
   const width = new Animated.Value(fromValue)
@@ -29,6 +29,7 @@ const usePulse = (fromValue, toValue) => {
 }
 
 const CameraComponent = ({
+  t,
   theme,
   photoSize,
   setPhotoSize,
@@ -44,7 +45,6 @@ const CameraComponent = ({
   cameraEnabled,
 }) => {
   const styling = styles(theme)
-  const { t } = useTranslation()
   const navigation = useNavigation()
   
   /**
@@ -162,4 +162,4 @@ CameraComponent.propTypes = {
   postsCreate: PropTypes.any,
 }
 
-export default withTheme(CameraComponent)
+export default withTranslation()(withTheme(CameraComponent))

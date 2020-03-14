@@ -9,9 +9,10 @@ import Avatar from 'templates/Avatar'
 
 import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
-import { useTranslation } from 'react-i18next'
+import { withTranslation } from 'react-i18next'
 
 const Profile = ({
+  t,
   theme,
   thumbnailSource,
   imageSource,
@@ -19,8 +20,7 @@ const Profile = ({
   subtitle,
 }) => {
   const styling = styles(theme)
-  const { t } = useTranslation()
-
+  
   return (
     <View style={styling.profile}>
       <Avatar
@@ -54,4 +54,4 @@ Profile.propTypes = {
   subtitle: PropTypes.any,
 }
 
-export default withTheme(Profile)
+export default withTranslation()(withTheme(Profile))

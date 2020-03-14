@@ -10,15 +10,15 @@ import dayjs from 'dayjs'
 
 import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
-import { useTranslation } from 'react-i18next'
+import { withTranslation } from 'react-i18next'
 
 const ProfileAbout = ({
+  t,
   theme,
   usersGetProfile,
 }) => {
   const styling = styles(theme)
-  const { t } = useTranslation()
-
+  
   return (
     <View style={styling.root}>
       <Subheading style={styling.itemTitle}>{path(['data', 'fullName'])(usersGetProfile)}</Subheading>
@@ -44,4 +44,4 @@ ProfileAbout.propTypes = {
   usersGetProfile: PropTypes.any,
 }
 
-export default withTheme(ProfileAbout)
+export default withTranslation()(withTheme(ProfileAbout))

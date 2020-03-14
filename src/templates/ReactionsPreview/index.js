@@ -12,15 +12,15 @@ import * as navigationActions from 'navigation/actions'
 
 import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
-import { useTranslation } from 'react-i18next'
+import { withTranslation } from 'react-i18next'
 
 const ReactionsPreviewTemplate = ({
+  t,
   theme,
   post,
   authUser,
 }) => {
   const styling = styles(theme)
-  const { t } = useTranslation()
   const navigation = useNavigation()
 
   const visibility = (
@@ -97,4 +97,4 @@ ReactionsPreviewTemplate.propTypes = {
   post: PropTypes.any,
 }
 
-export default withTheme(ReactionsPreviewTemplate)
+export default withTranslation()(withTheme(ReactionsPreviewTemplate))

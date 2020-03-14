@@ -16,9 +16,10 @@ import PostsLoadingComponent from 'components/PostsList/PostsLoading'
 
 import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
-import { useTranslation } from 'react-i18next'
+import { withTranslation } from 'react-i18next'
 
 const SearchComponent = ({
+  t,
   theme,
   themes,
   authUser,
@@ -39,8 +40,7 @@ const SearchComponent = ({
   themeFetch,
 }) => {
   const styling = styles(theme)
-  const { t } = useTranslation()
-
+  
   return (
     <View style={styling.root}>
       <HeaderComponent>
@@ -145,4 +145,4 @@ SearchComponent.propTypes = {
   usersUnfollowRequest: PropTypes.any,
 }
 
-export default withTheme(SearchComponent)
+export default withTranslation()(withTheme(SearchComponent))
