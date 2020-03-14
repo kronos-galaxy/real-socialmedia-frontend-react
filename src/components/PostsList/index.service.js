@@ -25,9 +25,7 @@ const PostsListService = ({ children, }) => {
   const postsCreateQueue = useSelector(state => state.posts.postsCreateQueue)
   const usersGetPendingFollowers = useSelector(state => state.users.usersGetPendingFollowers)
   const usersAcceptFollowerUser = useSelector(state => state.users.usersAcceptFollowerUser)
-
-  const feedRef = useRef(null)
-  useScrollToTop(feedRef)
+  const themes = useSelector(state => state.theme.themeFetch.data)
 
   const postsFeedGetRequest = (payload) =>
     dispatch(postsActions.postsFeedGetRequest(payload))
@@ -155,8 +153,34 @@ const PostsListService = ({ children, }) => {
     } catch (error) {}
   }
 
+  /**
+   * FlatList feed ref, used for scroll to top on tab bar press
+   */
+  const feedRef = useRef(null)
+  useScrollToTop(feedRef)
+
+  /**
+   * Post header dropdown ref, used for header actions dropdown
+   */
+  const actionSheetRefs = useRef({})
+
+  /**
+   * Text only post ref, used for rendering textonly post component into image
+   */
+  const textPostRefs = useRef({})
+
+  /**
+   * FlatList feed config ref, used for reporting scroll events
+   */
+  const onViewableItemsChangedRef = useRef(onViewableItemsChanged)
+  const viewabilityConfigRef = useRef({
+    minimumViewTime: 500,
+    viewAreaCoveragePercentThreshold: 75,
+    waitForInteraction: true,
+  })
+
   return children({
-    feedRef,
+    themes,
     authUser,
     postsFeedGet,
     postsFeedGetRequest,
@@ -185,6 +209,12 @@ const PostsListService = ({ children, }) => {
     onViewableItemsChanged,
     handleScrollPrev,
     handleScrollNext,
+
+    feedRef,
+    actionSheetRefs,
+    textPostRefs,
+    onViewableItemsChangedRef,
+    viewabilityConfigRef,
   })
 }
 

@@ -16,6 +16,7 @@ import { useTranslation } from 'react-i18next'
 
 const Album = ({
   theme,
+  themes,
   albumsGet,
   themeFetch,
 }) => {
@@ -42,6 +43,7 @@ const Album = ({
             postsGet={{ data: album.posts.items }}
             themeFetch={themeFetch}
             themeCode={path(['ownedBy', 'themeCode'])(album)}
+            themes={themes}
           />
         </View>
       </ScrollView>

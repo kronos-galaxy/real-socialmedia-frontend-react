@@ -12,6 +12,7 @@ const PostsGridService = ({ children }) => {
   const postsGet = useSelector(state => state.posts.postsGet)
   const postsGetCache = useSelector(state => state.posts.postsGetCache)
   const themeFetch = useSelector(state => state.theme.themeFetch)
+  const themes = useSelector(state => state.theme.themeFetch.data)
   const user = path(['params', 'user'])(route) || useSelector(state => state.auth.user)
   const userId = user.userId
 
@@ -26,6 +27,7 @@ const PostsGridService = ({ children }) => {
   }, [userId])
 
   return children({
+    themes,
     themeFetch,
     user: route.params,
     postsGet: postsServices.cachedPostsGet(postsGet, postsGetCache, userId),

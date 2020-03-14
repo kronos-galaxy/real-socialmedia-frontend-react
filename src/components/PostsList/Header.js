@@ -1,4 +1,4 @@
-import React, { useRef } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import {
   StyleSheet,
@@ -28,13 +28,14 @@ const Header = ({
   postsShareRequest,
   postsRestoreArchivedRequest,
   handlePostShare,
+  createActionSheetRef,
+  actionSheetRef,
 }) => {
   const styling = styles(theme)
   const { t } = useTranslation()
   const navigation = useNavigation()
-  const actionSheetRef = useRef(null)
 
-  const handleOptionsPress = () => actionSheetRef.current.show()
+  const handleOptionsPress = () => actionSheetRef.show()
   const archived = path(['postStatus'])(post) === 'ARCHIVED'
 
   const failedVerificationVisibility = (
@@ -95,7 +96,7 @@ const Header = ({
           </TouchableOpacity>
 
           <ActionSheet
-            ref={actionSheetRef}
+            ref={createActionSheetRef}
             options={[t('Restore from Archived'), t('Cancel')]}
             cancelButtonIndex={1}
             onPress={(index) => {
@@ -114,7 +115,7 @@ const Header = ({
           </TouchableOpacity>
 
           <ActionSheet
-            ref={actionSheetRef}
+            ref={createActionSheetRef}
             options={[t('Share'), t('Edit'), t('Archive'), t('Delete'), t('Cancel')]}
             cancelButtonIndex={4}
             destructiveButtonIndex={3}
@@ -143,7 +144,7 @@ const Header = ({
           </TouchableOpacity>
 
           <ActionSheet
-            ref={actionSheetRef}
+            ref={createActionSheetRef}
             options={[t('Share'), t('Report'), t('Cancel')]}
             cancelButtonIndex={2}
             onPress={(index) => {

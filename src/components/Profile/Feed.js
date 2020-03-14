@@ -27,6 +27,7 @@ const ProfileFeed = ({
             postsGet={postsProps.postsGet}
             themeFetch={postsProps.themeFetch}
             themeCode={path(['data', 'themeCode'])(postsProps.user)}
+            themes={postsProps.themes}
           />
 
           {(path(['status'])(postsProps.postsGet) === 'loading' && !path(['data', 'length'])(postsProps.postsGet)) ?

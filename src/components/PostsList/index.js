@@ -68,8 +68,8 @@ const ScrollHelper = ({
 
 const PostsList = ({
   theme,
+  themes,
   authUser,
-  feedRef,
   postsFeedGet,
   postsFeedGetRequest,
   postsFeedGetMoreRequest,
@@ -92,6 +92,12 @@ const PostsList = ({
   onViewableItemsChanged,
   handleScrollPrev,
   handleScrollNext,
+
+  feedRef,
+  actionSheetRefs,
+  textPostRefs,
+  onViewableItemsChangedRef,
+  viewabilityConfigRef,
 }) => {
   const styling = styles(theme)
   const { t } = useTranslation()
@@ -102,13 +108,6 @@ const PostsList = ({
     usersGetFollowedUsersWithStories,
     postsFeedGetRequest,
     usersGetFollowedUsersWithStoriesRequest,
-  })
-
-  const onViewableItemsChangedRef = useRef(onViewableItemsChanged)
-  const viewabilityConfigRef = useRef({
-    minimumViewTime: 500,
-    viewAreaCoveragePercentThreshold: 75,
-    waitForInteraction: true,
   })
 
   return (
@@ -199,6 +198,7 @@ const PostsList = ({
 
           return (
             <PostComponent
+              themes={themes}
               authUser={authUser}
               post={post}
               handleEditPress={handleEditPress}
@@ -214,6 +214,18 @@ const PostsList = ({
 
               handleScrollPrev={handleScrollPrev(index)}
               handleScrollNext={handleScrollNext(index)}
+              createActionSheetRef={element => {
+                if (!actionSheetRefs.current[post.postId]) {
+                  actionSheetRefs.current[post.postId] = element
+                }
+              }}
+              actionSheetRef={actionSheetRefs.current[post.postId]}
+              createTextPostRef={element => {
+                if (!textPostRefs.current[post.postId]) {
+                  textPostRefs.current[post.postId] = element
+                }
+              }}
+              textPostRef={textPostRefs.current[post.postId]}
             />
           )
         }}

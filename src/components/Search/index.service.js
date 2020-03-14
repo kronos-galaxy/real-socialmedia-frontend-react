@@ -17,6 +17,7 @@ const SearchService = ({ children, }) => {
   const postsGetTrendingPosts = useSelector(state => state.posts.postsGetTrendingPosts)
   const themeFetch = useSelector(state => state.theme.themeFetch)
   const usersAcceptFollowerUser = useSelector(state => state.users.usersAcceptFollowerUser)
+  const themes = useSelector(state => state.theme.themeFetch.data)
 
   const usersSearchRequest = ({ searchToken }) => {
     dispatch(usersActions.usersFollowIdle())
@@ -49,6 +50,7 @@ const SearchService = ({ children, }) => {
   const [formChange, handleFormChange] = useState(false)
 
   return children({
+    themes,
     authUser,
     themeFetch,
     usersSearch: usersServices.cachedUsersSearch(usersSearch, usersGetProfileCache),

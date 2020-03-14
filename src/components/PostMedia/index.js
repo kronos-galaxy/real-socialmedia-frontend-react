@@ -1,4 +1,4 @@
-import React, { useRef } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import {
   StyleSheet,
@@ -17,7 +17,6 @@ import { useTranslation } from 'react-i18next'
 const PostMedia = ({
   theme,
   authUser,
-  feedRef,
   postsMediaFeedGet,
   postsShareRequest,
   handleEditPress,
@@ -32,10 +31,15 @@ const PostMedia = ({
   postsSingleGet,
   postsGetTrendingPosts,
   routeName,
-  onViewableItemsChanged,
 
   handleScrollNext,
   handleScrollPrev,
+  
+  feedRef,
+  actionSheetRefs,
+  textPostRefs,
+  onViewableItemsChangedRef,
+  viewabilityConfigRef,
 }) => {
   const styling = styles(theme)
   const { t } = useTranslation()
@@ -72,13 +76,6 @@ const PostMedia = ({
     return [path(['data'])(postsSingleGet)]
   })()
 
-  const onViewableItemsChangedRef = useRef(onViewableItemsChanged)
-  const viewabilityConfigRef = useRef({
-    minimumViewTime: 500,
-    viewAreaCoveragePercentThreshold: 75,
-    waitForInteraction: false,
-  })
-
   return (
     <View style={styling.root}>
       <NativeError
@@ -95,8 +92,8 @@ const PostMedia = ({
         ref={feedRef}
         keyExtractor={item => item.postId}
         data={flatListData.slice(0, 6)}
-        onViewableItemsChanged={onViewableItemsChangedRef.current}
-        viewabilityConfig={viewabilityConfigRef.current}
+        onViewableItemsChanged={onViewableItemsChangedRef}
+        viewabilityConfig={viewabilityConfigRef}
         renderItem={({ item: post, index }) => (
           <PostComponent
             authUser={authUser}
@@ -114,6 +111,10 @@ const PostMedia = ({
 
             handleScrollPrev={handleScrollPrev(index)}
             handleScrollNext={handleScrollNext(index)}
+            createActionSheetRef={element => actionSheetRefs[post.postId] = element}
+            actionSheetRef={actionSheetRefs[post.postId]}
+            createTextPostRef={element => textPostRefs[post.postId] = element}
+            textPostRef={textPostRefs[post.postId]}
           />
         )}
       />

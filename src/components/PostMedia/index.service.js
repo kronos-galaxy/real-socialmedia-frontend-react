@@ -18,8 +18,6 @@ const PostMediaService = ({ children, ...props }) => {
   const postsGetTrendingPosts = useSelector(state => state.posts.postsGetTrendingPosts)
   const postsGetCache = useSelector(state => state.posts.postsGetCache)
 
-  const feedRef = useRef()
-
   const postsSingleGetCache = postsServices.cachedPostsSingleGet(
     postsSingleGet,
     path(['params', 'post'])(route)
@@ -80,6 +78,32 @@ const PostMediaService = ({ children, ...props }) => {
     } catch (error) {}
   }
 
+  /**
+   * FlatList feed ref, used for scroll to top on tab bar press
+   */
+  const feedRef = useRef(null)
+  useScrollToTop(feedRef)
+
+  /**
+   * Post header dropdown ref, used for header actions dropdown
+   */
+  const actionSheetRefs = useRef([])
+
+  /**
+   * Text only post ref, used for rendering textonly post component into image
+   */
+  const textPostRefs = useRef([])
+
+  /**
+   * FlatList feed config ref, used for reporting scroll events
+   */
+  const onViewableItemsChangedRef = useRef(onViewableItemsChanged)
+  const viewabilityConfigRef = useRef({
+    minimumViewTime: 500,
+    viewAreaCoveragePercentThreshold: 75,
+    waitForInteraction: true,
+  })
+
   return children({
     postsSingleGet: postsSingleGetCache,
     postsGetTrendingPosts: postsServices.cachedPostsGetTrendingPosts(postsGetTrendingPosts, postId),
@@ -88,9 +112,14 @@ const PostMediaService = ({ children, ...props }) => {
     postsMediaFeedGet: postsServices.cachedPostsMediaFeedGet(postsGetCache, postUserId, postId),
     feedRef,
     routeName: route.name,
-    onViewableItemsChanged,
     handleScrollPrev,
     handleScrollNext,
+    
+    feedRef,
+    actionSheetRefs,
+    textPostRefs,
+    onViewableItemsChangedRef,
+    viewabilityConfigRef,
   })
 }
 

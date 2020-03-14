@@ -15,6 +15,7 @@ import { useTranslation } from 'react-i18next'
 
 const TextComponent = ({
   theme,
+  themes,
   children,
   text,
   themeCode,
@@ -22,7 +23,6 @@ const TextComponent = ({
   const styling = styles(theme)
   const { t } = useTranslation()
 
-  const themes = useSelector(state => state.theme.themeFetch.data)
   const themeSelector = (activeThemeCode) =>
     ((themes || []).find(theme => theme.key === activeThemeCode) || {}).theme
   const activeTheme = themeSelector(themeCode) || theme

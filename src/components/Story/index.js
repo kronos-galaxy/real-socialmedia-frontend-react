@@ -25,6 +25,7 @@ import { useTranslation } from 'react-i18next'
 const StoryCarousel = ({
   ref,
   theme,
+  themes,
   countStories,
   currentStory,
   onNextStory,
@@ -70,7 +71,11 @@ const StoryCarousel = ({
             : null}
 
             {story.postType === 'TEXT_ONLY' ?
-              <TextOnlyComponent text={story.text} themeCode={story.postedBy.themeCode} />
+              <TextOnlyComponent
+                themes={themes}
+                text={story.text}
+                themeCode={story.postedBy.themeCode}
+              />
             : null}
           </>
         )}

@@ -20,6 +20,7 @@ import { useTranslation } from 'react-i18next'
 
 const SearchComponent = ({
   theme,
+  themes,
   authUser,
   usersSearchRequest,
   usersSearch,
@@ -66,6 +67,7 @@ const SearchComponent = ({
           }
         >
           <PostsGridComponent
+            themes={themes}
             postsGet={postsGetTrendingPosts}
             themeFetch={themeFetch}
             themeCode={path(['themeCode'])(authUser)}

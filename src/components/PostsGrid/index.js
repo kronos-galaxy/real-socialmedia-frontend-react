@@ -17,6 +17,7 @@ import { useTranslation } from 'react-i18next'
 
 const PostsGrid = ({
   theme,
+  themes,
   postsGet,
   themeFetch,
   themeCode,
@@ -43,6 +44,7 @@ const PostsGrid = ({
               <TextOnlyComponent
                 text={post.text}
                 themeCode={post.postedBy.themeCode}
+                themes={themes}
               />
             : null}
           </GridItemComponent>

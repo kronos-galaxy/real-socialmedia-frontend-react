@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import * as usersActions from 'store/ducks/users/actions'
 import { useNavigation, useRoute } from '@react-navigation/native'
 import useCounter from 'react-use/lib/useCounter'
@@ -11,6 +11,8 @@ const StoryService = ({ children, }) => {
   const dispatch = useDispatch()
   const navigation = useNavigation()
   const route = useRoute()
+  const themes = useSelector(state => state.theme.themeFetch.data)
+
   const userId = path(['user', 'userId'])(route.params)
   const usersGetFollowedUsersWithStories = path(['usersGetFollowedUsersWithStories'])(route.params)
 
@@ -74,6 +76,7 @@ const StoryService = ({ children, }) => {
   }
 
   return children({
+    themes,
     storyRef,
     userId,
     usersGetFollowedUsersWithStories,

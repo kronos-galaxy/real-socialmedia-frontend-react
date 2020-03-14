@@ -1,4 +1,4 @@
-import React, { useRef } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import {
   StyleSheet,
@@ -24,6 +24,7 @@ import { useTranslation } from 'react-i18next'
 
 const PostComponent = ({
   theme,
+  themes,
   authUser,
   post,
   postsShareRequest,
@@ -38,12 +39,16 @@ const PostComponent = ({
   priorityIndex,
   handleScrollPrev,
   handleScrollNext,
+
+  createActionSheetRef,
+  actionSheetRef,
+  createTextPostRef,
+  textPostRef,
 }) => {
   const styling = styles(theme)
   const { t } = useTranslation()
   const navigation = useNavigation()
 
-  const textPostRef = useRef(null)
   const albumLength = path(['album', 'posts', 'items', 'length'])(post) || 0
 
   const onCapture = (renderUri) => {
@@ -52,7 +57,7 @@ const PostComponent = ({
 
   const handlePostShare = () => {
     if (post.postType === 'TEXT_ONLY') {
-      textPostRef.current.capture()
+      textPostRef.capture()
     }
 
     if (post.postType === 'IMAGE') {
@@ -75,11 +80,17 @@ const PostComponent = ({
         postsShareRequest={postsShareRequest}
         postsRestoreArchivedRequest={postsRestoreArchivedRequest}
         handlePostShare={handlePostShare}
+        createActionSheetRef={createActionSheetRef}
+        actionSheetRef={actionSheetRef}
       />
 
       {post.postType === 'TEXT_ONLY' ?
-        <ViewShot ref={textPostRef} onCapture={onCapture}>
-          <TextOnlyComponent text={post.text} themeCode={post.postedBy.themeCode}>
+        <ViewShot ref={createTextPostRef} onCapture={onCapture}>
+          <TextOnlyComponent
+            text={post.text}
+            themes={themes}
+            themeCode={post.postedBy.themeCode}
+          >
             <TouchableOpacity style={styling.prev} onPress={handleScrollPrev} />
             <TouchableOpacity style={styling.next} onPress={handleScrollNext} />
           </TextOnlyComponent>
