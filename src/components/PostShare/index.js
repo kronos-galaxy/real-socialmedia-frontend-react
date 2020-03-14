@@ -70,6 +70,7 @@ const PostShare = ({
     type: 'instagramPost',
     title: 'Instagram export',
     watermark,
+    post: path(['data'])(postsSingleGet),
   })
 
   return (

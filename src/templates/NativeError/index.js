@@ -14,10 +14,14 @@ const NativeError = ({
   status,
   handleCancelPress,
   hidden,
+  skipCondition,
 }) => {
   const prevStatus = usePrevious(status)
-  const { t } = useTranslation()
   const condition = (() => {
+    if (skipCondition) {
+      return true
+    }
+
     if (triggerOn === 'failure') {
       return prevStatus !== 'failure' && status === 'failure'
     }

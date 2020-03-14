@@ -71,7 +71,7 @@ const Header = ({
 
       <View style={styling.headerText}>
         <TouchableOpacity onPress={navigationActions.navigateProfile(navigation, { user: post.postedBy })}>
-          <Text style={styling.headerUsername}>{post.postedBy.username}</Text>
+          <Text style={styling.headerUsername}>{path(['postedBy', 'username'])(post)}</Text>
         </TouchableOpacity>
 
         {expiryVisiblity ?
