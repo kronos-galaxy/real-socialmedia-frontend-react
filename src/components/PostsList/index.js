@@ -124,16 +124,7 @@ const PostsList = ({
       <FlatList
         ref={feedRef}
         keyExtractor={item => item.postId}
-        data={([
-          { postId: 'story' },
-          {
-            postId: 'uploading',
-            postsCreateQueue,
-          },
-          { postId: 'requests' },
-          ...path(['data'])(postsFeedGet),
-          { postId: 'loading' },
-        ])}
+        data={path(['data'])(postsFeedGet)}
         onScroll={scroll.handleScrollChange}
         onEndReached={scroll.handleLoadMore}
         onEndReachedThreshold={0.4}
@@ -147,88 +138,62 @@ const PostsList = ({
         )}
         onViewableItemsChanged={onViewableItemsChangedRef.current}
         viewabilityConfig={viewabilityConfigRef.current}
-        renderItem={({ item: post, index }) => {
-          if (post.postId === 'story') {
-            return (
-              <StoriesComponent
+        ListHeaderComponent={() => <>
+          <StoriesComponent
+            authUser={authUser}
+            usersGetFollowedUsersWithStories={usersGetFollowedUsersWithStories}
+          />
+
+          <View style={styling.uploading}>
+            {Object.values(postsCreateQueue).map((post, key) => (
+              <UploadingComponent
+                key={key}
                 authUser={authUser}
-                usersGetFollowedUsersWithStories={usersGetFollowedUsersWithStories}
+                post={post}
+                postsCreateRequest={postsCreateRequest}
+                postsCreateIdle={postsCreateIdle}
               />
-            )
-          }
+            ))}
+          </View>
 
-          if (post.postId === 'uploading') {
-            return (
-              <View style={styling.uploading}>
-                {Object.values(post.postsCreateQueue).map((post, key) => (
-                  <UploadingComponent
-                    key={key}
-                    authUser={authUser}
-                    post={post}
-                    postsCreateRequest={postsCreateRequest}
-                    postsCreateIdle={postsCreateIdle}
-                  />
-                ))}
-              </View>
-            )
-          }
-
-          if (post.postId === 'requests') {
-            if (!path(['data', 'length'])(usersGetPendingFollowers)) {
-              return null
-            }
-
-            return (
-              <View style={styling.uploading} key={post.postId}>
-                <PendingRequestsComponent
-                  usersGetPendingFollowers={usersGetPendingFollowers}
-                  key={post.postId}
-                />
-              </View>
-            )
-          }
-
-
-          if (post.postId === 'loading') {
-            if (path(['status'])(postsFeedGet) === 'loading' && !path(['data', 'length'])(postsFeedGet)) {
-              return null
-            }
-            return null
-          }
-
-          return (
-            <PostComponent
-              themes={themes}
-              authUser={authUser}
-              post={post}
-              handleEditPress={handleEditPress}
-              postsArchiveRequest={postsArchiveRequest}
-              postsRestoreArchivedRequest={postsRestoreArchivedRequest}
-              postsFlagRequest={postsFlagRequest}
-              postsDeleteRequest={postsDeleteRequest}
-              postsShareRequest={postsShareRequest}
-              postsAnonymouslyLikeRequest={postsAnonymouslyLikeRequest}
-              postsOnymouslyLikeRequest={postsOnymouslyLikeRequest}
-              postsDislikeRequest={postsDislikeRequest}
-              priorityIndex={index}
-
-              handleScrollPrev={handleScrollPrev(index)}
-              handleScrollNext={handleScrollNext(index)}
-              createActionSheetRef={element => {
-                if (!actionSheetRefs.current[post.postId]) {
-                  actionSheetRefs.current[post.postId] = element
-                }
-              }}
-              actionSheetRef={actionSheetRefs.current[post.postId]}
-              createTextPostRef={element => {
-                if (!textPostRefs.current[post.postId]) {
-                  textPostRefs.current[post.postId] = element
-                }
-              }}
-              textPostRef={textPostRefs.current[post.postId]}
+          <View style={styling.uploading}>
+            <PendingRequestsComponent
+              usersGetPendingFollowers={usersGetPendingFollowers}
             />
-          )
-        }}
+          </View>
+        </>}
+        renderItem={({ item: post, index }) => (
+          <PostComponent
+            themes={themes}
+            authUser={authUser}
+            post={post}
+            handleEditPress={handleEditPress}
+            postsArchiveRequest={postsArchiveRequest}
+            postsRestoreArchivedRequest={postsRestoreArchivedRequest}
+            postsFlagRequest={postsFlagRequest}
+            postsDeleteRequest={postsDeleteRequest}
+            postsShareRequest={postsShareRequest}
+            postsAnonymouslyLikeRequest={postsAnonymouslyLikeRequest}
+            postsOnymouslyLikeRequest={postsOnymouslyLikeRequest}
+            postsDislikeRequest={postsDislikeRequest}
+            priorityIndex={index}
+
+            handleScrollPrev={handleScrollPrev(index)}
+            handleScrollNext={handleScrollNext(index)}
+            createActionSheetRef={element => {
+              if (!actionSheetRefs.current[post.postId]) {
+                actionSheetRefs.current[post.postId] = element
+              }
+            }}
+            actionSheetRef={actionSheetRefs.current[post.postId]}
+            createTextPostRef={element => {
+              if (!textPostRefs.current[post.postId]) {
+                textPostRefs.current[post.postId] = element
+              }
+            }}
+            textPostRef={textPostRefs.current[post.postId]}
+          />
+        )}
         ListFooterComponent={scroll.loadingmore ? ActivityIndicator : null}
         ListFooterComponentStyle={styling.loading}
       />

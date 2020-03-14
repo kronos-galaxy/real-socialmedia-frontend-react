@@ -21,6 +21,10 @@ const PendingRequests = ({
   const { t } = useTranslation()
   const navigation = useNavigation()
 
+  if (!usersGetPendingFollowers.data.length) {
+    return null
+  }
+
   return (
     <View style={styling.root}>
       <View style={styling.avatar}>
