@@ -357,7 +357,7 @@ const usersFollowSuccess = (state, action) => update(state, {
   },
   usersGetProfileCache: {
     $resourceCacheSetSuccess: {
-      action,
+      ...action,
       resourceKey: action.payload.payload.userId,
       initialState: initialState.usersGetProfile,
     },
@@ -401,7 +401,7 @@ const usersUnfollowSuccess = (state, action) => update(state, {
   },
   usersGetProfileCache: {
     $resourceCacheSetSuccess: {
-      action,
+      ...action,
       resourceKey: action.payload.payload.userId,
       initialState: initialState.usersGetProfile,
     },
