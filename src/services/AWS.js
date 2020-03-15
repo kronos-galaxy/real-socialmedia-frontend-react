@@ -5,6 +5,7 @@ import { GoogleSignin } from '@react-native-community/google-signin'
 import Config from 'react-native-config'
 import * as Logger from 'services/Logger'
 import dayjs from 'dayjs'
+import promiseRetry from 'promise-retry'
 
 /**
  * AWS Configuration
@@ -97,9 +98,16 @@ const _handleGoogleRefresh = async () => {
   }
 }
 
-export const handleGoogleRefresh = async (payload) => {
+export const handleGoogleRefresh = async () => {
   try {
-    const response = await _handleGoogleRefresh(payload)
+    const response = await promiseRetry((retry, attempts) => {
+      try {
+        return _handleGoogleRefresh()
+      } catch (nextError) {
+        retry(nextError)
+      }
+    }, { retries: 3 })
+
     Logger.withScope(scope => {
       scope.setExtra('current', dayjs.unix())
       scope.setExtra('expiry', response.expires_at)
@@ -107,7 +115,10 @@ export const handleGoogleRefresh = async (payload) => {
     })
     return response
   } catch (error) {
-    Logger.captureException(error)
+    Logger.withScope(scope => {
+      scope.setExtra('message', response.message)
+      Logger.captureMessage('FEDERATED_GOOGLE_REFRESH_FAILURE')
+    })
     throw error
   }
 }
@@ -137,9 +148,16 @@ const _federatedGoogleSignin = async () => {
   }
 }
 
-export const federatedGoogleSignin = async (payload) => {
+export const federatedGoogleSignin = async () => {
   try {
-    const response = await _federatedGoogleSignin(payload)
+    const response = await promiseRetry((retry, attempts) => {
+      try {
+        return _federatedGoogleSignin()
+      } catch (nextError) {
+        return retry(nextError)
+      }
+    }, { retries: 3 })
+
     Logger.withScope(scope => {
       scope.setExtra('current', dayjs().unix())
       scope.setExtra('expiry', response.expires_at)
@@ -147,7 +165,10 @@ export const federatedGoogleSignin = async (payload) => {
     })
     return response
   } catch (error) {
-    Logger.captureException(error)
+    Logger.withScope(scope => {
+      scope.setExtra('message', response.message)
+      Logger.captureMessage('FEDERATED_GOOGLE_SIGNIN_FAILURE')
+    })
     throw error
   }
 }
