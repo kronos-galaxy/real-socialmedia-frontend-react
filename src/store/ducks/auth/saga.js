@@ -318,7 +318,10 @@ function* authSignupRequest(req) {
     } else if (error.code === 'UsernameExistsException') {
       yield put(actions.authSignupFailure({
         message: errors.getMessagePayload(constants.AUTH_SIGNUP_FAILURE, 'USER_EXISTS', error.message),
-        nextRoute: 'AuthSignupConfirm',
+      }))
+    } else if (error.code === 'InvalidPasswordException') {
+      yield put(actions.authSignupFailure({
+        message: errors.getMessagePayload(constants.AUTH_SIGNUP_FAILURE, 'INVALID_PASSWORD', error.message),
       }))
     } else {
       yield put(actions.authSignupFailure({

@@ -92,6 +92,10 @@ const messageCodes = {
       code: 'USER_EXISTS',
       text: 'User already signed up but did not confirm email address or phone number',
     },
+    INVALID_PASSWORD: {
+      code: 'INVALID_PASSWORD',
+      text: 'Password did not conform with policy: Password must have alpha-numeric-special characters',
+    },
   },
 
   /**

@@ -29,7 +29,8 @@ const formSchema = Yup.object().shape({
     .max(50)
     .matches(/[a-z]/, 'at least one lowercase char')
     .matches(/[A-Z]/, 'at least one uppercase char')
-    .matches(/[a-zA-Z]+[^a-zA-Z\s]+/, 'at least 1 number or special char (@,!,#, etc).')
+    .matches(/[a-zA-Z]+[^a-zA-Z\s]+/, 'at least 1 special char (@,!,#, etc).')
+    .matches(/[0-9]/, 'at least one number')
     .required(),
 })
 
