@@ -3,7 +3,7 @@ import { InteractionManager } from 'react-native'
 import { useSelector, useDispatch } from 'react-redux'
 import * as postsActions from 'store/ducks/posts/actions'
 import * as postsServices from 'store/ducks/posts/services'
-import { useNavigation, useRoute } from '@react-navigation/native'
+import { useNavigation, useScrollToTop, useRoute } from '@react-navigation/native'
 import path from 'ramda/src/path'
 import * as navigationActions from 'navigation/actions'
 

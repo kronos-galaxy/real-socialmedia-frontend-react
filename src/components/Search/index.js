@@ -22,6 +22,7 @@ const SearchComponent = ({
   t,
   theme,
   themes,
+  feedRef,
   authUser,
   usersSearchRequest,
   usersSearch,
@@ -59,6 +60,7 @@ const SearchComponent = ({
       {!formFocus ?
         <ScrollView
           keyboardShouldPersistTaps="never"
+          ref={feedRef}
           refreshControl={
             <RefreshControl
               tintColor={theme.colors.border}
@@ -78,6 +80,7 @@ const SearchComponent = ({
       {formFocus && formChange ?
         <ScrollView
           keyboardShouldPersistTaps="never"
+          ref={feedRef}
           refreshControl={
             <RefreshControl
               tintColor={theme.colors.border}
@@ -101,6 +104,7 @@ const SearchComponent = ({
       {formFocus && !formChange ?
         <ScrollView
           keyboardShouldPersistTaps="never"
+          ref={feedRef}
           refreshControl={
             <RefreshControl
               tintColor={theme.colors.border}

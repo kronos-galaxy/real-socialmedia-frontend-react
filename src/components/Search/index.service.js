@@ -1,9 +1,9 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import * as usersActions from 'store/ducks/users/actions'
 import * as usersServices from 'store/ducks/users/services'
 import * as postsActions from 'store/ducks/posts/actions'
-import { useNavigation } from '@react-navigation/native'
+import { useScrollToTop } from '@react-navigation/native'
 import toLower from 'ramda/src/toLower'
 
 const SearchService = ({ children, }) => {
@@ -18,6 +18,12 @@ const SearchService = ({ children, }) => {
   const themeFetch = useSelector(state => state.theme.themeFetch)
   const usersAcceptFollowerUser = useSelector(state => state.users.usersAcceptFollowerUser)
   const themes = useSelector(state => state.theme.themeFetch.data)
+
+  /**
+   * FlatList feed ref, used for scroll to top on tab bar press
+   */
+  const feedRef = useRef(null)
+  useScrollToTop(feedRef)
 
   const usersSearchRequest = ({ searchToken }) => {
     dispatch(usersActions.usersFollowIdle())
@@ -51,6 +57,7 @@ const SearchService = ({ children, }) => {
 
   return children({
     themes,
+    feedRef,
     authUser,
     themeFetch,
     usersSearch: usersServices.cachedUsersSearch(usersSearch, usersGetProfileCache),

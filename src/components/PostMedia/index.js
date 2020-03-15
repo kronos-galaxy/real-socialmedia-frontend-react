@@ -93,8 +93,8 @@ const PostMedia = ({
         ref={feedRef}
         keyExtractor={item => item.postId}
         data={flatListData.slice(0, 6)}
-        onViewableItemsChanged={onViewableItemsChangedRef}
-        viewabilityConfig={viewabilityConfigRef}
+        onViewableItemsChanged={onViewableItemsChangedRef.current}
+        viewabilityConfig={viewabilityConfigRef.current}
         renderItem={({ item: post, index }) => (
           <PostComponent
             authUser={authUser}
