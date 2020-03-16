@@ -83,18 +83,9 @@ const RootNavigator = () => {
 
 const AppNavigator = withTheme(({ theme }) => {
   const Tab = createMaterialTopTabNavigator()
-
-  const tabNavigatorProps = {
-    initialRouteName: 'Root',
-    tabBar: () => null,
-    lazy: true,
-    sceneContainerStyle: {
-      backgroundColor: 'transparent',
-    },
-  }
-
+  const tabNavigatorDefaultProps = navigationOptions.tabNavigatorDefaultProps()
   return (
-    <Tab.Navigator {...tabNavigatorProps}>
+    <Tab.Navigator {...tabNavigatorDefaultProps}>
       <Tab.Screen
         name="Camera"
         component={CameraScreen}

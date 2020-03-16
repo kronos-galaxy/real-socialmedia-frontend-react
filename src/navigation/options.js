@@ -1,6 +1,8 @@
 import React, { useCallback } from 'react'
 import { TouchableOpacity } from 'react-native'
 import { HeaderStyleInterpolators, CardStyleInterpolators, TransitionPresets } from '@react-navigation/stack'
+import ViewPagerAdapter from 'react-native-tab-view-viewpager-adapter'
+
 import * as navigationActions from 'navigation/actions'
 import path from 'ramda/src/path'
 import Layout from 'constants/Layout'
@@ -108,6 +110,25 @@ const getActiveTheme = ({ theme, themes, route }) => {
 
   return theme
 }
+
+const pager = props => {
+  const currentIndex = path(['navigationState', 'index'])(props)
+  const nextIndex = path(['navigationState', 'routes', currentIndex, 'state', 'index'])(props)
+  const swipeEnabled = !nextIndex || nextIndex === 0
+  return (
+    <ViewPagerAdapter {...props} swipeEnabled={swipeEnabled} />
+  )
+}
+
+export const tabNavigatorDefaultProps = () => ({
+  initialRouteName: 'Root',
+  tabBar: () => null,
+  lazy: true,
+  sceneContainerStyle: {
+    backgroundColor: 'transparent',
+  },
+  pager,
+})
 
 export const stackNavigatorDefaultProps = ({ theme }) => ({
   screenOptions: {
