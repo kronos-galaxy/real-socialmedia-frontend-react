@@ -21,30 +21,13 @@ function* handlePostsShareRequest(payload) {
     const fontSizeFirstLine = size.height / 30
     const fontSizeSecondLine = size.height / 60
 
-    const rgbToHex = (rgb) => {
-      let hex = Number(rgb).toString(16)
-      if (hex.length < 2) {
-        hex = `0${hex}`
-      }
-      return hex
-    }
-
-    const fullColorHex = (r, g, b) => {
-      const red = rgbToHex(r)
-      const green = rgbToHex(g)
-      const blue = rgbToHex(b)
-      return `#${red}${green}${blue}`
-    }
-
-    const color = path(['image', 'colors', 1])(post) || { r: 255, b: 255, g: 255 }
-
     const firstLine = yield Marker.markText({
       src: url,
       text: `REAL`,
-      color: fullColorHex(color.r, color.g, color.b),
+      color: '#ffffff',
       fontName: 'AppleSDGothicNeo-Bold',
       fontSize: fontSizeFirstLine,
-      X: 10,
+      X: 30,
       Y: size.height - fontSizeFirstLine * 2,
       scale: 1, 
       quality: 100,
@@ -53,10 +36,10 @@ function* handlePostsShareRequest(payload) {
     const secondLine = yield Marker.markText({
       src: firstLine,
       text: `${post.postedBy.username}`,
-      color: fullColorHex(color.r, color.g, color.b),
+      color: '#ffffff',
       fontName: 'AppleSDGothicNeo-Bold',
       fontSize: fontSizeSecondLine,
-      X: 15,
+      X: 35,
       Y: size.height - fontSizeFirstLine * 2 + fontSizeFirstLine,
       scale: 1, 
       quality: 100,
@@ -66,8 +49,10 @@ function* handlePostsShareRequest(payload) {
   }
   
   function* handleInstagramPostShare({ url, title }) {
+    const base64 = yield RNFetchBlob.fs.readFile(url, 'base64')
+    const nextUrl = `data:image/jpg;base64,${base64}`
     const shareOptions = {
-      url,
+      url: nextUrl,
       type: 'image/jpeg',
       social: Share.Social.INSTAGRAM,
       title,
@@ -77,8 +62,10 @@ function* handlePostsShareRequest(payload) {
   }
   
   function* handleInstagramStoryShare({ url, title }) {
+    const base64 = yield RNFetchBlob.fs.readFile(url, 'base64')
+    const nextUrl = `data:image/jpg;base64,${base64}`
     const shareOptions = {
-      url,
+      url: nextUrl,
       type: 'image/jpeg',
       social: Share.Social.INSTAGRAM,
       title,
