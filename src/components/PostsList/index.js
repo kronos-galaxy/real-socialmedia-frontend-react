@@ -102,7 +102,6 @@ const PostsList = ({
 }) => {
   const styling = styles(theme)
   
-
   const scroll = ScrollHelper({
     postsFeedGet,
     postsFeedGetMoreRequest,
@@ -193,6 +192,7 @@ const PostsList = ({
               }
             }}
             textPostRef={textPostRefs.current[post.postId]}
+            feedRef={feedRef}
           />
         )}
         ListFooterComponent={scroll.loadingmore ? ActivityIndicator : null}

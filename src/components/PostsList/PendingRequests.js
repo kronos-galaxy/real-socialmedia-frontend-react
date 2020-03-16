@@ -8,6 +8,7 @@ import {
 import { Text, Caption } from 'react-native-paper'
 import PendingIcon from 'assets/svg/post/Pending'
 import * as navigationActions from 'navigation/actions'
+import path from 'ramda/src/path'
 
 import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
@@ -21,7 +22,7 @@ const PendingRequests = ({
   const styling = styles(theme)
   const navigation = useNavigation()
 
-  if (!usersGetPendingFollowers.data.length) {
+  if (!path(['data', 'length'])(usersGetPendingFollowers)) {
     return null
   }
 

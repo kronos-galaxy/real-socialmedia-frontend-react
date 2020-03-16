@@ -17,10 +17,9 @@ const ListItemTemplate = ({
   theme,
   children,
   post,
+  feedRef,
 }) => {
   const styling = styles(theme)
-  
-
   const image = path(['image'])(post)
 
   if (!image) {
@@ -33,7 +32,11 @@ const ListItemTemplate = ({
   }
 
   return (
-    <PinchZoom style={[styling.root, getDimensionsFromPostSize(image)]}>
+    <PinchZoom
+      style={[styling.root, getDimensionsFromPostSize(image)]}
+      image={image}
+      feedRef={feedRef}
+    >
       <View style={styling.component}>
         {children}
       </View>

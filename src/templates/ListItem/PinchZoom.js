@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import {
+  View,
   Animated,
 } from 'react-native'
 import {
@@ -8,6 +9,7 @@ import {
   PanGestureHandler,
   State,
 } from 'react-native-gesture-handler'
+import ContextComponent from 'components/PostsList/Context'
 
 export class PinchZoom extends React.Component {
   baseScale = new Animated.Value(1)
@@ -21,6 +23,7 @@ export class PinchZoom extends React.Component {
 
   panRef = React.createRef()
   pinchRef = React.createRef()
+  viewRef = React.createRef()
 
   onPinchGestureEvent = Animated.event(
     [{ nativeEvent: { scale: this.pinchScale } }],
@@ -45,6 +48,19 @@ export class PinchZoom extends React.Component {
       this.baseScale.setValue(1)
       this.pinchScale.setValue(1)
     }
+
+    if (event.nativeEvent.state === State.ACTIVE) {
+      this.props.setDraggedImage({ image: this.props.image, transform: [
+        { perspective: 200 },
+        { scale: this.scale },
+        { translateX: this.translateX },
+        { translateY: this.translateY },
+      ] })
+    }
+
+    if (event.nativeEvent.state === State.END) {
+      this.props.setDraggedImage({})
+    }
   }
 
   onPanHandlerStateChange = event => {
@@ -65,6 +81,23 @@ export class PinchZoom extends React.Component {
       this.translateY.setOffset(0)
       this.translateY.setValue(0)
     }
+
+    if (event.nativeEvent.state === State.ACTIVE) {
+      this.props.setDraggedImage({ image: this.props.image, transform: [
+        { perspective: 200 },
+        { scale: this.scale },
+        { translateX: this.translateX },
+        { translateY: this.translateY },
+      ] })
+    }
+
+    if (event.nativeEvent.state === State.END) {
+      this.props.setDraggedImage({})
+    }
+  }
+
+  onLayout = event => {
+    this.viewRef.current.measureInWindow((_, y) => this.offsetY = y)
   }
 
   render() {
@@ -85,16 +118,9 @@ export class PinchZoom extends React.Component {
             maxPointers={2}
             ref={this.pinchRef}
           >
-            <Animated.View style={[this.props.style, {
-              transform: [
-                { perspective: 200 },
-                { scale: this.scale },
-                { translateX: this.translateX },
-                { translateY: this.translateY },
-              ],
-            }]}>
+            <View style={[this.props.style]} onLayout={this.onLayout} ref={this.viewRef}>
               {this.props.children}
-            </Animated.View>
+            </View>
           </PinchGestureHandler>
         </Animated.View>
       </PanGestureHandler>
@@ -108,4 +134,12 @@ PinchZoom.defaultProps = {
 PinchZoom.propTypes = {
 }
 
-export default PinchZoom
+export default (props) => (
+  <ContextComponent.Consumer>
+    {(contextProps) => {
+      return (
+        <PinchZoom {...contextProps} {...props} />
+      )
+    }}
+  </ContextComponent.Consumer>
+)

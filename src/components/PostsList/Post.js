@@ -45,6 +45,8 @@ const PostComponent = ({
   actionSheetRef,
   createTextPostRef,
   textPostRef,
+
+  feedRef,
 }) => {
   const styling = styles(theme)
   const navigation = useNavigation()
@@ -98,7 +100,10 @@ const PostComponent = ({
       : null}
 
       {post.postType === 'IMAGE' ?
-        <ListItemComponent post={post}>
+        <ListItemComponent
+          post={post}
+          feedRef={feedRef}
+        >
           <ImageComponent
             thumbnailSource={{ uri: path(['image', 'url64p'])(post) }}
             imageSource={{ uri: path(['image', 'url4k'])(post) }}

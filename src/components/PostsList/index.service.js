@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import { InteractionManager } from 'react-native'
 import { useSelector, useDispatch } from 'react-redux'
 import { v4 as uuid } from 'uuid';
@@ -9,7 +9,7 @@ import path from 'ramda/src/path'
 import intersection from 'ramda/src/intersection'
 import * as navigationActions from 'navigation/actions'
 
-const PostsListService = ({ children, }) => {
+const PostsListService = ({ children }) => {
   const dispatch = useDispatch()
   const navigation = useNavigation()
   const authUser = useSelector(state => state.auth.user)
@@ -26,7 +26,7 @@ const PostsListService = ({ children, }) => {
   const usersGetPendingFollowers = useSelector(state => state.users.usersGetPendingFollowers)
   const usersAcceptFollowerUser = useSelector(state => state.users.usersAcceptFollowerUser)
   const themes = useSelector(state => state.theme.themeFetch.data)
-
+  
   const postsFeedGetRequest = (payload) =>
     dispatch(postsActions.postsFeedGetRequest(payload))
 

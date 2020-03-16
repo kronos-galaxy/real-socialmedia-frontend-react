@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { StatusBar, Text, TextInput } from 'react-native'
 import { Provider } from 'react-redux'
 import { NavigationContainer } from '@react-navigation/native'
@@ -14,6 +14,8 @@ import relativeTime from 'dayjs/plugin/relativeTime'
 import 'services/Logger'
 import Config from 'react-native-config'
 import { enableScreens } from 'react-native-screens'
+import PinchZoomComponent from 'components/PostsList/PinchZoom'
+import ContextComponent from 'components/PostsList/Context'
 
 enableScreens()
 
@@ -47,29 +49,38 @@ if (Text.defaultProps == null) {
   TextInput.defaultProps.allowFontScaling = false
 }
 
-const App = () => (
-  <Provider store={store}>
-    <AuthProvider>
-      {({ theme, themes, authenticated }) => (
-        <ThemesContext.Provider value={{ theme, themes }}>
-          <StatusBar barStyle={theme.dark ? 'light-content' : 'dark-content'} />
-          <NavigationContainer theme={theme}>
-            {authenticated ?
-              <PaperProvider theme={theme}>
-                <AppNavigator themes={themes} />
-              </PaperProvider>
-            : null}
-            
-            {!authenticated ?
-              <PaperProvider theme={theme}>
-                <AuthNavigator />
-              </PaperProvider>
-            : null}
-          </NavigationContainer>
-        </ThemesContext.Provider>
-      )}
-    </AuthProvider>
-  </Provider>
-)
+const App = () => {
+  const [draggedImage, setDraggedImage] = useState({})
+
+  return (
+    <Provider store={store}>
+      <AuthProvider>
+        {({ theme, themes, authenticated }) => (
+          <ThemesContext.Provider value={{ theme, themes }}>
+            <StatusBar barStyle={theme.dark ? 'light-content' : 'dark-content'} />
+
+            <ContextComponent.Provider value={{ draggedImage, setDraggedImage }}>              
+              <PinchZoomComponent />
+
+              <NavigationContainer theme={theme}>
+                {authenticated ?
+                  <PaperProvider theme={theme}>
+                    <AppNavigator themes={themes} />
+                  </PaperProvider>
+                : null}
+                
+                {!authenticated ?
+                  <PaperProvider theme={theme}>
+                    <AuthNavigator />
+                  </PaperProvider>
+                : null}
+              </NavigationContainer>
+            </ContextComponent.Provider>
+          </ThemesContext.Provider>
+        )}
+      </AuthProvider>
+    </Provider>
+  )
+}
 
 export default codePush(codePushOptions)(App)
