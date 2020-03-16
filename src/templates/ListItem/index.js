@@ -5,8 +5,10 @@ import {
   View,
 } from 'react-native'
 import path from 'ramda/src/path'
-import { getPhotoProportions } from 'services/Camera'
+import { getDimensionsFromPostSize } from 'services/Camera'
 import PinchZoom from 'templates/ListItem/PinchZoom'
+import Layout from 'constants/Layout'
+import LinearGradient from 'react-native-linear-gradient'
 
 import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
@@ -21,15 +23,13 @@ const ListItemTemplate = ({
 }) => {
   const styling = styles(theme)
   const image = path(['image'])(post)
+  const color = path(['image', 'colors', 0])(post)
 
   if (!image) {
     return null
   }
 
-  const getDimensionsFromPostSize = ({ width: inputWidth, height: inputHeight }) => {
-    const { x, y } = getPhotoProportions(inputWidth, inputHeight)
-    return { width: x, height: y }
-  }
+  const primaryGradient = `rgb(${color.r}, ${color.g}, ${color.b})`
 
   return (
     <PinchZoom
@@ -37,8 +37,15 @@ const ListItemTemplate = ({
       image={image}
       feedRef={feedRef}
     >
+      <LinearGradient
+        colors={[`${primaryGradient}`, `${theme.colors.backgroundSecondary}50`]}
+        style={styling.gradient}
+      />
+
       <View style={styling.component}>
-        {children}
+        <View style={styling.nested}>
+          {children}
+        </View>
       </View>
     </PinchZoom>
   )
@@ -53,6 +60,14 @@ const styles = theme => StyleSheet.create({
     ...StyleSheet.absoluteFill,
     width: '100%',
     height: '100%',
+  },
+  nested: {
+    ...StyleSheet.absoluteFill,
+    width: '100%',
+    height: '100%',
+  },
+  gradient: {
+    ...StyleSheet.absoluteFill,
   },
 })
 

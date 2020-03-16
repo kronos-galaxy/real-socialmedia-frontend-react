@@ -47,6 +47,7 @@ const styles = theme => StyleSheet.create({
   image: {
   },
   comment: {
+    flex: 1,
     marginLeft: theme.spacing.base,
   },
 })

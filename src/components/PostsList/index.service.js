@@ -141,6 +141,7 @@ const PostsListService = ({ children }) => {
     try {
       feedRef.current.scrollToIndex({
         index: index - 1,
+        viewPosition: 0.5,
       })
     } catch (error) {}
   }
@@ -149,6 +150,7 @@ const PostsListService = ({ children }) => {
     try {
       feedRef.current.scrollToIndex({
         index: index + 1,
+        viewPosition: 0.5,
       })
     } catch (error) {}
   }

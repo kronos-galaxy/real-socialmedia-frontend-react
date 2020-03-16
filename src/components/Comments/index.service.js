@@ -65,6 +65,7 @@ const CommentsService = ({ children, }) => {
     commentsAdd,
     commentsAddRequest,
     postsCommentsGet: postsServices.cachedPostsGet(postsCommentsGet, postsCommentsGetCache, postId),
+    post: path(['params', 'post'])(route),
     marginBottom,
   })
 }

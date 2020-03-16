@@ -29,7 +29,7 @@ const Description = ({
   
   return (
     <View style={styling.root}>
-      <Text style={styling.text}>
+      <Text style={styling.text} numberOfLines={4} ellipsizeMode="tail">
         {[
           /**
            * Username of post owner

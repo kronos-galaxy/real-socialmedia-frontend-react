@@ -4,15 +4,10 @@ import {
   StyleSheet,
   Animated,
 } from 'react-native'
-import { getPhotoProportions } from 'services/Camera'
+import { getDimensionsFromPostSize } from 'services/Camera'
 import ImageComponent from 'templates/Image'
 import { withTheme } from 'react-native-paper'
 import ContextComponent from 'components/PostsList/Context'
-
-const getDimensionsFromPostSize = ({ width: inputWidth, height: inputHeight }) => {
-  const { x, y } = getPhotoProportions(inputWidth, inputHeight)
-  return { width: x, height: y }
-}
 
 export class PinchZoom extends React.Component {
   render() {
@@ -36,6 +31,7 @@ export class PinchZoom extends React.Component {
             thumbnailSource={{ uri: this.props.draggedImage.image.url64p }}
             imageSource={{ uri: this.props.draggedImage.image.url4k }}
             priorityIndex={1}
+            resizeMode="contain"
           />
         </Animated.View>
       </View>

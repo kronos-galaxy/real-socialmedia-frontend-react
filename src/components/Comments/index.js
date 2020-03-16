@@ -9,6 +9,7 @@ import {
 import FormComponent from 'components/Comments/Form'
 import { ifIphoneX } from 'react-native-iphone-x-helper'
 import CommentComponent from 'components/Comments/Comment'
+import path from 'ramda/src/path'
 import pathOr from 'ramda/src/pathOr'
 
 import { withTheme } from 'react-native-paper'
@@ -22,9 +23,16 @@ const Comments = ({
   commentsAddRequest,
   postsCommentsGet,
   marginBottom,
+  post,
 }) => {
   const styling = styles(theme)
   
+  const pseudoComment = {
+    ...post,
+    commentedBy: path(['postedBy'])(post),
+    commentedAt: path(['postedAt'])(post),
+  }
+
   return (
     <View style={styling.root}>
       <ScrollView
@@ -36,9 +44,13 @@ const Comments = ({
           />
         }
       >
+        <View style={styling.comment} key="desc">
+          <CommentComponent comment={pseudoComment} />
+        </View>
+
         {pathOr([], ['data'])(postsCommentsGet).map(((comment, key) => (
-          <View style={styling.comment}>
-            <CommentComponent key={key} comment={comment} />
+          <View style={styling.comment} key={key}>
+            <CommentComponent comment={comment} />
           </View>
         )))}
       </ScrollView>

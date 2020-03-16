@@ -108,6 +108,7 @@ const PostComponent = ({
             thumbnailSource={{ uri: path(['image', 'url64p'])(post) }}
             imageSource={{ uri: path(['image', 'url4k'])(post) }}
             priorityIndex={priorityIndex}
+            resizeMode="contain"
           />
           <TouchableOpacity style={styling.prev} onPress={handleScrollPrev} />
           <TouchableOpacity style={styling.next} onPress={handleScrollNext} />

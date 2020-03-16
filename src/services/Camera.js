@@ -23,6 +23,12 @@ export const getPhotoProportions = (baseWidth, baseHeight) => {
   }
 }
 
+export const getDimensionsFromPostSize = ({ width: inputWidth, height: inputHeight }) => {
+  const { x, y } = getPhotoProportions(inputWidth, inputHeight)
+  const nextHeight = Math.min(y, Layout.window.height * .65)
+  return { width: x, height: nextHeight }
+}
+
 export const getCameraBonds = (aspect) => {
   if (aspect === '4:3') {
     const shift = (Layout.window.height - Layout.window.width / 3 * 4) / 2
