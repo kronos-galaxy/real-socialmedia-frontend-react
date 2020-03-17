@@ -16,6 +16,7 @@ const ShareService = ({ children, }) => {
   const authUser = useSelector(state => state.auth.user)
   const postsSingleGet = useSelector(state => state.posts.postsSingleGet)
   const postsShare = useSelector(state => state.posts.postsShare)
+  const cameraCapture = useSelector(state => state.camera.cameraCapture)
 
   const [watermark, handleWatermark] = useToggle(true)
   
@@ -30,11 +31,18 @@ const ShareService = ({ children, }) => {
   }, [postId])
 
   useEffect(() => {
+    if (postsShare.status === 'success' && cameraCapture.status === 'success') {
+      navigationActions.navigatePostCreate(navigation, { type: 'IMAGE', photos: [] })()
+    }
+
     if (postsShare.status === 'success') {
       dispatch(postsActions.postsShareIdle())
       navigationActions.navigateBack(navigation)()
     }
-  }, [postsShare.status])
+  }, [
+    postsShare.status,
+    cameraCapture.status,
+  ])
 
   return children({
     authUser,

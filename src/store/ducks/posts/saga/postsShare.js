@@ -3,11 +3,11 @@ import { put, takeLatest, getContext } from 'redux-saga/effects'
 import path from 'ramda/src/path'
 import RNFetchBlob from 'rn-fetch-blob'
 import * as actions from 'store/ducks/posts/actions'
+import * as cameraActions from 'store/ducks/camera/actions'
 import * as constants from 'store/ducks/posts/constants'
 import CameraRoll from '@react-native-community/cameraroll'
 import Share from 'react-native-share'
 import Marker from 'react-native-image-marker'
-import { v4 as uuid } from 'uuid'
 
 function* handlePostsShareRequest(payload) {
   function* handeImageWatermark(url, hasWatermark, post) {
@@ -96,22 +96,11 @@ function* handlePostsShareRequest(payload) {
   }
 
   function* handleRepost({ url, title, post }) {
-    const postId = uuid()
-    const mediaId = uuid()
-
-    return yield put(actions.postsCreateRequest({
-      postId,
-      postType: 'IMAGE',
-      mediaId,
-      lifetime: null,
-      text: post.text,
-      images: [url],
-      commentsDisabled: post.commentsDisabled,
-      likesDisabled: post.likesDisabled,
-      sharingDisabled: post.sharingDisabled,
-      takenInReal: path(['image', 'isVerified'])(post),
-      originalFormat: 'jpg',
-    }))
+    return yield put(cameraActions.cameraCaptureRequest([{
+      uri: url,
+      takenInReal: false,
+      originalFormat: url.split('.').pop(),
+    }]))
   }
 
   function* handleCameraRollSave(photoUri) {
