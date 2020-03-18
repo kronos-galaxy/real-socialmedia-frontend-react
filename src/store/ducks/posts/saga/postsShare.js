@@ -126,30 +126,33 @@ function* handlePostsShareRequest(payload) {
     return response.path()
   })()
 
-  const watermarked = yield handeImageWatermark(res, payload.watermark, payload.post)
-
   if (payload.type === 'cameraroll') {
+    const watermarked = yield handeImageWatermark(res, payload.watermark, payload.post)
     yield handleCameraRollSave(watermarked)
   }
 
   if (payload.type === 'instagramPost') {
+    const watermarked = yield handeImageWatermark(res, payload.watermark, payload.post)
     yield handleInstagramPostShare({ url: watermarked, title: payload.title })
   }
 
   if (payload.type === 'instagramStory') {
+    const watermarked = yield handeImageWatermark(res, payload.watermark, payload.post)
     yield handleInstagramStoryShare({ url: watermarked, title: payload.title })
   }
 
   if (payload.type === 'facebook') {
+    const watermarked = yield handeImageWatermark(res, payload.watermark, payload.post)
     yield handleFacebookShare({ url: watermarked, title: payload.title })
   }
 
   if (payload.type === 'global') {
+    const watermarked = yield handeImageWatermark(res, payload.watermark, payload.post)
     yield handleNativeShare({ url: watermarked, title: payload.title })
   }
 
   if (payload.type === 'repost') {
-    yield handleRepost({ url: watermarked, title: payload.title, post: payload.post })
+    yield handleRepost({ url: res, title: payload.title, post: payload.post })
   }
 }
 

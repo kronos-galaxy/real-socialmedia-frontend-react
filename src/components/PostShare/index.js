@@ -13,6 +13,7 @@ import ModalHeaderComponent from 'templates/ModalHeader'
 import ModalPreviewComponent from 'templates/ModalPreview'
 import dayjs from 'dayjs'
 import * as navigationActions from 'navigation/actions'
+import NativeError from 'templates/NativeError'
 
 import { withTheme } from 'react-native-paper'
 import { useNavigation, useRoute } from '@react-navigation/native'
@@ -75,6 +76,16 @@ const PostShare = ({
 
   return (
     <View style={styling.root}>
+      <NativeError
+        handleCancelPress={() => {}}
+        titleText={t('Success')}
+        messageText={t('Successfully saved to camera roll')}
+        actionText={t('Done')}
+        status={postsShare.status}
+        triggerOn="success"
+        hidden={path(['payload', 'type'])(postsShare) !== 'cameraroll'}
+      />
+
       <View style={styling.header}>
         <ModalHeaderComponent
           onPress={navigationActions.navigateBack(navigation)}
@@ -97,6 +108,29 @@ const PostShare = ({
         </View>
 
         <View style={styling.content}>
+          <Headline style={styling.headline}>{t('Store as')}</Headline>
+          <View style={styling.bottomSpacing} />
+          <AccordionComponent
+            items={[
+              {
+                text: t('Repost on REAL'),
+                onPress: handleRepost,
+                loading: postsShare.status === 'loading' && postsShare.payload.type === 'repost',
+                disabled: !repostButtonVisibility,
+              },
+              {
+                text: t('Copy to Photos'),
+                onPress: handleGallerySave,
+                loading: postsShare.status === 'loading' && postsShare.payload.type === 'cameraroll',
+              },
+            ]}
+          />
+          <View style={styling.bottomSpacing} />
+          <Caption style={[styling.bottomSpacing]}>{t('Prove your post is verified by sharing a link to your REAL profile in it\'s description')}</Caption>
+          <View style={styling.bottomSpacing} />
+        </View>
+
+        <View style={styling.content}>
           <Headline style={styling.headline}>{t('Share as')}</Headline>
           <View style={styling.bottomSpacing} />
           <AccordionComponent
@@ -108,29 +142,6 @@ const PostShare = ({
           />
           <View style={styling.bottomSpacing} />
           <Caption style={[styling.bottomSpacing]}>{t('Prove your post is verified by sharing a link to your REAL profile in it\'s description')}</Caption>
-        </View>
-
-        <View style={styling.content}>
-          <Headline style={styling.headline}>{t('Store as')}</Headline>
-          <View style={styling.bottomSpacing} />
-          <AccordionComponent
-            items={[
-              {
-                text: t('Copy to Photos'),
-                onPress: handleGallerySave,
-                loading: postsShare.status === 'loading' && postsShare.payload.type === 'cameraroll',
-              },
-              {
-                text: t('Repost on REAL'),
-                onPress: handleRepost,
-                loading: postsShare.status === 'loading' && postsShare.payload.type === 'repost',
-                disabled: !repostButtonVisibility,
-              },
-            ]}
-          />
-          <View style={styling.bottomSpacing} />
-          <Caption style={[styling.bottomSpacing]}>{t('Prove your post is verified by sharing a link to your REAL profile in it\'s description')}</Caption>
-          <View style={styling.bottomSpacing} />
         </View>
       </ScrollView>
     </View>

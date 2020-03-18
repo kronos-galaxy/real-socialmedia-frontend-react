@@ -78,6 +78,7 @@ const PostCreateForm = ({
         style={styling.input}
         title="Lifetime"
         helper="Change post expiry, set expiry to 1 day to post story"
+        active
       >
         <FormLifetime
           values={values}
@@ -109,8 +110,8 @@ const PostCreateForm = ({
           type: 'action',
           enabled: !values.commentsDisabled,
         }, {
-          label: t('First Like'),
-          caption: t('See the first user to like your post'),
+          label: t('Likes'),
+          caption: t('Followers can like your post'),
           onPress: () => setFieldValue('likesDisabled', !values.likesDisabled),
           type: 'action',
           enabled: !values.likesDisabled,

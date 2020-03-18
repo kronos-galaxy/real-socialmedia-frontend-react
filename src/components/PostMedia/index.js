@@ -112,10 +112,10 @@ const PostMedia = ({
 
             handleScrollPrev={handleScrollPrev(index)}
             handleScrollNext={handleScrollNext(index)}
-            createActionSheetRef={element => actionSheetRefs[post.postId] = element}
-            actionSheetRef={actionSheetRefs[post.postId]}
-            createTextPostRef={element => textPostRefs[post.postId] = element}
-            textPostRef={textPostRefs[post.postId]}
+            createActionSheetRef={element => actionSheetRefs.current[post.postId] = element}
+            actionSheetRef={actionSheetRefs.current[post.postId]}
+            createTextPostRef={element => textPostRefs.current[post.postId] = element}
+            textPostRef={textPostRefs.current[post.postId]}
           />
         )}
       />

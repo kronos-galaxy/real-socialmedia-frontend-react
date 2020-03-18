@@ -41,8 +41,8 @@ const Privacy = ({
         onPress: toggleFollowCountsHidden,
         enabled: user.followCountsHidden,
       }, {
-        label: t('First Like'),
-        caption: t('See the first user to like your post'),
+        label: t('Likes'),
+        caption: t('Followers can like your posts'),
         onPress: toggleLikesDisabled,
         enabled: !user.likesDisabled,
       }, {

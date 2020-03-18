@@ -94,6 +94,7 @@ const PostEditForm = ({
         style={styling.input}
         title="Lifetime"
         helper="Change post expiry, set expiry to 1 day to post story"
+        active
       >
         <FormLifetime
           values={values}
@@ -125,8 +126,8 @@ const PostEditForm = ({
           type: 'action',
           enabled: !values.commentsDisabled,
         }, {
-          label: t('First Like'),
-          caption: t('See the first user to like your post'),
+          label: t('Likes'),
+          caption: t('Followers can like your post'),
           onPress: () => setFieldValue('likesDisabled', !values.likesDisabled),
           type: 'action',
           enabled: !values.likesDisabled,
@@ -160,7 +161,7 @@ const PostEditForm = ({
       </CollapsableComponent>
 
       <View style={styling.input}>
-        <DefaultButton label={t('Edit Post')} onPress={handleSubmit} loading={loading} />
+        <DefaultButton label={t('Save')} onPress={handleSubmit} loading={loading} />
       </View>
     </View>
   )

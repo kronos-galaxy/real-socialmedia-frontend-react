@@ -79,7 +79,8 @@ const Action = ({
   const seenByVisibility = (
     self &&
     !post.viewCountsHidden &&
-    !path(['postedBy', 'viewCountsHidden'])(post)
+    !path(['postedBy', 'viewCountsHidden'])(post) &&
+    post.viewedByCount > 0
   )
 
   return (

@@ -28,8 +28,8 @@ export class PinchZoom extends React.Component {
           }]}
         >
           <ImageComponent
-            thumbnailSource={{ uri: this.props.draggedImage.image.url64p }}
-            imageSource={{ uri: this.props.draggedImage.image.url4k }}
+            thumbnailSource={{ uri: this.props.draggedImage.image.url4k }}
+            imageSource={{ uri: this.props.draggedImage.image.url }}
             priorityIndex={1}
             resizeMode="contain"
           />
