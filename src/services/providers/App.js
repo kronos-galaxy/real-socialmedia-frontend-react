@@ -45,11 +45,11 @@ export const AuthProvider = ({
   /**
    * 
    */
-  // useEffect(() => {
-  //   BackgroundTimer.runBackgroundTimer(() => { 
-  //     dispatch(postsActions.postsCreateSchedulerRequest({}))
-  //   }, 6000)
-  // }, [])
+  useEffect(() => {
+    BackgroundTimer.runBackgroundTimer(() => { 
+      dispatch(postsActions.postsCreateSchedulerRequest({}))
+    }, 60000)
+  }, [])
 
   /**
    * Constructor function to fetch: Translations, Themes and Auth data

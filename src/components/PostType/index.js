@@ -36,7 +36,7 @@ const PostType = ({
 
         <View style={styling.types}>
           <TouchableOpacity style={styling.type} onPress={() => {
-            navigation.pop()
+            navigation.popToTop()
             navigationActions.navigateCamera(navigation)()
           }}>
             <View style={styling.icon}>
@@ -44,14 +44,17 @@ const PostType = ({
             </View>
             <Subheading style={styling.text}>{t('Photo')}</Subheading>
           </TouchableOpacity>
-          <TouchableOpacity style={styling.type} onPress={handleLibrarySnap}>
+          <TouchableOpacity style={styling.type} onPress={() => {
+            navigation.popToTop()
+            handleLibrarySnap()
+          }}>
             <View style={styling.icon}>
               <GalleryIcon fill="#000000" />
             </View>
             <Subheading style={styling.text}>{t('Gallery')}</Subheading>
           </TouchableOpacity>
           <TouchableOpacity style={styling.type} onPress={() => {
-            navigation.pop()
+            navigation.popToTop()
             navigationActions.navigatePostCreate(navigation, { type: 'TEXT_ONLY', })()
           }}>
             <View style={styling.icon}>
@@ -62,7 +65,7 @@ const PostType = ({
         </View>
 
         <TouchableOpacity style={styling.close} onPress={() => {
-          navigation.pop()
+          navigation.popToTop()
           navigationActions.navigateBack(navigation)()
         }}>
           <Subheading style={styling.closeText}>{t('x close')}</Subheading>

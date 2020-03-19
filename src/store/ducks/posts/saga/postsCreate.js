@@ -1,5 +1,5 @@
 import { graphqlOperation } from '@aws-amplify/api'
-import { call, put, takeEvery, takeLatest, getContext, delay, select } from 'redux-saga/effects'
+import { call, put, takeEvery, all, getContext, delay, select } from 'redux-saga/effects'
 import { eventChannel } from 'redux-saga'
 import path from 'ramda/src/path'
 import RNFetchBlob from 'rn-fetch-blob'
@@ -9,7 +9,6 @@ import * as constants from 'store/ducks/posts/constants'
 import promiseRetry from 'promise-retry'
 import dayjs from 'dayjs'
 import { v4 as uuid } from 'uuid'
-import RNFS from 'react-native-fs'
 
 /**
  * 
@@ -150,9 +149,8 @@ function* postsCreateRequest(req) {
   }
 }
 
-
 /**
- *
+ * 
  */
 function* postsCreateSchedulerRequest() {
   const data = yield select(state => state.posts.postsCreateQueue)
@@ -160,50 +158,61 @@ function* postsCreateSchedulerRequest() {
   const failedPosts = Object.values(data)
     .filter(post => path(['status'])(post) === 'failure')
 
+  const loadingPosts = Object.values(data)
+    .filter(post => path(['status'])(post) === 'loading')
+    .filter(post => dayjs(dayjs()).diff(path(['payload', 'createdAt'])(post), 'minute') > 5)
+
   const idlePosts = Object.values(data)
     .filter(post => path(['status'])(post) === 'idle')
 
   const successPosts = Object.values(data)
     .filter(post => path(['status'])(post) === 'success')
 
-  function createPost(post) {
+  function* removePost(post) {
+    yield put(actions.postsCreateIdle({
+      payload: path(['payload'])(post),
+    }))
+    return post
+  }
+
+  function* createPost(post) {
     const postId = uuid()
     const mediaId = uuid()
-    return put(actions.postsCreateRequest({
+    yield put(actions.postsCreateRequest({
       ...path(['payload'])(post),
       postId,
       mediaId,
     }))
+    return post
   }
 
-  function removePost(post) {
-    return put(actions.postsCreateIdle({
-      payload: path(['payload'])(post),
-    }))
+  function* recreatePost(post) {
+    yield createPost(post)
+    yield removePost(post)
   }
 
-  function storePost(post) {
-    return RNFS.copyFile(
-      path(['payload', 'images', '0'])(post),
-      `${RNFS.DocumentDirectory}/REAL/${path(['payload', 'mediaId'])(post)}.jpg`
-    )
-  }
+  /**
+   * Cleanup
+   */
 
-  yield successPosts
-    .map(removePost)
+  yield all(
+    successPosts.map((post) => call(removePost, post))
+  )
 
-  yield idlePosts
-    .map(removePost)
+  yield all(
+    idlePosts.map((post) => call(removePost, post))
+  )
 
-  yield failedPosts
-    .filter(post => dayjs(dayjs()).diff(path(['payload', 'createdAt'])(post), 'minute') > 10)
-    .filter(post => path(['payload', 'attempt'])(post) < 5)
-    .map(createPost)
+  /**
+   * Retry
+   */
+  yield all(
+    loadingPosts.map((post) => call(recreatePost, post))
+  )
 
-  yield failedPosts
-    .filter(post => dayjs(dayjs()).diff(path(['payload', 'createdAt'])(post), 'minute') > 10)
-    .filter(post => path(['payload', 'attempt'])(post) >= 5)
-    .map(storePost)
+  yield all(
+    failedPosts.map((post) => call(recreatePost, post))
+  )
 }
 
 export default () => [
