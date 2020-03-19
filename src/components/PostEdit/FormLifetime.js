@@ -77,7 +77,18 @@ const FormLifetime = ({
       />
       
       <View style={styling.sliderIndicator}>
-        <LifetimeIndicator />
+        <LifetimeIndicator
+          onValueChange={(value) => {
+            setFieldValue('lifetime', getValueByIndex(value))
+            const expiryArguments = getArgumentsByIndex(value)
+
+            if (expiryArguments) {
+              setFieldValue('expiresAt', dayjs().add(...getArgumentsByIndex(value) || null).toJSON())
+            } else {
+              setFieldValue('expiresAt', null)
+            }
+          }}
+        />
       </View>
     </View>
   )

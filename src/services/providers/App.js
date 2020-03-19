@@ -11,6 +11,7 @@ import { initReactI18next } from 'react-i18next'
 import path from 'ramda/src/path'
 import * as Logger from 'services/Logger'
 import * as Updates from 'services/Updates'
+import useAppState from 'services/AppState'
 import LoadingComponent from 'components/Loading'
 import BackgroundTimer from 'react-native-background-timer'
 
@@ -44,11 +45,11 @@ export const AuthProvider = ({
   /**
    * 
    */
-  useEffect(() => {
-    BackgroundTimer.runBackgroundTimer(() => { 
-      dispatch(postsActions.postsCreateSchedulerRequest({}))
-    }, 6000)
-  }, [])
+  // useEffect(() => {
+  //   BackgroundTimer.runBackgroundTimer(() => { 
+  //     dispatch(postsActions.postsCreateSchedulerRequest({}))
+  //   }, 6000)
+  // }, [])
 
   /**
    * Constructor function to fetch: Translations, Themes and Auth data
@@ -63,19 +64,12 @@ export const AuthProvider = ({
    * Application version check handler, which forces users to update
    * the app if new build is available
    */
-  useEffect(() => {
-    Updates.versionCheck()
-    const appStateListener = (nextAppState) => {
-      if (nextAppState === 'active') {
-        authCheckRequest({})
-        Updates.versionCheck()
-      }
-    }
-    AppState.addEventListener('change', appStateListener)
-    return () => {
-      AppState.removeEventListener('change', appStateListener)
-    }
-  }, [])
+  useAppState({
+    onForeground: () => {
+      authCheckRequest({})
+      Updates.versionCheck()
+    },
+  })
 
   /**
    * Translation library setup, translationFetch.data is an object of:

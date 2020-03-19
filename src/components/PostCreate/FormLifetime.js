@@ -62,7 +62,9 @@ const FormLifetime = ({
       />
       
       <View style={styling.sliderIndicator}>
-        <LifetimeIndicator />
+        <LifetimeIndicator
+          onValueChange={(value) => setFieldValue('lifetime', getValueByIndex(value))}
+        />
       </View>
     </View>
   )

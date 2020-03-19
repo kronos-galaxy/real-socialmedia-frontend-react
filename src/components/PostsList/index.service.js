@@ -8,6 +8,7 @@ import { useNavigation, useScrollToTop } from '@react-navigation/native'
 import path from 'ramda/src/path'
 import intersection from 'ramda/src/intersection'
 import * as navigationActions from 'navigation/actions'
+import useAppState from 'services/AppState'
 
 const PostsListService = ({ children }) => {
   const dispatch = useDispatch()
@@ -77,6 +78,12 @@ const PostsListService = ({ children }) => {
     postsFeedGetRequest({ limit: 20 })
     usersGetPendingFollowersRequest({ userId: authUser.userId })
   }, [])
+
+  useAppState({
+    onForeground: () => {
+      postsFeedGetRequest({ limit: 20 })
+    },
+  })
 
   const uploadPending = Object.values(postsCreateQueue)
     .filter(item => item.status === 'loading' || item.status === 'success')
