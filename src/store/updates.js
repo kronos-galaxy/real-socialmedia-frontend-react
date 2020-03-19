@@ -60,6 +60,15 @@ extend('$resourceCacheSetIdle', ({ payload, resourceKey }, original) =>
   })
 )
 
+/**
+ *
+ */
+
+extend('$resourceCacheSetRemove', ({ payload, resourceKey }, original) =>
+  update(original, {
+    $unset: [resourceKey],
+  })
+)
 
 /**
  *

@@ -784,7 +784,7 @@ const postsCreateIdle = (state, action) => update(state, {
     status: { $set: 'idle' },
   },
   postsCreateQueue: {
-    $resourceCacheSetIdle: {
+    $resourceCacheSetRemove: {
       ...action,
       resourceKey: action.payload.payload.postId,
       initialState: initialState.postsCreate,

@@ -9,6 +9,8 @@ import * as constants from 'store/ducks/posts/constants'
 import promiseRetry from 'promise-retry'
 import dayjs from 'dayjs'
 import { v4 as uuid } from 'uuid'
+import RNFS from 'react-native-fs' 
+import * as Logger from 'services/Logger'
 
 /**
  * 
@@ -153,66 +155,81 @@ function* postsCreateRequest(req) {
  * 
  */
 function* postsCreateSchedulerRequest() {
-  const data = yield select(state => state.posts.postsCreateQueue)
+  try {
+    const data = yield select(state => state.posts.postsCreateQueue)
     
-  const failedPosts = Object.values(data)
-    .filter(post => path(['status'])(post) === 'failure')
+    const failedPosts = Object.values(data)
+      .filter(post => path(['status'])(post) === 'failure')
 
-  const loadingPosts = Object.values(data)
-    .filter(post => path(['status'])(post) === 'loading')
-    .filter(post => dayjs(dayjs()).diff(path(['payload', 'createdAt'])(post), 'minute') > 5)
+    const loadingPosts = Object.values(data)
+      .filter(post => path(['status'])(post) === 'loading')
+      .filter(post => dayjs(dayjs()).diff(path(['payload', 'createdAt'])(post), 'minute') > 5)
 
-  const idlePosts = Object.values(data)
-    .filter(post => path(['status'])(post) === 'idle')
+    const idlePosts = Object.values(data)
+      .filter(post => path(['status'])(post) === 'idle')
 
-  const successPosts = Object.values(data)
-    .filter(post => path(['status'])(post) === 'success')
+    const successPosts = Object.values(data)
+      .filter(post => path(['status'])(post) === 'success')
 
-  function* removePost(post) {
-    yield put(actions.postsCreateIdle({
-      payload: path(['payload'])(post),
-    }))
-    return post
+    function* removePost(post) {
+      yield put(actions.postsCreateIdle({
+        payload: path(['payload'])(post),
+      }))
+      return post
+    }
+
+    function* createPost(post) {
+      const postId = uuid()
+      const mediaId = uuid()
+      yield put(actions.postsCreateRequest({
+        ...path(['payload'])(post),
+        postId,
+        mediaId,
+      }))
+      return post
+    }
+
+    function* storePost(post) {
+      const source = path(['payload', 'images', '0'])(post)
+      const desination = `${RNFS.DocumentDirectory}/REAL/${path(['payload', 'mediaId'])(post)}.jpg`
+      return RNFS.copyFile(source, desination)
+    }
+
+    function* recreatePost(post) {
+      yield removePost(post)
+      yield createPost(post)
+    }
+
+    /**
+     * Cleanup
+     */
+
+    yield all(
+      successPosts.map((post) => call(removePost, post))
+    )
+
+    yield all(
+      idlePosts.map((post) => call(removePost, post))
+    )
+
+    /**
+     * Retry
+     */
+    yield all(
+      loadingPosts
+      .map((post) => call(recreatePost, post))
+    )
+
+    yield all(
+      failedPosts
+      .map((post) => call(recreatePost, post))
+    )
+  } catch (error) {
+    Logger.withScope(scope => {
+      scope.setExtra('message', error.message)
+      Logger.captureMessage('POSTS_CREATE_SCHEDULER_REQUEST')
+    })
   }
-
-  function* createPost(post) {
-    const postId = uuid()
-    const mediaId = uuid()
-    yield put(actions.postsCreateRequest({
-      ...path(['payload'])(post),
-      postId,
-      mediaId,
-    }))
-    return post
-  }
-
-  function* recreatePost(post) {
-    yield createPost(post)
-    yield removePost(post)
-  }
-
-  /**
-   * Cleanup
-   */
-
-  yield all(
-    successPosts.map((post) => call(removePost, post))
-  )
-
-  yield all(
-    idlePosts.map((post) => call(removePost, post))
-  )
-
-  /**
-   * Retry
-   */
-  yield all(
-    loadingPosts.map((post) => call(recreatePost, post))
-  )
-
-  yield all(
-    failedPosts.map((post) => call(recreatePost, post))
-  )
 }
 
 export default () => [

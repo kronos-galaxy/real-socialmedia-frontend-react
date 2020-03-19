@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react'
-import { AppState } from 'react-native'
 import { useSelector, useDispatch } from 'react-redux'
 import * as themeActions from 'store/ducks/theme/actions'
 import * as authActions from 'store/ducks/auth/actions'
@@ -41,10 +40,9 @@ export const AuthProvider = ({
     dispatch(themeActions.themeFetchRequest(payload))
   const translationFetchRequest = (payload) =>
     dispatch(translationActions.translationFetchRequest(payload))
-
-  /**
-   * 
-   */
+  const postsCreateSchedulerRequest = (payload) =>
+    dispatch(postsActions.postsCreateSchedulerRequest(payload))
+ 
   useEffect(() => {
     BackgroundTimer.runBackgroundTimer(() => { 
       dispatch(postsActions.postsCreateSchedulerRequest({}))
@@ -67,6 +65,7 @@ export const AuthProvider = ({
   useAppState({
     onForeground: () => {
       authCheckRequest({})
+      postsCreateSchedulerRequest({})
       Updates.versionCheck()
     },
   })
