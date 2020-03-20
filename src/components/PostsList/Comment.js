@@ -2,12 +2,13 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import {
   StyleSheet,
-  View,
   TouchableOpacity,
 } from 'react-native'
 import { Text } from 'react-native-paper'
 import * as navigationActions from 'navigation/actions'
 import pathOr from 'ramda/src/pathOr'
+import reactStringReplace from 'react-string-replace'
+import path from 'ramda/src/path'
 
 import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
@@ -20,6 +21,7 @@ const Comment = ({
 }) => {
   const styling = styles(theme)
   const navigation = useNavigation()
+  const regex = /(?:@)([A-Za-z0-9_](?:(?:[A-Za-z0-9_]|(?:\.(?!\.))){0,28}(?:[A-Za-z0-9_]))?)/g
 
   return (
     <TouchableOpacity onPress={navigationActions.navigateComments(navigation, { post })} style={styling.root}>
@@ -28,9 +30,30 @@ const Comment = ({
       : null}
 
       {pathOr([], ['comments', 'items'], post).map((comment, key) => (
-        <View style={styling.comment} key={key}>
-          <Text><Text style={styling.author}>{pathOr('', ['commentedBy', 'username'])(comment)}</Text> {pathOr('', ['text'])(comment)}</Text>
-        </View>
+        <Text style={styling.comment} numberOfLines={4} ellipsizeMode="tail" key={key}>
+          {[
+            /**
+             * Username of post owner
+             */
+            <Text key="username" style={styling.author}>{pathOr('', ['commentedBy', 'username'])(comment)} </Text>,
+
+            /**
+             * Tagged @username occurrences with attached user object
+             */
+            ...reactStringReplace(pathOr('', ['text'])(comment).trim(), regex, (match, i) => {
+              const tagged = (path(['textTaggedUsers'])(comment) || [])
+                .find(textTag => textTag.tag === `@${match}`)
+
+              if (tagged) {
+                return (
+                  <Text key={match + i} onPress={navigationActions.navigateProfile(navigation, { user: tagged.user })} style={styling.textUsername}>@{match}</Text>
+                )
+              }
+              
+              return <Text style={styling.textDefault}>{`@${match}`}</Text>
+            })
+          ]}
+        </Text>
       ))}
     </TouchableOpacity>
   )
@@ -41,9 +64,6 @@ const styles = theme => StyleSheet.create({
     paddingHorizontal: theme.spacing.base,
     marginBottom: 6,
   },
-  author: {
-    fontWeight: '700',
-  },
   comment: {
     marginBottom: 4,
     flex: 1,
@@ -51,6 +71,15 @@ const styles = theme => StyleSheet.create({
   count: {
     paddingVertical: 6,
     opacity: 0.6,
+  },
+  author: {
+    fontWeight: '700',
+  },
+  textDefault: {
+    color: theme.colors.text,
+  },
+  textUsername: {
+    color: theme.colors.primary,
   },
 })
 

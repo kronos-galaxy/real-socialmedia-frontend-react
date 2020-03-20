@@ -183,6 +183,7 @@ function* postsCreateSchedulerRequest() {
       const mediaId = uuid()
       yield put(actions.postsCreateRequest({
         ...path(['payload'])(post),
+        createdAt: dayjs().toJSON(),
         postId,
         mediaId,
       }))

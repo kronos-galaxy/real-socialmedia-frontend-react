@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import {
   StyleSheet,
-  View,
+  TouchableOpacity,
 } from 'react-native'
 import path from 'ramda/src/path'
 import reactStringReplace from 'react-string-replace'
@@ -28,7 +28,7 @@ const Description = ({
   }
   
   return (
-    <View style={styling.root}>
+    <TouchableOpacity style={styling.root} onPress={navigationActions.navigateComments(navigation, { post })}>
       <Text style={styling.text} numberOfLines={4} ellipsizeMode="tail">
         {[
           /**
@@ -53,7 +53,7 @@ const Description = ({
           })
         ]}
       </Text>
-    </View>
+    </TouchableOpacity>
   )
 }
 

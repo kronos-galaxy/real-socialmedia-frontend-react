@@ -27,6 +27,7 @@ const Comments = ({
 }) => {
   const styling = styles(theme)
   
+  const pseudoCommentVisibility = path(['text', 'length'])(post)
   const pseudoComment = {
     ...post,
     commentedBy: path(['postedBy'])(post),
@@ -44,9 +45,11 @@ const Comments = ({
           />
         }
       >
-        <View style={styling.comment} key="desc">
-          <CommentComponent comment={pseudoComment} />
-        </View>
+        {pseudoCommentVisibility ?
+          <View style={styling.comment} key="desc">
+            <CommentComponent comment={pseudoComment} />
+          </View>
+        : null}
 
         {pathOr([], ['data'])(postsCommentsGet).map(((comment, key) => (
           <View style={styling.comment} key={key}>
