@@ -16,6 +16,7 @@ import RowsItemComponent from 'templates/RowsItem'
 import UserRowComponent from 'templates/UserRow'
 import CollapsableComponent from 'templates/Collapsable'
 import { Text, Caption, Switch } from 'react-native-paper'
+import HeaderRight from 'navigation/HeaderRight'
 
 import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
@@ -47,11 +48,7 @@ const PostCreateForm = ({
   }
 
   navigation.setOptions({
-    headerRight: () => (
-      <TouchableOpacity onPress={handleSubmit}>
-        <Text style={styling.headerRight}>{t('Post')}</Text>
-      </TouchableOpacity>
-    ),
+    headerRight: () => <HeaderRight onPress={handleSubmit} title="Post" />,
   })
 
   return (
@@ -165,12 +162,6 @@ const styles = theme => StyleSheet.create({
   },
   title: {
     marginBottom: theme.spacing.base,
-  },
-  headerRight: {
-    paddingHorizontal: theme.spacing.base,
-    fontSize: 16,
-    fontWeight: '700',
-    color: '#3498db',
   },
 })
 

@@ -5,6 +5,7 @@ import { withTheme } from 'react-native-paper'
 
 import { ThemesContext } from 'navigation/context'
 import * as navigationOptions from 'navigation/options'
+import * as navigationFragments from 'navigation/fragments'
 
 import TabNavigator from 'navigation/TabNavigator'
 import StoryScreen from 'screens/StoryScreen'
@@ -36,6 +37,7 @@ const RootNavigator = () => {
   const stackScreenBlankProps = navigationOptions.stackScreenBlankProps({ theme, themes })
   const stackScreenModalProps = navigationOptions.stackScreenModalProps({ theme, themes })
   const stackScreenPageProps = navigationOptions.stackScreenPageProps({ theme, themes })
+  const stackScreenCardProps = navigationOptions.stackScreenCardProps({ theme, themes })
 
   return (
     <Stack.Navigator {...stackNavigatorDefaultProps}>
@@ -62,6 +64,12 @@ const RootNavigator = () => {
         component={CommentsScreen}
         {...stackScreenPageProps({ options: { title: 'Comments' } })}
       />
+
+      {navigationFragments.media({
+        Stack,
+        stackScreenCardProps,
+        stackScreenPageProps,
+      })}
     </Stack.Navigator>
   )
 }

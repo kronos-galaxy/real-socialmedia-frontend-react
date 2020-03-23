@@ -10,6 +10,7 @@ import AlbumsGridComponent from 'components/AlbumsGrid'
 import * as navigationActions from 'navigation/actions'
 import path from 'ramda/src/path'
 import { Text } from 'react-native-paper'
+import HeaderRight from 'navigation/HeaderRight'
 
 import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
@@ -26,11 +27,7 @@ const Album = ({
   const navigation = useNavigation()
 
   navigation.setOptions({
-    headerRight: () => (
-      <TouchableOpacity onPress={navigationActions.navigateAlbumCreate(navigation)}>
-        <Text style={styling.headerRight}>Create</Text>
-      </TouchableOpacity>
-    ),
+    headerRight: () => <HeaderRight onPress={navigationActions.navigateAlbumCreate(navigation)} title="Create" />,
   })
 
   return (
@@ -50,12 +47,6 @@ const styles = theme => StyleSheet.create({
   root: {
     flex: 1,
     backgroundColor: theme.colors.backgroundPrimary,
-  },
-  headerRight: {
-    paddingHorizontal: theme.spacing.base,
-    fontSize: 16,
-    fontWeight: '700',
-    color: '#3498db',
   },
 })
 

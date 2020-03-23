@@ -9,6 +9,7 @@ import TextField from 'components/Formik/TextField'
 import { Formik, Field } from 'formik'
 import * as Yup from 'yup'
 import { Text } from 'react-native-paper'
+import HeaderRight from 'navigation/HeaderRight'
 
 import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
@@ -28,11 +29,7 @@ const AlbumEditForm = ({
   const navigation = useNavigation()
 
   navigation.setOptions({
-    headerRight: () => (
-      <TouchableOpacity onPress={handleSubmit}>
-        <Text style={styling.headerRight}>{t('Save')}</Text>
-      </TouchableOpacity>
-    ),
+    headerRight: () => <HeaderRight onPress={handleSubmit} title="Save" />,
   })
 
   return (
@@ -49,12 +46,6 @@ const styles = theme => StyleSheet.create({
   },
   input: {
     marginBottom: 12,
-  },
-  headerRight: {
-    paddingHorizontal: theme.spacing.base,
-    fontSize: 16,
-    fontWeight: '700',
-    color: '#3498db',
   },
 })
 

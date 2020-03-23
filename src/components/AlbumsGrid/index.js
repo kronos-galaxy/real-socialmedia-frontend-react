@@ -58,7 +58,6 @@ AlbumsGrid.defaultProps = {
 
 AlbumsGrid.propTypes = {
   theme: PropTypes.any,
-  
   albumsGet: PropTypes.any,
 }
 

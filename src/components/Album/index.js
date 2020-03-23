@@ -13,6 +13,7 @@ import path from 'ramda/src/path'
 import { Text } from 'react-native-paper'
 import * as navigationActions from 'navigation/actions'
 import ActionSheet from 'react-native-actionsheet'
+import HeaderRight from 'navigation/HeaderRight'
 
 import { withTheme } from 'react-native-paper'
 import { useNavigation, useRoute } from '@react-navigation/native'
@@ -35,11 +36,7 @@ const Album = ({
   if (path(['ownedBy', 'userId'])(album) === authUser.userId) {
     navigation.setOptions({
       title: path(['name'])(album),
-      headerRight: () => (
-        <TouchableOpacity onPress={() => actionSheetRef.current.show()}>
-          <Text style={styling.headerRight}>Edit</Text>
-        </TouchableOpacity>
-      ),
+      headerRight: () => <HeaderRight onPress={() => actionSheetRef.current.show()} title="Edit" />,
     })
   } else {
     navigation.setOptions({
@@ -119,12 +116,6 @@ const styles = theme => StyleSheet.create({
     width: '100%',
     height: '100%',
     borderRadius: 4,
-  },
-  headerRight: {
-    paddingHorizontal: theme.spacing.base,
-    fontSize: 16,
-    fontWeight: '700',
-    color: '#3498db',
   },
 })
 

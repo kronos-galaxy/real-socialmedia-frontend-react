@@ -30,11 +30,7 @@ const PostsGridSelect = ({
   const navigation = useNavigation()
 
   navigation.setOptions({
-    headerRight: () => selectedPost.postId ? (
-      <TouchableOpacity onPress={usersEditProfileRequest}>
-        <Text style={styling.headerRight}>{t('Update')}</Text>
-      </TouchableOpacity>
-    ) : null,
+    headerRight: () => <HeaderRight onPress={usersEditProfileRequest} title="Update" hidden={!selectedPost.postId} />,
   })
 
   return (
@@ -70,12 +66,6 @@ const styles = theme => StyleSheet.create({
     flex: 1,
     backgroundColor: theme.colors.backgroundPrimary,
     flexWrap: 'wrap',
-  },
-  headerRight: {
-    paddingHorizontal: theme.spacing.base,
-    fontSize: 16,
-    fontWeight: '700',
-    color: '#3498db',
   },
   info: {
     padding: theme.spacing.base,

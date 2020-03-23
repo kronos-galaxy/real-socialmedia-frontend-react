@@ -63,11 +63,7 @@ const PostEditForm = ({
   }
 
   navigation.setOptions({
-    headerRight: () => (
-      <TouchableOpacity onPress={handleSubmit}>
-        <Text style={styling.headerRight}>{t('Update')}</Text>
-      </TouchableOpacity>
-    ),
+    headerRight: () => <HeaderRight onPress={handleSubmit} title="Update" />,
   })
 
   return (
@@ -181,12 +177,6 @@ const styles = theme => StyleSheet.create({
   },
   title: {
     marginBottom: theme.spacing.base,
-  },
-  headerRight: {
-    paddingHorizontal: theme.spacing.base,
-    fontSize: 16,
-    fontWeight: '700',
-    color: '#3498db',
   },
 })
 
