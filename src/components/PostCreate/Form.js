@@ -49,7 +49,7 @@ const PostCreateForm = ({
   navigation.setOptions({
     headerRight: () => (
       <TouchableOpacity onPress={handleSubmit}>
-        <Text style={styling.headerRight}>Post</Text>
+        <Text style={styling.headerRight}>{t('Post')}</Text>
       </TouchableOpacity>
     ),
   })

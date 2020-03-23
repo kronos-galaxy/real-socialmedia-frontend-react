@@ -31,6 +31,26 @@ export const getAlbums = `
   ${albumFragment}
 `
 
-export const editAlbum = ``
+export const editAlbum = `
+  mutation editAlbum(
+    $albumId: ID!,
+    $name: String,
+  ) {
+    editAlbum(
+      albumId: $albumId,
+      name: $name,
+    ) {
+      ...albumFragment
+    }
+  }
+  ${albumFragment}
+`
 
-export const deleteAlbum = ``
+export const deleteAlbum = `
+  mutation deleteAlbum($albumId: ID!) {
+    deleteAlbum (albumId: $albumId) {
+      ...albumFragment
+    }
+  }
+  ${albumFragment}
+`

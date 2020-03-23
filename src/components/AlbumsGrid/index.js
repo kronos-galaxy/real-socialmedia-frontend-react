@@ -7,7 +7,6 @@ import {
 import GridComponent from 'templates/Grid'
 import GridItemComponent from 'templates/GridItem'
 import ImageComponent from 'templates/Image'
-import TextOnlyComponent from 'templates/TextOnly/Thumbnail'
 import path from 'ramda/src/path'
 import * as navigationActions from 'navigation/actions'
 

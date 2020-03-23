@@ -32,7 +32,7 @@ const PostsGridSelect = ({
   navigation.setOptions({
     headerRight: () => selectedPost.postId ? (
       <TouchableOpacity onPress={usersEditProfileRequest}>
-        <Text style={styling.headerRight}>Update</Text>
+        <Text style={styling.headerRight}>{t('Update')}</Text>
       </TouchableOpacity>
     ) : null,
   })

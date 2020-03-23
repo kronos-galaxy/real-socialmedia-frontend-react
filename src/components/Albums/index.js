@@ -4,11 +4,12 @@ import {
   StyleSheet,
   ScrollView,
   View,
+  TouchableOpacity,
 } from 'react-native'
-import Albums from 'components/Albums/Albums'
-import Layout from 'constants/Layout'
-import DefaultButton from 'components/Formik/Button/DefaultButton'
+import AlbumsGridComponent from 'components/AlbumsGrid'
 import * as navigationActions from 'navigation/actions'
+import path from 'ramda/src/path'
+import { Text } from 'react-native-paper'
 
 import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
@@ -17,23 +18,29 @@ import { withTranslation } from 'react-i18next'
 const Album = ({
   t,
   theme,
+  themeFetch,
   albumsGet,
+  user,
 }) => {
   const styling = styles(theme)
   const navigation = useNavigation()
 
+  navigation.setOptions({
+    headerRight: () => (
+      <TouchableOpacity onPress={navigationActions.navigateAlbumCreate(navigation)}>
+        <Text style={styling.headerRight}>Create</Text>
+      </TouchableOpacity>
+    ),
+  })
+
   return (
     <View style={styling.root}>
       <ScrollView bounces={false}>
-        <View style={styling.content}>
-          <Albums
-            items={albumsGet.data}
-          />
-        </View>
-
-        <View style={styling.content}>
-          <DefaultButton label={t('Create Album')} onPress={navigationActions.navigateAlbumCreate(navigation)} />
-        </View>
+        <AlbumsGridComponent
+          albumsGet={albumsGet}
+          themeFetch={themeFetch}
+          themeCode={path(['data', 'themeCode'])(user)}
+        />
       </ScrollView>
     </View>
   )
@@ -44,33 +51,11 @@ const styles = theme => StyleSheet.create({
     flex: 1,
     backgroundColor: theme.colors.backgroundPrimary,
   },
-  header: {
-    zIndex: 2,
-  },
-  content: {
-    padding: theme.spacing.base,
-  },
-  headline: {
-    fontSize: 20,
-    fontWeight: '600',
-  },
-  bottomSpacing: {
-    marginBottom: theme.spacing.base,
-  },
-
-  albums: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-  },
-  albumWrapper: {
-    width: Layout.window.width / 2 - 12,
-    height: Layout.window.width / 2 - 12,
-    padding: 12,
-  },
-  album: {
-    width: '100%',
-    height: '100%',
-    borderRadius: 4,
+  headerRight: {
+    paddingHorizontal: theme.spacing.base,
+    fontSize: 16,
+    fontWeight: '700',
+    color: '#3498db',
   },
 })
 

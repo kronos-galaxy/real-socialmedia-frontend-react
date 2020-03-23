@@ -9,6 +9,11 @@ import ProfileFollowedScreen from 'screens/ProfileFollowedScreen'
 import ProfileFollowerScreen from 'screens/ProfileFollowerScreen'
 import VerificationScreen from 'screens/VerificationScreen'
 import AlbumScreen from 'screens/AlbumScreen'
+import AlbumsScreen from 'screens/AlbumsScreen'
+import AlbumCreateScreen from 'screens/AlbumCreateScreen'
+import AlbumEditScreen from 'screens/AlbumEditScreen'
+import PostEditScreen from 'screens/PostEditScreen'
+import PostCreateScreen from 'screens/PostCreateScreen'
 
 export const media = ({
   Stack,
@@ -63,6 +68,36 @@ export const media = ({
         name="PostShare"
         component={PostShareScreen}
         {...stackScreenCardProps}
+      />
+
+      <Stack.Screen
+        name="Albums"
+        component={AlbumsScreen}
+        {...stackScreenPageProps({ options: { title: 'Albums' } })}
+      />
+
+      <Stack.Screen
+        name="AlbumCreate"
+        component={AlbumCreateScreen}
+        {...stackScreenPageProps({ options: { title: 'Create Album' } })}
+      />
+
+      <Stack.Screen
+        name="AlbumEdit"
+        component={AlbumEditScreen}
+        {...stackScreenPageProps({ options: { title: 'Edit Album' } })}
+      />
+
+      <Stack.Screen
+        name="PostCreate"
+        component={PostCreateScreen}
+        {...stackScreenPageProps({ options: { title: 'New Post' } })}
+      />
+
+      <Stack.Screen
+        name="PostEdit"
+        component={PostEditScreen}
+        {...stackScreenPageProps({ options: { title: 'Edit Post' } })}
       />
 
       <Stack.Screen

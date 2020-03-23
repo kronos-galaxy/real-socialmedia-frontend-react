@@ -7,8 +7,6 @@ import * as navigationOptions from 'navigation/options'
 import * as navigationFragments from 'navigation/fragments'
 
 import FeedScreen from 'screens/FeedScreen'
-import AlbumsScreen from 'screens/AlbumsScreen'
-import AlbumCreateScreen from 'screens/AlbumCreateScreen'
 import ProfileRequestsScreen from 'screens/ProfileRequestsScreen'
 
 
@@ -26,18 +24,6 @@ const AppNavigator = () => {
         name="Feed"
         component={FeedScreen}
         {...stackScreenDefaultProps}
-      />
-
-      <Stack.Screen
-        name="Albums"
-        component={AlbumsScreen}
-        {...stackScreenPageProps({ options: { title: 'Albums' } })}
-      />
-
-      <Stack.Screen
-        name="AlbumCreate"
-        component={AlbumCreateScreen}
-        {...stackScreenPageProps({ options: { title: 'Create Album' } })}
       />
 
       <Stack.Screen

@@ -42,7 +42,7 @@ const ProfileEditForm = ({
   navigation.setOptions({
     headerRight: () => (
       <TouchableOpacity onPress={handleSubmit}>
-        <Text style={styling.headerRight}>Update</Text>
+        <Text style={styling.headerRight}>{t('Update')}</Text>
       </TouchableOpacity>
     ),
   })

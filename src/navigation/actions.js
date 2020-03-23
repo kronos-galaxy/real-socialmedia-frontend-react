@@ -50,6 +50,9 @@ export const navigateAlbum = (navigation, params) => () =>
 export const navigateAlbumCreate = (navigation, params) => () =>
   navigation.navigate('AlbumCreate', params)
 
+  export const navigateAlbumEdit = (navigation, params) => () =>
+  navigation.navigate('AlbumEdit', params)
+
 export const navigateAlbums = (navigation, params) => () =>
   navigation.navigate('Albums', params)
 

@@ -1,14 +1,18 @@
-import React from 'react'
+import React, { useRef } from 'react'
 import PropTypes from 'prop-types'
 import {
   StyleSheet,
   ScrollView,
   View,
+  TouchableOpacity,
 } from 'react-native'
 import Layout from 'constants/Layout'
 import PostsGridComponent from 'components/PostsGrid'
 import ModalProfileComponent from 'templates/ModalProfile'
 import path from 'ramda/src/path'
+import { Text } from 'react-native-paper'
+import * as navigationActions from 'navigation/actions'
+import ActionSheet from 'react-native-actionsheet'
 
 import { withTheme } from 'react-native-paper'
 import { useNavigation, useRoute } from '@react-navigation/native'
@@ -18,13 +22,30 @@ const Album = ({
   t,
   theme,
   themes,
-  albumsGet,
+  authUser,
+  albumsDeleteRequest,
   themeFetch,
 }) => {
   const styling = styles(theme)
   const navigation = useNavigation()
   const route = useRoute()
   const album = path(['params', 'album'])(route)
+  const actionSheetRef = useRef(null)
+
+  if (path(['ownedBy', 'userId'])(album) === authUser.userId) {
+    navigation.setOptions({
+      title: path(['name'])(album),
+      headerRight: () => (
+        <TouchableOpacity onPress={() => actionSheetRef.current.show()}>
+          <Text style={styling.headerRight}>Edit</Text>
+        </TouchableOpacity>
+      ),
+    })
+  } else {
+    navigation.setOptions({
+      headerRight: () => null,
+    })
+  }
 
   return (
     <View style={styling.root}>
@@ -46,6 +67,21 @@ const Album = ({
             themes={themes}
           />
         </View>
+        
+        <ActionSheet
+          ref={actionSheetRef}
+          options={[t('Edit'), t('Remove'), t('Cancel')]}
+          cancelButtonIndex={2}
+          destructiveButtonIndex={1}
+          onPress={(index) => {
+            if (index === 0) {
+              navigationActions.navigateAlbumEdit(navigation, { album })()
+            }
+            if (index === 1) {
+              albumsDeleteRequest({ albumId: album.albumId })
+            }
+          }}
+        />
       </ScrollView>
     </View>
   )
@@ -83,6 +119,12 @@ const styles = theme => StyleSheet.create({
     width: '100%',
     height: '100%',
     borderRadius: 4,
+  },
+  headerRight: {
+    paddingHorizontal: theme.spacing.base,
+    fontSize: 16,
+    fontWeight: '700',
+    color: '#3498db',
   },
 })
 
