@@ -11,6 +11,7 @@ import path from 'ramda/src/path'
 import PostComponent from 'components/PostsList/Post'
 import UploadingComponent from 'components/PostsList/Uploading'
 import PendingRequestsComponent from 'components/PostsList/PendingRequests'
+import BookmarkComponent from 'components/PostsList/Bookmark'
 import NativeError from 'templates/NativeError'
 import StoriesComponent from 'components/Stories'
 
@@ -94,6 +95,7 @@ const PostsList = ({
   handleScrollPrev,
   handleScrollNext,
 
+  bookmarkSeparatorIndex,
   feedRef,
   actionSheetRefs,
   textPostRefs,
@@ -163,37 +165,46 @@ const PostsList = ({
           </View>
         </>}
         renderItem={({ item: post, index }) => (
-          <PostComponent
-            themes={themes}
-            authUser={authUser}
-            post={post}
-            handleEditPress={handleEditPress}
-            postsArchiveRequest={postsArchiveRequest}
-            postsRestoreArchivedRequest={postsRestoreArchivedRequest}
-            postsFlagRequest={postsFlagRequest}
-            postsDeleteRequest={postsDeleteRequest}
-            postsShareRequest={postsShareRequest}
-            postsAnonymouslyLikeRequest={postsAnonymouslyLikeRequest}
-            postsOnymouslyLikeRequest={postsOnymouslyLikeRequest}
-            postsDislikeRequest={postsDislikeRequest}
-            priorityIndex={index}
+          <>
+            {(
+              bookmarkSeparatorIndex === index &&
+              bookmarkSeparatorIndex > 0
+            ) ?
+              <BookmarkComponent />
+            : null}
 
-            handleScrollPrev={handleScrollPrev(index)}
-            handleScrollNext={handleScrollNext(index)}
-            createActionSheetRef={element => {
-              if (!actionSheetRefs.current[post.postId]) {
-                actionSheetRefs.current[post.postId] = element
-              }
-            }}
-            actionSheetRef={actionSheetRefs.current[post.postId]}
-            createTextPostRef={element => {
-              if (!textPostRefs.current[post.postId]) {
-                textPostRefs.current[post.postId] = element
-              }
-            }}
-            textPostRef={textPostRefs.current[post.postId]}
-            feedRef={feedRef}
-          />
+            <PostComponent
+              themes={themes}
+              authUser={authUser}
+              post={post}
+              handleEditPress={handleEditPress}
+              postsArchiveRequest={postsArchiveRequest}
+              postsRestoreArchivedRequest={postsRestoreArchivedRequest}
+              postsFlagRequest={postsFlagRequest}
+              postsDeleteRequest={postsDeleteRequest}
+              postsShareRequest={postsShareRequest}
+              postsAnonymouslyLikeRequest={postsAnonymouslyLikeRequest}
+              postsOnymouslyLikeRequest={postsOnymouslyLikeRequest}
+              postsDislikeRequest={postsDislikeRequest}
+              priorityIndex={index}
+
+              handleScrollPrev={handleScrollPrev(index)}
+              handleScrollNext={handleScrollNext(index)}
+              createActionSheetRef={element => {
+                if (!actionSheetRefs.current[post.postId]) {
+                  actionSheetRefs.current[post.postId] = element
+                }
+              }}
+              actionSheetRef={actionSheetRefs.current[post.postId]}
+              createTextPostRef={element => {
+                if (!textPostRefs.current[post.postId]) {
+                  textPostRefs.current[post.postId] = element
+                }
+              }}
+              textPostRef={textPostRefs.current[post.postId]}
+              feedRef={feedRef}
+            />
+          </>
         )}
         ListFooterComponent={scroll.loadingmore ? ActivityIndicator : null}
         ListFooterComponentStyle={styling.loading}

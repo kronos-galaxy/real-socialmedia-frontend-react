@@ -6,6 +6,7 @@ import * as postsActions from 'store/ducks/posts/actions'
 import * as usersActions from 'store/ducks/users/actions'
 import { useNavigation, useScrollToTop } from '@react-navigation/native'
 import path from 'ramda/src/path'
+import pathOr from 'ramda/src/pathOr'
 import intersection from 'ramda/src/intersection'
 import * as navigationActions from 'navigation/actions'
 import useAppState from 'services/AppState'
@@ -163,6 +164,12 @@ const PostsListService = ({ children }) => {
   }
 
   /**
+   * You are all caught up separator position
+   */
+  const bookmarkSeparatorIndex = pathOr([], ['data'])(postsFeedGet)
+    .findIndex(post => post.viewedStatus === 'VIEWED')
+
+  /**
    * FlatList feed ref, used for scroll to top on tab bar press
    */
   const feedRef = useRef(null)
@@ -219,6 +226,7 @@ const PostsListService = ({ children }) => {
     handleScrollPrev,
     handleScrollNext,
 
+    bookmarkSeparatorIndex,
     feedRef,
     actionSheetRefs,
     textPostRefs,
