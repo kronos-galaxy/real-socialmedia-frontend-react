@@ -1,14 +1,12 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import {
   StyleSheet,
   View,
-  TouchableOpacity,
 } from 'react-native'
 import TextField from 'components/Formik/TextField'
 import { Formik, Field } from 'formik'
 import * as Yup from 'yup'
-import { Text } from 'react-native-paper'
 import HeaderRight from 'navigation/HeaderRight'
 
 import { withTheme } from 'react-native-paper'

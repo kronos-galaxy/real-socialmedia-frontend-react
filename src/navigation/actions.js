@@ -5,6 +5,9 @@
 export const navigateBack = (navigation, params) => () =>
   navigation.goBack()
 
+export const navigatePop = (navigation, params) => () =>
+  navigation.popToTop()
+
 export const navigateHome = (navigation, params) => () =>
   navigation.navigate('Root', {
     screen: 'Home',

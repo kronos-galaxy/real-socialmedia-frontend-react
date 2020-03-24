@@ -115,7 +115,7 @@ const PostsListService = ({ children }) => {
 
     if (postsRestoreArchived.status === 'success') {
       dispatch(postsActions.postsRestoreArchivedIdle())
-      navigationActions.navigateBack(navigation)()
+      navigationActions.navigatePop(navigation)()
     }
 
     if (postsFlag.status === 'success') {

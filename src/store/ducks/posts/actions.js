@@ -176,3 +176,8 @@ export const commentsAddIdle = createAction(constants.COMMENTS_ADD_IDLE)
 export const commentsAddRequest = createAction(constants.COMMENTS_ADD_REQUEST)
 export const commentsAddSuccess = createAction(constants.COMMENTS_ADD_SUCCESS)
 export const commentsAddFailure = createAction(constants.COMMENTS_ADD_FAILURE)
+
+export const commentsDeleteIdle = createAction(constants.COMMENTS_DELETE_IDLE)
+export const commentsDeleteRequest = createAction(constants.COMMENTS_DELETE_REQUEST)
+export const commentsDeleteSuccess = createAction(constants.COMMENTS_DELETE_SUCCESS)
+export const commentsDeleteFailure = createAction(constants.COMMENTS_DELETE_FAILURE)

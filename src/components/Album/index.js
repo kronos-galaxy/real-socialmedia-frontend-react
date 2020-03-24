@@ -4,13 +4,11 @@ import {
   StyleSheet,
   ScrollView,
   View,
-  TouchableOpacity,
 } from 'react-native'
 import Layout from 'constants/Layout'
 import PostsGridComponent from 'components/PostsGrid'
 import ModalProfileComponent from 'templates/ModalProfile'
 import path from 'ramda/src/path'
-import { Text } from 'react-native-paper'
 import * as navigationActions from 'navigation/actions'
 import ActionSheet from 'react-native-actionsheet'
 import HeaderRight from 'navigation/HeaderRight'

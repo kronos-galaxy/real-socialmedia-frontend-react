@@ -14,7 +14,9 @@ const CommentsService = ({ children, }) => {
   const route = useRoute()
   const postId = path(['params', 'post', 'postId'])(route)
   const postUserId = path(['params', 'post', 'postedBy', 'userId'])(route)
+  const authUser = useSelector(state => state.auth.user)
   const commentsAdd = useSelector(state => state.posts.commentsAdd)
+  const commentsDelete = useSelector(state => state.posts.commentsDelete)
   const postsCommentsGet = useSelector(state => state.posts.postsCommentsGet)
   const postsCommentsGetCache = useSelector(state => state.posts.postsCommentsGetCache)
 
@@ -27,6 +29,11 @@ const CommentsService = ({ children, }) => {
     dispatch(postsActions.postsSingleGetRequest({ postId, userId: postUserId }))
   }, [commentsAdd.status === 'success'])
 
+  useEffect(() => {
+    dispatch(postsActions.postsCommentsGetRequest({ postId, userId: postUserId }))
+    dispatch(postsActions.postsSingleGetRequest({ postId, userId: postUserId }))
+  }, [commentsDelete.status === 'success'])
+
   const commentsAddRequest = ({ text }) => {
     const commentId = uuid()
     dispatch(postsActions.commentsAddRequest({
@@ -35,6 +42,9 @@ const CommentsService = ({ children, }) => {
       text,
     }))
   }
+
+  const commentsDeleteRequest = (payload) =>
+    dispatch(postsActions.commentsDeleteRequest(payload))
 
   /**
    * Keyboard movement calculator 
@@ -62,8 +72,10 @@ const CommentsService = ({ children, }) => {
   const marginBottom = offset + ifIphoneX(40, 0)
   
   return children({
+    authUser,
     commentsAdd,
     commentsAddRequest,
+    commentsDeleteRequest,
     postsCommentsGet: postsServices.cachedPostsGet(postsCommentsGet, postsCommentsGetCache, postId),
     post: path(['params', 'post'])(route),
     marginBottom,

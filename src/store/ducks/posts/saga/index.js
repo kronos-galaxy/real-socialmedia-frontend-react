@@ -363,6 +363,23 @@ function* commentsAddRequest(req) {
   }
 }
 
+/**
+ *
+ */
+function* commentsDeleteRequest(req) {
+  const AwsAPI = yield getContext('AwsAPI')
+  const errorWrapper = yield getContext('errorWrapper')
+
+  try {
+    const data = yield AwsAPI.graphql(graphqlOperation(queries.deleteComment, req.payload))
+    const selector = path(['data', 'deleteComment'])
+
+    yield put(actions.commentsDeleteSuccess({ data: selector(data), payload: req.payload, meta: data }))
+  } catch (error) {
+    yield put(actions.commentsDeleteFailure({ message: errorWrapper(error), payload: req.payload }))
+  }
+}
+
 export default () => [
   takeLatest(constants.POSTS_GET_REQUEST, postsGetRequest),
   takeLatest(constants.POSTS_GET_MORE_REQUEST, postsGetMoreRequest),
@@ -392,4 +409,5 @@ export default () => [
   
   takeLatest(constants.POSTS_COMMENTS_GET_REQUEST, postsCommentsGetRequest),
   takeLatest(constants.COMMENTS_ADD_REQUEST, commentsAddRequest),
+  takeLatest(constants.COMMENTS_DELETE_REQUEST, commentsDeleteRequest),
 ]

@@ -17,7 +17,7 @@ const AlbumEditService = ({ children, }) => {
     if (albumsEdit.status === 'success') {
       dispatch(albumsActions.albumsEditIdle())
       dispatch(albumsActions.albumsGetRequest({ userId: authUser.userId }))
-      navigationActions.navigateBack(navigation)()
+      navigationActions.navigatePop(navigation)()
     }
   }, [albumsEdit.status])
 

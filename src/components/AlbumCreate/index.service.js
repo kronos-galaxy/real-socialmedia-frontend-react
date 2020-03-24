@@ -23,7 +23,7 @@ const AlbumCreateService = ({ children, }) => {
     if (albumsCreate.status === 'success') {
       dispatch(albumsActions.albumsCreateIdle())
       dispatch(albumsActions.albumsGetRequest({ userId: authUser.userId }))
-      navigationActions.navigateBack(navigation)()
+      navigationActions.navigatePop(navigation)()
     }
   }, [albumsCreate.status])
 

@@ -272,6 +272,19 @@ export const addComment = `
   ${commentFragment}
 `
 
+export const deleteComment = `
+  mutation deleteComment(
+    $commentId: ID!,
+  ) {
+    deleteComment (
+      commentId: $commentId,
+    ) {
+      ...commentFragment
+    }
+  }
+  ${commentFragment}
+`
+
 export const comments = `
   query comments($postId: ID!, $limit: Int, $nextToken: String) {
     post(postId: $postId) {

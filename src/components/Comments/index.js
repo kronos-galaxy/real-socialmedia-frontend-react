@@ -9,6 +9,7 @@ import {
 import FormComponent from 'components/Comments/Form'
 import { ifIphoneX } from 'react-native-iphone-x-helper'
 import CommentComponent from 'components/Comments/Comment'
+import SwipeableComponent from 'components/Comments/Swipeable'
 import path from 'ramda/src/path'
 import pathOr from 'ramda/src/pathOr'
 
@@ -19,8 +20,10 @@ import { withTranslation } from 'react-i18next'
 const Comments = ({
   t,
   theme,
+  authUser,
   commentsAdd,
   commentsAddRequest,
+  commentsDeleteRequest,
   postsCommentsGet,
   marginBottom,
   post,
@@ -53,7 +56,15 @@ const Comments = ({
 
         {pathOr([], ['data'])(postsCommentsGet).map(((comment, key) => (
           <View style={styling.comment} key={key}>
-            <CommentComponent comment={comment} />
+            {comment.commentedBy.userId === authUser.userId ?
+              <SwipeableComponent onPress={() => commentsDeleteRequest({ commentId: comment.commentId })}>
+                <CommentComponent comment={comment} />
+              </SwipeableComponent>
+            : null}
+
+            {comment.commentedBy.userId !== authUser.userId ?
+              <CommentComponent comment={comment} />
+            : null}
           </View>
         )))}
       </ScrollView>
@@ -74,16 +85,16 @@ const styles = theme => StyleSheet.create({
   },
   comments: {
     flex: 1,
-    padding: theme.spacing.base,
   },
   comment: {
+    paddingHorizontal: theme.spacing.base,
     marginBottom: theme.spacing.base,
   },
   form: {
     ...ifIphoneX({
-      marginBottom: 40,
+      paddingBottom: 40,
     }, {
-      marginBottom: 0,
+      paddingBottom: 0,
     }),
   }
 })

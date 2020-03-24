@@ -145,6 +145,13 @@ const initialState = {
     payload: {},
     meta: {},
   },
+  commentsDelete: {
+    data: [],
+    status: 'idle',
+    error: {},
+    payload: {},
+    meta: {},
+  },
 
   postsCreateQueue: {},
   postsRecreateQueue: {},
@@ -1251,6 +1258,36 @@ const commentsAddIdle = (state, action) => update(state, {
   },
 })
 
+/**
+ * 
+ */
+const commentsDeleteRequest = (state, action) => update(state, {
+  commentsDelete: {
+    status: { $set: 'loading' },
+    payload: { $set: action.payload },
+  },
+})
+
+const commentsDeleteSuccess = (state, action) => update(state, {
+  commentsDelete: {
+    data: { $set: action.payload.data },
+    status: { $set: 'success' },
+  },
+})
+
+const commentsDeleteFailure = (state, action) => update(state, {
+  commentsDelete: {
+    status: { $set: 'failure' },
+  },
+})
+
+const commentsDeleteIdle = (state, action) => update(state, {
+  commentsDelete: {
+    data: { $set: initialState.commentsDelete.data },
+    status: { $set: 'idle' },
+  },
+})
+
 export default handleActions({
   [constants.POSTS_GET_REQUEST]: postsGetRequest,
   [constants.POSTS_GET_SUCCESS]: postsGetSuccess,
@@ -1356,6 +1393,11 @@ export default handleActions({
   [constants.COMMENTS_ADD_SUCCESS]: commentsAddSuccess,
   [constants.COMMENTS_ADD_FAILURE]: commentsAddFailure,
   [constants.COMMENTS_ADD_IDLE]: commentsAddIdle,
+
+  [constants.COMMENTS_DELETE_REQUEST]: commentsDeleteRequest,
+  [constants.COMMENTS_DELETE_SUCCESS]: commentsDeleteSuccess,
+  [constants.COMMENTS_DELETE_FAILURE]: commentsDeleteFailure,
+  [constants.COMMENTS_DELETE_IDLE]: commentsDeleteIdle,
 
   /**
    * Clear on logout

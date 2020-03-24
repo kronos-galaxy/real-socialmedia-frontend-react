@@ -33,17 +33,17 @@ const PostCreateService = ({ children, }) => {
 
   useEffect(() => {
     if (postsDoneUploading && type === 'IMAGE') {
-      navigationActions.navigateBack(navigation)()
+      navigationActions.navigatePop(navigation)()
     }
   }, [postsDoneUploading])
 
   useEffect(() => {
     if (postsCreate.status === 'success' && type === 'TEXT_ONLY') {
-      navigationActions.navigateBack(navigation)()
+      navigationActions.navigatePop(navigation)()
     }
 
     if (postsCreate.status === 'loading' && type === 'TEXT_ONLY') {
-      navigationActions.navigateBack(navigation)()
+      navigationActions.navigatePop(navigation)()
     }
   }, [postsCreate.status])
 

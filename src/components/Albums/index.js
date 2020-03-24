@@ -4,12 +4,10 @@ import {
   StyleSheet,
   ScrollView,
   View,
-  TouchableOpacity,
 } from 'react-native'
 import AlbumsGridComponent from 'components/AlbumsGrid'
 import * as navigationActions from 'navigation/actions'
 import path from 'ramda/src/path'
-import { Text } from 'react-native-paper'
 import HeaderRight from 'navigation/HeaderRight'
 
 import { withTheme } from 'react-native-paper'

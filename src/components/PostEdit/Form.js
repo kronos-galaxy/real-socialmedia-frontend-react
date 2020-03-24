@@ -17,6 +17,7 @@ import UserRowComponent from 'templates/UserRow'
 import CollapsableComponent from 'templates/Collapsable'
 import { Text, Caption, Switch } from 'react-native-paper'
 import dayjs from 'dayjs'
+import HeaderRight from 'navigation/HeaderRight'
 
 import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'

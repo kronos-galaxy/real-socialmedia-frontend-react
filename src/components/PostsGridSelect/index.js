@@ -4,7 +4,6 @@ import {
   StyleSheet,
   View,
   ScrollView,
-  TouchableOpacity,
 } from 'react-native'
 import path from 'ramda/src/path'
 import GridComponent from 'templates/Grid'
@@ -12,7 +11,7 @@ import GridItemComponent from 'templates/GridItem'
 import ImageComponent from 'templates/Image'
 import CheckedIcon from 'assets/svg/other/Checked'
 import UncheckedIcon from 'assets/svg/other/Unchecked'
-import { Text, Caption } from 'react-native-paper'
+import { Caption } from 'react-native-paper'
 
 import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
