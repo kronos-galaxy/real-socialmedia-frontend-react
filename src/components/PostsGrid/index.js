@@ -10,6 +10,7 @@ import ImageComponent from 'templates/Image'
 import TextOnlyComponent from 'templates/TextOnly/Thumbnail'
 import path from 'ramda/src/path'
 import * as navigationActions from 'navigation/actions'
+import BellIcon from 'assets/svg/action/Bell'
 
 import { withTheme } from 'react-native-paper'
 import { useNavigation, useRoute } from '@react-navigation/native'
@@ -27,11 +28,20 @@ const PostsGrid = ({
   const navigation = useNavigation()
   const route = useRoute()
 
+  const activeIcon = (
+    <View style={{ padding: theme.spacing.base }}><BellIcon fill={theme.colors.primary} /></View>
+  )
+
   return (
     <View style={styling.root}>
       <GridComponent items={path(['data'])(postsGet)}>
         {(post, priorityIndex) => (
-          <GridItemComponent onPress={navigationActions.navigatePostMedia(navigation, { post })}>
+          <GridItemComponent
+            onPress={navigationActions.navigatePostMedia(navigation, { post })}
+            active={path(['hasNewCommentActivity'])(post)}
+            activeIcon={activeIcon}
+            inactiveIcon={null}
+          >
             {post.postType === 'IMAGE' ?
               <ImageComponent
                 thumbnailSource={{ uri: path(['image', 'url64p'])(post) }}

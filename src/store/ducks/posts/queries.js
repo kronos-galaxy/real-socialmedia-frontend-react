@@ -215,6 +215,12 @@ export const reportPostViews = `
   }
 `
 
+export const reportCommentViews = `
+  mutation reportCommentViews($commentIds: [ID!]!) {
+    reportCommentViews (commentIds: $commentIds)
+  }
+`
+
 export const trendingPosts = `
   query trendingPosts($limit: Int, $nextToken: String = null) {
     trendingPosts(limit: $limit, nextToken: $nextToken) {

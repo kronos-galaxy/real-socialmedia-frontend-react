@@ -301,6 +301,23 @@ function* postsReportPostViewsRequest(req) {
 /**
  *
  */
+function* postsReportCommentViewsRequest(req) {
+  const AwsAPI = yield getContext('AwsAPI')
+  const errorWrapper = yield getContext('errorWrapper')
+
+  try {
+    const data = yield AwsAPI.graphql(graphqlOperation(queries.reportCommentViews, req.payload))
+    const selector = path(['data', 'reportCommentViews'])
+
+    yield put(actions.postsReportCommentViewsSuccess({ data: selector(data), payload: req.payload, meta: data }))
+  } catch (error) {
+    yield put(actions.postsReportCommentViewsFailure({ message: errorWrapper(error), payload: req.payload }))
+  }
+}
+
+/**
+ *
+ */
 function* postsGetTrendingPostsRequest(req) {
   const AwsAPI = yield getContext('AwsAPI')
   const errorWrapper = yield getContext('errorWrapper')
@@ -403,6 +420,7 @@ export default () => [
   takeLatest(constants.POSTS_ANONYMOUSLY_LIKE_REQUEST, postsAnonymouslyLikeRequest),
   takeLatest(constants.POSTS_DISLIKE_REQUEST, postsDislikeRequest),
   takeLatest(constants.POSTS_REPORT_POST_VIEWS_REQUEST, postsReportPostViewsRequest),
+  takeLatest(constants.POSTS_REPORT_COMMENT_VIEWS_REQUEST, postsReportCommentViewsRequest),
 
   takeLatest(constants.POSTS_GET_TRENDING_POSTS_REQUEST, postsGetTrendingPostsRequest),
   takeLatest(constants.POSTS_GET_TRENDING_POSTS_MORE_REQUEST, postsGetTrendingPostsMoreRequest),

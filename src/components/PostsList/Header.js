@@ -10,6 +10,7 @@ import { Text, Caption } from 'react-native-paper'
 import path from 'ramda/src/path'
 import Avatar from 'templates/Avatar'
 import MoreIcon from 'assets/svg/action/More'
+import BellIcon from 'assets/svg/action/Bell'
 import VerificationIcon from 'assets/svg/action/Verification'
 import dayjs from 'dayjs'
 import * as navigationActions from 'navigation/actions'
@@ -88,6 +89,12 @@ const Header = ({
           </TouchableOpacity>
         : null}
       </View>
+
+      {path(['hasNewCommentActivity'])(post) ?
+        <TouchableOpacity style={styling.headerAction} onPress={handleOptionsPress}>
+          <BellIcon fill={theme.colors.primary} />
+        </TouchableOpacity>
+      : null}
 
       {path(['userId'])(authUser) === path(['postedBy', 'userId'])(post) && archived ?
         <React.Fragment>

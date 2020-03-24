@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import {
   StyleSheet,
   View,
-  ScrollView,
+  FlatList,
   RefreshControl,
 } from 'react-native'
 import FormComponent from 'components/Comments/Form'
@@ -27,6 +27,8 @@ const Comments = ({
   postsCommentsGet,
   marginBottom,
   post,
+  onViewableItemsChangedRef,
+  viewabilityConfigRef,
 }) => {
   const styling = styles(theme)
   
@@ -39,7 +41,7 @@ const Comments = ({
 
   return (
     <View style={styling.root}>
-      <ScrollView
+      <FlatList
         style={styling.comments}
         refreshControl={
           <RefreshControl
@@ -47,15 +49,16 @@ const Comments = ({
             refreshing={postsCommentsGet.status === 'loading'}
           />
         }
-      >
-        {pseudoCommentVisibility ?
+        data={pathOr([], ['data'])(postsCommentsGet)}
+        onViewableItemsChanged={onViewableItemsChangedRef.current}
+        viewabilityConfig={viewabilityConfigRef.current}
+        ListHeaderComponent={pseudoCommentVisibility ?
           <View style={styling.comment} key="desc">
             <CommentComponent comment={pseudoComment} />
           </View>
         : null}
-
-        {pathOr([], ['data'])(postsCommentsGet).map(((comment, key) => (
-          <View style={styling.comment} key={key}>
+        renderItem={({ item: comment, index }) => (
+          <View style={styling.comment}>
             {comment.commentedBy.userId === authUser.userId ?
               <SwipeableComponent onPress={() => commentsDeleteRequest({ commentId: comment.commentId })}>
                 <CommentComponent comment={comment} />
@@ -66,8 +69,8 @@ const Comments = ({
               <CommentComponent comment={comment} />
             : null}
           </View>
-        )))}
-      </ScrollView>
+        )}
+      />
       <View style={{ marginBottom }}>
         <FormComponent
           commentsAdd={commentsAdd}

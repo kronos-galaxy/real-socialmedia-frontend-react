@@ -132,6 +132,7 @@ export const postFragment = `
     anonymousLikeCount
     viewedByCount
     viewedStatus
+    hasNewCommentActivity
   }
 
   fragment postFragment on Post {

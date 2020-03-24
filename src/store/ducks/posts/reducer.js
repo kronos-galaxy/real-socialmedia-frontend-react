@@ -124,6 +124,13 @@ const initialState = {
     payload: {},
     meta: {},
   },
+  postsReportCommentViews: {
+    data: {},
+    status: 'idle',
+    error: {},
+    payload: {},
+    meta: {},
+  },
   postsGetTrendingPosts: {
     data: [],
     status: 'idle',
@@ -1143,6 +1150,36 @@ const postsReportPostViewsIdle = (state, action) => update(state, {
 /**
  *
  */
+const postsReportCommentViewsRequest = (state, action) => update(state, {
+  postsReportCommentViews: {
+    status: { $set: 'loading' },
+    payload: { $set: action.payload },
+  },
+})
+
+const postsReportCommentViewsSuccess = (state, action) => update(state, {
+  postsReportCommentViews: {
+    data: { $set: action.payload.data },
+    status: { $set: 'success' },
+  },
+})
+
+const postsReportCommentViewsFailure = (state, action) => update(state, {
+  postsReportCommentViews: {
+    status: { $set: 'failure' },
+  },
+})
+
+const postsReportCommentViewsIdle = (state, action) => update(state, {
+  postsReportCommentViews: {
+    data: { $set: initialState.postsReportPostViews.data },
+    status: { $set: 'idle' },
+  },
+})
+
+/**
+ *
+ */
 const postsGetTrendingPostsRequest = (state, action) => update(state, {
   postsGetTrendingPosts: {
     status: { $set: 'loading' },
@@ -1378,6 +1415,11 @@ export default handleActions({
   [constants.POSTS_REPORT_POST_VIEWS_SUCCESS]: postsReportPostViewsSuccess,
   [constants.POSTS_REPORT_POST_VIEWS_FAILURE]: postsReportPostViewsFailure,
   [constants.POSTS_REPORT_POST_VIEWS_IDLE]: postsReportPostViewsIdle,
+
+  [constants.POSTS_REPORT_COMMENT_VIEWS_REQUEST]: postsReportCommentViewsRequest,
+  [constants.POSTS_REPORT_COMMENT_VIEWS_SUCCESS]: postsReportCommentViewsSuccess,
+  [constants.POSTS_REPORT_COMMENT_VIEWS_FAILURE]: postsReportCommentViewsFailure,
+  [constants.POSTS_REPORT_COMMENT_VIEWS_IDLE]: postsReportCommentViewsIdle,
 
   [constants.POSTS_GET_TRENDING_POSTS_REQUEST]: postsGetTrendingPostsRequest,
   [constants.POSTS_GET_TRENDING_POSTS_SUCCESS]: postsGetTrendingPostsSuccess,

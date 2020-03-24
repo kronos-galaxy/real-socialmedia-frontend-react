@@ -12,6 +12,7 @@ import ImageComponent from 'templates/Image'
 import CheckedIcon from 'assets/svg/other/Checked'
 import UncheckedIcon from 'assets/svg/other/Unchecked'
 import { Caption } from 'react-native-paper'
+import HeaderRight from 'navigation/HeaderRight'
 
 import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
@@ -42,9 +43,7 @@ const PostsGridSelect = ({
           {(post, priorityIndex) => (
             <GridItemComponent
               onPress={() => handlePostPress(post)}
-              active={(
-                selectedPost.postId === post.postId
-              )}
+              active={selectedPost.postId === post.postId}
               activeIcon={<CheckedIcon fill={theme.colors.iconPrimary} />}
               inactiveIcon={<UncheckedIcon fill={theme.colors.iconPrimary} />}
             >

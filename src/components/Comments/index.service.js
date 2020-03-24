@@ -1,4 +1,5 @@
-import { Keyboard } from 'react-native'
+import { useRef } from 'react'
+import { Keyboard, InteractionManager } from 'react-native'
 import { useEffect, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import * as postsActions from 'store/ducks/posts/actions'
@@ -71,6 +72,29 @@ const CommentsService = ({ children, }) => {
 
   const marginBottom = offset + ifIphoneX(40, 0)
   
+  const onViewableItemsChanged = ({ viewableItems }) => {
+    const commentIds = viewableItems.map(viewable => path(['item', 'commentId'])(viewable))
+      .filter(item => item)
+
+    if (!Array.isArray(commentIds) || !commentIds.length) {
+      return
+    }
+
+    InteractionManager.runAfterInteractions(() => {
+      dispatch(postsActions.postsReportCommentViewsRequest({ commentIds }))
+    })
+  }
+
+  /**
+   * FlatList feed config ref, used for reporting scroll events
+   */
+  const onViewableItemsChangedRef = useRef(onViewableItemsChanged)
+  const viewabilityConfigRef = useRef({
+    minimumViewTime: 500,
+    viewAreaCoveragePercentThreshold: 100,
+    waitForInteraction: false,
+  })
+
   return children({
     authUser,
     commentsAdd,
@@ -79,6 +103,8 @@ const CommentsService = ({ children, }) => {
     postsCommentsGet: postsServices.cachedPostsGet(postsCommentsGet, postsCommentsGetCache, postId),
     post: path(['params', 'post'])(route),
     marginBottom,
+    onViewableItemsChangedRef,
+    viewabilityConfigRef,
   })
 }
 
