@@ -166,7 +166,7 @@ export const federatedGoogleSignin = async () => {
     return response
   } catch (error) {
     Logger.withScope(scope => {
-      scope.setExtra('message', response.message)
+      scope.setExtra('message', error.message)
       Logger.captureMessage('FEDERATED_GOOGLE_SIGNIN_FAILURE')
     })
     throw error
