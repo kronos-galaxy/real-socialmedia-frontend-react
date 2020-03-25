@@ -16,9 +16,9 @@ function* usersSearchRequest(req) {
     const data = yield AwsAPI.graphql(graphqlOperation(queries.searchUsers, req.payload))
     const selector = path(['data', 'searchUsers', 'items'])
 
-    yield put(actions.usersSearchSuccess({ data: selector(data), meta: data }))
+    yield put(actions.usersSearchSuccess({ payload: req.payload, data: selector(data), meta: data }))
   } catch (error) {
-    yield put(actions.usersSearchFailure({ message: errorWrapper(error) }))
+    yield put(actions.usersSearchFailure({ payload: req.payload, message: errorWrapper(error) }))
   }
 }
 
@@ -84,9 +84,9 @@ function* usersGetFollowedUsersWithStoriesRequest(req) {
     const data = yield AwsAPI.graphql(graphqlOperation(queries.getFollowedUsersWithStories, req.payload))
     const selector = path(['data', 'self', 'followedUsersWithStories', 'items'])
 
-    yield put(actions.usersGetFollowedUsersWithStoriesSuccess({ data: selector(data), meta: data }))
+    yield put(actions.usersGetFollowedUsersWithStoriesSuccess({ payload: req.payload, data: selector(data), meta: data }))
   } catch (error) {
-    yield put(actions.usersGetFollowedUsersWithStoriesFailure({ message: errorWrapper(error) }))
+    yield put(actions.usersGetFollowedUsersWithStoriesFailure({ payload: req.payload, message: errorWrapper(error) }))
   }
 }
 
@@ -101,9 +101,9 @@ function* usersAcceptFollowerUserRequest(req) {
     const data = yield call(() => AwsAPI.graphql(graphqlOperation(queries.acceptFollowerUser, req.payload)))
     const selector = path(['data', 'acceptFollowerUser'])
 
-    yield put(actions.usersAcceptFollowerUserSuccess({ data: selector(data) }))
+    yield put(actions.usersAcceptFollowerUserSuccess({ payload: req.payload, data: selector(data), meta: data }))
   } catch (error) {
-    yield put(actions.usersAcceptFollowerUserFailure({ message: errorWrapper(error) }))
+    yield put(actions.usersAcceptFollowerUserFailure({ payload: req.payload, message: errorWrapper(error) }))
   }
 }
 
@@ -118,9 +118,9 @@ function* usersDeclineFollowerUserRequest(req) {
     const data = yield call(() => AwsAPI.graphql(graphqlOperation(queries.denyFollowerUser, req.payload)))
     const selector = path(['data', 'denyFollowerUser'])
 
-    yield put(actions.usersDeclineFollowerUserSuccess({ data: selector(data) }))
+    yield put(actions.usersDeclineFollowerUserSuccess({ payload: req.payload, data: selector(data), meta: data }))
   } catch (error) {
-    yield put(actions.usersDeclineFollowerUserFailure({ message: errorWrapper(error) }))
+    yield put(actions.usersDeclineFollowerUserFailure({ payload: req.payload, message: errorWrapper(error) }))
   }
 }
 
@@ -152,10 +152,10 @@ function* usersGetProfileSelfRequest(req) {
     const data = yield AwsAPI.graphql(graphqlOperation(queries.self))
     const selector = path(['data', 'self'])
 
-    yield put(actions.usersGetProfileSelfSuccess({ data: selector(data), meta: data }))
+    yield put(actions.usersGetProfileSelfSuccess({ payload: req.payload, data: selector(data), meta: data }))
     yield put(actions.globalAuthUserTrigger({ data: selector(data) }))
   } catch (error) {
-    yield put(actions.usersGetProfileSelfFailure({ message: errorWrapper(error) }))
+    yield put(actions.usersGetProfileSelfFailure({ payload: req.payload, message: errorWrapper(error) }))
   }
 }
 
@@ -170,10 +170,10 @@ function* usersEditProfileRequest(req) {
     const data = yield AwsAPI.graphql(graphqlOperation(queries.setUserDetails, req.payload))
     const selector = path(['data', 'setUserDetails'])
 
-    yield put(actions.usersEditProfileSuccess({ data: selector(data) }))
-    yield put(actions.globalAuthUserTrigger({ data: selector(data) }))
+    yield put(actions.usersEditProfileSuccess({ payload: req.payload, data: selector(data), meta: data }))
+    yield put(actions.globalAuthUserTrigger({ payload: req.payload, data: selector(data) }))
   } catch (error) {
-    yield put(actions.usersEditProfileFailure({ message: errorWrapper(error) }))
+    yield put(actions.usersEditProfileFailure({ payload: req.payload, message: errorWrapper(error) }))
   }
 }
 
@@ -256,9 +256,9 @@ function* usersImagePostsGetRequest(req) {
     const data = yield AwsAPI.graphql(graphqlOperation(queries.getImagePosts, req.payload))
     const selector = path(['data', 'user', 'posts', 'items'])
 
-    yield put(actions.usersImagePostsGetSuccess({ data: selector(data), meta: data }))
+    yield put(actions.usersImagePostsGetSuccess({ payload: req.payload, data: selector(data), meta: data }))
   } catch (error) {
-    yield put(actions.usersImagePostsGetFailure({ message: errorWrapper(error) }))
+    yield put(actions.usersImagePostsGetFailure({ payload: req.payload, message: errorWrapper(error) }))
   }
 }
 
@@ -273,9 +273,9 @@ function* usersGetTrendingUsersRequest(req) {
     const data = yield AwsAPI.graphql(graphqlOperation(queries.trendingUsers, req.payload))
     const selector = path(['data', 'trendingUsers', 'items'])
 
-    yield put(actions.usersGetTrendingUsersSuccess({ data: selector(data), meta: data }))
+    yield put(actions.usersGetTrendingUsersSuccess({ payload: req.payload, data: selector(data), meta: data }))
   } catch (error) {
-    yield put(actions.usersGetTrendingUsersFailure({ message: errorWrapper(error) }))
+    yield put(actions.usersGetTrendingUsersFailure({ payload: req.payload, message: errorWrapper(error) }))
   }
 }
 
