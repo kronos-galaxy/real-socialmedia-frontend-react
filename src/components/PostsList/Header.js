@@ -38,13 +38,23 @@ const Header = ({
 
   const handleOptionsPress = () => actionSheetRef.show()
   const archived = path(['postStatus'])(post) === 'ARCHIVED'
+  const repostedUsername = path(['originalPost', 'postedBy', 'username'])(post)
+  const repostedPostId = path(['originalPost', 'postId'])(post)
+
+  const repostVisiblity = (
+    path(['originalPost', 'postedBy', 'username', 'length'])(post) &&
+    path(['postedBy', 'username'])(post) !== repostedUsername
+  )
 
   const failedVerificationVisibility = (
+    !repostVisiblity &&
     !path(['isVerified'])(post) &&
     path(['postType'])(post) !== 'TEXT_ONLY'
   )
 
-  const expiryVisiblity = !failedVerificationVisibility && (
+  const expiryVisiblity = (
+    !repostVisiblity &&
+    !failedVerificationVisibility &&
     path(['expiresAt'])(post)
   )
 
@@ -75,6 +85,12 @@ const Header = ({
         <TouchableOpacity onPress={navigationActions.navigateProfile(navigation, { user: post.postedBy })}>
           <Text style={styling.headerUsername}>{path(['postedBy', 'username'])(post)}</Text>
         </TouchableOpacity>
+
+        {repostVisiblity ?
+          <TouchableOpacity style={styling.verification} onPress={navigationActions.navigateProfile(navigation, { user: post.originalPost.postedBy })}>
+            <Caption style={styling.headerStatus}>{t('Reposted from {{ username }}', { username: repostedUsername })}</Caption>
+          </TouchableOpacity>
+        : null}
 
         {expiryVisiblity ?
           <View style={styling.verification}>
