@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { StatusBar, Text, TextInput } from 'react-native'
 import { Provider } from 'react-redux'
+import { PersistGate } from 'redux-persist/integration/react'
 import { NavigationContainer } from '@react-navigation/native'
 import { AuthProvider } from 'services/providers/App'
 import { Provider as PaperProvider } from 'react-native-paper'
@@ -54,31 +55,33 @@ const App = () => {
 
   return (
     <Provider store={store}>
-      <AuthProvider>
-        {({ theme, themes, authenticated }) => (
-          <ThemesContext.Provider value={{ theme, themes }}>
-            <StatusBar barStyle={theme.dark ? 'light-content' : 'dark-content'} />
+      <PersistGate loading={null} persistor={persistor}>
+        <AuthProvider>
+          {({ theme, themes, authenticated }) => (
+            <ThemesContext.Provider value={{ theme, themes }}>
+              <StatusBar barStyle={theme.dark ? 'light-content' : 'dark-content'} />
 
-            <ContextComponent.Provider value={{ draggedImage, setDraggedImage }}>              
-              <PinchZoomComponent />
+              <ContextComponent.Provider value={{ draggedImage, setDraggedImage }}>              
+                <PinchZoomComponent />
 
-              <NavigationContainer theme={theme}>
-                {authenticated ?
-                  <PaperProvider theme={theme}>
-                    <AppNavigator themes={themes} />
-                  </PaperProvider>
-                : null}
-                
-                {!authenticated ?
-                  <PaperProvider theme={theme}>
-                    <AuthNavigator />
-                  </PaperProvider>
-                : null}
-              </NavigationContainer>
-            </ContextComponent.Provider>
-          </ThemesContext.Provider>
-        )}
-      </AuthProvider>
+                <NavigationContainer theme={theme}>
+                  {authenticated ?
+                    <PaperProvider theme={theme}>
+                      <AppNavigator themes={themes} />
+                    </PaperProvider>
+                  : null}
+                  
+                  {!authenticated ?
+                    <PaperProvider theme={theme}>
+                      <AuthNavigator />
+                    </PaperProvider>
+                  : null}
+                </NavigationContainer>
+              </ContextComponent.Provider>
+            </ThemesContext.Provider>
+          )}
+        </AuthProvider>
+      </PersistGate>
     </Provider>
   )
 }
