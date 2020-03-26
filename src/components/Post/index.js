@@ -6,11 +6,12 @@ import {
   View,
 } from 'react-native'
 import path from 'ramda/src/path'
-import HeaderComponent from 'components/PostsList/Header'
-import ActionComponent from 'components/PostsList/Action'
-import DescriptionComponent from 'components/PostsList/Description'
-import CommentComponent from 'components/PostsList/Comment'
-import AlbumComponent from 'components/PostsList/Album'
+import ActionComponent from 'components/Post/Action'
+import AlbumComponent from 'components/Post/Album'
+import CommentComponent from 'components/Post/Comment'
+import DescriptionComponent from 'components/Post/Description'
+import HeaderComponent from 'components/Post/Header'
+
 import ListItemComponent from 'templates/ListItem'
 import CacheComponent from 'components/Cache'
 import TextOnlyComponent from 'templates/TextOnly'

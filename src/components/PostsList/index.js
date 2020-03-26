@@ -8,7 +8,7 @@ import {
   ActivityIndicator,
 } from 'react-native'
 import path from 'ramda/src/path'
-import PostComponent from 'components/PostsList/Post'
+import PostComponent from 'components/Post'
 import UploadingComponent from 'components/PostsList/Uploading'
 import PendingRequestsComponent from 'components/PostsList/PendingRequests'
 import BookmarkComponent from 'components/PostsList/Bookmark'
@@ -176,7 +176,7 @@ const PostsList = ({
             <PostComponent
               themes={themes}
               authUser={authUser}
-              post={post}
+
               handleEditPress={handleEditPress}
               postsArchiveRequest={postsArchiveRequest}
               postsRestoreArchivedRequest={postsRestoreArchivedRequest}
@@ -186,6 +186,8 @@ const PostsList = ({
               postsAnonymouslyLikeRequest={postsAnonymouslyLikeRequest}
               postsOnymouslyLikeRequest={postsOnymouslyLikeRequest}
               postsDislikeRequest={postsDislikeRequest}
+
+              post={post}
               priorityIndex={index}
 
               handleScrollPrev={handleScrollPrev(index)}

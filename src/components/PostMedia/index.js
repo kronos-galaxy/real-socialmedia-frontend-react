@@ -6,7 +6,7 @@ import {
   FlatList,
 } from 'react-native'
 import path from 'ramda/src/path'
-import PostComponent from 'components/PostsList/Post'
+import PostComponent from 'components/Post'
 import NativeError from 'templates/NativeError'
 import PostsLoadingComponent from 'components/PostsList/PostsLoading'
 

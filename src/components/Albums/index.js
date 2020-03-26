@@ -14,7 +14,7 @@ import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
 import { withTranslation } from 'react-i18next'
 
-const Album = ({
+const Albums = ({
   t,
   theme,
   themeFetch,
@@ -48,11 +48,11 @@ const styles = theme => StyleSheet.create({
   },
 })
 
-Album.propTypes = {
+Albums.propTypes = {
   theme: PropTypes.any,
   postsSingleGet: PropTypes.any,
   postsShare: PropTypes.any,
   postsShareRequest: PropTypes.any,
 }
 
-export default withTranslation()(withTheme(Album))
+export default withTranslation()(withTheme(Albums))

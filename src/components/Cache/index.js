@@ -134,9 +134,10 @@ CacheComponent.propTypes = {
   resizeMode: PropTypes.any,
   priorityIndex: PropTypes.any,
   style: PropTypes.any,
+  hideProgress: PropTypes.any,
 }
 
-CacheComponent.propTypes = {
+CacheComponent.defaultProps = {
   hideProgress: false,
 }
 

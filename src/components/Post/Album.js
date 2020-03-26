@@ -16,7 +16,7 @@ import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
 import { withTranslation } from 'react-i18next'
 
-const Album = ({
+const PostAlbum = ({
   t,
   theme,
   post,
@@ -43,8 +43,9 @@ const Album = ({
           style={styling.gradient}
         />
         <ScrollView style={styling.album} horizontal>
-          {(path(['album', 'posts', 'items'])(post) || []).filter(item => item.postType !== 'TEXT_ONLY').map(album => (
+          {(path(['album', 'posts', 'items'])(post) || []).filter(item => item.postType !== 'TEXT_ONLY').map((album, key) => (
             <Avatar
+              key={key}
               thumbnailSource={{ uri: path(['image', 'url64p'])(album) }}
               imageSource={{ uri: path(['image', 'url480p'])(album) }}
             />
@@ -86,4 +87,4 @@ const styles = theme => StyleSheet.create({
   },
 })
 
-export default withTranslation()(withTheme(Album))
+export default withTranslation()(withTheme(PostAlbum))
