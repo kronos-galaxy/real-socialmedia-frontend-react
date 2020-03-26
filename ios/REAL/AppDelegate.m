@@ -13,6 +13,7 @@
 #import <React/RCTLinkingManager.h>
 #import <CodePush/CodePush.h>
 #import <RNFSManager.h>
+#import <FBSDKCoreKit/FBSDKCoreKit.h>
 
 @implementation AppDelegate
 
@@ -47,10 +48,19 @@
 }
 
 // Add this above the `@end`:
-- (BOOL)application:(UIApplication *)app openURL:(NSURL *)url
+- (BOOL)application:(UIApplication *)app
+            openURL:(NSURL *)url
             options:(NSDictionary<UIApplicationOpenURLOptionsKey,id> *)options
 {
-  return [RCTLinkingManager application:app openURL:url options:options];
+  if ([[FBSDKApplicationDelegate sharedInstance] application:app openURL:url options:options]) {
+    return YES;
+  }
+
+  if ([RCTLinkingManager application:app openURL:url options:options]) {
+    return YES;
+  }
+
+  return NO;
 }
 
 @end
