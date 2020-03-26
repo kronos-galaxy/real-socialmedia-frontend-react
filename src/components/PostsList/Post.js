@@ -112,7 +112,7 @@ const PostComponent = ({
             ]}
             priorityIndex={priorityIndex}
             resizeMode="contain"
-            downloadUnitl={2}
+            downloadUntil={1}
           />
           <TouchableOpacity style={styling.prev} onPress={handleScrollPrev} />
           <TouchableOpacity style={styling.next} onPress={handleScrollNext} />

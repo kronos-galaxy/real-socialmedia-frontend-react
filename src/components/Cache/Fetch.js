@@ -77,7 +77,8 @@ export const handleImage = async ({ shouldDownload, placeholder, source, progres
   }
 
   if (!shouldDownload) {
-    return placeholder
+    const placeholderSignature = generateSignature(placeholder)
+    return placeholderSignature.path
   }
 
   await fetchImage({ signature, progressCallback, beginCallback })

@@ -79,7 +79,7 @@ const CacheComponent = ({
         /**
          * Image placeholder
          */
-        uri,
+        images[downloadUntil],
     
         /**
          * Priority of the image, usually is the position of the item in list
