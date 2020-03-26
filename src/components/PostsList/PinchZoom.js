@@ -29,10 +29,11 @@ export class PinchZoom extends React.Component {
         >
           <CacheComponent
             images={[
+              this.props.draggedImage.image.url64p,
               this.props.draggedImage.image.url4k,
               this.props.draggedImage.image.url,
             ]}
-            priorityIndex={1}
+            priorityIndex={0}
             resizeMode="contain"
           />
         </Animated.View>

@@ -21,11 +21,13 @@ const CacheComponent = ({
   resizeMode,
   priorityIndex,
   style,
+  hideProgress,
 }) => {
   const styling = styles(theme)
   const [uri, setUri] = useState(null)
   const [progress, setProgress] = useState(0)
-  const [progressVisible, setProgressVisible] = useState(false)
+  const [progressVisible, setProgressVisible] = useState(hideProgress)
+  const [blurRadius, setBlurRadius] = useState(10)
 
   useEffect(() => {
     images.forEach((source, index) => {
@@ -38,6 +40,9 @@ const CacheComponent = ({
         (error, response) => {
           setUri(response)
           setProgressVisible(false)
+          if (index > 0) {
+            setBlurRadius()
+          }
         },
 
         /**
@@ -99,6 +104,7 @@ const CacheComponent = ({
             source={{ uri }}
             resizeMode={resizeMode}
             style={[styling.image, style]}
+            blurRadius={blurRadius}
           />
         : null}
       </View>
@@ -112,6 +118,10 @@ CacheComponent.propTypes = {
   resizeMode: PropTypes.any,
   priorityIndex: PropTypes.any,
   style: PropTypes.any,
+}
+
+CacheComponent.propTypes = {
+  hideProgress: false,
 }
 
 const styles = theme => StyleSheet.create({

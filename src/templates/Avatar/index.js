@@ -63,6 +63,7 @@ const AvatarTemplate = ({
             ]}
             priorityIndex={1}
             resizeMode="cover"
+            hideProgress
           />
         </View>
 
