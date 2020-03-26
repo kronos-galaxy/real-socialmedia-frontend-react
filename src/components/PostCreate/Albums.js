@@ -6,7 +6,7 @@ import {
   ScrollView,
   TouchableOpacity,
 } from 'react-native'
-import ImageComponent from 'templates/Image'
+import CacheComponent from 'components/Cache'
 import path from 'ramda/src/path'
 
 import { withTheme } from 'react-native-paper'
@@ -27,10 +27,13 @@ const Albums = ({
       <View style={styling.root} horizontal>
         {items.map((album, key) => (
           <TouchableOpacity style={[styling.album, styling.spacingRight]} key={key} onPress={() => setAlbumId(album.albumId)}>
-            <ImageComponent
-              thumbnailSource={{ uri: path(['art', 'url64p'])(album) }}
-              imageSource={{ uri: path(['art', 'url480p'])(album) }}
+            <CacheComponent
+              images={[
+                path(['art', 'url64p'])(album),
+                path(['art', 'url480p'])(album),
+              ]}
               priorityIndex={key}
+              resizeMode="cover"
             />
           </TouchableOpacity>
         ))}

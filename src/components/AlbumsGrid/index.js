@@ -6,7 +6,7 @@ import {
 } from 'react-native'
 import GridComponent from 'templates/Grid'
 import GridItemComponent from 'templates/GridItem'
-import ImageComponent from 'templates/Image'
+import CacheComponent from 'components/Cache'
 import path from 'ramda/src/path'
 import * as navigationActions from 'navigation/actions'
 
@@ -30,10 +30,13 @@ const AlbumsGrid = ({
       <GridComponent items={path(['data'])(albumsGet)}>
         {(album, priorityIndex) => (
           <GridItemComponent onPress={navigationActions.navigateAlbum(navigation, { album: album })}>
-            <ImageComponent
-              thumbnailSource={{ uri: path(['art', 'url64p'])(album) }}
-              imageSource={{ uri: path(['art', 'url480p'])(album) }}
+            <CacheComponent
+              images={[
+                path(['art', 'url64p'])(album),
+                path(['art', 'url480p'])(album),
+              ]}
               priorityIndex={priorityIndex}
+              resizeMode="cover"
             />
           </GridItemComponent>
         )}

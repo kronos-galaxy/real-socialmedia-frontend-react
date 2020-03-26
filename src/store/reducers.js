@@ -11,7 +11,6 @@ import albums from 'store/ducks/albums/reducer'
 import users from 'store/ducks/users/reducer'
 import layout from 'store/ducks/layout/reducer'
 import translation from 'store/ducks/translation/reducer'
-import cache from 'store/ducks/cache/reducer'
 
 import 'store/ducks/posts/updates'
 import 'store/ducks/users/updates'
@@ -46,5 +45,4 @@ export default combineReducers({
   users,
   layout,
   translation,
-  cache,
 })

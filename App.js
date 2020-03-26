@@ -50,6 +50,22 @@ if (Text.defaultProps == null) {
   TextInput.defaultProps.allowFontScaling = false
 }
 
+const Routes = ({ theme, themes, authenticated }) => (
+  <NavigationContainer theme={theme}>
+    {authenticated ?
+      <PaperProvider theme={theme}>
+        <AppNavigator themes={themes} />
+      </PaperProvider>
+    : null}
+    
+    {!authenticated ?
+      <PaperProvider theme={theme}>
+        <AuthNavigator />
+      </PaperProvider>
+    : null}
+  </NavigationContainer>
+)
+
 const App = () => {
   const [draggedImage, setDraggedImage] = useState({})
 
@@ -61,22 +77,14 @@ const App = () => {
             <ThemesContext.Provider value={{ theme, themes }}>
               <StatusBar barStyle={theme.dark ? 'light-content' : 'dark-content'} />
 
-              <ContextComponent.Provider value={{ draggedImage, setDraggedImage }}>              
+              <ContextComponent.Provider value={{ draggedImage, setDraggedImage }}>
                 <PinchZoomComponent />
 
-                <NavigationContainer theme={theme}>
-                  {authenticated ?
-                    <PaperProvider theme={theme}>
-                      <AppNavigator themes={themes} />
-                    </PaperProvider>
-                  : null}
-                  
-                  {!authenticated ?
-                    <PaperProvider theme={theme}>
-                      <AuthNavigator />
-                    </PaperProvider>
-                  : null}
-                </NavigationContainer>
+                <Routes
+                  theme={theme}
+                  themes={themes}
+                  authenticated={authenticated}
+                />
               </ContextComponent.Provider>
             </ThemesContext.Provider>
           )}

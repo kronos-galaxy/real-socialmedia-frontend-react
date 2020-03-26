@@ -8,7 +8,7 @@ import {
 import path from 'ramda/src/path'
 import GridComponent from 'templates/Grid'
 import GridItemComponent from 'templates/GridItem'
-import ImageComponent from 'templates/Image'
+import CacheComponent from 'components/Cache'
 import CheckedIcon from 'assets/svg/other/Checked'
 import UncheckedIcon from 'assets/svg/other/Unchecked'
 import { Caption } from 'react-native-paper'
@@ -47,10 +47,13 @@ const PostsGridSelect = ({
               activeIcon={<CheckedIcon fill={theme.colors.iconPrimary} />}
               inactiveIcon={<UncheckedIcon fill={theme.colors.iconPrimary} />}
             >
-              <ImageComponent
-                thumbnailSource={{ uri: path(['image', 'url64p'])(post) }}
-                imageSource={{ uri: path(['image', 'url480p'])(post) }}
+              <CacheComponent
+                images={[
+                  path(['image', 'url64p'])(post),
+                  path(['image', 'url480p'])(post),
+                ]}
                 priorityIndex={priorityIndex}
+                resizeMode="cover"
               />
             </GridItemComponent>
           )}

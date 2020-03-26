@@ -12,7 +12,7 @@ import DescriptionComponent from 'components/PostsList/Description'
 import CommentComponent from 'components/PostsList/Comment'
 import AlbumComponent from 'components/PostsList/Album'
 import ListItemComponent from 'templates/ListItem'
-import ImageComponent from 'templates/Image'
+import CacheComponent from 'components/Cache'
 import TextOnlyComponent from 'templates/TextOnly'
 import ReactionsPreviewTemplate from 'templates/ReactionsPreview'
 import ViewShot from 'react-native-view-shot'
@@ -104,9 +104,11 @@ const PostComponent = ({
           post={post}
           feedRef={feedRef}
         >
-          <ImageComponent
-            thumbnailSource={{ uri: path(['image', 'url64p'])(post) }}
-            imageSource={{ uri: path(['image', 'url4k'])(post) }}
+          <CacheComponent
+            images={[
+              path(['image', 'url64p'])(post),
+              path(['image', 'url4k'])(post),
+            ]}
             priorityIndex={priorityIndex}
             resizeMode="contain"
           />

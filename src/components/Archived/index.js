@@ -7,7 +7,7 @@ import {
 import path from 'ramda/src/path'
 import GridComponent from 'templates/Grid'
 import GridItemComponent from 'templates/GridItem'
-import ImageComponent from 'templates/Image'
+import CacheComponent from 'components/Cache'
 import * as navigationActions from 'navigation/actions'
 
 import { withTheme } from 'react-native-paper'
@@ -34,10 +34,13 @@ const Archived = ({
             activeIcon={null}
             inactiveIcon={null}
           >
-            <ImageComponent
-              thumbnailSource={{ uri: path(['image', 'url64p'])(post) }}
-              imageSource={{ uri: path(['image', 'url480p'])(post) }}
+            <CacheComponent
+              images={[
+                path(['image', 'url64p'])(post),
+                path(['image', 'url480p'])(post),
+              ]}
               priorityIndex={priorityIndex}
+              resizeMode="cover"
             />
           </GridItemComponent>
         )}

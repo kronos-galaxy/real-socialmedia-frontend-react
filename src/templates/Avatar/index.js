@@ -7,7 +7,7 @@ import {
 import Svg, { G, Path } from 'react-native-svg'
 import { useSelector } from 'react-redux'
 import * as themeSelector from 'store/ducks/theme/selectors'
-import ImageComponent from 'templates/Image'
+import CacheComponent from 'components/Cache'
 
 import { withTheme } from 'react-native-paper'
 
@@ -56,12 +56,13 @@ const AvatarTemplate = ({
     <View style={styling.root}>
       <View style={componentStyle}>
         <View style={photoStyle}>
-          <ImageComponent
-            thumbnailSource={thumbnailSource}
-            imageSource={imageSource}
-            style={styling.photo}
+          <CacheComponent
+            images={[
+              thumbnailSource.uri,
+              imageSource.uri,
+            ]}
+            priorityIndex={1}
             resizeMode="cover"
-            hideProgress
           />
         </View>
 

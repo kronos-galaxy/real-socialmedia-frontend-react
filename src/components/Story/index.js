@@ -12,11 +12,11 @@ import StepsTemplate from 'templates/Steps'
 import HeaderComponent from 'components/Story/Header'
 import CameraTemplate from 'templates/Camera'
 import CameraHeaderTemplate from 'templates/Camera/Header'
-import ImageTemplate from 'templates/Image'
 import TextOnlyComponent from 'templates/TextOnly'
 import { BlurView } from '@react-native-community/blur'
 import LinearGradient from 'react-native-linear-gradient'
 import pathOr from 'ramda/src/pathOr'
+import CacheComponent from 'components/Cache'
 
 import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
@@ -63,9 +63,12 @@ const StoryCarousel = ({
         content={(
           <>
             {story.postType === 'IMAGE' ?
-              <ImageTemplate
-                thumbnailSource={{ uri: path(['image', 'url64p'])(story) }}
-                imageSource={{ uri: path(['image', 'url4k'])(story) }}
+              <CacheComponent
+                images={[
+                  path(['image', 'url64p'])(story),
+                  path(['image', 'url4k'])(story),
+                ]}
+                priorityIndex={1}
                 resizeMode="contain"
               />
             : null}

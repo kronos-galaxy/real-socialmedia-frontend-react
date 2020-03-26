@@ -5,7 +5,7 @@ import {
   Animated,
 } from 'react-native'
 import { getDimensionsFromPostSize } from 'services/Camera'
-import ImageComponent from 'templates/Image'
+import CacheComponent from 'components/Cache'
 import { withTheme } from 'react-native-paper'
 import ContextComponent from 'components/PostsList/Context'
 
@@ -27,9 +27,11 @@ export class PinchZoom extends React.Component {
             transform: this.props.draggedImage.transform,
           }]}
         >
-          <ImageComponent
-            thumbnailSource={{ uri: this.props.draggedImage.image.url4k }}
-            imageSource={{ uri: this.props.draggedImage.image.url }}
+          <CacheComponent
+            images={[
+              this.props.draggedImage.image.url4k,
+              this.props.draggedImage.image.url,
+            ]}
             priorityIndex={1}
             resizeMode="contain"
           />

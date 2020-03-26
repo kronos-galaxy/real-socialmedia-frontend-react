@@ -3,12 +3,11 @@ import PropTypes from 'prop-types'
 import {
   StyleSheet,
   View,
-  Image,
 } from 'react-native'
-import ImageComponent from 'templates/Image'
 import Layout from 'constants/Layout'
 import LinearGradient from 'react-native-linear-gradient'
 import path from 'ramda/src/path'
+import CacheComponent from 'components/Cache'
 
 import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
@@ -32,17 +31,23 @@ const ModalPreview = ({
       />
 
       {!renderUri ?
-        <ImageComponent
-          thumbnailSource={thumbnailSource}
-          imageSource={imageSource}
-          priorityIndex={0}
+        <CacheComponent
+          images={[
+            thumbnailSource.uri,
+            imageSource.uri,
+          ]}
+          priorityIndex={1}
+          resizeMode="cover"
         />
       : null}
 
       {renderUri ?
-        <Image
-          source={{ uri: renderUri }}
-          style={styling.image}
+        <CacheComponent
+          images={[
+            renderUri,
+          ]}
+          priorityIndex={1}
+          resizeMode="cover"
         />
       : null}
     </View>
