@@ -22,6 +22,7 @@ const CacheComponent = ({
   priorityIndex,
   style,
   hideProgress,
+  downloadUntil,
 }) => {
   const styling = styles(theme)
   const [uri, setUri] = useState(null)
@@ -32,8 +33,18 @@ const CacheComponent = ({
   useEffect(() => {
     images.forEach((source, index) => {
       const priority = index * 10000 + priorityIndex
+
+      /**
+       *
+       */
+      const shouldDownload = downloadUntil ? index <= downloadUntil : true
   
       queueImage(
+        /**
+         * Should image be downloaded or only return local cache if available
+         */
+        shouldDownload,
+
         /**
          * Callback executed on complete
          */
@@ -64,6 +75,11 @@ const CacheComponent = ({
          * Image source
          */
         source,
+
+        /**
+         * Image placeholder
+         */
+        uri,
     
         /**
          * Priority of the image, usually is the position of the item in list
