@@ -24,8 +24,12 @@ extend('$resourceCacheSetRequest', ({ payload, resourceKey, initialState }, orig
 /**
  *
  */
-extend('$resourceCacheSetSuccess', ({ payload, resourceKey }, original) =>
-  update(original, {
+extend('$resourceCacheSetSuccess', ({ payload, resourceKey, initialState }, original) => {
+  const nextState = (path([resourceKey])(original)) ?
+    original :
+    update(original, { [resourceKey]: { $set: initialState } })
+
+  return update(nextState, {
     [resourceKey]: {
       data: { $set: payload.data },
       status: { $set: 'success' },
@@ -34,31 +38,39 @@ extend('$resourceCacheSetSuccess', ({ payload, resourceKey }, original) =>
       meta: { $set: payload.meta || {} },
     },
   })
-)
+})
 
 /**
  *
  */
-extend('$resourceCacheSetFailure', ({ payload, resourceKey }, original) =>
-  update(original, {
+extend('$resourceCacheSetFailure', ({ payload, resourceKey, initialState }, original) => {
+  const nextState = (path([resourceKey])(original)) ?
+    original :
+    update(original, { [resourceKey]: { $set: initialState } })
+
+  return update(nextState, {
     [resourceKey]: {
       status: { $set: 'failure' },
       payload: { $set: payload.payload || {} },
     },
   })
-)
+})
 
 /**
  *
  */
-extend('$resourceCacheSetIdle', ({ payload, resourceKey }, original) =>
-  update(original, {
+extend('$resourceCacheSetIdle', ({ payload, resourceKey, initialState }, original) => {
+  const nextState = (path([resourceKey])(original)) ?
+    original :
+    update(original, { [resourceKey]: { $set: initialState } })
+
+  return update(nextState, {
     [resourceKey]: {
       status: { $set: 'idle' },
       payload: { $set: payload.payload || {} },
     },
   })
-)
+})
 
 /**
  *
@@ -73,8 +85,12 @@ extend('$resourceCacheSetRemove', ({ payload, resourceKey }, original) =>
 /**
  *
  */
-extend('$resourceCacheAlterRequest', ({ payload, resourceKey }, original) =>
-  update(original, {
+extend('$resourceCacheAlterRequest', ({ payload, resourceKey, initialState }, original) => {
+  const nextState = (path([resourceKey])(original)) ?
+    original :
+    update(original, { [resourceKey]: { $set: initialState } })
+
+  return update(nextState, {
     [resourceKey]: {
       data: { $set: payload.payload.data },
       status: { $set: 'loading' },
@@ -83,22 +99,30 @@ extend('$resourceCacheAlterRequest', ({ payload, resourceKey }, original) =>
       meta: { $set: payload.meta || {} },
     },
   })
-)
+})
 
 /**
  *
  */
-extend('$resourceCachePushRequest', ({ payload, resourceKey }, original) =>
-  update(original, {
+extend('$resourceCachePushRequest', ({ payload, resourceKey, initialState }, original) => {
+  const nextState = (path([resourceKey])(original)) ?
+    original :
+    update(original, { [resourceKey]: { $set: initialState } })
+
+  return update(nextState, {
     [resourceKey]: {
       status: { $set: 'loading' },
       payload: { $set: payload },
     },
   })
-)
+})
 
-extend('$resourceCachePushSuccess', ({ payload, resourceKey }, original) =>
-  update(original, {
+extend('$resourceCachePushSuccess', ({ payload, resourceKey, initialState }, original) => {
+  const nextState = (path([resourceKey])(original)) ?
+    original :
+    update(original, { [resourceKey]: { $set: initialState } })
+
+  return update(nextState, {
     [resourceKey]: {
       status: { $set: 'success' },
       data: { $push: payload.data },
@@ -106,4 +130,4 @@ extend('$resourceCachePushSuccess', ({ payload, resourceKey }, original) =>
       meta: { $set: payload.meta || {} },
     },
   })
-)
+})

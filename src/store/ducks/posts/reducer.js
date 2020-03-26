@@ -366,7 +366,7 @@ const postsLikesGetIdle = (state, action) => update(state, {
     $resourceCacheSetIdle: {
       ...action,
       resourceKey: action.payload.payload.postId,
-      initialState: initialState.postsViewsGet,
+      initialState: initialState.postsLikesGet,
     },
   },
 })
