@@ -38,8 +38,8 @@ const CacheComponent = ({
   }
 
   const getBlurValue = (value) => {
-    const isThumbnail = value.includes('64p')
-    return isThumbnail ? 10 : 0
+    if (!value) return 0
+    return value.includes('64p') ? 10 : 0
   }
 
   const getFilename = (source) => {
@@ -77,11 +77,14 @@ const CacheComponent = ({
         /**
          * Callback executed on complete
          */
-        (error, response) => {
+        (error, type, response) => {
           if (!isSubscribed) return
           setUri(response)
           setProgressVisible(false)
-          setFilename(getFilename(source))
+
+          if (type !== 'fallback') {
+            setFilename(getFilename(source))
+          }
         },
 
         /**
@@ -107,7 +110,7 @@ const CacheComponent = ({
         source,
 
         /**
-         * Image placeholder
+         * Image placeholder if shouldDownload is false
          */
         images[downloadUntil],
     
