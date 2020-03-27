@@ -68,7 +68,17 @@ export const fetchRemoteImage = async ({ signature, progressCallback, beginCallb
  * Returns local cached image if file exists;
  * Download file and stores into local cache if not
  */
-export const handleImage = async ({ signature, progressCallback, beginCallback }) => {
+export const handleImage = async ({ shouldDownload, signature, progressCallback, beginCallback }) => {
+  const hasImage = await checkLocalImage(signature)
+
+  if (hasImage) {
+    return signature.path
+  }
+
+  if (!shouldDownload) {
+    return placeholderSignature.path
+  }
+
   await fetchRemoteImage({ signature, progressCallback, beginCallback })
   return signature.path
 }
@@ -80,6 +90,7 @@ export const handleImage = async ({ signature, progressCallback, beginCallback }
 export const queue = priorityQueue(async (task, callback) => {
   try {
     const response = await handleImage({
+      shouldDownload: task.shouldDownload,
       signature: task.signature,
       progressCallback: task.progressCallback,
       beginCallback: task.beginCallback,

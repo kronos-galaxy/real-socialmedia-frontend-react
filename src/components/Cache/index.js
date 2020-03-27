@@ -125,6 +125,7 @@ const CacheComponent = ({
      * Cancel all pending tasks on image remove
      */
     return () => {
+      handleError({})
       const priorities = images.map((source, index) => index * 10000 + priorityIndex)
       removeImageQueue(priorities)
       isSubscribed = false

@@ -78,6 +78,7 @@ const PostsListService = ({ children }) => {
   useEffect(() => {
     postsFeedGetRequest({ limit: 20 })
     usersGetPendingFollowersRequest({ userId: authUser.userId })
+    dispatch(postsActions.postsGetTrendingPostsRequest({ limit: 30 }))
   }, [])
 
   useAppState({
