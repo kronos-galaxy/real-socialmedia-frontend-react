@@ -30,7 +30,7 @@ const PostType = ({
     
       <View style={styling.component}>
         <LinearGradient
-          colors={['#03a9f4', '#009688']}
+          colors={['#0984e3', '#74b9ff']}
           style={styling.gradient}
         />
 
