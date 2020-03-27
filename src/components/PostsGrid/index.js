@@ -48,6 +48,7 @@ const PostsGrid = ({
                   path(['image', 'url64p'])(post),
                   path(['image', 'url480p'])(post),
                 ]}
+                fallback={path(['image', 'url480p'])(post)}
                 priorityIndex={priorityIndex}
                 resizeMode="cover"
               />

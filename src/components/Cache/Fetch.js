@@ -33,14 +33,14 @@ const generateSignature = (source) => {
 /**
  * 
  */
-export const checkImage = async (signature) => {
+export const checkLocalImage = async (signature) => {
   return await RNFS.exists(signature.path)
 }
 
 /**
  * 
  */
-export const fetchImage = async ({ signature, progressCallback, beginCallback }) => {
+export const fetchRemoteImage = async ({ signature, progressCallback, beginCallback }) => {
   const { promise, jobId } = RNFS.downloadFile({
     fromUrl: signature.source,
     toFile: signature.path,
@@ -68,20 +68,18 @@ export const fetchImage = async ({ signature, progressCallback, beginCallback })
  * Returns local cached image if file exists;
  * Download file and stores into local cache if not
  */
-export const handleImage = async ({ shouldDownload, placeholder, source, progressCallback, beginCallback }) => {
-  const signature = generateSignature(source)
-  const hasImage = await checkImage(signature)
+export const handleImage = async ({ shouldDownload, placeholderSignature, signature, progressCallback, beginCallback }) => {
+  const hasImage = await checkLocalImage(signature)
 
   if (hasImage) {
     return signature.path
   }
 
   if (!shouldDownload) {
-    const placeholderSignature = generateSignature(placeholder)
     return placeholderSignature.path
   }
 
-  await fetchImage({ signature, progressCallback, beginCallback })
+  await fetchRemoteImage({ signature, progressCallback, beginCallback })
   return signature.path
 }
 
@@ -89,14 +87,14 @@ export const handleImage = async ({ shouldDownload, placeholder, source, progres
  * async priorityQueue worker, tasks are assigned a priority and completed in ascending priority order
  * 3 concurrent workers will be executed in parallel
  */
-const queue = priorityQueue(async (task, callback) => {
+export const queue = priorityQueue(async (task, callback) => {
   try {
     const response = await handleImage({
       shouldDownload: task.shouldDownload,
-      source: task.source,
+      signature: task.signature,
       progressCallback: task.progressCallback,
       beginCallback: task.beginCallback,
-      placeholder: task.placeholder,
+      placeholderSignature: task.placeholderSignature,
     })
     callback(null, response)
   } catch (error) {
@@ -107,7 +105,7 @@ const queue = priorityQueue(async (task, callback) => {
 /**
  * 
  */
-export const queueImage = async (
+export const pushImageQueue = async (
   shouldDownload,
   callback,
   progressCallback,
@@ -116,13 +114,19 @@ export const queueImage = async (
   placeholder,
   priority
 ) => {
+  const signature = generateSignature(source)
+  const placeholderSignature = generateSignature(placeholder)
+
+  if (await checkLocalImage(signature)) {
+    return callback(null, signature.path)
+  }
+
   queue.push({
     shouldDownload,
-    source,
-    placeholder,
+    signature,
+    placeholderSignature,
     priority,
     progressCallback,
     beginCallback,
   }, priority, callback)
 }
-  

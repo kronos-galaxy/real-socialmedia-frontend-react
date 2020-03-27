@@ -111,6 +111,7 @@ const PostComponent = ({
               path(['image', 'url4k'])(post),
               path(['image', 'url'])(post),
             ]}
+            fallback={path(['image', 'url4k'])(post)}
             priorityIndex={priorityIndex}
             resizeMode="contain"
             downloadUntil={1}

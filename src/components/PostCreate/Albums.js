@@ -32,6 +32,7 @@ const Albums = ({
                 path(['art', 'url64p'])(album),
                 path(['art', 'url480p'])(album),
               ]}
+              fallback={path(['art', 'url480p'])(album)}
               priorityIndex={key}
               resizeMode="cover"
             />

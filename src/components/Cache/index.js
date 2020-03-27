@@ -8,7 +8,7 @@ import {
 } from 'react-native'
 import { withTheme } from 'react-native-paper'
 import {
-  queueImage,
+  pushImageQueue,
 } from 'components/Cache/Fetch'
 import { AnimatedCircularProgress } from 'react-native-circular-progress'
 
@@ -18,6 +18,7 @@ import { AnimatedCircularProgress } from 'react-native-circular-progress'
 const CacheComponent = ({
   theme,
   images,
+  fallback,
   resizeMode,
   priorityIndex,
   style,
@@ -28,7 +29,11 @@ const CacheComponent = ({
   const [uri, setUri] = useState(null)
   const [progress, setProgress] = useState(0)
   const [progressVisible, setProgressVisible] = useState(hideProgress)
-  const [blurRadius, setBlurRadius] = useState(10)
+  const [blurRadius, setBlurRadius] = useState(0)
+
+  const handleError = ({ nativeEvent }) => {
+    setUri(fallback)
+  }
 
   useEffect(() => {
     images.forEach((source, index) => {
@@ -39,7 +44,7 @@ const CacheComponent = ({
        */
       const shouldDownload = downloadUntil ? index <= downloadUntil : true
   
-      queueImage(
+      pushImageQueue(
         /**
          * Should image be downloaded or only return local cache if available
          */
@@ -51,9 +56,6 @@ const CacheComponent = ({
         (error, response) => {
           setUri(response)
           setProgressVisible(false)
-          if (index > 0) {
-            setBlurRadius()
-          }
         },
 
         /**
@@ -121,6 +123,7 @@ const CacheComponent = ({
             resizeMode={resizeMode}
             style={[styling.image, style]}
             blurRadius={blurRadius}
+            onError={handleError}
           />
         : null}
       </View>
@@ -131,6 +134,7 @@ const CacheComponent = ({
 CacheComponent.propTypes = {
   theme: PropTypes.any,
   images: PropTypes.any,
+  fallback: PropTypes.any,
   resizeMode: PropTypes.any,
   priorityIndex: PropTypes.any,
   style: PropTypes.any,

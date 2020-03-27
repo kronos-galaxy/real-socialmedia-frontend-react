@@ -68,6 +68,7 @@ const StoryCarousel = ({
                   path(['image', 'url64p'])(story),
                   path(['image', 'url4k'])(story),
                 ]}
+                fallback={path(['image', 'url4k'])(story)}
                 priorityIndex={1}
                 resizeMode="contain"
               />
