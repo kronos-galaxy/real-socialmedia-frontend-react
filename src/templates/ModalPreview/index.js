@@ -37,7 +37,6 @@ const ModalPreview = ({
             imageSource.uri,
           ]}
           fallback={imageSource.uri}
-          type="default"
           priorityIndex={1}
           resizeMode="cover"
         />
@@ -49,7 +48,6 @@ const ModalPreview = ({
             renderUri,
           ]}
           fallback={renderUri}
-          type="default"
           priorityIndex={1}
           resizeMode="cover"
         />

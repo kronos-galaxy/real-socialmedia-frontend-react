@@ -87,7 +87,7 @@ export const handleImage = async ({ shouldDownload, signature, progressCallback,
  * async priorityQueue worker, tasks are assigned a priority and completed in ascending priority order
  * 3 concurrent workers will be executed in parallel
  */
-export const queue = priorityQueue(async (task, callback) => {
+const worker = async (task, callback) => {
   try {
     const response = await handleImage({
       shouldDownload: task.shouldDownload,
@@ -99,7 +99,9 @@ export const queue = priorityQueue(async (task, callback) => {
   } catch (error) {
     callback(error, 'fallback', task.source)
   }
-}, 3)
+}
+
+export const priorityQueueInstance = priorityQueue(worker, 3)
 
 /**
  * 
@@ -124,7 +126,7 @@ export const pushImageQueue = async (
     return callback(null, 'fallback', placeholderSignature.path)
   }
 
-  queue.push({
+  priorityQueueInstance.push({
     shouldDownload,
     signature,
     placeholderSignature,
@@ -135,5 +137,5 @@ export const pushImageQueue = async (
 }
 
 export const removeImageQueue = async (priorities) => {
-  queue.remove(({ data, priority }) => priorities.includes(priority))
+  priorityQueueInstance.remove(({ data, priority }) => true)
 }

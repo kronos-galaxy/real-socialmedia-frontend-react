@@ -9,7 +9,6 @@ import {
 import { Text, withTheme } from 'react-native-paper'
 import {
   pushImageQueue,
-  removeImageQueue,
 } from 'components/Cache/Fetch'
 import { AnimatedCircularProgress } from 'react-native-circular-progress'
 
@@ -54,14 +53,22 @@ const CacheComponent = ({
     return filename
   }
 
-  useEffect(() => {
-    /**
-     * Is effect active
-     */
-    let isSubscribed = true
+  const getPriority = (filename = '', priority = 0) => {
+    if (filename.includes('480p')) {
+      return priority
+    }
+    if (filename.includes('4k')) {
+      return 1000 + priority
+    }
+    if (filename.includes('native')) {
+      return 10000 + priority
+    }
+    return 0
+  }
 
+  useEffect(() => {
     images.forEach((source, index) => {
-      const priority = index * 10000 + priorityIndex
+      const priority = getPriority(getFilename(source), priorityIndex)
 
       /**
        *
@@ -78,7 +85,6 @@ const CacheComponent = ({
          * Callback executed on complete
          */
         (error, type, response) => {
-          if (!isSubscribed) return
           setUri(response)
           setProgressVisible(false)
 
@@ -91,7 +97,6 @@ const CacheComponent = ({
          * Callback executed on download progress
          */
         (response) => {
-          if (!isSubscribed) return
           setProgress(parseInt(response.bytesWritten / response.contentLength * 100, 10))
         },
 
@@ -99,7 +104,6 @@ const CacheComponent = ({
          * Callback executed on download init
          */
         (response) => {
-          if (!isSubscribed) return
           setProgress(0)
           setProgressVisible(true)
         },
@@ -126,9 +130,6 @@ const CacheComponent = ({
      */
     return () => {
       handleError({})
-      const priorities = images.map((source, index) => index * 10000 + priorityIndex)
-      removeImageQueue(priorities)
-      isSubscribed = false
     }
   }, [])
 
@@ -146,7 +147,7 @@ const CacheComponent = ({
   return (
     <View style={styling.root}>
       <View style={[styling.image, style]}>
-        {!hideLabel ?
+        {!hideLabel && getImageType(filename) ?
           <Text style={styling.label}>{getImageType(filename)}</Text>
         : null}
 
@@ -184,7 +185,6 @@ CacheComponent.propTypes = {
   style: PropTypes.any,
   hideProgress: PropTypes.any,
   hideLabel: PropTypes.any,
-  type: PropTypes.oneOf(['feed', 'grid', 'default', 'avatar'])
 }
 
 CacheComponent.defaultProps = {
