@@ -109,13 +109,13 @@ const PostComponent = ({
             images={[
               path(['image', 'url64p'])(post),
               path(['image', 'url4k'])(post),
-              path(['image', 'url'])(post),
             ]}
             fallback={path(['image', 'url4k'])(post)}
             type="feed"
             priorityIndex={priorityIndex}
             resizeMode="contain"
             downloadUntil={1}
+            hideLabel={false}
           />
           <TouchableOpacity style={styling.prev} onPress={handleScrollPrev} />
           <TouchableOpacity style={styling.next} onPress={handleScrollNext} />

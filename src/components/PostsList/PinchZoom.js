@@ -37,6 +37,7 @@ export class PinchZoom extends React.Component {
             type="pinch"
             priorityIndex={0}
             resizeMode="contain"
+            hideLabel={false}
           />
         </Animated.View>
       </View>

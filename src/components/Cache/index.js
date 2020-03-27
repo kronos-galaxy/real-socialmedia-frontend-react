@@ -6,7 +6,7 @@ import {
   ActivityIndicator,
   View,
 } from 'react-native'
-import { withTheme } from 'react-native-paper'
+import { Text, withTheme } from 'react-native-paper'
 import {
   pushImageQueue,
   removeImageQueue,
@@ -24,16 +24,34 @@ const CacheComponent = ({
   priorityIndex,
   style,
   hideProgress,
+  hideLabel,
   downloadUntil,
 }) => {
   const styling = styles(theme)
   const [uri, setUri] = useState(null)
   const [progress, setProgress] = useState(0)
   const [progressVisible, setProgressVisible] = useState(hideProgress)
-  const [blurRadius, setBlurRadius] = useState(0)
+  const [filename, setFilename] = useState(0)
 
   const handleError = ({ nativeEvent }) => {
     setUri(fallback)
+  }
+
+  const getBlurValue = (value) => {
+    const isThumbnail = value.includes('64p')
+    return isThumbnail ? 10 : 0
+  }
+
+  const getFilename = (source) => {
+    if (!source) return ''
+    const withoutQuery = source.split('?').shift()
+    const withoutPath = withoutQuery.split('/').pop()
+    const withoutExt = withoutPath.split('.').shift()
+    return withoutExt
+  }
+
+  const getImageType = (filename) => {
+    return filename
   }
 
   useEffect(() => {
@@ -63,6 +81,7 @@ const CacheComponent = ({
           if (!isSubscribed) return
           setUri(response)
           setProgressVisible(false)
+          setFilename(getFilename(source))
         },
 
         /**
@@ -123,6 +142,10 @@ const CacheComponent = ({
   return (
     <View style={styling.root}>
       <View style={[styling.image, style]}>
+        {!hideLabel ?
+          <Text style={styling.label}>{getImageType(filename)}</Text>
+        : null}
+
         {progressVisible ?
           <View style={styling.progress}>
             <AnimatedCircularProgress
@@ -140,7 +163,6 @@ const CacheComponent = ({
             source={{ uri }}
             resizeMode={resizeMode}
             style={[styling.image, style]}
-            blurRadius={blurRadius}
             onError={handleError}
           />
         : null}
@@ -157,11 +179,13 @@ CacheComponent.propTypes = {
   priorityIndex: PropTypes.any,
   style: PropTypes.any,
   hideProgress: PropTypes.any,
+  hideLabel: PropTypes.any,
   type: PropTypes.oneOf(['feed', 'grid', 'default', 'avatar'])
 }
 
 CacheComponent.defaultProps = {
   hideProgress: false,
+  hideLabel: true,
 }
 
 const styles = theme => StyleSheet.create({
@@ -180,6 +204,18 @@ const styles = theme => StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     zIndex: 10,
+  },
+  label: {
+    position: 'absolute',
+    bottom: 0,
+    right: 0,
+    zIndex: 10,
+    margin: 6,
+    padding: 2,
+    fontSize: 8,
+    borderWidth: 0.5,
+    borderRadius: 3,
+    borderColor: theme.colors.text,
   },
 })
 
