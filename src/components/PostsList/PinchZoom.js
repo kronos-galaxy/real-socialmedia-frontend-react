@@ -34,6 +34,7 @@ export class PinchZoom extends React.Component {
               this.props.draggedImage.image.url,
             ]}
             fallback={this.props.draggedImage.image.url4k}
+            type="pinch"
             priorityIndex={0}
             resizeMode="contain"
           />

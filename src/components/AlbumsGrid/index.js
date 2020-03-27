@@ -36,6 +36,7 @@ const AlbumsGrid = ({
                 path(['art', 'url480p'])(album),
               ]}
               fallback={path(['art', 'url480p'])(album)}
+              type="grid"
               priorityIndex={priorityIndex}
               resizeMode="cover"
             />

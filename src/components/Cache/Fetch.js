@@ -112,7 +112,7 @@ export const pushImageQueue = async (
   beginCallback,
   source,
   placeholder,
-  priority
+  priority,
 ) => {
   const signature = generateSignature(source)
   const placeholderSignature = generateSignature(placeholder)
@@ -129,4 +129,8 @@ export const pushImageQueue = async (
     progressCallback,
     beginCallback,
   }, priority, callback)
+}
+
+export const removeImageQueue = async (priorities) => {
+  queue.remove(({ data, priority }) => priorities.includes(priority))
 }

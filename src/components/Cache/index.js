@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import PropTypes from 'prop-types'
 import {
   StyleSheet,
@@ -9,6 +9,7 @@ import {
 import { withTheme } from 'react-native-paper'
 import {
   pushImageQueue,
+  removeImageQueue,
 } from 'components/Cache/Fetch'
 import { AnimatedCircularProgress } from 'react-native-circular-progress'
 
@@ -36,6 +37,11 @@ const CacheComponent = ({
   }
 
   useEffect(() => {
+    /**
+     * Is effect active
+     */
+    let isSubscribed = true
+
     images.forEach((source, index) => {
       const priority = index * 10000 + priorityIndex
 
@@ -54,6 +60,7 @@ const CacheComponent = ({
          * Callback executed on complete
          */
         (error, response) => {
+          if (!isSubscribed) return
           setUri(response)
           setProgressVisible(false)
         },
@@ -62,6 +69,7 @@ const CacheComponent = ({
          * Callback executed on download progress
          */
         (response) => {
+          if (!isSubscribed) return
           setProgress(parseInt(response.bytesWritten / response.contentLength * 100, 10))
         },
 
@@ -69,6 +77,7 @@ const CacheComponent = ({
          * Callback executed on download init
          */
         (response) => {
+          if (!isSubscribed) return
           setProgress(0)
           setProgressVisible(true)
         },
@@ -89,6 +98,15 @@ const CacheComponent = ({
         priority
       )
     })
+
+    /**
+     * Cancel all pending tasks on image remove
+     */
+    return () => {
+      const priorities = images.map((source, index) => index * 10000 + priorityIndex)
+      removeImageQueue(priorities)
+      isSubscribed = false
+    }
   }, [])
 
   /**
@@ -139,6 +157,7 @@ CacheComponent.propTypes = {
   priorityIndex: PropTypes.any,
   style: PropTypes.any,
   hideProgress: PropTypes.any,
+  type: PropTypes.oneOf(['feed', 'grid', 'default', 'avatar'])
 }
 
 CacheComponent.defaultProps = {
