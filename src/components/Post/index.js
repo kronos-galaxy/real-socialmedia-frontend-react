@@ -48,6 +48,7 @@ const PostComponent = ({
   textPostRef,
 
   feedRef,
+  priorityQueueInstance,
 }) => {
   const styling = styles(theme)
   const navigation = useNavigation()
@@ -106,6 +107,7 @@ const PostComponent = ({
           feedRef={feedRef}
         >
           <CacheComponent
+            priorityQueueInstance={priorityQueueInstance}
             images={[
               path(['image', 'url64p'])(post),
               path(['image', 'url4k'])(post),

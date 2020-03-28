@@ -23,6 +23,7 @@ const PostsGrid = ({
   postsGet,
   themeFetch,
   themeCode,
+  priorityQueueInstance,
 }) => {
   const styling = styles(theme)
   const navigation = useNavigation()
@@ -51,6 +52,7 @@ const PostsGrid = ({
                 fallback={path(['image', 'url480p'])(post)}
                 priorityIndex={priorityIndex}
                 resizeMode="cover"
+                priorityQueueInstance={priorityQueueInstance}
               />
             : null}
 

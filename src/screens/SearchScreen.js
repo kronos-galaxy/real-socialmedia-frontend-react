@@ -1,6 +1,9 @@
 import React from 'react'
 import SearchComponent from 'components/Search'
 import SearchServiceComponent from 'components/Search/index.service'
+import { initializePriorityQueue } from 'components/Cache/Fetch'
+
+const priorityQueueInstance = initializePriorityQueue()
 
 class SearchScreen extends React.Component {
   render() {
@@ -9,6 +12,7 @@ class SearchScreen extends React.Component {
         {(searchProps) => (
           <SearchComponent
             {...searchProps}
+            priorityQueueInstance={priorityQueueInstance}
           />
         )}
       </SearchServiceComponent>

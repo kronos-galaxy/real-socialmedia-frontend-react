@@ -8,10 +8,13 @@ import PostsGridComponent from 'components/PostsGrid'
 import PostsGridServiceComponent from 'components/PostsGrid/index.service'
 import path from 'ramda/src/path'
 import PostsLoadingComponent from 'components/PostsList/PostsLoading'
+import { initializePriorityQueue } from 'components/Cache/Fetch'
 
 import { withTheme } from 'react-native-paper'
 import { useNavigation, useRoute } from '@react-navigation/native'
 import { withTranslation } from 'react-i18next'
+
+const priorityQueueInstance = initializePriorityQueue()
 
 const ProfileFeed = ({
   t,
@@ -28,6 +31,7 @@ const ProfileFeed = ({
             themeFetch={postsProps.themeFetch}
             themeCode={path(['data', 'themeCode'])(postsProps.user)}
             themes={postsProps.themes}
+            priorityQueueInstance={priorityQueueInstance}
           />
 
           {(path(['status'])(postsProps.postsGet) === 'loading' && !path(['data', 'length'])(postsProps.postsGet)) ?

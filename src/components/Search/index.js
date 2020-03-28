@@ -39,6 +39,7 @@ const SearchComponent = ({
   handleFormChange,
   formChange,
   themeFetch,
+  priorityQueueInstance,
 }) => {
   const styling = styles(theme)
   
@@ -73,6 +74,7 @@ const SearchComponent = ({
             postsGet={postsGetTrendingPosts}
             themeFetch={themeFetch}
             themeCode={path(['themeCode'])(authUser)}
+            priorityQueueInstance={priorityQueueInstance}
           />
         </ScrollView>
       : null}

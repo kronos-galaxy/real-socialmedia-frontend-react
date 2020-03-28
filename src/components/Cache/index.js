@@ -7,9 +7,7 @@ import {
   View,
 } from 'react-native'
 import { Text, withTheme } from 'react-native-paper'
-import {
-  pushImageQueue,
-} from 'components/Cache/Fetch'
+import { pushImageQueue } from 'components/Cache/Fetch'
 import { AnimatedCircularProgress } from 'react-native-circular-progress'
 
 /**
@@ -25,6 +23,7 @@ const CacheComponent = ({
   hideProgress,
   hideLabel,
   downloadUntil,
+  priorityQueueInstance,
 }) => {
   const styling = styles(theme)
   const [uri, setUri] = useState(null)
@@ -76,6 +75,8 @@ const CacheComponent = ({
       const shouldDownload = downloadUntil ? index <= downloadUntil : true
   
       pushImageQueue(
+        priorityQueueInstance,
+
         /**
          * Should image be downloaded or only return local cache if available
          */

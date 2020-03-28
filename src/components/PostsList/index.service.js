@@ -10,6 +10,7 @@ import pathOr from 'ramda/src/pathOr'
 import intersection from 'ramda/src/intersection'
 import * as navigationActions from 'navigation/actions'
 import useAppState from 'services/AppState'
+import priorityQueue from 'async/priorityQueue'
 
 const PostsListService = ({ children }) => {
   const dispatch = useDispatch()

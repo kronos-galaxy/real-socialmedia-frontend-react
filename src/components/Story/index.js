@@ -31,6 +31,7 @@ const StoryCarousel = ({
   onNextStory,
   onPrevStory,
   onCloseStory,
+  priorityQueueInstance,
 }) => ({
   item: user,
   index,
@@ -71,6 +72,7 @@ const StoryCarousel = ({
                 fallback={path(['image', 'url4k'])(story)}
                 priorityIndex={1}
                 resizeMode="contain"
+                priorityQueueInstance={priorityQueueInstance}
               />
             : null}
 
@@ -108,6 +110,7 @@ const Story = ({
   onPrevStory,
   onCloseStory,
   onSnapItem,
+  priorityQueueInstance,
 }) => {
   const styling = styles(theme)
   
@@ -134,6 +137,7 @@ const Story = ({
           onNextStory,
           onPrevStory,
           onCloseStory,
+          priorityQueueInstance,
         })}
         sliderWidth={Layout.window.width}
         itemWidth={Layout.window.width}

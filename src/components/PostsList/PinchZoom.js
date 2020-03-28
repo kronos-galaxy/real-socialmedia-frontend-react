@@ -8,6 +8,9 @@ import { getDimensionsFromPostSize } from 'services/Camera'
 import CacheComponent from 'components/Cache'
 import { withTheme } from 'react-native-paper'
 import ContextComponent from 'components/PostsList/Context'
+import { initializePriorityQueue } from 'components/Cache/Fetch'
+
+const priorityQueueInstance = initializePriorityQueue()
 
 export class PinchZoom extends React.Component {
   render() {
@@ -37,6 +40,7 @@ export class PinchZoom extends React.Component {
             priorityIndex={-1}
             resizeMode="contain"
             hideLabel={false}
+            priorityQueueInstance={priorityQueueInstance}
           />
         </Animated.View>
       </View>

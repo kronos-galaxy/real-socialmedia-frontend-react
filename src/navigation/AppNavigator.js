@@ -13,6 +13,7 @@ import PostTypeScreen from 'screens/PostTypeScreen'
 import CommentsScreen from 'screens/CommentsScreen'
 import CameraScreen from 'screens/CameraScreen'
 import ChatScreen from 'screens/ChatScreen'
+import OnboardingScreen from 'screens/OnboardingScreen'
 
 const ChatNavigator = withTheme(({ theme }) => {
   const Stack = createStackNavigator()
@@ -50,6 +51,12 @@ const RootNavigator = () => {
       <Stack.Screen
         name="PostType"
         component={PostTypeScreen}
+        {...stackScreenModalProps}
+      />
+
+      <Stack.Screen
+        name="Onboarding"
+        component={OnboardingScreen}
         {...stackScreenModalProps}
       />
 

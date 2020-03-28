@@ -101,6 +101,7 @@ const PostsList = ({
   textPostRefs,
   onViewableItemsChangedRef,
   viewabilityConfigRef,
+  priorityQueueInstance,
 }) => {
   const styling = styles(theme)
   
@@ -205,6 +206,7 @@ const PostsList = ({
               }}
               textPostRef={textPostRefs.current[post.postId]}
               feedRef={feedRef}
+              priorityQueueInstance={priorityQueueInstance}
             />
           </>
         )}
