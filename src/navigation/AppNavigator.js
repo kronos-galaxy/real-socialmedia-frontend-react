@@ -13,6 +13,7 @@ import PostTypeScreen from 'screens/PostTypeScreen'
 import CommentsScreen from 'screens/CommentsScreen'
 import CameraScreen from 'screens/CameraScreen'
 import ChatScreen from 'screens/ChatScreen'
+import ChatDirectScreen from 'screens/ChatDirectScreen'
 import OnboardingScreen from 'screens/OnboardingScreen'
 
 const ChatNavigator = withTheme(({ theme }) => {
@@ -25,6 +26,11 @@ const ChatNavigator = withTheme(({ theme }) => {
       <Stack.Screen
         name="Chat"
         component={ChatScreen}
+        {...stackScreenDefaultProps}
+      />
+      <Stack.Screen
+        name="ChatDirect"
+        component={ChatDirectScreen}
         {...stackScreenDefaultProps}
       />
     </Stack.Navigator>

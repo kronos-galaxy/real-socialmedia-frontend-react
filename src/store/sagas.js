@@ -3,6 +3,7 @@ import auth from 'store/ducks/auth/saga'
 import camera from 'store/ducks/camera/saga'
 import theme from 'store/ducks/theme/saga'
 import albums from 'store/ducks/albums/saga'
+import chat from 'store/ducks/chat/saga'
 import users from 'store/ducks/users/saga'
 import layout from 'store/ducks/layout/saga'
 import translation from 'store/ducks/translation/saga'
@@ -30,6 +31,7 @@ export default function* rootSaga(persistor) {
     .concat(camera())
     .concat(theme())
     .concat(albums())
+    .concat(chat())
     .concat(users())
     .concat(layout())
     .concat(translation())

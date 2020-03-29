@@ -2,7 +2,7 @@ import { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import * as albumsActions from 'store/ducks/albums/actions'
 import { useNavigation } from '@react-navigation/native'
-import { v4 as uuid } from 'uuid';
+import { v4 as uuid } from 'uuid'
 import * as navigationActions from 'navigation/actions'
 
 const AlbumCreateService = ({ children, }) => {

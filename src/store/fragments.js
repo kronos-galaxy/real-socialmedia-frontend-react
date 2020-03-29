@@ -198,3 +198,52 @@ export const albumFragment = `
   }
   ${postFragment}
 `
+
+export const chatMessageFragment = `
+  fragment chatMessageFragment on ChatMessage {
+    messageId
+    text
+    textTaggedUsers {
+      tag
+      user {
+        ...userFragment
+      }
+    }
+    createdAt
+    lastEditedAt
+    author {
+      ...userFragment
+    }
+    viewedStatus
+  }
+  ${userFragment}
+`
+
+export const chatFragment = `
+  fragment rootChatFragment on Chat {
+    chatId
+    chatType
+    name
+    createdAt
+    lastMessageActivityAt
+    userCount
+    messageCount
+  }
+
+  fragment chatFragment on Chat {
+    ...rootChatFragment
+    users(limit: 10) {
+      items {
+        ...userFragment
+      }
+      nextToken
+    }
+    messages(limit: 10) {
+      items {
+        ...chatMessageFragment
+      }
+      nextToken
+    }
+  }
+  ${chatMessageFragment}
+`

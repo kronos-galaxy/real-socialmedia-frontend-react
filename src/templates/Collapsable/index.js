@@ -41,7 +41,7 @@ const Collapsable = ({
           </View>
         </View>
 
-        {!visible ? 
+        {!visible ?
           <Caption>{helper}</Caption>
         : null}
       </TouchableOpacity>

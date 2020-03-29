@@ -5,7 +5,7 @@ import * as authSelector from 'store/ducks/auth/selectors'
 import * as postsActions from 'store/ducks/posts/actions'
 import { useNavigation, useRoute } from '@react-navigation/native'
 import * as navigationActions from 'navigation/actions'
-import { v4 as uuid } from 'uuid';
+import { v4 as uuid } from 'uuid'
 import path from 'ramda/src/path'
 
 const PostsGridSelectService = ({ children, }) => {

@@ -35,6 +35,9 @@ export const navigateStory = (navigation, params) => () =>
 export const navigateChat = (navigation, params) => () =>
   navigation.navigate('Chat', params)
 
+export const navigateChatDirect = (navigation, params) => () =>
+  navigation.navigate('ChatDirect', params)
+
 export const navigateVerification = (navigation, params) => () =>
   navigation.navigate('Verification', params)
 

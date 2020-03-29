@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { v4 as uuid } from 'uuid';
+import { v4 as uuid } from 'uuid'
 import * as authSelector from 'store/ducks/auth/selectors'
 import * as postsActions from 'store/ducks/posts/actions'
 import * as cameraActions from 'store/ducks/camera/actions'

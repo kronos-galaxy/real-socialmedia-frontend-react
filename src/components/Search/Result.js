@@ -2,9 +2,8 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import {
   StyleSheet,
-  ScrollView,
+  View,
   TouchableOpacity,
-  RefreshControl,
 } from 'react-native'
 import path from 'ramda/src/path'
 import { Text } from 'react-native-paper'
@@ -36,15 +35,7 @@ const Result = ({
   
 
   return (
-    <ScrollView
-      style={styling.root}
-      refreshControl={
-        <RefreshControl
-          tintColor={theme.colors.border}
-          refreshing={loading}
-        />
-      }
-    >
+    <View style={styling.root}>
       <RowsComponent items={path(['data'])(usersSearch)}>
         {(user) => (
           <RowsItemComponent>
@@ -88,7 +79,7 @@ const Result = ({
           </RowsItemComponent>
         )}
       </RowsComponent>
-    </ScrollView>
+    </View>
   )
 }
 

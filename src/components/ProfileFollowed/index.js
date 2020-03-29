@@ -3,6 +3,8 @@ import PropTypes from 'prop-types'
 import {
   StyleSheet,
   View,
+  ScrollView,
+  RefreshControl,
 } from 'react-native'
 import ResultComponent from 'components/Search/Result'
 
@@ -25,16 +27,25 @@ const ProfileFollowed = ({
   
   return (
     <View style={styling.root}>
-      <ResultComponent
-        usersSearch={usersGetFollowedUsers}
-        usersFollow={usersFollow}
-        usersFollowRequest={usersFollowRequest}
-        usersUnfollow={usersUnfollow}
-        usersUnfollowRequest={usersUnfollowRequest}
-        usersAcceptFollowerUser={usersAcceptFollowerUser}
-        usersAcceptFollowerUserRequest={usersAcceptFollowerUserRequest}
-        loading={usersGetFollowedUsers.status === 'loading'}
-      />
+      <ScrollView
+        refreshControl={
+          <RefreshControl
+            tintColor={theme.colors.border}
+            refreshing={false}
+          />
+        }
+      >
+        <ResultComponent
+          usersSearch={usersGetFollowedUsers}
+          usersFollow={usersFollow}
+          usersFollowRequest={usersFollowRequest}
+          usersUnfollow={usersUnfollow}
+          usersUnfollowRequest={usersUnfollowRequest}
+          usersAcceptFollowerUser={usersAcceptFollowerUser}
+          usersAcceptFollowerUserRequest={usersAcceptFollowerUserRequest}
+          loading={usersGetFollowedUsers.status === 'loading'}
+        />
+      </ScrollView>
     </View>
   )
 }

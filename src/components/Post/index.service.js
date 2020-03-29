@@ -1,7 +1,7 @@
 import { useEffect, useState, useRef } from 'react'
 import { InteractionManager } from 'react-native'
 import { useSelector, useDispatch } from 'react-redux'
-import { v4 as uuid } from 'uuid';
+import { v4 as uuid } from 'uuid'
 import * as postsActions from 'store/ducks/posts/actions'
 import * as usersActions from 'store/ducks/users/actions'
 import { useNavigation, useScrollToTop } from '@react-navigation/native'
