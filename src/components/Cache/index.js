@@ -39,7 +39,6 @@ const CacheComponent = ({
   style,
   hideProgress,
   hideLabel,
-  downloadUntil,
   priorityQueueInstance,
 }) => {
   const styling = styles(theme)
@@ -121,18 +120,8 @@ const CacheComponent = ({
     images.forEach((source, index) => {
       const priority = getPriority(getFilename(source), priorityIndex)
 
-      /**
-       *
-       */
-      const shouldDownload = downloadUntil ? index < downloadUntil : true
-  
       pushImageQueue(
         priorityQueueInstance,
-
-        /**
-         * Should image be downloaded or only return local cache if available
-         */
-        shouldDownload,
 
         /**
          * Callback executed on complete
@@ -154,11 +143,6 @@ const CacheComponent = ({
          */
         source,
 
-        /**
-         * Image placeholder if shouldDownload is false
-         */
-        images[downloadUntil],
-    
         /**
          * Priority of the image, usually is the position of the item in list
          */

@@ -16,7 +16,7 @@ const generateSignature = (source) => {
 
   const partial = qs.parseUrl(source).url.split('cloudfront.net')[1].replace(':', '-')
   const isRemote = source.includes('http://') || source.includes('https://')
-  const path = isRemote ? `${RNFS.CachesDirectoryPath}${partial}` : source
+  const path = isRemote ? `${RNFS.CachesDirectoryPath}/REAL${partial}` : source
   const pathFolder = path.substring(0, path.lastIndexOf('/'))
 
   return {
@@ -74,15 +74,11 @@ export const fetchRemoteImage = async ({ signature, progressCallback, beginCallb
  * Returns local cached image if file exists;
  * Download file and stores into local cache if not
  */
-export const handleImage = async ({ shouldDownload, signature, progressCallback, beginCallback }) => {
+export const handleImage = async ({ signature, progressCallback, beginCallback }) => {
   const hasImage = await checkLocalImage(signature)
 
   if (hasImage) {
     return signature.path
-  }
-
-  if (!shouldDownload) {
-    return placeholderSignature.path
   }
 
   await fetchRemoteImage({ signature, progressCallback, beginCallback })
@@ -96,7 +92,6 @@ export const handleImage = async ({ shouldDownload, signature, progressCallback,
 export const worker = async (task, callback) => {
   try {
     const response = await handleImage({
-      shouldDownload: task.shouldDownload,
       signature: task.signature,
       progressCallback: task.progressCallback,
       beginCallback: task.beginCallback,
@@ -116,23 +111,16 @@ export const initializePriorityQueue = () => priorityQueue(worker, 3)
  */
 export const pushImageQueue = async (
   queueInstance,
-  shouldDownload,
   callback,
   progressCallback,
   beginCallback,
   source,
-  placeholder,
   priority,
 ) => {
   const signature = generateSignature(source)
-  const placeholderSignature = generateSignature(placeholder)
 
   if (await checkLocalImage(signature)) {
     return callback(null, 'cached', signature.path)
-  }
-
-  if (!shouldDownload) {
-    return callback(null, 'fallback', placeholderSignature.path)
   }
 
   if (downloads.has(signature.path)) {
@@ -148,9 +136,7 @@ export const pushImageQueue = async (
   const queue = queueInstance || priorityQueueInstance
 
   queue.push({
-    shouldDownload,
     signature,
-    placeholderSignature,
     priority,
     progressCallback,
     beginCallback,
