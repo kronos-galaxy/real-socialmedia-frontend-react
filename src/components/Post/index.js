@@ -116,7 +116,7 @@ const PostComponent = ({
             fallback={path(['image', 'url4k'])(post)}
             priorityIndex={priorityIndex}
             resizeMode="contain"
-            downloadUntil={1}
+            downloadUntil={2}
             hideLabel={false}
           />
           <TouchableOpacity style={styling.prev} onPress={handleScrollPrev} />

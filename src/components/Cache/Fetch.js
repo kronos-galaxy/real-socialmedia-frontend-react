@@ -1,5 +1,4 @@
 import RNFS from 'react-native-fs'
-import { v5 as uuidv5 } from 'uuid'
 import qs from 'query-string'
 import priorityQueue from 'async/priorityQueue'
 
@@ -15,17 +14,16 @@ const generateSignature = (source) => {
     }
   }
 
-  const parsed = qs.parseUrl(source)
-  const partial = qs.parseUrl(source).url.split('cloudfront.net')[1]
-  const uuid = uuidv5(partial || parsed.url, uuidv5.URL)
+  const partial = qs.parseUrl(source).url.split('cloudfront.net')[1].replace(':', '-')
   const isRemote = source.includes('http://') || source.includes('https://')
-  
-  const path = isRemote ? `${RNFS.CachesDirectoryPath}/${uuid}.jpg` : source
+  const path = isRemote ? `${RNFS.CachesDirectoryPath}${partial}` : source
+  const pathFolder = path.substring(0, path.lastIndexOf('/'))
 
   return {
     source,
     partial,
     path,
+    pathFolder,
     isRemote,
   }
 }
@@ -37,10 +35,14 @@ export const checkLocalImage = async (signature) => {
   return await RNFS.exists(signature.path)
 }
 
+const downloads = new Map()
+
 /**
  * 
  */
 export const fetchRemoteImage = async ({ signature, progressCallback, beginCallback }) => {
+  await RNFS.mkdir(signature.pathFolder)
+
   const { promise, jobId } = RNFS.downloadFile({
     fromUrl: signature.source,
     toFile: signature.path,
@@ -55,8 +57,12 @@ export const fetchRemoteImage = async ({ signature, progressCallback, beginCallb
     progress: progressCallback,
   })
 
+  downloads.set(signature.path, { promise, jobId })
+
   const response = await promise
   await RNFS.completeHandlerIOS(jobId)
+
+  downloads.delete(signature.path)
 
   return {
     response,
@@ -127,6 +133,16 @@ export const pushImageQueue = async (
 
   if (!shouldDownload) {
     return callback(null, 'fallback', placeholderSignature.path)
+  }
+
+  if (downloads.has(signature.path)) {
+    const { promise, jobId } = downloads.get(signature.path)
+    const response = await promise
+
+    return {
+      response,
+      signature,
+    }
   }
 
   const queue = queueInstance || priorityQueueInstance

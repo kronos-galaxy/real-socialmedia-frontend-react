@@ -10,6 +10,23 @@ import { Text, withTheme } from 'react-native-paper'
 import { pushImageQueue } from 'components/Cache/Fetch'
 import { AnimatedCircularProgress } from 'react-native-circular-progress'
 
+function useCacheUpdate(callback, delay) {
+  const savedCallback = useRef()
+
+  useEffect(() => {
+    savedCallback.current = callback
+  })
+
+  useEffect(() => {
+    function tick() {
+      savedCallback.current()
+    }
+
+    let id = setInterval(tick, delay)
+    return () => clearInterval(id)
+  }, [delay])
+}
+
 /**
  * UI Component
  */
@@ -31,6 +48,41 @@ const CacheComponent = ({
   const [progressVisible, setProgressVisible] = useState(hideProgress)
   const [filename, setFilename] = useState(0)
 
+  /**
+   * 
+   */
+  const completeCallback = useRef()
+  const progressCallback = useRef()
+  const beginCallback = useRef()
+
+  const onComplete = (source) => (error, type, response) => {
+    setUri(response)
+    setProgressVisible(false)
+
+    if (type !== 'fallback') {
+      setFilename(getFilename(source))
+    }
+  }
+
+  const onProgress = (source) => (response) => {
+    setProgress(parseInt(response.bytesWritten / response.contentLength * 100, 10))
+  }
+
+  const onBegin = (source) => (response) => {
+    setProgress(0)
+    setProgressVisible(true)
+  }
+
+  useEffect(() => {
+    completeCallback.current = onComplete
+    progressCallback.current = onProgress
+    beginCallback.current = onBegin
+  })
+
+
+  /**
+   * 
+   */
   const handleError = ({ nativeEvent }) => {
     setUri(fallback)
   }
@@ -72,7 +124,7 @@ const CacheComponent = ({
       /**
        *
        */
-      const shouldDownload = downloadUntil ? index <= downloadUntil : true
+      const shouldDownload = downloadUntil ? index < downloadUntil : true
   
       pushImageQueue(
         priorityQueueInstance,
@@ -85,29 +137,17 @@ const CacheComponent = ({
         /**
          * Callback executed on complete
          */
-        (error, type, response) => {
-          setUri(response)
-          setProgressVisible(false)
-
-          if (type !== 'fallback') {
-            setFilename(getFilename(source))
-          }
-        },
+        completeCallback.current(source),
 
         /**
          * Callback executed on download progress
          */
-        (response) => {
-          setProgress(parseInt(response.bytesWritten / response.contentLength * 100, 10))
-        },
+        progressCallback.current(source),
 
         /**
          * Callback executed on download init
          */
-        (response) => {
-          setProgress(0)
-          setProgressVisible(true)
-        },
+        beginCallback.current(source),
     
         /**
          * Image source
