@@ -32,9 +32,9 @@ export class PinchZoom extends React.Component {
         >
           <CacheComponent
             images={[
-              this.props.draggedImage.image.url64p,
-              this.props.draggedImage.image.url4k,
-              this.props.draggedImage.image.url,
+              [this.props.draggedImage.image.url64p, true],
+              [this.props.draggedImage.image.url4k, true],
+              [this.props.draggedImage.image.url, true],
             ]}
             fallback={this.props.draggedImage.image.url4k}
             priorityIndex={-1}

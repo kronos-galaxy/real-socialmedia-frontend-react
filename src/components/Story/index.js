@@ -66,8 +66,8 @@ const StoryCarousel = ({
             {story.postType === 'IMAGE' ?
               <CacheComponent
                 images={[
-                  path(['image', 'url64p'])(story),
-                  path(['image', 'url4k'])(story),
+                  [path(['image', 'url64p'])(story), true],
+                  [path(['image', 'url4k'])(story), true],
                 ]}
                 fallback={path(['image', 'url4k'])(story)}
                 priorityIndex={1}

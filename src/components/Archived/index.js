@@ -36,8 +36,8 @@ const Archived = ({
           >
             <CacheComponent
               images={[
-                path(['image', 'url64p'])(post),
-                path(['image', 'url480p'])(post),
+                [path(['image', 'url64p'])(post), true],
+                [path(['image', 'url480p'])(post), true],
               ]}
               fallback={path(['image', 'url480p'])(post)}
               priorityIndex={priorityIndex}

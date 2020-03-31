@@ -32,8 +32,8 @@ const AlbumsGrid = ({
           <GridItemComponent onPress={navigationActions.navigateAlbum(navigation, { album: album })}>
             <CacheComponent
               images={[
-                path(['art', 'url64p'])(album),
-                path(['art', 'url480p'])(album),
+                [path(['art', 'url64p'])(album), true],
+                [path(['art', 'url480p'])(album), true],
               ]}
               fallback={path(['art', 'url480p'])(album)}
               priorityIndex={priorityIndex}

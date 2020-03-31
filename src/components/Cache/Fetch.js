@@ -143,5 +143,12 @@ export const pushImageQueue = async (
   }, priority, callback)
 }
 
+export const getImageAvailability = async (source, callback) => {
+  const signature = generateSignature(source)
+  if (await checkLocalImage(signature)) {
+    return callback(null, 'cached', signature.path)
+  }
+}
+
 export const removeImageQueue = async (priorities) => {
 }

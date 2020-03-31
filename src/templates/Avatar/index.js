@@ -58,8 +58,8 @@ const AvatarTemplate = ({
         <View style={photoStyle}>
           <CacheComponent
             images={[
-              thumbnailSource.uri,
-              imageSource.uri,
+              [thumbnailSource.uri, true],
+              [imageSource.uri, true],
             ]}
             fallback={imageSource.uri}
             priorityIndex={-1}

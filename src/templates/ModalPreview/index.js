@@ -33,8 +33,8 @@ const ModalPreview = ({
       {!renderUri ?
         <CacheComponent
           images={[
-            thumbnailSource.uri,
-            imageSource.uri,
+            [thumbnailSource.uri, true],
+            [imageSource.uri, true],
           ]}
           fallback={imageSource.uri}
           priorityIndex={1}
@@ -45,7 +45,7 @@ const ModalPreview = ({
       {renderUri ?
         <CacheComponent
           images={[
-            renderUri,
+            [renderUri, true],
           ]}
           fallback={renderUri}
           priorityIndex={1}

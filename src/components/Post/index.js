@@ -109,9 +109,9 @@ const PostComponent = ({
           <CacheComponent
             priorityQueueInstance={priorityQueueInstance}
             images={[
-              path(['image', 'url64p'])(post),
-              path(['image', 'url4k'])(post),
-              // path(['image', 'url'])(post),
+              [path(['image', 'url64p'])(post), true],
+              [path(['image', 'url4k'])(post), true],
+              [path(['image', 'url'])(post), false],
             ]}
             fallback={path(['image', 'url4k'])(post)}
             priorityIndex={priorityIndex}

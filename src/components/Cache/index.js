@@ -7,25 +7,8 @@ import {
   View,
 } from 'react-native'
 import { Text, withTheme } from 'react-native-paper'
-import { pushImageQueue } from 'components/Cache/Fetch'
+import { pushImageQueue, getImageAvailability } from 'components/Cache/Fetch'
 import { AnimatedCircularProgress } from 'react-native-circular-progress'
-
-function useCacheUpdate(callback, delay) {
-  const savedCallback = useRef()
-
-  useEffect(() => {
-    savedCallback.current = callback
-  })
-
-  useEffect(() => {
-    function tick() {
-      savedCallback.current()
-    }
-
-    let id = setInterval(tick, delay)
-    return () => clearInterval(id)
-  }, [delay])
-}
 
 /**
  * UI Component
@@ -117,8 +100,13 @@ const CacheComponent = ({
   }
 
   useEffect(() => {
-    images.forEach((source, index) => {
+    images.forEach(([source, shouldDownload], index) => {
       const priority = getPriority(getFilename(source), priorityIndex)
+
+      if (!shouldDownload) {
+        getImageAvailability(source, completeCallback.current(source))
+        return
+      }
 
       pushImageQueue(
         priorityQueueInstance,
