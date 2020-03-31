@@ -5,6 +5,9 @@ import {
   View,
 } from 'react-native'
 import { GiftedChat } from 'react-native-gifted-chat'
+import pathOr from 'ramda/src/pathOr'
+import FormComponent from 'components/ChatDirect/Form'
+import DefaultButton from 'components/Formik/Button/DefaultButton'
 
 import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
@@ -13,48 +16,56 @@ import { withTranslation } from 'react-i18next'
 const ChatDirect = ({
   t,
   theme,
+  user,
+  chatGetChat,
   chatCreateDirectRequest,
+  chatAddMessage,
+  chatAddMessageRequest,
+  marginBottom,
+  chatId,
 }) => {
   const styling = styles(theme)
+
+  const messagesAdapter = pathOr([], ['data', 'messages', 'items'])(chatGetChat)
+    .map(message => ({
+      _id: message.messageId,
+      text: message.text,
+      createdAt: message.createdAt,
+      user: {
+        _id: message.author.userId,
+        name: message.author.username,
+        avatar: message.author.photo.url64p,
+      },
+    }))
+
+  const userAdapter = {
+    _id: user.userId,
+  }
 
   return (
     <View style={styling.root}>
       <GiftedChat
-        messages={[
-          {
-            _id: 1,
-            text: 'Hello developer',
-            createdAt: new Date(),
-            user: {
-              _id: 2,
-              name: 'React Native',
-              avatar: 'https://placeimg.com/140/140/any',
-            },
-          },{
-            _id: 2,
-            text: 'Hello developer',
-            createdAt: new Date(),
-            user: {
-              _id: 2,
-              name: 'React Native',
-              avatar: 'https://placeimg.com/140/140/any',
-            },
-          },{
-            _id: 3,
-            text: 'Hello developer',
-            createdAt: new Date(),
-            user: {
-              _id: 2,
-              name: 'React Native',
-              avatar: 'https://placeimg.com/140/140/any',
-            },
-          },
-        ]}
-        onSend={message => chatCreateDirectRequest({ text: message[0].text })}
-        user={{
-          _id: 1,
-        }}
+        messages={messagesAdapter}
+        onSend={message => chatAddMessageRequest({ text: message[0].text })}
+        user={userAdapter}
+        renderInputToolbar={() => null}
+        minInputToolbarHeight={0}
       />
+      
+      {chatId ?
+        <View style={{ marginBottom }}>
+          <FormComponent
+            chatAddMessage={chatAddMessage}
+            chatAddMessageRequest={chatAddMessageRequest}
+          />
+        </View>
+      : null}
+
+      {!chatId ?
+        <View style={{ marginBottom, paddingHorizontal: 12 }}>
+          <DefaultButton label={t('Start Chat')} onPress={chatCreateDirectRequest} />
+        </View>
+      : null}
     </View>
   )
 }

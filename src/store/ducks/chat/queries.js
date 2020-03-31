@@ -30,8 +30,8 @@ export const createDirectChat = `
   mutation createDirectChat(
     $chatId: ID!,
     $userId: ID!,
-    $messageId: ID!
-    $messageText: String!
+    $messageId: ID!,
+    $messageText: String!,
   ) {
     createDirectChat(
       chatId: $chatId,
@@ -47,9 +47,9 @@ export const createDirectChat = `
 
 export const addChatMessage = `
   mutation addChatMessage(
-    chatId: ID!,
-    messageId: ID!
-    text: String!
+    $chatId: ID!,
+    $messageId: ID!,
+    $text: String!,
   ) {
     addChatMessage(
       chatId: $chatId,

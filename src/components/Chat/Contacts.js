@@ -13,6 +13,7 @@ import RowsItemComponent from 'templates/RowsItem'
 import UserRowComponent from 'templates/UserRow'
 import Avatar from 'templates/Avatar'
 import * as navigationActions from 'navigation/actions'
+import DefaultButton from 'components/Formik/Button/DefaultButton'
 
 import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
@@ -57,7 +58,9 @@ const Contacts = ({
                   <Caption style={styling.fullname}>{path(['messages', 'items', '0', 'text'])(chat)}</Caption>
                 </TouchableOpacity>
               }
-              action={null}
+              action={(
+                <DefaultButton label={t('Chat')} onPress={navigationActions.navigateChatDirect(navigation, { chat, user: path(['users', 'items', '0'])(chat) })} loading={false} mode="outlined" size="compact" />
+              )}
             />
           </RowsItemComponent>
         )}

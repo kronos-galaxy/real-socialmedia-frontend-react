@@ -238,7 +238,7 @@ export const chatFragment = `
       }
       nextToken
     }
-    messages(limit: 10) {
+    messages(limit: 20, reverse: true) {
       items {
         ...chatMessageFragment
       }

@@ -76,6 +76,17 @@ GoogleSignin.configure({
   webClientId: Config.GOOGLE_SIGNIN_ANDROID_CLIENT_ID,
 })
 
+const checkTokenExpiry = async (idToken) => {
+  try {
+    const data = await fetch(`https://oauth2.googleapis.com/tokeninfo?id_token=${idToken}`)
+    return await data.json()
+  } catch (error) {
+    await GoogleSignin.revokeAccess()
+    await GoogleSignin.signOut()
+    throw new Error('Token expired')
+  }
+}
+
 const _handleGoogleRefresh = async () => {
   await GoogleSignin.hasPlayServices()
 
@@ -87,10 +98,7 @@ const _handleGoogleRefresh = async () => {
     }
   })()
   
-  const tokeninfo = await (async (idToken) => {
-    const data = await fetch(`https://oauth2.googleapis.com/tokeninfo?id_token=${idToken}`)
-    return await data.json()
-  })(googleUser.idToken)
+  const tokeninfo = await checkTokenExpiry(googleUser.idToken)
 
   return {
     token: googleUser.idToken,
@@ -136,10 +144,7 @@ const _federatedGoogleSignin = async () => {
     )
   })()
 
-  const tokeninfo = await (async (idToken) => {
-    const data = await fetch(`https://oauth2.googleapis.com/tokeninfo?id_token=${idToken}`)
-    return await data.json()
-  })(googleUser.idToken)
+  const tokeninfo = await checkTokenExpiry(googleUser.idToken)
 
   return {
     token: googleUser.idToken,

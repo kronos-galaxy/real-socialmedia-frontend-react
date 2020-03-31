@@ -7,21 +7,22 @@ import {
   RefreshControl,
 } from 'react-native'
 import path from 'ramda/src/path'
-import { Text, Caption } from 'react-native-paper'
+import { Text } from 'react-native-paper'
 import RowsComponent from 'templates/Rows'
 import RowsItemComponent from 'templates/RowsItem'
 import UserRowComponent from 'templates/UserRow'
 import Avatar from 'templates/Avatar'
 import * as navigationActions from 'navigation/actions'
+import DefaultButton from 'components/Formik/Button/DefaultButton'
 
 import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
 import { withTranslation } from 'react-i18next'
 
-const Contacts = ({
+const Users = ({
   t,
   theme,
-  contacts,
+  usersSearch,
   loading = false,
 }) => {
   const styling = styles(theme)
@@ -37,12 +38,12 @@ const Contacts = ({
         />
       }
     >
-      <RowsComponent items={path(['data'])(contacts)}>
+      <RowsComponent items={path(['data'])(usersSearch)}>
         {(user) => (
           <RowsItemComponent>
             <UserRowComponent
               avatar={
-                <TouchableOpacity onPress={navigationActions.navigateProfile(navigation, { user })}>
+                <TouchableOpacity onPress={navigationActions.navigateChatDirect(navigation, { user })}>
                   <Avatar
                     active
                     thumbnailSource={{ uri: path(['photo', 'url64p'])(user) }}
@@ -52,12 +53,14 @@ const Contacts = ({
                 </TouchableOpacity>
               }
               content={
-                <TouchableOpacity onPress={navigationActions.navigateProfile(navigation, { user })} style={styling.user}>
+                <TouchableOpacity onPress={navigationActions.navigateChatDirect(navigation, { user })} style={styling.user}>
                   <Text style={styling.username}>{path(['username'])(user)}</Text>
-                  <Caption style={styling.fullname}>Hey There, how aree you doing over ?</Caption>
+                  <Text style={styling.fullname}>{path(['fullName'])(user)}</Text>
                 </TouchableOpacity>
               }
-              action={null}
+              action={(
+                <DefaultButton label={t('Chat')} onPress={navigationActions.navigateChatDirect(navigation, { user })} loading={false} mode="outlined" size="compact" />
+              )}
             />
           </RowsItemComponent>
         )}
@@ -80,8 +83,8 @@ const styles = theme => StyleSheet.create({
   },
 })
 
-Contacts.propTypes = {
+Users.propTypes = {
   theme: PropTypes.any,
 }
 
-export default withTranslation()(withTheme(Contacts))
+export default withTranslation()(withTheme(Users))

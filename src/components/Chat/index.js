@@ -4,10 +4,13 @@ import {
   StyleSheet,
   View,
   ScrollView,
+  RefreshControl,
 } from 'react-native'
 import ContactsComponent from 'components/Chat/Contacts'
+import UsersComponent from 'components/Chat/Users'
 import HeaderComponent from 'components/Search/Header'
 import FormComponent from 'components/Search/Form'
+import { Subheading } from 'react-native-paper'
 
 import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
@@ -40,13 +43,21 @@ const Chat = ({
         />
       </HeaderComponent>
 
-      {/* {formFocus && formChange ? */}
+      {formFocus && formChange ?
         <ScrollView style={styling.root} ref={feedRef}>
+          <Subheading style={styling.subheading}>{t('Search')}</Subheading>
+          <UsersComponent
+            usersSearch={usersSearch}
+          />
+        </ScrollView>
+      :
+        <ScrollView style={styling.root} ref={feedRef}>
+          <Subheading style={styling.subheading}>{t('Recent')}</Subheading>
           <ContactsComponent
             chatGetChats={chatGetChats}
           />
         </ScrollView>
-      {/* : null} */}
+      }
     </View>
   )
 }
@@ -55,6 +66,10 @@ const styles = theme => StyleSheet.create({
   root: {
     flex: 1,
     backgroundColor: theme.colors.backgroundPrimary,
+  },
+  subheading: {
+    paddingTop: 6,
+    paddingHorizontal: 12,
   },
 })
 
