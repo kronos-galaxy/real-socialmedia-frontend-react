@@ -77,6 +77,10 @@ export const userFragment = `
       }
       nextToken 
     }
+
+    directChat {
+      chatId
+    }
   }
 
   ${imageFragment}

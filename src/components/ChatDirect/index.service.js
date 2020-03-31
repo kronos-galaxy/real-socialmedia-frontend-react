@@ -19,7 +19,10 @@ const ChatDirectService = ({ children, }) => {
   const chatAddMessage = useSelector(state => state.chat.chatAddMessage)
   const chatGetChat = useSelector(state => state.chat.chatGetChat)
   const chatGetChatCache = useSelector(state => state.chat.chatGetChatCache)
-  const chatId = path(['params', 'chat', 'chatId'])(route)
+  const chatId = (
+    path(['params', 'chat', 'chatId'])(route) ||
+    path(['params', 'user', 'directChat', 'chatId'])(route)
+  )
   const userId = path(['params', 'user', 'userId'])(route)
 
   useEffect(() => {
@@ -31,9 +34,12 @@ const ChatDirectService = ({ children, }) => {
   }, [chatAddMessage.status])
 
   useEffect(() => {
-    navigation.setParams({
-      chat: chatCreateDirect.data,
-    })
+    if (chatCreateDirect.status === 'success') {
+      navigation.setParams({
+        chat: chatCreateDirect.data,
+      })
+      dispatch(chatActions.chatCreateDirectIdle())
+    }
   }, [chatCreateDirect.status])
 
   const chatCreateDirectRequest = () => {
