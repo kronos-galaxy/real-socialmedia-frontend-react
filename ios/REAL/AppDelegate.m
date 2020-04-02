@@ -15,10 +15,20 @@
 #import <RNFSManager.h>
 #import <FBSDKCoreKit/FBSDKCoreKit.h>
 
+#if DEBUG
+  #import <FlipperKit/FlipperClient.h>
+  #import <FlipperKitLayoutPlugin/FlipperKitLayoutPlugin.h>
+  #import <FlipperKitUserDefaultsPlugin/FKUserDefaultsPlugin.h>
+  #import <FlipperKitNetworkPlugin/FlipperKitNetworkPlugin.h>
+  #import <SKIOSNetworkPlugin/SKIOSNetworkAdapter.h>
+  #import <FlipperKitReactPlugin/FlipperKitReactPlugin.h>
+#endif
+
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+
   RCTBridge *bridge = [[RCTBridge alloc] initWithDelegate:self launchOptions:launchOptions];
   RCTRootView *rootView = [[RCTRootView alloc] initWithBridge:bridge
                                                    moduleName:@"REAL"
