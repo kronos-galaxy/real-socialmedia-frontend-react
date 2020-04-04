@@ -69,11 +69,6 @@ const CacheComponent = ({
     setUri(fallback)
   }
 
-  const getBlurValue = (value) => {
-    if (!value) return 0
-    return value.includes('64p') ? 10 : 0
-  }
-
   const getFilename = (source) => {
     if (!source) return ''
     const withoutQuery = source.split('?').shift()

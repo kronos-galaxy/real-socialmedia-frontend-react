@@ -7,9 +7,7 @@ import * as usersActions from 'store/ducks/users/actions'
 import { useNavigation, useScrollToTop } from '@react-navigation/native'
 import path from 'ramda/src/path'
 import pathOr from 'ramda/src/pathOr'
-import intersection from 'ramda/src/intersection'
 import * as navigationActions from 'navigation/actions'
-import useAppState from 'services/AppState'
 
 const PostsListService = ({ children }) => {
   const dispatch = useDispatch()
@@ -74,37 +72,7 @@ const PostsListService = ({ children }) => {
 
   const postsCreateIdle = (payload) =>
     dispatch(postsActions.postsCreateIdle({ payload }))
-
-  useEffect(() => {
-    postsFeedGetRequest({ limit: 20 })
-    usersGetPendingFollowersRequest({ userId: authUser.userId })
-  }, [])
-
-  useAppState({
-    onForeground: () => {
-      postsFeedGetRequest({ limit: 20 })
-    },
-  })
-
-  const uploadPending = Object.values(postsCreateQueue)
-    .filter(item => item.status === 'loading' || item.status === 'success')
-    .filter(item => item.meta.progress === 100)
-
-  useEffect(() => {
-    const pending = uploadPending.map(item => item.payload.postId)
-    const uploaded = postsFeedGet.data.map(item => item.postId)
-    
-    const complete = intersection(pending, uploaded)
-    
-    complete.forEach(postId => {
-      dispatch(postsActions.postsCreateIdle({ payload: { postId } }))
-    })
-  }, [postsFeedGet.status === 'success'])
-
-  useEffect(() => {
-    usersGetPendingFollowersRequest({ userId: authUser.userId })
-  }, [usersAcceptFollowerUser.status])
-
+  
   useEffect(() => {
     if (postsDelete.status === 'success') {
       dispatch(postsActions.postsDeleteIdle())
@@ -190,7 +158,7 @@ const PostsListService = ({ children }) => {
    */
   const onViewableItemsChangedRef = useRef(onViewableItemsChanged)
   const viewabilityConfigRef = useRef({
-    minimumViewTime: 500,
+    minimumViewTime: 3000,
     viewAreaCoveragePercentThreshold: 75,
     waitForInteraction: true,
   })

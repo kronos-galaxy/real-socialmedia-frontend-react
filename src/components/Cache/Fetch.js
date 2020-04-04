@@ -1,10 +1,22 @@
 import RNFS from 'react-native-fs'
 import qs from 'query-string'
 import priorityQueue from 'async/priorityQueue'
+import promiseRetry from 'promise-retry'
 
 /**
  * 
  */
+const getPartial = (source) => {
+  if (!source.includes('cloudfront.net')) {
+    return source
+  }
+  return qs.parseUrl(source).url.split('cloudfront.net')[1].replace(':', '-')
+}
+
+const getIsRemote = (source) => {
+  return source.includes('http://') || source.includes('https://')
+}
+
 const generateSignature = (source) => {
   if (typeof source !== 'string' || !source.length) {
     return {
@@ -14,8 +26,8 @@ const generateSignature = (source) => {
     }
   }
 
-  const partial = qs.parseUrl(source).url.split('cloudfront.net')[1].replace(':', '-')
-  const isRemote = source.includes('http://') || source.includes('https://')
+  const isRemote = getIsRemote(source)
+  const partial = getPartial(source)
   const path = isRemote ? `${RNFS.CachesDirectoryPath}/REAL${partial}` : source
   const pathFolder = path.substring(0, path.lastIndexOf('/'))
 
@@ -49,8 +61,8 @@ export const fetchRemoteImage = async ({ signature, progressCallback, beginCallb
     background: true,
     discretionary: true,
     cacheable: false,
-    readTimeout: 6000,
-    backgroundTimeout: 12000,
+    readTimeout: 25000,
+    backgroundTimeout: 25000,
     resumable: () =>
       RNFS.isResumable(jobId).then(() => RNFS.resumeDownload(jobId)),
     begin: beginCallback,
@@ -81,7 +93,14 @@ export const handleImage = async ({ signature, progressCallback, beginCallback }
     return signature.path
   }
 
-  await fetchRemoteImage({ signature, progressCallback, beginCallback })
+  await promiseRetry(async (retry, attempts) => {
+    try {
+      return await fetchRemoteImage({ signature, progressCallback, beginCallback })
+    } catch (nextError) {
+      retry(nextError)
+    }
+  }, { retries: 3 })
+
   return signature.path
 }
 
@@ -98,7 +117,7 @@ export const worker = async (task, callback) => {
     })
     callback(null, 'downloaded', response)
   } catch (error) {
-    callback(error, 'fallback', task.source)
+    callback(error, 'fallback', task.signature.source)
   }
 }
 
@@ -118,6 +137,10 @@ export const pushImageQueue = async (
   priority,
 ) => {
   const signature = generateSignature(source)
+
+  if (!signature.isRemote) {
+    return callback(null, 'fallback', signature.path)
+  }
 
   if (await checkLocalImage(signature)) {
     return callback(null, 'cached', signature.path)

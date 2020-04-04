@@ -1,4 +1,4 @@
-import * as AWS from 'aws-sdk/global'
+import AWS from 'aws-sdk/global'
 import { put, takeLatest, getContext } from 'redux-saga/effects'
 import path from 'ramda/src/path'
 import {

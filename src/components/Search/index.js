@@ -13,6 +13,7 @@ import PostsGridComponent from 'components/PostsGrid'
 import { Subheading } from 'react-native-paper'
 import path from 'ramda/src/path'
 import PostsLoadingComponent from 'components/PostsList/PostsLoading'
+import ContextComponent from 'components/Cache/Context'
 
 import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
@@ -39,7 +40,6 @@ const SearchComponent = ({
   handleFormChange,
   formChange,
   themeFetch,
-  priorityQueueInstance,
 }) => {
   const styling = styles(theme)
   
@@ -69,13 +69,17 @@ const SearchComponent = ({
             />
           }
         >
-          <PostsGridComponent
-            themes={themes}
-            postsGet={postsGetTrendingPosts}
-            themeFetch={themeFetch}
-            themeCode={path(['themeCode'])(authUser)}
-            priorityQueueInstance={priorityQueueInstance}
-          />
+          <ContextComponent.Consumer>
+            {(contextProps) => (
+              <PostsGridComponent
+                themes={themes}
+                postsGet={postsGetTrendingPosts}
+                themeFetch={themeFetch}
+                themeCode={path(['themeCode'])(authUser)}
+                priorityQueueInstance={contextProps.searchImages}
+              />
+            )}
+          </ContextComponent.Consumer>
         </ScrollView>
       : null}
 

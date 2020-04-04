@@ -8,13 +8,11 @@ import AlbumsGridComponent from 'components/AlbumsGrid'
 import AlbumsGridServiceComponent from 'components/AlbumsGrid/index.service'
 import path from 'ramda/src/path'
 import PostsLoadingComponent from 'components/PostsList/PostsLoading'
-import { initializePriorityQueue } from 'components/Cache/Fetch'
+import ContextComponent from 'components/Cache/Context'
 
 import { withTheme } from 'react-native-paper'
 import { useNavigation, useRoute } from '@react-navigation/native'
 import { withTranslation } from 'react-i18next'
-
-const priorityQueueInstance = initializePriorityQueue()
 
 const ProfileAlbums = ({
   t,
@@ -26,12 +24,16 @@ const ProfileAlbums = ({
     <AlbumsGridServiceComponent>
       {(albumsProps) => (
         <View style={styling.root}>
-          <AlbumsGridComponent
-            albumsGet={albumsProps.albumsGet}
-            themeFetch={albumsProps.themeFetch}
-            themeCode={path(['data', 'themeCode'])(albumsProps.user)}
-            priorityQueueInstance={priorityQueueInstance}
-          />
+          <ContextComponent.Consumer>
+            {(contextProps) => (
+              <AlbumsGridComponent
+                albumsGet={albumsProps.albumsGet}
+                themeFetch={albumsProps.themeFetch}
+                themeCode={path(['data', 'themeCode'])(albumsProps.user)}
+                priorityQueueInstance={contextProps.albumImages}
+              />
+            )}
+          </ContextComponent.Consumer>
 
           {(path(['status'])(albumsProps.albumsGet) === 'loading' && !path(['data', 'length'])(albumsProps.albumsGet)) ?
             <PostsLoadingComponent />

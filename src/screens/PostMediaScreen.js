@@ -2,9 +2,14 @@ import React from 'react'
 import PostMediaComponent from 'components/PostMedia'
 import PostMediaServiceComponent from 'components/PostMedia/index.service'
 import ThemeServiceProvider from 'services/providers/Theme'
-import PostsListServiceComponent from 'components/PostsList/index.service'
+import PostServiceComponent from 'components/Post/index.service'
 import { Provider as PaperProvider } from 'react-native-paper'
+import ContextComponent from 'components/Cache/Context'
 import { initializePriorityQueue } from 'components/Cache/Fetch'
+
+const queues = {
+  mediaImages: initializePriorityQueue(),
+}
 
 const priorityQueueInstance = initializePriorityQueue()
 
@@ -14,18 +19,20 @@ class PostMediaScreen extends React.Component {
       <ThemeServiceProvider themeCode={this.props.route.params.post.postedBy.themeCode}>
         {((themeProps) => (
           <PaperProvider theme={themeProps.activeTheme}>
-            <PostsListServiceComponent>
-              {(postsProps) => (
-                <PostMediaServiceComponent {...postsProps}>
+            <PostServiceComponent>
+              {(postProps) => (
+                <PostMediaServiceComponent {...postProps}>
                   {(postsProps) => (
-                    <PostMediaComponent
-                      {...postsProps}
-                      priorityQueueInstance={priorityQueueInstance}
-                    />
+                    <ContextComponent.Provider value={queues}>
+                      <PostMediaComponent
+                        {...postsProps}
+                        priorityQueueInstance={priorityQueueInstance}
+                      />
+                    </ContextComponent.Provider>
                   )}
                 </PostMediaServiceComponent>
               )}
-            </PostsListServiceComponent>
+            </PostServiceComponent>
           </PaperProvider>
         ))}
       </ThemeServiceProvider>
