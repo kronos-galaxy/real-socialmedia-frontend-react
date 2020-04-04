@@ -8162,10 +8162,10 @@ react-native-offline@^5.4.0:
     redux "4.x"
     redux-saga "^1.0.2"
 
-react-native-paper@^3.7.0:
-  version "3.7.0"
-  resolved "https://registry.npmjs.org/react-native-paper/-/react-native-paper-3.7.0.tgz#4d122cef43c80202d559810ae6171ecb9e23c90c"
-  integrity sha512-cRmQwbTPx8Si7h1r+vH0cHfNeUoSZrU/OeStaNm1I1SFtmLmGbdLUThShY/Y4VYU4A4QRmh3UmEGmpH4YVypHQ==
+react-native-paper@3.6.0:
+  version "3.6.0"
+  resolved "https://registry.npmjs.org/react-native-paper/-/react-native-paper-3.6.0.tgz#9f8452387bc6e6dae84db90c9c4715af5c7bd142"
+  integrity sha512-amsZpN8vUJIGBiHMf1sQm0dtJMUhNFAPkXkt/9XMR1mKneEUfWGIap1KBZdOHLIVp1iACigpV8g9R3j+MaxWOg==
   dependencies:
     "@callstack/react-theme-provider" "^3.0.5"
     color "^3.1.2"
