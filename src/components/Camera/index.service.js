@@ -50,11 +50,13 @@ export const handleGallery = async (photoSize = '1:1') => {
         })
         .then(res => ({ ...res, originalFormat: response.filename.split('.').pop() }))
         .then(res => callback(null, res))
-        .catch(callback)
+        .catch(() => callback(null, null))
       )
     )
   
-    const photos = cropped.map(photo => ({
+    const photos = cropped
+    .filter(item => item)
+    .map(photo => ({
       uri: photo.path,
       photoSize,
       takenInReal: false,
