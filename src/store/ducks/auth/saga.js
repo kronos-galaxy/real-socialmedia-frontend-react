@@ -1,4 +1,4 @@
-import AWS from 'aws-sdk/global'
+import * as AWS from 'aws-sdk/global'
 import { put, takeLatest, getContext } from 'redux-saga/effects'
 import path from 'ramda/src/path'
 import {
@@ -13,7 +13,6 @@ import * as constants from 'store/ducks/auth/constants'
 import * as errors from 'store/ducks/auth/errors'
 import * as CognitoIdentity from 'amazon-cognito-identity-js'
 import Config from 'react-native-config'
-import { promisify } from 'es6-promisify'
 import AsyncStorage from '@react-native-community/async-storage'
 import { checkInternetConnection } from 'react-native-offline'
 
@@ -63,7 +62,6 @@ function* linkUserIdentities(payload) {
     },
   })
 
-  yield promisify(AWS.config.credentials.refresh.bind(AWS.config.credentials))()
   yield cognitoUser.signOut()
 }
 
@@ -496,7 +494,6 @@ function* handleAuthFacebookRequest(payload) {
   AWS.config.region = Config.AWS_COGNITO_REGION
   AWS.config.credentials = FacebookCognitoIdentityCredentials
 
-  yield promisify(AWS.config.credentials.refresh.bind(AWS.config.credentials))()
   return facebook
 }
 
@@ -542,7 +539,6 @@ function* handleAuthGoogleRequest(payload) {
   AWS.config.region = Config.AWS_COGNITO_REGION
   AWS.config.credentials = GoogleCognitoIdentityCredentials
 
-  yield promisify(AWS.config.credentials.refresh.bind(AWS.config.credentials))()
   return google
 }
 
