@@ -30,6 +30,7 @@ const Comment = ({
     <View style={styling.root}>
       <TouchableOpacity style={styling.image} onPress={navigationActions.navigateProfile(navigation, { user: comment.commentedBy })}>
         <Avatar
+          active={path(['commentedBy', 'stories', 'items', 'length'])(comment)}
           thumbnailSource={{ uri: path(['commentedBy', 'photo', 'url64p'])(comment) }}
           imageSource={{ uri: path(['commentedBy', 'photo', 'url64p'])(comment) }}
         />

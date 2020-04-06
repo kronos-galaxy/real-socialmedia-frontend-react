@@ -54,6 +54,8 @@ export const handleGallery = async (photoSize = '1:1') => {
       )
     )
   
+    console.log(cropped)
+
     const photos = cropped
     .filter(item => item)
     .map(photo => ({

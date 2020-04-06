@@ -45,7 +45,7 @@ const Contacts = ({
               avatar={
                 <TouchableOpacity onPress={navigationActions.navigateChatDirect(navigation, { chat, user: path(['users', 'items', '0'])(chat) })}>
                   <Avatar
-                    active
+                    active={path(['users', 'items', '0', 'stories', 'items', 'length'])(chat)}
                     thumbnailSource={{ uri: path(['users', 'items', '0', 'photo', 'url64p'])(chat) }}
                     imageSource={{ uri: path(['users', 'items', '0', 'photo', 'url64p'])(chat) }}
                     themeCode={path(['users', 'items', '0', 'themeCode'])(chat)}

@@ -76,7 +76,7 @@ const PostEditForm = ({
               <Avatar
                 size="bigger"
                 thumbnailSource={{ uri: values.uri }}
-              imageSource={{ uri: values.uri }}
+                imageSource={{ uri: values.uri }}
               />
             </TouchableOpacity>
           : null}

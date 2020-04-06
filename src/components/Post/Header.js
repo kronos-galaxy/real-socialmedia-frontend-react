@@ -74,7 +74,7 @@ const Header = ({
     <View style={styling.header}>
       <TouchableOpacity onPress={onProfilePhotoPress}>
         <Avatar
-          active
+          active={path(['postedBy', 'stories', 'items', 'length'])(post)}
           thumbnailSource={{ uri: path(['postedBy', 'photo', 'url64p'])(post) }}
           imageSource={{ uri: path(['postedBy', 'photo', 'url64p'])(post) }}
           themeCode={path(['postedBy', 'themeCode'])(post)}

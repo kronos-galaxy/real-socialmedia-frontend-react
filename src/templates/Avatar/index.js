@@ -118,7 +118,7 @@ const styles = theme => StyleSheet.create({
   },
   photoInactive: {
     borderWidth: 2,
-    borderColor: 'transparent',
+    borderColor: theme.colors.disabled,
     borderRadius: 4,
     padding: 2,
   },

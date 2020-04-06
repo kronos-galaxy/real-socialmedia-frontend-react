@@ -47,7 +47,6 @@ const Uploading = ({
   return (
     <View style={styling.root}>
       <Avatar
-        active={false}
         thumbnailSource={{ uri: path(['payload', 'images', '0'])(post) }}
         imageSource={{ uri: path(['payload', 'images', '0'])(post) }}
       />
