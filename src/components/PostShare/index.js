@@ -88,7 +88,7 @@ const PostShare = ({
 
       <View style={styling.header}>
         <ModalHeaderComponent
-          onPress={navigationActions.navigatePop(navigation)}
+          onPress={navigationActions.navigateBack(navigation)}
         />
       </View>
 

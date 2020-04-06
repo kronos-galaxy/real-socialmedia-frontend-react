@@ -9,6 +9,7 @@ import * as postsServices from 'store/ducks/posts/services'
 import { useNavigation, useRoute} from '@react-navigation/native'
 import dayjs from 'dayjs'
 import * as navigationActions from 'navigation/actions'
+import path from 'ramda/src/path'
 
 const PostCreateService = ({ children, }) => {
   const dispatch = useDispatch()
@@ -19,36 +20,13 @@ const PostCreateService = ({ children, }) => {
   const cameraCapture = useSelector(state => state.camera.cameraCapture)
   const albumsGet = useSelector(state => state.albums.albumsGet)
   const albumsGetCache = useSelector(state => state.albums.albumsGetCache)
-  const postsCreateQueue = useSelector(state => state.posts.postsCreateQueue)
   const type = route.params.type
 
-  const postsDoneUploading = (
-    !cameraCapture.data.length &&
-    !Object.values(postsCreateQueue).filter(item => item.status === 'loading').length
-  )
+  const cameraCaptureLength = path(['data', 'length'])(cameraCapture)
 
   useEffect(() => {
     dispatch(albumsActions.albumsGetRequest({ userId: user.userId }))
   }, [])
-
-  useEffect(() => {
-    if (postsDoneUploading && type === 'IMAGE') {
-      navigationActions.navigatePop(navigation)()
-    }
-  }, [postsDoneUploading])
-
-  useEffect(() => {
-    if (postsCreate.status === 'success' && type === 'TEXT_ONLY') {
-      navigationActions.navigatePop(navigation)()
-    }
-
-    if (postsCreate.status === 'loading' && type === 'TEXT_ONLY') {
-      navigationActions.navigatePop(navigation)()
-    }
-  }, [postsCreate.status])
-
-  const postsCreateIdle = (payload) =>
-    dispatch(postsActions.postsCreateIdle({ payload }))
 
   const postsCreateRequest = ({
     albumId = null,
@@ -83,7 +61,30 @@ const PostCreateService = ({ children, }) => {
       createdAt: dayjs().toJSON(),
       attempt: 0,
     }))
-    dispatch(cameraActions.cameraCaptureIdle({ payload: { uri: images[0] } }))
+
+    /**
+     * 
+     */
+    if (postType === 'TEXT_ONLY') {
+      navigationActions.navigateHome(navigation)()
+      navigation.setParams({
+        type: 'IMAGE'
+      })
+    }
+
+    /**
+     * 
+     */
+    if (postType === 'IMAGE' && cameraCaptureLength === 1) {
+      navigationActions.navigateHome(navigation)()
+      navigation.setParams({
+        type: 'IMAGE'
+      })
+    }
+
+    if (postType === 'IMAGE') {
+      dispatch(cameraActions.cameraCaptureIdle({ payload: { uri: images[0] } }))
+    }
   }
 
   return children({
@@ -92,9 +93,8 @@ const PostCreateService = ({ children, }) => {
     user,
     postsCreate,
     postsCreateRequest,
-    postsCreateIdle,
-    cameraCapture,
-    postsCreateQueue,
+    cameraCapture: path(['data', 0])(cameraCapture),
+    cameraCaptureLength,
   })
 }
 

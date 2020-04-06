@@ -45,7 +45,7 @@ const PostMediaService = ({ children, ...props }) => {
       dispatch(postsActions.postsDeleteIdle())
     }
     if (postsDelete.status === 'loading') {
-      navigationActions.navigatePop(navigation)()
+      navigationActions.navigateBack(navigation)()
     }
   }, [postsDelete.status])
 

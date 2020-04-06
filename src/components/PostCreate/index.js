@@ -8,8 +8,6 @@ import {
 import PostCreateForm from 'components/PostCreate/Form'
 import FormLifetime from 'components/PostCreate/FormLifetime'
 import FormAlbums from 'components/PostCreate/FormAlbums'
-import SuccessComponent from 'components/PostCreate/Success'
-import UploadingComponent from 'components/PostsList/Uploading'
 
 import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
@@ -20,59 +18,27 @@ const PostCreateComponent = ({
   theme,
   user,
   cameraCapture,
+  cameraCaptureLength,
   postsCreateRequest,
   postsCreate,
-  postsCreateIdle,
   handlePostPress,
   albumsGet,
-  postsCreateQueue,
   type,
 }) => {
   const styling = styles(theme)
   const navigation = useNavigation()
 
-  if (!cameraCapture.data.length && type !== 'TEXT_ONLY') {
-    navigation.setOptions({
-      headerRight: () => null,
-    })
-  }
-
   return (
     <View style={styling.root}>
       <ScrollView keyboardShouldPersistTaps="never">
-        {Object.values(postsCreateQueue).map((post, key) => (
-          <UploadingComponent
-            key={key}
-            authUser={user}
-            post={post}
-            postsCreateRequest={postsCreateRequest}
-            postsCreateIdle={postsCreateIdle}
-          />
-        ))}
-
-        {cameraCapture.data.map((item, key) => (
-          <View style={styling.form} key={key}>
-            <PostCreateForm
-              user={user}
-              postsCreate={postsCreate}
-              postsCreateRequest={postsCreateRequest}
-              cameraCapture={item}
-              handlePostPress={handlePostPress}
-              formLifetime={FormLifetime}
-              formAlbums={FormAlbums}
-              albumsGet={albumsGet}
-              postType={type}
-            />
-          </View>
-        ))}
-
-        {type === 'TEXT_ONLY' ?
+        {type === 'TEXT_ONLY' ? (
           <View style={styling.form}>
             <PostCreateForm
               user={user}
               postsCreate={postsCreate}
               postsCreateRequest={postsCreateRequest}
               cameraCapture={{ data: {} }}
+              cameraCaptureLength={cameraCaptureLength}
               handlePostPress={handlePostPress}
               formLifetime={FormLifetime}
               formAlbums={FormAlbums}
@@ -80,15 +46,24 @@ const PostCreateComponent = ({
               postType={type}
             />
           </View>
-        : null}
+        ) : null}
 
-        {(
-          !cameraCapture.data.length &&
-          !Object.values(postsCreateQueue).filter(item => item.status === 'loading').length &&
-          type === 'IMAGE'
-        ) ?
-          <SuccessComponent />
-        : null}
+        {type === 'IMAGE' && cameraCapture ? (
+          <View style={styling.form}>
+            <PostCreateForm
+              user={user}
+              postsCreate={postsCreate}
+              postsCreateRequest={postsCreateRequest}
+              cameraCapture={cameraCapture}
+              cameraCaptureLength={cameraCaptureLength}
+              handlePostPress={handlePostPress}
+              formLifetime={FormLifetime}
+              formAlbums={FormAlbums}
+              albumsGet={albumsGet}
+              postType={type}
+            />
+          </View>
+        ) : null}
       </ScrollView>
     </View>
   )

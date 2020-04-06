@@ -38,9 +38,11 @@ const PostCreateForm = ({
   formLifetime: FormLifetime,
   formAlbums: FormAlbums,
   albumsGet,
+  cameraCaptureLength,
 }) => {
   const styling = styles(theme)
   const navigation = useNavigation()
+
   const image = {
     url4k: values.images[0],
     url64p: values.images[0],
@@ -58,6 +60,7 @@ const PostCreateForm = ({
           {values.postType === 'IMAGE' ?
             <TouchableOpacity onPress={() => handlePostPress({ image })}>
               <Avatar
+                key={values.images[0]}
                 size="bigger"
                 thumbnailSource={{ uri: values.images[0] }}
                 imageSource={{ uri: values.images[0] }}
@@ -144,6 +147,12 @@ const PostCreateForm = ({
       <View style={styling.input}>
         <DefaultButton label={t('Create Post')} onPress={handleSubmit} loading={loading} />
       </View>
+
+      {cameraCaptureLength > 1 ?
+        <View style={styling.helper}>
+          <Caption>{cameraCaptureLength - 1} more post left to be uploaded</Caption>
+        </View>
+      : null}
     </View>
   )
 }
@@ -162,6 +171,9 @@ const styles = theme => StyleSheet.create({
   },
   title: {
     marginBottom: theme.spacing.base,
+  },
+  helper: {
+    alignItems: 'center',
   },
 })
 
