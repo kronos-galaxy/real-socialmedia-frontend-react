@@ -58,7 +58,7 @@ export class PinchZoom extends React.Component {
       ] })
     }
 
-    if (event.nativeEvent.state === State.END) {
+    if (event.nativeEvent.state !== State.ACTIVE) {
       this.props.setDraggedImage({})
     }
   }
@@ -91,7 +91,7 @@ export class PinchZoom extends React.Component {
       ] })
     }
 
-    if (event.nativeEvent.state === State.END) {
+    if (event.nativeEvent.state !== State.ACTIVE) {
       this.props.setDraggedImage({})
     }
   }

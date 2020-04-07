@@ -90,8 +90,8 @@ const CommentsService = ({ children, }) => {
    */
   const onViewableItemsChangedRef = useRef(onViewableItemsChanged)
   const viewabilityConfigRef = useRef({
-    minimumViewTime: 500,
-    viewAreaCoveragePercentThreshold: 100,
+    minimumViewTime: 300,
+    viewAreaCoveragePercentThreshold: 5,
     waitForInteraction: false,
   })
 

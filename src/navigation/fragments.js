@@ -37,7 +37,7 @@ export const media = ({
       <Stack.Screen
         name="ProfileFollowed"
         component={ProfileFollowedScreen}
-        {...stackScreenPageProps({ options: { title: 'Followed' } })}
+        {...stackScreenPageProps({ options: { title: 'Following' } })}
       />
 
       <Stack.Screen

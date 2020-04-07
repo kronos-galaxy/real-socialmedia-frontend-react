@@ -1,4 +1,4 @@
-import React, { useRef } from 'react'
+import React, { useCallback, useState } from 'react'
 import PropTypes from 'prop-types'
 import {
   StyleSheet,
@@ -113,6 +113,56 @@ const PostsList = ({
     usersGetFollowedUsersWithStoriesRequest,
   })
 
+  const renderItem = useCallback(({ item: post, index }) => (
+    <ContextComponent.Consumer>
+      {(contextProps) => (
+        <>
+          {(
+            bookmarkSeparatorIndex === index &&
+            bookmarkSeparatorIndex > 0
+          ) ?
+            <BookmarkComponent />
+          : null}
+
+          <PostComponent
+            themes={themes}
+            authUser={authUser}
+
+            handleEditPress={handleEditPress}
+            postsArchiveRequest={postsArchiveRequest}
+            postsRestoreArchivedRequest={postsRestoreArchivedRequest}
+            postsFlagRequest={postsFlagRequest}
+            postsDeleteRequest={postsDeleteRequest}
+            postsShareRequest={postsShareRequest}
+            postsAnonymouslyLikeRequest={postsAnonymouslyLikeRequest}
+            postsOnymouslyLikeRequest={postsOnymouslyLikeRequest}
+            postsDislikeRequest={postsDislikeRequest}
+
+            post={post}
+            priorityIndex={index}
+
+            handleScrollPrev={handleScrollPrev(index)}
+            handleScrollNext={handleScrollNext(index)}
+            createActionSheetRef={element => {
+              if (!actionSheetRefs.current[post.postId]) {
+                actionSheetRefs.current[post.postId] = element
+              }
+            }}
+            actionSheetRef={actionSheetRefs.current[post.postId]}
+            createTextPostRef={element => {
+              if (!textPostRefs.current[post.postId]) {
+                textPostRefs.current[post.postId] = element
+              }
+            }}
+            textPostRef={textPostRefs.current[post.postId]}
+            feedRef={feedRef}
+            priorityQueueInstance={contextProps.feedImages}
+          />
+        </>
+      )}
+    </ContextComponent.Consumer>
+  ))
+
   return (
     <View style={styling.root}>
       <NativeError
@@ -124,100 +174,51 @@ const PostsList = ({
         triggerOn="success"
       />
 
-      <ContextComponent.Consumer>
-        {(contextProps) => (
-          <FlatList
-            ref={feedRef}
-            keyExtractor={item => item.postId}
-            data={path(['data'])(postsFeedGet)}
-            onScroll={scroll.handleScrollChange}
-            onEndReached={scroll.handleLoadMore}
-            onEndReachedThreshold={0.4}
-            scrollEventThrottle={500}
-            refreshControl={(
-              <RefreshControl
-                tintColor={theme.colors.border}
-                onRefresh={scroll.handleRefresh}
-                refreshing={scroll.refreshing}
-              />
-            )}
-            onViewableItemsChanged={onViewableItemsChangedRef.current}
-            viewabilityConfig={viewabilityConfigRef.current}
-            ListHeaderComponent={() => <>
-              <StoriesComponent
-                authUser={authUser}
-                usersGetFollowedUsersWithStories={usersGetFollowedUsersWithStories}
-              />
-
-              <View style={styling.uploading}>
-                {Object.values(postsCreateQueue).map((post, key) => (
-                  <UploadingComponent
-                    key={key}
-                    authUser={authUser}
-                    post={post}
-                    postsCreateRequest={postsCreateRequest}
-                    postsCreateIdle={postsCreateIdle}
-                  />
-                ))}
-              </View>
-
-              <View style={styling.uploading}>
-                <PendingRequestsComponent
-                  usersGetPendingFollowers={usersGetPendingFollowers}
-                />
-              </View>
-            </>}
-            renderItem={({ item: post, index }) => (
-              <>
-                {(
-                  bookmarkSeparatorIndex === index &&
-                  bookmarkSeparatorIndex > 0
-                ) ?
-                  <BookmarkComponent />
-                : null}
-
-                <PostComponent
-                  themes={themes}
-                  authUser={authUser}
-
-                  handleEditPress={handleEditPress}
-                  postsArchiveRequest={postsArchiveRequest}
-                  postsRestoreArchivedRequest={postsRestoreArchivedRequest}
-                  postsFlagRequest={postsFlagRequest}
-                  postsDeleteRequest={postsDeleteRequest}
-                  postsShareRequest={postsShareRequest}
-                  postsAnonymouslyLikeRequest={postsAnonymouslyLikeRequest}
-                  postsOnymouslyLikeRequest={postsOnymouslyLikeRequest}
-                  postsDislikeRequest={postsDislikeRequest}
-
-                  post={post}
-                  priorityIndex={index}
-
-                  handleScrollPrev={handleScrollPrev(index)}
-                  handleScrollNext={handleScrollNext(index)}
-                  createActionSheetRef={element => {
-                    if (!actionSheetRefs.current[post.postId]) {
-                      actionSheetRefs.current[post.postId] = element
-                    }
-                  }}
-                  actionSheetRef={actionSheetRefs.current[post.postId]}
-                  createTextPostRef={element => {
-                    if (!textPostRefs.current[post.postId]) {
-                      textPostRefs.current[post.postId] = element
-                    }
-                  }}
-                  textPostRef={textPostRefs.current[post.postId]}
-                  feedRef={feedRef}
-                  priorityQueueInstance={contextProps.feedImages}
-                />
-              </>
-            )}
-            ListFooterComponent={scroll.loadingmore ? ActivityIndicator : null}
-            ListFooterComponentStyle={styling.loading}
+      <FlatList
+        ref={feedRef}
+        keyExtractor={item => item.postId}
+        data={path(['data'])(postsFeedGet)}
+        onScroll={scroll.handleScrollChange}
+        onEndReached={scroll.handleLoadMore}
+        onEndReachedThreshold={0.4}
+        scrollEventThrottle={500}
+        refreshControl={(
+          <RefreshControl
+            tintColor={theme.colors.border}
+            onRefresh={scroll.handleRefresh}
+            refreshing={scroll.refreshing}
           />
         )}
-      </ContextComponent.Consumer>
+        onViewableItemsChanged={onViewableItemsChangedRef.current}
+        viewabilityConfig={viewabilityConfigRef.current}
+        ListHeaderComponent={() => <>
+          <StoriesComponent
+            authUser={authUser}
+            usersGetFollowedUsersWithStories={usersGetFollowedUsersWithStories}
+          />
 
+          <View style={styling.uploading}>
+            {Object.values(postsCreateQueue).map((post, key) => (
+              <UploadingComponent
+                key={key}
+                authUser={authUser}
+                post={post}
+                postsCreateRequest={postsCreateRequest}
+                postsCreateIdle={postsCreateIdle}
+              />
+            ))}
+          </View>
+
+          <View style={styling.uploading}>
+            <PendingRequestsComponent
+              usersGetPendingFollowers={usersGetPendingFollowers}
+            />
+          </View>
+        </>}
+        renderItem={renderItem}
+        ListFooterComponent={scroll.loadingmore ? ActivityIndicator : null}
+        ListFooterComponentStyle={styling.loading}
+      />
     </View>
   )
 }

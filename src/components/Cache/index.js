@@ -41,8 +41,13 @@ const CacheComponent = ({
     setUri(response)
     setProgressVisible(false)
 
+    const nextFilename = getFilename(source)
+
+    if (nextFilename === 'native') {
+    }
+
     if (type !== 'fallback') {
-      setFilename(getFilename(source))
+      setFilename(nextFilename)
     }
   }
 
