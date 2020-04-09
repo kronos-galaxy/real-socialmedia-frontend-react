@@ -26,6 +26,7 @@ const TabNavigator = ({ navigation, route }) => {
   const feedTabScreenPropsCard = {
     options: {
       tabBarIcon: FeedTabIconComponent,
+      tabBarLabel: 'Feed',
     },
   }
   
@@ -33,6 +34,7 @@ const TabNavigator = ({ navigation, route }) => {
   const searchTabScreenPropsCard = {
     options: {
       tabBarIcon: SearchTabIconComponent,
+      tabBarLabel: 'Explore',
     },
   }
 
@@ -41,6 +43,7 @@ const TabNavigator = ({ navigation, route }) => {
   const cameraTabScreenPropsCard = {
     options: {
       tabBarIcon: CameraTabIconComponent,
+      tabBarLabel: 'Create',
       tabBarButton: CameraTabButtonComponent,
     },
   }
@@ -49,6 +52,7 @@ const TabNavigator = ({ navigation, route }) => {
   const datingTabScreenPropsCard = {
     options: {
       tabBarIcon: DatingTabIconComponent,
+      tabBarLabel: 'Dating',
     },
   }
 
@@ -56,6 +60,7 @@ const TabNavigator = ({ navigation, route }) => {
   const profileTabScreenPropsCard = {
     options: {
       tabBarIcon: ProfileTabIconComponent,
+      tabBarLabel: 'Profile',
     },
   }
 

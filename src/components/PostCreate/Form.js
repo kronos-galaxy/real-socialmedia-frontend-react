@@ -200,7 +200,8 @@ const FormWrapper = ({
       text: '',
       images: [path(['uri'])(cameraCapture)],
       takenInReal: path(['takenInReal'])(cameraCapture),
-      originalFormat: path(['originalFormat'])(cameraCapture)
+      originalFormat: path(['originalFormat'])(cameraCapture),
+      originalMetadata: path(['originalMetadata'])(cameraCapture),
     }}
     validationSchema={formSchema}
     onSubmit={postsCreateRequest}

@@ -31,9 +31,12 @@ const Album = ({
   const album = path(['params', 'album'])(route)
   const actionSheetRef = useRef(null)
 
+  navigation.setOptions({
+    title: path(['name'])(album),
+  })
+
   if (path(['ownedBy', 'userId'])(album) === authUser.userId) {
     navigation.setOptions({
-      title: path(['name'])(album),
       headerRight: () => <HeaderRight onPress={() => actionSheetRef.current.show()} title="Edit" />,
     })
   } else {

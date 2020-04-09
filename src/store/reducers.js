@@ -12,6 +12,8 @@ import chat from 'store/ducks/chat/reducer'
 import users from 'store/ducks/users/reducer'
 import layout from 'store/ducks/layout/reducer'
 import translation from 'store/ducks/translation/reducer'
+import ui from 'store/ducks/ui/reducer'
+import cache from 'store/ducks/cache/reducer'
 
 import 'store/ducks/posts/updates'
 import 'store/ducks/users/updates'
@@ -37,14 +39,32 @@ const authPersistConfig = {
   ],
 }
 
+const cachePersistConfig = {
+  key: 'cache',
+  storage: AsyncStorage,
+  whitelist: [
+    'cached',
+  ],
+}
+
+const chatPersistConfig = {
+  key: 'chat',
+  storage: AsyncStorage,
+  whitelist: [
+    'chatGetChats',
+  ],
+}
+
 export default combineReducers({
   auth: persistReducer(authPersistConfig, auth),
   theme,
   camera,
   albums,
-  chat,
+  chat: persistReducer(chatPersistConfig, chat),
   posts: persistReducer(postsPersistConfig, posts),
   users,
   layout,
   translation,
+  ui,
+  cache: persistReducer(cachePersistConfig, cache),
 })

@@ -22,11 +22,21 @@ import { withTranslation } from 'react-i18next'
 const Contacts = ({
   t,
   theme,
+  authUser,
   chatGetChats,
   loading = false,
 }) => {
   const styling = styles(theme)
   const navigation = useNavigation()
+
+  const items = (path(['data', 'items'])(chatGetChats) || [])
+    .map(chat => ({
+      ...chat,
+      users: ({
+        ...chat.users,
+        items: chat.users.items.filter(user => user.userId !== authUser.userId),
+      })
+    }))
 
   return (
     <ScrollView
@@ -38,14 +48,14 @@ const Contacts = ({
         />
       }
     >
-      <RowsComponent items={path(['data', 'items'])(chatGetChats)}>
+      <RowsComponent items={items}>
         {(chat) => (
           <RowsItemComponent>
             <UserRowComponent
               avatar={
                 <TouchableOpacity onPress={navigationActions.navigateChatDirect(navigation, { chat, user: path(['users', 'items', '0'])(chat) })}>
                   <Avatar
-                    active={path(['users', 'items', '0', 'stories', 'items', 'length'])(chat)}
+                    active={path(['users', 'items', '0', 'stories', 'items', 'length'])(chat) || false}
                     thumbnailSource={{ uri: path(['users', 'items', '0', 'photo', 'url64p'])(chat) }}
                     imageSource={{ uri: path(['users', 'items', '0', 'photo', 'url64p'])(chat) }}
                     themeCode={path(['users', 'items', '0', 'themeCode'])(chat)}

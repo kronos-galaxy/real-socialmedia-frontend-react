@@ -7,6 +7,7 @@ import chat from 'store/ducks/chat/saga'
 import users from 'store/ducks/users/saga'
 import layout from 'store/ducks/layout/saga'
 import translation from 'store/ducks/translation/saga'
+import cache from 'store/ducks/cache/saga'
 
 import posts from 'store/ducks/posts/saga'
 import postsCreate from 'store/ducks/posts/saga/postsCreate'
@@ -35,6 +36,7 @@ export default function* rootSaga(persistor) {
     .concat(users())
     .concat(layout())
     .concat(translation())
+    .concat(cache())
 
     .concat(posts())
     .concat(postsCreate())

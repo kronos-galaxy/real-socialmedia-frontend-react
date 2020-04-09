@@ -40,6 +40,7 @@ const PostCreateService = ({ children, }) => {
     verificationHidden = false,
     takenInReal = false,
     originalFormat = 'jpg',
+    originalMetadata = '',
   }) => {
     const postId = uuid()
     const mediaId = uuid()
@@ -58,6 +59,7 @@ const PostCreateService = ({ children, }) => {
       verificationHidden,
       takenInReal,
       originalFormat,
+      originalMetadata,
       createdAt: dayjs().toJSON(),
       attempt: 0,
     }))

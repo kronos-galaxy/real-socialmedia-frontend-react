@@ -2,6 +2,7 @@ import React, { useCallback } from 'react'
 import { TouchableOpacity } from 'react-native'
 import { HeaderStyleInterpolators, CardStyleInterpolators, TransitionPresets } from '@react-navigation/stack'
 import ViewPagerAdapter from 'react-native-tab-view-viewpager-adapter'
+import UIContextComponent from 'components/UI/Context'
 
 import * as navigationActions from 'navigation/actions'
 import path from 'ramda/src/path'
@@ -37,11 +38,19 @@ const homeHeaderTitle = ({ theme }) => () => (
 )
 
 const homeHeaderRight = ({ theme, navigation }) => () => (
-  <TouchableOpacity style={{ padding: 12 }} onPress={navigationActions.navigateChat(navigation)}>
-    <DirectIcon
-      fill={theme.colors.primaryIcon}
-    />
-  </TouchableOpacity>
+  <UIContextComponent.Consumer>
+    {(props) => (
+      <TouchableOpacity style={{ padding: 12 }} onPress={() => {
+        props.uiNotificationIdle()
+        navigationActions.navigateChat(navigation)()
+      }}>
+        <DirectIcon
+          fill={theme.colors.primaryIcon}
+          uiNotifications={props.uiNotifications}
+        />
+      </TouchableOpacity>
+    )}
+  </UIContextComponent.Consumer>
 )
 
 const AuthNavigationComponent = ({ navigation, theme }) => ({
@@ -302,9 +311,12 @@ export const tabNavigatorProps = ({ theme, themes, route }) => {
 
   return ({
     tabBarOptions: {
-      showLabel: false,
       activeTintColor,
       inactiveTintColor,
+      labelStyle: {
+        fontSize: 10,
+        paddingTop: 0,
+      },
       style: {
         backgroundColor,
         borderTopWidth: 0,

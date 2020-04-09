@@ -8,6 +8,7 @@ import * as usersServices from 'store/ducks/users/services'
 
 const ChatService = ({ children, }) => {
   const dispatch = useDispatch()
+  const authUser = useSelector(state => state.auth.user)
   const usersGetTrendingUsers = useSelector(state => state.users.usersGetTrendingUsers)
   const usersSearch = useSelector(state => state.users.usersSearch)
   const chatGetChats = useSelector(state => state.chat.chatGetChats)
@@ -41,6 +42,7 @@ const ChatService = ({ children, }) => {
 
   return children({
     feedRef,
+    authUser,
     formFocus,
     formChange,
     handleFormFocus,

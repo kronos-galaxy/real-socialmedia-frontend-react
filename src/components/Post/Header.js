@@ -74,7 +74,7 @@ const Header = ({
     <View style={styling.header}>
       <TouchableOpacity onPress={onProfilePhotoPress}>
         <Avatar
-          active={path(['postedBy', 'stories', 'items', 'length'])(post)}
+          active={path(['postedBy', 'stories', 'items', 'length'])(post) || false}
           thumbnailSource={{ uri: path(['postedBy', 'photo', 'url64p'])(post) }}
           imageSource={{ uri: path(['postedBy', 'photo', 'url64p'])(post) }}
           themeCode={path(['postedBy', 'themeCode'])(post)}
@@ -108,7 +108,7 @@ const Header = ({
 
       {path(['hasNewCommentActivity'])(post) ?
         <TouchableOpacity style={styling.headerAction} onPress={handleOptionsPress}>
-          <BellIcon fill={theme.colors.primary} />
+          <BellIcon fill="red" />
         </TouchableOpacity>
       : null}
 

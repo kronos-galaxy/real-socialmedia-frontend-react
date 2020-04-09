@@ -48,7 +48,10 @@ export const handleGallery = async (photoSize = '1:1') => {
           includeExif: true,
           compressImageQuality: 1,
         })
-        .then(res => ({ ...res, originalFormat: response.filename.split('.').pop() }))
+        .then(res => ({
+          ...res,
+          originalFormat: response.filename.split('.').pop(),
+        }))
         .then(res => callback(null, res))
         .catch(() => callback(null, null))
       )
@@ -61,6 +64,7 @@ export const handleGallery = async (photoSize = '1:1') => {
       photoSize,
       takenInReal: false,
       originalFormat: photo.originalFormat,
+      originalMetadata: JSON.stringify(photo.exif),
     }))
   
     return photos
@@ -118,6 +122,7 @@ const CameraService = ({ children, }) => {
       const snappedPhoto = await camera.takePictureAsync({
         quality: 1,
         base64: false,
+        exif: true,
       })
 
       const croppedPhoto = await CropPicker.openCropper({
@@ -137,6 +142,7 @@ const CameraService = ({ children, }) => {
           photoSize,
           takenInReal: true,
           originalFormat: snappedPhoto.uri.split('.').pop(),
+          originalMetadata: JSON.stringify(snappedPhoto.exif),
         }]))
         navigationActions.navigatePostCreate(navigation, { type: 'IMAGE', photos: [croppedPhoto.path] })()
       }

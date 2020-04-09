@@ -47,7 +47,7 @@ const PostAlbum = ({
             <Avatar
               key={key}
               thumbnailSource={{ uri: path(['image', 'url64p'])(album) }}
-              imageSource={{ uri: path(['image', 'url480p'])(album) }}
+              imageSource={{ uri: path(['image', 'url64p'])(album) }}
             />
           ))}
         </ScrollView>

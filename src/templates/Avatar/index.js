@@ -49,7 +49,8 @@ const AvatarTemplate = ({
 
   const photoStyle = [
     size !== 'micro' && active ? styling.photoActive : null,
-    size !== 'micro' && !active ? styling.photoInactive : null,
+    size !== 'micro' && active === false ? styling.photoInactive : null,
+    size !== 'micro' && active === undefined ? styling.photoTransparent : null,
   ]
 
   return (
@@ -119,6 +120,12 @@ const styles = theme => StyleSheet.create({
   photoInactive: {
     borderWidth: 2,
     borderColor: theme.colors.disabled,
+    borderRadius: 4,
+    padding: 2,
+  },
+  photoTransparent: {
+    borderWidth: 2,
+    borderColor: 'transparent',
     borderRadius: 4,
     padding: 2,
   },

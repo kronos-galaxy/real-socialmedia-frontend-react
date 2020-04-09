@@ -1,8 +1,11 @@
 import { graphqlOperation } from '@aws-amplify/api'
-import { put, takeLatest, getContext } from 'redux-saga/effects'
+import { call, put, takeEvery, takeLatest, getContext } from 'redux-saga/effects'
+import { eventChannel } from 'redux-saga'
 import * as actions from 'store/ducks/chat/actions'
 import * as queries from 'store/ducks/chat/queries'
 import * as constants from 'store/ducks/chat/constants'
+import * as uiActions from 'store/ducks/ui/actions'
+import * as chatActions from 'store/ducks/chat/actions'
 import path from 'ramda/src/path'
 
 /**
@@ -69,7 +72,40 @@ function* chatAddMessageRequest(req) {
   }
 }
 
+function chatMessageSubscriptionChannel({ subscription }) {
+  return eventChannel(emitter => {
+    subscription.subscribe({
+      next: emitter,
+      error: () => {},
+    })
+
+    return () => subscription.unsubscribe()
+  })
+}
+
+function* chatMessageSubscription(req) {
+  const AwsAPI = yield getContext('AwsAPI')
+
+  const subscription = AwsAPI.graphql(
+    graphqlOperation(queries.onChatMessageNotification, { userId: req.payload.data.userId })
+  )
+
+  const channel = yield call(chatMessageSubscriptionChannel, {
+    subscription,
+  })
+
+  yield takeEvery(channel, function *(eventData) {
+    const data = path(['value', 'data', 'onChatMessageNotification'])(eventData)
+    const chatId = path(['message', 'chat', 'chatId'])(data)
+
+    yield put(chatActions.chatGetChatRequest({ chatId }))
+    yield put(chatActions.chatGetChatsRequest())
+    yield put(uiActions.uiNotificationRequest({ data }))
+  })
+}
+
 export default () => [
+  takeLatest('AUTH_CHECK_SUCCESS', chatMessageSubscription),
   takeLatest(constants.CHAT_GET_CHATS_REQUEST, chatGetChatsRequest),
   takeLatest(constants.CHAT_GET_CHAT_REQUEST, chatGetChatRequest),
   takeLatest(constants.CHAT_CREATE_DIRECT_REQUEST, chatCreateDirectRequest),

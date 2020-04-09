@@ -30,7 +30,7 @@ const PostsGrid = ({
   const route = useRoute()
 
   const activeIcon = (
-    <View style={{ padding: theme.spacing.base }}><BellIcon fill={theme.colors.primary} /></View>
+    <View style={{ padding: theme.spacing.base }}><BellIcon fill="red" /></View>
   )
 
   return (

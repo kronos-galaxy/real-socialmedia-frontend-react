@@ -16,7 +16,8 @@ import 'services/Logger'
 import Config from 'react-native-config'
 import { enableScreens } from 'react-native-screens'
 import PinchZoomComponent from 'components/PostsList/PinchZoom'
-import ContextComponent from 'components/PostsList/Context'
+import PostsListContextComponent from 'components/PostsList/Context'
+import UIContextComponent from 'components/UI/Context'
 
 enableScreens()
 
@@ -73,19 +74,27 @@ const App = () => {
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
         <AuthProvider>
-          {({ theme, themes, authenticated }) => (
+          {({
+            theme,
+            themes,
+            authenticated,
+            uiNotifications,
+            uiNotificationIdle,
+          }) => (
             <ThemesContext.Provider value={{ theme, themes }}>
               <StatusBar barStyle={theme.dark ? 'light-content' : 'dark-content'} />
 
-              <ContextComponent.Provider value={{ draggedImage, setDraggedImage }}>
-                <PinchZoomComponent />
+              <PostsListContextComponent.Provider value={{ draggedImage, setDraggedImage }}>
+                <UIContextComponent.Provider value={{ uiNotifications, uiNotificationIdle }}>
+                  <PinchZoomComponent />
 
-                <Routes
-                  theme={theme}
-                  themes={themes}
-                  authenticated={authenticated}
-                />
-              </ContextComponent.Provider>
+                  <Routes
+                    theme={theme}
+                    themes={themes}
+                    authenticated={authenticated}
+                  />
+                </UIContextComponent.Provider>
+              </PostsListContextComponent.Provider>
             </ThemesContext.Provider>
           )}
         </AuthProvider>

@@ -40,7 +40,7 @@ const Stories = ({
         style={styling.story}
       >
         <Avatar
-          active={path(['stories', 'items', 'length'])(authUser)}
+          active={path(['stories', 'items', 'length'])(authUser) || false}
           size="medium"
           thumbnailSource={{ uri: path(['photo', 'url64p'])(authUser) }}
           imageSource={{ uri: path(['photo', 'url480p'])(authUser) }}
@@ -56,7 +56,7 @@ const Stories = ({
           style={styling.story}
         >
           <Avatar
-            active={path(['stories', 'items', 'length'])(authUser)}
+            active={path(['stories', 'items', 'length'])(authUser) || false}
             size="medium"
             thumbnailSource={{ uri: path(['photo', 'url64p'])(user) }}
             imageSource={{ uri: path(['photo', 'url480p'])(user) }}

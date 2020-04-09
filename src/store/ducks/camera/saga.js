@@ -7,6 +7,7 @@ function* handleCameraCaptureRequest(payload) {
     uri: photo.uri,
     takenInReal: photo.takenInReal,
     originalFormat: photo.originalFormat,
+    originalMetadata: photo.originalMetadata,
   }))
   return response
 }

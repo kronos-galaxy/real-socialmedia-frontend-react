@@ -1,20 +1,61 @@
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useState, useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import PropTypes from 'prop-types'
+import * as actions from 'store/ducks/cache/actions'
 import {
   StyleSheet,
   Image,
   ActivityIndicator,
   View,
 } from 'react-native'
-import { Text, withTheme } from 'react-native-paper'
-import { pushImageQueue, getImageAvailability } from 'components/Cache/Fetch'
+import { Text } from 'react-native-paper'
 import { AnimatedCircularProgress } from 'react-native-circular-progress'
+import RNFS from 'react-native-fs'
+import qs from 'query-string'
+import path from 'ramda/src/path'
+import last from 'ramda/src/last'
+
+/**
+ * 
+ */
+const getPartial = (source) => {
+  if (!source.includes('cloudfront.net')) {
+    return source
+  }
+  return qs.parseUrl(source).url.split('cloudfront.net')[1].replace(':', '-')
+}
+
+const getIsRemote = (source) => {
+  return source.includes('http://') || source.includes('https://')
+}
+
+const generateSignature = (source) => {
+  if (typeof source !== 'string' || !source.length) {
+    return {
+      partial: '',
+      path: '',
+      isRemote: '',
+    }
+  }
+
+  const isRemote = getIsRemote(source)
+  const partial = getPartial(source)
+  const path = isRemote ? `${RNFS.CachesDirectoryPath}/REAL${partial}` : source
+  const pathFolder = path.substring(0, path.lastIndexOf('/'))
+
+  return {
+    source,
+    partial,
+    path,
+    pathFolder,
+    isRemote,
+  }
+}
 
 /**
  * UI Component
  */
 const CacheComponent = ({
-  theme,
   images,
   fallback,
   resizeMode,
@@ -24,54 +65,22 @@ const CacheComponent = ({
   hideLabel,
   priorityQueueInstance,
 }) => {
-  const styling = styles(theme)
-  const [uri, setUri] = useState(null)
-  const [progress, setProgress] = useState(0)
-  const [progressVisible, setProgressVisible] = useState(hideProgress)
+  const styling = styles()
+  const dispatch = useDispatch()
+
+  const cached = useSelector(state => state.cache.cached)
+  const progress = useSelector(state => state.cache.progress)
+  const signatures = images.map(([source, shouldDownload]) => [generateSignature(source), shouldDownload])
+  const pathFolder = path([0, 0, 'pathFolder'])(signatures)
+  const uri = last(cached[pathFolder] || [])
+  const fill = path([pathFolder, 'progress'])(progress)
+
   const [filename, setFilename] = useState(0)
 
   /**
    * 
    */
-  const completeCallback = useRef()
-  const progressCallback = useRef()
-  const beginCallback = useRef()
-
-  const onComplete = (source) => (error, type, response) => {
-    setUri(response)
-    setProgressVisible(false)
-
-    const nextFilename = getFilename(source)
-
-    if (nextFilename === 'native') {
-    }
-
-    if (type !== 'fallback') {
-      setFilename(nextFilename)
-    }
-  }
-
-  const onProgress = (source) => (response) => {
-    setProgress(parseInt(response.bytesWritten / response.contentLength * 100, 10))
-  }
-
-  const onBegin = (source) => (response) => {
-    setProgress(0)
-    setProgressVisible(true)
-  }
-
-  useEffect(() => {
-    completeCallback.current = onComplete
-    progressCallback.current = onProgress
-    beginCallback.current = onBegin
-  })
-
-
-  /**
-   * 
-   */
   const handleError = ({ nativeEvent }) => {
-    setUri(fallback)
   }
 
   const getFilename = (source) => {
@@ -100,56 +109,38 @@ const CacheComponent = ({
   }
 
   useEffect(() => {
-    images.forEach(([source, shouldDownload], index) => {
-      const priority = getPriority(getFilename(source), priorityIndex)
+    signatures.forEach(([signature, shouldDownload], index) => {
+      const priority = getPriority(getFilename(signature.source), priorityIndex)
 
       if (!shouldDownload) {
-        getImageAvailability(source, completeCallback.current(source))
         return
       }
 
-      pushImageQueue(
+      dispatch(actions.cacheFetchRequest({
         priorityQueueInstance,
 
         /**
-         * Callback executed on complete
-         */
-        completeCallback.current(source),
-
-        /**
-         * Callback executed on download progress
-         */
-        progressCallback.current(source),
-
-        /**
-         * Callback executed on download init
-         */
-        beginCallback.current(source),
-    
-        /**
          * Image source
          */
-        source,
+        signature,
 
         /**
          * Priority of the image, usually is the position of the item in list
          */
-        priority
-      )
+        priority,
+      }))
     })
 
     /**
      * Cancel all pending tasks on image remove
      */
-    return () => {
-      handleError({})
-    }
+    return () => {}
   }, [])
 
   /**
    * Show loading indicator image if placeholder image is not loaded, yet.
    */
-  if (!uri && !progress) {
+  if (!uri && !fill) {
     return (
       <ActivityIndicator
         style={styling.image}
@@ -160,16 +151,18 @@ const CacheComponent = ({
   return (
     <View style={styling.root}>
       <View style={[styling.image, style]}>
-        {!hideLabel && getImageType(filename) ?
-          <Text style={styling.label}>{getImageType(filename)}</Text>
+        {!hideLabel && getFilename(uri) ?
+          <View style={styling.label}>
+            <Text style={styling.text}>{getFilename(uri)}</Text>
+          </View>
         : null}
 
-        {progressVisible ?
+        {fill ?
           <View style={styling.progress}>
             <AnimatedCircularProgress
               size={50}
               width={2}
-              fill={progress}
+              fill={fill}
               tintColor="#00e0ff"
               backgroundColor="#3d5875"
             />
@@ -190,7 +183,6 @@ const CacheComponent = ({
 }
 
 CacheComponent.propTypes = {
-  theme: PropTypes.any,
   images: PropTypes.any,
   fallback: PropTypes.any,
   resizeMode: PropTypes.any,
@@ -205,7 +197,7 @@ CacheComponent.defaultProps = {
   hideLabel: true,
 }
 
-const styles = theme => StyleSheet.create({
+const styles = () => StyleSheet.create({
   root: {
     width: '100%',
     height: '100%',
@@ -229,12 +221,16 @@ const styles = theme => StyleSheet.create({
     zIndex: 10,
     margin: 6,
     padding: 2,
-    fontSize: 8,
     borderWidth: 0.5,
     borderRadius: 3,
-    borderColor: theme.colors.text,
+    backgroundColor: '#ffffff80',
+    borderColor: 'black',
+  },
+  text: {
+    fontSize: 8,
+    color: 'black',
   },
 })
 
 export const CacheContext = React.createContext(null)
-export default withTheme(CacheComponent)
+export default CacheComponent

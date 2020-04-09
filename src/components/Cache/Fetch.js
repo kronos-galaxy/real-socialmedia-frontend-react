@@ -63,6 +63,7 @@ export const fetchRemoteImage = async ({ signature, progressCallback, beginCallb
     cacheable: false,
     readTimeout: 25000,
     backgroundTimeout: 25000,
+    progressDivider: 20,
     resumable: () =>
       RNFS.isResumable(jobId).then(() => RNFS.resumeDownload(jobId)),
     begin: beginCallback,
@@ -146,24 +147,22 @@ export const pushImageQueue = async (
     return callback(null, 'cached', signature.path)
   }
 
-  if (downloads.has(signature.path)) {
-    const { promise, jobId } = downloads.get(signature.path)
-    const response = await promise
-
-    return {
-      response,
-      signature,
-    }
-  }
-
+  const nextPriority = downloads.has(signature.path) ? 0 : priority
   const queue = queueInstance || priorityQueueInstance
+
+  if (downloads.has(signature.path)) {
+    queue.remove(({ data }) => data.signature.path === signature.path)
+    const { jobId } = downloads.get(signature.path)
+    await RNFS.stopDownload(jobId)
+    downloads.delete(signature.path)
+  }
 
   queue.push({
     signature,
-    priority,
+    priority: nextPriority,
     progressCallback,
     beginCallback,
-  }, priority, callback)
+  }, nextPriority, callback)
 }
 
 export const getImageAvailability = async (source, callback) => {

@@ -26,6 +26,34 @@ export const chat = `
   ${chatFragment}
 `
 
+export const onChatMessageNotification = `
+  subscription onChatMessageNotification ($userId: ID!) {
+    onChatMessageNotification (userId: $userId) {
+      userId
+      type
+      message {
+        messageId
+        chat {
+          chatId
+        }
+        authorUserId
+        author {
+          userId
+        }
+        text
+        textTaggedUsers {
+          tag
+          user {
+            userId
+          }
+        }
+        createdAt
+        lastEditedAt
+      }
+    }
+  }
+`
+
 export const createDirectChat = `
   mutation createDirectChat(
     $chatId: ID!,

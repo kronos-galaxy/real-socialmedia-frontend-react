@@ -76,13 +76,13 @@ export const addPhotoPost = `
     $postType: PostType,
     $albumId: ID,
     $lifetime: String,
-    $mediaId: ID!,
     $text: String,
     $commentsDisabled: Boolean,
     $likesDisabled: Boolean,
     $sharingDisabled: Boolean,
     $takenInReal: Boolean,
     $originalFormat: String,
+    $originalMetadata: String,
     $verificationHidden: Boolean
   ) {
     addPost (
@@ -95,12 +95,12 @@ export const addPhotoPost = `
       likesDisabled: $likesDisabled,
       sharingDisabled: $sharingDisabled,
       verificationHidden: $verificationHidden,
-      mediaObjectUploads: [{
-        mediaId: $mediaId,
-        mediaType: IMAGE,
+      imageInput: {
         takenInReal: $takenInReal,
-        originalFormat: $originalFormat
-      }]) {
+        originalFormat: $originalFormat,
+        originalMetadata: $originalMetadata,
+      }
+    ) {
       ...postFragment
       }
   }

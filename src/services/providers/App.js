@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
+import * as uiActions from 'store/ducks/ui/actions'
 import * as themeActions from 'store/ducks/theme/actions'
 import * as authActions from 'store/ducks/auth/actions'
 import * as postsActions from 'store/ducks/posts/actions'
@@ -28,6 +29,7 @@ export const AuthProvider = ({
   const translationFetch = useSelector(state => state.translation.translationFetch)
   const languageCode = useSelector(authSelector.languageCodeSelector)
   const theme = useSelector(authSelector.themeSelector)
+  const uiNotifications = useSelector(state => state.ui.notifications)
 
   const user = useSelector(
     authSelector.authUserSelector,
@@ -42,7 +44,8 @@ export const AuthProvider = ({
     dispatch(translationActions.translationFetchRequest(payload))
   const postsCreateSchedulerRequest = (payload) =>
     dispatch(postsActions.postsCreateSchedulerRequest(payload))
- 
+  const uiNotificationIdle = (payload) =>
+    dispatch(uiActions.uiNotificationIdle(payload))
   // useEffect(() => {
   //   BackgroundTimer.runBackgroundTimer(() => { 
   //     dispatch(postsActions.postsCreateSchedulerRequest({}))
@@ -117,5 +120,7 @@ export const AuthProvider = ({
     theme,
     themes: themeFetch.data,
     authenticated,
+    uiNotifications,
+    uiNotificationIdle,
   })
 }
