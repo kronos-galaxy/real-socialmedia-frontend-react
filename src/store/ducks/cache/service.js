@@ -18,8 +18,9 @@ export const stopRemoteImage = async (jobId) => {
 export const fetchRemoteImage = async ({
   signature,
   progressCallback,
-  beginCallback,
-}, completeCallback) => {
+  requestCallback,
+  failureCallback,
+}, successCallback) => {
   await RNFS.mkdir(signature.pathFolder)
 
   const { promise, jobId } = RNFS.downloadFile({
@@ -33,17 +34,26 @@ export const fetchRemoteImage = async ({
     progressDivider: 10,
     resumable: () =>
       RNFS.isResumable(jobId).then(() => RNFS.resumeDownload(jobId)),
-    begin: beginCallback,
+    begin: requestCallback,
     progress: progressCallback,
   })
 
-  const response = await promise
-  await RNFS.completeHandlerIOS(jobId)
+  try {
+    const response = await promise
+    await RNFS.completeHandlerIOS(jobId)
 
-  completeCallback({
-    response,
-    signature,
-  })
+    successCallback({
+      jobId,
+      response,
+      signature,
+    })
+  } catch (error) {
+    failureCallback({
+      jobId,
+      response,
+      signature,
+    })
+  }
 }
 
 export const priorityQueueInstance = priorityQueue(fetchRemoteImage, 3)
@@ -52,12 +62,14 @@ export const priorotizedRemoteImageFetch = ({
   signature,
   priority,
   progressCallback,
-  beginCallback,
-  completeCallback,
+  requestCallback,
+  successCallback,
+  failureCallback,
 }) => {
   priorityQueueInstance.push({
     signature,
     progressCallback,
-    beginCallback,
-  }, priority, completeCallback)
+    requestCallback,
+    failureCallback,
+  }, priority, successCallback)
 }

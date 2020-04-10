@@ -16,8 +16,8 @@ const progressCallback = (signature, emitter) => (data) => emitter({
   },
 })
 
-const beginCallback = (signature, emitter) => (data) => emitter({
-  type: 'BEGIN',
+const requestCallback = (signature, emitter) => (data) => emitter({
+  type: 'REQUEST',
   payload: {
     signature,
     jobId: data.jobId,
@@ -25,12 +25,21 @@ const beginCallback = (signature, emitter) => (data) => emitter({
   },
 })
 
-const completeCallback = (signature, emitter) => (data) => emitter({
-  type: 'COMPLETE',
+const successCallback = (signature, emitter) => (data) => emitter({
+  type: 'SUCCESS',
   payload: {
     signature,
     jobId: data.jobId,
     progress: 100,
+  },
+})
+
+const failureCallback = (signature, emitter) => (data) => emitter({
+  type: 'FAILURE',
+  payload: {
+    signature,
+    jobId: data.jobId,
+    progress: 0,
   },
 })
 
@@ -43,8 +52,9 @@ function cacheFetchRequestChannel({ signature, priorityQueueInstance }) {
       signature,
       queueInstance: priorityQueueInstance,
       progressCallback: progressCallback(signature, emitter),
-      beginCallback: beginCallback(signature, emitter),
-      completeCallback: completeCallback(signature, emitter),
+      requestCallback: requestCallback(signature, emitter),
+      successCallback: successCallback(signature, emitter),
+      failureCallback: failureCallback(signature, emitter),
     })
 
     /**
@@ -88,11 +98,14 @@ function* cacheFetchRequest(req) {
     if (eventData.type === 'PROGRESS') {
       yield put(actions.cacheFetchProgress(eventData.payload))
     }
-    if (eventData.type === 'BEGIN') {
+    if (eventData.type === 'REQUEST') {
       yield put(actions.cacheFetchProgress(eventData.payload))
     }
-    if (eventData.type === 'COMPLETE') {
+    if (eventData.type === 'SUCCESS') {
       yield put(actions.cacheFetchSuccess(eventData.payload))
+    }
+    if (eventData.type === 'FAILURE') {
+      yield put(actions.cacheFetchFailure(eventData.payload))
     }
   }
 

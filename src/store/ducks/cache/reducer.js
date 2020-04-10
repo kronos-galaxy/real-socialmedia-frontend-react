@@ -7,6 +7,7 @@ const initialState = {
   cached: {},
   buffer: {},
   progress: {},
+  failed: {},
 }
 
 /**
@@ -61,7 +62,22 @@ const cacheFetchSuccess = (state, action) => update(state, {
   },
 })
 
+const cacheFetchFailure = (state, action) => update(state, {
+  buffer: {
+    $unset: [action.payload.signature.partial],
+  },
+  progress: {
+    $unset: [action.payload.signature.pathFolder],
+  },
+  failed: {
+    [action.payload.signature.pathFolder]: {
+      $unique: action.payload.signature.source,
+    },
+  },
+})
+
 export default handleActions({
   [constants.CACHE_FETCH_SUCCESS]: cacheFetchSuccess,
+  [constants.CACHE_FETCH_FAILURE]: cacheFetchFailure,
   [constants.CACHE_FETCH_PROGRESS]: cacheFetchProgress,
 }, initialState)

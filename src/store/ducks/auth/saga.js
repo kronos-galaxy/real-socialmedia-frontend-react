@@ -15,6 +15,7 @@ import * as CognitoIdentity from 'amazon-cognito-identity-js'
 import Config from 'react-native-config'
 import AsyncStorage from '@react-native-community/async-storage'
 import { checkInternetConnection } from 'react-native-offline'
+import { promisify } from 'es6-promisify'
 
 function* getSignupStage({ username }) {
   return yield AsyncStorage.getItem(`@real:signup:${username}`)
@@ -61,7 +62,8 @@ function* linkUserIdentities(payload) {
       [`cognito-idp.${Config.AWS_COGNITO_REGION}.amazonaws.com/${Config.AWS_COGNITO_USER_POOL_ID}`]: authenticateUser.getIdToken().getJwtToken(),
     },
   })
-
+  
+  yield promisify(AWS.config.credentials.refresh.bind(AWS.config.credentials))()
   yield cognitoUser.signOut()
 }
 

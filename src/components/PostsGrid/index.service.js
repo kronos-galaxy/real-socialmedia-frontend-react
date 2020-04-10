@@ -5,7 +5,7 @@ import * as postsServices from 'store/ducks/posts/services'
 import { useNavigation, useRoute } from '@react-navigation/native'
 import path from 'ramda/src/path'
 
-const PostsGridService = ({ children }) => {
+const PostsGridService = ({ children, postsGetRequestOnMount }) => {
   const dispatch = useDispatch()
   const navigation = useNavigation()
   const route = useRoute()
@@ -23,7 +23,9 @@ const PostsGridService = ({ children }) => {
     dispatch(postsActions.postsGetMoreRequest({ userId, nextToken }))
 
   useEffect(() => {
-    dispatch(postsActions.postsGetRequest({ userId }))
+    if (postsGetRequestOnMount) {
+      dispatch(postsActions.postsGetRequest({ userId }))
+    }
   }, [userId])
 
   return children({

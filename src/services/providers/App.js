@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react'
+import { ActivityIndicator } from 'react-native'
 import { useSelector, useDispatch } from 'react-redux'
 import * as uiActions from 'store/ducks/ui/actions'
 import * as themeActions from 'store/ducks/theme/actions'
@@ -105,6 +106,12 @@ export const AuthProvider = ({
     !path(['data', 'length'])(themeFetch)
   ) {
     return <LoadingComponent />
+  }
+
+  if (!nextRoute) {
+    return (
+      <ActivityIndicator size="small" color="#ffffff" />
+    )
   }
 
   const authenticated = (

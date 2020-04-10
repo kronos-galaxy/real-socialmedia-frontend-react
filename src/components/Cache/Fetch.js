@@ -52,7 +52,7 @@ const downloads = new Map()
 /**
  * 
  */
-export const fetchRemoteImage = async ({ signature, progressCallback, beginCallback }) => {
+export const fetchRemoteImage = async ({ signature, progressCallback, requestCallback }) => {
   await RNFS.mkdir(signature.pathFolder)
 
   const { promise, jobId } = RNFS.downloadFile({
@@ -66,7 +66,7 @@ export const fetchRemoteImage = async ({ signature, progressCallback, beginCallb
     progressDivider: 20,
     resumable: () =>
       RNFS.isResumable(jobId).then(() => RNFS.resumeDownload(jobId)),
-    begin: beginCallback,
+    begin: requestCallback,
     progress: progressCallback,
   })
 
@@ -87,7 +87,7 @@ export const fetchRemoteImage = async ({ signature, progressCallback, beginCallb
  * Returns local cached image if file exists;
  * Download file and stores into local cache if not
  */
-export const handleImage = async ({ signature, progressCallback, beginCallback }) => {
+export const handleImage = async ({ signature, progressCallback, requestCallback }) => {
   const hasImage = await checkLocalImage(signature)
 
   if (hasImage) {
@@ -96,7 +96,7 @@ export const handleImage = async ({ signature, progressCallback, beginCallback }
 
   await promiseRetry(async (retry, attempts) => {
     try {
-      return await fetchRemoteImage({ signature, progressCallback, beginCallback })
+      return await fetchRemoteImage({ signature, progressCallback, requestCallback })
     } catch (nextError) {
       retry(nextError)
     }
@@ -114,7 +114,7 @@ export const worker = async (task, callback) => {
     const response = await handleImage({
       signature: task.signature,
       progressCallback: task.progressCallback,
-      beginCallback: task.beginCallback,
+      requestCallback: task.requestCallback,
     })
     callback(null, 'downloaded', response)
   } catch (error) {
@@ -133,7 +133,7 @@ export const pushImageQueue = async (
   queueInstance,
   callback,
   progressCallback,
-  beginCallback,
+  requestCallback,
   source,
   priority,
 ) => {
@@ -161,7 +161,7 @@ export const pushImageQueue = async (
     signature,
     priority: nextPriority,
     progressCallback,
-    beginCallback,
+    requestCallback,
   }, nextPriority, callback)
 }
 

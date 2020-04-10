@@ -21,7 +21,7 @@ const ProfileFeed = ({
   const styling = styles(theme)
   
   return (
-    <PostsGridServiceComponent>
+    <PostsGridServiceComponent postsGetRequestOnMount={true}>
       {(postsProps) => (
         <View style={styling.root}>
           <ContextComponent.Consumer>

@@ -26,7 +26,7 @@ const TabNavigator = ({ navigation, route }) => {
   const feedTabScreenPropsCard = {
     options: {
       tabBarIcon: FeedTabIconComponent,
-      tabBarLabel: 'Feed',
+      tabBarLabel: 'Home',
     },
   }
   

@@ -21,7 +21,7 @@ const ProfileAlbums = ({
   const styling = styles(theme)
   
   return (
-    <AlbumsGridServiceComponent>
+    <AlbumsGridServiceComponent albumsGetRequestOnMount={true}>
       {(albumsProps) => (
         <View style={styling.root}>
           <ContextComponent.Consumer>
