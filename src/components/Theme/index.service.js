@@ -3,7 +3,6 @@ import { useSelector, useDispatch } from 'react-redux'
 import * as themeActions from 'store/ducks/theme/actions'
 import * as usersActions from 'store/ducks/users/actions'
 import * as authSelector from 'store/ducks/auth/selectors'
-import { useNavigation } from '@react-navigation/native'
 
 const ThemeService = ({ children, }) => {
   const dispatch = useDispatch()

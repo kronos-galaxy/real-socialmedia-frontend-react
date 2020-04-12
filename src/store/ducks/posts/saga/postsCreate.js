@@ -6,6 +6,7 @@ import RNFetchBlob from 'rn-fetch-blob'
 import * as actions from 'store/ducks/posts/actions'
 import * as queries from 'store/ducks/posts/queries'
 import * as constants from 'store/ducks/posts/constants'
+import * as usersActions from 'store/ducks/users/actions'
 import promiseRetry from 'promise-retry'
 import dayjs from 'dayjs'
 import { v4 as uuid } from 'uuid'
@@ -123,6 +124,7 @@ function* handleImagePost(req) {
         yield delay(10000)
         yield put(actions.postsFeedGetRequest({  }))
         yield put(actions.postsGetRequest({ userId: data.userId }))
+        yield put(usersActions.usersImagePostsGetRequest({ userId: data.userId }))
       }
 
       if (upload.status === 'failure') {

@@ -13,6 +13,8 @@ import CheckedIcon from 'assets/svg/other/Checked'
 import UncheckedIcon from 'assets/svg/other/Unchecked'
 import { Caption } from 'react-native-paper'
 import HeaderRight from 'navigation/HeaderRight'
+import ProfilePhotoComponent from 'components/PostsGridSelect/ProfilePhoto'
+import UploadingComponent from 'components/PostsList/Uploading'
 
 import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
@@ -25,6 +27,12 @@ const PostsGridSelect = ({
   handlePostPress,
   selectedPost,
   usersEditProfileRequest,
+
+  authUser,
+  postsCreateRequest,
+  postsCreateQueue,
+  cameraCapture,
+  postsCreateIdle,
 }) => {
   const styling = styles(theme)
   const navigation = useNavigation()
@@ -35,9 +43,29 @@ const PostsGridSelect = ({
 
   return (
     <View style={styling.root}>
-      <View style={styling.info}>
-        <Caption>{t('You can only set profile photo from your existing posts')}</Caption>
-      </View>
+      {!cameraCapture.data.length ?
+        <View style={styling.info}>
+          <Caption>{t('You can only set profile photo from your existing posts')}</Caption>
+        </View>
+      : null}
+
+      {cameraCapture.data.length ?
+        <ProfilePhotoComponent
+          cameraCapture={cameraCapture}
+          postsCreateRequest={postsCreateRequest}
+        />
+      : null}
+
+      {Object.values(postsCreateQueue).map((post, key) => (
+        <UploadingComponent
+          key={key}
+          authUser={authUser}
+          post={post}
+          postsCreateRequest={postsCreateRequest}
+          postsCreateIdle={postsCreateIdle}
+        />
+      ))}
+
       <ScrollView>
         <GridComponent items={path(['data'])(usersImagePostsGet)}>
           {(post, priorityIndex) => (

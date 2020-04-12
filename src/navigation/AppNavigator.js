@@ -20,7 +20,6 @@ const ChatNavigator = () => {
   const { theme, themes } = useContext(ThemesContext)
   const Stack = createStackNavigator()
   const stackNavigatorDefaultProps = navigationOptions.stackNavigatorDefaultProps({ theme })
-  const stackScreenDefaultProps = navigationOptions.stackScreenDefaultProps({ theme })
   const stackScreenPageProps = navigationOptions.stackScreenPageProps({ theme, themes })
 
   return (
@@ -28,7 +27,7 @@ const ChatNavigator = () => {
       <Stack.Screen
         name="Chat"
         component={ChatScreen}
-        {...stackScreenDefaultProps}
+        {...stackScreenPageProps({ options: { title: 'Chat' } })}
       />
       <Stack.Screen
         name="ChatDirect"

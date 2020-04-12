@@ -44,13 +44,12 @@ export const fetchRemoteImage = async ({
 
     successCallback({
       jobId,
-      response,
       signature,
+      response,
     })
   } catch (error) {
     failureCallback({
       jobId,
-      response,
       signature,
     })
   }

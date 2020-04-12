@@ -1,6 +1,7 @@
 import React, { useRef } from 'react'
 import PropTypes from 'prop-types'
 import {
+  Alert,
   StyleSheet,
   View,
   ScrollView,
@@ -41,6 +42,18 @@ const Settings = ({
   const navigation = useNavigation()
   const actionSheetRef = useRef(null)
 
+  const handleProfilePhotoUpload = () => {
+    Alert.alert(
+      'Profile Photo Upload',
+      'Your photo will be uploaded as post',
+      [{
+        text: 'Take a photo',
+        onPress: navigationActions.navigateCamera(navigation, { nextRoute: 'ProfilePhoto' }),
+      }],
+      { cancelable: true }
+    )
+  }
+
   return (
     <ScrollView style={styling.root}>
       <TouchableOpacity onPress={() => navigation.navigate('ProfilePhoto')}>
@@ -57,7 +70,7 @@ const Settings = ({
         cancelButtonIndex={2}
         onPress={(index) => {
           if (index === 0) {
-            navigationActions.navigateCamera(navigation, { nextRoute: 'ProfilePhoto' })()
+            handleProfilePhotoUpload()
           }
           if (index === 1) {
             navigation.navigate('ProfilePhoto')

@@ -3,25 +3,23 @@ import { useSelector, useDispatch } from 'react-redux'
 import * as usersActions from 'store/ducks/users/actions'
 import * as authSelector from 'store/ducks/auth/selectors'
 import * as postsActions from 'store/ducks/posts/actions'
-import { useNavigation, useRoute } from '@react-navigation/native'
+import * as cameraActions from 'store/ducks/camera/actions'
 import * as navigationActions from 'navigation/actions'
+import { useNavigation } from '@react-navigation/native'
 import { v4 as uuid } from 'uuid'
-import path from 'ramda/src/path'
+import dayjs from 'dayjs'
 
 const PostsGridSelectService = ({ children, }) => {
   const dispatch = useDispatch()
   const navigation = useNavigation()
-  const route = useRoute()
   const user = useSelector(authSelector.authUserSelector)
   const usersImagePostsGet = useSelector(state => state.users.usersImagePostsGet)
   const usersEditProfile = useSelector(state => state.users.usersEditProfile)
-  const postsCreate = useSelector(state => state.posts.postsCreate)
+  const postsCreateQueue = useSelector(state => state.posts.postsCreateQueue)
+  const authUser = useSelector(state => state.auth.user)
 
-  useEffect(() => {
-    if (postsCreate.status === 'success') {
-      dispatch(usersActions.usersEditProfileRequest(postsCreate.payload))
-    }
-  }, [postsCreate.status])
+  const postsCreateIdle = (payload) =>
+    dispatch(postsActions.postsCreateIdle({ payload }))
 
   const usersImagePostsGetRequest = (payload) =>
     dispatch(usersActions.usersImagePostsGetRequest(payload))
@@ -43,6 +41,52 @@ const PostsGridSelectService = ({ children, }) => {
   const [selectedPost, setSelectedPost] = useState({})
   const handlePostPress = (post) => setSelectedPost(post)
 
+  /**
+   * 
+   */
+  const cameraCapture = useSelector(state => state.camera.cameraCapture)
+
+  const postsCreateRequest = ({
+    albumId = null,
+    postType = 'IMAGE',
+    text = '',
+    images = [],
+    lifetime = '',
+    commentsDisabled = false,
+    likesDisabled = true,
+    sharingDisabled = false,
+    verificationHidden = false,
+    takenInReal = false,
+    originalFormat = 'jpg',
+    originalMetadata = '',
+  }) => {
+    const postId = uuid()
+    const mediaId = uuid()
+
+    dispatch(postsActions.postsCreateRequest({
+      postId,
+      postType,
+      albumId,
+      lifetime,
+      mediaId,
+      text,
+      images,
+      commentsDisabled,
+      likesDisabled,
+      sharingDisabled,
+      verificationHidden,
+      takenInReal,
+      originalFormat,
+      originalMetadata,
+      createdAt: dayjs().toJSON(),
+      attempt: 0,
+    }))
+
+    if (postType === 'IMAGE') {
+      dispatch(cameraActions.cameraCaptureIdle({ payload: { uri: images[0] } }))
+    }
+  }
+
   return children({
     user,
     usersImagePostsGet,
@@ -50,6 +94,12 @@ const PostsGridSelectService = ({ children, }) => {
     handlePostPress,
     selectedPost,
     usersEditProfileRequest,
+
+    authUser,
+    cameraCapture,
+    postsCreateIdle,
+    postsCreateRequest,
+    postsCreateQueue,
   })
 }
 

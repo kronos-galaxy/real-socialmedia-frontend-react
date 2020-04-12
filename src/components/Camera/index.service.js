@@ -134,16 +134,17 @@ const CameraService = ({ children, }) => {
         compressImageQuality: 1,
       })
 
+      dispatch(cameraActions.cameraCaptureRequest([{
+        uri: croppedPhoto.path,
+        photoSize,
+        takenInReal: true,
+        originalFormat: snappedPhoto.uri.split('.').pop(),
+        originalMetadata: JSON.stringify(snappedPhoto.exif),
+      }]))
+
       if (route.params && route.params.nextRoute) {
         navigation.navigate(path(['params', 'nextRoute'])(route), { type: 'IMAGE', photos: [croppedPhoto.path] })
       } else {
-        dispatch(cameraActions.cameraCaptureRequest([{
-          uri: croppedPhoto.path,
-          photoSize,
-          takenInReal: true,
-          originalFormat: snappedPhoto.uri.split('.').pop(),
-          originalMetadata: JSON.stringify(snappedPhoto.exif),
-        }]))
         navigationActions.navigatePostCreate(navigation, { type: 'IMAGE', photos: [croppedPhoto.path] })()
       }
     } catch (error) {
@@ -160,10 +161,11 @@ const CameraService = ({ children, }) => {
       return
     }
 
+    dispatch(cameraActions.cameraCaptureRequest(photos))
+
     if (route.params && route.params.nextRoute) {
       navigation.navigate(path(['params', 'nextRoute'])(route), { type: 'IMAGE', photos })
     } else {
-      dispatch(cameraActions.cameraCaptureRequest(photos))
       navigationActions.navigatePostCreate(navigation, { type: 'IMAGE', photos })()
     }
   }
