@@ -1,6 +1,4 @@
 import * as Sentry from '@sentry/react-native'
-import codePush from 'react-native-code-push'
-
 import Config from 'react-native-config'
 
 /**
@@ -10,15 +8,6 @@ import Config from 'react-native-config'
 Sentry.init({
   environment: Config.ENVIRONMENT,
   dsn: Config.SENTRY_DSN,
-})
-
-/**
- * Application version + code push version to distinguish environment
- */
-codePush.getUpdateMetadata().then((update) => {
-  if (update) {
-    Sentry.setRelease(update.appVersion + '-codepush:' + update.label)
-  }
 })
 
 /**
