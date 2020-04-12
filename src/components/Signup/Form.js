@@ -22,7 +22,7 @@ const SignupForm = ({
   return (
     <View style={styling.root}>
       <View style={styling.input}>
-        <DefaultButton label={t('Send Confirmation Email')} onPress={handleSubmit} loading={loading} />
+        <DefaultButton label={t('Send Confirmation Email')} onPress={handleSubmit} loading={loading} disabled={loading} />
       </View>
     </View>
   )

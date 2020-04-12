@@ -145,7 +145,7 @@ const PostCreateForm = ({
       </CollapsableComponent>
 
       <View style={styling.input}>
-        <DefaultButton label={t('Create Post')} onPress={handleSubmit} loading={loading} />
+        <DefaultButton label={t('Create Post')} onPress={handleSubmit} loading={loading} disabled={loading} />
       </View>
 
       {cameraCaptureLength > 1 ?

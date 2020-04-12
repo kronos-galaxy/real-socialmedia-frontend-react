@@ -63,7 +63,7 @@ const ProfileEditForm = ({
         {PrivacyComponent}
       </View>
       <View style={styling.input}>
-        <DefaultButton label={t('Update')} onPress={handleSubmit} loading={loading} />
+        <DefaultButton label={t('Update')} onPress={handleSubmit} loading={loading} disabled={loading} />
       </View>
     </View>
   )

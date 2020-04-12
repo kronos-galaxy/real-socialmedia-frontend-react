@@ -32,7 +32,7 @@ const AlbumCreateForm = ({
       </View>
 
       <View style={styling.input}>
-        <DefaultButton label={t('Create Album')} onPress={handleSubmit} loading={loading} />
+        <DefaultButton label={t('Create Album')} onPress={handleSubmit} loading={loading} disabled={loading} />
       </View>
     </View>
   )

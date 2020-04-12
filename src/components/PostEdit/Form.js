@@ -158,7 +158,7 @@ const PostEditForm = ({
       </CollapsableComponent>
 
       <View style={styling.input}>
-        <DefaultButton label={t('Save')} onPress={handleSubmit} loading={loading} />
+        <DefaultButton label={t('Save')} onPress={handleSubmit} loading={loading} disabled={loading} />
       </View>
     </View>
   )

@@ -54,7 +54,7 @@ const ForgotConfirmForm = ({
         <Field name="password" component={TextField} placeholder={t('New Password')} secureTextEntry />
       </View>
       <View style={styling.input}>
-        <DefaultButton label={t('Done')} onPress={handleSubmit} loading={loading} />
+        <DefaultButton label={t('Done')} onPress={handleSubmit} loading={loading} disabled={loading} />
       </View>
     </View>
   )

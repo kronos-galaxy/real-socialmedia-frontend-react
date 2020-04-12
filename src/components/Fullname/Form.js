@@ -41,7 +41,7 @@ const FullnameForm = ({
         <Field name="fullName" component={TextField} placeholder={t('Full Name')} />
       </View>
       <View style={styling.input}>
-        <DefaultButton label={t('Done')} onPress={handleSubmit} loading={loading} />
+        <DefaultButton label={t('Done')} onPress={handleSubmit} loading={loading} disabled={loading} />
       </View>
     </View>
   )

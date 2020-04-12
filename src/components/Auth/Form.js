@@ -47,7 +47,7 @@ const UsernameForm = ({
         <Field name="password" component={TextField} placeholder={t('Password')} secureTextEntry />
       </View>
       <View style={styling.input}>
-        <DefaultButton label={t('Login / Signup')} onPress={handleSubmit} loading={loading} />
+        <DefaultButton label={t('Login / Signup')} onPress={handleSubmit} loading={loading} disabled={loading} />
       </View>
     </View>
   )

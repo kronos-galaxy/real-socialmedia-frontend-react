@@ -31,7 +31,7 @@ const ConfirmForm = ({
         <Field name="confirmationCode" component={TextField} placeholder={t('Confirmation code')} />
       </View>
       <View style={styling.input}>
-        <DefaultButton label={t('Done')} onPress={handleSubmit} loading={loading} />
+        <DefaultButton label={t('Done')} onPress={handleSubmit} loading={loading} disabled={loading} />
       </View>
     </View>
   )

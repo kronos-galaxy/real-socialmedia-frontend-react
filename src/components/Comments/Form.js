@@ -38,7 +38,7 @@ const CommentsForm = ({
         <Field name="text" component={TextField} placeholder={t('Add a comment')} hideError />
       </View>
       <View style={styling.button}>
-        <DefaultButton label={t('Post')} onPress={handleSubmit} loading={loading} />
+        <DefaultButton label={t('Post')} onPress={handleSubmit} loading={loading} disabled={loading} />
       </View>
     </View>
   )

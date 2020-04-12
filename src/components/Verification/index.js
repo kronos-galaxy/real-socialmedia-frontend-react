@@ -47,7 +47,7 @@ const Verification = ({
 
       <ScrollView bounces={false}>
         <ModalPreviewComponent
-          post={{ uri: path(['data'])(postsSingleGet) }}
+          post={path(['data'])(postsSingleGet)}
         />
 
         <View style={styling.content}>
