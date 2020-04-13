@@ -116,11 +116,6 @@ export const handleGoogleRefresh = async () => {
       }
     }, { retries: 3 })
 
-    Logger.withScope(scope => {
-      scope.setExtra('current', dayjs.unix())
-      scope.setExtra('expiry', response.expires_at)
-      Logger.captureMessage('FEDERATED_GOOGLE_REFRESH_SUCCESS')
-    })
     return response
   } catch (error) {
     Logger.withScope(scope => {

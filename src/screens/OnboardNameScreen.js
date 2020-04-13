@@ -1,8 +1,8 @@
 import React from 'react'
-import FullnameComponent from 'components/Fullname'
-import FullnameServiceComponent from 'components/Fullname/index.service'
+import FullnameComponent from 'components/OnboardName'
+import FullnameServiceComponent from 'components/OnboardName/index.service'
 
-class AuthOnboardScreen extends React.Component {
+class OnboardNameScreen extends React.Component {
   render() {
     return (
       <FullnameServiceComponent>
@@ -16,4 +16,4 @@ class AuthOnboardScreen extends React.Component {
   }
 }
 
-export default AuthOnboardScreen
+export default OnboardNameScreen

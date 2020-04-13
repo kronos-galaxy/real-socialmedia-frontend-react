@@ -24,7 +24,7 @@ const formSchema = Yup.object().shape({
   fullName: Yup.string().min(2).max(50).required(),
 })
 
-const FullnameForm = ({
+const OnboardNameForm = ({
   t,
   theme,
   handleSubmit,
@@ -55,7 +55,7 @@ const styles = theme => StyleSheet.create({
   },
 })
 
-FullnameForm.propTypes = {
+OnboardNameForm.propTypes = {
   theme: PropTypes.any,
   handleSubmit: PropTypes.any,
   submitErrors: PropTypes.any,
@@ -78,7 +78,7 @@ export default withTranslation()(withTheme(({
     onSubmit={authOnboardRequest}
   >
     {(formikProps) => (
-      <FullnameForm
+      <OnboardNameForm
         {...formikProps}
         {...props}
         loading={authOnboard.status === 'loading'}

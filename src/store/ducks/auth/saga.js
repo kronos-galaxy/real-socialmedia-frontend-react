@@ -14,7 +14,6 @@ import * as errors from 'store/ducks/auth/errors'
 import * as CognitoIdentity from 'amazon-cognito-identity-js'
 import Config from 'react-native-config'
 import AsyncStorage from '@react-native-community/async-storage'
-import { checkInternetConnection } from 'react-native-offline'
 import { promisify } from 'es6-promisify'
 
 function* getSignupStage({ username }) {
@@ -135,7 +134,7 @@ function* authOnboardRequest(req) {
     } else {
       yield put(actions.authOnboardFailure({
         message: errors.getMessagePayload(constants.AUTH_ONBOARD_FAILURE, 'GENERIC', error.message),
-        nextRoute: 'AuthOnboard',
+        nextRoute: 'OnboardName',
       }))
     }
   }
@@ -173,17 +172,10 @@ function* authCheckRequest(req) {
       nextRoute: 'Root',
     }))
   } catch (error) {
-    const isConnected = yield checkInternetConnection()
-    if (path(['errors', '0', 'message'])(error) === 'Network Error' || !isConnected) {
-      // handle offline connection
-    } else {
-      yield put(actions.authCheckReset())
-    }
-
     if (path(['errors', '0', 'path', '0'])(error) === 'self') {
       yield put(actions.authCheckFailure({
-        message: errors.getMessagePayload(constants.AUTH_CHECK_FAILURE, 'USER_JUST_CREATED'),
-        nextRoute: 'AuthOnboard',
+        message: errors.getMessagePayload(constants.AUTH_CHECK_FAILURE, 'USER_JUST_CREATED', error.message),
+        nextRoute: 'OnboardName',
       }))
     } else {
       yield put(actions.authCheckFailure({

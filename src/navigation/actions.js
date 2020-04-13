@@ -112,3 +112,6 @@ export const navigateAuthSignup = (navigation, params) => () =>
 
 export const navigateAuthSignupConfirm = (navigation, params) => () =>
   navigation.navigate('AuthSignupConfirm', params)
+
+export const navigateOnboardCamera = (navigation, params) => () =>
+  navigation.navigate('OnboardCamera', params)

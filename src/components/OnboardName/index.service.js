@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import * as authActions from 'store/ducks/auth/actions'
 import toLower from 'ramda/src/toLower'
 
-const AuthComponentService = ({ children, }) => {
+const OnboardNameService = ({ children, }) => {
   const dispatch = useDispatch()
   const authCheck = useSelector(state => state.auth.authCheck)
   const authOnboard = useSelector(state => state.auth.authOnboard)
@@ -25,7 +25,7 @@ const AuthComponentService = ({ children, }) => {
       dispatch(authActions.authSignupIdle())
       dispatch(authActions.authSigninIdle())
       dispatch(authActions.authSignupConfirmIdle())
-      dispatch(authActions.authCheckIdle({ nextRoute: 'Root' }))
+      dispatch(authActions.authCheckIdle({ nextRoute: 'OnboardPhoto' }))
     }
   }, [
     authOnboard.status,
@@ -40,4 +40,4 @@ const AuthComponentService = ({ children, }) => {
   })
 }
 
-export default AuthComponentService
+export default OnboardNameService

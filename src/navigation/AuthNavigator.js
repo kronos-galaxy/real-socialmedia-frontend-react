@@ -9,11 +9,14 @@ import AuthForgotScreen from 'screens/AuthForgotScreen'
 import AuthForgotConfirmScreen from 'screens/AuthForgotConfirmScreen'
 import AuthSignupScreen from 'screens/AuthSignupScreen'
 import AuthSignupConfirmScreen from 'screens/AuthSignupConfirmScreen'
-import AuthOnboardScreen from 'screens/AuthOnboardScreen'
+import OnboardNameScreen from 'screens/OnboardNameScreen'
+import OnboardPhotoScreen from 'screens/OnboardPhotoScreen'
+import CameraScreen from 'screens/CameraScreen'
 
 const AuthNavigator = ({ theme }) => {
   const Stack = createStackNavigator()
 
+  const stackScreenBlankProps = navigationOptions.stackScreenBlankProps({ theme })
   const stackNavigatorDefaultProps = navigationOptions.stackNavigatorDefaultProps({ theme })
   const stackScreenAuthProps = navigationOptions.stackScreenAuthProps({ theme })
 
@@ -50,9 +53,21 @@ const AuthNavigator = ({ theme }) => {
       />
 
       <Stack.Screen
-        name="AuthOnboard"
-        component={AuthOnboardScreen}
-        {...stackScreenAuthProps}
+        name="OnboardName"
+        component={OnboardNameScreen}
+        {...stackScreenBlankProps}
+      />
+
+      <Stack.Screen
+        name="OnboardPhoto"
+        component={OnboardPhotoScreen}
+        {...stackScreenBlankProps}
+      />
+
+      <Stack.Screen
+        name="OnboardCamera"
+        component={CameraScreen}
+        {...stackScreenBlankProps}
       />
     </Stack.Navigator>
   )

@@ -5,7 +5,7 @@ import {
   StyleSheet,
   Linking,
 } from 'react-native'
-import FullnameForm from 'components/Fullname/Form'
+import OnboardNameForm from 'components/OnboardName/Form'
 import Subtitle from 'templates/Subtitle'
 import NativeError from 'templates/NativeError'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
@@ -16,7 +16,7 @@ import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
 import { withTranslation } from 'react-i18next'
 
-const Fullname = ({
+const OnboardName = ({
   t,
   theme,
   authCheck,
@@ -43,7 +43,7 @@ const Fullname = ({
           <Subheading>{t('Enter your full name & reserve your new username')}</Subheading>
         </View>
         <View style={styling.form}>
-          <FullnameForm
+          <OnboardNameForm
             authCheck={authCheck}
             authOnboard={authOnboard}
             authOnboardRequest={authOnboardRequest}
@@ -87,7 +87,7 @@ const styles = theme => StyleSheet.create({
   },
 })
 
-Fullname.propTypes = {
+OnboardName.propTypes = {
   theme: PropTypes.any,
   authOnboard: PropTypes.any,
   authOnboardRequest: PropTypes.any,
@@ -95,4 +95,4 @@ Fullname.propTypes = {
   authSignoutRequest: PropTypes.any,
 }
 
-export default withTranslation()(withTheme(Fullname))
+export default withTranslation()(withTheme(OnboardName))

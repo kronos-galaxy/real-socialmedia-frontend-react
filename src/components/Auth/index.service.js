@@ -96,7 +96,8 @@ const AuthComponentService = ({ children, }) => {
   useEffect(() => {
     const shouldRedirect = [
       'Auth',
-      'AuthOnboard',
+      'OnboardName',
+      'OnboardPhoto',
       'AuthSignup',
       'AuthSignupConfirm',
     ].includes(authCheck.nextRoute)
