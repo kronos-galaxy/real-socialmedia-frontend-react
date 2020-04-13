@@ -1,54 +1,56 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import {
-  StyleSheet,
   View,
+  StyleSheet,
 } from 'react-native'
-import { Subheading } from 'react-native-paper'
+import { Text } from 'react-native-paper'
 import TickIcon from 'assets/svg/feature/Tick'
+import BulletIcon from 'assets/svg/feature/Bullet'
 
 import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
 import { withTranslation } from 'react-i18next'
 
-const Bookmark = ({
-  t,
+const Feature = ({
   theme,
+  children,
+  active,
+  disabled,
 }) => {
   const styling = styles(theme)
+
+  const fill = active ? theme.colors.primary : theme.colors.text
 
   return (
     <View style={styling.root}>
       <View style={styling.icon}>
-        <TickIcon fill={theme.colors.primary} />
+        {!disabled ?
+          <TickIcon fill={fill} />
+        : null}
       </View>
-      <View style={styling.text}>
-        <Subheading>{t('You\'re All Caught Up')}</Subheading>
-      </View>
+      <Text style={styling.text}>{children}</Text>
     </View>
   )
 }
 
 const styles = theme => StyleSheet.create({
   root: {
-    padding: theme.spacing.base,
-    backgroundColor: theme.colors.backgroundSecondary,
+    margin: 6,
+    flexDirection: 'row',
     alignItems: 'center',
+    width: '80%',
   },
   icon: {
-    backgroundColor: theme.colors.text,
-    width: 32,
-    height: 32,
-    borderRadius: 16,
+    marginRight: theme.spacing.base,
   },
   text: {
-    marginTop: theme.spacing.base,
+    fontSize: 14,
   },
 })
 
-Bookmark.propTypes = {
-  t: PropTypes.any,
+Feature.propTypes = {
   theme: PropTypes.any,
 }
 
-export default withTranslation()(withTheme(Bookmark))
+export default withTheme(Feature)

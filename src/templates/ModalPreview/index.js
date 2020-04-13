@@ -58,7 +58,7 @@ const ModalPreview = ({
 
 const styles = theme => StyleSheet.create({
   preview: {
-    height: Layout.window.width,
+    height: 160,
     width: Layout.window.width,
   },
   gradient: {

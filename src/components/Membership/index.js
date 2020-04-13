@@ -7,33 +7,11 @@ import {
 } from 'react-native'
 import DefaultButton from 'components/Formik/Button/DefaultButton'
 import { Text } from 'react-native-paper'
-import TickIcon from 'assets/svg/membership/Tick'
+import FeatureComponent from 'templates/Feature'
 
 import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
 import { withTranslation } from 'react-i18next'
-
-const Feature = ({
-  t,
-  theme,
-  children,
-  active,
-}) => {
-  const styling = styles(theme)
-
-  const fill = active ? theme.colors.primary : theme.colors.text
-
-  return (
-    <View style={styling.feature}>
-      <View style={styling.icon}>
-        <TickIcon fill={fill} />
-      </View>
-      <Text style={{ flexWrap: 'wrap' }}>{children}</Text>
-    </View>
-  )
-}
-
-const FeatureComponent = withTheme(Feature)
 
 const Membership = ({
   t,
@@ -88,17 +66,8 @@ const styles = theme => StyleSheet.create({
   titlePrimary: {
     backgroundColor: theme.colors.primary,
   },
-  icon: {
-    marginRight: theme.spacing.base,
-  },
   features: {
     marginVertical: 6,
-  },
-  feature: {
-    margin: 6,
-    flexDirection: 'row',
-    alignItems: 'center',
-    width: '80%',
   },
   action: {
     padding: theme.spacing.base,

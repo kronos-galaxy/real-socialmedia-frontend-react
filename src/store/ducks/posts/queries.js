@@ -141,6 +141,7 @@ export const editPost = `
     $commentsDisabled: Boolean,
     $likesDisabled: Boolean,
     $sharingDisabled: Boolean,
+    $verificationHidden: Boolean,
   ) {
     editPost (
       postId: $postId,
@@ -148,6 +149,7 @@ export const editPost = `
       commentsDisabled: $commentsDisabled,
       likesDisabled: $likesDisabled,
       sharingDisabled: $sharingDisabled,
+      verificationHidden: $verificationHidden,
     ) {
       ...postFragment
     }

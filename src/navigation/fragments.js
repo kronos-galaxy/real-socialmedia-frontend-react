@@ -103,7 +103,7 @@ export const media = ({
       <Stack.Screen
         name="Verification"
         component={VerificationScreen}
-        {...stackScreenCardProps}
+        {...stackScreenPageProps({ options: { title: 'Verification Failed' } })}
       />
     </>
   )

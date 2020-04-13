@@ -1,18 +1,14 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import {
-  StyleSheet,
   View,
+  StyleSheet,
   ScrollView,
 } from 'react-native'
-import path from 'ramda/src/path'
-import { Text, Headline, Caption } from 'react-native-paper'
-import ModalProfileComponent from 'templates/ModalProfile'
-import ModalHeaderComponent from 'templates/ModalHeader'
-import ModalPreviewComponent from 'templates/ModalPreview'
-import dayjs from 'dayjs'
 import DefaultButton from 'components/Formik/Button/DefaultButton'
-import * as navigationActions from 'navigation/actions'
+import FeatureComponent from 'templates/Feature'
+import { Text } from 'react-native-paper'
+import path from 'ramda/src/path'
 
 import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
@@ -23,10 +19,11 @@ const Verification = ({
   theme,
   authUser,
   postsSingleGet,
+  postsEditRequest,
 }) => {
   const styling = styles(theme)
   const navigation = useNavigation()
-
+  
   /**
    * Hide verification if:
    * - Post does not belong to currently authenticated user
@@ -38,90 +35,53 @@ const Verification = ({
   )
 
   return (
-    <View style={styling.root}>
-      <View style={styling.header}>
-        <ModalHeaderComponent
-          onPress={navigationActions.navigateBack(navigation)}
-        />
+    <ScrollView style={styling.root}>
+      <View>
+        <View style={[styling.title, styling.titlePrimary]}>
+          <Text>{t('Verification Criteria')}</Text>
+        </View>
+        <View style={styling.features}>
+          <FeatureComponent active>{t('The Photo must be uncropped')}</FeatureComponent>
+          <FeatureComponent active>{t('The Photo must be unrotated')}</FeatureComponent>
+          <FeatureComponent active>{t('The Photo must have been taken on this phone (not sent to you)')}</FeatureComponent>
+          <FeatureComponent active>{t('If you’re still having trouble, photos taken using the camera inside the REAL app will always pass verification')}</FeatureComponent>
+        </View>
       </View>
 
-      <ScrollView bounces={false}>
-        <ModalPreviewComponent
-          post={path(['data'])(postsSingleGet)}
-        />
-
-        <View style={styling.content}>
-          <ModalProfileComponent
-            thumbnailSource={{ uri: path(['data', 'postedBy', 'photo', 'url64p'])(postsSingleGet) }}
-            imageSource={{ uri: path(['data', 'postedBy', 'photo', 'url480p'])(postsSingleGet) }}
-            title={path(['data', 'postedBy', 'username'])(postsSingleGet)}
-            subtitle={`${t('Posted')} ${dayjs(path(['data', 'postedAt'])(postsSingleGet)).from(dayjs())}`}
-          />
+      {verificationVisibility ?
+        <View style={styling.action}>
+          <DefaultButton label={t('Dismiss')} onPress={postsEditRequest} />
         </View>
-
-        <View style={styling.content}>
-          <Headline style={styling.headline}>{t('Post Verification')}</Headline>
-          <View style={styling.bottomSpacing} />
-
-          <Text style={styling.text}>{t('Our mission is to encourage high quality content to ensure REAL grows into an honest & meantally healthy platform for your followers')}.</Text>
-          <Text style={styling.text}>{t('This post may be pending verification because of one or more of the following')}:</Text>
-
-          <View style={styling.bottomSpacing} />
-
-          <Caption>- {t('It’s been modified, cropped, or rotated by another app')}.</Caption>
-          <Caption>- {t('It’s been copied or was taken using another camera')}.</Caption>
-          <Caption>- {t('It’s too blurry')}.</Caption>
-          <Caption>- {t('It was taken using iOS portrait mode (selective lighting/filter)')}.</Caption>
-          <Caption>- {t('It has/uses a filter or has been photoshopped')}.</Caption>
-          <Caption>- {t('It has poor lighting')}.</Caption>
-          <Caption>- {t('It’s from the internet (copyrighted)')}.</Caption>
-          <Caption>- {t('It was previously flagged as inappropriate by > 20% of the viewers who saw it')}.</Caption>
-
-          <Caption>{t('If you don’t like “Post Verification”, don’t stress! You can disable Post Verification for good for all posts in settings under “Mental Health & Privacy Settings”. Nobody can detect if you have post verification disabled')}.</Caption>
-          <View style={styling.bottomSpacing} />
-        </View>
-
-        {verificationVisibility ?
-          <View style={styling.content}>
-            <DefaultButton label={t('Disable verification on this post')} onPress={() => {}} />
-            <View style={styling.bottomSpacing} />
-            <View style={styling.bottomSpacing} />
-            <View style={styling.bottomSpacing} />
-          </View>
-        : null}
-      </ScrollView>
-    </View>
+      : null}
+    </ScrollView>
   )
 }
-
+  
 const styles = theme => StyleSheet.create({
   root: {
     flex: 1,
     backgroundColor: theme.colors.backgroundPrimary,
   },
-  header: {
-    zIndex: 2,
-  },
-  content: {
+  title: {
+    backgroundColor: theme.colors.backgroundSecondary,
     padding: theme.spacing.base,
   },
-  headline: {
-    fontSize: 20,
-    fontWeight: '600',
+  titlePrimary: {
+    backgroundColor: theme.colors.primary,
   },
-  text: {
-    fontSize: 16,
+  disabled: {
+    display: 'none',
   },
-  bottomSpacing: {
-    marginBottom: theme.spacing.base,
+  features: {
+    marginVertical: 6,
+  },
+  action: {
+    padding: theme.spacing.base,
   },
 })
 
 Verification.propTypes = {
   theme: PropTypes.any,
-  postsSingleGet: PropTypes.any,
-  postsShare: PropTypes.any,
-  postsShareRequest: PropTypes.any,
 }
 
 export default withTranslation()(withTheme(Verification))
