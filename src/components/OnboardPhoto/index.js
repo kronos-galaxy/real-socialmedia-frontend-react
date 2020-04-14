@@ -6,9 +6,9 @@ import {
 } from 'react-native'
 import { Subheading } from 'react-native-paper'
 import DefaultButton from 'components/Formik/Button/DefaultButton'
-import ModalPreviewComponent from 'templates/ModalPreview'
 import * as navigationActions from 'navigation/actions'
 import path from 'ramda/src/path'
+import Avatar from 'templates/Avatar'
 
 import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
@@ -43,16 +43,15 @@ const OnboardPhoto = ({
 
       {path(['data', 0, 'uri'])(cameraCapture) ?
         <>
-          <ModalPreviewComponent
-            post={{
-              image: {
-                url64p: path(['data', 0, 'uri'])(cameraCapture),
-                url1080p: path(['data', 0, 'uri'])(cameraCapture),
-              },
-            }}
-          />
-
           <View style={styling.content}>
+            <View style={styling.action}>
+              <Avatar
+                thumbnailSource={{ uri: path(['data', 0, 'uri'])(cameraCapture) }}
+                imageSource={{ uri: path(['data', 0, 'uri'])(cameraCapture) }}
+                size="large"
+              />
+            </View>
+  
             <Subheading style={styling.subheading}>{t('You are all setup! Start with uploading your first photo.')}</Subheading>
 
             <View style={styling.action}>

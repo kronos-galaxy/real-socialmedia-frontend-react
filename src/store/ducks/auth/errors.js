@@ -36,6 +36,14 @@ const messageCodes = {
       code: 'GENERIC',
       text: 'Failed to authorize',
     },
+    USER_JUST_CREATED: {
+      code: 'USER_JUST_CREATED',
+      text: 'Username must be assigned',
+    },
+    PROFILE_PHOTO_MISSING: {
+      code: 'PROFILE_PHOTO_MISSING',
+      text: 'Profile photo must be set up',
+    },
   },
 
   /**

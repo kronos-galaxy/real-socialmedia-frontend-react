@@ -152,6 +152,12 @@ function* handleAuthCheckRequest() {
   })
 }
 
+function handleAuthCheckValidation(self) {
+  if (!path(['self', 'photo', 'url'])(self)) {
+    throw new Error('PROFILE_PHOTO_MISSING')
+  }
+}
+
 /**
  * Check if user is logged in, not authenticated users will be redirected to Auth page.
  * Authenticated users with empty `self graphql query` return will be redirected to Onboard page,
@@ -166,13 +172,20 @@ function* authCheckRequest(req) {
     const data = yield AwsAPI.graphql(graphqlOperation(queries.self, req.payload))
     const selector = path(['data', 'self'])
 
+    handleAuthCheckValidation(selector(data))
+
     yield put(actions.authCheckSuccess({
       message: errors.getMessagePayload(constants.AUTH_CHECK_SUCCESS, 'GENERIC'),
       data: selector(data),
       nextRoute: 'Root',
     }))
   } catch (error) {
-    if (path(['errors', '0', 'path', '0'])(error) === 'self') {
+    if (path(['message'])(error)) {
+      yield put(actions.authCheckFailure({
+        message: errors.getMessagePayload(constants.AUTH_CHECK_FAILURE, 'PROFILE_PHOTO_MISSING', error.message),
+        nextRoute: 'OnboardPhoto',
+      }))
+    } else if (path(['errors', '0', 'path', '0'])(error) === 'self') {
       yield put(actions.authCheckFailure({
         message: errors.getMessagePayload(constants.AUTH_CHECK_FAILURE, 'USER_JUST_CREATED', error.message),
         nextRoute: 'OnboardName',

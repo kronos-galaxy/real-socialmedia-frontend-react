@@ -158,11 +158,6 @@ export const federatedGoogleSignin = async () => {
       }
     }, { retries: 3 })
 
-    Logger.withScope(scope => {
-      scope.setExtra('current', dayjs().unix())
-      scope.setExtra('expiry', response.expires_at)
-      Logger.captureMessage('FEDERATED_GOOGLE_SIGNIN_SUCCESS')
-    })
     return response
   } catch (error) {
     Logger.withScope(scope => {

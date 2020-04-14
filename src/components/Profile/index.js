@@ -30,7 +30,7 @@ const PostsScrollHelper = ({
 }) => {
   const handleLoadMore = () => {
     if (
-      refreshing ||
+      postsGet.status === 'loading' ||
       !path(['data', 'length'])(postsGet) ||
       !path(['meta', 'nextToken'])(postsGet) ||
       path(['meta', 'nextToken'])(postsGet) === path(['payload', 'nextToken'])(postsGet)
@@ -46,14 +46,6 @@ const PostsScrollHelper = ({
       handleLoadMore()
     }
   }
-  
-  const refreshing = (
-    postsGet.status === 'loading'
-  )
-  
-  const loadingmore = (
-    postsGet.status === 'loading'
-  )
 
   const handleRefresh = () => {
     postsGetRequest({ userId })
@@ -61,9 +53,7 @@ const PostsScrollHelper = ({
 
   return {
     handleScrollChange,
-    loadingmore,
     handleRefresh,
-    refreshing,
   }
 }
 
@@ -132,7 +122,7 @@ const Profile = ({
         <RefreshControl
           tintColor={theme.colors.border}
           onRefresh={scroll.handleRefresh}
-          refreshing={scroll.refreshing}
+          refreshing={postsGet.status === 'loading'}
         />
       )}
     >

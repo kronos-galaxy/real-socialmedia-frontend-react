@@ -35,6 +35,7 @@ const SearchComponent = ({
   usersAcceptFollowerUserRequest,
   usersGetTrendingUsers,
   postsGetTrendingPosts,
+  postsGetTrendingPostsRequest,
   handleFormFocus,
   formFocus,
   handleFormChange,
@@ -65,6 +66,7 @@ const SearchComponent = ({
           refreshControl={
             <RefreshControl
               tintColor={theme.colors.border}
+              onRefresh={postsGetTrendingPostsRequest}
               refreshing={postsGetTrendingPosts.status === 'loading'}
             />
           }

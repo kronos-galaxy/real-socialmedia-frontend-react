@@ -23,13 +23,12 @@ import { withTranslation } from 'react-i18next'
 const ScrollHelper = ({
   postsFeedGet,
   postsFeedGetMoreRequest,
-  usersGetFollowedUsersWithStories,
   postsFeedGetRequest,
   usersGetFollowedUsersWithStoriesRequest,
 }) => {
   const handleLoadMore = () => {
     if (
-      refreshing ||
+      postsFeedGet.status === 'loading' ||
       !path(['data', 'length'])(postsFeedGet) ||
       !path(['meta', 'nextToken'])(postsFeedGet) ||
       path(['meta', 'nextToken'])(postsFeedGet) === path(['payload', 'nextToken'])(postsFeedGet)
@@ -46,15 +45,6 @@ const ScrollHelper = ({
     }
   }
   
-  const refreshing = (
-    postsFeedGet.status === 'loading' ||
-    usersGetFollowedUsersWithStories.status === 'loading'
-  )
-  
-  const loadingmore = (
-    postsFeedGet.status === 'loading'
-  )
-
   const handleRefresh = () => {
     postsFeedGetRequest({})
     usersGetFollowedUsersWithStoriesRequest()
@@ -62,9 +52,7 @@ const ScrollHelper = ({
 
   return {
     handleScrollChange,
-    loadingmore,
     handleRefresh,
-    refreshing,
   }
 }
 
@@ -108,7 +96,6 @@ const PostsList = ({
   const scroll = ScrollHelper({
     postsFeedGet,
     postsFeedGetMoreRequest,
-    usersGetFollowedUsersWithStories,
     postsFeedGetRequest,
     usersGetFollowedUsersWithStoriesRequest,
   })
@@ -186,7 +173,7 @@ const PostsList = ({
           <RefreshControl
             tintColor={theme.colors.border}
             onRefresh={scroll.handleRefresh}
-            refreshing={scroll.refreshing}
+            refreshing={postsFeedGet.status === 'loading'}
           />
         )}
         onViewableItemsChanged={onViewableItemsChangedRef.current}
