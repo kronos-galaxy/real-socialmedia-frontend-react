@@ -20,7 +20,10 @@ update.extend('$cacheUnique', (value, original = []) =>
 )
 
 update.extend('$cacheProgress', (value, original = {}) => {
-  if (original.progress && value < original.progress) {
+  if (!value || !original.progress) {
+    return { progress: 0 }
+  }
+  if (value < original.progress) {
     return original
   }
   return update(original, {
@@ -83,8 +86,18 @@ const cacheFetchFailure = (state, action) => update(state, {
   },
 })
 
+const cacheFetchIdle = (state, action) => update(state, {
+  cached: {
+    $unset: [action.payload.signature.pathFolder],
+  },
+  progress: {
+    $unset: [action.payload.signature.pathFolder],
+  },
+})
+
 export default handleActions({
   [constants.CACHE_FETCH_SUCCESS]: cacheFetchSuccess,
   [constants.CACHE_FETCH_FAILURE]: cacheFetchFailure,
   [constants.CACHE_FETCH_PROGRESS]: cacheFetchProgress,
+  [constants.CACHE_FETCH_IDLE]: cacheFetchIdle,
 }, initialState)

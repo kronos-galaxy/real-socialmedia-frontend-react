@@ -81,6 +81,11 @@ const CacheComponent = ({
    * 
    */
   const handleError = ({ nativeEvent }) => {
+    dispatch(actions.cacheFetchIdle({
+      signature: {
+        pathFolder,
+      },
+    }))
   }
 
   const getFilename = (source) => {
@@ -89,10 +94,6 @@ const CacheComponent = ({
     const withoutPath = withoutQuery.split('/').pop()
     const withoutExt = withoutPath.split('.').shift()
     return withoutExt
-  }
-
-  const getImageType = (filename) => {
-    return filename
   }
 
   const getPriority = (filename = '', priority = 0) => {
@@ -164,7 +165,7 @@ const CacheComponent = ({
               width={2}
               fill={fill}
               tintColor="#00e0ff"
-              backgroundColor="#3d5875"
+              backgroundColor="#21ce99"
             />
           </View>
         : null}
