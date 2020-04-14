@@ -29,6 +29,9 @@ export const navigatePostCreate = (navigation, params) => () =>
 export const navigateCamera = (navigation, params) => () =>
   navigation.navigate('Camera', params)
 
+export const navigateSearch = (navigation, params) => () =>
+  navigation.navigate('Search', params)
+  
 export const navigateStory = (navigation, params) => () =>
   navigation.push('Story', params)
 

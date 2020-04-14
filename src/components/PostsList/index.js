@@ -83,6 +83,7 @@ const PostsList = ({
   onViewableItemsChanged,
   handleScrollPrev,
   handleScrollNext,
+  postsGetTrendingPosts,
 
   bookmarkSeparatorIndex,
   feedRef,
@@ -108,7 +109,9 @@ const PostsList = ({
             bookmarkSeparatorIndex === index &&
             bookmarkSeparatorIndex > 0
           ) ?
-            <BookmarkComponent />
+            <BookmarkComponent
+              postsGetTrendingPosts={postsGetTrendingPosts}
+            />
           : null}
 
           <PostComponent

@@ -22,6 +22,12 @@ const pageHeaderLeft = ({ onPress, label, labelStyle }) => {
   )
 }
 
+export const chatHeaderLeft = ({ theme, navigation }) => () => (
+  <TouchableOpacity style={{ paddingHorizontal: 12 }} onPress={navigationActions.navigateHome(navigation)}>
+    <BackIcon fill="#fff" />
+  </TouchableOpacity>
+)
+
 const homeHeaderLeft = ({ theme, navigation }) => () => (
   <TouchableOpacity style={{ padding: 12 }} onPress={navigationActions.navigateCamera(navigation)}>
     <CameraIcon

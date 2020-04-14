@@ -153,7 +153,7 @@ function* handleAuthCheckRequest() {
 }
 
 function handleAuthCheckValidation(self) {
-  if (!path(['self', 'photo', 'url'])(self)) {
+  if (!path(['photo', 'url'])(self)) {
     throw new Error('PROFILE_PHOTO_MISSING')
   }
 }
@@ -180,7 +180,7 @@ function* authCheckRequest(req) {
       nextRoute: 'Root',
     }))
   } catch (error) {
-    if (path(['message'])(error)) {
+    if (path(['message'])(error) === 'PROFILE_PHOTO_MISSING') {
       yield put(actions.authCheckFailure({
         message: errors.getMessagePayload(constants.AUTH_CHECK_FAILURE, 'PROFILE_PHOTO_MISSING', error.message),
         nextRoute: 'OnboardPhoto',

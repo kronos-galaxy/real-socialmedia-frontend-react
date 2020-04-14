@@ -28,6 +28,7 @@ const PostsListService = ({ children }) => {
   const postsCreateQueue = useSelector(state => state.posts.postsCreateQueue)
   const usersGetPendingFollowers = useSelector(state => state.users.usersGetPendingFollowers)
   const usersAcceptFollowerUser = useSelector(state => state.users.usersAcceptFollowerUser)
+  const postsGetTrendingPosts = useSelector(state => state.posts.postsGetTrendingPosts)
   const themes = useSelector(state => state.theme.themeFetch.data)
   
   const postsFeedGetRequest = (payload) =>
@@ -224,6 +225,7 @@ const PostsListService = ({ children }) => {
     postsCreateIdle,
     postsCreateQueue,
     usersGetPendingFollowers,
+    postsGetTrendingPosts,
     onViewableItemsChanged,
     handleScrollPrev,
     handleScrollNext,

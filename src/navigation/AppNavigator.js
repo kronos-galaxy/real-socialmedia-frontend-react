@@ -16,7 +16,7 @@ import ChatScreen from 'screens/ChatScreen'
 import ChatDirectScreen from 'screens/ChatDirectScreen'
 import OnboardingScreen from 'screens/OnboardingScreen'
 
-const ChatNavigator = () => {
+const ChatNavigator = ({ navigation }) => {
   const { theme, themes } = useContext(ThemesContext)
   const Stack = createStackNavigator()
   const stackNavigatorDefaultProps = navigationOptions.stackNavigatorDefaultProps({ theme })
@@ -27,7 +27,7 @@ const ChatNavigator = () => {
       <Stack.Screen
         name="Chat"
         component={ChatScreen}
-        {...stackScreenPageProps({ options: { title: 'Chat' } })}
+        {...stackScreenPageProps({ options: { title: 'Chat', headerLeft: navigationOptions.chatHeaderLeft({ navigation, theme }) } })}
       />
       <Stack.Screen
         name="ChatDirect"
