@@ -11,6 +11,7 @@ import AlbumComponent from 'components/Post/Album'
 import CommentComponent from 'components/Post/Comment'
 import DescriptionComponent from 'components/Post/Description'
 import HeaderComponent from 'components/Post/Header'
+import VerificationComponent from 'components/Post/Verification'
 
 import ListItemComponent from 'templates/ListItem'
 import CacheComponent from 'components/Cache'
@@ -69,6 +70,12 @@ const PostComponent = ({
     }
   }
 
+  const failedVerificationVisibility = (
+    authUser.userId === !path(['postedBy', 'userId'])(post) &&
+    !path(['isVerified'])(post) &&
+    path(['postType'])(post) !== 'TEXT_ONLY'
+  )
+
   return (
     <View style={styling.root}>
       <TouchableOpacity style={styling.prev} onPress={handleScrollPrev} />
@@ -118,6 +125,9 @@ const PostComponent = ({
             resizeMode="contain"
             hideLabel={false}
           />
+          {failedVerificationVisibility ?
+            <VerificationComponent />
+          : null}
           <TouchableOpacity style={styling.prev} onPress={handleScrollPrev} />
           <TouchableOpacity style={styling.next} onPress={handleScrollNext} />
         </ListItemComponent>
