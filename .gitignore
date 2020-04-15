@@ -5,6 +5,8 @@
 .env.production
 ios/REAL.app.*.zip
 translations/
+ios/fastlane/.env.production
+ios/fastlane/.env.development
 
 # OSX
 #
