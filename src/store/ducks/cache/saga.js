@@ -3,6 +3,7 @@ import { eventChannel } from 'redux-saga'
 import * as actions from 'store/ducks/cache/actions'
 import * as constants from 'store/ducks/cache/constants'
 import * as service from 'store/ducks/cache/service'
+import path from 'ramda/src/path'
 
 /**
  * 
@@ -11,7 +12,7 @@ const progressCallback = (signature, emitter) => (data) => emitter({
   type: 'PROGRESS',
   payload: {
     signature,
-    jobId: data.jobId,
+    jobId: path(['jobId'])(data),
     progress: parseInt(data.bytesWritten / data.contentLength * 100, 10),
   },
 })
@@ -20,7 +21,7 @@ const requestCallback = (signature, emitter) => (data) => emitter({
   type: 'REQUEST',
   payload: {
     signature,
-    jobId: data.jobId,
+    jobId: path(['jobId'])(data),
     progress: 0,
   },
 })
@@ -29,7 +30,7 @@ const successCallback = (signature, emitter) => (data) => emitter({
   type: 'SUCCESS',
   payload: {
     signature,
-    jobId: data.jobId,
+    jobId: path(['jobId'])(data),
     progress: 100,
   },
 })
@@ -38,7 +39,7 @@ const failureCallback = (signature, emitter) => (data) => emitter({
   type: 'FAILURE',
   payload: {
     signature,
-    jobId: data.jobId,
+    jobId: path(['jobId'])(data),
     progress: 0,
   },
 })

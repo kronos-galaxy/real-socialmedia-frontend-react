@@ -45,16 +45,17 @@ export const fetchRemoteImage = async ({
     if (response.statusCode !== 200) {
       throw new Error(`http error ${response.statusCode}`)
     }
-    
-    successCallback({
+
+    return successCallback({
       jobId,
       signature,
       response,
     })
   } catch (error) {
-    failureCallback({
+    return failureCallback({
       jobId,
       signature,
+      error,
     })
   }
 }
@@ -64,12 +65,14 @@ export const priorityQueueInstance = priorityQueue(fetchRemoteImage, 3)
 export const priorotizedRemoteImageFetch = ({
   signature,
   priority,
+  queueInstance,
   progressCallback,
   requestCallback,
   successCallback,
   failureCallback,
 }) => {
-  priorityQueueInstance.push({
+  const queue = queueInstance || priorityQueueInstance
+  queue.push({
     signature,
     progressCallback,
     requestCallback,

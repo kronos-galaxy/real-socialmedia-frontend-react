@@ -206,7 +206,7 @@ const PostsList = ({
           </View>
         </>}
         renderItem={renderItem}
-        ListFooterComponent={scroll.loadingmore ? ActivityIndicator : null}
+        ListFooterComponent={postsFeedGet.status === 'loading' ? ActivityIndicator : null}
         ListFooterComponentStyle={styling.loading}
       />
     </View>
