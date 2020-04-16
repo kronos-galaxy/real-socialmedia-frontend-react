@@ -39,14 +39,6 @@ const authPersistConfig = {
   ],
 }
 
-const cachePersistConfig = {
-  key: 'cache',
-  storage: AsyncStorage,
-  whitelist: [
-    'cached',
-  ],
-}
-
 const chatPersistConfig = {
   key: 'chat',
   storage: AsyncStorage,
@@ -66,5 +58,5 @@ export default combineReducers({
   layout,
   translation,
   ui,
-  cache: persistReducer(cachePersistConfig, cache),
+  cache,
 })

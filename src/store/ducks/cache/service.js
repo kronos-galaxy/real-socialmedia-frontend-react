@@ -42,6 +42,10 @@ export const fetchRemoteImage = async ({
     const response = await promise
     await RNFS.completeHandlerIOS(jobId)
 
+    if (response.statusCode !== 200) {
+      throw new Error(`http error ${response.statusCode}`)
+    }
+    
     successCallback({
       jobId,
       signature,

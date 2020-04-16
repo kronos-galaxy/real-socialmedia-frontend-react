@@ -164,8 +164,8 @@ const CacheComponent = ({
               size={50}
               width={2}
               fill={fill}
-              tintColor="#00e0ff"
-              backgroundColor="#21ce99"
+              tintColor="#21ce99"
+              backgroundColor="#ffffff"
             />
           </View>
         : null}

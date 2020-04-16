@@ -20,14 +20,14 @@ update.extend('$cacheUnique', (value, original = []) =>
 )
 
 update.extend('$cacheProgress', (value, original = {}) => {
-  if (!value || !original.progress) {
+  if (!value || !Number.isInteger(original.progress)) {
     return { progress: 0 }
   }
   if (value < original.progress) {
     return original
   }
   return update(original, {
-    progress: { $set: value.progress },
+    progress: { $set: value },
   })
 })
 
