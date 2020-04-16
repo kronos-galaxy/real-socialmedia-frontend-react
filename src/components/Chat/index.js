@@ -27,6 +27,7 @@ const Chat = ({
   handleFormChange,
 
   chatGetChats,
+  chatGetChatsRequest,
   usersSearch,
   usersSearchRequest,
   usersGetTrendingUsers,
@@ -45,14 +46,33 @@ const Chat = ({
       </HeaderComponent>
 
       {formFocus && formChange ?
-        <ScrollView style={styling.root} ref={feedRef}>
+        <ScrollView
+          ref={feedRef}
+          style={styling.list}
+          refreshControl={
+            <RefreshControl
+              tintColor={theme.colors.border}
+              refreshing={usersSearch.status === 'loading'}
+            />
+          }
+        >
           <Subheading style={styling.subheading}>{t('Search')}</Subheading>
           <UsersComponent
             usersSearch={usersSearch}
           />
         </ScrollView>
       :
-        <ScrollView style={styling.root} ref={feedRef}>
+        <ScrollView
+          ref={feedRef}
+          style={styling.list}
+          refreshControl={
+            <RefreshControl
+              tintColor={theme.colors.border}
+              onRefresh={chatGetChatsRequest}
+              refreshing={chatGetChats.status === 'loading'}
+            />
+          }
+        >
           <Subheading style={styling.subheading}>{t('Recent')}</Subheading>
           <ContactsComponent
             authUser={authUser}
@@ -68,6 +88,9 @@ const styles = theme => StyleSheet.create({
   root: {
     flex: 1,
     backgroundColor: theme.colors.backgroundPrimary,
+  },
+  list: {
+    flex: 1,
   },
   subheading: {
     paddingTop: 6,

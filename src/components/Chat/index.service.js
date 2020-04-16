@@ -18,6 +18,9 @@ const ChatService = ({ children, }) => {
     dispatch(chatActions.chatGetChatsRequest())
   }, [])
 
+  const chatGetChatsRequest = () =>
+    dispatch(chatActions.chatGetChatsRequest())
+
   /**
    * FlatList feed ref, used for scroll to top on tab bar press
    */
@@ -49,6 +52,7 @@ const ChatService = ({ children, }) => {
     handleFormChange,
 
     chatGetChats,
+    chatGetChatsRequest,
     usersSearch: usersServices.cachedUsersSearch(usersSearch, usersGetProfileCache),
     usersSearchRequest,
     usersGetTrendingUsers,

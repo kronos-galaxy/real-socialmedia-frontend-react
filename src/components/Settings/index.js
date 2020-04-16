@@ -47,7 +47,7 @@ const Settings = ({
       'Profile Photo Upload',
       'Your photo will be uploaded as post',
       [{
-        text: 'Take a photo',
+        text: 'Take Photo',
         onPress: navigationActions.navigateCamera(navigation, { nextRoute: 'ProfilePhoto' }),
       }],
       { cancelable: true }
@@ -66,7 +66,7 @@ const Settings = ({
 
       <ActionSheet
         ref={actionSheetRef}
-        options={[t('Take a Photo'), t('Choose From Gallery'), t('Cancel')]}
+        options={[t('Take Photo'), t('Choose From Gallery'), t('Cancel')]}
         cancelButtonIndex={2}
         onPress={(index) => {
           if (index === 0) {

@@ -82,7 +82,7 @@ const Uploading = ({
         <View style={styling.status}>
           <TouchableOpacity style={styling.content} onPress={() => postsCreateIdle(post.payload)}>
             <Text style={styling.title}>Done</Text>
-            <Caption style={styling.subtitle}>{t('Successfuly created')}</Caption>
+            <Caption style={styling.subtitle}>{t('Successfully created')}</Caption>
           </TouchableOpacity>
           <TouchableOpacity style={styling.icon} onPress={() => postsCreateIdle(post.payload)}>
             <TickIcon fill="#ffffff" />

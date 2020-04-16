@@ -81,10 +81,10 @@ const OnboardPhoto = ({
 
       {helperVisiblity ?
         <View style={[styling.content, styling.padding]}>
-          <Subheading style={styling.subheading}>{t('You are all setup! Start with uploading your first photo.')}</Subheading>
+          <Subheading style={styling.subheading}>{t('Please choose a profile picture to get started!')}</Subheading>
 
           <View style={styling.action}>
-            <DefaultButton label={t('Take a Photo')} onPress={navigationActions.navigateOnboardCamera(navigation, { nextRoute: 'OnboardPhoto' })} />
+            <DefaultButton label={t('Take Photo')} onPress={navigationActions.navigateOnboardCamera(navigation, { nextRoute: 'OnboardPhoto' })} />
           </View>
         </View>
       : null}
@@ -115,7 +115,7 @@ const OnboardPhoto = ({
             />
           </View>
 
-          <Subheading style={styling.subheading}>{t('You are all setup! Start with uploading your first photo.')}</Subheading>
+          <Subheading style={styling.subheading}>{t('Please choose a profile picture to get started!')}</Subheading>
 
           <View style={styling.action}>
             <DefaultButton label={t('Upload this photo')} onPress={() => postsCreateRequest({

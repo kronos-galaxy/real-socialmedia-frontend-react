@@ -128,8 +128,8 @@ const Profile = ({
     >
       <NativeError
         handleCancelPress={() => {}}
-        titleText={t('All good!')}
-        messageText={t('User is blocked and will not have an access to your posts')}
+        titleText={t('User Blocked')}
+        messageText={t('The user has been blocked and will no longer have access to yours posts.')}
         actionText={t('Done')}
         status={path(['status'])(usersBlock)}
         triggerOn="success"
