@@ -35,7 +35,11 @@ const ProfilePhoto = ({
             <Caption style={styling.subtitle}>{t('Upload this photo to set as profile photo or choose from your existing posts')}</Caption>
           </View>
         </TouchableOpacity>
-        <TouchableOpacity style={styling.icon} onPress={() => postsCreateRequest({ images: [path(['data', 0, 'uri'])(cameraCapture)] })}>
+        <TouchableOpacity style={styling.icon} onPress={() => postsCreateRequest({
+          images: [path(['data', 0, 'uri'])(cameraCapture)],
+          takenInReal: path(['data', 0, 'takenInReal'])(cameraCapture),
+          originalFormat: path(['data', 0, 'originalFormat'])(cameraCapture),
+        })}>
           <Text style={styling.title}>Upload</Text>
         </TouchableOpacity>
       </View>

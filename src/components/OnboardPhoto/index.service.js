@@ -10,37 +10,33 @@ import { useNavigation } from '@react-navigation/native'
 import { v4 as uuid } from 'uuid'
 import dayjs from 'dayjs'
 
-const PostsGridSelectService = ({ children, }) => {
+const OnboardPhotoService = ({ children, }) => {
   const dispatch = useDispatch()
   const navigation = useNavigation()
   const user = useSelector(authSelector.authUserSelector)
-  const usersImagePostsGet = useSelector(state => state.users.usersImagePostsGet)
   const usersEditProfile = useSelector(state => state.users.usersEditProfile)
   const postsCreateQueue = useSelector(state => state.posts.postsCreateQueue)
-  const authUser = useSelector(state => state.auth.user)
+  const postsCreate = useSelector(state => state.posts.postsCreate)
 
   const postsCreateIdle = (payload) =>
     dispatch(postsActions.postsCreateIdle({ payload }))
 
-  const usersImagePostsGetRequest = (payload) =>
-    dispatch(usersActions.usersImagePostsGetRequest(payload))
-
-  const usersEditProfileRequest = () =>
-    dispatch(usersActions.usersEditProfileRequest({ photoPostId: selectedPost.postId }))
-
   useEffect(() => {
-    usersImagePostsGetRequest({ userId: user.userId })
-  }, [])
+    if (postsCreate.status === 'success') {
+      dispatch(usersActions.usersEditProfileRequest({ photoPostId: postsCreate.payload.postId }))
+    }
+  }, [postsCreate.status])
 
   useEffect(() => {
     if (usersEditProfile.status === 'success') {
-      navigationActions.navigateProfileSelf(navigation)()
       dispatch(usersActions.usersEditProfileIdle())
+      dispatch(authActions.authCheckIdle({ nextRoute: 'Root' }))
+      dispatch(postsActions.postsCreateIdle({ payload: postsCreate.payload }))
+    }
+    if (usersEditProfile.status === 'failure') {
+      dispatch(postsActions.postsCreateIdle({ payload: postsCreate.payload }))
     }
   }, [usersEditProfile.status])
-
-  const [selectedPost, setSelectedPost] = useState({})
-  const handlePostPress = (post) => setSelectedPost(post)
 
   /**
    * 
@@ -86,8 +82,6 @@ const PostsGridSelectService = ({ children, }) => {
     if (postType === 'IMAGE') {
       dispatch(cameraActions.cameraCaptureIdle({ payload: { uri: images[0] } }))
     }
-
-    dispatch(authActions.authCheckIdle({ nextRoute: 'Root' }))
   }
 
   const cameraCaptureIdle = (payload) =>
@@ -95,19 +89,13 @@ const PostsGridSelectService = ({ children, }) => {
 
   return children({
     user,
-    usersImagePostsGet,
-    usersImagePostsGetRequest,
-    handlePostPress,
-    selectedPost,
-    usersEditProfileRequest,
-
-    authUser,
     cameraCapture,
     postsCreateIdle,
     postsCreateRequest,
     postsCreateQueue,
     cameraCaptureIdle,
+    usersEditProfile,
   })
 }
 
-export default PostsGridSelectService
+export default OnboardPhotoService

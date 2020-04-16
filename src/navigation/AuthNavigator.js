@@ -12,6 +12,7 @@ import AuthSignupConfirmScreen from 'screens/AuthSignupConfirmScreen'
 import OnboardNameScreen from 'screens/OnboardNameScreen'
 import OnboardPhotoScreen from 'screens/OnboardPhotoScreen'
 import CameraScreen from 'screens/CameraScreen'
+import VerificationScreen from 'screens/VerificationScreen'
 
 const AuthNavigator = ({ theme }) => {
   const Stack = createStackNavigator()
@@ -68,6 +69,12 @@ const AuthNavigator = ({ theme }) => {
         name="OnboardCamera"
         component={CameraScreen}
         {...stackScreenBlankProps}
+      />
+
+      <Stack.Screen
+        name="Verification"
+        component={VerificationScreen}
+        {...stackScreenAuthProps}
       />
     </Stack.Navigator>
   )

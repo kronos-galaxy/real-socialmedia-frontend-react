@@ -38,7 +38,7 @@ function initPostsCreateUploadChannel({ image, imageUrl }) {
           emitter({ status: 'progress', progress: parseInt(written / total * 100, 10), attempt })
         })
         .catch((error) => {
-          emitter({ status: 'progress', progress: 0, attempt })
+          emitter({ status: 'progress', progress: 0, attempt, error })
           retry(error)
         })
     }, { retries: 5 })
@@ -112,6 +112,7 @@ function* handleImagePost(req) {
       const meta = {
         attempt: upload.attempt || req.payload.attempt,
         progress: parseInt(upload.progress, 10),
+        error: upload.error,
       }
 
       if (upload.status === 'progress') {

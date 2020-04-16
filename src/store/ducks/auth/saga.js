@@ -123,7 +123,7 @@ function* authOnboardRequest(req) {
     yield put(actions.authOnboardSuccess({
       message: errors.getMessagePayload(constants.AUTH_ONBOARD_SUCCESS, 'GENERIC'),
       data: selector(data),
-      nextRoute: 'Root',
+      nextRoute: 'OnboardPhoto',
     }))
   } catch (error) {
     if (path(['errors', '0', 'path', '0'])(error) === 'createCognitoOnlyUser') {
@@ -153,7 +153,8 @@ function* handleAuthCheckRequest() {
 }
 
 function handleAuthCheckValidation(self) {
-  if (!path(['photo', 'url'])(self)) {
+  const photoUrl = path(['photo', 'url'])(self)
+  if (!photoUrl || photoUrl.includes('placeholder-photos')) {
     throw new Error('PROFILE_PHOTO_MISSING')
   }
 }

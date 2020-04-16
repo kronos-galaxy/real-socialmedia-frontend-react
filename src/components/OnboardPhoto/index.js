@@ -7,6 +7,8 @@ import {
 import { Subheading } from 'react-native-paper'
 import DefaultButton from 'components/Formik/Button/DefaultButton'
 import * as navigationActions from 'navigation/actions'
+import UploadingComponent from 'components/PostsList/Uploading'
+import FeatureComponent from 'templates/Feature'
 import path from 'ramda/src/path'
 import Avatar from 'templates/Avatar'
 
@@ -17,9 +19,13 @@ import { withTranslation } from 'react-i18next'
 const OnboardPhoto = ({
   t,
   theme,
+  user,
   cameraCapture,
   cameraCaptureIdle,
   postsCreateRequest,
+  postsCreateIdle,
+  postsCreateQueue,
+  usersEditProfile,
 }) => {
   const styling = styles(theme)
   const navigation = useNavigation()
@@ -29,10 +35,52 @@ const OnboardPhoto = ({
     navigationActions.navigateOnboardCamera(navigation, { nextRoute: 'OnboardPhoto' })()
   }
 
+  const postsCreateQueueFiltered = Object.values(postsCreateQueue)
+    .filter(item => item.status === 'loading')
+
+  const helperVisiblity = (
+    !path(['data', 0, 'uri'])(cameraCapture) &&
+    !postsCreateQueueFiltered.length &&
+    usersEditProfile.status === 'idle'
+  )
+
+  const progressVisibility = (
+    !path(['data', 0, 'uri'])(cameraCapture) &&
+    postsCreateQueueFiltered.length
+  )
+
+  const uploadVisibility = (
+    path(['data', 0, 'uri'])(cameraCapture) &&
+    !postsCreateQueueFiltered.length
+  )
+
+  const failureVisibility = (
+    usersEditProfile.status === 'failure' &&
+    !path(['data', 0, 'uri'])(cameraCapture) &&
+    !postsCreateQueueFiltered.length
+  )
+
   return (
     <View style={styling.root}>
-      {!path(['data', 0, 'uri'])(cameraCapture) ?
-        <View style={styling.content}>
+      {failureVisibility ?
+        <View style={[styling.content, styling.padding]}>
+          <Subheading style={styling.subheading}>{t('Your photo verification has failed.')}</Subheading>
+
+          <View style={styling.action}>
+            <FeatureComponent active>{t('The Photo must be uncropped')}</FeatureComponent>
+            <FeatureComponent active>{t('The Photo must be unrotated')}</FeatureComponent>
+            <FeatureComponent active>{t('The Photo must have been taken on this phone (not sent to you)')}</FeatureComponent>
+            <FeatureComponent active>{t('If you’re still having trouble, photos taken using the camera inside the REAL app will always pass verification')}</FeatureComponent>
+          </View>
+
+          <View style={styling.action}>
+            <DefaultButton label={t('Take new Photo')} onPress={navigationActions.navigateOnboardCamera(navigation, { nextRoute: 'OnboardPhoto' })} />
+          </View>
+        </View>
+      : null}
+
+      {helperVisiblity ?
+        <View style={[styling.content, styling.padding]}>
           <Subheading style={styling.subheading}>{t('You are all setup! Start with uploading your first photo.')}</Subheading>
 
           <View style={styling.action}>
@@ -41,28 +89,46 @@ const OnboardPhoto = ({
         </View>
       : null}
 
-      {path(['data', 0, 'uri'])(cameraCapture) ?
-        <>
-          <View style={styling.content}>
-            <View style={styling.action}>
-              <Avatar
-                thumbnailSource={{ uri: path(['data', 0, 'uri'])(cameraCapture) }}
-                imageSource={{ uri: path(['data', 0, 'uri'])(cameraCapture) }}
-                size="large"
+      {progressVisibility ?
+        <View style={styling.content}>
+          <View style={styling.uploading}>
+            {postsCreateQueueFiltered.map((post, key) => (
+              <UploadingComponent
+                key={key}
+                authUser={user}
+                post={post}
+                postsCreateRequest={postsCreateRequest}
+                postsCreateIdle={postsCreateIdle}
               />
-            </View>
-  
-            <Subheading style={styling.subheading}>{t('You are all setup! Start with uploading your first photo.')}</Subheading>
-
-            <View style={styling.action}>
-              <DefaultButton label={t('Upload this photo')} onPress={() => postsCreateRequest({ images: [path(['data', 0, 'uri'])(cameraCapture)] })} />
-            </View>
-
-            <View style={styling.action}>
-              <DefaultButton label={t('Retake')} onPress={handleRetake} mode="outlined" />
-            </View>
+            ))}
           </View>
-        </>
+        </View>
+      : null}
+
+      {uploadVisibility ?
+        <View style={[styling.content, styling.padding]}>
+          <View style={styling.action}>
+            <Avatar
+              thumbnailSource={{ uri: path(['data', 0, 'uri'])(cameraCapture) }}
+              imageSource={{ uri: path(['data', 0, 'uri'])(cameraCapture) }}
+              size="large"
+            />
+          </View>
+
+          <Subheading style={styling.subheading}>{t('You are all setup! Start with uploading your first photo.')}</Subheading>
+
+          <View style={styling.action}>
+            <DefaultButton label={t('Upload this photo')} onPress={() => postsCreateRequest({
+              images: [path(['data', 0, 'uri'])(cameraCapture)],
+              takenInReal: path(['data', 0, 'takenInReal'])(cameraCapture),
+              originalFormat: path(['data', 0, 'originalFormat'])(cameraCapture),
+            })} />
+          </View>
+
+          <View style={styling.action}>
+            <DefaultButton label={t('Retake')} onPress={handleRetake} mode="outlined" />
+          </View>
+        </View>
       : null}
     </View>
   )
@@ -74,8 +140,10 @@ const styles = theme => StyleSheet.create({
   },
   content: {
     flex: 1,
-    paddingHorizontal: 48,
     justifyContent: 'center',
+  },
+  padding: {
+    paddingHorizontal: 48,
   },
   action: {
     justifyContent: 'center',

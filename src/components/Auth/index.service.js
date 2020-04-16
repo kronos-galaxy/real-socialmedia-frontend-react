@@ -33,6 +33,7 @@ const AuthComponentService = ({ children, }) => {
   
   const authSigninRequest = (payload) => {
     const usernameType = guessUsernameType(payload.username)
+    dispatch(authActions.authSignupIdle())
     dispatch(authActions.authSigninRequest({
       usernameType,
       username: toLower(payload.username),
