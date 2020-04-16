@@ -13,6 +13,7 @@
 #import <React/RCTLinkingManager.h>
 #import <CodePush/CodePush.h>
 #import <RNFSManager.h>
+#import <RNGoogleSignIn/RNGoogleSignIn.h>
 #import <FBSDKCoreKit/FBSDKCoreKit.h>
 
 #if DEBUG
@@ -62,7 +63,11 @@
             openURL:(NSURL *)url
             options:(NSDictionary<UIApplicationOpenURLOptionsKey,id> *)options
 {
-  if ([[FBSDKApplicationDelegate sharedInstance] application:app openURL:url options:options]) {
+    if ([[FBSDKApplicationDelegate sharedInstance] application:app openURL:url options:options]) {
+    return YES;
+  }
+
+  if ([RNGoogleSignin application:app openURL:url options:options]) {
     return YES;
   }
 
