@@ -26,6 +26,7 @@ const OnboardPhoto = ({
   postsCreateIdle,
   postsCreateQueue,
   usersEditProfile,
+  profileEditing,
 }) => {
   const styling = styles(theme)
   const navigation = useNavigation()
@@ -60,9 +61,21 @@ const OnboardPhoto = ({
     !postsCreateQueueFiltered.length
   )
 
+  // const processingVisibility = (
+  //   usersEditProfile.status === 'idle' &&
+  //   !path(['data', 0, 'uri'])(cameraCapture) &&
+  //   !postsCreateQueueFiltered.length
+  // )
+
   return (
     <View style={styling.root}>
-      {failureVisibility ?
+      {failureVisibility && profileEditing ?
+        <View style={[styling.content, styling.padding]}>
+          <Subheading style={styling.subheading}>{t('Processing.')}</Subheading>
+        </View>
+      : null}
+
+      {failureVisibility && !profileEditing ?
         <View style={[styling.content, styling.padding]}>
           <Subheading style={styling.subheading}>{t('Your photo verification has failed.')}</Subheading>
 
@@ -79,7 +92,7 @@ const OnboardPhoto = ({
         </View>
       : null}
 
-      {helperVisiblity ?
+      {helperVisiblity && !profileEditing ?
         <View style={[styling.content, styling.padding]}>
           <Subheading style={styling.subheading}>{t('Please choose a profile picture to get started!')}</Subheading>
 
