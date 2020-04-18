@@ -13,14 +13,14 @@ import CheckedIcon from 'assets/svg/other/Checked'
 import UncheckedIcon from 'assets/svg/other/Unchecked'
 import { Caption } from 'react-native-paper'
 import HeaderRight from 'navigation/HeaderRight'
-import ProfilePhotoComponent from 'components/PostsGridSelect/ProfilePhoto'
+import ProfilePhotoComponent from 'components/ProfilePhoto/ProfilePhoto'
 import UploadingComponent from 'components/PostsList/Uploading'
 
 import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
 import { withTranslation } from 'react-i18next'
 
-const PostsGridSelect = ({
+const ProfilePhoto = ({
   t,
   theme,
   usersImagePostsGet,
@@ -103,15 +103,15 @@ const styles = theme => StyleSheet.create({
   },
 })
 
-PostsGridSelect.defaultProps = {
+ProfilePhoto.defaultProps = {
   usersImagePostsGet: {},
 }
 
-PostsGridSelect.propTypes = {
+ProfilePhoto.propTypes = {
   theme: PropTypes.any,
   usersImagePostsGet: PropTypes.any,
   handlePostPress: PropTypes.any,
   selectedPost: PropTypes.any,
 }
 
-export default withTranslation()(withTheme(PostsGridSelect))
+export default withTranslation()(withTheme(ProfilePhoto))

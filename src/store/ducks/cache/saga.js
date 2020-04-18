@@ -40,6 +40,7 @@ const failureCallback = (signature, emitter) => (data) => emitter({
   payload: {
     signature,
     jobId: path(['jobId'])(data),
+    error: path(['error'])(data),
     progress: 0,
   },
 })
@@ -107,6 +108,7 @@ function* cacheFetchRequest(req) {
     }
     if (eventData.type === 'FAILURE') {
       yield put(actions.cacheFetchFailure(eventData.payload))
+      yield put(actions.cacheFetchRequest(req))
     }
   }
 

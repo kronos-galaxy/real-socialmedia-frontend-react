@@ -1,5 +1,5 @@
 import { graphqlOperation } from '@aws-amplify/api'
-import { call, put, takeEvery, all, getContext, delay, select } from 'redux-saga/effects'
+import { call, put, takeEvery, all, getContext, select } from 'redux-saga/effects'
 import { eventChannel } from 'redux-saga'
 import path from 'ramda/src/path'
 import RNFetchBlob from 'rn-fetch-blob'

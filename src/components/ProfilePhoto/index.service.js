@@ -9,7 +9,7 @@ import { useNavigation } from '@react-navigation/native'
 import { v4 as uuid } from 'uuid'
 import dayjs from 'dayjs'
 
-const PostsGridSelectService = ({ children, }) => {
+const ProfilePhotoService = ({ children, }) => {
   const dispatch = useDispatch()
   const navigation = useNavigation()
   const user = useSelector(authSelector.authUserSelector)
@@ -59,6 +59,7 @@ const PostsGridSelectService = ({ children, }) => {
     takenInReal = false,
     originalFormat = 'jpg',
     originalMetadata = '',
+    setAsUserPhoto = true,
   }) => {
     const postId = uuid()
     const mediaId = uuid()
@@ -80,6 +81,7 @@ const PostsGridSelectService = ({ children, }) => {
       originalMetadata,
       createdAt: dayjs().toJSON(),
       attempt: 0,
+      setAsUserPhoto,
     }))
 
     if (postType === 'IMAGE') {
@@ -103,4 +105,4 @@ const PostsGridSelectService = ({ children, }) => {
   })
 }
 
-export default PostsGridSelectService
+export default ProfilePhotoService

@@ -77,17 +77,6 @@ const CacheComponent = ({
   const fail = path([pathFolder])(failed)
   const fill = path([pathFolder, 'progress'])(progress)
 
-  /**
-   * 
-   */
-  const handleError = ({ nativeEvent }) => {
-    dispatch(actions.cacheFetchIdle({
-      signature: {
-        pathFolder,
-      },
-    }))
-  }
-
   const getFilename = (source) => {
     if (!source) return ''
     const withoutQuery = source.split('?').shift()
@@ -109,7 +98,7 @@ const CacheComponent = ({
     return 0
   }
 
-  useEffect(() => {
+  const fetchRemoteImages = () =>
     signatures.forEach(([signature, shouldDownload], index) => {
       const priority = getPriority(getFilename(signature.source), priorityIndex)
 
@@ -132,11 +121,27 @@ const CacheComponent = ({
       }))
     })
 
+  useEffect(() => {
+    fetchRemoteImages()
+
     /**
      * Cancel all pending tasks on image remove
      */
     return () => {}
   }, [])
+
+  /**
+   * 
+   */
+  const handleError = ({ nativeEvent }) => {
+    dispatch(actions.cacheFetchIdle({
+      signature: {
+        pathFolder,
+      },
+    }))
+    
+    fetchRemoteImages()
+  }
 
   /**
    * Show loading indicator image if placeholder image is not loaded, yet.

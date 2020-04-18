@@ -81,7 +81,7 @@ const cacheFetchFailure = (state, action) => update(state, {
   },
   failed: {
     [action.payload.signature.pathFolder]: {
-      $cacheUnique: action.payload.signature.source,
+      $cacheUnique: action.payload.signature.path,
     },
   },
 })

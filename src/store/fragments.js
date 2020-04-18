@@ -142,7 +142,10 @@ export const postFragment = `
   fragment postFragment on Post {
     ...rootPost
     originalPost {
-      ...rootPost
+      postId
+      postedBy {
+        ...userFragment
+      }
     }
     onymouslyLikedBy (limit: 1) {
       items {

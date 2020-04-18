@@ -1,15 +1,15 @@
 import React from 'react'
-import PostsGridSelectComponent from 'components/PostsGridSelect'
-import PostsGridSelectServiceComponent from 'components/PostsGridSelect/index.service'
+import ProfilePhotoComponent from 'components/ProfilePhoto'
+import ProfilePhotoServiceComponent from 'components/ProfilePhoto/index.service'
 
 class ProfilePhotoScreen extends React.Component {
   render() {
     return (
-      <PostsGridSelectServiceComponent>
+      <ProfilePhotoServiceComponent>
         {(props) => (
-          <PostsGridSelectComponent {...props} />
+          <ProfilePhotoComponent {...props} />
         )}
-      </PostsGridSelectServiceComponent>
+      </ProfilePhotoServiceComponent>
     )
   }
 }

@@ -83,7 +83,8 @@ export const addPhotoPost = `
     $takenInReal: Boolean,
     $originalFormat: String,
     $originalMetadata: String,
-    $verificationHidden: Boolean
+    $verificationHidden: Boolean,
+    $setAsUserPhoto: Boolean,
   ) {
     addPost (
       postId: $postId,
@@ -95,6 +96,7 @@ export const addPhotoPost = `
       likesDisabled: $likesDisabled,
       sharingDisabled: $sharingDisabled,
       verificationHidden: $verificationHidden,
+      setAsUserPhoto: $setAsUserPhoto,
       imageInput: {
         takenInReal: $takenInReal,
         originalFormat: $originalFormat,

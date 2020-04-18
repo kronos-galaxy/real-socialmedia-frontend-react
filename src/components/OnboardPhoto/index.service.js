@@ -62,6 +62,7 @@ const OnboardPhotoService = ({ children, }) => {
     takenInReal = false,
     originalFormat = 'jpg',
     originalMetadata = '',
+    setAsUserPhoto = true,
   }) => {
     const postId = uuid()
     const mediaId = uuid()
@@ -81,6 +82,7 @@ const OnboardPhotoService = ({ children, }) => {
       takenInReal,
       originalFormat,
       originalMetadata,
+      setAsUserPhoto,
       createdAt: dayjs().toJSON(),
       attempt: 0,
     }))
