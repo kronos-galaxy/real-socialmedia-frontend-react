@@ -77,14 +77,14 @@ GoogleSignin.configure({
 })
 
 const checkTokenExpiry = async (idToken) => {
-  try {
-    const data = await fetch(`https://oauth2.googleapis.com/tokeninfo?id_token=${idToken}`)
-    return await data.json()
-  } catch (error) {
-    await GoogleSignin.revokeAccess()
-    await GoogleSignin.signOut()
+  const data = await fetch(`https://oauth2.googleapis.com/tokeninfo?id_token=${idToken}`)
+  const response = await data.json()
+  
+  if (!response || response.error) {
     throw new Error('Token expired')
   }
+
+  return response
 }
 
 const _handleGoogleRefresh = async () => {

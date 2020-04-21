@@ -477,7 +477,6 @@ function* authForgotConfirmRequest(req) {
  */
 function* handleAuthFacebookRequest(payload) {
   const AwsAuth = yield getContext('AwsAuth')
-  yield AwsAuth.signOut()
 
   const facebook = yield federatedFacebookSignin()
 
@@ -522,7 +521,6 @@ function* authFacebookRequest(req) {
  */
 function* handleAuthGoogleRequest(payload) {
   const AwsAuth = yield getContext('AwsAuth')
-  yield AwsAuth.signOut()
 
   const google = yield federatedGoogleSignin()
 
