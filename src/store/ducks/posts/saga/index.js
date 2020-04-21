@@ -1,5 +1,5 @@
 import { graphqlOperation } from '@aws-amplify/api'
-import { call, put, takeEvery, takeLatest, getContext } from 'redux-saga/effects'
+import { call, put, takeEvery, takeLatest, getContext, select } from 'redux-saga/effects'
 import { eventChannel } from 'redux-saga'
 import path from 'ramda/src/path'
 import compose from 'ramda/src/compose'
@@ -389,6 +389,7 @@ function postSubscriptionChannel({ subscription }) {
 }
 
 function* postSubscription(req) {
+  const AwsAPI = yield getContext('AwsAPI')
 
   const subscription = AwsAPI.graphql(
     graphqlOperation(queries.onPostNotification, { userId: req.payload.data.userId })
@@ -401,22 +402,23 @@ function* postSubscription(req) {
   yield takeEvery(channel, function *(eventData) {
     const postId = path(['value', 'data', 'onPostNotification', 'post', 'postId'])(eventData)
     const userId = path(['value', 'data', 'onPostNotification', 'userId'])(eventData)
-    const pseudoPayload = {
-      postId,
-      postedBy: {
-        userId,
-      },
-    }
+    const type = path(['value', 'data', 'onPostNotification', 'type'])(eventData)
+    
+    const data = yield queryService.apiRequest(queries.getPost, { postId })
+    const selector = path(['data', 'post'])
 
-    // yield put(actions.postsCreateSuccess({ data: {}, payload: pseudoPayload, meta: {} }))
-    yield put(actions.postsFeedGetRequest({  }))
-    yield put(actions.postsGetRequest({ userId }))
-    yield put(usersActions.usersImagePostsGetRequest({ userId }))
+    if (type === 'COMPLETED') {
+      yield put(actions.postsCreateSuccess({ data: {}, payload: selector(data), meta: {} }))
+      yield put(actions.postsFeedGetRequest({  }))
+      yield put(actions.postsGetRequest({ userId }))
+      yield put(usersActions.usersImagePostsGetRequest({ userId }))
+      yield put(actions.postsCreateIdle({ payload: { postId } }))
+    }
   })
 }
 
 export default () => [
-  takeLatest('AUTH_CHECK_SUCCESS', postSubscription),
+  takeLatest('AUTH_CHECK_READY', postSubscription),
   takeLatest(constants.POSTS_GET_REQUEST, postsGetRequest),
   takeLatest(constants.POSTS_GET_MORE_REQUEST, postsGetMoreRequest),
   takeLatest(constants.POSTS_VIEWS_GET_REQUEST, postsViewsGetRequest),

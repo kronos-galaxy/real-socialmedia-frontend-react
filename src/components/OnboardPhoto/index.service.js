@@ -26,10 +26,8 @@ const OnboardPhotoService = ({ children, }) => {
   useEffect(() => {
     if (postsCreate.status === 'success') {
       setProfileEditing(true)
-      setTimeout(() => {
-        dispatch(usersActions.usersEditProfileRequest({ photoPostId: postsCreate.payload.postId }))
-        setProfileEditing(false)
-      }, 12000)
+      dispatch(usersActions.usersEditProfileRequest({ photoPostId: postsCreate.payload.postId }))
+      setProfileEditing(false)
     }
   }, [postsCreate.status])
 

@@ -119,7 +119,7 @@ function* handleImagePost(req) {
       }
 
       if (upload.status === 'success') {
-        yield put(actions.postsCreateSuccess({ data: {}, payload: req.payload, meta }))
+        // yield put(actions.postsCreateSuccess({ data: {}, payload: req.payload, meta }))
       }
 
       if (upload.status === 'failure') {

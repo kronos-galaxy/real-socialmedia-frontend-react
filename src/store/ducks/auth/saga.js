@@ -163,7 +163,11 @@ function handleAuthCheckValidation(self) {
  */
 function* authCheckRequest(req) {
   try {
-    yield handleAuthCheckRequest(req.payload)
+    const authData = yield handleAuthCheckRequest(req.payload)
+
+    yield put(actions.authCheckReady({
+      data: { userId: authData.username },
+    }))
 
     const data = yield queryService.apiRequest(queries.self, req.payload)
     const selector = path(['data', 'self'])
