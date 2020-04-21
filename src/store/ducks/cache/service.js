@@ -62,6 +62,17 @@ export const fetchRemoteImage = async ({
 
 export const priorityQueueInstance = priorityQueue(fetchRemoteImage, 3)
 
+/**
+ * 
+ */
+export const removeLocalFolder = async (pathFolder) => {
+  try {
+    return await RNFS.unlink(pathFolder)
+  } catch (error) {
+    console.log(error)
+  }
+}
+
 export const priorotizedRemoteImageFetch = ({
   signature,
   priority,

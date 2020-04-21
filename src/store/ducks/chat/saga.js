@@ -7,15 +7,14 @@ import * as constants from 'store/ducks/chat/constants'
 import * as uiActions from 'store/ducks/ui/actions'
 import * as chatActions from 'store/ducks/chat/actions'
 import path from 'ramda/src/path'
+import * as queryService from 'services/Query'
 
 /**
  * 
  */
 function* chatGetChatsRequest(req) {
-  const AwsAPI = yield getContext('AwsAPI')
-
   try {
-    const data = yield AwsAPI.graphql(graphqlOperation(queries.chats, req.payload))
+    const data = yield queryService.apiRequest(queries.chats, req.payload)
     const selector = path(['data', 'self', 'chats'])
 
     yield put(actions.chatGetChatsSuccess({ data: selector(data), payload: req.payload, meta: data }))
@@ -28,10 +27,8 @@ function* chatGetChatsRequest(req) {
  * 
  */
 function* chatGetChatRequest(req) {
-  const AwsAPI = yield getContext('AwsAPI')
-
   try {
-    const data = yield AwsAPI.graphql(graphqlOperation(queries.chat, req.payload))
+    const data = yield queryService.apiRequest(queries.chat, req.payload)
     const selector = path(['data', 'chat'])
 
     yield put(actions.chatGetChatSuccess({ data: selector(data), payload: req.payload, meta: data }))
@@ -44,10 +41,8 @@ function* chatGetChatRequest(req) {
  * 
  */
 function* chatCreateDirectRequest(req) {
-  const AwsAPI = yield getContext('AwsAPI')
-
   try {
-    const data = yield AwsAPI.graphql(graphqlOperation(queries.createDirectChat, req.payload))
+    const data = yield queryService.apiRequest(queries.createDirectChat, req.payload)
     const selector = path(['data', 'createDirectChat'])
 
     yield put(actions.chatCreateDirectSuccess({ data: selector(data), payload: req.payload, meta: data }))
@@ -60,10 +55,8 @@ function* chatCreateDirectRequest(req) {
  * 
  */
 function* chatAddMessageRequest(req) {
-  const AwsAPI = yield getContext('AwsAPI')
-
   try {
-    const data = yield AwsAPI.graphql(graphqlOperation(queries.addChatMessage, req.payload))
+    const data = yield queryService.apiRequest(queries.addChatMessage, req.payload)
     const selector = path(['data', 'addChatMessage'])
 
     yield put(actions.chatAddMessageSuccess({ data: selector(data), payload: req.payload, meta: data }))
@@ -84,8 +77,6 @@ function chatMessageSubscriptionChannel({ subscription }) {
 }
 
 function* chatMessageSubscription(req) {
-  const AwsAPI = yield getContext('AwsAPI')
-
   const subscription = AwsAPI.graphql(
     graphqlOperation(queries.onChatMessageNotification, { userId: req.payload.data.userId })
   )

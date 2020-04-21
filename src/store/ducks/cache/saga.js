@@ -115,6 +115,15 @@ function* cacheFetchRequest(req) {
   yield takeEvery(channel, channelListener)
 }
 
+function* cacheFetchIdle(req) {
+  try {
+    yield service.removeLocalFolder(req.payload.signature.pathFolder)
+  } catch (error) {
+    console.log(error)
+  }
+}
+
 export default () => [
   takeEvery(constants.CACHE_FETCH_REQUEST, cacheFetchRequest),
+  takeEvery(constants.CACHE_FETCH_IDLE, cacheFetchIdle),
 ]

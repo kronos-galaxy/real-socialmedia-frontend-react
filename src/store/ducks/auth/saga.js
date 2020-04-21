@@ -6,7 +6,6 @@ import {
   federatedGoogleSignin,
   federatedGoogleSignout,
 } from 'services/AWS'
-import { graphqlOperation } from '@aws-amplify/api'
 import * as actions from 'store/ducks/auth/actions'
 import * as queries from 'store/ducks/auth/queries'
 import * as constants from 'store/ducks/auth/constants'
@@ -15,6 +14,7 @@ import * as CognitoIdentity from 'amazon-cognito-identity-js'
 import Config from 'react-native-config'
 import AsyncStorage from '@react-native-community/async-storage'
 import { promisify } from 'es6-promisify'
+import * as queryService from 'services/Query'
 
 function* getSignupStage({ username }) {
   return yield AsyncStorage.getItem(`@real:signup:${username}`)
@@ -78,7 +78,6 @@ function* linkUserIdentities(payload) {
  * 
  */
 function* handleAuthOnboardRequest(payload) {
-  const AwsAPI = yield getContext('AwsAPI')
   const AwsAuth = yield getContext('AwsAuth')
 
   const data = yield AwsAuth.currentAuthenticatedUser({
@@ -86,34 +85,32 @@ function* handleAuthOnboardRequest(payload) {
   })
 
   if (data.authProvider === 'FACEBOOK') {
-    yield AwsAPI.graphql(graphqlOperation(queries.createFacebookUser, {
+    yield queryService.apiRequest(queries.createFacebookUser, {
       username: payload.username,
       fullName: payload.fullName,
       facebookAccessToken: data.token,
-    }))
+    })
   } else if (data.authProvider === 'GOOGLE') {
-    yield AwsAPI.graphql(graphqlOperation(queries.createGoogleUser, {
+    yield queryService.apiRequest(queries.createGoogleUser, {
       username: payload.username,
       fullName: payload.fullName,
       googleIdToken: data.token,
-    }))
+    })
   } else {
-    yield AwsAPI.graphql(graphqlOperation(queries.createCognitoOnlyUser, {
+    yield queryService.apiRequest(queries.createCognitoOnlyUser, {
       username: payload.username,
       fullName: payload.fullName,
-    }))
+    })
   }
 
-  yield AwsAPI.graphql(graphqlOperation(queries.setUserAcceptedEULAVersion, { version: '15-11-2019' }))
+  yield queryService.apiRequest(queries.setUserAcceptedEULAVersion, { version: '15-11-2019' })
 }
 
 function* authOnboardRequest(req) {
-  const AwsAPI = yield getContext('AwsAPI')
-
   try {
     yield handleAuthOnboardRequest(req.payload)
 
-    const data = yield AwsAPI.graphql(graphqlOperation(queries.self, req.payload))
+    const data = yield queryService.apiRequest(queries.self, req.payload)
     const selector = path(['data', 'self'])
 
     yield put(actions.globalAuthUserTrigger({
@@ -165,12 +162,10 @@ function handleAuthCheckValidation(self) {
  * meaning that user authenticated in Cognito pool but didn't create an entry in database on backend.
  */
 function* authCheckRequest(req) {
-  const AwsAPI = yield getContext('AwsAPI')
-
   try {
     yield handleAuthCheckRequest(req.payload)
 
-    const data = yield AwsAPI.graphql(graphqlOperation(queries.self, req.payload))
+    const data = yield queryService.apiRequest(queries.self, req.payload)
     const selector = path(['data', 'self'])
 
     handleAuthCheckValidation(selector(data))

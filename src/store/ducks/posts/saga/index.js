@@ -8,16 +8,16 @@ import * as actions from 'store/ducks/posts/actions'
 import * as queries from 'store/ducks/posts/queries'
 import * as constants from 'store/ducks/posts/constants'
 import * as usersActions from 'store/ducks/users/actions'
+import * as queryService from 'services/Query'
 
 /**
  *
  */
 function* postsGetRequest(req) {
-  const AwsAPI = yield getContext('AwsAPI')
   const errorWrapper = yield getContext('errorWrapper')
 
   try {
-    const data = yield AwsAPI.graphql(graphqlOperation(queries.getPosts, { ...req.payload, postStatus: 'COMPLETED' }))
+    const data = yield queryService.apiRequest(queries.getPosts, { ...req.payload, postStatus: 'COMPLETED' })
     const dataSelector = path(['data', 'user', 'posts', 'items'])
     const metaSelector = compose(omit(['items']), path(['data', 'user', 'posts']))
 
@@ -28,11 +28,10 @@ function* postsGetRequest(req) {
 }
 
 function* postsGetMoreRequest(req) {
-  const AwsAPI = yield getContext('AwsAPI')
   const errorWrapper = yield getContext('errorWrapper')
 
   try {
-    const data = yield AwsAPI.graphql(graphqlOperation(queries.getPosts, { ...req.payload, postStatus: 'COMPLETED' }))
+    const data = yield queryService.apiRequest(queries.getPosts, { ...req.payload, postStatus: 'COMPLETED' })
     const dataSelector = path(['data', 'user', 'posts', 'items'])
     const metaSelector = compose(omit(['items']), path(['data', 'user', 'posts']))
 
@@ -43,11 +42,10 @@ function* postsGetMoreRequest(req) {
 }
 
 function* postsViewsGetRequest(req) {
-  const AwsAPI = yield getContext('AwsAPI')
   const errorWrapper = yield getContext('errorWrapper')
 
   try {
-    const data = yield AwsAPI.graphql(graphqlOperation(queries.viewedBy, req.payload))
+    const data = yield queryService.apiRequest(queries.viewedBy, req.payload)
     const dataSelector = path(['data', 'post', 'viewedBy', 'items'])
     const metaSelector = compose(omit(['items']), path(['data', 'post', 'viewedBy']))
 
@@ -59,11 +57,10 @@ function* postsViewsGetRequest(req) {
 
 
 function* postsLikesGetRequest(req) {
-  const AwsAPI = yield getContext('AwsAPI')
   const errorWrapper = yield getContext('errorWrapper')
 
   try {
-    const data = yield AwsAPI.graphql(graphqlOperation(queries.onymouslyLikedBy, req.payload))
+    const data = yield queryService.apiRequest(queries.onymouslyLikedBy, req.payload)
     const dataSelector = path(['data', 'post', 'onymouslyLikedBy', 'items'])
     const metaSelector = compose(omit(['items']), path(['data', 'post', 'onymouslyLikedBy']))
 
@@ -77,11 +74,10 @@ function* postsLikesGetRequest(req) {
  *
  */
 function* postsFeedGetRequest(req) {
-  const AwsAPI = yield getContext('AwsAPI')
   const errorWrapper = yield getContext('errorWrapper')
 
   try {
-    const data = yield AwsAPI.graphql(graphqlOperation(queries.getFeed, req.payload))
+    const data = yield queryService.apiRequest(queries.getFeed, req.payload)
     const dataSelector = path(['data', 'self', 'feed', 'items'])
     const metaSelector = compose(omit(['items']), path(['data', 'self', 'feed']))
 
@@ -92,11 +88,10 @@ function* postsFeedGetRequest(req) {
 }
 
 function* postsFeedGetMoreRequest(req) {
-  const AwsAPI = yield getContext('AwsAPI')
   const errorWrapper = yield getContext('errorWrapper')
 
   try {
-    const data = yield AwsAPI.graphql(graphqlOperation(queries.getFeed, req.payload))
+    const data = yield queryService.apiRequest(queries.getFeed, req.payload)
     const dataSelector = path(['data', 'self', 'feed', 'items'])
     const metaSelector = compose(omit(['items']), path(['data', 'self', 'feed']))
 
@@ -110,11 +105,10 @@ function* postsFeedGetMoreRequest(req) {
  *
  */
 function* postsGetArchivedRequest(req) {
-  const AwsAPI = yield getContext('AwsAPI')
   const errorWrapper = yield getContext('errorWrapper')
 
   try {
-    const data = yield AwsAPI.graphql(graphqlOperation(queries.getPosts, { ...req.payload, postStatus: 'ARCHIVED' }))
+    const data = yield queryService.apiRequest(queries.getPosts, { ...req.payload, postStatus: 'ARCHIVED' })
     const selector = path(['data', 'user', 'posts', 'items'])
 
     yield put(actions.postsGetArchivedSuccess({ data: selector(data), payload: req.payload, meta: data }))
@@ -124,11 +118,10 @@ function* postsGetArchivedRequest(req) {
 }
 
 function* handlePostsEditRequest(payload) {
-  const AwsAPI = yield getContext('AwsAPI')
 
-  yield AwsAPI.graphql(graphqlOperation(queries.editPostExpiresAt, payload))
-  yield AwsAPI.graphql(graphqlOperation(queries.editPostAlbum, payload))
-  return yield AwsAPI.graphql(graphqlOperation(queries.editPost, payload))
+  yield queryService.apiRequest(queries.editPostExpiresAt, payload)
+  yield queryService.apiRequest(queries.editPostAlbum, payload)
+  return yield queryService.apiRequest(queries.editPost, payload)
 }
 
 /**
@@ -151,11 +144,10 @@ function* postsEditRequest(req) {
  *
  */
 function* postsDeleteRequest(req) {
-  const AwsAPI = yield getContext('AwsAPI')
   const errorWrapper = yield getContext('errorWrapper')
 
   try {
-    const data = yield AwsAPI.graphql(graphqlOperation(queries.deletePost, req.payload))
+    const data = yield queryService.apiRequest(queries.deletePost, req.payload)
     const selector = path(['data', 'deletePost'])
 
     yield put(actions.postsDeleteSuccess({ data: selector(data), payload: req.payload, meta: data }))
@@ -168,11 +160,10 @@ function* postsDeleteRequest(req) {
  *
  */
 function* postsArchiveRequest(req) {
-  const AwsAPI = yield getContext('AwsAPI')
   const errorWrapper = yield getContext('errorWrapper')
 
   try {
-    const data = yield AwsAPI.graphql(graphqlOperation(queries.archivePost, req.payload))
+    const data = yield queryService.apiRequest(queries.archivePost, req.payload)
     const selector = path(['data', 'archivePost'])
 
     yield put(actions.postsArchiveSuccess({ data: selector(data), payload: req.payload, meta: data }))
@@ -185,11 +176,10 @@ function* postsArchiveRequest(req) {
  *
  */
 function* postsRestoreArchivedRequest(req) {
-  const AwsAPI = yield getContext('AwsAPI')
   const errorWrapper = yield getContext('errorWrapper')
 
   try {
-    const data = yield AwsAPI.graphql(graphqlOperation(queries.restoreArchivedPost, req.payload))
+    const data = yield queryService.apiRequest(queries.restoreArchivedPost, req.payload)
     const selector = path(['data', 'restoreArchivedPost'])
 
     yield put(actions.postsRestoreArchivedSuccess({ data: selector(data), payload: req.payload, meta: data }))
@@ -202,11 +192,10 @@ function* postsRestoreArchivedRequest(req) {
  *
  */
 function* postsFlagRequest(req) {
-  const AwsAPI = yield getContext('AwsAPI')
   const errorWrapper = yield getContext('errorWrapper')
 
   try {
-    const data = yield AwsAPI.graphql(graphqlOperation(queries.flagPost, req.payload))
+    const data = yield queryService.apiRequest(queries.flagPost, req.payload)
     const selector = path(['data', 'flagPost'])
 
     yield put(actions.postsFlagSuccess({ data: selector(data), payload: req.payload, meta: data }))
@@ -219,11 +208,10 @@ function* postsFlagRequest(req) {
  *
  */
 function* postsSingleGetRequest(req) {
-  const AwsAPI = yield getContext('AwsAPI')
   const errorWrapper = yield getContext('errorWrapper')
 
   try {
-    const data = yield AwsAPI.graphql(graphqlOperation(queries.getPost, req.payload))
+    const data = yield queryService.apiRequest(queries.getPost, req.payload)
     const selector = path(['data', 'post'])
 
     yield put(actions.postsSingleGetSuccess({ data: selector(data), payload: req.payload, meta: data }))
@@ -236,11 +224,10 @@ function* postsSingleGetRequest(req) {
  *
  */
 function* postsOnymouslyLikeRequest(req) {
-  const AwsAPI = yield getContext('AwsAPI')
   const errorWrapper = yield getContext('errorWrapper')
 
   try {
-    const data = yield AwsAPI.graphql(graphqlOperation(queries.onymouslyLikePost, req.payload))
+    const data = yield queryService.apiRequest(queries.onymouslyLikePost, req.payload)
     const selector = path(['data', 'onymouslyLikePost'])
 
     yield put(actions.postsOnymouslyLikeSuccess({ data: selector(data), payload: req.payload, meta: data }))
@@ -253,11 +240,10 @@ function* postsOnymouslyLikeRequest(req) {
  *
  */
 function* postsAnonymouslyLikeRequest(req) {
-  const AwsAPI = yield getContext('AwsAPI')
   const errorWrapper = yield getContext('errorWrapper')
 
   try {
-    const data = yield AwsAPI.graphql(graphqlOperation(queries.anonymouslyLikePost, req.payload))
+    const data = yield queryService.apiRequest(queries.anonymouslyLikePost, req.payload)
     const selector = path(['data', 'anonymouslyLikePost'])
 
     yield put(actions.postsAnonymouslyLikeSuccess({ data: selector(data), payload: req.payload, meta: data }))
@@ -270,11 +256,10 @@ function* postsAnonymouslyLikeRequest(req) {
  *
  */
 function* postsDislikeRequest(req) {
-  const AwsAPI = yield getContext('AwsAPI')
   const errorWrapper = yield getContext('errorWrapper')
 
   try {
-    const data = yield AwsAPI.graphql(graphqlOperation(queries.dislikePost, req.payload))
+    const data = yield queryService.apiRequest(queries.dislikePost, req.payload)
     const selector = path(['data', 'dislikePost'])
 
     yield put(actions.postsDislikeSuccess({ data: selector(data), payload: req.payload, meta: data }))
@@ -287,11 +272,10 @@ function* postsDislikeRequest(req) {
  *
  */
 function* postsReportPostViewsRequest(req) {
-  const AwsAPI = yield getContext('AwsAPI')
   const errorWrapper = yield getContext('errorWrapper')
 
   try {
-    const data = yield AwsAPI.graphql(graphqlOperation(queries.reportPostViews, req.payload))
+    const data = yield queryService.apiRequest(queries.reportPostViews, req.payload)
     const selector = path(['data', 'reportPostViews'])
 
     yield put(actions.postsReportPostViewsSuccess({ data: selector(data), payload: req.payload, meta: data }))
@@ -304,11 +288,10 @@ function* postsReportPostViewsRequest(req) {
  *
  */
 function* postsReportCommentViewsRequest(req) {
-  const AwsAPI = yield getContext('AwsAPI')
   const errorWrapper = yield getContext('errorWrapper')
 
   try {
-    const data = yield AwsAPI.graphql(graphqlOperation(queries.reportCommentViews, req.payload))
+    const data = yield queryService.apiRequest(queries.reportCommentViews, req.payload)
     const selector = path(['data', 'reportCommentViews'])
 
     yield put(actions.postsReportCommentViewsSuccess({ data: selector(data), payload: req.payload, meta: data }))
@@ -321,11 +304,10 @@ function* postsReportCommentViewsRequest(req) {
  *
  */
 function* postsGetTrendingPostsRequest(req) {
-  const AwsAPI = yield getContext('AwsAPI')
   const errorWrapper = yield getContext('errorWrapper')
 
   try {
-    const data = yield AwsAPI.graphql(graphqlOperation(queries.trendingPosts, req.payload))
+    const data = yield queryService.apiRequest(queries.trendingPosts, req.payload)
     const selector = path(['data', 'trendingPosts', 'items'])
 
     yield put(actions.postsGetTrendingPostsSuccess({ data: selector(data), payload: req.payload, meta: data }))
@@ -335,11 +317,10 @@ function* postsGetTrendingPostsRequest(req) {
 }
 
 function* postsGetTrendingPostsMoreRequest(req) {
-  const AwsAPI = yield getContext('AwsAPI')
   const errorWrapper = yield getContext('errorWrapper')
 
   try {
-    const data = yield AwsAPI.graphql(graphqlOperation(queries.trendingPosts, req.payload))
+    const data = yield queryService.apiRequest(queries.trendingPosts, req.payload)
     const selector = path(['data', 'trendingPosts', 'items'])
 
     yield put(actions.postsGetTrendingPostsMoreSuccess({ data: selector(data), payload: req.payload, meta: data }))
@@ -352,11 +333,10 @@ function* postsGetTrendingPostsMoreRequest(req) {
  *
  */
 function* postsCommentsGetRequest(req) {
-  const AwsAPI = yield getContext('AwsAPI')
   const errorWrapper = yield getContext('errorWrapper')
 
   try {
-    const data = yield AwsAPI.graphql(graphqlOperation(queries.comments, req.payload))
+    const data = yield queryService.apiRequest(queries.comments, req.payload)
     const selector = path(['data', 'post', 'comments', 'items'])
 
     yield put(actions.postsCommentsGetSuccess({ data: selector(data), payload: req.payload, meta: data }))
@@ -369,11 +349,10 @@ function* postsCommentsGetRequest(req) {
  *
  */
 function* commentsAddRequest(req) {
-  const AwsAPI = yield getContext('AwsAPI')
   const errorWrapper = yield getContext('errorWrapper')
 
   try {
-    const data = yield AwsAPI.graphql(graphqlOperation(queries.addComment, req.payload))
+    const data = yield queryService.apiRequest(queries.addComment, req.payload)
     const selector = path(['data', 'addComment'])
 
     yield put(actions.commentsAddSuccess({ data: selector(data), payload: req.payload, meta: data }))
@@ -386,11 +365,10 @@ function* commentsAddRequest(req) {
  *
  */
 function* commentsDeleteRequest(req) {
-  const AwsAPI = yield getContext('AwsAPI')
   const errorWrapper = yield getContext('errorWrapper')
 
   try {
-    const data = yield AwsAPI.graphql(graphqlOperation(queries.deleteComment, req.payload))
+    const data = yield queryService.apiRequest(queries.deleteComment, req.payload)
     const selector = path(['data', 'deleteComment'])
 
     yield put(actions.commentsDeleteSuccess({ data: selector(data), payload: req.payload, meta: data }))
@@ -411,7 +389,6 @@ function postSubscriptionChannel({ subscription }) {
 }
 
 function* postSubscription(req) {
-  const AwsAPI = yield getContext('AwsAPI')
 
   const subscription = AwsAPI.graphql(
     graphqlOperation(queries.onPostNotification, { userId: req.payload.data.userId })

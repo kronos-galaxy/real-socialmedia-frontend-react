@@ -1,18 +1,16 @@
-import { graphqlOperation } from '@aws-amplify/api'
-import { put, takeLatest, getContext } from 'redux-saga/effects'
+import { put, takeLatest } from 'redux-saga/effects'
 import * as actions from 'store/ducks/albums/actions'
 import * as queries from 'store/ducks/albums/queries'
 import * as constants from 'store/ducks/albums/constants'
 import path from 'ramda/src/path'
+import * as queryService from 'services/Query'
 
 /**
  * 
  */
 function* albumsGetRequest(req) {
-  const AwsAPI = yield getContext('AwsAPI')
-
   try {
-    const data = yield AwsAPI.graphql(graphqlOperation(queries.getAlbums, req.payload))
+    const data = yield queryService.apiRequest(queries.getAlbums, req.payload)
     const selector = path(['data', 'user', 'albums', 'items'])
 
     yield put(actions.albumsGetSuccess({ data: selector(data), payload: req.payload, meta: data }))
@@ -25,10 +23,8 @@ function* albumsGetRequest(req) {
  * 
  */
 function* albumsCreateRequest(req) {
-  const AwsAPI = yield getContext('AwsAPI')
-
   try {
-    const data = yield AwsAPI.graphql(graphqlOperation(queries.addAlbum, req.payload))
+    const data = yield queryService.apiRequest(queries.addAlbum, req.payload)
     const selector = path(['data', 'addAlbum'])
 
     yield put(actions.albumsCreateSuccess({ data: selector(data), payload: req.payload, meta: data }))
@@ -40,11 +36,9 @@ function* albumsCreateRequest(req) {
 /**
  * 
  */
-function* albumsEditRequest(req) {
-  const AwsAPI = yield getContext('AwsAPI')
-  
+function* albumsEditRequest(req) {  
   try {
-    const data = yield AwsAPI.graphql(graphqlOperation(queries.editAlbum, req.payload))
+    const data = yield queryService.apiRequest(queries.editAlbum, req.payload)
     const selector = path(['data', 'user', 'albums', 'items'])
   
     yield put(actions.albumsEditSuccess({ data: selector(data), payload: req.payload, meta: data }))
@@ -56,11 +50,9 @@ function* albumsEditRequest(req) {
 /**
  * 
  */
-function* albumsDeleteRequest(req) {
-  const AwsAPI = yield getContext('AwsAPI')
-  
+function* albumsDeleteRequest(req) {  
   try {
-    const data = yield AwsAPI.graphql(graphqlOperation(queries.deleteAlbum, req.payload))
+    const data = yield queryService.apiRequest(queries.deleteAlbum, req.payload)
     const selector = path(['data', 'user', 'albums', 'items'])
     
     yield put(actions.albumsDeleteSuccess({ data: selector(data), payload: req.payload, meta: data }))

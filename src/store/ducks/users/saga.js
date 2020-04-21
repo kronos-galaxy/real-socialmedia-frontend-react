@@ -4,16 +4,16 @@ import path from 'ramda/src/path'
 import * as actions from 'store/ducks/users/actions'
 import * as queries from 'store/ducks/users/queries'
 import * as constants from 'store/ducks/users/constants'
+import * as queryService from 'services/Query'
 
 /**
  *
  */
 function* usersSearchRequest(req) {
-  const AwsAPI = yield getContext('AwsAPI')
   const errorWrapper = yield getContext('errorWrapper')
 
   try {
-    const data = yield AwsAPI.graphql(graphqlOperation(queries.searchUsers, req.payload))
+    const data = yield queryService.apiRequest(queries.searchUsers, req.payload)
     const selector = path(['data', 'searchUsers', 'items'])
 
     yield put(actions.usersSearchSuccess({ payload: req.payload, data: selector(data), meta: data }))
@@ -26,11 +26,10 @@ function* usersSearchRequest(req) {
  *
  */
 function* usersGetFollowerUsersRequest(req) {
-  const AwsAPI = yield getContext('AwsAPI')
   const errorWrapper = yield getContext('errorWrapper')
 
   try {
-    const data = yield AwsAPI.graphql(graphqlOperation(queries.getFollowerUsers, req.payload))
+    const data = yield queryService.apiRequest(queries.getFollowerUsers, req.payload)
     const selector = path(['data', 'user', 'followerUsers', 'items'])
 
     yield put(actions.usersGetFollowerUsersSuccess({ payload: req.payload, data: selector(data), meta: data }))
@@ -43,11 +42,10 @@ function* usersGetFollowerUsersRequest(req) {
  *
  */
 function* usersGetFollowedUsersRequest(req) {
-  const AwsAPI = yield getContext('AwsAPI')
   const errorWrapper = yield getContext('errorWrapper')
 
   try {
-    const data = yield AwsAPI.graphql(graphqlOperation(queries.getFollowedUsers, req.payload))
+    const data = yield queryService.apiRequest(queries.getFollowedUsers, req.payload)
     const selector = path(['data', 'user', 'followedUsers', 'items'])
 
     yield put(actions.usersGetFollowedUsersSuccess({ payload: req.payload, data: selector(data), meta: data }))
@@ -60,11 +58,10 @@ function* usersGetFollowedUsersRequest(req) {
  *
  */
 function* usersGetPendingFollowersRequest(req) {
-  const AwsAPI = yield getContext('AwsAPI')
   const errorWrapper = yield getContext('errorWrapper')
 
   try {
-    const data = yield AwsAPI.graphql(graphqlOperation(queries.getFollowerUsers, { ...req.payload, followStatus: 'REQUESTED' }))
+    const data = yield queryService.apiRequest(queries.getFollowerUsers, { ...req.payload, followStatus: 'REQUESTED' })
     const selector = path(['data', 'user', 'followerUsers', 'items'])
 
     yield put(actions.usersGetPendingFollowersSuccess({ payload: req.payload, data: selector(data), meta: data }))
@@ -77,11 +74,10 @@ function* usersGetPendingFollowersRequest(req) {
  *
  */
 function* usersGetFollowedUsersWithStoriesRequest(req) {
-  const AwsAPI = yield getContext('AwsAPI')
   const errorWrapper = yield getContext('errorWrapper')
 
   try {
-    const data = yield AwsAPI.graphql(graphqlOperation(queries.getFollowedUsersWithStories, req.payload))
+    const data = yield queryService.apiRequest(queries.getFollowedUsersWithStories, req.payload)
     const selector = path(['data', 'self', 'followedUsersWithStories', 'items'])
 
     yield put(actions.usersGetFollowedUsersWithStoriesSuccess({ payload: req.payload, data: selector(data), meta: data }))
@@ -94,11 +90,10 @@ function* usersGetFollowedUsersWithStoriesRequest(req) {
  *
  */
 function* usersAcceptFollowerUserRequest(req) {
-  const AwsAPI = yield getContext('AwsAPI')
   const errorWrapper = yield getContext('errorWrapper')
 
   try {
-    const data = yield call(() => AwsAPI.graphql(graphqlOperation(queries.acceptFollowerUser, req.payload)))
+    const data = yield call(() => queryService.apiRequest(queries.acceptFollowerUser, req.payload))
     const selector = path(['data', 'acceptFollowerUser'])
 
     yield put(actions.usersAcceptFollowerUserSuccess({ payload: req.payload, data: selector(data), meta: data }))
@@ -111,11 +106,10 @@ function* usersAcceptFollowerUserRequest(req) {
  *
  */
 function* usersDeclineFollowerUserRequest(req) {
-  const AwsAPI = yield getContext('AwsAPI')
   const errorWrapper = yield getContext('errorWrapper')
 
   try {
-    const data = yield call(() => AwsAPI.graphql(graphqlOperation(queries.denyFollowerUser, req.payload)))
+    const data = yield call(() => queryService.apiRequest(queries.denyFollowerUser, req.payload))
     const selector = path(['data', 'denyFollowerUser'])
 
     yield put(actions.usersDeclineFollowerUserSuccess({ payload: req.payload, data: selector(data), meta: data }))
@@ -128,11 +122,10 @@ function* usersDeclineFollowerUserRequest(req) {
  *
  */
 function* usersGetProfileRequest(req) {
-  const AwsAPI = yield getContext('AwsAPI')
   const errorWrapper = yield getContext('errorWrapper')
 
   try {
-    const data = yield AwsAPI.graphql(graphqlOperation(queries.user, req.payload))
+    const data = yield queryService.apiRequest(queries.user, req.payload)
     const selector = path(['data', 'user'])
 
     yield put(actions.usersGetProfileSuccess({ payload: req.payload, data: selector(data), meta: data }))
@@ -145,11 +138,10 @@ function* usersGetProfileRequest(req) {
  *
  */
 function* usersGetProfileSelfRequest(req) {
-  const AwsAPI = yield getContext('AwsAPI')
   const errorWrapper = yield getContext('errorWrapper')
 
   try {
-    const data = yield AwsAPI.graphql(graphqlOperation(queries.self))
+    const data = yield queryService.apiRequest(queries.self)
     const selector = path(['data', 'self'])
 
     yield put(actions.usersGetProfileSelfSuccess({ payload: req.payload, data: selector(data), meta: data }))
@@ -163,11 +155,10 @@ function* usersGetProfileSelfRequest(req) {
  *
  */
 function* usersEditProfileRequest(req) {
-  const AwsAPI = yield getContext('AwsAPI')
   const errorWrapper = yield getContext('errorWrapper')
 
   try {
-    const data = yield AwsAPI.graphql(graphqlOperation(queries.setUserDetails, req.payload))
+    const data = yield queryService.apiRequest(queries.setUserDetails, req.payload)
     const selector = path(['data', 'setUserDetails'])
 
     yield put(actions.usersEditProfileSuccess({ payload: req.payload, data: selector(data), meta: data }))
@@ -181,11 +172,10 @@ function* usersEditProfileRequest(req) {
  *
  */
 function* usersFollowRequest(req) {
-  const AwsAPI = yield getContext('AwsAPI')
   const errorWrapper = yield getContext('errorWrapper')
 
   try {
-    const data = yield call(() => AwsAPI.graphql(graphqlOperation(queries.followUser, req.payload)))
+    const data = yield call(() => queryService.apiRequest(queries.followUser, req.payload))
     const selector = path(['data', 'followUser'])
 
     yield put(actions.usersFollowSuccess({ payload: req.payload, data: selector(data) }))
@@ -198,11 +188,10 @@ function* usersFollowRequest(req) {
  *
  */
 function* usersUnfollowRequest(req) {
-  const AwsAPI = yield getContext('AwsAPI')
   const errorWrapper = yield getContext('errorWrapper')
 
   try {
-    const data = yield call(() => AwsAPI.graphql(graphqlOperation(queries.unfollowUser, req.payload)))
+    const data = yield call(() => queryService.apiRequest(queries.unfollowUser, req.payload))
     const selector = path(['data', 'unfollowUser'])
 
     yield put(actions.usersUnfollowSuccess({ payload: req.payload, data: selector(data) }))
@@ -215,11 +204,10 @@ function* usersUnfollowRequest(req) {
  *
  */
 function* usersBlockRequest(req) {
-  const AwsAPI = yield getContext('AwsAPI')
   const errorWrapper = yield getContext('errorWrapper')
 
   try {
-    const data = yield call(() => AwsAPI.graphql(graphqlOperation(queries.blockUser, req.payload)))
+    const data = yield call(() => queryService.apiRequest(queries.blockUser, req.payload))
     const selector = path(['data', 'blockUser'])
 
     yield put(actions.usersBlockSuccess({ payload: req.payload, data: selector(data) }))
@@ -232,11 +220,10 @@ function* usersBlockRequest(req) {
  *
  */
 function* usersUnblockRequest(req) {
-  const AwsAPI = yield getContext('AwsAPI')
   const errorWrapper = yield getContext('errorWrapper')
 
   try {
-    const data = yield call(() => AwsAPI.graphql(graphqlOperation(queries.unblockUser, req.payload)))
+    const data = yield call(() => queryService.apiRequest(queries.unblockUser, req.payload))
     const selector = path(['data', 'unblockUser'])
 
     yield put(actions.usersUnblockSuccess({ payload: req.payload, data: selector(data) }))
@@ -249,11 +236,10 @@ function* usersUnblockRequest(req) {
  *
  */
 function* usersImagePostsGetRequest(req) {
-  const AwsAPI = yield getContext('AwsAPI')
   const errorWrapper = yield getContext('errorWrapper')
 
   try {
-    const data = yield AwsAPI.graphql(graphqlOperation(queries.getImagePosts, req.payload))
+    const data = yield queryService.apiRequest(queries.getImagePosts, req.payload)
     const selector = path(['data', 'user', 'posts', 'items'])
 
     yield put(actions.usersImagePostsGetSuccess({ payload: req.payload, data: selector(data), meta: data }))
@@ -266,11 +252,10 @@ function* usersImagePostsGetRequest(req) {
  *
  */
 function* usersGetTrendingUsersRequest(req) {
-  const AwsAPI = yield getContext('AwsAPI')
   const errorWrapper = yield getContext('errorWrapper')
 
   try {
-    const data = yield AwsAPI.graphql(graphqlOperation(queries.trendingUsers, req.payload))
+    const data = yield queryService.apiRequest(queries.trendingUsers, req.payload)
     const selector = path(['data', 'trendingUsers', 'items'])
 
     yield put(actions.usersGetTrendingUsersSuccess({ payload: req.payload, data: selector(data), meta: data }))
