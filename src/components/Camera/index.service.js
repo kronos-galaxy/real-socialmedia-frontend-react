@@ -85,24 +85,32 @@ const CameraService = ({ children, }) => {
   const cameraRef = useRef(null)
   const camera = cameraManager(cameraRef)
   const [cameraEnabled, setCameraEnabled] = useState(true)
+  const [libraryEnabled, setLibraryEnabled] = useState(true)
 
   const checkCameraPermissions = async () => {
     const result = await check(PERMISSIONS.IOS.CAMERA)
     setCameraEnabled(result !== RESULTS.BLOCKED)
   }
 
+  const checkLibraryPermissions = async () => {
+    const result = await check(PERMISSIONS.IOS.PHOTO_LIBRARY)
+    setLibraryEnabled(result !== RESULTS.BLOCKED)
+  }
+
   const appStateListener = (nextAppState) => {
+    checkCameraPermissions()
+    checkLibraryPermissions()
     if (nextAppState === 'active') {
       camera.resumePreview()
     }
     if (nextAppState === 'background') {
       camera.pausePreview()
     }
-    checkCameraPermissions()
   }
 
   useEffect(() => {
     checkCameraPermissions()
+    checkLibraryPermissions()
     AppState.addEventListener('change', appStateListener)
     navigation.addListener('didFocus', appStateListener)
     return () => {
@@ -182,6 +190,7 @@ const CameraService = ({ children, }) => {
     handleFlashToggle,
     handleFlipToggle,
     cameraEnabled,
+    libraryEnabled,
   })
 }
 

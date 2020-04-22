@@ -16,6 +16,7 @@ import { getCameraBonds } from 'services/Camera'
 import { BlurView } from '@react-native-community/blur'
 import NativeError from 'templates/NativeError'
 import * as navigationActions from 'navigation/actions'
+import { openSettings } from 'react-native-permissions'
 
 import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
@@ -43,6 +44,7 @@ const CameraComponent = ({
   postsCreateRequest,
   postsCreate,
   cameraEnabled,
+  libraryEnabled,
 }) => {
   const styling = styles(theme)
   const navigation = useNavigation()
@@ -107,13 +109,24 @@ const CameraComponent = ({
       />
 
       <NativeError
-        handleCancelPress={() => {}}
+        handleCancelPress={() => openSettings().catch()}
         titleText={t('Camera is blocked')}
         messageText={t('Please enabled camera access in your phone settings to continue')}
-        actionText={t('Try again')}
+        actionText={t('Open Settings')}
         status="failure"
         triggerOn="failure"
         hidden={cameraEnabled}
+        skipCondition
+      />
+
+      <NativeError
+        handleCancelPress={() => openSettings().catch()}
+        titleText={t('Library is blocked')}
+        messageText={t('Please allow camera roll access in your phone settings to continue')}
+        actionText={t('Open Settings')}
+        status="failure"
+        triggerOn="failure"
+        hidden={libraryEnabled}
         skipCondition
       />
     </View>
