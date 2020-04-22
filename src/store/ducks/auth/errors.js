@@ -16,6 +16,10 @@ const messageCodes = {
       code: 'GENERIC',
       text: 'Failed to create profile',
     },
+    INVALID_USERNAME: {
+      code: 'INVALID_USERNAME',
+      text: 'Username must contain only letters & numbers',
+    },
     USER_EXISTS: {
       code: 'USER_EXISTS',
       text: 'Username you entered already reserved',
@@ -102,7 +106,7 @@ const messageCodes = {
     },
     INVALID_PASSWORD: {
       code: 'INVALID_PASSWORD',
-      text: 'Password did not conform with policy: Password must have alpha-numeric-special characters',
+      text: 'Password did not conform with policy: Password must have uppercase-alpha-numeric-special characters',
     },
   },
 
@@ -175,6 +179,10 @@ const messageCodes = {
     GENERIC: {
       code: 'GENERIC',
       text: 'Failed to confirm new password',
+    },
+    INVALID_PASSWORD: {
+      code: 'INVALID_PASSWORD',
+      text: 'Password did not conform with policy: Password must have uppercase-alpha-numeric-special characters',
     },
     CODE_MISMATCH: {
       code: 'CODE_MISMATCH',

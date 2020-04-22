@@ -52,7 +52,7 @@ export function* apiRequest(query, payload) {
 
   const { api, timeout } = yield race({
     api: AwsAPI.graphql(graphqlOperation(query, payload)),
-    timeout: delay(10000)
+    timeout: delay(15000)
   })
 
   if (api) {

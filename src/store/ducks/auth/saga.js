@@ -123,9 +123,15 @@ function* authOnboardRequest(req) {
       nextRoute: 'OnboardPhoto',
     }))
   } catch (error) {
-    if (path(['errors', '0', 'path', '0'])(error) === 'createCognitoOnlyUser') {
+    const errorMessage = path(['errors', '0', 'message'])(error)
+    if (errorMessage && errorMessage.includes('already taken')) {
       yield put(actions.authOnboardFailure({
         message: errors.getMessagePayload(constants.AUTH_ONBOARD_FAILURE, 'USER_EXISTS', error.message),
+        nextRoute: 'Auth',
+      }))
+    } else if (errorMessage && errorMessage.includes('does not validate')) {
+      yield put(actions.authOnboardFailure({
+        message: errors.getMessagePayload(constants.AUTH_ONBOARD_FAILURE, 'INVALID_USERNAME', error.message),
         nextRoute: 'Auth',
       }))
     } else {
@@ -464,7 +470,11 @@ function* authForgotConfirmRequest(req) {
       data,
     }))
   } catch (error) {
-    if (error.code === 'CodeMismatchException') {
+    if (error.code === 'InvalidPasswordException') {
+      yield put(actions.authForgotConfirmFailure({
+        message: errors.getMessagePayload(constants.AUTH_FORGOT_CONFIRM_FAILURE, 'INVALID_PASSWORD', error.message),
+      }))
+    } else if (error.code === 'CodeMismatchException') {
       yield put(actions.authForgotConfirmFailure({
         message: errors.getMessagePayload(constants.AUTH_FORGOT_CONFIRM_FAILURE, 'CODE_MISMATCH', error.message),
       }))
