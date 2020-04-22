@@ -309,8 +309,9 @@ function* postsGetTrendingPostsRequest(req) {
   try {
     const data = yield queryService.apiRequest(queries.trendingPosts, req.payload)
     const selector = path(['data', 'trendingPosts', 'items'])
+    const metaSelector = compose(omit(['items']), path(['data', 'trendingPosts']))
 
-    yield put(actions.postsGetTrendingPostsSuccess({ data: selector(data), payload: req.payload, meta: data }))
+    yield put(actions.postsGetTrendingPostsSuccess({ data: selector(data), payload: req.payload, meta: metaSelector(data) }))
   } catch (error) {
     yield put(actions.postsGetTrendingPostsFailure({ message: errorWrapper(error), payload: req.payload }))
   }
@@ -322,8 +323,9 @@ function* postsGetTrendingPostsMoreRequest(req) {
   try {
     const data = yield queryService.apiRequest(queries.trendingPosts, req.payload)
     const selector = path(['data', 'trendingPosts', 'items'])
+    const metaSelector = compose(omit(['items']), path(['data', 'trendingPosts']))
 
-    yield put(actions.postsGetTrendingPostsMoreSuccess({ data: selector(data), payload: req.payload, meta: data }))
+    yield put(actions.postsGetTrendingPostsMoreSuccess({ data: selector(data), payload: req.payload, meta: metaSelector(data) }))
   } catch (error) {
     yield put(actions.postsGetTrendingPostsMoreFailure({ message: errorWrapper(error), payload: req.payload }))
   }

@@ -1184,6 +1184,7 @@ const postsGetTrendingPostsRequest = (state, action) => update(state, {
   postsGetTrendingPosts: {
     status: { $set: 'loading' },
     payload: { $set: action.payload },
+    meta: { $set: action.meta },
   },
 })
 
@@ -1191,6 +1192,7 @@ const postsGetTrendingPostsSuccess = (state, action) => update(state, {
   postsGetTrendingPosts: {
     data: { $set: action.payload.data },
     status: { $set: 'success' },
+    meta: { $set: action.payload.meta },
   },
 })
 
@@ -1204,6 +1206,23 @@ const postsGetTrendingPostsIdle = (state, action) => update(state, {
   postsGetTrendingPosts: {
     data: { $set: initialState.postsGetTrendingPosts.data },
     status: { $set: 'idle' },
+  },
+})
+
+const postsGetTrendingPostsMoreRequest = (state, action) => update(state, {
+  postsGetTrendingPosts: {
+    status: { $set: 'loading' },
+    payload: { $set: action.payload },
+    meta: { $set: action.meta },
+  },
+})
+
+const postsGetTrendingPostsMoreSuccess = (state, action) => update(state, {
+  postsGetTrendingPosts: {
+    status: { $set: 'success' },
+    payload: { $set: action.payload },
+    meta: { $set: action.payload.meta },
+    data: { $push: action.payload.data },
   },
 })
 
@@ -1425,6 +1444,8 @@ export default handleActions({
   [constants.POSTS_GET_TRENDING_POSTS_SUCCESS]: postsGetTrendingPostsSuccess,
   [constants.POSTS_GET_TRENDING_POSTS_FAILURE]: postsGetTrendingPostsFailure,
   [constants.POSTS_GET_TRENDING_POSTS_IDLE]: postsGetTrendingPostsIdle,
+  [constants.POSTS_GET_TRENDING_POSTS_MORE_REQUEST]: postsGetTrendingPostsMoreRequest,
+  [constants.POSTS_GET_TRENDING_POSTS_MORE_SUCCESS]: postsGetTrendingPostsMoreSuccess,
 
   [constants.POSTS_COMMENTS_GET_REQUEST]: postsCommentsGetRequest,
   [constants.POSTS_COMMENTS_GET_SUCCESS]: postsCommentsGetSuccess,

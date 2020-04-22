@@ -42,10 +42,13 @@ const SearchService = ({ children, }) => {
 
   const postsGetTrendingPostsRequest = () =>
     dispatch(postsActions.postsGetTrendingPostsRequest({ limit: 30 }))
+  
+  const postsGetTrendingPostsMoreRequest = (payload) =>
+    dispatch(postsActions.postsGetTrendingPostsMoreRequest(payload))
 
   useEffect(() => {
     dispatch(usersActions.usersGetTrendingUsersRequest({ limit: 30 }))
-    dispatch(postsActions.postsGetTrendingPostsRequest({ limit: 30 }))
+    // dispatch(postsActions.postsGetTrendingPostsRequest({ limit: 30 }))
   }, [])
 
   /**
@@ -74,6 +77,7 @@ const SearchService = ({ children, }) => {
     usersGetTrendingUsers: usersServices.cachedUsersGetTrendingUsers(usersGetTrendingUsers, usersGetProfileCache),
     postsGetTrendingPostsRequest,
     postsGetTrendingPosts,
+    postsGetTrendingPostsMoreRequest,
     formFocus,
     handleFormFocus,
     formChange,

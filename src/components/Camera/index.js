@@ -107,7 +107,7 @@ const CameraComponent = ({
       />
 
       <NativeError
-        handleCancelPress={navigationActions.navigateHome(navigation)}
+        handleCancelPress={() => {}}
         titleText={t('Camera is blocked')}
         messageText={t('Please enabled camera access in your phone settings to continue')}
         actionText={t('Try again')}
