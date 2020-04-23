@@ -2,7 +2,7 @@ import React from 'react'
 import StoryServiceComponent from 'components/Story/index.service'
 import StoryComponent from 'components/Story'
 import ContextComponent from 'components/Cache/Context'
-import { initializePriorityQueue } from 'components/Cache/Fetch'
+import { initializePriorityQueue } from 'store/ducks/cache/service'
 
 const priorityQueueInstance = initializePriorityQueue()
 

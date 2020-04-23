@@ -119,7 +119,6 @@ function* cacheFetchIdle(req) {
   try {
     yield service.removeLocalFolder(req.payload.signature.pathFolder)
   } catch (error) {
-    console.log(error)
   }
 }
 

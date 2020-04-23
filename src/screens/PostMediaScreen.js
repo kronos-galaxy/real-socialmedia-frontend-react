@@ -5,7 +5,7 @@ import ThemeServiceProvider from 'services/providers/Theme'
 import PostServiceComponent from 'components/Post/index.service'
 import { Provider as PaperProvider } from 'react-native-paper'
 import ContextComponent from 'components/Cache/Context'
-import { initializePriorityQueue } from 'components/Cache/Fetch'
+import { initializePriorityQueue } from 'store/ducks/cache/service'
 
 const queues = {
   mediaImages: initializePriorityQueue(),

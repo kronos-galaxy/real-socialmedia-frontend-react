@@ -3,7 +3,7 @@ import PostsListComponent from 'components/PostsList'
 import PostsListServiceComponent from 'components/PostsList/index.service'
 import StoriesServiceComponent from 'components/Stories/index.service'
 import ContextComponent from 'components/Cache/Context'
-import { initializePriorityQueue } from 'components/Cache/Fetch'
+import { initializePriorityQueue } from 'store/ducks/cache/service'
 
 const queues = {
   feedImages: initializePriorityQueue(),

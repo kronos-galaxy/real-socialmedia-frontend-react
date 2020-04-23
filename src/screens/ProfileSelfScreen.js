@@ -4,7 +4,7 @@ import PostsGridServiceComponent from 'components/PostsGrid/index.service'
 import ProfileSelfServiceComponent from 'components/ProfileSelf/index.service'
 import ProfileComponent from 'components/Profile'
 import ContextComponent from 'components/Cache/Context'
-import { initializePriorityQueue } from 'components/Cache/Fetch'
+import { initializePriorityQueue } from 'store/ducks/cache/service'
 
 const queues = {
   feedImages: initializePriorityQueue(),
