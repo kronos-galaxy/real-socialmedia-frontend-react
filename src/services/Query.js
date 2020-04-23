@@ -1,5 +1,5 @@
 import { graphqlOperation } from '@aws-amplify/api'
-import { getContext, race, delay } from 'redux-saga/effects'
+import { getContext, race, delay, retry } from 'redux-saga/effects'
 import { eventChannel, END } from 'redux-saga'
 import gql from 'graphql-tag'
 
@@ -47,12 +47,12 @@ export const handleEventChannel = (AppSync) => (query, variables, { cached } = {
     }
   })
 
-export function* apiRequest(query, payload) {
+export function* _apiRequest({ query, payload }) {
   const AwsAPI = yield getContext('AwsAPI')
 
   const { api, timeout } = yield race({
     api: AwsAPI.graphql(graphqlOperation(query, payload)),
-    timeout: delay(15000)
+    timeout: delay(10000)
   })
 
   if (api) {
@@ -60,4 +60,8 @@ export function* apiRequest(query, payload) {
   } else {
     new Error('api timeout error')
   }
+}
+
+export function* apiRequest(query, payload) {
+  return yield retry(3, 1000, _apiRequest, { query, payload })
 }
