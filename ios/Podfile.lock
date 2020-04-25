@@ -389,7 +389,7 @@ PODS:
     - ReactCommon/callinvoker (= 0.62.1)
   - rn-fetch-blob (0.12.0):
     - React-Core
-  - RNAWSCognito (4.2.1):
+  - RNAWSCognito (4.2.2):
     - JKBigInteger2 (= 0.0.5)
     - React
   - RNCAsyncStorage (1.9.0):
@@ -429,7 +429,7 @@ PODS:
     - Sentry (~> 4.4.0)
   - RNShare (3.1.2):
     - React
-  - RNSVG (12.1.0):
+  - RNSVG (12.0.3):
     - React
   - RSKImageCropper (2.0.0)
   - Sentry (4.4.3):
@@ -731,7 +731,7 @@ SPEC CHECKSUMS:
   React-RCTVibration: 072c3b427dd29e730c2ee5bfc509cf5054741a50
   ReactCommon: 3585806280c51d5c2c0d3aa5a99014c3badb629d
   rn-fetch-blob: f065bb7ab7fb48dd002629f8bdcb0336602d3cba
-  RNAWSCognito: 39eb43a92666c328d303fb11c19fe0b47e106db9
+  RNAWSCognito: c504eb014e28ccc81ef0d28ccb4ac3712964d52b
   RNCAsyncStorage: 453cd7c335ec9ba3b877e27d02238956b76f3268
   RNCMaskedView: 76c40a1d41c3e2535df09246a2b5487f04de0814
   RNDeviceInfo: 6a3d16fce033f6979c4a6a41e62244d183e8c765
@@ -746,7 +746,7 @@ SPEC CHECKSUMS:
   RNScreens: b5c0e1b2b04512919e78bd3898e144a157ce2363
   RNSentry: d892cbdee165cc6159d71e2a7954efdb8a361918
   RNShare: c19dbe4a7224098cd3cfc4d3b92c886ca817b3f0
-  RNSVG: ce9d996113475209013317e48b05c21ee988d42e
+  RNSVG: 7e16ddfc6e00d5aa69c9eb83e699bcce5dcb85d4
   RSKImageCropper: d9a1acbc0600bf8decc8f0d21895872c99a9e4cf
   Sentry: 14bdd673870e8cf64932b149fad5bbbf39a9b390
   SSZipArchive: fa16b8cc4cdeceb698e5e5d9f67e9558532fbf23

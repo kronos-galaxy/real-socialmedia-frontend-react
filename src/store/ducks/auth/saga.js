@@ -153,8 +153,8 @@ function* authOnboardRequest(req) {
  */
 function* handleAuthCheckRequest() {
   const AwsAuth = yield getContext('AwsAuth')
-
-  return yield AwsAuth.currentAuthenticatedUser({
+  yield AwsAuth.currentCredentials()
+  yield AwsAuth.currentAuthenticatedUser({
     bypassCache: false,
   })
 }
@@ -173,7 +173,7 @@ function handleAuthCheckValidation(self) {
  */
 function* authCheckRequest(req) {
   try {
-    const authData = yield handleAuthCheckRequest(req.payload)
+    yield handleAuthCheckRequest(req.payload)
 
     const data = yield queryService.apiRequest(queries.self, req.payload)
     const selector = path(['data', 'self'])
