@@ -113,6 +113,10 @@ function* authOnboardRequest(req) {
     const data = yield queryService.apiRequest(queries.self, req.payload)
     const selector = path(['data', 'self'])
 
+    yield put(actions.authCheckReady({
+      data: { userId: selector(data).userId },
+    }))
+
     yield put(actions.globalAuthUserTrigger({
       data: selector(data),
     }))
@@ -171,12 +175,12 @@ function* authCheckRequest(req) {
   try {
     const authData = yield handleAuthCheckRequest(req.payload)
 
-    yield put(actions.authCheckReady({
-      data: { userId: authData.username },
-    }))
-
     const data = yield queryService.apiRequest(queries.self, req.payload)
     const selector = path(['data', 'self'])
+
+    yield put(actions.authCheckReady({
+      data: { userId: selector(data).userId },
+    }))
 
     handleAuthCheckValidation(selector(data))
 

@@ -70,6 +70,10 @@ function cacheFetchRequestChannel({ signature, priorityQueueInstance }) {
  * 
  */
 function* cacheFetchRequest(req) {
+  if (!path(['payload', 'signature', 'path'])(req)) {
+    return
+  }
+
   /**
    * 
    */

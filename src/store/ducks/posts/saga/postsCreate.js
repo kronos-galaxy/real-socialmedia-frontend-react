@@ -108,22 +108,22 @@ function* handleImagePost(req) {
     })
 
     yield takeEvery(channel, function *(upload) {
-      const meta = {
+      const meta = (nextProgress) => ({
         attempt: upload.attempt || req.payload.attempt,
-        progress: parseInt(upload.progress, 10),
+        progress: nextProgress || parseInt(upload.progress, 10),
         error: upload.error,
-      }
+      })
 
       if (upload.status === 'progress') {
-        yield put(actions.postsCreateProgress({ data: {}, payload: req.payload, meta }))
+        yield put(actions.postsCreateProgress({ data: {}, payload: req.payload, meta: meta() }))
       }
 
       if (upload.status === 'success') {
-        // yield put(actions.postsCreateSuccess({ data: {}, payload: req.payload, meta }))
+        yield put(actions.postsCreateProgress({ data: {}, payload: req.payload, meta: meta(100) }))
       }
 
       if (upload.status === 'failure') {
-        yield put(actions.postsCreateFailure({ data: {}, payload: req.payload, meta }))
+        yield put(actions.postsCreateFailure({ data: {}, payload: req.payload, meta: meta(0) }))
       }
     })
   } catch (error) {

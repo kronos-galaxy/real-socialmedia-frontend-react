@@ -71,7 +71,9 @@ const CacheComponent = ({
   const cached = useSelector(state => state.cache.cached)
   const failed = useSelector(state => state.cache.failed)
   const progress = useSelector(state => state.cache.progress)
-  const signatures = images.map(([source, shouldDownload]) => [generateSignature(source), shouldDownload])
+  const signatures = images
+    .filter(([source, shouldDownload]) => source)
+    .map(([source, shouldDownload]) => [generateSignature(source), shouldDownload])
   const pathFolder = path([0, 0, 'pathFolder'])(signatures)
   const uri = last(cached[pathFolder] || [])
   const fail = path([pathFolder])(failed)

@@ -112,6 +112,7 @@ export const handleGoogleRefresh = async () => {
       try {
         return _handleGoogleRefresh()
       } catch (nextError) {
+        GoogleSignin.signOut()
         retry(nextError)
       }
     }, { retries: 3 })
