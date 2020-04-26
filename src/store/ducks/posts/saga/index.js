@@ -421,10 +421,12 @@ function* postSubscription(req) {
 
 export default () => [
   takeLatest('AUTH_CHECK_READY', postSubscription),
-  takeLatest(constants.POSTS_GET_REQUEST, postsGetRequest),
-  takeLatest(constants.POSTS_GET_MORE_REQUEST, postsGetMoreRequest),
-  takeLatest(constants.POSTS_VIEWS_GET_REQUEST, postsViewsGetRequest),
-  takeLatest(constants.POSTS_LIKES_GET_REQUEST, postsLikesGetRequest),
+  
+  takeEvery(constants.POSTS_GET_REQUEST, postsGetRequest),
+  takeEvery(constants.POSTS_GET_MORE_REQUEST, postsGetMoreRequest),
+
+  takeEvery(constants.POSTS_VIEWS_GET_REQUEST, postsViewsGetRequest),
+  takeEvery(constants.POSTS_LIKES_GET_REQUEST, postsLikesGetRequest),
 
   takeLatest(constants.POSTS_FEED_GET_REQUEST, postsFeedGetRequest),
   takeLatest(constants.POSTS_FEED_GET_MORE_REQUEST, postsFeedGetMoreRequest),
@@ -439,16 +441,16 @@ export default () => [
   takeLatest(constants.POSTS_FLAG_REQUEST, postsFlagRequest),
   takeLatest(constants.POSTS_SINGLE_GET_REQUEST, postsSingleGetRequest),
 
-  takeLatest(constants.POSTS_ONYMOUSLY_LIKE_REQUEST, postsOnymouslyLikeRequest),
-  takeLatest(constants.POSTS_ANONYMOUSLY_LIKE_REQUEST, postsAnonymouslyLikeRequest),
-  takeLatest(constants.POSTS_DISLIKE_REQUEST, postsDislikeRequest),
-  takeLatest(constants.POSTS_REPORT_POST_VIEWS_REQUEST, postsReportPostViewsRequest),
-  takeLatest(constants.POSTS_REPORT_COMMENT_VIEWS_REQUEST, postsReportCommentViewsRequest),
+  takeEvery(constants.POSTS_ONYMOUSLY_LIKE_REQUEST, postsOnymouslyLikeRequest),
+  takeEvery(constants.POSTS_ANONYMOUSLY_LIKE_REQUEST, postsAnonymouslyLikeRequest),
+  takeEvery(constants.POSTS_DISLIKE_REQUEST, postsDislikeRequest),
+  takeEvery(constants.POSTS_REPORT_POST_VIEWS_REQUEST, postsReportPostViewsRequest),
+  takeEvery(constants.POSTS_REPORT_COMMENT_VIEWS_REQUEST, postsReportCommentViewsRequest),
 
-  takeLatest(constants.POSTS_GET_TRENDING_POSTS_REQUEST, postsGetTrendingPostsRequest),
-  takeLatest(constants.POSTS_GET_TRENDING_POSTS_MORE_REQUEST, postsGetTrendingPostsMoreRequest),
+  takeEvery(constants.POSTS_GET_TRENDING_POSTS_REQUEST, postsGetTrendingPostsRequest),
+  takeEvery(constants.POSTS_GET_TRENDING_POSTS_MORE_REQUEST, postsGetTrendingPostsMoreRequest),
   
-  takeLatest(constants.POSTS_COMMENTS_GET_REQUEST, postsCommentsGetRequest),
-  takeLatest(constants.COMMENTS_ADD_REQUEST, commentsAddRequest),
-  takeLatest(constants.COMMENTS_DELETE_REQUEST, commentsDeleteRequest),
+  takeEvery(constants.POSTS_COMMENTS_GET_REQUEST, postsCommentsGetRequest),
+  takeEvery(constants.COMMENTS_ADD_REQUEST, commentsAddRequest),
+  takeEvery(constants.COMMENTS_DELETE_REQUEST, commentsDeleteRequest),
 ]

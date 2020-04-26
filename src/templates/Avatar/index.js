@@ -63,7 +63,7 @@ const AvatarTemplate = ({
               [imageSource.uri, true],
             ]}
             fallback={imageSource.uri}
-            priorityIndex={-1}
+            priorityIndex={0}
             resizeMode="cover"
             hideProgress
           />

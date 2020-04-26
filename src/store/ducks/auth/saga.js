@@ -1,5 +1,5 @@
 import * as AWS from 'aws-sdk/global'
-import { put, takeLatest, getContext } from 'redux-saga/effects'
+import { put, takeLatest, getContext, takeEvery } from 'redux-saga/effects'
 import path from 'ramda/src/path'
 import {
   federatedFacebookSignin,
@@ -613,14 +613,14 @@ function* authSignoutRequest(persistor, req) {
 
 export default (persistor) => [
   takeLatest(constants.AUTH_ONBOARD_REQUEST, authOnboardRequest),
-  takeLatest(constants.AUTH_CHECK_REQUEST, authCheckRequest),
-  takeLatest(constants.AUTH_SIGNIN_REQUEST, authSigninRequest),
+  takeEvery(constants.AUTH_CHECK_REQUEST, authCheckRequest),
+  takeEvery(constants.AUTH_SIGNIN_REQUEST, authSigninRequest),
   takeLatest(constants.AUTH_SIGNUP_REQUEST, authSignupRequest),
   takeLatest(constants.AUTH_SIGNUP_RESEND_REQUEST, authSignupResendRequest),
   takeLatest(constants.AUTH_SIGNUP_CONFIRM_REQUEST, authSignupConfirmRequest),
   takeLatest(constants.AUTH_FORGOT_REQUEST, authForgotRequest),
   takeLatest(constants.AUTH_FORGOT_CONFIRM_REQUEST, authForgotConfirmRequest),
-  takeLatest(constants.AUTH_FACEBOOK_REQUEST, authFacebookRequest),
-  takeLatest(constants.AUTH_GOOGLE_REQUEST, authGoogleRequest),
-  takeLatest(constants.AUTH_SIGNOUT_REQUEST, authSignoutRequest, persistor),
+  takeEvery(constants.AUTH_FACEBOOK_REQUEST, authFacebookRequest),
+  takeEvery(constants.AUTH_GOOGLE_REQUEST, authGoogleRequest),
+  takeEvery(constants.AUTH_SIGNOUT_REQUEST, authSignoutRequest, persistor),
 ]

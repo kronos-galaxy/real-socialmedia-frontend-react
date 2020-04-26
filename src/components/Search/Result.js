@@ -33,7 +33,6 @@ const Result = ({
   const styling = styles(theme)
   const navigation = useNavigation()
   
-
   return (
     <View style={styling.root}>
       <RowsComponent items={path(['data'])(usersSearch)}>
@@ -43,6 +42,7 @@ const Result = ({
               avatar={
                 <TouchableOpacity onPress={navigationActions.navigateProfile(navigation, { user })}>
                   <Avatar
+                    key={path(['photo', 'url64p'])(user)}
                     active={path(['stories', 'items', 'length'])(user) || false}
                     thumbnailSource={{ uri: path(['photo', 'url64p'])(user) }}
                     imageSource={{ uri: path(['photo', 'url64p'])(user) }}
