@@ -118,3 +118,6 @@ export const navigateAuthSignupConfirm = (navigation, params) => () =>
 
 export const navigateOnboardCamera = (navigation, params) => () =>
   navigation.navigate('OnboardCamera', params)
+
+export const navigateOnboardPhoto = (navigation, params) => () =>
+  navigation.navigate('OnboardPhoto', params)
