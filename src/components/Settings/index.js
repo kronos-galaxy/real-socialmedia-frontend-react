@@ -54,6 +54,17 @@ const Settings = ({
     )
   }
 
+  // {
+  //   label: t('Join Diamond'),
+  //   onPress: () => navigation.navigate('Membership'),
+  //   icon: <DiamondIcon fill={theme.colors.text} />,
+  // }
+  // {
+  //   label: t('Change Language'),
+  //   onPress: () => navigation.navigate('Translation'),
+  //   icon: <LanguageIcon fill={theme.colors.text} />,
+  // }
+
   return (
     <ScrollView style={styling.root}>
       <TouchableOpacity onPress={() => navigation.navigate('ProfilePhoto')}>
@@ -79,10 +90,6 @@ const Settings = ({
       />
 
       <RowsComponent items={[{
-        label: t('Join Diamond'),
-        onPress: () => navigation.navigate('Membership'),
-        icon: <DiamondIcon fill={theme.colors.text} />,
-      }, {
         label: t('Edit Profile'),
         onPress: () => navigation.navigate('ProfileEdit'),
         icon: <EditIcon fill={theme.colors.text} />,
@@ -90,10 +97,6 @@ const Settings = ({
         label: t('Change Profile Photo'),
         onPress: () => actionSheetRef.current.show(),
         icon: <PhotoIcon fill={theme.colors.text} />,
-      }, {
-        label: t('Change Language'),
-        onPress: () => navigation.navigate('Translation'),
-        icon: <LanguageIcon fill={theme.colors.text} />,
       }, {
         label: t('Choose Theme'),
         onPress: () => navigation.navigate('Theme'),
