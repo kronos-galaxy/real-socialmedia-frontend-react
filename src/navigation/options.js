@@ -151,13 +151,23 @@ export const stackScreenDefaultProps = ({ theme }) => ({
 export const stackScreenAuthProps = ({ theme }) => ({
   options: (props) => ({
     ...AuthNavigationComponent({ ...props, theme }),
-    gestureResponseDistance: {
-      horizontal: Layout.window.width,
-      vertical: Layout.window.height,
-    },
+    gestureEnabled: false,
     cardStyle: {
       backgroundColor: theme.colors.backgroundPrimary,
     },
+  }),
+})
+
+/**
+ * Used for Onboard Screens
+ */
+export const stackScreenOnboardProps = ({ theme }) => ({
+  options: (props) => ({
+    gestureEnabled: false,
+    cardStyle: {
+      backgroundColor: theme.colors.backgroundPrimary,
+    },
+    headerShown: false,
   }),
 })
 
