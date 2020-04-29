@@ -57,11 +57,6 @@ const Permissions = ({ children }) => {
     getPermissions()
   }, [])
 
-console.log({
-  cameraEnabled,
-    libraryEnabled,
-})
-
   return children({
     cameraEnabled,
     libraryEnabled,
