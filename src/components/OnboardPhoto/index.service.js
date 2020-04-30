@@ -5,7 +5,7 @@ import * as authSelector from 'store/ducks/auth/selectors'
 import * as postsActions from 'store/ducks/posts/actions'
 import * as cameraActions from 'store/ducks/camera/actions'
 import * as authActions from 'store/ducks/auth/actions'
-import { useNavigation } from '@react-navigation/native'
+import { useNavigation, useRoute } from '@react-navigation/native'
 import { v4 as uuid } from 'uuid'
 import dayjs from 'dayjs'
 import { handleGallery } from 'components/Camera/index.service'
@@ -13,6 +13,7 @@ import { handleGallery } from 'components/Camera/index.service'
 const OnboardPhotoService = ({ children, }) => {
   const dispatch = useDispatch()
   const navigation = useNavigation()
+  const route = useRoute()
   const user = useSelector(authSelector.authUserSelector)
   const usersEditProfile = useSelector(state => state.users.usersEditProfile)
   const postsCreateQueue = useSelector(state => state.posts.postsCreateQueue)

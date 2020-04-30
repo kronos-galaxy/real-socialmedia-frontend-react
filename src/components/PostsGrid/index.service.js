@@ -1,9 +1,11 @@
-import { useEffect, useCallback } from 'react'
+import { useCallback } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import * as postsActions from 'store/ducks/posts/actions'
 import * as postsServices from 'store/ducks/posts/services'
 import { useNavigation, useRoute, useFocusEffect } from '@react-navigation/native'
 import path from 'ramda/src/path'
+import useS3ExpiryState from 'services/S3ExpiryState'
+import * as authSelector from 'store/ducks/auth/selectors'
 
 const PostsGridService = ({ children, postsGetRequestOnMount }) => {
   const dispatch = useDispatch()
@@ -13,8 +15,10 @@ const PostsGridService = ({ children, postsGetRequestOnMount }) => {
   const postsGetCache = useSelector(state => state.posts.postsGetCache)
   const themeFetch = useSelector(state => state.theme.themeFetch)
   const themes = useSelector(state => state.theme.themeFetch.data)
-  const user = path(['params', 'user'])(route) || useSelector(state => state.auth.user)
+  const user = path(['params', 'user'])(route) || useSelector(authSelector.authUserSelector)
   const userId = user.userId
+
+  const postsGetCached = postsServices.cachedPostsGet(postsGet, postsGetCache, userId)
 
   const postsGetRequest = ({ nextToken }) =>
     dispatch(postsActions.postsGetRequest({ userId, nextToken }))
@@ -34,11 +38,23 @@ const PostsGridService = ({ children, postsGetRequestOnMount }) => {
     }, [userId])
   )
 
+  const urlToBeValidated = path(['data', 0, 'image', 'url'])(postsGetCached)
+  useS3ExpiryState({
+    urlToBeValidated,
+    condition: (
+      urlToBeValidated &&
+      postsGetCached.status !== 'loading'
+    ),
+    onExpiry: () => {
+      dispatch(postsActions.postsGetRequest({ userId }))
+    },
+  })
+
   return children({
     themes,
     themeFetch,
-    user: route.params,
-    postsGet: postsServices.cachedPostsGet(postsGet, postsGetCache, userId),
+    user,
+    postsGet: postsGetCached,
     postsGetRequest,
     postsGetMoreRequest,
   })

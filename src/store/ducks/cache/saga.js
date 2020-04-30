@@ -5,6 +5,7 @@ import * as constants from 'store/ducks/cache/constants'
 import * as service from 'store/ducks/cache/service'
 import path from 'ramda/src/path'
 import * as Logger from 'services/Logger'
+import update from 'immutability-helper'
 
 /**
  * 
@@ -117,8 +118,16 @@ function* cacheFetchRequest(req) {
         scope.setExtra('payload', JSON.stringify(eventData))
         Logger.captureMessage('CACHE_FETCH_FAILURE')
       })
-      yield put(actions.cacheFetchFailure(eventData.payload))
-      yield put(actions.cacheFetchRequest(req))
+      const pseudoPayload = update({
+        jobId: 0,
+        progress: 100,
+        signature: req.payload.signature,
+      }, {
+        signature: {
+          path: { $set: req.payload.signature.source },
+        },
+      })
+      yield put(actions.cacheFetchSuccess(pseudoPayload))
     }
   }
 

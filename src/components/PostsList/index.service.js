@@ -9,6 +9,7 @@ import path from 'ramda/src/path'
 import pathOr from 'ramda/src/pathOr'
 import * as navigationActions from 'navigation/actions'
 import useAppState from 'services/AppState'
+import useS3ExpiryState from 'services/S3ExpiryState'
 import * as authSelector from 'store/ducks/auth/selectors'
 
 const PostsListService = ({ children }) => {
@@ -78,6 +79,18 @@ const PostsListService = ({ children }) => {
 
   useAppState({
     onForeground: () => {
+      postsFeedGetRequest({ limit: 20 })
+    },
+  })
+
+  const urlToBeValidated = path(['data', 0, 'image', 'url'])(postsFeedGet)
+  useS3ExpiryState({
+    urlToBeValidated,
+    condition: (
+      urlToBeValidated &&
+      postsFeedGet.status !== 'loading'
+    ),
+    onExpiry: () => {
       postsFeedGetRequest({ limit: 20 })
     },
   })

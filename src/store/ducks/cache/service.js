@@ -29,8 +29,8 @@ export const fetchRemoteImage = async ({
     background: true,
     discretionary: true,
     cacheable: false,
-    readTimeout: 25000,
-    backgroundTimeout: 25000,
+    readTimeout: 10000,
+    backgroundTimeout: 10000,
     progressDivider: 10,
     resumable: () =>
       RNFS.isResumable(jobId).then(() => RNFS.resumeDownload(jobId)),
