@@ -21,7 +21,7 @@ const Album = ({
   t,
   theme,
   themes,
-  authUser,
+  user,
   albumsDeleteRequest,
   themeFetch,
 }) => {
@@ -35,7 +35,7 @@ const Album = ({
     title: path(['name'])(album),
   })
 
-  if (path(['ownedBy', 'userId'])(album) === authUser.userId) {
+  if (path(['ownedBy', 'userId'])(album) === user.userId) {
     navigation.setOptions({
       headerRight: () => <HeaderRight onPress={() => actionSheetRef.current.show()} title="Edit" />,
     })
@@ -121,10 +121,15 @@ const styles = theme => StyleSheet.create({
 })
 
 Album.propTypes = {
-  theme: PropTypes.any,
+  albumsDeleteRequest: PropTypes.any,
   postsSingleGet: PropTypes.any,
   postsShare: PropTypes.any,
   postsShareRequest: PropTypes.any,
+  t: PropTypes.any,
+  theme: PropTypes.any,
+  themes: PropTypes.any,
+  themeFetch: PropTypes.any,
+  user: PropTypes.any,
 }
 
 export default withTranslation()(

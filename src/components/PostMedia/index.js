@@ -17,7 +17,7 @@ import { withTranslation } from 'react-i18next'
 const PostMedia = ({
   t,
   theme,
-  authUser,
+  user,
   postsMediaFeedGet,
   postsShareRequest,
   handleEditPress,
@@ -98,7 +98,7 @@ const PostMedia = ({
         viewabilityConfig={viewabilityConfigRef.current}
         renderItem={({ item: post, index }) => (
           <PostComponent
-            authUser={authUser}
+            user={user}
             post={post}
             handleEditPress={handleEditPress}
             postsArchiveRequest={postsArchiveRequest}
@@ -144,7 +144,7 @@ PostMedia.defaultProps = {
 
 PostMedia.propTypes = {
   theme: PropTypes.any,
-  authUser: PropTypes.any,
+  user: PropTypes.any,
   feedRef: PropTypes.any,
   postsMediaFeedGet: PropTypes.any,
   postsMediaFeedGetRequest: PropTypes.any,
@@ -159,6 +159,18 @@ PostMedia.propTypes = {
   postsDislikeRequest: PropTypes.any,
   usersGetFollowedUsersWithStories: PropTypes.any,
   usersGetFollowedUsersWithStoriesRequest: PropTypes.any,
+  t: PropTypes.any,
+  postsRestoreArchivedRequest: PropTypes.any,
+  postsSingleGet: PropTypes.any,
+  postsGetTrendingPosts: PropTypes.any,
+  routeName: PropTypes.any,
+  handleScrollNext: PropTypes.any,
+  handleScrollPrev: PropTypes.any,
+  actionSheetRefs: PropTypes.any,
+  textPostRefs: PropTypes.any,
+  onViewableItemsChangedRef: PropTypes.any,
+  viewabilityConfigRef: PropTypes.any,
+  priorityQueueInstance: PropTypes.any,
 }
 
 export default withTranslation()(withTheme(PostMedia))

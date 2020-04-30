@@ -5,6 +5,7 @@ import * as postsServices from 'store/ducks/posts/services'
 import { useNavigation, useRoute } from '@react-navigation/native'
 import path from 'ramda/src/path'
 import * as navigationActions from 'navigation/actions'
+import * as authSelector from 'store/ducks/auth/selectors'
 
 const VerificationService = ({ children, }) => {
   const dispatch = useDispatch()
@@ -12,7 +13,7 @@ const VerificationService = ({ children, }) => {
   const route = useRoute()
   const postId = path(['params', 'post', 'postId'])(route)
   const postUserId = path(['params', 'post', 'postedBy', 'userId'])(route)
-  const authUser = useSelector(state => state.auth.user)
+  const user = useSelector(authSelector.authUserSelector)
   const postsSingleGet = useSelector(state => state.posts.postsSingleGet)
   const postsEdit = useSelector(state => state.posts.postsEdit)
 
@@ -36,7 +37,7 @@ const VerificationService = ({ children, }) => {
   }, [postsEdit.status])
 
   return children({
-    authUser,
+    user,
     postsSingleGet: postsSingleGetCached,
     postsSingleGetRequest,
     postsEditRequest,

@@ -84,7 +84,7 @@ const styles = theme => StyleSheet.create({
 Profile.propTypes = {
   theme: PropTypes.any,
   usersGetProfile: PropTypes.any,
-  authUser: PropTypes.any,
+  user: PropTypes.any,
   usersBlock: PropTypes.any,
   usersBlockRequest: PropTypes.any,
   usersUnblock: PropTypes.any,
@@ -94,6 +94,10 @@ Profile.propTypes = {
   usersUnfollow: PropTypes.any,
   usersUnfollowRequest: PropTypes.any,
   postsGet: PropTypes.any,
+  t: PropTypes.any,
+  index: PropTypes.any,
+  setIndex: PropTypes.any,
+  routes: PropTypes.any,
 }
 
 export default withTranslation()(withTheme(Profile))

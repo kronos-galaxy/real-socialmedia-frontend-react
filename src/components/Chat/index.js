@@ -19,7 +19,7 @@ import { withTranslation } from 'react-i18next'
 const Chat = ({
   t,
   theme,
-  authUser,
+  user,
   feedRef,
   formFocus,
   formChange,
@@ -75,7 +75,7 @@ const Chat = ({
         >
           <Subheading style={styling.subheading}>{t('Recent')}</Subheading>
           <ContactsComponent
-            authUser={authUser}
+            user={user}
             chatGetChats={chatGetChats}
           />
         </ScrollView>
@@ -100,6 +100,18 @@ const styles = theme => StyleSheet.create({
 
 Chat.propTypes = {
   theme: PropTypes.any,
+  t: PropTypes.any,
+  user: PropTypes.any,
+  feedRef: PropTypes.any,
+  formFocus: PropTypes.any,
+  formChange: PropTypes.any,
+  handleFormFocus: PropTypes.any,
+  handleFormChange: PropTypes.any,
+  chatGetChats: PropTypes.any,
+  chatGetChatsRequest: PropTypes.any,
+  usersSearch: PropTypes.any,
+  usersSearchRequest: PropTypes.any,
+  usersGetTrendingUsers: PropTypes.any,
 }
 
 export default withTranslation()(withTheme(Chat))

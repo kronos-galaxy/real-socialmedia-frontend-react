@@ -58,7 +58,7 @@ const SearchComponent = ({
   theme,
   themes,
   feedRef,
-  authUser,
+  user,
   usersSearchRequest,
   usersSearch,
   usersFollow,
@@ -120,7 +120,7 @@ const SearchComponent = ({
                 themes={themes}
                 postsGet={postsGetTrendingPosts}
                 themeFetch={themeFetch}
-                themeCode={path(['themeCode'])(authUser)}
+                themeCode={path(['themeCode'])(user)}
                 priorityQueueInstance={contextProps.searchImages}
               />
             )}
@@ -198,6 +198,21 @@ SearchComponent.propTypes = {
   usersFollowRequest: PropTypes.any,
   usersUnfollow: PropTypes.any,
   usersUnfollowRequest: PropTypes.any,
+  t: PropTypes.any,
+  themes: PropTypes.any,
+  feedRef: PropTypes.any,
+  user: PropTypes.any,
+  usersAcceptFollowerUser: PropTypes.any,
+  usersAcceptFollowerUserRequest: PropTypes.any,
+  usersGetTrendingUsers: PropTypes.any,
+  postsGetTrendingPosts: PropTypes.any,
+  postsGetTrendingPostsRequest: PropTypes.any,
+  postsGetTrendingPostsMoreRequest: PropTypes.any,
+  handleFormFocus: PropTypes.any,
+  formFocus: PropTypes.any,
+  handleFormChange: PropTypes.any,
+  formChange: PropTypes.any,
+  themeFetch: PropTypes.any,
 }
 
 export default withTranslation()(withTheme(SearchComponent))

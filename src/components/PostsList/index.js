@@ -60,7 +60,7 @@ const PostsList = ({
   t,
   theme,
   themes,
-  authUser,
+  user,
   postsFeedGet,
   postsFeedGetRequest,
   postsFeedGetMoreRequest,
@@ -113,7 +113,7 @@ const PostsList = ({
 
           <PostComponent
             themes={themes}
-            authUser={authUser}
+            user={user}
 
             handleEditPress={handleEditPress}
             postsArchiveRequest={postsArchiveRequest}
@@ -180,7 +180,7 @@ const PostsList = ({
         viewabilityConfig={viewabilityConfigRef.current}
         ListHeaderComponent={() => <>
           <StoriesComponent
-            authUser={authUser}
+            user={user}
             usersGetFollowedUsersWithStories={usersGetFollowedUsersWithStories}
           />
 
@@ -188,7 +188,7 @@ const PostsList = ({
             {Object.values(postsCreateQueue).map((post, key) => (
               <UploadingComponent
                 key={key}
-                authUser={authUser}
+                user={user}
                 post={post}
                 postsCreateRequest={postsCreateRequest}
                 postsCreateIdle={postsCreateIdle}
@@ -228,7 +228,7 @@ PostsList.defaultProps = {
 
 PostsList.propTypes = {
   theme: PropTypes.any,
-  authUser: PropTypes.any,
+  user: PropTypes.any,
   feedRef: PropTypes.any,
   postsFeedGet: PropTypes.any,
   postsFeedGetRequest: PropTypes.any,
@@ -242,7 +242,24 @@ PostsList.propTypes = {
   postsOnymouslyLikeRequest: PropTypes.any,
   postsDislikeRequest: PropTypes.any,
   usersGetFollowedUsersWithStories: PropTypes.any,
-  usersGetFollowedUsersWithStoriesRequest: PropTypes.any, 
+  usersGetFollowedUsersWithStoriesRequest: PropTypes.any,
+  t: PropTypes.any,
+  themes: PropTypes.any,
+  postsFeedGetMoreRequest: PropTypes.any,
+  postsRestoreArchivedRequest: PropTypes.any,
+  postsCreateRequest: PropTypes.any,
+  postsCreateIdle: PropTypes.any,
+  postsCreateQueue: PropTypes.any,
+  usersGetPendingFollowers: PropTypes.any,
+  onViewableItemsChanged: PropTypes.any,
+  handleScrollPrev: PropTypes.any,
+  handleScrollNext: PropTypes.any,
+  postsGetTrendingPosts: PropTypes.any,
+  bookmarkSeparatorIndex: PropTypes.any,
+  actionSheetRefs: PropTypes.any,
+  textPostRefs: PropTypes.any,
+  onViewableItemsChangedRef: PropTypes.any,
+  viewabilityConfigRef: PropTypes.any,
 }
 
 export default withTranslation()(withTheme(PostsList))

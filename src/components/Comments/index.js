@@ -20,7 +20,7 @@ import { withTranslation } from 'react-i18next'
 const Comments = ({
   t,
   theme,
-  authUser,
+  user,
   commentsAdd,
   commentsAddRequest,
   commentsDeleteRequest,
@@ -60,13 +60,13 @@ const Comments = ({
         : null}
         renderItem={({ item: comment, index }) => (
           <View style={styling.comment}>
-            {comment.commentedBy.userId === authUser.userId ?
+            {comment.commentedBy.userId === user.userId ?
               <SwipeableComponent onPress={() => commentsDeleteRequest({ commentId: comment.commentId })}>
                 <CommentComponent comment={comment} />
               </SwipeableComponent>
             : null}
 
-            {comment.commentedBy.userId !== authUser.userId ?
+            {comment.commentedBy.userId !== user.userId ?
               <CommentComponent comment={comment} />
             : null}
           </View>
@@ -105,6 +105,16 @@ const styles = theme => StyleSheet.create({
 
 Comments.propTypes = {
   theme: PropTypes.any,
+  t: PropTypes.any,
+  user: PropTypes.any,
+  commentsAdd: PropTypes.any,
+  commentsAddRequest: PropTypes.any,
+  commentsDeleteRequest: PropTypes.any,
+  postsCommentsGet: PropTypes.any,
+  marginBottom: PropTypes.any,
+  post: PropTypes.any,
+  onViewableItemsChangedRef: PropTypes.any,
+  viewabilityConfigRef: PropTypes.any,
 }
 
 export default withTranslation()(withTheme(Comments))

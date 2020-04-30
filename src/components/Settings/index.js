@@ -168,6 +168,8 @@ Settings.propTypes = {
   authSignout: PropTypes.any,
   authSignoutRequest: PropTypes.any,
   user: PropTypes.any,
+  t: PropTypes.any,
+  authSignoutRequest: PropTypes.any,
 }
 
 export default withTranslation()(withTheme(Settings))
