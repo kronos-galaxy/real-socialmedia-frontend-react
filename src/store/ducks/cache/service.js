@@ -20,17 +20,18 @@ export const fetchRemoteImage = async ({
   progressCallback,
   requestCallback,
   failureCallback,
-}, successCallback) => {
+  successCallback,
+}, callback) => {
   await RNFS.mkdir(signature.pathFolder)
 
   const { promise, jobId } = RNFS.downloadFile({
     fromUrl: signature.source,
     toFile: signature.path,
     background: true,
-    discretionary: true,
+    discretionary: false,
     cacheable: false,
-    readTimeout: 10000,
-    backgroundTimeout: 10000,
+    readTimeout: 20000,
+    backgroundTimeout: 20000,
     progressDivider: 10,
     resumable: () =>
       RNFS.isResumable(jobId).then(() => RNFS.resumeDownload(jobId)),
@@ -57,6 +58,8 @@ export const fetchRemoteImage = async ({
       signature,
       error,
     })
+  } finally {
+    callback()
   }
 }
 
@@ -90,5 +93,6 @@ export const priorotizedRemoteImageFetch = ({
     progressCallback,
     requestCallback,
     failureCallback,
-  }, priority, successCallback)
+    successCallback,
+  }, priority)
 }

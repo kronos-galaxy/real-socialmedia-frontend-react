@@ -68,16 +68,16 @@ const CacheComponent = ({
   const styling = styles()
   const dispatch = useDispatch()
 
-  const cached = useSelector(state => state.cache.cached)
-  const failed = useSelector(state => state.cache.failed)
-  const progress = useSelector(state => state.cache.progress)
   const signatures = images
     .filter(([source, shouldDownload]) => source)
     .map(([source, shouldDownload]) => [generateSignature(source), shouldDownload])
+
   const pathFolder = path([0, 0, 'pathFolder'])(signatures)
-  const uri = last(cached[pathFolder] || [])
-  const fail = path([pathFolder])(failed)
-  const fill = path([pathFolder, 'progress'])(progress)
+  const cached = useSelector(path(['cache', 'cached', pathFolder]))
+  const failed = useSelector(path(['cache', 'failed', pathFolder]))
+  const progress = useSelector(path(['cache', 'progress', pathFolder, 'progress']))
+
+  const uri = last(cached || [])
 
   const getFilename = (source) => {
     if (!source) return ''
@@ -148,7 +148,7 @@ const CacheComponent = ({
   /**
    * Show loading indicator image if placeholder image is not loaded, yet.
    */
-  if (!uri && !fill && !fail) {
+  if (!uri && !progress && !failed) {
     return (
       <ActivityIndicator
         style={styling.image}
@@ -165,26 +165,33 @@ const CacheComponent = ({
           </View>
         : null}
 
-        {fill ?
+        {progress ?
           <View style={styling.progress}>
             <AnimatedCircularProgress
               size={50}
               width={2}
-              fill={fill}
+              fill={progress}
               tintColor="#21ce99"
               backgroundColor="#ffffff"
             />
           </View>
         : null}
 
-        {uri ?
+        {uri ? (
           <Image
             source={{ uri }}
             resizeMode={resizeMode}
             style={[styling.image, style]}
             onError={handleError}
           />
-        : null}
+        ) : (
+          <Image
+            source={{ uri: fallback }}
+            resizeMode={resizeMode}
+            style={[styling.image, style]}
+            onError={handleError}
+          />
+        )}
       </View>
     </View>
   )

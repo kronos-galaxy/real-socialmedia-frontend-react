@@ -113,21 +113,7 @@ function* cacheFetchRequest(req) {
       yield put(actions.cacheFetchSuccess(eventData.payload))
     }
     if (eventData.type === 'FAILURE') {
-      Logger.withScope(scope => {
-        scope.setExtra('code', 'INTERNAL')
-        scope.setExtra('payload', JSON.stringify(eventData))
-        Logger.captureMessage('CACHE_FETCH_FAILURE')
-      })
-      const pseudoPayload = update({
-        jobId: 0,
-        progress: 100,
-        signature: req.payload.signature,
-      }, {
-        signature: {
-          path: { $set: req.payload.signature.source },
-        },
-      })
-      yield put(actions.cacheFetchSuccess(pseudoPayload))
+      yield put(actions.cacheFetchFailure(eventData.payload))
     }
   }
 

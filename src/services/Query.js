@@ -49,17 +49,7 @@ export const handleEventChannel = (AppSync) => (query, variables, { cached } = {
 
 export function* _apiRequest({ query, payload }) {
   const AwsAPI = yield getContext('AwsAPI')
-
-  const { api, timeout } = yield race({
-    api: AwsAPI.graphql(graphqlOperation(query, payload)),
-    timeout: delay(10000)
-  })
-
-  if (api) {
-    return api
-  } else {
-    new Error('api timeout error')
-  }
+  return yield AwsAPI.graphql(graphqlOperation(query, payload))
 }
 
 export function* apiRequest(query, payload) {
