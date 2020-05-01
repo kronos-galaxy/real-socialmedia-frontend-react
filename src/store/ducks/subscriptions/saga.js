@@ -7,16 +7,6 @@ import * as usersActions from 'store/ducks/users/actions'
 import * as postsQueries from 'store/ducks/posts/queries'
 import * as queryService from 'services/Query'
 
-function* authSubscription(req) {
-  const selector = path(['payload', 'data', 'userId'])
-  const userId = selector(req)
-
-  yield put(postsActions.postsFeedGetRequest({ limit: 20 }))
-  yield put(postsActions.postsGetTrendingPostsRequest({ limit: 20 }))
-  yield put(usersActions.usersGetPendingFollowersRequest({ userId }))
-  yield put(usersActions.usersGetFollowedUsersWithStoriesRequest({}))
-}
-
 function postSubscriptionChannel({ subscription }) {
   return eventChannel(emitter => {
     subscription.subscribe({
@@ -30,10 +20,16 @@ function postSubscriptionChannel({ subscription }) {
 
 function* postSubscription(req) {
   const AwsAPI = yield getContext('AwsAPI')
+  const userId = req.payload.data.userId
 
   const subscription = AwsAPI.graphql(
-    graphqlOperation(postsQueries.onPostNotification, { userId: req.payload.data.userId })
+    graphqlOperation(postsQueries.onPostNotification, { userId })
   )
+
+  yield put(postsActions.postsFeedGetRequest({ limit: 20 }))
+  yield put(postsActions.postsGetTrendingPostsRequest({ limit: 20 }))
+  yield put(usersActions.usersGetPendingFollowersRequest({ userId }))
+  yield put(usersActions.usersGetFollowedUsersWithStoriesRequest({}))
 
   const channel = yield call(postSubscriptionChannel, {
     subscription,
@@ -59,5 +55,4 @@ function* postSubscription(req) {
 
 export default () => [
   takeLatest('AUTH_CHECK_READY', postSubscription),
-  takeLatest('AUTH_CHECK_SUCCESS', authSubscription),
 ]
