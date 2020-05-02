@@ -112,6 +112,10 @@ const messageCodes = {
       code: 'INVALID_PASSWORD',
       text: 'Password did not conform with policy: Password must have uppercase-alpha-numeric-special characters',
     },
+    INVALID_PARAMETER: {
+      code: 'INVALID_PARAMETER',
+      text: 'Invalid Email or Phone number provided',
+    },
   },
 
   /**

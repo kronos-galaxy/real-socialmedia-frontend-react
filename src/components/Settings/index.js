@@ -8,7 +8,6 @@ import {
   TouchableOpacity,
 } from 'react-native'
 import { Text, Caption } from 'react-native-paper'
-import { getReadableVersion } from 'react-native-device-info'
 import ActionSheet from 'react-native-actionsheet'
 import RowsComponent from 'templates/Rows'
 import RowsItemComponent from 'templates/RowsItem'
@@ -27,6 +26,8 @@ import CashIcon from 'assets/svg/settings/Cash'
 import Avatar from 'templates/Avatar'
 import path from 'ramda/src/path'
 import * as navigationActions from 'navigation/actions'
+import codePush from 'react-native-code-push' 
+import useAsync from 'react-use/lib/useAsync'
 
 import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
@@ -53,6 +54,11 @@ const Settings = ({
       { cancelable: true }
     )
   }
+
+  const codePushVersion = useAsync(async () => {
+    const response = await codePush.getUpdateMetadata()
+    return response
+  }, [])
 
   // {
   //   label: t('Join Diamond'),
@@ -138,9 +144,11 @@ const Settings = ({
         )}
       </RowsComponent>
 
-      <View style={styling.helper}>
-        <Caption>Version: {getReadableVersion()}</Caption>
-      </View>
+      {!codePushVersion.loading ?
+        <View style={styling.helper}>
+          <Caption>version: {path(['value', 'appVersion'])(codePushVersion)} [{path(['value', 'label'])(codePushVersion)}]</Caption>
+        </View>
+      : null}
     </ScrollView>
   )
 }

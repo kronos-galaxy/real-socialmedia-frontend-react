@@ -36,7 +36,7 @@ const ForgotForm = ({
         <Field name="username" component={TextField} placeholder={t('Phone or Email')} />
       </View>
       <View style={styling.input}>
-        <DefaultButton label={t('Send Confirmation Email')} onPress={handleSubmit} loading={loading} disabled={loading} />
+        <DefaultButton label={t('Send Confirmation Text / Email')} onPress={handleSubmit} loading={loading} disabled={loading} />
       </View>
     </View>
   )

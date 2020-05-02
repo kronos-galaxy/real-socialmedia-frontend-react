@@ -341,6 +341,10 @@ function* authSignupRequest(req) {
       yield put(actions.authSignupFailure({
         message: errors.getMessagePayload(constants.AUTH_SIGNUP_FAILURE, 'INVALID_PASSWORD', error.message),
       }))
+    } else if (error.code === 'InvalidParameterException') {
+      yield put(actions.authSignupFailure({
+        message: errors.getMessagePayload(constants.AUTH_SIGNUP_FAILURE, 'INVALID_PARAMETER', error.message),
+      }))
     } else {
       yield put(actions.authSignupFailure({
         message: errors.getMessagePayload(constants.AUTH_SIGNUP_FAILURE, 'GENERIC', error.message),

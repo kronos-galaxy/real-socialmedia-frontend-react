@@ -40,7 +40,7 @@ const Signup = ({
 
       <View style={styling.root}>
         <View style={styling.title}>
-          <Subheading>{`${t('Would you like sign up & verify your email')} ${authSignin.payload.username} ?`}</Subheading>
+          <Subheading>{`${t('Would you like sign up & verify your account')}: ${authSignin.payload.username} ?`}</Subheading>
         </View>
         <View style={styling.form}>
           <SignupForm
