@@ -13,7 +13,7 @@ import CameraIcon from 'assets/svg/header/Camera'
 import DirectIcon from 'assets/svg/header/Direct'
 import BackIcon from 'assets/svg/header/Back'
 
-const pageHeaderLeft = ({ onPress, label, labelStyle }) => {
+export const pageHeaderLeft = ({ onPress, label, labelStyle }) => {
   if (!onPress) { return null }
   return (
     <TouchableOpacity style={{ paddingHorizontal: 12 }} onPress={onPress}>
@@ -29,7 +29,7 @@ export const chatHeaderLeft = ({ theme, navigation }) => () => (
 )
 
 const homeHeaderLeft = ({ theme, navigation }) => () => (
-  <TouchableOpacity style={{ padding: 12 }} onPress={navigationActions.navigateCamera(navigation)}>
+  <TouchableOpacity style={{ paddingHorizontal: 12 }} onPress={navigationActions.navigateCamera(navigation)}>
     <CameraIcon
       fill={theme.colors.primaryIcon}
     />
@@ -46,7 +46,7 @@ const homeHeaderTitle = ({ theme }) => () => (
 const homeHeaderRight = ({ theme, navigation }) => () => (
   <UIContextComponent.Consumer>
     {(props) => (
-      <TouchableOpacity style={{ padding: 12 }} onPress={() => {
+      <TouchableOpacity style={{ paddingHorizontal: 12 }} onPress={() => {
         props.uiNotificationIdle()
         navigationActions.navigateChat(navigation)()
       }}>
@@ -69,8 +69,9 @@ const AuthNavigationComponent = ({ navigation, theme }) => ({
     borderBottomWidth: 0,
     shadowColor: 'transparent',
   },
-  headerLeft: pageHeaderLeft,
-  headerTitle: homeHeaderTitle({ navigation, theme }),
+  headerTitleStyle: {
+    color: theme.colors.text,
+  },
 })
 
 const HomeNavigationComponent = ({ navigation, theme }) => ({
@@ -103,6 +104,18 @@ export const tabNavigatorDefaultProps = () => ({
   lazy: true,
   sceneContainerStyle: {
     backgroundColor: 'transparent',
+  },
+  pager,
+})
+
+export const tabNavigatorAuthProps = ({ theme }) => ({
+  initialRouteName: 'Root',
+  sceneContainerStyle: {
+    backgroundColor: 'white',
+  },
+  tabBarOptions: {
+    activeTintColor: theme.colors.primary,
+    inactiveTintColor: theme.colors.primary,
   },
   pager,
 })
@@ -148,13 +161,26 @@ export const stackScreenDefaultProps = ({ theme }) => ({
 /**
  * Used for Main Screens with application logo
  */
-export const stackScreenAuthProps = ({ theme }) => ({
+export const stackScreenAuthProps = ({ theme }) => ({ options } = {}) => ({
   options: (props) => ({
     ...AuthNavigationComponent({ ...props, theme }),
     gestureEnabled: false,
     cardStyle: {
       backgroundColor: theme.colors.backgroundPrimary,
     },
+    headerStyle: {
+      backgroundColor: theme.colors.primary,
+      shadowRadius: 0,
+      shadowOffset: {
+        height: 0,
+      },
+      borderBottomWidth: 0,
+      shadowColor: 'transparent',
+    },
+    headerTitleStyle: {
+      color: '#ffffff',
+    },
+    ...options,
   }),
 })
 
@@ -163,11 +189,14 @@ export const stackScreenAuthProps = ({ theme }) => ({
  */
 export const stackScreenOnboardProps = ({ theme }) => ({
   options: (props) => ({
+    ...AuthNavigationComponent({ ...props, theme }),
     gestureEnabled: false,
     cardStyle: {
       backgroundColor: theme.colors.backgroundPrimary,
     },
-    headerShown: false,
+    headerTitleStyle: {
+      color: theme.colors.backgroundPrimary,
+    },
   }),
 })
 

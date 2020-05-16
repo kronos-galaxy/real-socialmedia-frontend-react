@@ -4,6 +4,7 @@ import { persistReducer } from 'redux-persist'
 import AsyncStorage from '@react-native-community/async-storage'
 
 import auth from 'store/ducks/auth/reducer'
+import signup from 'store/ducks/signup/reducer'
 import camera from 'store/ducks/camera/reducer'
 import theme from 'store/ducks/theme/reducer'
 import posts from 'store/ducks/posts/reducer'
@@ -39,6 +40,14 @@ const authPersistConfig = {
   ],
 }
 
+const signupPersistConfig = {
+  key: 'signup',
+  storage: AsyncStorage,
+  whitelist: [
+    'signupCognitoIdentity',
+  ],
+}
+
 const chatPersistConfig = {
   key: 'chat',
   storage: AsyncStorage,
@@ -49,6 +58,7 @@ const chatPersistConfig = {
 
 export default combineReducers({
   auth: persistReducer(authPersistConfig, auth),
+  signup: persistReducer(signupPersistConfig, signup),
   theme,
   camera,
   albums,

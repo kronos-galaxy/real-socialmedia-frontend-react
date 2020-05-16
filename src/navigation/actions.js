@@ -104,8 +104,44 @@ export const navigatePayout = (navigation, params) => () =>
 /**
  * 
  */
-export const navigateAuth = (navigation, params) => () =>
-  navigation.navigate('Auth', params)
+export const navigateAuthHome = (navigation, params) => () =>
+  navigation.navigate('AuthHome', params)
+
+export const navigateAuthUsername = (navigation, params) => () =>
+  navigation.navigate('AuthUsername', params)
+
+export const navigateAuthSignin = (navigation, params) => () =>
+  navigation.navigate('AuthSignin', params)
+
+export const navigateSignup = (navigation, params) => () =>
+  navigation.navigate('Signup', params)
+
+export const navigateAuthPhone = (navigation, params) => () =>
+  navigation.navigate('Signup', {
+    screen: 'AuthPhone',
+    params,
+  })
+
+export const navigateAuthEmail = (navigation, params) => () =>
+  navigation.navigate('Signup', {
+    screen: 'AuthEmail',
+    params,
+  })
+
+export const navigateAuthPhoneConfirm = (navigation, params) => () =>
+  navigation.navigate('AuthPhoneConfirm', params)
+
+export const navigateAuthPassword = (navigation, params) => () =>
+  navigation.navigate('AuthPassword', params)
+
+export const navigateAuthEmailConfirm = (navigation, params) => () =>
+  navigation.navigate('AuthEmailConfirm', params)
+
+export const navigateAuthPhoto = (navigation, params) => () =>
+  navigation.navigate('AuthPhoto', params)
+
+export const navigateAuthPhotoUpload = (navigation, params) => () =>
+  navigation.navigate('AuthPhotoUpload', params)
 
 export const navigateAuthForgot = (navigation, params) => () =>
   navigation.navigate('AuthForgot', params)
@@ -113,6 +149,12 @@ export const navigateAuthForgot = (navigation, params) => () =>
 export const navigateAuthForgotConfirm = (navigation, params) => () =>
   navigation.navigate('AuthForgotConfirm', params)
 
+export const navigateAuthCamera = (navigation, params) => () =>
+  navigation.navigate('AuthCamera', params)
+
+/**
+ *
+ */
 export const navigateAuthSignup = (navigation, params) => () =>
   navigation.navigate('AuthSignup', params)
 
