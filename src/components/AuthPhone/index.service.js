@@ -38,7 +38,7 @@ const AuthPhoneComponentService = ({ children }) => {
     const signupCreatePayload = {
       username: signupUsername.payload.username,
       usernameType: 'phone',
-      phone: signupPhone.payload.phone,
+      phone: payload.phone,
       email: null,
       password: signupPassword.payload.password,
     }

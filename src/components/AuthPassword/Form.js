@@ -27,8 +27,19 @@ const PasswordForm = ({
   theme,
   handleSubmit,
   loading,
+  disabled,
+  dirty,
+  isValid,
+  isValidating,
 }) => {
   const styling = styles(theme)
+
+  const submitDisabled = (
+    disabled ||
+    !isValid ||
+    isValidating ||
+    !dirty
+  )
   
   return (
     <View style={styling.root}>
@@ -36,7 +47,7 @@ const PasswordForm = ({
         <Field name="password" component={TextField} placeholder={t('Password')} secureTextEntry keyboardType="default" textContentType="password" autoCompleteType="password" autoFocus />
       </View>
       <View style={styling.input}>
-        <DefaultButton label={t('Next')} onPress={handleSubmit} loading={loading} disabled={loading} />
+        <DefaultButton label={t('Next')} onPress={handleSubmit} loading={loading} disabled={submitDisabled} />
       </View>
     </View>
   )
@@ -61,6 +72,7 @@ export default withTranslation()(withTheme(({
   handleFormSubmit,
   handleFormTransform,
   formSubmitLoading,
+  formSubmitDisabled,
   formInitialValues,
   ...props
 }) => (
@@ -75,6 +87,7 @@ export default withTranslation()(withTheme(({
         {...formikProps}
         {...props}
         loading={formSubmitLoading}
+        disabled={formSubmitDisabled}
         handleSubmit={() => {
           const nextValues = handleFormTransform(formikProps.values)
           handleFormSubmit(nextValues)

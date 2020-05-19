@@ -16,13 +16,23 @@ const AuthPhoneConfirmComponentService = ({ children }) => {
   const signupConfirm = useSelector(state => state.signup.signupConfirm)
   const signupCognitoIdentity = useSelector(state => state.signup.signupCognitoIdentity)
 
+  /**
+   *
+   */
+  useEffect(() => {
+    const unsubscribe = navigation.addListener('focus', () => {
+      dispatch(signupActions.signupConfirmIdle())
+    })
+    return unsubscribe
+  }, [navigation])
+
   const handleFormSubmit = (payload) => {
     const nextPayload = {
       confirmationCode: payload.confirmationCode,
       cognitoUsername: signupCognitoIdentity.cognitoUsername,
       cognitoUserId: signupCognitoIdentity.cognitoUserId,
-      username: signupUsername.payload.username,
-      password: signupPassword.payload.password,
+      username: signupCognitoIdentity.username,
+      password: signupCognitoIdentity.password,
     }
     dispatch(signupActions.signupConfirmRequest(nextPayload))
   }

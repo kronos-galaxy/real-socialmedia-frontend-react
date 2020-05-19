@@ -14,8 +14,10 @@ import { withTranslation } from 'react-i18next'
 const AuthPassword = ({
   t,
   theme,
+  formErrorMessage,
   handleFormSubmit,
   handleFormTransform,
+  handleErrorClose,
   formSubmitLoading,
   formSubmitDisabled,
   formInitialValues,
@@ -61,8 +63,10 @@ const styles = theme => StyleSheet.create({
 AuthPassword.propTypes = {
   t: PropTypes.any,
   theme: PropTypes.any,
+  formErrorMessage: PropTypes.any,
   handleFormSubmit: PropTypes.any,
   handleFormTransform: PropTypes.any,
+  handleErrorClose: PropTypes.any,
   formSubmitLoading: PropTypes.any,
   formSubmitDisabled: PropTypes.any,
   formInitialValues: PropTypes.any,

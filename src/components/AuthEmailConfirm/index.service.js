@@ -16,6 +16,16 @@ const AuthEmailConfirmComponentService = ({ children }) => {
   const signupConfirm = useSelector(state => state.signup.signupConfirm)
   const signupCognitoIdentity = useSelector(state => state.signup.signupCognitoIdentity)
 
+  /**
+   *
+   */
+  useEffect(() => {
+    const unsubscribe = navigation.addListener('focus', () => {
+      dispatch(signupActions.signupConfirmIdle())
+    })
+    return unsubscribe
+  }, [navigation])
+
   const handleFormSubmit = (payload) => {
     const nextPayload = {
       confirmationCode: payload.confirmationCode,
