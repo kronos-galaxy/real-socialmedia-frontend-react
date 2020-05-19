@@ -3,6 +3,7 @@ import * as signupActions from 'store/ducks/signup/actions'
 import * as navigationActions from 'navigation/actions'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigation } from '@react-navigation/native'
+import { logEvent } from 'services/Analytics'
 
 const AuthPasswordComponentService = ({ children }) => {
   const dispatch = useDispatch()
@@ -11,6 +12,7 @@ const AuthPasswordComponentService = ({ children }) => {
   const signupPassword = useSelector(state => state.signup.signupPassword)
 
   const handleFormSubmit = (payload) => {
+    logEvent('SIGNUP_PASSWORD_REQUEST')
     dispatch(signupActions.signupPasswordRequest(payload))
   }
 
@@ -22,6 +24,7 @@ const AuthPasswordComponentService = ({ children }) => {
       signupPassword.status !== 'success'
     ) return
 
+    logEvent('SIGNUP_PASSWORD_SUCCESS')
     navigationActions.navigateSignup(navigation)()
   }, [
     signupPassword.status,

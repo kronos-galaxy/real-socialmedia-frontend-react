@@ -4,6 +4,7 @@ import * as navigationActions from 'navigation/actions'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigation, useRoute } from '@react-navigation/native'
 import path from 'ramda/src/path'
+import { logEvent } from 'services/Analytics'
 
 const AuthPhoneConfirmComponentService = ({ children }) => {
   const dispatch = useDispatch()
@@ -27,6 +28,7 @@ const AuthPhoneConfirmComponentService = ({ children }) => {
   }, [navigation])
 
   const handleFormSubmit = (payload) => {
+    logEvent('SIGNUP_CONFIRM_REQUEST')
     const nextPayload = {
       confirmationCode: payload.confirmationCode,
       cognitoUsername: signupCognitoIdentity.cognitoUsername,
@@ -65,6 +67,7 @@ const AuthPhoneConfirmComponentService = ({ children }) => {
       signupConfirm.status !== 'success'
     ) return
 
+    logEvent('SIGNUP_CONFIRM_SUCCESS')
     dispatch(signupActions.signupCreateIdle())
     dispatch(signupActions.signupConfirmIdle())
 

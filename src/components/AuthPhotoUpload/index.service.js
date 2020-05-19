@@ -10,6 +10,7 @@ import { v4 as uuid } from 'uuid'
 import dayjs from 'dayjs'
 import pathOr from 'ramda/src/pathOr'
 import last from 'ramda/src/last'
+import { logEvent } from 'services/Analytics'
 
 const AuthPhotoUploadComponentService = ({ children }) => {
   const dispatch = useDispatch()
@@ -35,6 +36,8 @@ const AuthPhotoUploadComponentService = ({ children }) => {
     originalFormat = 'jpg',
     originalMetadata = '',
   }) => {
+    logEvent('POST_CREATE_REQUEST')
+
     const postId = uuid()
     const mediaId = uuid()
 
@@ -90,6 +93,7 @@ const AuthPhotoUploadComponentService = ({ children }) => {
    */
   useEffect(() => {
     if (usersEditProfile.status === 'success') {
+      logEvent('POST_CREATE_SUCCESS')
       dispatch(usersActions.usersEditProfileIdle())
       dispatch(postsActions.postsCreateIdle({ payload: postsCreate.payload }))
       dispatch(authActions.authCheckIdle({ nextRoute: 'Root' }))

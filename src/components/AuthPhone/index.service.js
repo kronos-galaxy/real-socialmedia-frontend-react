@@ -8,6 +8,7 @@ import compose from 'ramda/src/compose'
 import toLower from 'ramda/src/toLower'
 import replace from 'ramda/src/replace'
 import pathOr from 'ramda/src/pathOr'
+import { logEvent } from 'services/Analytics'
 
 const AuthPhoneComponentService = ({ children }) => {
   const dispatch = useDispatch()
@@ -35,6 +36,7 @@ const AuthPhoneComponentService = ({ children }) => {
     /**
      *
      */
+    logEvent('SIGNUP_CREATE_REQUEST')
     const signupCreatePayload = {
       username: signupUsername.payload.username,
       usernameType: 'phone',
@@ -87,6 +89,7 @@ const AuthPhoneComponentService = ({ children }) => {
       signupCreate.data.cognitoDelivery !== 'SMS'
     ) return
 
+    logEvent('SIGNUP_CREATE_SUCCESS')
     navigationActions.navigateAuthPhoneConfirm(navigation)()
   }, [
     signupCreate.status,

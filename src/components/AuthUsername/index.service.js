@@ -7,6 +7,7 @@ import trim from 'ramda/src/trim'
 import compose from 'ramda/src/compose'
 import toLower from 'ramda/src/toLower'
 import pathOr from 'ramda/src/pathOr'
+import { logEvent } from 'services/Analytics'
 
 const AuthUsernameComponentService = ({ children }) => {
   const dispatch = useDispatch()
@@ -15,6 +16,7 @@ const AuthUsernameComponentService = ({ children }) => {
   const signupUsername = useSelector(state => state.signup.signupUsername)
 
   const handleFormSubmit = (payload) => {
+    logEvent('SIGNUP_USERNAME_REQUEST')
     dispatch(signupActions.signupUsernameRequest(payload))
   }
 
@@ -26,6 +28,7 @@ const AuthUsernameComponentService = ({ children }) => {
       signupUsername.status !== 'success'
     ) return
 
+    logEvent('SIGNUP_USERNAME_SUCCESS')
     navigationActions.navigateAuthPassword(navigation)()
   }, [
     signupUsername.status,

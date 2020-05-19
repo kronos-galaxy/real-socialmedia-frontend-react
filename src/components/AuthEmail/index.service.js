@@ -7,6 +7,7 @@ import trim from 'ramda/src/trim'
 import compose from 'ramda/src/compose'
 import toLower from 'ramda/src/toLower'
 import pathOr from 'ramda/src/pathOr'
+import { logEvent } from 'services/Analytics'
 
 const AuthEmailComponentService = ({ children }) => {
   const dispatch = useDispatch()
@@ -34,6 +35,7 @@ const AuthEmailComponentService = ({ children }) => {
     /**
      *
      */
+    logEvent('SIGNUP_CREATE_REQUEST')
     const signupCreatePayload = {
       username: signupUsername.payload.username,
       usernameType: 'email',
@@ -86,6 +88,7 @@ const AuthEmailComponentService = ({ children }) => {
       signupCreate.data.cognitoDelivery !== 'EMAIL'
     ) return
 
+    logEvent('SIGNUP_CREATE_SUCCESS')
     navigationActions.navigateAuthEmailConfirm(navigation)()
   }, [
     signupCreate.status,
