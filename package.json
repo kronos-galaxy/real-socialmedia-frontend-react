@@ -105,6 +105,7 @@
     "babel-jest": "^25.2.6",
     "babel-plugin-module-resolver": "^4.0.0",
     "babel-plugin-optional-require": "^0.3.1",
+    "detox": "^16.5.1",
     "eslint": "^6.6.0",
     "eslint-plugin-react": "^7.19.0",
     "husky": "^4.2.3",
@@ -115,5 +116,18 @@
   },
   "jest": {
     "preset": "react-native"
+  },
+  "detox": {
+    "configurations": {
+      "ios.sim.debug": {
+        "binaryPath": "ios/build/Build/Products/Debug-iphonesimulator/REAL.app",
+        "build": "xcodebuild -workspace ios/REAL.xcworkspace  -scheme REAL.development -configuration Debug -sdk iphonesimulator -derivedDataPath ios/build",
+        "type": "ios.simulator",
+        "device": {
+          "type": "iPhone 11"
+        }
+      }
+    },
+    "test-runner": "jest"
   }
 }

@@ -24,8 +24,8 @@ const AuthHome = ({
   const navigation = useNavigation()
 
   return (
-    <React.Fragment>
-      <View style={styling.root}>
+    <View testID="components/AuthHome" style={styling.root}>
+      <View style={styling.component}>
         <AuthHeaderTemplate
           title={t('Sign up for REAL')}
           subtitle={t('The Healthier Social Media Movement')}
@@ -44,20 +44,20 @@ const AuthHome = ({
       <AuthActionTemplate onPress={navigationActions.navigateAuthSignin(navigation)}>
         {t('Already Have an Account ? Log In')}
       </AuthActionTemplate>
-    </React.Fragment>
+    </View>
   )
 }
 
 const styles = theme => StyleSheet.create({
   root: {
     flex: 1,
+  },
+  component: {
     paddingHorizontal: 24,
-    justifyContent: 'space-between',
+    flex: 1,
   },
   content: {
     flex: 1,
-  },
-  footer: {
   },
 })
 
