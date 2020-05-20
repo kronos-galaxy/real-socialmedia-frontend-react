@@ -1,4 +1,5 @@
 import { useEffect } from 'react'
+import { Keyboard } from 'react-native'
 import * as signupActions from 'store/ducks/signup/actions'
 import * as navigationActions from 'navigation/actions'
 import { useDispatch, useSelector } from 'react-redux'
@@ -71,6 +72,7 @@ const AuthPhoneConfirmComponentService = ({ children }) => {
     dispatch(signupActions.signupCreateIdle())
     dispatch(signupActions.signupConfirmIdle())
 
+    Keyboard.dismiss()
     navigationActions.navigateAuthPhoto(navigation)()
   }, [
     signupConfirm.status,
@@ -85,7 +87,10 @@ const AuthPhoneConfirmComponentService = ({ children }) => {
     confirmationCode: path(['params', 'confirmationCode'])(route),
   }
 
-  const handleFormTransform = (values) => values
+  const handleFormTransform = (values) => ({
+    cognitoUsername: values.cognitoUsername,
+    confirmationCode: values.confirmationCode,
+  })
 
   const handleErrorClose = () => dispatch(signupActions.signupConfirmIdle())
 

@@ -8,6 +8,7 @@ import TextField from 'components/Formik/TextField'
 import DefaultButton from 'components/Formik/Button/DefaultButton'
 import { Formik, Field } from 'formik'
 import * as Yup from 'yup'
+import path from 'ramda/src/path'
 
 import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
@@ -15,14 +16,14 @@ import { withTranslation } from 'react-i18next'
 
 const formSchema = Yup.object().shape({
   confirmationCode: Yup.string()
-    .min(3)
-    .max(50)
+    .min(6)
+    .max(6)
     .matches(/^\S*$/, 'no whitespace')
     .trim()
     .required(),
 })
 
-const EmailConfirmForm = ({
+const PhoneConfirmForm = ({
   t,
   theme,
   handleSubmit,
@@ -33,11 +34,14 @@ const EmailConfirmForm = ({
   return (
     <View style={styling.root}>
       <View style={styling.input}>
-        <Field name="confirmationCode" component={TextField} placeholder={t('Confirmation Code')} keyboardType="number-pad" textContentType="oneTimeCode" autoCompleteType="off" autoFocus />
+        <Field name="confirmationCode" component={TextField} placeholder={t('Confirmation Code')} keyboardType="number-pad" textContentType="oneTimeCode" autoCompleteType="off" autoFocus maxLength={6} />
       </View>
-      <View style={styling.input}>
-        <DefaultButton label={t('Next')} onPress={handleSubmit} loading={loading} disabled={loading} />
-      </View>
+
+      {loading ?
+        <View style={styling.input}>
+          <DefaultButton label={t('Next')} onPress={handleSubmit} loading={loading} disabled={loading} />
+        </View>
+      : null}
     </View>
   )
 }
@@ -50,7 +54,7 @@ const styles = theme => StyleSheet.create({
   },
 })
 
-EmailConfirmForm.propTypes = {
+PhoneConfirmForm.propTypes = {
   t: PropTypes.any,
   theme: PropTypes.any,
   handleSubmit: PropTypes.any,
@@ -61,6 +65,7 @@ export default withTranslation()(withTheme(({
   handleFormSubmit,
   handleFormTransform,
   formSubmitLoading,
+  formSubmitDisabled,
   formInitialValues,
   ...props
 }) => (
@@ -70,16 +75,36 @@ export default withTranslation()(withTheme(({
     onSubmit={handleFormSubmit}
     enableReinitialize
   >
-    {(formikProps) => (
-      <EmailConfirmForm
-        {...formikProps}
-        {...props}
-        loading={formSubmitLoading}
-        handleSubmit={() => {
-          const nextValues = handleFormTransform(formikProps.values)
-          handleFormSubmit(nextValues)
-        }}
-      />
-    )}
+    {(formikProps) => {
+      /**
+       *
+       */
+      const handleSubmit = () => {
+        const nextValues = handleFormTransform(formikProps.values)
+        formikProps.handleSubmit(nextValues)
+      }
+
+      /**
+       *
+       */
+      React.useEffect(() => {
+        if (
+          path(['values', 'confirmationCode', 'length'])(formikProps) !== 6 ||
+          !path(['values', 'cognitoUsername', 'length'])(formikProps) ||
+          formSubmitLoading ||
+          formSubmitDisabled
+        ) return
+        handleSubmit()
+      }, [formikProps.values])
+
+      return (
+        <PhoneConfirmForm
+          {...formikProps}
+          {...props}
+          loading={formSubmitLoading}
+          handleSubmit={handleSubmit}
+        />
+      )
+    }}
   </Formik>
 )))
