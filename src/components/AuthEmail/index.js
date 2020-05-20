@@ -29,7 +29,7 @@ const AuthEmail = ({
   const navigation = useNavigation()
 
   return (
-    <React.Fragment>
+    <View testID="components/AuthEmail" style={styling.root}>
       {formErrorMessage ?
         <AuthErrorTemplate
           text={formErrorMessage}
@@ -37,10 +37,10 @@ const AuthEmail = ({
         />
       : null}
 
-      <View style={styling.root}>
+      <View style={styling.component}>
         <AuthHeaderTemplate
           title={t('Signup with Email Address')}
-          subtitle={t('We\'ll send you an Email verification code')}
+          subtitle={t('We\'ll send a code to verify')}
         />
 
         <View style={styling.content}>
@@ -57,20 +57,20 @@ const AuthEmail = ({
       <AuthActionTemplate onPress={navigationActions.navigateAuthPhone(navigation)}>
         {t('Signup with Phone Number')}
       </AuthActionTemplate>
-    </React.Fragment>
+    </View>
   )
 }
 
 const styles = theme => StyleSheet.create({
   root: {
     flex: 1,
+  },
+  component: {
     paddingHorizontal: 24,
-    justifyContent: 'space-between',
+    flex: 1,
   },
   content: {
     flex: 1,
-  },
-  footer: {
   },
 })
 

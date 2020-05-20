@@ -29,7 +29,7 @@ const AuthForgotConfirm = ({
   const navigation = useNavigation()
 
   return (
-    <React.Fragment>
+    <View testID="components/AuthForgotConfirm" style={styling.root}>
       {formErrorMessage ?
         <AuthErrorTemplate
           text={formErrorMessage}
@@ -37,7 +37,7 @@ const AuthForgotConfirm = ({
         />
       : null}
 
-      <View style={styling.root}>
+      <View style={styling.component}>
         <AuthHeaderTemplate
           title={t('Enter 6 digit code')}
           subtitle={t('Sent to you')}
@@ -57,20 +57,20 @@ const AuthForgotConfirm = ({
       <AuthActionTemplate onPress={navigationActions.navigateAuthSignin(navigation)}>
         {t('Already Have an Account ? Log In')}
       </AuthActionTemplate>
-    </React.Fragment>
+    </View>
   )
 }
 
 const styles = theme => StyleSheet.create({
   root: {
     flex: 1,
+  },
+  component: {
     paddingHorizontal: 24,
-    justifyContent: 'space-between',
+    flex: 1,
   },
   content: {
     flex: 1,
-  },
-  footer: {
   },
 })
 

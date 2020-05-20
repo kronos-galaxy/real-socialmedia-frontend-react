@@ -40,7 +40,7 @@ const AuthPhone = ({
       <View style={styling.component}>
         <AuthHeaderTemplate
           title={t('Signup with Phone Number')}
-          subtitle={t('We\'ll send you an SMS verification code')}
+          subtitle={t('We\'ll send a code to verify')}
         />
 
         <View style={styling.content}>
