@@ -39,7 +39,7 @@ const AuthForgotConfirm = ({
 
       <View style={styling.component}>
         <AuthHeaderTemplate
-          title={t('Enter 6 digit code')}
+          title={t('Enter 6-digit code')}
           subtitle={t('Sent to you')}
         />
 
