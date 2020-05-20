@@ -6,6 +6,7 @@ import {
   Linking,
 } from 'react-native'
 import { Text } from 'react-native-paper'
+import DeviceInfo from 'react-native-device-info'
 
 import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
@@ -25,6 +26,10 @@ const Header = ({
         {t(' and agree to the ')}
         <Text style={styling.link} onPress={() => Linking.openURL('https://real.app/real-eula-html-english.html').catch(() => {})}>{t('Terms of Service')}</Text>
       </Text>
+
+      <Text style={styling.version}>
+        v{DeviceInfo.getReadableVersion()}
+      </Text>
     </View>
   )
 }
@@ -42,6 +47,11 @@ const styles = theme => StyleSheet.create({
     color: theme.colors.primary,
     fontWeight: '500',
     textDecorationLine: 'underline',
+  },
+  version: {
+    color: theme.colors.primary,
+    textAlign: 'center',
+    marginTop: theme.spacing.base,
   },
 })
 

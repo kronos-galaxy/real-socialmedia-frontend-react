@@ -26,6 +26,7 @@ import CashIcon from 'assets/svg/settings/Cash'
 import Avatar from 'templates/Avatar'
 import path from 'ramda/src/path'
 import * as navigationActions from 'navigation/actions'
+import DeviceInfo from 'react-native-device-info'
 
 import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
@@ -136,6 +137,10 @@ const Settings = ({
           </RowsItemComponent>
         )}
       </RowsComponent>
+
+      <Caption style={styling.helper}>
+        v{DeviceInfo.getReadableVersion()}
+      </Caption>
     </ScrollView>
   )
 }

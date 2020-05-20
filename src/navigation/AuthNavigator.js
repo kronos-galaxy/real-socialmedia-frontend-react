@@ -101,19 +101,19 @@ const AuthNavigator = ({ theme }) => {
       <Stack.Screen
         name="AuthPhotoUpload"
         component={AuthPhotoUploadScreen}
-        {...stackScreenAuthProps({ options: { title: 'Signup', headerLeft: null, } })}
+        {...stackScreenAuthProps({ options: { title: 'Welcome', headerLeft: null, } })}
       />
 
       <Stack.Screen
         name="AuthPhoto"
         component={AuthPhotoScreen}
-        {...stackScreenAuthProps({ options: { title: 'Signup', headerLeft: null, } })}
+        {...stackScreenAuthProps({ options: { title: 'Welcome', headerLeft: null, } })}
       />
 
       <Stack.Screen
         name="AuthPhotoError"
         component={AuthPhotoErrorScreen}
-        {...stackScreenAuthProps({ options: { title: 'Signup', headerLeft: null, } })}
+        {...stackScreenAuthProps({ options: { title: 'Welcome', headerLeft: null, } })}
       />
 
       <Stack.Screen
