@@ -27,7 +27,7 @@ const AuthUsername = ({
   const navigation = useNavigation()
 
   return (
-    <React.Fragment>
+    <View testID="components/AuthUsername" style={styling.root}>
       {formErrorMessage ?
         <AuthErrorTemplate
           text={formErrorMessage}
@@ -35,7 +35,7 @@ const AuthUsername = ({
         />
       : null}
 
-      <View style={styling.root}>
+      <View style={styling.component}>
         <AuthHeaderTemplate
           title={t('Grab Your Username!')}
           subtitle={t('You can always change it later')}
@@ -51,20 +51,20 @@ const AuthUsername = ({
           />
         </View>
       </View>
-    </React.Fragment>
+    </View>
   )
 }
 
 const styles = theme => StyleSheet.create({
   root: {
     flex: 1,
+  },
+  component: {
     paddingHorizontal: 24,
-    justifyContent: 'space-between',
+    flex: 1,
   },
   content: {
     flex: 1,
-  },
-  footer: {
   },
 })
 

@@ -27,7 +27,7 @@ const AuthPhoneConfirm = ({
   const navigation = useNavigation()
 
   return (
-    <React.Fragment>
+    <View testID="components/AuthPhoneConfirm" style={styling.root}>
       {formErrorMessage ?
         <AuthErrorTemplate
           text={formErrorMessage}
@@ -35,7 +35,7 @@ const AuthPhoneConfirm = ({
         />
       : null}
 
-      <View style={styling.root}>
+      <View style={styling.component}>
         <AuthHeaderTemplate
           title={t('Enter 6 digit code')}
           subtitle={t('Sent to {{cognitoUsername}}', formInitialValues)}
@@ -51,20 +51,20 @@ const AuthPhoneConfirm = ({
           />
         </View>
       </View>
-    </React.Fragment>
+    </View>
   )
 }
 
 const styles = theme => StyleSheet.create({
   root: {
     flex: 1,
+  },
+  component: {
     paddingHorizontal: 24,
-    justifyContent: 'space-between',
+    flex: 1,
   },
   content: {
     flex: 1,
-  },
-  footer: {
   },
 })
 
