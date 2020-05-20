@@ -23,7 +23,7 @@ const Actions = ({
   return (
     <View style={styling.root}>
       {progress ?
-        <View style={styling.item}>
+        <View testID="components/AuthPhotoUpload/Progress/progress" style={styling.item}>
           <SubtitleTemplate
             disabled
             actions={[{
@@ -35,7 +35,7 @@ const Actions = ({
       : null}
 
       {!progress ?
-        <View style={styling.item}>
+        <View testID="components/AuthPhotoUpload/Progress/process" style={styling.item}>
           <SubtitleTemplate
             disabled
             actions={[{

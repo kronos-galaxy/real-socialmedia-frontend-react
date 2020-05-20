@@ -22,10 +22,10 @@ const Actions = ({
   return (
     <View style={styling.root}>
       <View style={styling.item}>
-        <DefaultButton label={t('Take Photo')} onPress={navigationActions.navigateAuthCamera(navigation, { nextRoute: 'AuthPhotoUpload' })} loading={false} />
+        <DefaultButton testID="components/AuthPhoto/Actions/photo" label={t('Take Photo')} onPress={navigationActions.navigateAuthCamera(navigation, { nextRoute: 'AuthPhotoUpload' })} loading={false} />
       </View>
       <View style={styling.item}>
-        <DefaultButton label={t('Choose from Library')} onPress={handleLibrarySnap} loading={false} />
+        <DefaultButton testID="components/AuthPhoto/Actions/library" label={t('Choose from Library')} onPress={handleLibrarySnap} loading={false} />
       </View>
     </View>
   )
