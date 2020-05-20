@@ -98,6 +98,11 @@ const AuthPhotoUploadComponentService = ({ children }) => {
       dispatch(postsActions.postsCreateIdle({ payload: postsCreate.payload }))
       dispatch(authActions.authCheckIdle({ nextRoute: 'Root' }))
     }
+
+    if (usersEditProfile.status === 'failure') {
+      logEvent('POST_CREATE_FAILURE')
+      navigationActions.navigateAuthPhotoError(navigation)()
+    }
   }, [usersEditProfile.status])
 
   /**

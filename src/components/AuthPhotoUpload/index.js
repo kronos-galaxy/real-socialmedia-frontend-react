@@ -7,7 +7,7 @@ import {
 import ActionsComponent from 'components/AuthPhotoUpload/Actions'
 import ProgressComponent from 'components/AuthPhotoUpload/Progress'
 import AuthHeaderTemplate from 'templates/Auth/Header'
-import PhotoTemplate from 'templates/Auth/Photo'
+import AuthPhotoTemplate from 'templates/Auth/Photo'
 import AuthErrorTemplate from 'templates/Auth/Error'
 
 import { withTheme } from 'react-native-paper'
@@ -40,7 +40,7 @@ const AuthPhotoUpload = ({
         />
 
         <View style={styling.content}>
-          <PhotoTemplate
+          <AuthPhotoTemplate
             activeUpload={activeUpload}
           />
 

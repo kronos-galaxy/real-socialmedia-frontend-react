@@ -16,6 +16,7 @@ import AuthEmailScreen from 'screens/AuthEmailScreen'
 import AuthEmailConfirmScreen from 'screens/AuthEmailConfirmScreen'
 import AuthPhotoScreen from 'screens/AuthPhotoScreen'
 import AuthPhotoUploadScreen from 'screens/AuthPhotoUploadScreen'
+import AuthPhotoErrorScreen from 'screens/AuthPhotoErrorScreen'
 import CameraScreen from 'screens/CameraScreen'
 import AuthForgotScreen from 'screens/AuthForgotScreen'
 import AuthForgotConfirmScreen from 'screens/AuthForgotConfirmScreen'
@@ -106,6 +107,12 @@ const AuthNavigator = ({ theme }) => {
       <Stack.Screen
         name="AuthPhoto"
         component={AuthPhotoScreen}
+        {...stackScreenAuthProps({ options: { title: 'Signup', headerLeft: null, } })}
+      />
+
+      <Stack.Screen
+        name="AuthPhotoError"
+        component={AuthPhotoErrorScreen}
         {...stackScreenAuthProps({ options: { title: 'Signup', headerLeft: null, } })}
       />
 

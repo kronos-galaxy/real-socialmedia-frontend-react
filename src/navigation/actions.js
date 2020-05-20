@@ -143,6 +143,9 @@ export const navigateAuthPhoto = (navigation, params) => () =>
 export const navigateAuthPhotoUpload = (navigation, params) => () =>
   navigation.navigate('AuthPhotoUpload', params)
 
+export const navigateAuthPhotoError = (navigation, params) => () =>
+  navigation.navigate('AuthPhotoError', params)
+
 export const navigateAuthForgot = (navigation, params) => () =>
   navigation.navigate('AuthForgot', params)
 

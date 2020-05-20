@@ -36,6 +36,7 @@ const AuthPasswordComponentService = ({ children }) => {
   const formErrorMessage = signupPassword.error.text
 
   const formInitialValues = {
+    password: signupPassword.payload.password,
   }
 
   const handleFormTransform = (values) => values
