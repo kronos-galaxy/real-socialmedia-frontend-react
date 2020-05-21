@@ -53,10 +53,6 @@ const AuthEmailConfirm = ({
           />
         </View>
       </View>
-
-      <AuthActionTemplate onPress={navigationActions.navigateAuthPhone(navigation)}>
-        {t('Signup with Phone Number')}
-      </AuthActionTemplate>
     </View>
   )
 }

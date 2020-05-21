@@ -1,3 +1,5 @@
+import * as emailHelpers from './helpers/email'
+
 describe('Example', () => {
   beforeEach(async () => {
     // await device.reloadReactNative()
@@ -113,5 +115,49 @@ describe('Example', () => {
     await element(by.id('components/AuthPhone/Form/phone')).typeText(phone)
     await element(by.id('components/AuthPhone/Form/submit')).tap()
     await expect(element(by.id('components/AuthPhoneConfirm'))).toBeVisible()
+  })
+
+  /**
+   *
+   */
+  it('AuthEmail', async () => {
+    await element(by.id('navigation/AuthNavigator/Signup/email')).tap()
+    await expect(element(by.id('components/AuthEmail'))).toBeVisible()
+
+    /**
+     * Email length constraint validation 
+     */
+    await element(by.id('components/AuthEmail/Form/email')).clearText()
+    await element(by.id('components/AuthEmail/Form/email')).typeText('aa')
+    await element(by.id('components/AuthEmail/Form/submit')).tap()
+    await expect(element(by.id('components/AuthEmailConfirm'))).toBeNotVisible()
+
+    /**
+     * Email chars constraint validation 
+     */
+    await element(by.id('components/AuthEmail/Form/email')).clearText()
+    await element(by.id('components/AuthEmail/Form/email')).typeText('asd-.')
+    await element(by.id('components/AuthEmail/Form/submit')).tap()
+    await expect(element(by.id('components/AuthEmailConfirm'))).toBeNotVisible()
+
+    /**
+     * Email reservation
+     */
+    const inbox = await emailHelpers.createInbox()
+    const email = inbox.emailAddress
+    await element(by.id('components/AuthEmail/Form/email')).clearText()
+    await element(by.id('components/AuthEmail/Form/email')).typeText(email)
+    await element(by.id('components/AuthEmail/Form/submit')).tap()
+    await expect(element(by.id('components/AuthEmailConfirm'))).toBeVisible()
+
+    /**
+     * Email confirmation
+     */
+    const lastEmail = await emailHelpers.getLatestEmail(inbox)
+    const confirmationCode = emailHelpers.extractConfirmationCode(lastEmail)
+    await element(by.id('components/AuthEmailConfirm/Form/confirmationCode')).clearText()
+    await element(by.id('components/AuthEmailConfirm/Form/confirmationCode')).typeText(confirmationCode)
+    await element(by.id('components/AuthEmailConfirm/Form/submit')).tap()
+    await expect(element(by.id('components/AuthEmailConfirm'))).toBeVisible()
   })
 }) 

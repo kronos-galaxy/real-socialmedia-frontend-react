@@ -33,6 +33,7 @@ const SignupNavigator = () => {
         component={AuthPhoneScreen}
         options={{
           tabBarLabel: 'Phone',
+          tabBarTestID: 'navigation/AuthNavigator/Signup/phone',
         }}
       />
       <Tab.Screen
@@ -40,6 +41,7 @@ const SignupNavigator = () => {
         component={AuthEmailScreen}
         options={{
           tabBarLabel: 'Email',
+          tabBarTestID: 'navigation/AuthNavigator/Signup/email',
         }}
       />
     </Tab.Navigator>
