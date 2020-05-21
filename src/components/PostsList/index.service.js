@@ -64,14 +64,8 @@ const PostsListService = ({ children }) => {
   const usersGetPendingFollowersRequest = (payload) => 
     dispatch(usersActions.usersGetPendingFollowersRequest(payload))
 
-  const postsCreateRequest = (post) => {
-    const postId = uuid()
-    const mediaId = uuid()
-    dispatch(postsActions.postsCreateRequest({
-      ...post,
-      postId,
-      mediaId,
-    }))
+  const postsCreateRequest = (payload) => {
+    dispatch(postsActions.postsCreateRequest(payload))
   }
 
   const postsCreateIdle = (payload) =>

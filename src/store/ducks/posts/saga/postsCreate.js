@@ -43,7 +43,9 @@ function initPostsCreateUploadChannel({ image, uploadUrl }) {
   const handleProgress = (emitter) => (response) => {
     const jobId = response.jobId
     const progress = parseInt(response.totalBytesSent / response.totalBytesExpectedToSend * 100, 10)
-    emitter({ status: 'progress', progress, jobId })
+
+    if (progress % 10 === 0)
+      emitter({ status: 'progress', progress, jobId })
   }
 
   const handleSuccess = (emitter) => (response) => {
@@ -104,16 +106,23 @@ function initPostsCreateUploadChannel({ image, uploadUrl }) {
 function* handlePostsCreateRequest(payload) {
   const AwsAPI = yield getContext('AwsAPI')
 
-  const data = yield AwsAPI.graphql(graphqlOperation(queries.addPhotoPost, payload))
-
-  const currentIndex = 0
-  const selector = path(['data', 'addPost'])
-  const imageSelector = path(['images', currentIndex])
+  const data = yield (function* getPost() {
+    try {
+      const post = yield AwsAPI.graphql(graphqlOperation(queries.getPost, payload))
+      if (!post.data.post) {
+        throw new Error('Post must be created')
+      }
+      return post.data.post
+    } catch (error) {
+      const post = yield AwsAPI.graphql(graphqlOperation(queries.addPhotoPost, payload))
+      return post.data.addPost
+    }
+  })()
 
   return {
-    userId: selector(data).postedBy.userId,
-    imageUrl: selector(data).imageUploadUrl,
-    image: imageSelector(payload),
+    userId: data.postedBy.userId,
+    imageUrl: data.imageUploadUrl,
+    image: path(['images', 0])(payload),
   }
 }
 
