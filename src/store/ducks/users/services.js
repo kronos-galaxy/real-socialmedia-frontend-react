@@ -12,13 +12,15 @@ export const cachedUsersGetProfile = (usersGetProfile, usersGetProfileCache, cac
     data: { $set: cache },
   })
 
-  const cachedUser = path([cache.userId])(usersGetProfileCache)
+  const nextUser = path(['userId'])(cache)
+
+  const cachedUser = path([nextUser])(usersGetProfileCache)
 
   if (cachedUser && cachedUser.status === 'success') {
     return cachedUser
   }
 
-  if (path(['data', 'userId'])(usersGetProfile) === cache.userId && usersGetProfile.status === 'success') {
+  if (path(['data', 'userId'])(usersGetProfile) === nextUser && usersGetProfile.status === 'success') {
     return usersGetProfile
   }
 

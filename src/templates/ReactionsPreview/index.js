@@ -27,7 +27,7 @@ const ReactionsPreviewTemplate = ({
     path(['onymouslyLikedBy', 'items', '0', 'username'])(post) &&
     !path(['postedBy', 'likesDisabled'])(post) &&
     !post.likesDisabled &&
-    post.postedBy.userId === user.userId
+    path(['postedBy', 'userId'])(post) === user.userId
   )
   
   if (!visibility) {

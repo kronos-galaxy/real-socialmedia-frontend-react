@@ -20,7 +20,7 @@ function postSubscriptionChannel({ subscription }) {
 
 function* postSubscription(req) {
   const AwsAPI = yield getContext('AwsAPI')
-  const userId = req.payload.data.userId
+  const userId = path(['payload', 'data', 'userId'])(req)
 
   const subscription = AwsAPI.graphql(
     graphqlOperation(postsQueries.onPostNotification, { userId })

@@ -211,6 +211,7 @@ function* handleSignupConfirmRequest(payload) {
   const selector = path(['data', 'createCognitoOnlyUser'])
   const data = yield queryService.apiRequest(queries.createCognitoOnlyUser, {
     username: payload.username,
+    fullName: payload.username,
   })
 
   yield queryService.apiRequest(queries.setUserAcceptedEULAVersion, { version: '15-11-2019' })

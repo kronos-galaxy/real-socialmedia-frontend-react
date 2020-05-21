@@ -34,7 +34,7 @@ const Contacts = ({
       ...chat,
       users: ({
         ...chat.users,
-        items: chat.users.items.filter(chatUser => chatUser.userId !== user.userId),
+        items: chat.users.items.filter(chatUser => path(['userId'])(chatUser) !== path(['userId'])(user)),
       })
     }))
 

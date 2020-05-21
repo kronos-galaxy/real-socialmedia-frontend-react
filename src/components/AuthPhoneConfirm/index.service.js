@@ -71,6 +71,8 @@ const AuthPhoneConfirmComponentService = ({ children }) => {
     logEvent('SIGNUP_CONFIRM_SUCCESS')
     dispatch(signupActions.signupCreateIdle())
     dispatch(signupActions.signupConfirmIdle())
+    dispatch(signupActions.signupUsernameIdle())
+    dispatch(signupActions.signupPasswordIdle())
 
     Keyboard.dismiss()
     navigationActions.navigateAuthPhoto(navigation)()

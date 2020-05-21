@@ -32,9 +32,9 @@ const ChatDirect = ({
       text: message.text,
       createdAt: message.createdAt,
       user: {
-        _id: message.author.userId,
-        name: message.author.username,
-        avatar: message.author.photo.url64p,
+        _id: pathOr(null, ['author', 'userId'])(message),
+        name: pathOr(null, ['author', 'username'])(message),
+        avatar: pathOr(null, ['author', 'photo', 'url64p'])(message),
       },
     }))
 

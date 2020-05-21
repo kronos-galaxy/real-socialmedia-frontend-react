@@ -64,6 +64,11 @@ const Settings = ({
   //   onPress: () => navigation.navigate('Translation'),
   //   icon: <LanguageIcon fill={theme.colors.text} />,
   // }
+  // {
+  //   label: t('Diamond Payout'),
+  //   onPress: () => navigation.navigate('Payout'),
+  //   icon: <CashIcon fill={theme.colors.text} />,
+  // }
 
   return (
     <ScrollView style={styling.root}>
@@ -95,7 +100,7 @@ const Settings = ({
         icon: <EditIcon fill={theme.colors.text} />,
       }, {
         label: t('Change Profile Photo'),
-        onPress: () => actionSheetRef.current.show(),
+        onPress: () => actionSheetRef.current && actionSheetRef.current.show(),
         icon: <PhotoIcon fill={theme.colors.text} />,
       }, {
         label: t('Choose Theme'),
@@ -109,10 +114,6 @@ const Settings = ({
         label: t('Mental Health & Privacy Settings'),
         onPress: () => navigation.navigate('Privacy'),
         icon: <PrivacyIcon fill={theme.colors.text} />,
-      }, {
-        label: t('Diamond Payout'),
-        onPress: () => navigation.navigate('Payout'),
-        icon: <CashIcon fill={theme.colors.text} />,
       }, {
         label: t('Signout'),
         onPress: () => authSignoutRequest(),

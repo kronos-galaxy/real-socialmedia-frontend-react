@@ -26,15 +26,15 @@ export const AuthProvider = ({
   const themeFetch = useSelector(state => state.theme.themeFetch)
   const nextRoute = useSelector(state => state.auth.authCheck.nextRoute)
   const status = useSelector(state => state.auth.authCheck.status)
-  const authUserId = useSelector(state => state.auth.user.userId)
   const translationFetch = useSelector(state => state.translation.translationFetch)
   const languageCode = useSelector(authSelector.languageCodeSelector)
   const theme = useSelector(authSelector.themeSelector)
   const uiNotifications = useSelector(state => state.ui.notifications)
+  const authUserId = useSelector(state => path(['userId'])(state.auth.user))
 
   const user = useSelector(
     authSelector.authUserSelector,
-    (prevProps, nextProps) => prevProps.userId === nextProps.userId
+    (prevProps = {}, nextProps = {}) => prevProps.userId === nextProps.userId
   )
 
   const authCheckRequest = (payload) =>

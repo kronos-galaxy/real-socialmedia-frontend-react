@@ -36,7 +36,7 @@ const Header = ({
   const styling = styles(theme)
   const navigation = useNavigation()
 
-  const handleOptionsPress = () => actionSheetRef.show()
+  const handleOptionsPress = () => actionSheetRef && actionSheetRef.show()
   const archived = path(['postStatus'])(post) === 'ARCHIVED'
   const repostedUsername = path(['originalPost', 'postedBy', 'username'])(post)
   const repostedPostId = path(['originalPost', 'postId'])(post)
@@ -150,10 +150,10 @@ const Header = ({
                 navigationActions.navigatePostEdit(navigation, { post })()
               }
               if (index === 2) {
-                postsArchiveRequest({ postId: post.postId, userId: post.postedBy.userId })
+                postsArchiveRequest({ postId: post.postId, userId: path(['postedBy', 'userId'])(post) })
               }
               if (index === 3) {
-                postsDeleteRequest({ postId: post.postId, userId: post.postedBy.userId })
+                postsDeleteRequest({ postId: post.postId, userId: path(['postedBy', 'userId'])(post) })
               }
             }}
           />
