@@ -38,6 +38,7 @@ const AuthSigninComponentService = ({ children }) => {
 
   const formInitialValues = {
     username: authSignin.payload.username,
+    password: authSignin.payload.password,
   }
 
   const handleFormTransform = (values) => ({
