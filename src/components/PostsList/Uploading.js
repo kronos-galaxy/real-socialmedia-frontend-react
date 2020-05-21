@@ -60,7 +60,7 @@ const Uploading = ({
               <VerificationIcon fill="#676767" />
             </View>
           </TouchableOpacity>
-          <TouchableOpacity style={styling.icon} onPress={() => postsCreateIdle(post.payload)}>
+          <TouchableOpacity style={styling.icon} onPress={() => postsCreateIdle(post)}>
             <CloseIcon fill="#ffffff" />
           </TouchableOpacity>
         </View>
@@ -72,7 +72,7 @@ const Uploading = ({
             <Text style={styling.title}>{t('Failed to create your post')}</Text>
             <Caption style={styling.subtitle}>{t('Tap here to reupload')}</Caption>
           </TouchableOpacity>
-          <TouchableOpacity style={styling.icon} onPress={() => postsCreateIdle(post.payload)}>
+          <TouchableOpacity style={styling.icon} onPress={() => postsCreateIdle(post)}>
             <CloseIcon fill="#ffffff" />
           </TouchableOpacity>
         </View>
@@ -80,11 +80,11 @@ const Uploading = ({
       
       {post.status === 'success' ?
         <View style={styling.status}>
-          <TouchableOpacity style={styling.content} onPress={() => postsCreateIdle(post.payload)}>
+          <TouchableOpacity style={styling.content} onPress={() => postsCreateIdle(post)}>
             <Text style={styling.title}>Done</Text>
             <Caption style={styling.subtitle}>{t('Successfully created')}</Caption>
           </TouchableOpacity>
-          <TouchableOpacity style={styling.icon} onPress={() => postsCreateIdle(post.payload)}>
+          <TouchableOpacity style={styling.icon} onPress={() => postsCreateIdle(post)}>
             <TickIcon fill="#ffffff" />
           </TouchableOpacity>
         </View>

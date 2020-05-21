@@ -75,7 +75,7 @@ const PostsListService = ({ children }) => {
   }
 
   const postsCreateIdle = (payload) =>
-    dispatch(postsActions.postsCreateIdle({ payload }))
+    dispatch(postsActions.postsCreateIdle(payload))
 
   useAppState({
     onForeground: () => {

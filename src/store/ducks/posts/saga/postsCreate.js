@@ -36,20 +36,23 @@ function initPostsCreateUploadChannel({ image, uploadUrl }) {
   }]
 
   const handleRequest = (emitter) => (response) => {
-    emitter({ status: 'retry', progress: 0, attempt: 0 })
+    const jobId = response.jobId
+    emitter({ status: 'retry', progress: 0, jobId, })
   }
 
   const handleProgress = (emitter) => (response) => {
+    const jobId = response.jobId
     const progress = parseInt(response.totalBytesSent / response.totalBytesExpectedToSend * 100, 10)
-    emitter({ status: 'progress', progress, attempt: 0 })
+    emitter({ status: 'progress', progress, jobId })
   }
 
   const handleSuccess = (emitter) => (response) => {
-    emitter({ status: 'success', progress: 100 })
+    const jobId = response.jobId
+    emitter({ status: 'success', progress: 100, jobId })
     emitter(END)
   }
 
-  const handleFailure = (emitter) => (response) => {
+  const handleFailure = (emitter) => (error) => {
     emitter({ status: 'failure', progress: 0 })
     emitter(END)
   }
@@ -153,6 +156,7 @@ function* handleImagePost(req) {
         attempt: upload.attempt || req.payload.attempt,
         progress: nextProgress || parseInt(upload.progress, 10),
         error: upload.error,
+        jobId: upload.jobId,
       })
 
       if (upload.status === 'progress') {
@@ -186,6 +190,17 @@ function* postsCreateRequest(req) {
 
   if (req.payload.postType === 'IMAGE') {
     return yield handleImagePost(req)
+  }
+}
+
+/**
+ * 
+ */
+function* postsCreateIdle(req) {
+  const jobId = path(['payload', 'meta', 'jobId'])(req)
+
+  if (jobId) {
+    yield RNFS.stopUpload(jobId)
   }
 }
 
@@ -242,7 +257,6 @@ function* postsCreateSchedulerRequest() {
     /**
      * Cleanup
      */
-
     yield all(
       successPosts.map((post) => call(removePost, post))
     )
@@ -273,5 +287,6 @@ function* postsCreateSchedulerRequest() {
 
 export default () => [
   takeEvery(constants.POSTS_CREATE_REQUEST, postsCreateRequest),
+  takeEvery(constants.POSTS_CREATE_IDLE, postsCreateIdle),
   takeEvery(constants.POSTS_CREATE_SCHEDULER_REQUEST, postsCreateSchedulerRequest),
 ]

@@ -19,7 +19,7 @@ const ProfilePhotoService = ({ children }) => {
   
 
   const postsCreateIdle = (payload) =>
-    dispatch(postsActions.postsCreateIdle({ payload }))
+    dispatch(postsActions.postsCreateIdle(payload))
 
   const usersImagePostsGetRequest = (payload) =>
     dispatch(usersActions.usersImagePostsGetRequest(payload))
