@@ -267,14 +267,15 @@ function* signupConfirmRequest(req) {
 function* handleCognitoRequest(payload) {
   const AwsAuth = yield getContext('AwsAuth')
 
-  const data = yield AwsAuth.currentAuthenticatedUser({
+  const session = yield AwsAuth.currentAuthenticatedUser({
     bypassCache: false,
   })
 
   const selector = path(['data', 'createGoogleUser'])
-  yield queryService.apiRequest(queries.createGoogleUser, {
+  const data = yield queryService.apiRequest(queries.createGoogleUser, {
     username: payload.username,
-    googleIdToken: data.token,
+    fullName: session.name,
+    googleIdToken: session.token,
   })
 
   yield queryService.apiRequest(queries.setUserAcceptedEULAVersion, { version: '15-11-2019' })
