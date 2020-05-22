@@ -44,13 +44,15 @@ function initPostsCreateUploadChannel({ image, uploadUrl }) {
     const jobId = response.jobId
     const progress = parseInt(response.totalBytesSent / response.totalBytesExpectedToSend * 100, 10)
 
-    if (progress % 10 === 0)
-      emitter({ status: 'progress', progress, jobId })
+    if (progress % 10 === 0) {
+      const nextProgress = progress === 100 ? 99 : progress
+      emitter({ status: 'progress', progress: nextProgress, jobId })
+    }
   }
 
   const handleSuccess = (emitter) => (response) => {
     const jobId = response.jobId
-    emitter({ status: 'success', progress: 100, jobId })
+    emitter({ status: 'success', progress: 99, jobId })
     emitter(END)
   }
 
@@ -173,7 +175,7 @@ function* handleImagePost(req) {
       }
 
       if (upload.status === 'success') {
-        yield put(actions.postsCreateProgress({ data: {}, payload: req.payload, meta: meta(100) }))
+        yield put(actions.postsCreateProgress({ data: {}, payload: req.payload, meta: meta(99) }))
       }
 
       if (upload.status === 'failure') {
