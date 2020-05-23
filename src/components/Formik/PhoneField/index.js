@@ -1,10 +1,14 @@
 import React, { useRef } from 'react'
 import PropTypes from 'prop-types'
 import {
+  View,
   StyleSheet,
+  TouchableOpacity,
+  Image,
 } from 'react-native'
 import PhoneInput from 'react-native-phone-input'
 import TextField from 'components/Formik/TextField'
+import FlagComponent from 'components/Formik/PhoneField/Flag'
 
 import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
@@ -24,23 +28,39 @@ const PhoneField = ({
    */
   const onSelectCountry = (country) => {
     const nextValue = `+${inputRef.current.getCountryCode(country)}`
-    props.form.setFieldValue(props.field.name, nextValue)
+    props.form.setFieldValue('countryCode', nextValue)
   }
 
   return (
-    <PhoneInput
-      ref={inputRef}
-      flagStyle={styling.flag}
-      textProps={props}
-      onChangePhoneNumber={props.field.onChange}
-      value={props.field.value}
-      textComponent={TextField}
-      onSelectCountry={onSelectCountry}
-    />
+    <View style={styling.root}>
+      {inputRef.current ?
+        <FlagComponent inputRef={inputRef} />
+      : null}
+
+      <PhoneInput
+        ref={inputRef}
+        flagStyle={styling.flag}
+        textProps={props}
+        onChangePhoneNumber={props.field.onChange}
+        value={props.field.value}
+        textComponent={TextField}
+        onSelectCountry={onSelectCountry}
+        style={styling.input}
+      />
+    </View>
   )
 }
 
 const styles = theme => StyleSheet.create({
+  root: {
+    flexDirection: 'row',
+  },
+  input: {
+    flex: 1,
+  },
+  flag: {
+    display: 'none',
+  },
 })
 
 PhoneField.propTypes = {

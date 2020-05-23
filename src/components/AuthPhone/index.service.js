@@ -40,7 +40,7 @@ const AuthPhoneComponentService = ({ children }) => {
     const signupCreatePayload = {
       username: signupUsername.payload.username,
       usernameType: 'phone',
-      phone: payload.phone,
+      phone: `${payload.countryCode}${payload.phone}`,
       email: null,
       password: signupPassword.payload.password,
     }
@@ -100,11 +100,13 @@ const AuthPhoneComponentService = ({ children }) => {
   const formErrorMessage = signupCreate.error.text
 
   const formInitialValues = {
-    phone: signupPhone.payload.phone || '+1',
+    countryCode: '+1',
+    phone: signupPhone.payload.phone,
   }
 
   const handleFormTransform = (values) => ({
-    phone: compose(replace(/[^+0-9]/g, ''),  trim, toLower, pathOr('', ['phone']))(values),
+    countryCode: compose(replace(/[^+0-9]/g, ''), trim, toLower, pathOr('', ['countryCode']))(values),
+    phone: compose(replace(/[^0-9]/g, ''), trim, toLower, pathOr('', ['phone']))(values),
   })
 
   const handleErrorClose = () => dispatch(signupActions.signupCreateIdle())
