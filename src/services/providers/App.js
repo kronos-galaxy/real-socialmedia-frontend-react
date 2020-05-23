@@ -32,6 +32,11 @@ export const AuthProvider = ({
   const uiNotifications = useSelector(state => state.ui.notifications)
   const authUserId = useSelector(state => path(['userId'])(state.auth.user))
 
+  const postsDelete = useSelector(state => state.posts.postsDelete)
+  const postsArchive = useSelector(state => state.posts.postsArchive)
+  const postsRestoreArchived = useSelector(state => state.posts.postsRestoreArchived)
+  const postsFlag = useSelector(state => state.posts.postsFlag)
+
   const user = useSelector(
     authSelector.authUserSelector,
     (prevProps = {}, nextProps = {}) => prevProps.userId === nextProps.userId
@@ -100,6 +105,29 @@ export const AuthProvider = ({
   useEffect(() => {
     Logger.setUser(user)
   }, [path(['userId'])(user)])
+
+  useEffect(() => {
+    if (postsDelete.status === 'success') {
+      dispatch(postsActions.postsDeleteIdle())
+    }
+
+    if (postsArchive.status === 'success') {
+      dispatch(postsActions.postsArchiveIdle())
+    }
+
+    if (postsRestoreArchived.status === 'success') {
+      dispatch(postsActions.postsRestoreArchivedIdle())
+    }
+
+    if (postsFlag.status === 'success') {
+      dispatch(postsActions.postsFlagIdle())
+    }
+  }, [
+    postsDelete.status,
+    postsArchive.status,
+    postsRestoreArchived.status,
+    postsFlag.status,
+  ])
 
   if (
     !path(['data', 'en'])(translationFetch) ||

@@ -72,30 +72,6 @@ const PostsListService = ({ children }) => {
 
   const postsCreateIdle = (payload) =>
     dispatch(postsActions.postsCreateIdle(payload))
-  
-  useEffect(() => {
-    if (postsDelete.status === 'success') {
-      dispatch(postsActions.postsDeleteIdle())
-    }
-
-    if (postsArchive.status === 'success') {
-      dispatch(postsActions.postsArchiveIdle())
-    }
-
-    if (postsRestoreArchived.status === 'success') {
-      dispatch(postsActions.postsRestoreArchivedIdle())
-      navigationActions.navigateBack(navigation)()
-    }
-
-    if (postsFlag.status === 'success') {
-      dispatch(postsActions.postsFlagIdle())
-    }
-  }, [
-    postsDelete.status,
-    postsArchive.status,
-    postsRestoreArchived.status,
-    postsFlag.status,
-  ])
 
   const handleEditPress = (post) =>
     navigationActions.navigatePostEdit(navigation, { post })()
