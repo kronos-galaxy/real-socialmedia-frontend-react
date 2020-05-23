@@ -29,21 +29,6 @@ export const cachedPostsSingleGet = (postsSingleGet, cachedPost) => {
  * @param {*} postsSingleGet 
  * @param {*} navigation 
  */
-export const cachedPostsGet = (postsGet, postsGetCache, userId) => {
-  const cache = path([userId])(postsGetCache)
-  if (cache) {
-    return cache
-  }
-
-  return postsGet
-}
-
-/**
- * 
- * 
- * @param {*} postsSingleGet 
- * @param {*} navigation 
- */
 export const cachedPostsMediaFeedGet = (postsFeedGetCache, userId, postId) => {
   const cache = path([userId])(postsFeedGetCache)
 

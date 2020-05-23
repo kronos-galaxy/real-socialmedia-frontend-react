@@ -1,20 +1,22 @@
-import { useEffect, useCallback } from 'react'
+import { useCallback } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import * as albumsActions from 'store/ducks/albums/actions'
-import * as postsServices from 'store/ducks/posts/services'
-import { useNavigation, useRoute, useFocusEffect } from '@react-navigation/native'
+import { useRoute, useFocusEffect } from '@react-navigation/native'
 import path from 'ramda/src/path'
+import useS3ExpiryState from 'services/S3ExpiryState'
+import * as authSelector from 'store/ducks/auth/selectors'
+import * as albumsSelector from 'store/ducks/albums/selectors'
 
 const AlbumsGridService = ({ children, albumsGetRequestOnMount }) => {
   const dispatch = useDispatch()
-  const navigation = useNavigation()
   const route = useRoute()
-  const albumsGet = useSelector(state => state.albums.albumsGet)
-  const albumsGetCache = useSelector(state => state.albums.albumsGetCache)
+
+  const user = path(['params', 'user'])(route) || useSelector(authSelector.authUserSelector)
+  const userId = user.userId
+
+  const albumsGet = useSelector(albumsSelector.albumsGetSelector(userId))
   const themeFetch = useSelector(state => state.theme.themeFetch)
   const themes = useSelector(state => state.theme.themeFetch.data)
-  const user = path(['params', 'user'])(route) || useSelector(state => state.auth.user)
-  const userId = user.userId
 
   const albumsGetRequest = ({ nextToken }) =>
     dispatch(albumsActions.albumsGetRequest({ userId, nextToken }))
@@ -34,11 +36,23 @@ const AlbumsGridService = ({ children, albumsGetRequestOnMount }) => {
     }, [userId])
   )
 
+  const urlToBeValidated = path(['data', 0, 'image', 'url'])(albumsGet)
+  useS3ExpiryState({
+    urlToBeValidated,
+    condition: (
+      urlToBeValidated &&
+      albumsGet.status !== 'loading'
+    ),
+    onExpiry: () => {
+      dispatch(albumsActions.albumsGetRequest({ userId }))
+    },
+  })
+
   return children({
     themes,
     themeFetch,
-    user: route.params,
-    albumsGet: postsServices.cachedPostsGet(albumsGet, albumsGetCache, userId),
+    user,
+    albumsGet,
     albumsGetRequest,
     albumsGetMoreRequest,
   })

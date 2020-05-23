@@ -2,28 +2,29 @@ import { useEffect, useState } from 'react'
 import { Keyboard } from 'react-native'
 import { useSelector, useDispatch } from 'react-redux'
 import * as chatActions from 'store/ducks/chat/actions'
-import * as postsServices from 'store/ducks/posts/services'
 import * as authSelector from 'store/ducks/auth/selectors'
 import { v4 as uuid } from 'uuid'
 import { useNavigation, useRoute } from '@react-navigation/native'
 import path from 'ramda/src/path'
 import { ifIphoneX } from 'react-native-iphone-x-helper'
+import * as chatSelector from 'store/ducks/chat/selectors'
 
 const ChatDirectService = ({ children }) => {
   const dispatch = useDispatch()
   const navigation = useNavigation()
   const route = useRoute()
-  const user = useSelector(authSelector.authUserSelector)
-  const usersGetTrendingUsers = useSelector(state => state.users.usersGetTrendingUsers)
-  const chatCreateDirect = useSelector(state => state.chat.chatCreateDirect)
-  const chatAddMessage = useSelector(state => state.chat.chatAddMessage)
-  const chatGetChat = useSelector(state => state.chat.chatGetChat)
-  const chatGetChatCache = useSelector(state => state.chat.chatGetChatCache)
+
   const chatId = (
     path(['params', 'chat', 'chatId'])(route) ||
     path(['params', 'user', 'directChat', 'chatId'])(route)
   )
   const userId = path(['params', 'user', 'userId'])(route)
+
+  const user = useSelector(authSelector.authUserSelector)
+  const usersGetTrendingUsers = useSelector(state => state.users.usersGetTrendingUsers)
+  const chatCreateDirect = useSelector(state => state.chat.chatCreateDirect)
+  const chatAddMessage = useSelector(state => state.chat.chatAddMessage)
+  const chatGetChat = useSelector(chatSelector.chatGetChatSelector(chatId))
 
   useEffect(() => {
     dispatch(chatActions.chatGetChatRequest({ chatId }))
@@ -95,7 +96,7 @@ const ChatDirectService = ({ children }) => {
     chatAddMessageRequest,
     chatCreateDirectRequest,
     usersGetTrendingUsers,
-    chatGetChat: postsServices.cachedPostsGet(chatGetChat, chatGetChatCache, chatId),
+    chatGetChat,
     marginBottom,
   })
 }

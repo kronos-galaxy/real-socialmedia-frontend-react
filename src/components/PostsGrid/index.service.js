@@ -1,24 +1,22 @@
 import { useCallback } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import * as postsActions from 'store/ducks/posts/actions'
-import * as postsServices from 'store/ducks/posts/services'
-import { useNavigation, useRoute, useFocusEffect } from '@react-navigation/native'
+import { useRoute, useFocusEffect } from '@react-navigation/native'
 import path from 'ramda/src/path'
 import useS3ExpiryState from 'services/S3ExpiryState'
 import * as authSelector from 'store/ducks/auth/selectors'
+import * as postsSelector from 'store/ducks/posts/selectors'
 
 const PostsGridService = ({ children, postsGetRequestOnMount }) => {
   const dispatch = useDispatch()
-  const navigation = useNavigation()
   const route = useRoute()
-  const postsGet = useSelector(state => state.posts.postsGet)
-  const postsGetCache = useSelector(state => state.posts.postsGetCache)
-  const themeFetch = useSelector(state => state.theme.themeFetch)
-  const themes = useSelector(state => state.theme.themeFetch.data)
+
   const user = path(['params', 'user'])(route) || useSelector(authSelector.authUserSelector)
   const userId = user.userId
 
-  const postsGetCached = postsServices.cachedPostsGet(postsGet, postsGetCache, userId)
+  const postsGet = useSelector(postsSelector.postsGetSelector(userId))
+  const themeFetch = useSelector(state => state.theme.themeFetch)
+  const themes = useSelector(state => state.theme.themeFetch.data)
 
   const postsGetRequest = ({ nextToken }) =>
     dispatch(postsActions.postsGetRequest({ userId, nextToken }))
@@ -38,12 +36,12 @@ const PostsGridService = ({ children, postsGetRequestOnMount }) => {
     }, [userId])
   )
 
-  const urlToBeValidated = path(['data', 0, 'image', 'url'])(postsGetCached)
+  const urlToBeValidated = path(['data', 0, 'image', 'url'])(postsGet)
   useS3ExpiryState({
     urlToBeValidated,
     condition: (
       urlToBeValidated &&
-      postsGetCached.status !== 'loading'
+      postsGet.status !== 'loading'
     ),
     onExpiry: () => {
       dispatch(postsActions.postsGetRequest({ userId }))
@@ -54,7 +52,7 @@ const PostsGridService = ({ children, postsGetRequestOnMount }) => {
     themes,
     themeFetch,
     user,
-    postsGet: postsGetCached,
+    postsGet,
     postsGetRequest,
     postsGetMoreRequest,
   })

@@ -165,7 +165,6 @@ function* usersEditProfileRequest(req) {
     yield put(actions.usersEditProfileSuccess({ payload: req.payload, data: selector(data), meta: data }))
     yield put(actions.globalAuthUserTrigger({ payload: req.payload, data: selector(data) }))
   } catch (error) {
-    console.log(error)
     const errorMessage = path(['errors', '0', 'message'])(error)
     if (errorMessage && errorMessage.includes('is not verified')) {
       yield put(actions.usersEditProfileFailure({

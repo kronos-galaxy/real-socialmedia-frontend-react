@@ -2,10 +2,10 @@ import { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { v4 as uuid } from 'uuid'
 import * as authSelector from 'store/ducks/auth/selectors'
+import * as albumsSelector from 'store/ducks/albums/selectors'
 import * as postsActions from 'store/ducks/posts/actions'
 import * as cameraActions from 'store/ducks/camera/actions'
 import * as albumsActions from 'store/ducks/albums/actions'
-import * as postsServices from 'store/ducks/posts/services'
 import { useNavigation, useRoute} from '@react-navigation/native'
 import dayjs from 'dayjs'
 import * as navigationActions from 'navigation/actions'
@@ -18,8 +18,7 @@ const PostCreateService = ({ children }) => {
   const user = useSelector(authSelector.authUserSelector)
   const postsCreate = useSelector(state => state.posts.postsCreate)
   const cameraCapture = useSelector(state => state.camera.cameraCapture)
-  const albumsGet = useSelector(state => state.albums.albumsGet)
-  const albumsGetCache = useSelector(state => state.albums.albumsGetCache)
+  const albumsGet = useSelector(albumsSelector.albumsGetSelector(user.userId))
   const type = route.params.type
 
   const cameraCaptureLength = path(['data', 'length'])(cameraCapture)
@@ -85,7 +84,7 @@ const PostCreateService = ({ children }) => {
 
   return children({
     type,
-    albumsGet: postsServices.cachedPostsGet(albumsGet, albumsGetCache, user.userId),
+    albumsGet,
     user,
     postsCreate,
     postsCreateRequest,

@@ -7,6 +7,7 @@ import { useNavigation, useRoute } from '@react-navigation/native'
 import path from 'ramda/src/path'
 import * as navigationActions from 'navigation/actions'
 import * as authSelector from 'store/ducks/auth/selectors'
+import * as albumsSelector from 'store/ducks/albums/selectors'
 
 const PostEditService = ({ children }) => {
   const dispatch = useDispatch()
@@ -17,8 +18,7 @@ const PostEditService = ({ children }) => {
   const postUserId = path(['params', 'post', 'postedBy', 'userId'])(route)
   const postsSingleGet = useSelector(state => state.posts.postsSingleGet)
   const postsEdit = useSelector(state => state.posts.postsEdit)
-  const albumsGet = useSelector(state => state.albums.albumsGet)
-  const albumsGetCache = useSelector(state => state.albums.albumsGetCache)
+  const albumsGet = useSelector(albumsSelector.albumsGetSelector(user.userId))
 
   useEffect(() => {
     dispatch(albumsActions.albumsGetRequest({ userId: user.userId }))
@@ -42,7 +42,7 @@ const PostEditService = ({ children }) => {
   }, [postsEdit.status])
 
   return children({
-    albumsGet: postsServices.cachedPostsGet(albumsGet, albumsGetCache, user.userId),
+    albumsGet,
     postsSingleGet: postsServices.cachedPostsSingleGet(postsSingleGet, path(['params', 'post'])(route)),
     postsSingleGetRequest,
     postsEdit,

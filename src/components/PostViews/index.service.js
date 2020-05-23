@@ -2,7 +2,7 @@ import { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import * as postsActions from 'store/ducks/posts/actions'
 import * as usersActions from 'store/ducks/users/actions'
-import * as postsServices from 'store/ducks/posts/services'
+import * as postsSelector from 'store/ducks/posts/selectors'
 import { useNavigation, useRoute } from '@react-navigation/native'
 
 const PostViewsService = ({ children }) => {
@@ -10,8 +10,7 @@ const PostViewsService = ({ children }) => {
   const navigation = useNavigation()
   const route = useRoute()
   const postId = route.params.post.postId
-  const postsViewsGet = useSelector(state => state.posts.postsViewsGet)
-  const postsViewsGetCache = useSelector(state => state.posts.postsViewsGetCache)
+  const postsViewsGet = useSelector(postsSelector.postsViewsGetSelector(postId))
   const usersFollow = useSelector(state => state.users.usersFollow)
   const usersUnfollow = useSelector(state => state.users.usersUnfollow)
   const usersAcceptFollowerUser = useSelector(state => state.users.usersAcceptFollowerUser)
@@ -42,7 +41,7 @@ const PostViewsService = ({ children }) => {
   }, [])
 
   return children({
-    postsViewsGet: postsServices.cachedPostsGet(postsViewsGet, postsViewsGetCache, postId),
+    postsViewsGet,
     postsViewsGetRequest,
     usersFollow,
     usersUnfollow,

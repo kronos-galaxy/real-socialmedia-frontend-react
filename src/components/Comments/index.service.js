@@ -3,12 +3,12 @@ import { Keyboard, InteractionManager } from 'react-native'
 import { useEffect, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import * as postsActions from 'store/ducks/posts/actions'
-import * as postsServices from 'store/ducks/posts/services'
 import { useNavigation, useRoute } from '@react-navigation/native'
 import { v4 as uuid } from 'uuid'
 import path from 'ramda/src/path'
 import { ifIphoneX } from 'react-native-iphone-x-helper'
 import * as authSelector from 'store/ducks/auth/selectors'
+import * as postsSelector from 'store/ducks/posts/selectors'
 
 const CommentsService = ({ children }) => {
   const dispatch = useDispatch()
@@ -19,8 +19,7 @@ const CommentsService = ({ children }) => {
   const user = useSelector(authSelector.authUserSelector)
   const commentsAdd = useSelector(state => state.posts.commentsAdd)
   const commentsDelete = useSelector(state => state.posts.commentsDelete)
-  const postsCommentsGet = useSelector(state => state.posts.postsCommentsGet)
-  const postsCommentsGetCache = useSelector(state => state.posts.postsCommentsGetCache)
+  const postsCommentsGet = useSelector(postsSelector.postsCommentsGetSelector(postId))
 
   useEffect(() => {
     dispatch(postsActions.postsCommentsGetRequest({ postId, userId: postUserId }))
@@ -101,7 +100,7 @@ const CommentsService = ({ children }) => {
     commentsAdd,
     commentsAddRequest,
     commentsDeleteRequest,
-    postsCommentsGet: postsServices.cachedPostsGet(postsCommentsGet, postsCommentsGetCache, postId),
+    postsCommentsGet,
     post: path(['params', 'post'])(route),
     marginBottom,
     onViewableItemsChangedRef,
