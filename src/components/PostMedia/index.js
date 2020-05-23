@@ -5,10 +5,8 @@ import {
   View,
   FlatList,
 } from 'react-native'
-import path from 'ramda/src/path'
 import PostComponent from 'components/Post'
 import NativeError from 'templates/NativeError'
-import PostsLoadingComponent from 'components/PostsList/PostsLoading'
 
 import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
@@ -18,7 +16,6 @@ const PostMedia = ({
   t,
   theme,
   user,
-  postsMediaFeedGet,
   postsShareRequest,
   handleEditPress,
   postsArchiveRequest,
@@ -30,8 +27,6 @@ const PostMedia = ({
   postsOnymouslyLikeRequest,
   postsDislikeRequest,
   postsSingleGet,
-  postsGetTrendingPosts,
-  routeName,
 
   handleScrollNext,
   handleScrollPrev,
@@ -45,39 +40,6 @@ const PostMedia = ({
 }) => {
   const styling = styles(theme)
   
-
-  /**
-   * Component responsible for rendering a selected post + suggested post list
-   * 
-   * - postsSingleGet is rendered when first entry doesn't match selected postId
-   * means we are displaying image that didn't come from profile page posts list
-   * (e.g. 1 post is selected post and next is trending images:
-   * [{ postedBy: a }, { postedBy: b }, { postedBy: c }])
-   * 
-   * - postsMediaFeedGet is rendered when first entry matches selected postId
-   * means we are displaying image from profile page (e.g. 1 post is selected post and next
-   * are profile images: [{ postedBy: a }, { postedBy: a }, { postedBy: a }])
-   * 
-   * A known bug to be fixed is when you remove delete first post, the sequence will break.
-   */
-  const flatListType = (path(['data', '0', 'postId'])(postsMediaFeedGet) === path(['data', 'postId'])(postsSingleGet))
-
-  const flatListData = (() => {
-    if (routeName === 'FeedProfile') {
-      return path(['data'])(postsMediaFeedGet)
-    }
-
-    if (routeName === 'ProfileSelf') {
-      return path(['data'])(postsMediaFeedGet)
-    }
-
-    if (routeName === 'Search') {
-      return path(['data'])(postsGetTrendingPosts)
-    }
-
-    return [path(['data'])(postsSingleGet)]
-  })()
-
   return (
     <View style={styling.root}>
       <NativeError
@@ -93,7 +55,7 @@ const PostMedia = ({
         bounces={false}
         ref={feedRef}
         keyExtractor={item => item.postId}
-        data={flatListData.slice(0, 6)}
+        data={[postsSingleGet.data]}
         onViewableItemsChanged={onViewableItemsChangedRef.current}
         viewabilityConfig={viewabilityConfigRef.current}
         renderItem={({ item: post, index }) => (
@@ -121,10 +83,6 @@ const PostMedia = ({
           />
         )}
       />
-
-      {flatListType && (path(['status'])(postsMediaFeedGet) === 'loading' && !path(['data', 'length'])(postsMediaFeedGet)) ?
-        <PostsLoadingComponent />
-      : null}
     </View>
   )
 }
@@ -146,8 +104,6 @@ PostMedia.propTypes = {
   theme: PropTypes.any,
   user: PropTypes.any,
   feedRef: PropTypes.any,
-  postsMediaFeedGet: PropTypes.any,
-  postsMediaFeedGetRequest: PropTypes.any,
   postsShareRequest: PropTypes.any,
   handleEditPress: PropTypes.any,
   postsArchiveRequest: PropTypes.any,
@@ -163,7 +119,6 @@ PostMedia.propTypes = {
   postsRestoreArchivedRequest: PropTypes.any,
   postsSingleGet: PropTypes.any,
   postsGetTrendingPosts: PropTypes.any,
-  routeName: PropTypes.any,
   handleScrollNext: PropTypes.any,
   handleScrollPrev: PropTypes.any,
   actionSheetRefs: PropTypes.any,

@@ -1,7 +1,7 @@
 import { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import * as usersActions from 'store/ducks/users/actions'
-import * as usersServices from 'store/ducks/users/services'
+import * as usersSelector from 'store/ducks/users/selectors'
 import { useNavigation, useRoute } from '@react-navigation/native'
 
 const ProfileFollowedService = ({ children }) => {
@@ -9,8 +9,7 @@ const ProfileFollowedService = ({ children }) => {
   const navigation = useNavigation()
   const route = useRoute()
   const userId = route.params.user.userId
-  const usersGetFollowedUsers = useSelector(state => state.users.usersGetFollowedUsers)
-  const usersGetFollowedUsersCache = useSelector(state => state.users.usersGetFollowedUsersCache)
+  const usersGetFollowedUsers = useSelector(usersSelector.usersGetFollowedUsersSelector(userId))
   const usersFollow = useSelector(state => state.users.usersFollow)
   const usersUnfollow = useSelector(state => state.users.usersUnfollow)
   const usersAcceptFollowerUser = useSelector(state => state.users.usersAcceptFollowerUser)
@@ -41,7 +40,7 @@ const ProfileFollowedService = ({ children }) => {
   }, [userId])
 
   return children({
-    usersGetFollowedUsers: usersServices.cachedUsersGetFollowedUsers(usersGetFollowedUsers, usersGetFollowedUsersCache, userId),
+    usersGetFollowedUsers,
     usersFollow,
     usersFollowRequest,
     usersUnfollow,

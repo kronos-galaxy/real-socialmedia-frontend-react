@@ -22,6 +22,16 @@ export const postsGetSelector = (userId) => createDeepEqualSelector(
 /**
  *
  */
+const postsSingleGet = () => path(['posts', 'postsSingleGet'])
+
+export const postsSingleGetSelector = (navigationParamPost) => createDeepEqualSelector(
+  [postsSingleGet(), () => navigationParamPost],
+  (postsSingleGet, navigationParamPost) => update(postsSingleGet, { data: { $set: navigationParamPost } }),
+)
+
+/**
+ *
+ */
 const postsCommentsGet = () => path(['posts', 'postsCommentsGet'])
 const postsCommentsGetCache = (postId) => path(['posts', 'postsCommentsGetCache', postId])
 

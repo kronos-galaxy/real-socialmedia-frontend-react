@@ -1,28 +1,23 @@
-import { useRef, useEffect } from 'react'
+import { useEffect, useRef } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import * as usersActions from 'store/ducks/users/actions'
-import * as usersServices from 'store/ducks/users/services'
 import { useNavigation, useScrollToTop } from '@react-navigation/native'
 import path from 'ramda/src/path'
 import * as authSelector from 'store/ducks/auth/selectors'
+import * as usersSelector from 'store/ducks/users/selectors'
 
-const ProfileService = ({ children }) => {
+const ProfileSelfService = ({ children }) => {
   const dispatch = useDispatch()
   const navigation = useNavigation()
   const user = useSelector(authSelector.authUserSelector)
-  const usersGetProfileSelf = useSelector(state => state.users.usersGetProfileSelf)
+  const usersGetProfile = useSelector(usersSelector.usersGetProfileSelfSelector())
   const userId = user.userId
 
   const profileRef = useRef(null)
   useScrollToTop(profileRef)
 
-  const usersGetProfileCached = usersServices.cachedUsersGetProfileSelf(
-    usersGetProfileSelf,
-    user
-  )
-
   navigation.setOptions({
-    title: path(['data', 'username'])(usersGetProfileCached),
+    title: path(['data', 'username'])(usersGetProfile),
   })
 
   const usersGetProfileSelfRequest = ({ userId }) => 
@@ -35,9 +30,9 @@ const ProfileService = ({ children }) => {
   return children({
     user,
     profileRef,
-    usersGetProfile: usersServices.cachedUsersGetProfileSelf(usersGetProfileSelf, user),
+    usersGetProfile,
     usersGetProfileSelfRequest,
   })
 }
 
-export default ProfileService
+export default ProfileSelfService

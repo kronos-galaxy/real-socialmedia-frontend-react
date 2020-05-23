@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import * as usersActions from 'store/ducks/users/actions'
-import * as usersServices from 'store/ducks/users/services'
 import * as postsActions from 'store/ducks/posts/actions'
 import { useScrollToTop } from '@react-navigation/native'
 import toLower from 'ramda/src/toLower'
@@ -15,7 +14,6 @@ const SearchService = ({ children }) => {
   const usersSearch = useSelector(state => state.users.usersSearch)
   const usersFollow = useSelector(state => state.users.usersFollow)
   const usersUnfollow = useSelector(state => state.users.usersUnfollow)
-  const usersGetProfileCache = useSelector(state => state.users.usersGetProfileCache)
   const usersGetTrendingUsers = useSelector(state => state.users.usersGetTrendingUsers)
   const postsGetTrendingPosts = useSelector(state => state.posts.postsGetTrendingPosts)
   const themeFetch = useSelector(state => state.theme.themeFetch)
@@ -81,7 +79,7 @@ const SearchService = ({ children }) => {
     feedRef,
     user,
     themeFetch,
-    usersSearch: usersServices.cachedUsersSearch(usersSearch, usersGetProfileCache),
+    usersSearch,
     usersSearchRequest,
     usersFollow,
     usersFollowRequest,
@@ -89,7 +87,7 @@ const SearchService = ({ children }) => {
     usersUnfollowRequest,
     usersAcceptFollowerUser,
     usersAcceptFollowerUserRequest,
-    usersGetTrendingUsers: usersServices.cachedUsersGetTrendingUsers(usersGetTrendingUsers, usersGetProfileCache),
+    usersGetTrendingUsers,
     postsGetTrendingPostsRequest,
     postsGetTrendingPosts,
     postsGetTrendingPostsMoreRequest,
