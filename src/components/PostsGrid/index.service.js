@@ -15,8 +15,6 @@ const PostsGridService = ({ children, postsGetRequestOnMount }) => {
   const userId = user.userId
 
   const postsGet = useSelector(postsSelector.postsGetSelector(userId))
-  const themeFetch = useSelector(state => state.theme.themeFetch)
-  const themes = useSelector(state => state.theme.themeFetch.data)
 
   const postsGetRequest = ({ nextToken }) =>
     dispatch(postsActions.postsGetRequest({ userId, nextToken }))
@@ -43,8 +41,6 @@ const PostsGridService = ({ children, postsGetRequestOnMount }) => {
   })
 
   return children({
-    themes,
-    themeFetch,
     user,
     postsGet,
     postsGetRequest,

@@ -25,7 +25,6 @@ import { withTranslation } from 'react-i18next'
 const StoryCarousel = ({
   ref,
   theme,
-  themes,
   countStories,
   currentStory,
   onNextStory,
@@ -80,7 +79,6 @@ const StoryCarousel = ({
               <TextOnlyComponent
                 themes={themes}
                 text={story.text}
-                themeCode={story.postedBy.themeCode}
               />
             : null}
           </>

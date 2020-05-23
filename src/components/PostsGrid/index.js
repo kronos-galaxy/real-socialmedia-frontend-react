@@ -19,10 +19,7 @@ import { withTranslation } from 'react-i18next'
 const PostsGrid = ({
   t,
   theme,
-  themes,
   postsGet,
-  themeFetch,
-  themeCode,
   priorityQueueInstance,
 }) => {
   const styling = styles(theme)
@@ -59,8 +56,6 @@ const PostsGrid = ({
             {post.postType === 'TEXT_ONLY' ?
               <TextOnlyComponent
                 text={post.text}
-                themeCode={post.postedBy.themeCode}
-                themes={themes}
               />
             : null}
           </GridItemComponent>

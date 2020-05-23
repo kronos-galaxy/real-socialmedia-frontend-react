@@ -26,7 +26,6 @@ const PostsListService = ({ children }) => {
   const postsCreateQueue = useSelector(state => state.posts.postsCreateQueue)
   const usersGetPendingFollowers = useSelector(state => state.users.usersGetPendingFollowers)
   const usersAcceptFollowerUser = useSelector(state => state.users.usersAcceptFollowerUser)
-  const themes = useSelector(state => state.theme.themeFetch.data)
   
   const postsFeedGetRequest = (payload) =>
     dispatch(postsActions.postsFeedGetRequest(payload))
@@ -165,7 +164,6 @@ const PostsListService = ({ children }) => {
   })
 
   return children({
-    themes,
     user,
     postsFeedGet,
     postsFeedGetRequest,
