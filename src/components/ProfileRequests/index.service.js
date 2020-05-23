@@ -1,8 +1,7 @@
-import { useEffect, useCallback } from 'react'
+import { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import * as usersActions from 'store/ducks/users/actions'
 import * as authSelector from 'store/ducks/auth/selectors'
-import { useFocusEffect } from '@react-navigation/native'
 
 const ProfileFollowerService = ({ children }) => {
   const dispatch = useDispatch()
@@ -15,9 +14,6 @@ const ProfileFollowerService = ({ children }) => {
 
   const usersGetPendingFollowersRequest = (payload) => 
     dispatch(usersActions.usersGetPendingFollowersRequest(payload))
-
-  const usersGetPendingFollowersIdle = (payload) => 
-    dispatch(usersActions.usersGetPendingFollowersIdle(payload))
 
   const usersFollowRequest = ({ userId }) =>
     dispatch(usersActions.usersFollowRequest({ userId }))
@@ -41,15 +37,9 @@ const ProfileFollowerService = ({ children }) => {
     
   }, [userId])
 
-  useFocusEffect(
-    useCallback(() => {
-      usersGetPendingFollowersRequest({ userId })
-
-      return () => {
-        usersGetPendingFollowersIdle({ payload: { userId } })
-      }
-    }, [userId])
-  )
+  useEffect(() => {
+    usersGetPendingFollowersRequest({ userId })
+  }, [userId])
 
   return children({
     usersGetPendingFollowers,

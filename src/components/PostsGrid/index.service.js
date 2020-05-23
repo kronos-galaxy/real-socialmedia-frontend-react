@@ -1,7 +1,7 @@
-import { useCallback } from 'react'
+import { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import * as postsActions from 'store/ducks/posts/actions'
-import { useRoute, useFocusEffect } from '@react-navigation/native'
+import { useRoute } from '@react-navigation/native'
 import path from 'ramda/src/path'
 import useS3ExpiryState from 'services/S3ExpiryState'
 import * as authSelector from 'store/ducks/auth/selectors'
@@ -24,17 +24,11 @@ const PostsGridService = ({ children, postsGetRequestOnMount }) => {
   const postsGetMoreRequest = ({ nextToken }) =>
     dispatch(postsActions.postsGetMoreRequest({ userId, nextToken }))
 
-  useFocusEffect(
-    useCallback(() => {
-      if (postsGetRequestOnMount) {
-        dispatch(postsActions.postsGetRequest({ userId }))
-      }
+  useEffect(() => {
+    if (!postsGetRequestOnMount) return
 
-      return () => {
-        dispatch(postsActions.postsGetIdle({ payload: { userId } }))
-      }
-    }, [userId])
-  )
+    dispatch(postsActions.postsGetRequest({ userId }))
+  }, [userId])
 
   const urlToBeValidated = path(['data', 0, 'image', 'url'])(postsGet)
   useS3ExpiryState({

@@ -1,8 +1,7 @@
-import { useEffect, useRef, useCallback } from 'react'
-import { InteractionManager } from 'react-native'
+import { useEffect, useRef } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import * as usersActions from 'store/ducks/users/actions'
-import { useNavigation, useRoute, useFocusEffect } from '@react-navigation/native'
+import { useNavigation, useRoute } from '@react-navigation/native'
 import path from 'ramda/src/path'
 import * as authSelector from 'store/ducks/auth/selectors'
 import * as usersSelector from 'store/ducks/users/selectors'
@@ -30,9 +29,6 @@ const ProfileService = ({ children }) => {
   const usersGetProfileRequest = ({ userId }) => 
     dispatch(usersActions.usersGetProfileRequest({ userId }))
 
-  const usersGetProfileIdle = (payload) => 
-    dispatch(usersActions.usersGetProfileIdle(payload))
-
   const usersUnblockRequest = ({ userId }) =>
     dispatch(usersActions.usersUnblockRequest({ userId }))
 
@@ -58,20 +54,8 @@ const ProfileService = ({ children }) => {
     usersUnblock.status,
   ])
 
-  useFocusEffect(
-    useCallback(() => {
-      usersGetProfileRequest({ userId })
-
-      return () => {
-        usersGetProfileIdle({ payload: { userId } })
-      }
-    }, [userId])
-  )
-
   useEffect(() => {
-    InteractionManager.runAfterInteractions(() => {
-      usersGetProfileRequest({ userId })
-    })
+    usersGetProfileRequest({ userId })
   }, [userId])
 
   return children({

@@ -1,7 +1,7 @@
-import { useCallback } from 'react'
+import { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import * as albumsActions from 'store/ducks/albums/actions'
-import { useRoute, useFocusEffect } from '@react-navigation/native'
+import { useRoute } from '@react-navigation/native'
 import path from 'ramda/src/path'
 import useS3ExpiryState from 'services/S3ExpiryState'
 import * as authSelector from 'store/ducks/auth/selectors'
@@ -24,17 +24,11 @@ const AlbumsGridService = ({ children, albumsGetRequestOnMount }) => {
   const albumsGetMoreRequest = ({ nextToken }) =>
     dispatch(albumsActions.albumsGetMoreRequest({ userId, nextToken }))
 
-  useFocusEffect(
-    useCallback(() => {
-      if (albumsGetRequestOnMount) {
-        dispatch(albumsActions.albumsGetRequest({ userId }))
-      }
+  useEffect(() => {
+    if (!albumsGetRequestOnMount) return
 
-      return () => {
-        dispatch(albumsActions.albumsGetIdle({ payload: { userId } }))
-      }
-    }, [userId])
-  )
+    dispatch(albumsActions.albumsGetRequest({ userId }))
+  }, [userId])
 
   const urlToBeValidated = path(['data', 0, 'image', 'url'])(albumsGet)
   useS3ExpiryState({

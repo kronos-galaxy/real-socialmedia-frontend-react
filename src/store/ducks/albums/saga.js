@@ -13,8 +13,11 @@ function* albumsGetRequest(req) {
     const data = yield queryService.apiRequest(queries.getAlbums, req.payload)
     const selector = path(['data', 'user', 'albums', 'items'])
 
+    console.log(data, 1)
+
     yield put(actions.albumsGetSuccess({ data: selector(data), payload: req.payload, meta: data }))
   } catch (error) {
+    console.log(error)
     yield put(actions.albumsGetFailure({ message: error.message, payload: req.payload }))
   }
 }
