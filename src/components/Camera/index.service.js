@@ -30,11 +30,13 @@ const cameraManager = (cameraRef) => ({
   },
 })
 
-export const handleGallery = async (photoSize = '1:1') => {
+export const handleGallery = async (photoSize = '1:1', multiple = false) => {
   try {
-    const responses = await CropPicker.openPicker({
-      multiple: true,
+    const selected = await CropPicker.openPicker({
+      multiple,
     })
+
+    const responses = Array.isArray(selected) ? selected : [selected]
   
     const cropped = await series(
       responses.map(response => (callback) =>
@@ -127,7 +129,9 @@ const CameraService = ({ children }) => {
   }
 
   const handleLibrarySnap = async () => {
-    const photos = await handleGallery(photoSize)
+    const hasNextRoute = route.params && route.params.nextRoute
+
+    const photos = await handleGallery(photoSize, !hasNextRoute)
 
     if (!photos.length) {
       return
@@ -135,7 +139,7 @@ const CameraService = ({ children }) => {
 
     dispatch(cameraActions.cameraCaptureRequest(photos))
 
-    if (route.params && route.params.nextRoute) {
+    if (hasNextRoute) {
       navigation.navigate(path(['params', 'nextRoute'])(route), { type: 'IMAGE', photos })
     } else {
       navigationActions.navigatePostCreate(navigation, { type: 'IMAGE', photos })()

@@ -34,7 +34,7 @@ extend('$resourceCacheSetSuccess', ({ payload, resourceKey, initialState }, orig
       data: { $set: payload.data },
       status: { $set: 'success' },
       error: { $set: {} },
-      payload: { $set: payload.payload.payload || {} },
+      payload: { $set: payload.payload || {} },
       meta: { $set: payload.meta || {} },
     },
   })
@@ -51,7 +51,7 @@ extend('$resourceCacheSetFailure', ({ payload, resourceKey, initialState }, orig
   return update(nextState, {
     [resourceKey]: {
       status: { $set: 'failure' },
-      payload: { $set: payload.payload.payload || {} },
+      payload: { $set: payload.payload || {} },
     },
   })
 })
@@ -67,7 +67,7 @@ extend('$resourceCacheSetIdle', ({ payload, resourceKey, initialState }, origina
   return update(nextState, {
     [resourceKey]: {
       status: { $set: 'idle' },
-      payload: { $set: payload.payload.payload || {} },
+      payload: { $set: payload.payload || {} },
     },
   })
 })
@@ -95,7 +95,7 @@ extend('$resourceCacheAlterRequest', ({ payload, resourceKey, initialState }, or
       data: { $set: payload.payload.data },
       status: { $set: 'loading' },
       error: { $set: {} },
-      payload: { $set: payload.payload.payload || {} },
+      payload: { $set: payload.payload || {} },
       meta: { $set: payload.meta || {} },
     },
   })

@@ -17,7 +17,7 @@ const AuthPhotoComponentService = ({ children }) => {
    *
    */
   const handleLibrarySnap = async () => {
-    const photos = await handleGallery()
+    const photos = await handleGallery('1:1', false)
   
     if (!photos.length) {
       return

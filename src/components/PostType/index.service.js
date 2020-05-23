@@ -13,7 +13,7 @@ const PostTypeService = ({ children }) => {
     dispatch(cameraActions.cameraCaptureRequest(payload))
   
   const handleLibrarySnap = async () => {
-    const photos = await handleGallery()
+    const photos = await handleGallery('4:3', true)
   
     if (!photos.length) {
       return
