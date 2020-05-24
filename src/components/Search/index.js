@@ -75,7 +75,7 @@ const SearchComponent = ({
             <RefreshControl
               tintColor={theme.colors.border}
               onRefresh={scroll.handleRefresh}
-              refreshing={postsGetTrendingPosts.status === 'loading'}
+              refreshing={scroll.refreshing}
             />
           }
           onScroll={scroll.handleScrollChange}

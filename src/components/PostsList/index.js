@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react'
+import React, { useCallback } from 'react'
 import PropTypes from 'prop-types'
 import {
   StyleSheet,
@@ -66,6 +66,7 @@ const PostsList = ({
       usersGetFollowedUsersWithStoriesRequest()
     ),
     loadMore: postsFeedGetMoreRequest,
+    multiplier: 3,
   })
 
   const renderItem = useCallback(({ item: post, index }) => (
@@ -140,7 +141,7 @@ const PostsList = ({
           <RefreshControl
             tintColor={theme.colors.border}
             onRefresh={scroll.handleRefresh}
-            refreshing={postsFeedGet.status === 'loading'}
+            refreshing={scroll.refreshing}
           />
         )}
         onViewableItemsChanged={onViewableItemsChangedRef.current}

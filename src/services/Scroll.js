@@ -4,8 +4,8 @@ import Layout from 'constants/Layout'
 /**
  * 
  */
-const isCloseToBottom = ({ layoutMeasurement, contentOffset, contentSize }) =>
-  layoutMeasurement.height + contentOffset.y >= contentSize.height - (Layout.window.height * 1.80)
+const isCloseToBottom = (multiplier = 1.80) => ({ layoutMeasurement, contentOffset, contentSize }) =>
+  layoutMeasurement.height + contentOffset.y >= contentSize.height - (Layout.window.height * multiplier)
 
 /**
  *
@@ -17,10 +17,19 @@ const getLoadMoreCondition = resource => (
   path(['meta', 'nextToken'])(resource) !== path(['payload', 'nextToken'])(resource)
 )
 
+/**
+ *
+ */
+const getRefreshingCondition = resource => (
+  resource.status === 'loading' &&
+  !path(['data', 'length'])(resource)
+)
+
 const ScrollHelper = ({
   resource,
   loadInit,
   loadMore,
+  multiplier = 1.80,
 }) => {
   /**
    *
@@ -32,7 +41,7 @@ const ScrollHelper = ({
    *
    */
   const handleScrollChange = ({ nativeEvent }) =>
-    isCloseToBottom(nativeEvent) && handleLoadMore()
+    isCloseToBottom(multiplier)(nativeEvent) && handleLoadMore()
   
   /**
    *
@@ -40,9 +49,16 @@ const ScrollHelper = ({
   const handleRefresh = () =>
     loadInit({})
 
+  /**
+   *
+   */
+  const refreshing = () =>
+    getRefreshingCondition(resource)
+
   return {
     handleScrollChange,
     handleRefresh,
+    refreshing,
   }
 }
 

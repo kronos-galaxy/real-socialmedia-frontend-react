@@ -86,7 +86,7 @@ const Profile = ({
         <RefreshControl
           tintColor={theme.colors.border}
           onRefresh={scroll.handleRefresh}
-          refreshing={postsGet.status === 'loading'}
+          refreshing={scroll.refreshing}
         />
       )}
     >
