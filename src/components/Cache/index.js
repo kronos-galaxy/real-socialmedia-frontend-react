@@ -79,6 +79,8 @@ const CacheComponent = ({
 
   const uri = last(cached || [])
 
+  const progressVisibility = !hideProgress && progress
+
   const getFilename = (source) => {
     if (!source) return ''
     const withoutQuery = source.split('?').shift()
@@ -166,10 +168,10 @@ const CacheComponent = ({
           </View>
         : null}
 
-        {progress ?
+        {progressVisibility ?
           <View style={styling.progress}>
             <AnimatedCircularProgress
-              size={50}
+              size={40}
               width={2}
               fill={progress}
               tintColor="#21ce99"
