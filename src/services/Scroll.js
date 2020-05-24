@@ -11,7 +11,7 @@ const isCloseToBottom = (multiplier = 1.80) => ({ layoutMeasurement, contentOffs
  *
  */
 const getLoadMoreCondition = resource => (
-  resource.status !== 'loading' &&
+  path(['status'])(resource) !== 'loading' &&
   path(['data', 'length'])(resource) &&
   path(['meta', 'nextToken'])(resource) &&
   path(['meta', 'nextToken'])(resource) !== path(['payload', 'nextToken'])(resource)
@@ -21,8 +21,16 @@ const getLoadMoreCondition = resource => (
  *
  */
 const getRefreshingCondition = resource => (
-  resource.status === 'loading' &&
-  !path(['data', 'length'])(resource)
+  path(['status'])(resource) === 'loading' &&
+  !path(['payload', 'nextToken'])(resource)
+)
+
+/**
+ *
+ */
+const getLoadingMoreCondition = resource => (
+  path(['status'])(resource) === 'loading' &&
+  path(['payload', 'nextToken'])(resource)
 )
 
 const ScrollHelper = ({
@@ -52,13 +60,18 @@ const ScrollHelper = ({
   /**
    *
    */
-  const refreshing = () =>
-    getRefreshingCondition(resource)
+  const refreshing = getRefreshingCondition(resource)
+
+  /**
+   *
+   */
+  const loadingmore = getLoadingMoreCondition(resource)
 
   return {
     handleScrollChange,
     handleRefresh,
     refreshing,
+    loadingmore,
   }
 }
 
