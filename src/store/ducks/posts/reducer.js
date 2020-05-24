@@ -435,6 +435,7 @@ const postsEditSuccess = (state, action) => update(state, {
   },
   postsGetCache: {
     [action.payload.data.postedBy.userId]: {
+      status: { $set: 'success' },
       data: {
         $feedPostUpdate: { postId: action.payload.data.postId, post: action.payload.data },
       },
@@ -499,6 +500,7 @@ const postsDeleteSuccess = (state, action) => update(state, {
   },
   postsGetCache: {
     [action.payload.data.postedBy.userId]: {
+      status: { $set: 'success' },
       data: {
         $feedPostRemove: { postId: action.payload.data.postId },
       },
@@ -558,6 +560,7 @@ const postsArchiveSuccess = (state, action) => update(state, {
   },
   postsGetCache: {
     [action.payload.data.postedBy.userId]: {
+      status: { $set: 'success' },
       data: {
         $feedPostRemove: { postId: action.payload.data.postId },
       },
@@ -682,6 +685,7 @@ const postsSingleGetSuccess = (state, action) => update(state, {
   },
   postsGetCache: {
     [action.payload.data.postedBy.userId]: {
+      status: { $set: 'success' },
       data: {
         $feedPostUpdate: { postId: action.payload.data.postId, post: action.payload.data },
       },
@@ -879,6 +883,7 @@ const postsOnymouslyLikeSuccess = (state, action) => update(state, {
   },
   postsGetCache: {
     [action.payload.data.postedBy.userId]: {
+      status: { $set: 'success' },
       data: {
         $feedPostUpdate: { postId: action.payload.data.postId, post: action.payload.data },
       },
@@ -968,6 +973,7 @@ const postsAnonymouslyLikeSuccess = (state, action) => update(state, {
   },
   postsGetCache: {
     [action.payload.data.postedBy.userId]: {
+      status: { $set: 'success' },
       data: {
         $feedPostUpdate: { postId: action.payload.data.postId, post: action.payload.data },
       },
@@ -1057,6 +1063,7 @@ const postsDislikeSuccess = (state, action) => update(state, {
   },
   postsGetCache: {
     [action.payload.data.postedBy.userId]: {
+      status: { $set: 'success' },
       data: {
         $feedPostUpdate: { postId: action.payload.data.postId, post: action.payload.data },
       },

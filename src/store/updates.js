@@ -1,16 +1,20 @@
 import update, { extend } from 'immutability-helper'
 import path from 'ramda/src/path'
-import pickBy from 'ramda/src/pickBy'
+import map from 'ramda/src/map'
+import set from 'ramda/src/set'
+import lensProp from 'ramda/src/lensProp'
 
 update.extend('$map', (value, nextObject) =>
   nextObject.map((element) => update(element, value))
 )
 
+const getFilteredState = map(set(lensProp('status'), 'idle'))
+
 /**
  *
  */
 extend('$resourceCacheSetRequest', ({ payload, resourceKey, initialState }, original) => {
-  const filtered = pickBy(value => value.status !== 'loading', original)
+  const filtered = getFilteredState(original)
   const nextState = (path([resourceKey])(filtered)) ?
     filtered :
     update(filtered, { [resourceKey]: { $set: initialState } })
@@ -27,7 +31,7 @@ extend('$resourceCacheSetRequest', ({ payload, resourceKey, initialState }, orig
  *
  */
 extend('$resourceCacheSetSuccess', ({ payload, resourceKey, initialState }, original) => {
-  const filtered = pickBy(value => value.status !== 'loading', original)
+  const filtered = getFilteredState(original)
   const nextState = (path([resourceKey])(filtered)) ?
     filtered :
     update(filtered, { [resourceKey]: { $set: initialState } })
@@ -47,7 +51,7 @@ extend('$resourceCacheSetSuccess', ({ payload, resourceKey, initialState }, orig
  *
  */
 extend('$resourceCacheSetFailure', ({ payload, resourceKey, initialState }, original) => {
-  const filtered = pickBy(value => value.status !== 'loading', original)
+  const filtered = getFilteredState(original)
   const nextState = (path([resourceKey])(filtered)) ?
     filtered :
     update(filtered, { [resourceKey]: { $set: initialState } })
@@ -64,7 +68,7 @@ extend('$resourceCacheSetFailure', ({ payload, resourceKey, initialState }, orig
  *
  */
 extend('$resourceCacheSetIdle', ({ payload, resourceKey, initialState }, original) => {
-  const filtered = pickBy(value => value.status !== 'loading', original)
+  const filtered = getFilteredState(original)
   const nextState = (path([resourceKey])(filtered)) ?
     filtered :
     update(filtered, { [resourceKey]: { $set: initialState } })
@@ -91,7 +95,7 @@ extend('$resourceCacheSetRemove', ({ payload, resourceKey }, original) =>
  *
  */
 extend('$resourceCacheAlterRequest', ({ payload, resourceKey, initialState }, original) => {
-  const filtered = pickBy(value => value.status !== 'loading', original)
+  const filtered = getFilteredState(original)
   const nextState = (path([resourceKey])(filtered)) ?
     filtered :
     update(filtered, { [resourceKey]: { $set: initialState } })
@@ -111,7 +115,7 @@ extend('$resourceCacheAlterRequest', ({ payload, resourceKey, initialState }, or
  *
  */
 extend('$resourceCachePushRequest', ({ payload, resourceKey, initialState }, original) => {
-  const filtered = pickBy(value => value.status !== 'loading', original)
+  const filtered = getFilteredState(original)
   const nextState = (path([resourceKey])(filtered)) ?
     filtered :
     update(filtered, { [resourceKey]: { $set: initialState } })
@@ -125,7 +129,7 @@ extend('$resourceCachePushRequest', ({ payload, resourceKey, initialState }, ori
 })
 
 extend('$resourceCachePushSuccess', ({ payload, resourceKey, initialState }, original) => {
-  const filtered = pickBy(value => value.status !== 'loading', original)
+  const filtered = getFilteredState(original)
   const nextState = (path([resourceKey])(filtered)) ?
     filtered :
     update(filtered, { [resourceKey]: { $set: initialState } })

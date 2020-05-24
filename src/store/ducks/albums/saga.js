@@ -3,6 +3,8 @@ import * as actions from 'store/ducks/albums/actions'
 import * as queries from 'store/ducks/albums/queries'
 import * as constants from 'store/ducks/albums/constants'
 import path from 'ramda/src/path'
+import compose from 'ramda/src/compose'
+import omit from 'ramda/src/omit'
 import * as queryService from 'services/Query'
 
 /**
@@ -12,8 +14,9 @@ function* albumsGetRequest(req) {
   try {
     const data = yield queryService.apiRequest(queries.getAlbums, req.payload)
     const selector = path(['data', 'user', 'albums', 'items'])
+    const metaSelector = compose(omit(['items']), path(['data', 'user', 'albums']))
 
-    yield put(actions.albumsGetSuccess({ data: selector(data), payload: req.payload, meta: data }))
+    yield put(actions.albumsGetSuccess({ data: selector(data), payload: req.payload, meta: metaSelector(data) }))
   } catch (error) {
     yield put(actions.albumsGetFailure({ message: error.message, payload: req.payload }))
   }
@@ -40,8 +43,9 @@ function* albumsEditRequest(req) {
   try {
     const data = yield queryService.apiRequest(queries.editAlbum, req.payload)
     const selector = path(['data', 'user', 'albums', 'items'])
+    const metaSelector = compose(omit(['items']), path(['data', 'user', 'albums']))
   
-    yield put(actions.albumsEditSuccess({ data: selector(data), payload: req.payload, meta: data }))
+    yield put(actions.albumsEditSuccess({ data: selector(data), payload: req.payload, meta: metaSelector(data) }))
   } catch (error) {
     yield put(actions.albumsEditFailure({ message: error.message }))
   }
@@ -54,8 +58,9 @@ function* albumsDeleteRequest(req) {
   try {
     const data = yield queryService.apiRequest(queries.deleteAlbum, req.payload)
     const selector = path(['data', 'user', 'albums', 'items'])
+    const metaSelector = compose(omit(['items']), path(['data', 'user', 'albums']))
     
-    yield put(actions.albumsDeleteSuccess({ data: selector(data), payload: req.payload, meta: data }))
+    yield put(actions.albumsDeleteSuccess({ data: selector(data), payload: req.payload, meta: metaSelector(data) }))
   } catch (error) {
     yield put(actions.albumsDeleteFailure({ message: error.message }))
   }
