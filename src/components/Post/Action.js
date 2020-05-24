@@ -112,9 +112,6 @@ const Action = ({
         : null}
       </View>
 
-      <View style={styling.actionCenter}>
-      </View>
-
       {seenByVisibility ?
         <TouchableOpacity style={styling.actionRight} onPress={navigationActions.navigatePostViews(navigation, { post })}>
           <Caption>{t('Seen by {{viewedByCount}} people', { viewedByCount: post.viewedByCount })}</Caption>
@@ -141,11 +138,6 @@ const styles = theme => StyleSheet.create({
   },
   actionLeft: {
     flex: 1,
-    flexDirection: 'row',
-  },
-  actionCenter: {
-    flex: 1,
-    justifyContent: 'center',
     flexDirection: 'row',
   },
   actionRight: {

@@ -65,7 +65,7 @@ const TextGrowing = ({
         scrollEnabled={true}
         onContentSizeChange={e => setHeight(e.nativeEvent.contentSize.height + 12)}
       />
-      <ErrorMessage name={name} render={msg => <Text style={styling.error}>{msg}</Text>} />
+      {/*<ErrorMessage name={name} render={msg => <Text style={styling.error}>{msg}</Text>} />*/}
     </View>
   )
 }
