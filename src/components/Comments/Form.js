@@ -5,7 +5,7 @@ import {
   View,
   Keyboard,
 } from 'react-native'
-import TextField from 'components/Formik/TextField'
+import TextGrowing from 'components/Formik/TextGrowing'
 import DefaultButton from 'components/Formik/Button/DefaultButton'
 import { Formik, Field } from 'formik'
 import * as Yup from 'yup'
@@ -35,7 +35,7 @@ const CommentsForm = ({
   return (
     <View style={styling.root}>
       <View style={styling.input}>
-        <Field name="text" component={TextField} placeholder={t('Add a comment')} hideError />
+        <Field name="text" component={TextGrowing} placeholder={t('Add a comment')} hideError />
       </View>
       <View style={styling.button}>
         <DefaultButton label={t('Post')} onPress={handleSubmit} loading={loading} disabled={loading} />
@@ -47,7 +47,7 @@ const CommentsForm = ({
 const styles = theme => StyleSheet.create({
   root: {
     flexDirection: 'row',
-    height: 64,
+    minHeight: 64,
     padding: 12,
   },
   input: {
@@ -56,6 +56,7 @@ const styles = theme => StyleSheet.create({
   button: {
     width: 90,
     marginLeft: theme.spacing.base,
+    justifyContent: 'flex-end',
   },
   icon: {
     justifyContent: 'center',

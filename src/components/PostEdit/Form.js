@@ -5,7 +5,7 @@ import {
   StyleSheet,
   TouchableOpacity,
 } from 'react-native'
-import TextDemo from 'components/Formik/TextDemo'
+import TextCaption from 'components/Formik/TextCaption'
 import DefaultButton from 'components/Formik/Button/DefaultButton'
 import { Formik, Field } from 'formik'
 import * as Yup from 'yup'
@@ -82,7 +82,7 @@ const PostEditForm = ({
           : null}
 
           <View style={styling.text}>
-            <Field name="text" component={TextDemo} placeholder={t('Write a caption')} multiline={true} />
+            <Field name="text" component={TextCaption} placeholder={t('Write a caption')} multiline={true} />
           </View>
         </View>
       </View>

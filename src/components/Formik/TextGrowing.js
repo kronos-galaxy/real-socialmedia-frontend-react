@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import {
   StyleSheet,
@@ -12,7 +12,7 @@ import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
 import { withTranslation } from 'react-i18next'
 
-const TextDemo = ({
+const TextGrowing = ({
   t,
   theme,
   field: {
@@ -28,6 +28,7 @@ const TextDemo = ({
 }) => {
   const styling = styles(theme)
   
+  const [height, setHeight] = useState(42)
 
   /**
    * Prevent too much multiline characters
@@ -43,7 +44,7 @@ const TextDemo = ({
   return (
     <View style={styling.root}>
       <TextInput
-        style={styling.input}
+        style={[styling.input, { height }]}
         name={name}
         onChangeText={onChangeText}
         onBlur={form.handleBlur(name)}
@@ -62,6 +63,7 @@ const TextDemo = ({
         // returnKeyType="done"
         // blurOnSubmit={true}
         scrollEnabled={true}
+        onContentSizeChange={e => setHeight(e.nativeEvent.contentSize.height + 12)}
       />
       <ErrorMessage name={name} render={msg => <Text style={styling.error}>{msg}</Text>} />
     </View>
@@ -70,15 +72,17 @@ const TextDemo = ({
 
 const styles = theme => StyleSheet.create({
   root: {
-    padding: 6,
-    height: 90,
   },
   input: {
-    padding: 0,
-    margin: 0,
+    minHeight: 42,
+    padding: 12,
+    lineHeight: 23,
     fontSize: 14,
     color: theme.colors.text,
     textAlignVertical: 'top',
+    borderWidth: 1,
+    borderRadius: 2,
+    borderColor: theme.colors.border,
   },
   error: {
     textAlign: 'right',
@@ -86,7 +90,7 @@ const styles = theme => StyleSheet.create({
   },
 })
 
-TextDemo.propTypes = {
+TextGrowing.propTypes = {
   theme: PropTypes.any,
   field: PropTypes.any,
   form: PropTypes.any,
@@ -99,4 +103,4 @@ TextDemo.propTypes = {
   t: PropTypes.any,
 }
 
-export default withTranslation()(withTheme(TextDemo))
+export default withTranslation()(withTheme(TextGrowing))
