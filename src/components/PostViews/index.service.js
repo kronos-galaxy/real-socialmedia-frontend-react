@@ -26,6 +26,9 @@ const PostViewsService = ({ children }) => {
 
   const postsViewsGetRequest = (payload) => 
     dispatch(postsActions.postsViewsGetRequest(payload))
+  
+  const postsViewsGetMoreRequest = (payload) => 
+    dispatch(postsActions.postsViewsGetMoreRequest(payload))
 
   useEffect(() => {
     if (usersFollow.status === 'success') {
@@ -43,6 +46,7 @@ const PostViewsService = ({ children }) => {
   return children({
     postsViewsGet,
     postsViewsGetRequest,
+    postsViewsGetMoreRequest,
     usersFollow,
     usersUnfollow,
     usersAcceptFollowerUser,

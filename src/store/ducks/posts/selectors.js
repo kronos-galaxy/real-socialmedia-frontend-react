@@ -43,8 +43,8 @@ export const postsCommentsGetSelector = (postId) => createDeepEqualSelector(
 /**
  *
  */
-const postsViewsGet = () => path(['views', 'postsViewsGet'])
-const postsViewsGetCache = (postId) => path(['views', 'postsViewsGetCache', postId])
+const postsViewsGet = () => path(['posts', 'postsViewsGet'])
+const postsViewsGetCache = (postId) => path(['posts', 'postsViewsGetCache', postId])
 
 export const postsViewsGetSelector = (postId) => createDeepEqualSelector(
   [postsViewsGet(postId), postsViewsGetCache(postId)],

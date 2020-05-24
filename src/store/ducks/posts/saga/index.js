@@ -55,6 +55,20 @@ function* postsViewsGetRequest(req) {
   }
 }
 
+function* postsViewsGetMoreRequest(req) {
+  const errorWrapper = yield getContext('errorWrapper')
+
+  try {
+    const data = yield queryService.apiRequest(queries.viewedBy, req.payload)
+    const dataSelector = path(['data', 'post', 'viewedBy', 'items'])
+    const metaSelector = compose(omit(['items']), path(['data', 'post', 'viewedBy']))
+
+    yield put(actions.postsViewsGetMoreSuccess({ payload: req.payload, data: dataSelector(data), meta: metaSelector(data) }))
+  } catch (error) {
+    yield put(actions.postsViewsGetMoreFailure({ payload: req.payload, message: errorWrapper(error) }))
+  }
+}
+
 
 function* postsLikesGetRequest(req) {
   const errorWrapper = yield getContext('errorWrapper')
@@ -398,11 +412,12 @@ export default () => [
   takeEvery(constants.POSTS_GET_MORE_REQUEST, postsGetMoreRequest),
 
   takeEvery(constants.POSTS_VIEWS_GET_REQUEST, postsViewsGetRequest),
-  takeEvery(constants.POSTS_LIKES_GET_REQUEST, postsLikesGetRequest),
+  takeEvery(constants.POSTS_VIEWS_GET_MORE_REQUEST, postsViewsGetMoreRequest),
 
   takeLatest(constants.POSTS_FEED_GET_REQUEST, postsFeedGetRequest),
   takeLatest(constants.POSTS_FEED_GET_MORE_REQUEST, postsFeedGetMoreRequest),
 
+  takeEvery(constants.POSTS_LIKES_GET_REQUEST, postsLikesGetRequest),
   takeLatest(constants.POSTS_GET_ARCHIVED_REQUEST, postsGetArchivedRequest),
   takeLatest(constants.POSTS_EDIT_REQUEST, postsEditRequest),
   takeLatest(constants.POSTS_DELETE_REQUEST, postsDeleteRequest),

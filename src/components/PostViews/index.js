@@ -5,8 +5,10 @@ import {
   View,
   ScrollView,
   RefreshControl,
+  ActivityIndicator,
 } from 'react-native'
 import ResultComponent from 'components/Search/Result'
+import ScrollService from 'services/Scroll'
 import { Caption } from 'react-native-paper'
 
 import { withTheme } from 'react-native-paper'
@@ -17,6 +19,8 @@ const PostViews = ({
   t,
   theme,
   postsViewsGet,
+  postsViewsGetRequest,
+  postsViewsGetMoreRequest,
   usersFollow,
   usersFollowRequest,
   usersUnfollow,
@@ -25,6 +29,12 @@ const PostViews = ({
   usersAcceptFollowerUserRequest,
 }) => {
   const styling = styles(theme)
+
+  const scroll = ScrollService({
+    resource: postsViewsGet,
+    loadInit: postsViewsGetRequest,
+    loadMore: postsViewsGetMoreRequest
+  })
   
   return (
     <View style={styling.root}>
@@ -35,7 +45,7 @@ const PostViews = ({
         refreshControl={
           <RefreshControl
             tintColor={theme.colors.border}
-            refreshing={postsViewsGet.status === 'loading'}
+            refreshing={scroll.refreshing}
           />
         }
       >
@@ -49,6 +59,12 @@ const PostViews = ({
           usersAcceptFollowerUserRequest={usersAcceptFollowerUserRequest}
         />
       </ScrollView>
+
+      {scroll.loadingmore ?
+        <View style={styling.activity}>
+          <ActivityIndicator color={theme.colors.border} />
+        </View>
+      : null}
     </View>
   )
 }
@@ -61,11 +77,16 @@ const styles = theme => StyleSheet.create({
     paddingHorizontal: theme.spacing.base,
     alignItems: 'center',
   },
+  activity: {
+    padding: theme.spacing.base * 2,
+  },
 })
 
 PostViews.propTypes = {
   theme: PropTypes.any,
   postsViewsGet: PropTypes.any,
+  postsViewsGetRequest: PropTypes.any,
+  postsViewsGetMoreRequest: PropTypes.any,
   usersFollow: PropTypes.any,
   usersFollowRequest: PropTypes.any,
   usersUnfollow: PropTypes.any,

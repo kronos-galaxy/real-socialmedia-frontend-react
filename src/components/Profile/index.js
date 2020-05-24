@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   ScrollView,
   RefreshControl,
+  ActivityIndicator,
 } from 'react-native'
 import CountsComponent from 'components/Profile/Counts'
 import AboutComponent from 'components/Profile/About'
@@ -69,7 +70,7 @@ const Profile = ({
 
   const scroll = ScrollService({
     resource: postsGet,
-    loadInit: () => postsGet({ userId: path(['data', 'userId'])(usersGetProfile) }),
+    loadInit: () => postsGetRequest({ userId: path(['data', 'userId'])(usersGetProfile) }),
     loadMore: (payload) => postsGetMoreRequest({ ...payload, userId: path(['data', 'userId'])(usersGetProfile) }),
   })
 
@@ -138,6 +139,12 @@ const Profile = ({
         setIndex={setIndex}
         routes={routes}
       />
+
+      {scroll.loadingmore ?
+        <View style={styling.activity}>
+          <ActivityIndicator color={theme.colors.border} />
+        </View>
+      : null}
     </ScrollView>
   )
 }
@@ -154,14 +161,17 @@ const styles = theme => StyleSheet.create({
     padding: 12,
   },
   image: {
-    paddingRight: 12,
+    paddingRight: theme.spacing.base,
   },
   counts: {
     flex: 1,
   },
   about: {
-    paddingHorizontal: 12,
-    marginBottom: 12,
+    paddingHorizontal: theme.spacing.base,
+    marginBottom: theme.spacing.base,
+  },
+  activity: {
+    padding: theme.spacing.base * 2,
   },
 })
 

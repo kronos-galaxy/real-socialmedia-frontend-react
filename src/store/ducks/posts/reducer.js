@@ -313,6 +313,35 @@ const postsViewsGetIdle = (state, action) => update(state, {
   },
 })
 
+const postsViewsGetMoreRequest = (state, action) => update(state, {
+  postsViewsGet: {
+    status: { $set: 'loading' },
+    payload: { $set: action.payload },
+  },
+  postsViewsGetCache: {
+    $resourceCachePushRequest: {
+      ...action,
+      resourceKey: action.payload.postId,
+      initialState: initialState.postsViewsGet,
+    },
+  },
+})
+
+const postsViewsGetMoreSuccess = (state, action) => update(state, {
+  postsViewsGet: {
+    status: { $set: 'success' },
+    payload: { $set: action.payload.payload },
+  },
+  postsViewsGetCache: {
+    $resourceCachePushSuccess: {
+      ...action,
+      resourceKey: action.payload.payload.postId,
+      initialState: initialState.postsViewsGet,
+    },
+  },
+})
+
+
 /**
  *
  */
@@ -1363,6 +1392,8 @@ export default handleActions({
   [constants.POSTS_VIEWS_GET_SUCCESS]: postsViewsGetSuccess,
   [constants.POSTS_VIEWS_GET_FAILURE]: postsViewsGetFailure,
   [constants.POSTS_VIEWS_GET_IDLE]: postsViewsGetIdle,
+  [constants.POSTS_VIEWS_GET_MORE_REQUEST]: postsViewsGetMoreRequest,
+  [constants.POSTS_VIEWS_GET_MORE_SUCCESS]: postsViewsGetMoreSuccess,
 
   [constants.POSTS_LIKES_GET_REQUEST]: postsLikesGetRequest,
   [constants.POSTS_LIKES_GET_SUCCESS]: postsLikesGetSuccess,

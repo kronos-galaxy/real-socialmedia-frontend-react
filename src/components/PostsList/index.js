@@ -146,32 +146,34 @@ const PostsList = ({
         )}
         onViewableItemsChanged={onViewableItemsChangedRef.current}
         viewabilityConfig={viewabilityConfigRef.current}
-        ListHeaderComponent={() => <>
-          <StoriesComponent
-            user={user}
-            usersGetFollowedUsersWithStories={usersGetFollowedUsersWithStories}
-          />
-
-          <View style={styling.uploading}>
-            {Object.values(postsCreateQueue).map((post, key) => (
-              <UploadingComponent
-                key={key}
-                user={user}
-                post={post}
-                postsCreateRequest={postsCreateRequest}
-                postsCreateIdle={postsCreateIdle}
-              />
-            ))}
-          </View>
-
-          <View style={styling.uploading}>
-            <PendingRequestsComponent
-              usersGetPendingFollowers={usersGetPendingFollowers}
+        ListHeaderComponent={() => (
+          <React.Fragment>
+            <StoriesComponent
+              user={user}
+              usersGetFollowedUsersWithStories={usersGetFollowedUsersWithStories}
             />
-          </View>
-        </>}
+  
+            <View style={styling.uploading}>
+              {Object.values(postsCreateQueue).map((post, key) => (
+                <UploadingComponent
+                  key={key}
+                  user={user}
+                  post={post}
+                  postsCreateRequest={postsCreateRequest}
+                  postsCreateIdle={postsCreateIdle}
+                />
+              ))}
+            </View>
+  
+            <View style={styling.uploading}>
+              <PendingRequestsComponent
+                usersGetPendingFollowers={usersGetPendingFollowers}
+              />
+            </View>
+          </React.Fragment>
+        )}
         renderItem={renderItem}
-        ListFooterComponent={postsFeedGet.status === 'loading' ? ActivityIndicator : null}
+        ListFooterComponent={scroll.loadingmore ? ActivityIndicator : null}
         ListFooterComponentStyle={styling.loading}
       />
     </View>

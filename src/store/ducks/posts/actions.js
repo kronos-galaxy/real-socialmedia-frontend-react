@@ -19,6 +19,11 @@ export const postsViewsGetRequest = createAction(constants.POSTS_VIEWS_GET_REQUE
 export const postsViewsGetSuccess = createAction(constants.POSTS_VIEWS_GET_SUCCESS)
 export const postsViewsGetFailure = createAction(constants.POSTS_VIEWS_GET_FAILURE)
 
+export const postsViewsGetMoreIdle = createAction(constants.POSTS_VIEWS_GET_MORE_IDLE)
+export const postsViewsGetMoreRequest = createAction(constants.POSTS_VIEWS_GET_MORE_REQUEST)
+export const postsViewsGetMoreSuccess = createAction(constants.POSTS_VIEWS_GET_MORE_SUCCESS)
+export const postsViewsGetMoreFailure = createAction(constants.POSTS_VIEWS_GET_MORE_FAILURE)
+
 export const postsLikesGetIdle = createAction(constants.POSTS_LIKES_GET_IDLE)
 export const postsLikesGetRequest = createAction(constants.POSTS_LIKES_GET_REQUEST)
 export const postsLikesGetSuccess = createAction(constants.POSTS_LIKES_GET_SUCCESS)

@@ -5,6 +5,7 @@ import {
   StyleSheet,
   ScrollView,
   RefreshControl,
+  ActivityIndicator,
 } from 'react-native'
 import HeaderComponent from 'components/Search/Header'
 import FormComponent from 'components/Search/Form'
@@ -142,6 +143,12 @@ const SearchComponent = ({
           />
         </ScrollView>
       : null}
+
+      {scroll.loadingmore ?
+        <View style={styling.activity}>
+          <ActivityIndicator color={theme.colors.border} />
+        </View>
+      : null}
     </View>
   )
 }
@@ -154,6 +161,9 @@ const styles = theme => StyleSheet.create({
   subheading: {
     paddingTop: 6,
     paddingHorizontal: 12,
+  },
+  activity: {
+    padding: theme.spacing.base * 2,
   },
 })
 
