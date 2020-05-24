@@ -11,7 +11,7 @@ const ProfileService = ({ children }) => {
   const navigation = useNavigation()
   const route = useRoute()
 
-  const user = path(['params', 'user'])(route) || useSelector(authSelector.authUserSelector)
+  const user = path(['params', 'user'])(route)
   const userId = user.userId
 
   const usersGetProfile = useSelector(usersSelector.usersGetProfileSelector(userId))

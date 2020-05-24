@@ -15,7 +15,6 @@ import { withTranslation } from 'react-i18next'
 const ProfileAction = ({
   t,
   theme,
-  self,
   usersGetProfile,
   usersBlock,
   usersBlockRequest,
@@ -28,6 +27,8 @@ const ProfileAction = ({
 }) => {
   const styling = styles(theme)
   const navigation = useNavigation()
+
+  const self = path(['data', 'followedStatus'])(usersGetProfile) === 'SELF'
 
   return (
     <View style={styling.root}>

@@ -27,7 +27,6 @@ const Profile = ({
   theme,
   profileRef,
 
-  user,
   usersBlock,
   usersGetProfile,
 
@@ -74,8 +73,6 @@ const Profile = ({
     loadMore: (payload) => postsGetMoreRequest({ ...payload, userId: path(['data', 'userId'])(usersGetProfile) }),
   })
 
-  const self = path(['data', 'userId'])(usersGetProfile) === path(['userId'])(user)
-
   return (
     <ScrollView
       ref={profileRef}
@@ -118,14 +115,12 @@ const Profile = ({
 
       <View style={styling.about}>
         <AboutComponent
-          user={user}
           usersGetProfile={usersGetProfile}
         />
       </View>
 
       <View style={styling.action}>
         <ActionComponent
-          self={self}
           usersGetProfile={usersGetProfile}
           usersBlock={usersBlock}
           usersBlockRequest={usersBlockRequest}
