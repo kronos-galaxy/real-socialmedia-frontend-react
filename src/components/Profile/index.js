@@ -16,45 +16,11 @@ import NativeError from 'templates/NativeError'
 import path from 'ramda/src/path'
 import pathOr from 'ramda/src/pathOr'
 import * as navigationActions from 'navigation/actions'
+import ScrollService from 'services/Scroll'
 
 import { withTheme } from 'react-native-paper'
 import { useNavigation, useRoute } from '@react-navigation/native'
 import { withTranslation } from 'react-i18next'
-
-const PostsScrollHelper = ({
-  userId,
-  postsGet,
-  postsGetRequest,
-  postsGetMoreRequest,
-}) => {
-  const handleLoadMore = () => {
-    if (
-      postsGet.status === 'loading' ||
-      !path(['data', 'length'])(postsGet) ||
-      !path(['meta', 'nextToken'])(postsGet) ||
-      path(['meta', 'nextToken'])(postsGet) === path(['payload', 'nextToken'])(postsGet)
-    ) { return }
-    postsGetMoreRequest({ nextToken: path(['meta', 'nextToken'])(postsGet) })
-  }
-
-  const isCloseToBottom = ({ layoutMeasurement, contentOffset, contentSize }) =>
-    layoutMeasurement.height + contentOffset.y >= contentSize.height - 160
-
-  const handleScrollChange = ({ nativeEvent }) => {
-    if (isCloseToBottom(nativeEvent)) {
-      handleLoadMore()
-    }
-  }
-
-  const handleRefresh = () => {
-    postsGetRequest({ userId })
-  }
-
-  return {
-    handleScrollChange,
-    handleRefresh,
-  }
-}
 
 const Profile = ({
   t,
@@ -102,11 +68,10 @@ const Profile = ({
     })()
   }
 
-  const scroll = PostsScrollHelper({
-    userId: path(['data', 'userId'])(usersGetProfile),
-    postsGet,
-    postsGetRequest,
-    postsGetMoreRequest,
+  const scroll = ScrollService({
+    resource: postsGet,
+    loadInit: () => postsGet({ userId: path(['data', 'userId'])(usersGetProfile) }),
+    loadMore: (payload) => postsGetMoreRequest({ ...payload, userId: path(['data', 'userId'])(usersGetProfile) }),
   })
 
   const self = path(['data', 'userId'])(usersGetProfile) === path(['userId'])(user)

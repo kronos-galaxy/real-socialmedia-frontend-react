@@ -14,44 +14,11 @@ import { Subheading } from 'react-native-paper'
 import path from 'ramda/src/path'
 import PostsLoadingComponent from 'components/PostsList/PostsLoading'
 import ContextComponent from 'components/Cache/Context'
+import ScrollService from 'services/Scroll'
 
 import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
 import { withTranslation } from 'react-i18next'
-
-const ScrollHelper = ({
-  postsGetTrendingPosts,
-  postsGetTrendingPostsMoreRequest,
-  postsGetTrendingPostsRequest,
-}) => {
-  const handleLoadMore = () => {
-    if (
-      postsGetTrendingPosts.status === 'loading' ||
-      !path(['data', 'length'])(postsGetTrendingPosts) ||
-      !path(['meta', 'nextToken'])(postsGetTrendingPosts) ||
-      path(['meta', 'nextToken'])(postsGetTrendingPosts) === path(['payload', 'nextToken'])(postsGetTrendingPosts)
-    ) { return }
-    postsGetTrendingPostsMoreRequest({ nextToken: path(['meta', 'nextToken'])(postsGetTrendingPosts) })
-  }
-
-  const isCloseToBottom = ({ layoutMeasurement, contentOffset, contentSize }) =>
-    layoutMeasurement.height + contentOffset.y >= contentSize.height - 1000
-
-  const handleScrollChange = ({ nativeEvent }) => {
-    if (isCloseToBottom(nativeEvent)) {
-      handleLoadMore()
-    }
-  }
-  
-  const handleRefresh = () => {
-    postsGetTrendingPostsRequest({})
-  }
-
-  return {
-    handleScrollChange,
-    handleRefresh,
-  }
-}
 
 const SearchComponent = ({
   t,
@@ -79,12 +46,12 @@ const SearchComponent = ({
 }) => {
   const styling = styles(theme)
 
-  const scroll = ScrollHelper({
-    postsGetTrendingPosts,
-    postsGetTrendingPostsMoreRequest,
-    postsGetTrendingPostsRequest,
+  const scroll = ScrollService({
+    resource: postsGetTrendingPosts,
+    loadInit: postsGetTrendingPostsRequest,
+    loadMore: postsGetTrendingPostsMoreRequest
   })
-  
+
   return (
     <View style={styling.root}>
       <HeaderComponent>

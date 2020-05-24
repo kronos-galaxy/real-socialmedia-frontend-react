@@ -15,46 +15,11 @@ import BookmarkComponent from 'components/PostsList/Bookmark'
 import NativeError from 'templates/NativeError'
 import StoriesComponent from 'components/Stories'
 import ContextComponent from 'components/Cache/Context'
+import ScrollService from 'services/Scroll'
 
 import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
 import { withTranslation } from 'react-i18next'
-
-const ScrollHelper = ({
-  postsFeedGet,
-  postsFeedGetMoreRequest,
-  postsFeedGetRequest,
-  usersGetFollowedUsersWithStoriesRequest,
-}) => {
-  const handleLoadMore = () => {
-    if (
-      postsFeedGet.status === 'loading' ||
-      !path(['data', 'length'])(postsFeedGet) ||
-      !path(['meta', 'nextToken'])(postsFeedGet) ||
-      path(['meta', 'nextToken'])(postsFeedGet) === path(['payload', 'nextToken'])(postsFeedGet)
-    ) { return }
-    postsFeedGetMoreRequest({ nextToken: path(['meta', 'nextToken'])(postsFeedGet) })
-  }
-
-  const isCloseToBottom = ({ layoutMeasurement, contentOffset, contentSize }) =>
-    layoutMeasurement.height + contentOffset.y >= contentSize.height - 1000
-
-  const handleScrollChange = ({ nativeEvent }) => {
-    if (isCloseToBottom(nativeEvent)) {
-      handleLoadMore()
-    }
-  }
-  
-  const handleRefresh = () => {
-    postsFeedGetRequest({})
-    usersGetFollowedUsersWithStoriesRequest()
-  }
-
-  return {
-    handleScrollChange,
-    handleRefresh,
-  }
-}
 
 const PostsList = ({
   t,
@@ -94,11 +59,13 @@ const PostsList = ({
 }) => {
   const styling = styles(theme)
   
-  const scroll = ScrollHelper({
-    postsFeedGet,
-    postsFeedGetMoreRequest,
-    postsFeedGetRequest,
-    usersGetFollowedUsersWithStoriesRequest,
+  const scroll = ScrollService({
+    resource: postsFeedGet,
+    loadInit: () => (
+      postsFeedGetRequest() &&
+      usersGetFollowedUsersWithStoriesRequest()
+    ),
+    loadMore: postsFeedGetMoreRequest,
   })
 
   const renderItem = useCallback(({ item: post, index }) => (
