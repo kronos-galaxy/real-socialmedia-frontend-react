@@ -51,7 +51,7 @@ const albumsGetRequest = (state, action) => update(state, {
 const albumsGetSuccess = (state, action) => update(state, {
   albumsGet: {
     status: { $set: 'success' },
-    payload: { $set: action.payload },
+    payload: { $set: action.payload.payload },
   },
   albumsGetCache: {
     $resourceCacheSetSuccess: {
@@ -65,7 +65,7 @@ const albumsGetSuccess = (state, action) => update(state, {
 const albumsGetFailure = (state, action) => update(state, {
   albumsGet: {
     status: { $set: 'failure' },
-    payload: { $set: action.payload },
+    payload: { $set: action.payload.payload },
   },
   albumsGetCache: {
     $resourceCacheSetFailure: {
@@ -79,7 +79,7 @@ const albumsGetFailure = (state, action) => update(state, {
 const albumsGetIdle = (state, action) => update(state, {
   albumsGet: {
     status: { $set: 'idle' },
-    payload: { $set: action.payload },
+    payload: { $set: action.payload.payload },
   },
   albumsGetCache: {
     $resourceCacheSetIdle: {
@@ -103,21 +103,21 @@ const albumsCreateRequest = (state, action) => update(state, {
 const albumsCreateSuccess = (state, action) => update(state, {
   albumsCreate: {
     status: { $set: 'success' },
-    payload: { $set: action.payload },
+    payload: { $set: action.payload.payload },
   },
 })
 
 const albumsCreateFailure = (state, action) => update(state, {
   albumsCreate: {
     status: { $set: 'failure' },
-    payload: { $set: action.payload },
+    payload: { $set: action.payload.payload },
   },
 })
 
 const albumsCreateIdle = (state, action) => update(state, {
   albumsCreate: {
     status: { $set: 'idle' },
-    payload: { $set: action.payload },
+    payload: { $set: action.payload.payload },
   },
 })
 
@@ -134,21 +134,21 @@ const albumsEditRequest = (state, action) => update(state, {
 const albumsEditSuccess = (state, action) => update(state, {
   albumsEdit: {
     status: { $set: 'success' },
-    payload: { $set: action.payload },
+    payload: { $set: action.payload.payload },
   },
 })
 
 const albumsEditFailure = (state, action) => update(state, {
   albumsEdit: {
     status: { $set: 'failure' },
-    payload: { $set: action.payload },
+    payload: { $set: action.payload.payload },
   },
 })
 
 const albumsEditIdle = (state, action) => update(state, {
   albumsEdit: {
     status: { $set: 'idle' },
-    payload: { $set: action.payload },
+    payload: { $set: action.payload.payload },
   },
 })
 
@@ -165,21 +165,21 @@ const albumsDeleteRequest = (state, action) => update(state, {
 const albumsDeleteSuccess = (state, action) => update(state, {
   albumsDelete: {
     status: { $set: 'success' },
-    payload: { $set: action.payload },
+    payload: { $set: action.payload.payload },
   },
 })
 
 const albumsDeleteFailure = (state, action) => update(state, {
   albumsDelete: {
     status: { $set: 'failure' },
-    payload: { $set: action.payload },
+    payload: { $set: action.payload.payload },
   },
 })
 
 const albumsDeleteIdle = (state, action) => update(state, {
   albumsDelete: {
     status: { $set: 'idle' },
-    payload: { $set: action.payload },
+    payload: { $set: action.payload.payload },
   },
 })
 

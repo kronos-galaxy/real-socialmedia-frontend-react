@@ -31,11 +31,24 @@ export const AuthProvider = ({
   const theme = useSelector(authSelector.themeSelector)
   const uiNotifications = useSelector(state => state.ui.notifications)
   const authUserId = useSelector(state => path(['userId'])(state.auth.user))
+  const authGoogle = useSelector(state => state.auth.authGoogle)
+  const authCheck = useSelector(state => state.auth.authCheck)
 
   const postsDelete = useSelector(state => state.posts.postsDelete)
   const postsArchive = useSelector(state => state.posts.postsArchive)
   const postsRestoreArchived = useSelector(state => state.posts.postsRestoreArchived)
   const postsFlag = useSelector(state => state.posts.postsFlag)
+
+  const errorsPool = [{
+    appErrorMessage: authGoogle.error.text,
+    handleErrorClose: () => dispatch(authActions.authGoogleIdle()),
+  }, {
+    appErrorMessage: authCheck.error.text,
+    handleErrorClose: () => dispatch(authActions.authCheckIdle()),
+  }]
+  const { appErrorMessage, handleErrorClose } = errorsPool
+    .filter(error => error.appErrorMessage && !error.appErrorMessage.includes('Failed to authorize'))
+    .pop() || {}
 
   const user = useSelector(
     authSelector.authUserSelector,
@@ -157,5 +170,7 @@ export const AuthProvider = ({
     authenticated,
     uiNotifications,
     uiNotificationIdle,
+    appErrorMessage,
+    handleErrorClose,
   })
 }

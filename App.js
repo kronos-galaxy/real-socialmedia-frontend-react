@@ -16,6 +16,7 @@ import { enableScreens } from 'react-native-screens'
 import PinchZoomComponent from 'components/PostsList/PinchZoom'
 import PostsListContextComponent from 'components/PostsList/Context'
 import UIContextComponent from 'components/UI/Context'
+import ErrorTemplate from 'templates/Error'
 
 enableScreens()
 
@@ -29,7 +30,11 @@ if (Text.defaultProps == null) {
   TextInput.defaultProps.allowFontScaling = false
 }
 
-const Routes = ({ authenticated }) => {
+const Routes = ({
+  authenticated,
+  appErrorMessage,
+  handleErrorClose,
+}) => {
   const { theme, themes } = useContext(ThemesContext)
 
   const linking = {
@@ -44,12 +49,18 @@ const Routes = ({ authenticated }) => {
     <NavigationContainer theme={theme} linking={linking}>
       {!authenticated ?
         <PaperProvider theme={themes[0].theme}>
+          {appErrorMessage ?
+            <ErrorTemplate text={appErrorMessage} onClose={handleErrorClose} />
+          : null}
           <AuthNavigator />
         </PaperProvider>
       : null}
 
       {authenticated ?
         <PaperProvider theme={theme}>
+          {appErrorMessage ?
+            <ErrorTemplate text={appErrorMessage} onClose={handleErrorClose} />
+          : null}
           <AppNavigator themes={themes} />
         </PaperProvider>
       : null}
@@ -70,13 +81,19 @@ const App = () => {
             authenticated,
             uiNotifications,
             uiNotificationIdle,
+            appErrorMessage,
+            handleErrorClose,
           }) => (
             <ThemesContext.Provider value={{ theme, themes }}>
               <PostsListContextComponent.Provider value={{ draggedImage, setDraggedImage }}>
                 <UIContextComponent.Provider value={{ uiNotifications, uiNotificationIdle }}>
                   <StatusBar barStyle={theme.dark ? 'light-content' : 'dark-content'} />
                   <PinchZoomComponent />
-                  <Routes authenticated={authenticated} />
+                  <Routes
+                    authenticated={authenticated}
+                    appErrorMessage={appErrorMessage}
+                    handleErrorClose={handleErrorClose}
+                  />
                 </UIContextComponent.Provider>
               </PostsListContextComponent.Provider>
             </ThemesContext.Provider>

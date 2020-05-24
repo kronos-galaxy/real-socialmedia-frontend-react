@@ -45,21 +45,21 @@ const chatGetChatsSuccess = (state, action) => update(state, {
   chatGetChats: {
     data: { $set: action.payload.data },
     status: { $set: 'success' },
-    payload: { $set: action.payload },
+    payload: { $set: action.payload.payload },
   },
 })
 
 const chatGetChatsFailure = (state, action) => update(state, {
   chatGetChats: {
     status: { $set: 'failure' },
-    payload: { $set: action.payload },
+    payload: { $set: action.payload.payload },
   },
 })
 
 const chatGetChatsIdle = (state, action) => update(state, {
   chatGetChats: {
     status: { $set: 'idle' },
-    payload: { $set: action.payload },
+    payload: { $set: action.payload.payload },
   },
 })
 
@@ -84,7 +84,7 @@ const chatGetChatSuccess = (state, action) => update(state, {
   chatGetChat: {
     data: { $set: action.payload.data },
     status: { $set: 'success' },
-    payload: { $set: action.payload },
+    payload: { $set: action.payload.payload },
   },
   chatGetChatCache: {
     $resourceCacheSetSuccess: {
@@ -98,7 +98,7 @@ const chatGetChatSuccess = (state, action) => update(state, {
 const chatGetChatFailure = (state, action) => update(state, {
   chatGetChat: {
     status: { $set: 'failure' },
-    payload: { $set: action.payload },
+    payload: { $set: action.payload.payload },
   },
   chatGetChatCache: {
     $resourceCacheSetFailure: {
@@ -112,7 +112,7 @@ const chatGetChatFailure = (state, action) => update(state, {
 const chatGetChatIdle = (state, action) => update(state, {
   chatGetChat: {
     status: { $set: 'idle' },
-    payload: { $set: action.payload },
+    payload: { $set: action.payload.payload },
   },
   chatGetChatCache: {
     $resourceCacheSetIdle: {
@@ -137,21 +137,21 @@ const chatCreateDirectSuccess = (state, action) => update(state, {
   chatCreateDirect: {
     data: { $set: action.payload.data },
     status: { $set: 'success' },
-    payload: { $set: action.payload },
+    payload: { $set: action.payload.payload },
   },
 })
 
 const chatCreateDirectFailure = (state, action) => update(state, {
   chatCreateDirect: {
     status: { $set: 'failure' },
-    payload: { $set: action.payload },
+    payload: { $set: action.payload.payload },
   },
 })
 
 const chatCreateDirectIdle = (state, action) => update(state, {
   chatCreateDirect: {
     status: { $set: 'idle' },
-    payload: { $set: action.payload },
+    payload: { $set: action.payload.payload },
   },
 })
 
@@ -169,21 +169,21 @@ const chatAddMessageSuccess = (state, action) => update(state, {
   chatAddMessage: {
     data: { $set: action.payload.data },
     status: { $set: 'success' },
-    payload: { $set: action.payload },
+    payload: { $set: action.payload.payload },
   },
 })
 
 const chatAddMessageFailure = (state, action) => update(state, {
   chatAddMessage: {
     status: { $set: 'failure' },
-    payload: { $set: action.payload },
+    payload: { $set: action.payload.payload },
   },
 })
 
 const chatAddMessageIdle = (state, action) => update(state, {
   chatAddMessage: {
     status: { $set: 'idle' },
-    payload: { $set: action.payload },
+    payload: { $set: action.payload.payload },
   },
 })
 

@@ -100,6 +100,8 @@ const authCheckIdle = (state, action) => update(state, {
   authCheck: {
     data: { $set: initialState.authCheck.data },
     status: { $set: 'idle' },
+    error: { $set: initialState.authCheck.error },
+    message: { $set: initialState.authCheck.message },
     nextRoute: { $set: path(['payload', 'nextRoute'])(action) || path(['authCheck', 'nextRoute'])(state) },
   },
 })
@@ -140,6 +142,8 @@ const authSigninIdle = (state, action) => update(state, {
   authSignin: {
     data: { $set: initialState.authSignin.data },
     status: { $set: 'idle' },
+    error: { $set: initialState.authSignin.error },
+    message: { $set: initialState.authSignin.message },
   },
 })
 
@@ -172,6 +176,8 @@ const authGoogleIdle = (state, action) => update(state, {
   authGoogle: {
     data: { $set: initialState.authGoogle.data },
     status: { $set: 'idle' },
+    error: { $set: initialState.authGoogle.error },
+    message: { $set: initialState.authGoogle.message },
   },
 })
 
@@ -203,6 +209,8 @@ const authSignoutIdle = (state, action) => update(state, {
   authSignout: {
     data: { $set: initialState.authSignout.data },
     status: { $set: 'idle' },
+    error: { $set: initialState.authSignout.error },
+    message: { $set: initialState.authSignout.message },
   },
 })
 
@@ -238,6 +246,7 @@ const authForgotIdle = (state, action) => update(state, {
     data: { $set: initialState.authForgot.data },
     status: { $set: 'idle' },
     error: { $set: initialState.authForgot.error },
+    message: { $set: initialState.authForgot.message },
   },
 })
 
@@ -271,6 +280,7 @@ const authForgotConfirmIdle = (state, action) => update(state, {
     data: { $set: initialState.authForgotConfirm.data },
     status: { $set: 'idle' },
     error: { $set: initialState.authForgotConfirm.error },
+    message: { $set: initialState.authForgotConfirm.message },
   },
 })
 

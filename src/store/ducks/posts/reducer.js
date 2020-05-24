@@ -188,7 +188,7 @@ const postsGetRequest = (state, action) => update(state, {
 const postsGetSuccess = (state, action) => update(state, {
   postsGet: {
     status: { $set: 'success' },
-    payload: { $set: action.payload },
+    payload: { $set: action.payload.payload },
   },
   postsGetCache: {
     $resourceCacheSetSuccess: {
@@ -202,7 +202,7 @@ const postsGetSuccess = (state, action) => update(state, {
 const postsGetFailure = (state, action) => update(state, {
   postsGet: {
     status: { $set: 'failure' },
-    payload: { $set: action.payload },
+    payload: { $set: action.payload.payload },
   },
   postsGetCache: {
     $resourceCacheSetFailure: {
@@ -216,7 +216,7 @@ const postsGetFailure = (state, action) => update(state, {
 const postsGetIdle = (state, action) => update(state, {
   postsGet: {
     status: { $set: 'idle' },
-    payload: { $set: action.payload },
+    payload: { $set: action.payload.payload },
   },
   postsGetCache: {
     $resourceCacheSetIdle: {
@@ -244,7 +244,7 @@ const postsGetMoreRequest = (state, action) => update(state, {
 const postsGetMoreSuccess = (state, action) => update(state, {
   postsGet: {
     status: { $set: 'success' },
-    payload: { $set: action.payload },
+    payload: { $set: action.payload.payload },
   },
   postsGetCache: {
     $resourceCachePushSuccess: {
@@ -1227,7 +1227,7 @@ const postsGetTrendingPostsMoreRequest = (state, action) => update(state, {
 const postsGetTrendingPostsMoreSuccess = (state, action) => update(state, {
   postsGetTrendingPosts: {
     status: { $set: 'success' },
-    payload: { $set: action.payload },
+    payload: { $set: action.payload.payload },
     meta: { $set: action.payload.meta },
     data: { $push: action.payload.data },
   },

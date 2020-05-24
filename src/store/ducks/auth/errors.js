@@ -23,6 +23,10 @@ const messageCodes = {
       code: 'PROFILE_PHOTO_MISSING',
       text: 'Profile photo must be set up',
     },
+    NETWORK: {
+      code: 'NETWORK',
+      text: 'Cannot proceed due to network error',
+    },
   },
 
   /**
@@ -60,13 +64,17 @@ const messageCodes = {
   [constants.AUTH_GOOGLE_SUCCESS]: {
     GENERIC: {
       code: 'GENERIC',
-      text: 'Successfully signed in via Google',
+      text: 'Successfully signed with Google',
     },
   },
   [constants.AUTH_GOOGLE_FAILURE]: {
     GENERIC: {
       code: 'GENERIC',
-      text: 'Failed to sign in via Google',
+      text: 'Failed to sign with Google',
+    },
+    CANCELED: {
+      code: 'CANCELED',
+      text: 'Google signin was canceled',
     },
   },
 
