@@ -9,12 +9,13 @@ import path from 'ramda/src/path'
 import pathOr from 'ramda/src/pathOr'
 import * as navigationActions from 'navigation/actions'
 import * as authSelector from 'store/ducks/auth/selectors'
+import * as postsSelector from 'store/ducks/posts/selectors'
 
 const PostsListService = ({ children }) => {
   const dispatch = useDispatch()
   const navigation = useNavigation()
   const user = useSelector(authSelector.authUserSelector)
-  const postsFeedGet = useSelector(state => state.posts.postsFeedGet)
+  const postsFeedGet = useSelector(postsSelector.postsFeedGetSelector())
   const postsDelete = useSelector(state => state.posts.postsDelete)
   const postsArchive = useSelector(state => state.posts.postsArchive)
   const postsRestoreArchived = useSelector(state => state.posts.postsRestoreArchived)

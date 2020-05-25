@@ -190,8 +190,6 @@ PostComponent.propTypes = {
   theme: PropTypes.any,
   user: PropTypes.any,
   feedRef: PropTypes.any,
-  postsFeedGet: PropTypes.any,
-  postsFeedGetRequest: PropTypes.any,
   postsShareRequest: PropTypes.any,
   handleEditPress: PropTypes.any,
   postsArchiveRequest: PropTypes.any,
