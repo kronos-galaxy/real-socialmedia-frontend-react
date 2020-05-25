@@ -6,6 +6,8 @@ import { useScrollToTop } from '@react-navigation/native'
 import toLower from 'ramda/src/toLower'
 import path from 'ramda/src/path'
 import * as authSelector from 'store/ducks/auth/selectors'
+import * as usersSelector from 'store/ducks/users/selectors'
+import * as postsSelector from 'store/ducks/posts/selectors'
 import useS3ExpiryState from 'services/S3ExpiryState'
 
 const SearchService = ({ children }) => {
@@ -14,8 +16,8 @@ const SearchService = ({ children }) => {
   const usersSearch = useSelector(state => state.users.usersSearch)
   const usersFollow = useSelector(state => state.users.usersFollow)
   const usersUnfollow = useSelector(state => state.users.usersUnfollow)
-  const usersGetTrendingUsers = useSelector(state => state.users.usersGetTrendingUsers)
-  const postsGetTrendingPosts = useSelector(state => state.posts.postsGetTrendingPosts)
+  const usersGetTrendingUsers = useSelector(usersSelector.usersGetTrendingUsersSelector())
+  const postsGetTrendingPosts = useSelector(postsSelector.postsGetTrendingPostsSelector())
   const themeFetch = useSelector(state => state.theme.themeFetch)
   const usersAcceptFollowerUser = useSelector(state => state.users.usersAcceptFollowerUser)
   const themes = useSelector(state => state.theme.themeFetch.data)

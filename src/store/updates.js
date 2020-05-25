@@ -143,3 +143,31 @@ extend('$resourceCachePushSuccess', ({ payload, resourceKey, initialState }, ori
     },
   })
 })
+
+/**
+ * Resource pool merge
+ */
+extend('$resourcePoolSet', ({ payload }, original) => {
+  return update(original, {
+    [payload.data.postId]: {
+      data: { $set: payload.data },
+      status: { $set: 'success' },
+    },
+  })
+})
+
+/**
+ * Resource pool merge
+ */
+extend('$resourcePoolMerge', ({ payload, initialState }, original) => {
+  return update(original, {
+    $merge: payload.data.reduce((acc, post) => {
+      acc[post.postId] = update(initialState, {
+        data: { $set: post },
+        status: { $set: 'success' },
+      })
+      return acc
+    }, {})
+  })
+})
+

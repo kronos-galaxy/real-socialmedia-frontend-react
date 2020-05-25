@@ -2,21 +2,37 @@ import { createSelectorCreator, defaultMemoize } from 'reselect'
 import update from 'immutability-helper'
 import path from 'ramda/src/path'
 import equals from 'ramda/src/equals'
+import assocPath from 'ramda/src/assocPath'
 
 const createDeepEqualSelector = createSelectorCreator(
   defaultMemoize,
   equals
 )
 
+const postsPool = () => path(['posts', 'postsPool'])
+const postsPoolPost = (postId) => path(['posts', 'postsPool', postId])
+const postsGetCache = () => path(['posts', 'postsGetCache'])
+const postsGetCachePost = (userId) => path(['posts', 'postsGetCache', userId])
+const postsCommentsGetCachePost = (postId) => path(['posts', 'postsCommentsGetCache', postId])
+const postsViewsGetCachePost = (postId) => path(['posts', 'postsViewsGetCache', postId])
+const postsLikesGetCache = () => path(['posts', 'postsLikesGetCache'])
+const postsLikesGetCachePost = (postId) => path(['posts', 'postsLikesGetCache', postId])
+
 /**
  *
  */
 const postsGet = () => path(['posts', 'postsGet'])
-const postsGetCache = (userId) => path(['posts', 'postsGetCache', userId])
 
 export const postsGetSelector = (userId) => createDeepEqualSelector(
-  [postsGet(userId), postsGetCache(userId)],
-  (postsGet, postsGetCache) => postsGetCache || postsGet,
+  [postsGetCachePost(userId), postsPool()],
+  (postsGetCachePost, postsPool) => {
+    const mappedPosts = postsGetCachePost.data.map(post =>
+      path([post.postId, 'data'])(postsPool) || post
+    )
+
+    console.log(postsGetCachePost, postsPool)
+    return assocPath(['data'], mappedPosts)(postsGetCachePost)
+  },
 )
 
 /**
@@ -25,39 +41,51 @@ export const postsGetSelector = (userId) => createDeepEqualSelector(
 const postsSingleGet = () => path(['posts', 'postsSingleGet'])
 
 export const postsSingleGetSelector = (navigationParamPost) => createDeepEqualSelector(
-  [postsSingleGet(), () => navigationParamPost],
-  (postsSingleGet, navigationParamPost) => update(postsSingleGet, { data: { $set: navigationParamPost } }),
+  [postsSingleGet(), postsPoolPost(navigationParamPost.postId), () => navigationParamPost],
+  (postsSingleGet, postsPoolPost, navigationParamPost) => postsPoolPost,
 )
 
 /**
  *
  */
 const postsCommentsGet = () => path(['posts', 'postsCommentsGet'])
-const postsCommentsGetCache = (postId) => path(['posts', 'postsCommentsGetCache', postId])
 
 export const postsCommentsGetSelector = (postId) => createDeepEqualSelector(
-  [postsCommentsGet(postId), postsCommentsGetCache(postId)],
-  (postsCommentsGet, postsCommentsGetCache) => postsCommentsGetCache || postsCommentsGet,
+  [postsCommentsGet(postId), postsCommentsGetCachePost(postId)],
+  (postsCommentsGet, postsCommentsGetCachePost) => postsCommentsGetCachePost || postsCommentsGet,
 )
 
 /**
  *
  */
 const postsViewsGet = () => path(['posts', 'postsViewsGet'])
-const postsViewsGetCache = (postId) => path(['posts', 'postsViewsGetCache', postId])
 
 export const postsViewsGetSelector = (postId) => createDeepEqualSelector(
-  [postsViewsGet(postId), postsViewsGetCache(postId)],
-  (postsViewsGet, postsViewsGetCache) => postsViewsGetCache || postsViewsGet,
+  [postsViewsGet(postId), postsViewsGetCachePost(postId)],
+  (postsViewsGet, postsViewsGetCachePost) => postsViewsGetCachePost || postsViewsGet,
 )
 
 /**
  *
  */
 const postsLikesGet = () => path(['posts', 'postsLikesGet'])
-const postsLikesGetCache = (postId) => path(['posts', 'postsLikesGetCache', postId])
 
 export const postsLikesGetSelector = (postId) => createDeepEqualSelector(
-  [postsLikesGet(postId), postsLikesGetCache(postId)],
-  (postsLikesGet, postsLikesGetCache) => postsLikesGetCache || postsLikesGet,
+  [postsLikesGet(postId), postsLikesGetCachePost(postId)],
+  (postsLikesGet, postsLikesGetCachePost) => postsLikesGetCachePost || postsLikesGet,
+)
+
+/**
+ *
+ */
+const postsGetTrendingPosts = () => path(['posts', 'postsGetTrendingPosts'])
+
+export const postsGetTrendingPostsSelector = () => createDeepEqualSelector(
+  [postsGetTrendingPosts(), postsPool()],
+  (postsGetTrendingPosts, postsPool) => {
+    const mappedPosts = postsGetTrendingPosts.data.map(post =>
+      path([post.postId, 'data'])(postsPool) || post
+    )
+    return assocPath(['data'], mappedPosts)(postsGetTrendingPosts)
+  },
 )

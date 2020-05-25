@@ -160,6 +160,13 @@ const initialState = {
     meta: {},
   },
 
+  /**
+   * postId -> { data: {} }
+   */
+  postsPool: {
+
+  },
+
   postsCreateQueue: {},
   postsRecreateQueue: {},
   postsGetCache: {},
@@ -197,6 +204,12 @@ const postsGetSuccess = (state, action) => update(state, {
       initialState: initialState.postsGet,
     },
   },
+  postsPool: {
+    $resourcePoolMerge: {
+      ...action,
+      initialState: initialState.postsSingleGet,
+    },
+  }
 })
 
 const postsGetFailure = (state, action) => update(state, {
@@ -253,6 +266,12 @@ const postsGetMoreSuccess = (state, action) => update(state, {
       initialState: initialState.postsGet,
     },
   },
+  postsPool: {
+    $resourcePoolMerge: {
+      ...action,
+      initialState: initialState.postsSingleGet,
+    },
+  }
 })
 
 /**
@@ -475,6 +494,13 @@ const postsEditSuccess = (state, action) => update(state, {
       $feedPostUpdate: { postId: action.payload.data.postId, post: action.payload.data },
     },
   },
+
+  /**
+   * User pool entry
+   */
+  postsPool: {
+    $resourcePoolSet: action,
+  },
 })
 
 const postsEditFailure = (state, action) => update(state, {
@@ -534,6 +560,13 @@ const postsDeleteSuccess = (state, action) => update(state, {
         $feedPostRemove: { postId: action.payload.data.postId },
       },
     },
+  },
+
+  /**
+   * User pool entry
+   */
+  postsPool: {
+    $resourcePoolSet: action,
   },
 })
 
@@ -595,6 +628,13 @@ const postsArchiveSuccess = (state, action) => update(state, {
       },
     },
   },
+
+  /**
+   * User pool entry
+   */
+  postsPool: {
+    $resourcePoolSet: action,
+  },
 })
 
 const postsArchiveFailure = (state, action) => update(state, {
@@ -630,6 +670,13 @@ const postsRestoreArchivedSuccess = (state, action) => update(state, {
       $feedPostRemove: { postId: action.payload.data.postId },
     },
   },
+
+  /**
+   * User pool entry
+   */
+  postsPool: {
+    $resourcePoolSet: action,
+  },
 })
 
 const postsRestoreArchivedFailure = (state, action) => update(state, {
@@ -664,6 +711,13 @@ const postsFlagSuccess = (state, action) => update(state, {
     data: {
       $feedPostUpdate: { postId: action.payload.data.postId, post: action.payload.data },
     },
+  },
+
+  /**
+   * User pool entry
+   */
+  postsPool: {
+    $resourcePoolSet: action,
   },
 })
 
@@ -720,6 +774,13 @@ const postsSingleGetSuccess = (state, action) => update(state, {
       },
     },
   },
+
+  /**
+   * User pool entry
+   */
+  postsPool: {
+    $resourcePoolSet: action,
+  },
 })
 
 const postsSingleGetFailure = (state, action) => update(state, {
@@ -752,6 +813,16 @@ const postsFeedGetSuccess = (state, action) => update(state, {
     status: { $set: 'success' },
     meta: { $set: action.payload.meta },
   },
+
+  /**
+   * User pool entry
+   */
+  postsPool: {
+    $resourcePoolMerge: {
+      ...action,
+      initialState: initialState.postsSingleGet,
+    },
+  },
 })
 
 const postsFeedGetFailure = (state, action) => update(state, {
@@ -778,6 +849,16 @@ const postsFeedGetMoreSuccess = (state, action) => update(state, {
     data: { $push: action.payload.data },
     status: { $set: 'success' },
     meta: { $set: action.payload.meta },
+  },
+
+  /**
+   * User pool entry
+   */
+  postsPool: {
+    $resourcePoolMerge: {
+      ...action,
+      initialState: initialState.postsSingleGet,
+    },
   },
 })
 
@@ -918,6 +999,13 @@ const postsOnymouslyLikeSuccess = (state, action) => update(state, {
       },
     },
   },
+
+  /**
+   * User pool entry
+   */
+  postsPool: {
+    $resourcePoolSet: action,
+  },
 })
 
 const postsOnymouslyLikeFailure = (state, action) => update(state, {
@@ -1008,6 +1096,13 @@ const postsAnonymouslyLikeSuccess = (state, action) => update(state, {
       },
     },
   },
+
+  /**
+   * User pool entry
+   */
+  postsPool: {
+    $resourcePoolSet: action,
+  },
 })
 
 const postsAnonymouslyLikeFailure = (state, action) => update(state, {
@@ -1097,6 +1192,13 @@ const postsDislikeSuccess = (state, action) => update(state, {
         $feedPostUpdate: { postId: action.payload.data.postId, post: action.payload.data },
       },
     },
+  },
+
+  /**
+   * User pool entry
+   */
+  postsPool: {
+    $resourcePoolSet: action,
   },
 })
 
@@ -1230,6 +1332,16 @@ const postsGetTrendingPostsSuccess = (state, action) => update(state, {
     status: { $set: 'success' },
     meta: { $set: action.payload.meta },
   },
+
+  /**
+   * User pool entry
+   */
+  postsPool: {
+    $resourcePoolMerge: {
+      ...action,
+      initialState: initialState.postsSingleGet,
+    },
+  },
 })
 
 const postsGetTrendingPostsFailure = (state, action) => update(state, {
@@ -1250,6 +1362,12 @@ const postsGetTrendingPostsMoreRequest = (state, action) => update(state, {
     status: { $set: 'loading' },
     payload: { $set: action.payload },
     meta: { $set: action.meta },
+  },
+  postsPool: {
+    $resourcePoolMerge: {
+      ...action,
+      initialState: initialState.postsSingleGet,
+    },
   },
 })
 

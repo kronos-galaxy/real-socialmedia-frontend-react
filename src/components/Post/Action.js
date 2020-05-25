@@ -46,7 +46,8 @@ const Action = ({
    */
   const likeButtonVisibility = (
     !post.likesDisabled &&
-    !path(['postedBy', 'likesDisabled'])(post)
+    !path(['postedBy', 'likesDisabled'])(post) &&
+    !path(['likesDisabled'])(user)
   )
 
   /**
@@ -56,7 +57,8 @@ const Action = ({
    */
   const commentButtonVisibility = (
     !post.commentsDisabled &&
-    !path(['postedBy', 'commentsDisabled'])(post)
+    !path(['postedBy', 'commentsDisabled'])(post) &&
+    !path(['commentsDisabled'])(user)
   )
 
   /**
@@ -66,7 +68,8 @@ const Action = ({
    * - Current authenticated user is tagged in post by author
    */
   const shareButtonVisibility = (
-    !post.sharingDisabled ||
+    !post.sharingDisabled &&
+    !path(['sharingDisabled'])(user) &&
     tagged
   )
 
