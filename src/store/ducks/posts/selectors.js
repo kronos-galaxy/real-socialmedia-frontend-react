@@ -1,6 +1,7 @@
 import { createSelectorCreator, defaultMemoize } from 'reselect'
 import update from 'immutability-helper'
 import path from 'ramda/src/path'
+import pathOr from 'ramda/src/pathOr'
 import equals from 'ramda/src/equals'
 import assocPath from 'ramda/src/assocPath'
 
@@ -26,11 +27,9 @@ const postsGet = () => path(['posts', 'postsGet'])
 export const postsGetSelector = (userId) => createDeepEqualSelector(
   [postsGetCachePost(userId), postsPool()],
   (postsGetCachePost, postsPool) => {
-    const mappedPosts = postsGetCachePost.data.map(post =>
+    const mappedPosts = pathOr([], ['data'])(postsGetCachePost).map(post =>
       path([post.postId, 'data'])(postsPool) || post
     )
-
-    console.log(postsGetCachePost, postsPool)
     return assocPath(['data'], mappedPosts)(postsGetCachePost)
   },
 )
@@ -83,7 +82,7 @@ const postsGetTrendingPosts = () => path(['posts', 'postsGetTrendingPosts'])
 export const postsGetTrendingPostsSelector = () => createDeepEqualSelector(
   [postsGetTrendingPosts(), postsPool()],
   (postsGetTrendingPosts, postsPool) => {
-    const mappedPosts = postsGetTrendingPosts.data.map(post =>
+    const mappedPosts = pathOr([], ['data'])(postsGetTrendingPosts).map(post =>
       path([post.postId, 'data'])(postsPool) || post
     )
     return assocPath(['data'], mappedPosts)(postsGetTrendingPosts)

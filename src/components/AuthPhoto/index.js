@@ -24,8 +24,8 @@ const AuthPhoto = ({
     <View testID="components/AuthPhoto" style={styling.root}>
       <View style={styling.component}>
         <AuthHeaderTemplate
-          title={t('Add Profile Picture')}
-          subtitle={t('Add an Unmodified Profile Picture. Our AI detects photoshop and filters')}
+          title={t('Add an Unmodified Profile Picture')}
+          subtitle={t('Our AI detects photoshop & filters')}
         />
 
         <View style={styling.content}>

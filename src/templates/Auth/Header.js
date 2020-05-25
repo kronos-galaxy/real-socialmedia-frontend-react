@@ -35,15 +35,15 @@ const styles = theme => StyleSheet.create({
   headline: {
     textAlign: 'center',
     fontWeight: '600',
-    fontSize: 24,
+    fontSize: 21,
     letterSpacing: 0,
   },
   subtitle: {
     textAlign: 'center',
-    fontWeight: '400',
-    fontSize: 18,
+    fontWeight: '500',
+    fontSize: 15,
     letterSpacing: 0,
-    color: '#333333',
+    color: '#7f8c8d',
   },
 })
 
