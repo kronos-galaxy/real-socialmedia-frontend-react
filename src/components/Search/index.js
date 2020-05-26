@@ -93,6 +93,12 @@ const SearchComponent = ({
               />
             )}
           </ContextComponent.Consumer>
+
+          {scroll.loadingmore ?
+            <View style={styling.activity}>
+              <ActivityIndicator color={theme.colors.border} />
+            </View>
+          : null}
         </ScrollView>
       : null}
 
@@ -142,12 +148,6 @@ const SearchComponent = ({
             usersAcceptFollowerUserRequest={usersAcceptFollowerUserRequest}
           />
         </ScrollView>
-      : null}
-
-      {scroll.loadingmore ?
-        <View style={styling.activity}>
-          <ActivityIndicator color={theme.colors.border} />
-        </View>
       : null}
     </View>
   )

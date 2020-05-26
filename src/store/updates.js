@@ -85,7 +85,7 @@ extend('$resourceCacheSetIdle', ({ payload, resourceKey, initialState }, origina
  *
  */
 
-extend('$resourceCacheSetRemove', ({ payload, resourceKey }, original) =>
+extend('$resourceCacheSetRemove', ({ resourceKey }, original) =>
   update(original, {
     $unset: [resourceKey],
   })

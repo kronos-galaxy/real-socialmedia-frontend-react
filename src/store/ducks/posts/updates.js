@@ -4,6 +4,7 @@ import pathOr from 'ramda/src/pathOr'
 import map from 'ramda/src/map'
 import set from 'ramda/src/set'
 import lensProp from 'ramda/src/lensProp'
+import without from 'ramda/src/without'
 
 const getFilteredState = map(set(lensProp('status'), 'idle'))
 
@@ -30,8 +31,41 @@ extend('$postsResourceCacheSetSuccess', ({ payload, resourceKey, initialState },
 /**
  *
  */
+extend('$postsResourceCachePushSuccess', ({ payload, resourceKey, initialState }, original) => {
+  const filtered = getFilteredState(original)
+  const nextState = (path([resourceKey])(filtered)) ?
+    filtered :
+    update(filtered, { [resourceKey]: { $set: initialState } })
+
+  return update(nextState, {
+    [resourceKey]: {
+      data: { $push: pathOr([], ['data'])(payload).map(post => post.postId) },
+      status: { $set: 'success' },
+      error: { $set: {} },
+      payload: { $set: payload.payload || {} },
+      meta: { $set: payload.meta || {} },
+    },
+  })
+})
+
+/**
+ *
+ */
 extend('$postsResourceSetSuccess', ({ payload }, original) => {
   return update(original, { $set: pathOr([], ['data'])(payload).map(post => post.postId) })
+})
+
+/**
+ *
+ */
+extend('$postsResourcePushSuccess', ({ payload }, original) => {
+  return update(original, { $push: pathOr([], ['data'])(payload).map(post => post.postId) })
+})
+
+extend('$postsResourceRemoveSuccess', ({ payload }, original) => {
+  return update(original, {
+    $set: without([payload.data.postId], original),
+  })
 })
 
 /**

@@ -78,18 +78,6 @@ const PostsListService = ({ children }) => {
     },
   })
 
-  const urlToBeValidated = path(['data', 0, 'image', 'url'])(postsFeedGet)
-  useS3ExpiryState({
-    urlToBeValidated,
-    condition: (
-      urlToBeValidated &&
-      postsFeedGet.status !== 'loading'
-    ),
-    onExpiry: () => {
-      postsFeedGetRequest({ limit: 20 })
-    },
-  })
-
   useEffect(() => {
     usersGetPendingFollowersRequest({ userId: user.userId })
   }, [usersAcceptFollowerUser.status])

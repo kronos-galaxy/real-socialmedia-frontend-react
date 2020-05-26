@@ -7,6 +7,7 @@ import path from 'ramda/src/path'
 import * as navigationActions from 'navigation/actions'
 import * as authSelector from 'store/ducks/auth/selectors'
 import * as albumsSelector from 'store/ducks/albums/selectors'
+import * as postsSelector from 'store/ducks/posts/selectors'
 
 const PostEditService = ({ children }) => {
   const dispatch = useDispatch()

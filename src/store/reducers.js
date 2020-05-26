@@ -27,8 +27,17 @@ const postsPersistConfig = {
     'postsGet',
     'postsGetCache',
     'postsGetTrendingPosts',
+    'postsPool',
     // 'postsCreateQueue',
     // 'postsRecreateQueue',
+  ],
+}
+
+const usersPersistConfig = {
+  key: 'users',
+  storage: AsyncStorage,
+  whitelist: [
+    'usersPool',
   ],
 }
 
@@ -64,7 +73,7 @@ export default combineReducers({
   albums,
   chat: persistReducer(chatPersistConfig, chat),
   posts: persistReducer(postsPersistConfig, posts),
-  users,
+  users: persistReducer(usersPersistConfig, users),
   layout,
   translation,
   ui,

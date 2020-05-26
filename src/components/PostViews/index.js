@@ -58,13 +58,13 @@ const PostViews = ({
           usersAcceptFollowerUser={usersAcceptFollowerUser}
           usersAcceptFollowerUserRequest={usersAcceptFollowerUserRequest}
         />
-      </ScrollView>
 
-      {scroll.loadingmore ?
-        <View style={styling.activity}>
-          <ActivityIndicator color={theme.colors.border} />
-        </View>
-      : null}
+        {scroll.loadingmore ?
+          <View style={styling.activity}>
+            <ActivityIndicator color={theme.colors.border} />
+          </View>
+        : null}
+      </ScrollView>
     </View>
   )
 }

@@ -416,13 +416,6 @@ const usersFollowRequest = (state, action) => update(state, {
     status: { $set: 'loading' },
     payload: { $set: action.payload },
   },
-
-  /**
-   * User pool entry
-   */
-  usersPool: {
-    $usersResourcePoolSet: action,
-  },
 })
 
 const usersFollowSuccess = (state, action) => update(state, {

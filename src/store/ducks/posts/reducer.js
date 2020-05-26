@@ -189,6 +189,7 @@ const postsGetSuccess = (state, action) => update(state, {
   postsGet: {
     status: { $set: 'success' },
     payload: { $set: action.payload.payload },
+    meta: { $set: action.payload.meta },
   },
   
   /**
@@ -238,13 +239,14 @@ const postsGetMoreSuccess = (state, action) => update(state, {
   postsGet: {
     status: { $set: 'success' },
     payload: { $set: action.payload.payload },
+    meta: { $set: action.payload.meta },
   },
 
   /**
    * 
    */
   postsGetCache: {
-    $postsResourceCacheSetSuccess: {
+    $postsResourceCachePushSuccess: {
       ...action,
       resourceKey: action.payload.payload.userId,
       initialState: initialState.postsGet,
@@ -442,10 +444,10 @@ const postsDeleteSuccess = (state, action) => update(state, {
   },
 
   /**
-   * User pool entry
+   *
    */
-  postsPool: {
-    $postsResourcePoolSet: action,
+  postsFeedGet: {
+    data: { $postsResourceRemoveSuccess: action },
   },
 })
 
@@ -585,7 +587,6 @@ const postsSingleGetRequest = (state, action) => update(state, {
 
 const postsSingleGetSuccess = (state, action) => update(state, {
   postsSingleGet: {
-    data: { $set: action.payload.data },
     status: { $set: 'success' },
   },
   
@@ -623,7 +624,7 @@ const postsFeedGetRequest = (state, action) => update(state, {
 
 const postsFeedGetSuccess = (state, action) => update(state, {
   postsFeedGet: {
-    data: { $postsResourcePoolHash: action },
+    data: { $postsResourceSetSuccess: action },
     status: { $set: 'success' },
     meta: { $set: action.payload.meta },
   },
@@ -660,7 +661,7 @@ const postsFeedGetMoreRequest = (state, action) => update(state, {
 
 const postsFeedGetMoreSuccess = (state, action) => update(state, {
   postsFeedGet: {
-    data: { $push: action.payload.data },
+    data: { $postsResourcePushSuccess: action },
     status: { $set: 'success' },
     meta: { $set: action.payload.meta },
   },
@@ -1017,20 +1018,24 @@ const postsGetTrendingPostsMoreRequest = (state, action) => update(state, {
     payload: { $set: action.payload },
     meta: { $set: action.meta },
   },
+})
+
+const postsGetTrendingPostsMoreSuccess = (state, action) => update(state, {
+  postsGetTrendingPosts: {
+    data: { $postsResourcePushSuccess: action },
+    status: { $set: 'success' },
+    payload: { $set: action.payload.payload },
+    meta: { $set: action.payload.meta },
+  },
+
+  /**
+   * User pool entry
+   */
   postsPool: {
     $postsResourcePoolMerge: {
       ...action,
       initialState: initialState.postsSingleGet,
     },
-  },
-})
-
-const postsGetTrendingPostsMoreSuccess = (state, action) => update(state, {
-  postsGetTrendingPosts: {
-    status: { $set: 'success' },
-    payload: { $set: action.payload.payload },
-    meta: { $set: action.payload.meta },
-    data: { $push: action.payload.data },
   },
 })
 

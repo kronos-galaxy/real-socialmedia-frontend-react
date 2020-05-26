@@ -30,18 +30,6 @@ const AlbumsGridService = ({ children, albumsGetRequestOnMount }) => {
     dispatch(albumsActions.albumsGetRequest({ userId }))
   }, [userId])
 
-  const urlToBeValidated = path(['data', 0, 'image', 'url'])(albumsGet)
-  useS3ExpiryState({
-    urlToBeValidated,
-    condition: (
-      urlToBeValidated &&
-      albumsGet.status !== 'loading'
-    ),
-    onExpiry: () => {
-      dispatch(albumsActions.albumsGetRequest({ userId }))
-    },
-  })
-
   return children({
     themes,
     themeFetch,

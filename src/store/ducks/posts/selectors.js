@@ -25,15 +25,15 @@ const postsLikesGetCachePost = (postId) => path(['posts', 'postsLikesGetCache', 
 const postsGet = () => path(['posts', 'postsGet'])
 
 export const postsGetSelector = (userId) => createDeepEqualSelector(
-  [postsGetCachePost(userId), postsPool()],
-  (postsGetCachePost, postsPool) => {
+  [postsGet(), postsGetCachePost(userId), postsPool()],
+  (postsGet, postsGetCachePost, postsPool) => {
     const mappedPosts = pathOr([], ['data'])(postsGetCachePost)
       .map(postId =>
         path([postId, 'data'])(postsPool)
       )
       .filter(post => post)
 
-    return assocPath(['data'], mappedPosts)(postsGetCachePost)
+    return assocPath(['data'], mappedPosts)(postsGet)
   },
 )
 

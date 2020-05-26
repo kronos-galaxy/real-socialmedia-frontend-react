@@ -64,18 +64,6 @@ const SearchService = ({ children }) => {
   const [formFocus, handleFormFocus] = useState(false)
   const [formChange, handleFormChange] = useState(false)
 
-  const urlToBeValidated = path(['data', 0, 'image', 'url'])(postsGetTrendingPosts)
-  useS3ExpiryState({
-    urlToBeValidated,
-    condition: (
-      urlToBeValidated &&
-      postsGetTrendingPosts.status !== 'loading'
-    ),
-    onExpiry: () => {
-      dispatch(postsActions.postsGetTrendingPostsRequest({ limit: 30 }))
-    },
-  })
-
   return children({
     themes,
     feedRef,

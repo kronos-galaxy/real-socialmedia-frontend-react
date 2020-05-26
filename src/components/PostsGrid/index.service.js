@@ -28,18 +28,6 @@ const PostsGridService = ({ children, postsGetRequestOnMount }) => {
     dispatch(postsActions.postsGetRequest({ userId }))
   }, [userId])
 
-  const urlToBeValidated = path(['data', 0, 'image', 'url'])(postsGet)
-  useS3ExpiryState({
-    urlToBeValidated,
-    condition: (
-      urlToBeValidated &&
-      postsGet.status !== 'loading'
-    ),
-    onExpiry: () => {
-      dispatch(postsActions.postsGetRequest({ userId }))
-    },
-  })
-
   return children({
     user,
     postsGet,

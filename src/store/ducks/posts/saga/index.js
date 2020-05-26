@@ -10,7 +10,8 @@ import * as constants from 'store/ducks/posts/constants'
 import * as usersActions from 'store/ducks/users/actions'
 import * as queryService from 'services/Query'
 
-const usersResourcePoolMergeTransform = (data) => data.map(post => post.postedBy)
+const usersResourcePoolMergePostedBy = (data) => data.map(post => post.postedBy)
+const usersResourcePoolMergeCommentedBy = (data) => data.map(post => post.commentedBy)
 
 /**
  *
@@ -97,7 +98,7 @@ function* postsFeedGetRequest(req) {
     const dataSelector = path(['data', 'self', 'feed', 'items'])
     const metaSelector = compose(omit(['items']), path(['data', 'self', 'feed']))
 
-    yield put(usersActions.usersResourcePoolMerge({ data: usersResourcePoolMergeTransform(dataSelector(data)) }))
+    yield put(usersActions.usersResourcePoolMerge({ data: usersResourcePoolMergePostedBy(dataSelector(data)) }))
     yield put(actions.postsFeedGetSuccess({ data: dataSelector(data), payload: req.payload, meta: metaSelector(data) }))
   } catch (error) {
     yield put(actions.postsFeedGetFailure({ message: errorWrapper(error), payload: req.payload, }))
@@ -112,7 +113,7 @@ function* postsFeedGetMoreRequest(req) {
     const dataSelector = path(['data', 'self', 'feed', 'items'])
     const metaSelector = compose(omit(['items']), path(['data', 'self', 'feed']))
 
-    yield put(usersActions.usersResourcePoolMerge({ data: usersResourcePoolMergeTransform(dataSelector(data)) }))
+    yield put(usersActions.usersResourcePoolMerge({ data: usersResourcePoolMergePostedBy(dataSelector(data)) }))
     yield put(actions.postsFeedGetMoreSuccess({ data: dataSelector(data), payload: req.payload, meta: metaSelector(data) }))
   } catch (error) {
     yield put(actions.postsFeedGetMoreFailure({ message: errorWrapper(error), payload: req.payload, }))
@@ -337,11 +338,11 @@ function* postsGetTrendingPostsRequest(req) {
 
   try {
     const data = yield queryService.apiRequest(queries.trendingPosts, req.payload)
-    const selector = path(['data', 'trendingPosts', 'items'])
+    const dataSelector = path(['data', 'trendingPosts', 'items'])
     const metaSelector = compose(omit(['items']), path(['data', 'trendingPosts']))
 
-    yield put(usersActions.usersResourcePoolMerge({ data: usersResourcePoolMergeTransform(dataSelector(data)) }))
-    yield put(actions.postsGetTrendingPostsSuccess({ data: selector(data), payload: req.payload, meta: metaSelector(data) }))
+    yield put(usersActions.usersResourcePoolMerge({ data: usersResourcePoolMergePostedBy(dataSelector(data)) }))
+    yield put(actions.postsGetTrendingPostsSuccess({ data: dataSelector(data), payload: req.payload, meta: metaSelector(data) }))
   } catch (error) {
     yield put(actions.postsGetTrendingPostsFailure({ message: errorWrapper(error), payload: req.payload }))
   }
@@ -352,11 +353,11 @@ function* postsGetTrendingPostsMoreRequest(req) {
 
   try {
     const data = yield queryService.apiRequest(queries.trendingPosts, req.payload)
-    const selector = path(['data', 'trendingPosts', 'items'])
+    const dataSelector = path(['data', 'trendingPosts', 'items'])
     const metaSelector = compose(omit(['items']), path(['data', 'trendingPosts']))
 
-    yield put(usersActions.usersResourcePoolMerge({ data: usersResourcePoolMergeTransform(dataSelector(data)) }))
-    yield put(actions.postsGetTrendingPostsMoreSuccess({ data: selector(data), payload: req.payload, meta: metaSelector(data) }))
+    yield put(usersActions.usersResourcePoolMerge({ data: usersResourcePoolMergePostedBy(dataSelector(data)) }))
+    yield put(actions.postsGetTrendingPostsMoreSuccess({ data: dataSelector(data), payload: req.payload, meta: metaSelector(data) }))
   } catch (error) {
     yield put(actions.postsGetTrendingPostsMoreFailure({ message: errorWrapper(error), payload: req.payload }))
   }
@@ -370,10 +371,11 @@ function* postsCommentsGetRequest(req) {
 
   try {
     const data = yield queryService.apiRequest(queries.comments, req.payload)
-    const selector = path(['data', 'post', 'comments', 'items'])
+    const dataSelector = path(['data', 'post', 'comments', 'items'])
     const metaSelector = compose(omit(['items']), path(['data', 'post', 'comments']))
 
-    yield put(actions.postsCommentsGetSuccess({ data: selector(data), payload: req.payload, meta: metaSelector(data) }))
+    yield put(usersActions.usersResourcePoolMerge({ data: usersResourcePoolMergeCommentedBy(dataSelector(data)) }))
+    yield put(actions.postsCommentsGetSuccess({ data: dataSelector(data), payload: req.payload, meta: metaSelector(data) }))
   } catch (error) {
     yield put(actions.postsCommentsGetFailure({ message: errorWrapper(error), payload: req.payload }))
   }
