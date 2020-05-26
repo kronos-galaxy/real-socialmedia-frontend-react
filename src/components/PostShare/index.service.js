@@ -7,6 +7,7 @@ import useToggle from 'react-use/lib/useToggle'
 import path from 'ramda/src/path'
 import * as navigationActions from 'navigation/actions'
 import * as authSelector from 'store/ducks/auth/selectors'
+import * as postsSelector from 'store/ducks/posts/selectors'
 
 const ShareService = ({ children }) => {
   const dispatch = useDispatch()
@@ -15,7 +16,8 @@ const ShareService = ({ children }) => {
   const postId = path(['postId'])(route.params.post)
   const postUserId = path(['params', 'post', 'postedBy', 'userId'])(route)
   const user = useSelector(authSelector.authUserSelector)
-  const postsSingleGet = useSelector(state => state.posts.postsSingleGet)
+  const navigationParamPost = path(['params', 'post'])(route)
+  const postsSingleGet = useSelector(postsSelector.postsSingleGetSelector(navigationParamPost))
   const postsShare = useSelector(state => state.posts.postsShare)
   const cameraCapture = useSelector(state => state.camera.cameraCapture)
 

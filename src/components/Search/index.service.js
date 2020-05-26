@@ -13,7 +13,7 @@ import useS3ExpiryState from 'services/S3ExpiryState'
 const SearchService = ({ children }) => {
   const dispatch = useDispatch()
   const user = useSelector(authSelector.authUserSelector)
-  const usersSearch = useSelector(state => state.users.usersSearch)
+  const usersSearch = useSelector(usersSelector.usersSearchSelector())
   const usersFollow = useSelector(state => state.users.usersFollow)
   const usersUnfollow = useSelector(state => state.users.usersUnfollow)
   const usersGetTrendingUsers = useSelector(usersSelector.usersGetTrendingUsersSelector())

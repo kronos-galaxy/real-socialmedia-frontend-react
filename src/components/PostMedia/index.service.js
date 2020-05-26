@@ -12,12 +12,12 @@ const PostMediaService = ({ children, ...props }) => {
   const dispatch = useDispatch()
   const navigation = useNavigation()
   const route = useRoute()
-  const navigationParamPost = path(['params', 'post'])(route)
   const postId = path(['params', 'post', 'postId'])(route)
   const postUserId = path(['params', 'post', 'postedBy', 'userId'])(route)
+  const navigationParamPost = path(['params', 'post'])(route)
   const postsSingleGet = useSelector(postsSelector.postsSingleGetSelector(navigationParamPost))
   const postsDelete = useSelector(state => state.posts.postsDelete)
-  const postsGetTrendingPosts = useSelector(state => state.posts.postsGetTrendingPosts)
+  const postsGetTrendingPosts = useSelector(postsSelector.postsGetTrendingPostsSelector())
 
   navigation.setOptions({
     title: path(['params', 'post', 'postedBy', 'username'])(route),

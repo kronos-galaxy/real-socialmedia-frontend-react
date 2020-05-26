@@ -40,6 +40,23 @@ export const postsGetSelector = (userId) => createDeepEqualSelector(
 /**
  *
  */
+const postsGetArchived = () => path(['posts', 'postsGetArchived'])
+
+export const postsGetArchivedSelector = () => createDeepEqualSelector(
+  [postsGetArchived(), postsPool()],
+  (postsGetArchived, postsPool) => {
+    const mappedPosts = pathOr([], ['data'])(postsGetArchived)
+      .map(postId =>
+        path([postId, 'data'])(postsPool)
+      )
+      .filter(post => post)
+    return assocPath(['data'], mappedPosts)(postsGetArchived)
+  },
+)
+
+/**
+ *
+ */
 const postsFeedGet = () => path(['posts', 'postsFeedGet'])
 
 export const postsFeedGetSelector = () => createDeepEqualSelector(
@@ -104,8 +121,8 @@ export const postsGetTrendingPostsSelector = () => createDeepEqualSelector(
   [postsGetTrendingPosts(), postsPool()],
   (postsGetTrendingPosts, postsPool) => {
     const mappedPosts = pathOr([], ['data'])(postsGetTrendingPosts)
-      .map(post =>
-        path([post.postId, 'data'])(postsPool) || post
+      .map(postId =>
+        path([postId, 'data'])(postsPool)
       )
       .filter(post => post)
     return assocPath(['data'], mappedPosts)(postsGetTrendingPosts)

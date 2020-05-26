@@ -1,6 +1,8 @@
 import { createAction } from 'redux-actions'
 import * as constants from 'store/ducks/users/constants'
 
+export const usersResourcePoolMerge = createAction('USERS_RESOURCE_POOL_MERGE')
+
 export const globalAuthUserTrigger = createAction('GLOBAL_AUTH_USER_TRIGGER')
 
 /**

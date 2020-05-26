@@ -8,6 +8,7 @@ import { useNavigation, useRoute } from '@react-navigation/native'
 import path from 'ramda/src/path'
 import { ifIphoneX } from 'react-native-iphone-x-helper'
 import * as chatSelector from 'store/ducks/chat/selectors'
+import * as usersSelector from 'store/ducks/users/selectors'
 
 const ChatDirectService = ({ children }) => {
   const dispatch = useDispatch()
@@ -21,7 +22,7 @@ const ChatDirectService = ({ children }) => {
   const userId = path(['params', 'user', 'userId'])(route)
 
   const user = useSelector(authSelector.authUserSelector)
-  const usersGetTrendingUsers = useSelector(state => state.users.usersGetTrendingUsers)
+  const usersGetTrendingUsers = useSelector(usersSelector.usersGetTrendingUsersSelector())
   const chatCreateDirect = useSelector(state => state.chat.chatCreateDirect)
   const chatAddMessage = useSelector(state => state.chat.chatAddMessage)
   const chatGetChat = useSelector(chatSelector.chatGetChatSelector(chatId))

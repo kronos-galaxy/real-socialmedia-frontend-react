@@ -1,6 +1,7 @@
 import { createSelectorCreator, defaultMemoize } from 'reselect'
 import update from 'immutability-helper'
 import path from 'ramda/src/path'
+import pathOr from 'ramda/src/pathOr'
 import equals from 'ramda/src/equals'
 import assocPath from 'ramda/src/assocPath'
 
@@ -9,9 +10,10 @@ const createDeepEqualSelector = createSelectorCreator(
   equals
 )
 
+const usersPool = () => path(['users', 'usersPool'])
+const usersPoolUser = (userId) => path(['users', 'usersPool', userId])
 const user = () => path(['auth', 'user'])
 const usersGetProfileCache = () => path(['users', 'usersGetProfileCache'])
-const usersGetProfileCacheUser = (userId) => path(['users', 'usersGetProfileCache', userId])
 const usersGetFollowedUsersCacheUser = (userId) => path(['users', 'usersGetFollowedUsersCache', userId])
 const usersGetFollowerUsersCacheUser = (userId) => path(['users', 'usersGetFollowerUsersCache', userId])
 
@@ -21,8 +23,8 @@ const usersGetFollowerUsersCacheUser = (userId) => path(['users', 'usersGetFollo
 const usersGetProfile = () => path(['users', 'usersGetProfile'])
 
 export const usersGetProfileSelector = (userId) => createDeepEqualSelector(
-  [usersGetProfile(), usersGetProfileCacheUser(userId)],
-  (usersGetProfile, usersGetProfileCacheUser) => usersGetProfileCacheUser || usersGetProfile,
+  [usersGetProfile(), usersPoolUser(userId)],
+  (usersGetProfile, usersPoolUser) => usersPoolUser,
 )
 
 /**
@@ -61,11 +63,47 @@ export const usersGetFollowerUsersSelector = (userId) => createDeepEqualSelector
 const usersGetTrendingUsers = () => path(['users', 'usersGetTrendingUsers'])
 
 export const usersGetTrendingUsersSelector = () => createDeepEqualSelector(
-  [usersGetTrendingUsers(), usersGetProfileCache()],
-  (usersGetTrendingUsers, usersGetProfileCache) => {
-    const mappedUsers = usersGetTrendingUsers.data.map(user =>
-      path([user.userId, 'data'])(usersGetProfileCache) || user
-    )
+  [usersGetTrendingUsers(), usersPool()],
+  (usersGetTrendingUsers, usersPool) => {
+    const mappedUsers = pathOr([], ['data'])(usersGetTrendingUsers)
+      .map(userId =>
+        path([userId, 'data'])(usersPool)
+      )
+      .filter(user => user)
     return assocPath(['data'], mappedUsers)(usersGetTrendingUsers)
+  },
+)
+
+/**
+ *
+ */
+const usersSearch = () => path(['users', 'usersSearch'])
+
+export const usersSearchSelector = () => createDeepEqualSelector(
+  [usersSearch(), usersPool()],
+  (usersSearch, usersPool) => {
+    const mappedUsers = pathOr([], ['data'])(usersSearch)
+      .map(userId =>
+        path([userId, 'data'])(usersPool)
+      )
+      .filter(user => user)
+    return assocPath(['data'], mappedUsers)(usersSearch)
+  },
+)
+
+/**
+ *
+ */
+const usersGetFollowedUsersWithStories = () => path(['users', 'usersGetFollowedUsersWithStories'])
+
+export const usersGetFollowedUsersWithStoriesSelector = () => createDeepEqualSelector(
+  [usersGetFollowedUsersWithStories(), usersPool()],
+  (usersGetFollowedUsersWithStories, usersPool) => {
+    const mappedUsers = pathOr([], ['data'])(usersGetFollowedUsersWithStories)
+      .map(userId =>
+        path([userId, 'data'])(usersPool)
+      )
+      .filter(user => user)
+    return assocPath(['data'], mappedUsers)(usersGetFollowedUsersWithStories)
   },
 )

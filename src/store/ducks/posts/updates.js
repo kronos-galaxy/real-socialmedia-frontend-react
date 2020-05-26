@@ -28,19 +28,26 @@ extend('$postsResourceCacheSetSuccess', ({ payload, resourceKey, initialState },
 })
 
 /**
+ *
+ */
+extend('$postsResourceSetSuccess', ({ payload }, original) => {
+  return update(original, { $set: pathOr([], ['data'])(payload).map(post => post.postId) })
+})
+
+/**
  * Resource pool post hash, will replace post object with postId key
  * [{postId, image ...}, {postId, image ...}] -> [postId, postId]
  */
-extend('$resourcePoolHash', ({ payload }, original) => {
+extend('$postsResourcePoolHash', ({ payload }, original) => {
   return update(original, {
     $set: pathOr([], ['data'])(payload).map(post => post.postId)
   })
 })
 
 /**
- * Resource pool merge
+ * Resource pool set
  */
-extend('$resourcePoolSet', ({ payload }, original) => {
+extend('$postsResourcePoolSet', ({ payload }, original) => {
   return update(original, {
     [payload.data.postId]: {
       data: { $set: payload.data },
@@ -52,7 +59,7 @@ extend('$resourcePoolSet', ({ payload }, original) => {
 /**
  * Resource pool merge
  */
-extend('$resourcePoolMerge', ({ payload, initialState }, original) => {
+extend('$postsResourcePoolMerge', ({ payload, initialState }, original) => {
   return update(original, {
     $merge: pathOr([], ['data'])(payload).reduce((acc, post) => {
       acc[post.postId] = update(initialState, {
