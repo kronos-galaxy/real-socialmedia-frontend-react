@@ -34,7 +34,7 @@ const ProfilePhotoService = ({ children }) => {
   useEffect(() => {
     if (usersEditProfile.status === 'success') {
       navigationActions.navigateProfileSelf(navigation)()
-      dispatch(usersActions.usersEditProfileIdle())
+      dispatch(usersActions.usersEditProfileIdle({}))
     }
   }, [usersEditProfile.status])
 

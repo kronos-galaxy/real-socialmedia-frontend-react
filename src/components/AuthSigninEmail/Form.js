@@ -49,7 +49,7 @@ const SigninForm = ({
   return (
     <View style={styling.root}>
       <View style={styling.input}>
-        <Field testID="components/AuthSignin/Form/username" name="username" component={TextField} placeholder={t('Email or Phone number')} keyboardType="default" textContentType="username" autoCompleteType="username" />
+        <Field testID="components/AuthSignin/Form/username" name="username" component={TextField} placeholder={t('Email')} keyboardType="default" textContentType="username" autoCompleteType="username" />
       </View>
       <View style={styling.input}>
         <Field testID="components/AuthSignin/Form/password" name="password" component={TextField} placeholder={t('Password')} secureTextEntry keyboardType="default" textContentType="password" autoCompleteType="password" />

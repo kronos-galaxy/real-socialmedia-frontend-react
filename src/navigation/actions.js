@@ -136,11 +136,17 @@ export const navigateAuthHome = (navigation, params) => () =>
 export const navigateAuthUsername = (navigation, params) => () =>
   navigation.navigate('AuthUsername', params)
 
-export const navigateAuthSignin = (navigation, params) => () =>
-  navigation.navigate('AuthSignin', params)
+export const navigateAuthSigninPhone = (navigation, params) => () =>
+  navigation.navigate('AuthSigninPhone', params)
+
+export const navigateAuthSigninEmail = (navigation, params) => () =>
+  navigation.navigate('AuthSigninEmail', params)
 
 export const navigateSignup = (navigation, params) => () =>
   navigation.navigate('Signup', params)
+
+export const navigateSignin = (navigation, params) => () =>
+  navigation.navigate('Signin', params)
 
 export const navigateAuthPhone = (navigation, params) => () =>
   navigation.navigate('Signup', {

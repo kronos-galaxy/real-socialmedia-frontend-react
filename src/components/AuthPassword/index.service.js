@@ -41,7 +41,7 @@ const AuthPasswordComponentService = ({ children }) => {
 
   const handleFormTransform = (values) => values
 
-  const handleErrorClose = () => dispatch(signupActions.signupPasswordIdle())
+  const handleErrorClose = () => dispatch(signupActions.signupPasswordIdle({}))
 
   return children({
     formErrorMessage,

@@ -39,7 +39,7 @@ const ShareService = ({ children }) => {
     }
 
     if (postsShare.status === 'success') {
-      dispatch(postsActions.postsShareIdle())
+      dispatch(postsActions.postsShareIdle({}))
       navigationActions.navigateBack(navigation)()
     }
   }, [

@@ -656,6 +656,8 @@ const postsFeedGetIdle = (state, action) => update(state, {
 const postsFeedGetMoreRequest = (state, action) => update(state, {
   postsFeedGet: {
     status: { $set: 'loading' },
+    payload: { $set: action.payload },
+    meta: { $set: action.meta },
   },
 })
 

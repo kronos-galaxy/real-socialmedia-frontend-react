@@ -70,6 +70,7 @@ const ScrollHelper = ({
   return {
     handleScrollChange,
     handleRefresh,
+    handleLoadMore,
     refreshing,
     loadingmore,
   }

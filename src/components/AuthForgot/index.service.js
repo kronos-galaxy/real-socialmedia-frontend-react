@@ -45,7 +45,7 @@ const AuthForgotComponentService = ({ children }) => {
     username: compose(trim, toLower, pathOr('', ['username']))(values),
   })
 
-  const handleErrorClose = () => dispatch(authActions.authForgotIdle())
+  const handleErrorClose = () => dispatch(authActions.authForgotIdle({}))
 
   return children({
     formErrorMessage,

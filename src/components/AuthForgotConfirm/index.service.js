@@ -32,7 +32,7 @@ const AuthForgotConfirmComponentService = ({ children }) => {
       authForgotConfirm.status !== 'success'
     ) return
 
-    navigationActions.navigateAuthSignin(navigation)()
+    navigationActions.navigateAuthSigninPhone(navigation)()
   }, [
     authForgotConfirm.status === 'success',
   ])
@@ -51,7 +51,7 @@ const AuthForgotConfirmComponentService = ({ children }) => {
     password: values.password,
   })
 
-  const handleErrorClose = () => dispatch(authActions.authForgotConfirmIdle())
+  const handleErrorClose = () => dispatch(authActions.authForgotConfirmIdle({}))
 
   return children({
     formErrorMessage,

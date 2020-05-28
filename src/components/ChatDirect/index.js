@@ -18,6 +18,7 @@ const ChatDirect = ({
   theme,
   user,
   chatGetChat,
+  chatCreateDirect,
   chatCreateDirectRequest,
   chatAddMessage,
   chatAddMessageRequest,
@@ -63,7 +64,10 @@ const ChatDirect = ({
 
       {!chatId ?
         <View style={{ marginBottom, paddingHorizontal: 12 }}>
-          <DefaultButton label={t('Start Chat')} onPress={chatCreateDirectRequest} />
+          <FormComponent
+            chatAddMessage={chatCreateDirect}
+            chatAddMessageRequest={chatCreateDirectRequest}
+          />
         </View>
       : null}
     </View>

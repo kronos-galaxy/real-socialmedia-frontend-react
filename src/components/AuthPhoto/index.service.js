@@ -34,7 +34,7 @@ const AuthPhotoComponentService = ({ children }) => {
 
   const formErrorMessage = usersEditProfile.error.text
 
-  const handleErrorClose = () => dispatch(usersActions.usersEditProfileIdle())
+  const handleErrorClose = () => dispatch(usersActions.usersEditProfileIdle({}))
 
   return children({
   	handleLibrarySnap,

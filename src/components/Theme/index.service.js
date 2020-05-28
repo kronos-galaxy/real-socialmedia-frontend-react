@@ -15,14 +15,14 @@ const ThemeService = ({ children }) => {
     dispatch(themeActions.themePreviewRequest(payload))
 
   const themePreviewIdle = () =>
-    dispatch(themeActions.themePreviewIdle())
+    dispatch(themeActions.themePreviewIdle({}))
 
   const usersEditProfileRequest = () =>
     dispatch(usersActions.usersEditProfileRequest({ themeCode: themePreview.data.name }))
   
   useEffect(() => {
     if (usersEditProfile.status === 'success') {
-      dispatch(usersActions.usersEditProfileIdle())
+      dispatch(usersActions.usersEditProfileIdle({}))
     }
   }, [usersEditProfile.status])
 

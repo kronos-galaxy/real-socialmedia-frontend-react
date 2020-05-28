@@ -14,7 +14,7 @@ const TranslationService = ({ children }) => {
   
   useEffect(() => {
     if (usersEditProfile.status === 'success') {
-      dispatch(usersActions.usersEditProfileIdle())
+      dispatch(usersActions.usersEditProfileIdle({}))
     }
   }, [usersEditProfile.status])
 

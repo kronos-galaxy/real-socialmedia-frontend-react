@@ -29,8 +29,8 @@ const SearchService = ({ children }) => {
   useScrollToTop(feedRef)
 
   const usersSearchRequest = ({ searchToken }) => {
-    dispatch(usersActions.usersFollowIdle())
-    dispatch(usersActions.usersUnfollowIdle())
+    dispatch(usersActions.usersFollowIdle({}))
+    dispatch(usersActions.usersUnfollowIdle({}))
     dispatch(usersActions.usersSearchRequest({ searchToken: toLower(searchToken || '') }))
   }
 

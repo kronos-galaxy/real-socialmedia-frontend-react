@@ -6,13 +6,14 @@ import { useScrollToTop } from '@react-navigation/native'
 import toLower from 'ramda/src/toLower'
 import * as authSelector from 'store/ducks/auth/selectors'
 import * as usersSelector from 'store/ducks/users/selectors'
+import * as chatSelector from 'store/ducks/chat/selectors'
 
 const ChatService = ({ children }) => {
   const dispatch = useDispatch()
   const user = useSelector(authSelector.authUserSelector)
   const usersGetTrendingUsers = useSelector(usersSelector.usersGetTrendingUsersSelector())
   const usersSearch = useSelector(usersSelector.usersSearchSelector())
-  const chatGetChats = useSelector(state => state.chat.chatGetChats)
+  const chatGetChats = useSelector(chatSelector.chatGetChatsSelector())
 
   useEffect(() => {
     dispatch(chatActions.chatGetChatsRequest())
@@ -28,8 +29,8 @@ const ChatService = ({ children }) => {
   useScrollToTop(feedRef)
   
   const usersSearchRequest = ({ searchToken }) => {
-    dispatch(usersActions.usersFollowIdle())
-    dispatch(usersActions.usersUnfollowIdle())
+    dispatch(usersActions.usersFollowIdle({}))
+    dispatch(usersActions.usersUnfollowIdle({}))
     dispatch(usersActions.usersSearchRequest({ searchToken: toLower(searchToken || '') }))
   }
 

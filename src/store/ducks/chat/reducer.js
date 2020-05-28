@@ -28,6 +28,11 @@ const initialState = {
     payload: {},
   },
 
+  /**
+   *
+   */
+  chatPool: {},
+
   chatGetChatCache: {},
 }
 
@@ -43,9 +48,19 @@ const chatGetChatsRequest = (state, action) => update(state, {
 
 const chatGetChatsSuccess = (state, action) => update(state, {
   chatGetChats: {
-    data: { $set: action.payload.data },
+    data: { $chatResourceSetSuccess: action },
     status: { $set: 'success' },
     payload: { $set: action.payload.payload },
+  },
+
+  /**
+   * Chat pool entry
+   */
+  chatPool: {
+    $chatResourcePoolMerge: {
+      ...action,
+      initialState: initialState.chatGetChat,
+    },
   },
 })
 
@@ -71,25 +86,20 @@ const chatGetChatRequest = (state, action) => update(state, {
     status: { $set: 'loading' },
     payload: { $set: action.payload },
   },
-  chatGetChatCache: {
-    $resourceCacheSetRequest: {
-      ...action,
-      resourceKey: action.payload.chatId,
-      initialState: initialState.chatGetChat,
-    },
-  },
 })
 
 const chatGetChatSuccess = (state, action) => update(state, {
   chatGetChat: {
-    data: { $set: action.payload.data },
     status: { $set: 'success' },
     payload: { $set: action.payload.payload },
   },
-  chatGetChatCache: {
-    $resourceCacheSetSuccess: {
+
+  /**
+   * Chat pool entry
+   */
+  chatPool: {
+    $chatResourcePoolSet: {
       ...action,
-      resourceKey: action.payload.payload.chatId,
       initialState: initialState.chatGetChat,
     },
   },
@@ -100,26 +110,12 @@ const chatGetChatFailure = (state, action) => update(state, {
     status: { $set: 'failure' },
     payload: { $set: action.payload.payload },
   },
-  chatGetChatCache: {
-    $resourceCacheSetFailure: {
-      ...action,
-      resourceKey: action.payload.payload.chatId,
-      initialState: initialState.chatGetChat,
-    },
-  },
 })
 
 const chatGetChatIdle = (state, action) => update(state, {
   chatGetChat: {
     status: { $set: 'idle' },
     payload: { $set: action.payload.payload },
-  },
-  chatGetChatCache: {
-    $resourceCacheSetIdle: {
-      ...action,
-      resourceKey: action.payload.payload.chatId,
-      initialState: initialState.chatGetChat,
-    },
   },
 })
 

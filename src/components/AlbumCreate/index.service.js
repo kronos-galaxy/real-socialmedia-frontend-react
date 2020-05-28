@@ -23,7 +23,7 @@ const AlbumCreateService = ({ children }) => {
 
   useEffect(() => {
     if (albumsCreate.status === 'success') {
-      dispatch(albumsActions.albumsCreateIdle())
+      dispatch(albumsActions.albumsCreateIdle({}))
       dispatch(albumsActions.albumsGetRequest({ userId: user.userId }))
       navigationActions.navigateBack(navigation)()
     }

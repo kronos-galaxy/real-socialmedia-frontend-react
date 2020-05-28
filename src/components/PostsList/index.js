@@ -72,7 +72,7 @@ const PostsList = ({
   const renderItem = useCallback(({ item: post, index }) => (
     <ContextComponent.Consumer>
       {(contextProps) => (
-        <>
+        <React.Fragment>
           {(bookmarkSeparatorIndex === index) ?
             <BookmarkComponent
               postsGetTrendingPosts={postsGetTrendingPosts}
@@ -113,7 +113,7 @@ const PostsList = ({
             feedRef={feedRef}
             priorityQueueInstance={contextProps.feedImages}
           />
-        </>
+        </React.Fragment>
       )}
     </ContextComponent.Consumer>
   ))
@@ -133,7 +133,6 @@ const PostsList = ({
         ref={feedRef}
         keyExtractor={item => item.postId}
         data={path(['data'])(postsFeedGet)}
-        onScroll={scroll.handleScrollChange}
         onEndReached={scroll.handleLoadMore}
         onEndReachedThreshold={0.4}
         scrollEventThrottle={500}

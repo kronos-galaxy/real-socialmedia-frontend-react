@@ -3,19 +3,9 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useNavigation } from '@react-navigation/native'
 import trim from 'ramda/src/trim'
 import compose from 'ramda/src/compose'
+import replace from 'ramda/src/replace'
 import toLower from 'ramda/src/toLower'
 import pathOr from 'ramda/src/pathOr'
-
-const guessUsernameType = (username) => {
-  const hasEmail = /\S+@\S+\.\S+/.test(username)
-  const hasPhone = /^[0-9 ()+-]+$/.test(username)
-
-  return (() => {
-    if (hasEmail) return 'email'
-    if (hasPhone) return 'phone'
-    return 'username'
-  })()
-}
 
 const AuthSigninComponentService = ({ children }) => {
   const dispatch = useDispatch()
@@ -24,10 +14,10 @@ const AuthSigninComponentService = ({ children }) => {
   const authSignin = useSelector(state => state.auth.authSignin)
 
   const handleFormSubmit = (payload) => {
-    const usernameType = guessUsernameType(payload.username)
     dispatch(authActions.authSigninRequest({
-      usernameType,
-      username: toLower(payload.username),
+      usernameType: 'phone',
+      countryCode: payload.countryCode,
+      username: `${payload.countryCode}${payload.username}`,
       password: payload.password,
     }))
   }
@@ -37,16 +27,18 @@ const AuthSigninComponentService = ({ children }) => {
   const formErrorMessage = authSignin.error.text
 
   const formInitialValues = {
-    username: authSignin.payload.username,
-    password: authSignin.payload.password,
+    countryCode: '+1',
+    username: replace(pathOr('', ['payload', 'countryCode'])(authSignin), '', pathOr('', ['payload', 'username'])(authSignin)),
+    password: pathOr('', ['payload', 'password'])(authSignin),
   }
 
   const handleFormTransform = (values) => ({
+    countryCode: compose(replace(/[^+0-9]/g, ''), trim, toLower, pathOr('', ['countryCode']))(values),
     username: compose(trim, toLower, pathOr('', ['username']))(values),
     password: values.password,
   })
 
-  const handleErrorClose = () => dispatch(authActions.authSigninIdle())
+  const handleErrorClose = () => dispatch(authActions.authSigninIdle({}))
 
   return children({
     formErrorMessage,

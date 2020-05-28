@@ -43,11 +43,11 @@ const ProfileService = ({ children }) => {
 
   useEffect(() => {
     if (usersBlock.status === 'success') {
-      dispatch(usersActions.usersBlockIdle())
+      dispatch(usersActions.usersBlockIdle({}))
     }
 
     if (usersUnblock.status === 'success') {
-      dispatch(usersActions.usersUnblockIdle())
+      dispatch(usersActions.usersUnblockIdle({}))
     }
   }, [
     usersBlock.status,

@@ -62,7 +62,7 @@ const AuthCognitoComponentService = ({ children }) => {
     username: compose(trim, toLower, pathOr('', ['username']))(values),
   })
 
-  const handleErrorClose = () => dispatch(signupActions.signupUsernameIdle())
+  const handleErrorClose = () => dispatch(signupActions.signupUsernameIdle({}))
 
   return children({
     formErrorMessage,

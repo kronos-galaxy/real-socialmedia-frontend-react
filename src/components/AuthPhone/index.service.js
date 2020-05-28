@@ -25,7 +25,7 @@ const AuthPhoneComponentService = ({ children }) => {
    */
   useEffect(() => {
     const unsubscribe = navigation.addListener('focus', () => {
-      dispatch(signupActions.signupCreateIdle())
+      dispatch(signupActions.signupCreateIdle({}))
     })
     return unsubscribe
   }, [navigation])
@@ -109,7 +109,7 @@ const AuthPhoneComponentService = ({ children }) => {
     phone: compose(replace(/[^0-9]/g, ''), trim, toLower, pathOr('', ['phone']))(values),
   })
 
-  const handleErrorClose = () => dispatch(signupActions.signupCreateIdle())
+  const handleErrorClose = () => dispatch(signupActions.signupCreateIdle({}))
 
   return children({
     formErrorMessage,

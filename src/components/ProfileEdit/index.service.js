@@ -18,8 +18,8 @@ const ProfileEditService = ({ children }) => {
 
   useEffect(() => {
     if (authSignout.status === 'success') {
-      dispatch(authActions.authCheckIdle())
-      dispatch(authActions.authSignoutIdle())
+      dispatch(authActions.authCheckIdle({}))
+      dispatch(authActions.authSignoutIdle({}))
     }
   }, [
     authSignout.status,
@@ -27,7 +27,7 @@ const ProfileEditService = ({ children }) => {
 
   useEffect(() => {
     if (usersEditProfile.status === 'success') {
-      dispatch(usersActions.usersEditProfileIdle())
+      dispatch(usersActions.usersEditProfileIdle({}))
     }
   }, [usersEditProfile.status])
 

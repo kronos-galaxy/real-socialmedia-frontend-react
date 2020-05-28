@@ -23,7 +23,7 @@ const AuthPhoneConfirmComponentService = ({ children }) => {
    */
   useEffect(() => {
     const unsubscribe = navigation.addListener('focus', () => {
-      dispatch(signupActions.signupConfirmIdle())
+      dispatch(signupActions.signupConfirmIdle({}))
     })
     return unsubscribe
   }, [navigation])
@@ -69,10 +69,10 @@ const AuthPhoneConfirmComponentService = ({ children }) => {
     ) return
 
     logEvent('SIGNUP_CONFIRM_SUCCESS')
-    dispatch(signupActions.signupCreateIdle())
-    dispatch(signupActions.signupConfirmIdle())
-    dispatch(signupActions.signupUsernameIdle())
-    dispatch(signupActions.signupPasswordIdle())
+    dispatch(signupActions.signupCreateIdle({}))
+    dispatch(signupActions.signupConfirmIdle({}))
+    dispatch(signupActions.signupUsernameIdle({}))
+    dispatch(signupActions.signupPasswordIdle({}))
 
     Keyboard.dismiss()
     navigationActions.navigateAuthPhoto(navigation)()
@@ -94,7 +94,7 @@ const AuthPhoneConfirmComponentService = ({ children }) => {
     confirmationCode: values.confirmationCode,
   })
 
-  const handleErrorClose = () => dispatch(signupActions.signupConfirmIdle())
+  const handleErrorClose = () => dispatch(signupActions.signupConfirmIdle({}))
 
   return children({
     formErrorMessage,

@@ -4,7 +4,7 @@ import {
   View,
   StyleSheet,
 } from 'react-native'
-import FormComponent from 'components/AuthForgot/Form'
+import FormComponent from 'components/AuthSigninEmail/Form'
 import AuthActionTemplate from 'templates/Auth/Action'
 import AuthHeaderTemplate from 'templates/Auth/Header'
 import AuthErrorTemplate from 'templates/Auth/Error'
@@ -14,7 +14,7 @@ import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
 import { withTranslation } from 'react-i18next'
 
-const AuthForgot = ({
+const AuthSigninEmail = ({
   t,
   theme,
   formErrorMessage,
@@ -29,7 +29,7 @@ const AuthForgot = ({
   const navigation = useNavigation()
 
   return (
-    <View testID="components/AuthForgot" style={styling.root}>
+    <View testID="components/AuthSigninEmail" style={styling.root}>
       {formErrorMessage ?
         <AuthErrorTemplate
           text={formErrorMessage}
@@ -39,8 +39,8 @@ const AuthForgot = ({
 
       <View style={styling.component}>
         <AuthHeaderTemplate
-          title={t('Forgot Password')}
-          subtitle={t('Reset your password')}
+          title={t('Welcome Back!')}
+          subtitle={t('Please login to continue')}
         />
 
         <View style={styling.content}>
@@ -54,8 +54,8 @@ const AuthForgot = ({
         </View>
       </View>
 
-      <AuthActionTemplate onPress={navigationActions.navigateAuthSigninPhone(navigation)}>
-        {t('Already Have an Account ? Log In')}
+      <AuthActionTemplate onPress={navigationActions.navigateAuthForgot(navigation)}>
+        {t('Reset your Password')}
       </AuthActionTemplate>
     </View>
   )
@@ -74,7 +74,7 @@ const styles = theme => StyleSheet.create({
   },
 })
 
-AuthForgot.propTypes = {
+AuthSigninEmail.propTypes = {
   t: PropTypes.any,
   theme: PropTypes.any,
   formErrorMessage: PropTypes.any,
@@ -86,4 +86,4 @@ AuthForgot.propTypes = {
   formInitialValues: PropTypes.any,
 }
 
-export default withTranslation()(withTheme(AuthForgot))
+export default withTranslation()(withTheme(AuthSigninEmail))

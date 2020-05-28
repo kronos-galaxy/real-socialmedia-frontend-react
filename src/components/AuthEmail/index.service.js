@@ -24,7 +24,7 @@ const AuthEmailComponentService = ({ children }) => {
    */
   useEffect(() => {
     const unsubscribe = navigation.addListener('focus', () => {
-      dispatch(signupActions.signupCreateIdle())
+      dispatch(signupActions.signupCreateIdle({}))
     })
     return unsubscribe
   }, [navigation])
@@ -106,7 +106,7 @@ const AuthEmailComponentService = ({ children }) => {
     email: compose(trim, toLower, pathOr('', ['email']))(values),
   })
 
-  const handleErrorClose = () => dispatch(signupActions.signupCreateIdle())
+  const handleErrorClose = () => dispatch(signupActions.signupCreateIdle({}))
 
   return children({
     formErrorMessage,

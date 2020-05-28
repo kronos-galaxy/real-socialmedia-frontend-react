@@ -18,9 +18,10 @@ import cache from 'store/ducks/cache/reducer'
 
 import 'store/ducks/posts/updates'
 import 'store/ducks/users/updates'
+import 'store/ducks/chat/updates'
 
 const postsPersistConfig = {
-  key: 'posts',
+  key: '/v2/posts',
   storage: AsyncStorage,
   whitelist: [
     'postsFeedGet',
@@ -34,7 +35,7 @@ const postsPersistConfig = {
 }
 
 const usersPersistConfig = {
-  key: 'users',
+  key: '/v2/users',
   storage: AsyncStorage,
   whitelist: [
     'usersPool',
@@ -42,7 +43,7 @@ const usersPersistConfig = {
 }
 
 const authPersistConfig = {
-  key: 'auth',
+  key: '/v2/auth',
   storage: AsyncStorage,
   whitelist: [
     'user',
@@ -50,7 +51,7 @@ const authPersistConfig = {
 }
 
 const signupPersistConfig = {
-  key: 'signup',
+  key: '/v2/signup',
   storage: AsyncStorage,
   whitelist: [
     'signupCognitoIdentity',
@@ -58,7 +59,7 @@ const signupPersistConfig = {
 }
 
 const chatPersistConfig = {
-  key: 'chat',
+  key: '/v2/chat',
   storage: AsyncStorage,
   whitelist: [
     'chatGetChats',

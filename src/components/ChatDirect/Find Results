@@ -1,0 +1,228 @@
+Searching 188 files for "Idle()"
+
+/Users/azimgd/codes/real/frontend/src/components/Album/index.service.js:
+   21:       dispatch(albumsActions.albumsDeleteIdle())
+
+/Users/azimgd/codes/real/frontend/src/components/AlbumCreate/index.service.js:
+   26:       dispatch(albumsActions.albumsCreateIdle())
+
+/Users/azimgd/codes/real/frontend/src/components/AlbumEdit/index.service.js:
+   19:       dispatch(albumsActions.albumsEditIdle())
+
+/Users/azimgd/codes/real/frontend/src/components/AuthCognito/index.service.js:
+   65:   const handleErrorClose = () => dispatch(signupActions.signupUsernameIdle())
+
+/Users/azimgd/codes/real/frontend/src/components/AuthEmail/index.service.js:
+   27:       dispatch(signupActions.signupCreateIdle())
+  109:   const handleErrorClose = () => dispatch(signupActions.signupCreateIdle())
+
+/Users/azimgd/codes/real/frontend/src/components/AuthEmailConfirm/index.service.js:
+   26:       dispatch(signupActions.signupConfirmIdle())
+   72:     dispatch(signupActions.signupCreateIdle())
+   73:     dispatch(signupActions.signupConfirmIdle())
+   74:     dispatch(signupActions.signupUsernameIdle())
+   75:     dispatch(signupActions.signupPasswordIdle())
+   97:   const handleErrorClose = () => dispatch(signupActions.signupConfirmIdle())
+
+/Users/azimgd/codes/real/frontend/src/components/AuthForgot/index.service.js:
+   48:   const handleErrorClose = () => dispatch(authActions.authForgotIdle())
+
+/Users/azimgd/codes/real/frontend/src/components/AuthForgotConfirm/index.service.js:
+   54:   const handleErrorClose = () => dispatch(authActions.authForgotConfirmIdle())
+
+/Users/azimgd/codes/real/frontend/src/components/AuthHome/index.service.js:
+   38:     dispatch(authActions.authSigninIdle())
+   42:       dispatch(authActions.authCheckIdle())
+   44:       dispatch(authActions.authGoogleIdle())
+   45:       dispatch(authActions.authSigninIdle())
+   54:       dispatch(authActions.authSigninIdle())
+   59:       dispatch(authActions.authSigninIdle())
+
+/Users/azimgd/codes/real/frontend/src/components/AuthPassword/index.service.js:
+   44:   const handleErrorClose = () => dispatch(signupActions.signupPasswordIdle())
+
+/Users/azimgd/codes/real/frontend/src/components/AuthPhone/index.service.js:
+   28:       dispatch(signupActions.signupCreateIdle())
+  112:   const handleErrorClose = () => dispatch(signupActions.signupCreateIdle())
+
+/Users/azimgd/codes/real/frontend/src/components/AuthPhoneConfirm/index.service.js:
+   26:       dispatch(signupActions.signupConfirmIdle())
+   72:     dispatch(signupActions.signupCreateIdle())
+   73:     dispatch(signupActions.signupConfirmIdle())
+   74:     dispatch(signupActions.signupUsernameIdle())
+   75:     dispatch(signupActions.signupPasswordIdle())
+   97:   const handleErrorClose = () => dispatch(signupActions.signupConfirmIdle())
+
+/Users/azimgd/codes/real/frontend/src/components/AuthPhoto/index.service.js:
+   37:   const handleErrorClose = () => dispatch(usersActions.usersEditProfileIdle())
+
+/Users/azimgd/codes/real/frontend/src/components/AuthPhotoUpload/index.service.js:
+   97:       dispatch(usersActions.usersEditProfileIdle())
+  114:       dispatch(usersActions.usersEditProfileIdle())
+  118:         dispatch(usersActions.usersEditProfileIdle())
+  126:     dispatch(usersActions.usersEditProfileIdle())
+
+/Users/azimgd/codes/real/frontend/src/components/AuthSigninEmail/index.service.js:
+   37:   const handleErrorClose = () => dispatch(authActions.authSigninIdle())
+
+/Users/azimgd/codes/real/frontend/src/components/AuthSigninPhone/index.service.js:
+   41:   const handleErrorClose = () => dispatch(authActions.authSigninIdle())
+
+/Users/azimgd/codes/real/frontend/src/components/AuthUsername/index.service.js:
+   50:   const handleErrorClose = () => dispatch(signupActions.signupUsernameIdle())
+
+/Users/azimgd/codes/real/frontend/src/components/Chat/index.service.js:
+   32:     dispatch(usersActions.usersFollowIdle())
+   33:     dispatch(usersActions.usersUnfollowIdle())
+
+/Users/azimgd/codes/real/frontend/src/components/PostEdit/index.service.js:
+   40:       dispatch(postsActions.postsEditIdle())
+
+/Users/azimgd/codes/real/frontend/src/components/PostMedia/index.service.js:
+   41:       dispatch(postsActions.postsDeleteIdle())
+
+/Users/azimgd/codes/real/frontend/src/components/PostShare/index.service.js:
+   42:       dispatch(postsActions.postsShareIdle())
+
+/Users/azimgd/codes/real/frontend/src/components/Privacy/index.service.js:
+   48:       dispatch(usersActions.usersEditProfileIdle())
+
+/Users/azimgd/codes/real/frontend/src/components/Profile/index.service.js:
+   46:       dispatch(usersActions.usersBlockIdle())
+   50:       dispatch(usersActions.usersUnblockIdle())
+
+/Users/azimgd/codes/real/frontend/src/components/ProfileEdit/index.service.js:
+   21:       dispatch(authActions.authCheckIdle())
+   22:       dispatch(authActions.authSignoutIdle())
+   30:       dispatch(usersActions.usersEditProfileIdle())
+
+/Users/azimgd/codes/real/frontend/src/components/ProfilePhoto/index.service.js:
+   37:       dispatch(usersActions.usersEditProfileIdle())
+
+/Users/azimgd/codes/real/frontend/src/components/Search/index.service.js:
+   32:     dispatch(usersActions.usersFollowIdle())
+   33:     dispatch(usersActions.usersUnfollowIdle())
+
+/Users/azimgd/codes/real/frontend/src/components/Theme/index.service.js:
+   18:     dispatch(themeActions.themePreviewIdle())
+   25:       dispatch(usersActions.usersEditProfileIdle())
+
+/Users/azimgd/codes/real/frontend/src/components/Translation/index.service.js:
+   17:       dispatch(usersActions.usersEditProfileIdle())
+
+54 matches across 28 files
+
+
+Searching 188 files for "Idle())"
+
+/Users/azimgd/codes/real/frontend/src/components/Album/index.service.js:
+   21:       dispatch(albumsActions.albumsDeleteIdle())
+
+/Users/azimgd/codes/real/frontend/src/components/AlbumCreate/index.service.js:
+   26:       dispatch(albumsActions.albumsCreateIdle())
+
+/Users/azimgd/codes/real/frontend/src/components/AlbumEdit/index.service.js:
+   19:       dispatch(albumsActions.albumsEditIdle())
+
+/Users/azimgd/codes/real/frontend/src/components/AuthCognito/index.service.js:
+   65:   const handleErrorClose = () => dispatch(signupActions.signupUsernameIdle())
+
+/Users/azimgd/codes/real/frontend/src/components/AuthEmail/index.service.js:
+   27:       dispatch(signupActions.signupCreateIdle())
+  109:   const handleErrorClose = () => dispatch(signupActions.signupCreateIdle())
+
+/Users/azimgd/codes/real/frontend/src/components/AuthEmailConfirm/index.service.js:
+   26:       dispatch(signupActions.signupConfirmIdle())
+   72:     dispatch(signupActions.signupCreateIdle())
+   73:     dispatch(signupActions.signupConfirmIdle())
+   74:     dispatch(signupActions.signupUsernameIdle())
+   75:     dispatch(signupActions.signupPasswordIdle())
+   97:   const handleErrorClose = () => dispatch(signupActions.signupConfirmIdle())
+
+/Users/azimgd/codes/real/frontend/src/components/AuthForgot/index.service.js:
+   48:   const handleErrorClose = () => dispatch(authActions.authForgotIdle())
+
+/Users/azimgd/codes/real/frontend/src/components/AuthForgotConfirm/index.service.js:
+   54:   const handleErrorClose = () => dispatch(authActions.authForgotConfirmIdle())
+
+/Users/azimgd/codes/real/frontend/src/components/AuthHome/index.service.js:
+   38:     dispatch(authActions.authSigninIdle())
+   42:       dispatch(authActions.authCheckIdle())
+   44:       dispatch(authActions.authGoogleIdle())
+   45:       dispatch(authActions.authSigninIdle())
+   54:       dispatch(authActions.authSigninIdle())
+   59:       dispatch(authActions.authSigninIdle())
+
+/Users/azimgd/codes/real/frontend/src/components/AuthPassword/index.service.js:
+   44:   const handleErrorClose = () => dispatch(signupActions.signupPasswordIdle())
+
+/Users/azimgd/codes/real/frontend/src/components/AuthPhone/index.service.js:
+   28:       dispatch(signupActions.signupCreateIdle())
+  112:   const handleErrorClose = () => dispatch(signupActions.signupCreateIdle())
+
+/Users/azimgd/codes/real/frontend/src/components/AuthPhoneConfirm/index.service.js:
+   26:       dispatch(signupActions.signupConfirmIdle())
+   72:     dispatch(signupActions.signupCreateIdle())
+   73:     dispatch(signupActions.signupConfirmIdle())
+   74:     dispatch(signupActions.signupUsernameIdle())
+   75:     dispatch(signupActions.signupPasswordIdle())
+   97:   const handleErrorClose = () => dispatch(signupActions.signupConfirmIdle())
+
+/Users/azimgd/codes/real/frontend/src/components/AuthPhoto/index.service.js:
+   37:   const handleErrorClose = () => dispatch(usersActions.usersEditProfileIdle())
+
+/Users/azimgd/codes/real/frontend/src/components/AuthPhotoUpload/index.service.js:
+   97:       dispatch(usersActions.usersEditProfileIdle())
+  114:       dispatch(usersActions.usersEditProfileIdle())
+  118:         dispatch(usersActions.usersEditProfileIdle())
+  126:     dispatch(usersActions.usersEditProfileIdle())
+
+/Users/azimgd/codes/real/frontend/src/components/AuthSigninEmail/index.service.js:
+   37:   const handleErrorClose = () => dispatch(authActions.authSigninIdle())
+
+/Users/azimgd/codes/real/frontend/src/components/AuthSigninPhone/index.service.js:
+   41:   const handleErrorClose = () => dispatch(authActions.authSigninIdle())
+
+/Users/azimgd/codes/real/frontend/src/components/AuthUsername/index.service.js:
+   50:   const handleErrorClose = () => dispatch(signupActions.signupUsernameIdle())
+
+/Users/azimgd/codes/real/frontend/src/components/Chat/index.service.js:
+   32:     dispatch(usersActions.usersFollowIdle())
+   33:     dispatch(usersActions.usersUnfollowIdle())
+
+/Users/azimgd/codes/real/frontend/src/components/PostEdit/index.service.js:
+   40:       dispatch(postsActions.postsEditIdle())
+
+/Users/azimgd/codes/real/frontend/src/components/PostMedia/index.service.js:
+   41:       dispatch(postsActions.postsDeleteIdle())
+
+/Users/azimgd/codes/real/frontend/src/components/PostShare/index.service.js:
+   42:       dispatch(postsActions.postsShareIdle())
+
+/Users/azimgd/codes/real/frontend/src/components/Privacy/index.service.js:
+   48:       dispatch(usersActions.usersEditProfileIdle())
+
+/Users/azimgd/codes/real/frontend/src/components/Profile/index.service.js:
+   46:       dispatch(usersActions.usersBlockIdle())
+   50:       dispatch(usersActions.usersUnblockIdle())
+
+/Users/azimgd/codes/real/frontend/src/components/ProfileEdit/index.service.js:
+   21:       dispatch(authActions.authCheckIdle())
+   22:       dispatch(authActions.authSignoutIdle())
+   30:       dispatch(usersActions.usersEditProfileIdle())
+
+/Users/azimgd/codes/real/frontend/src/components/ProfilePhoto/index.service.js:
+   37:       dispatch(usersActions.usersEditProfileIdle())
+
+/Users/azimgd/codes/real/frontend/src/components/Search/index.service.js:
+   32:     dispatch(usersActions.usersFollowIdle())
+   33:     dispatch(usersActions.usersUnfollowIdle())
+
+/Users/azimgd/codes/real/frontend/src/components/Theme/index.service.js:
+   18:     dispatch(themeActions.themePreviewIdle())
+   25:       dispatch(usersActions.usersEditProfileIdle())
+
+/Users/azimgd/codes/real/frontend/src/components/Translation/index.service.js:
+   17:       dispatch(usersActions.usersEditProfileIdle())
+
+54 matches across 28 files

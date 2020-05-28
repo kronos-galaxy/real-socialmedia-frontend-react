@@ -43,8 +43,8 @@ const Privacy = ({
         onPress: togglePrivacyStatus,
         enabled: user.privacyStatus === 'PRIVATE',
       }, {
-        label: t('Hide Total Followers'),
-        caption: t('Followers can\'t view a list of your total followers'),
+        label: t('Total Followers'),
+        caption: t('Followers can see your other followers'),
         onPress: toggleFollowCountsHidden,
         enabled: user.followCountsHidden,
       }, {

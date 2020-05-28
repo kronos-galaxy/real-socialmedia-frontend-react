@@ -15,7 +15,7 @@ import path from 'ramda/src/path'
 import 'store/updates'
 
 const persistConfig = {
-  key: 'root',
+  key: '/v2/root',
   storage: AsyncStorage,
   whitelist: ['theme', 'translation'],
   stateReconciler: autoMergeLevel2,

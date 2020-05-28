@@ -4,7 +4,7 @@ import {
   View,
   StyleSheet,
 } from 'react-native'
-import FormComponent from 'components/AuthSignin/Form'
+import FormComponent from 'components/AuthSigninPhone/Form'
 import AuthActionTemplate from 'templates/Auth/Action'
 import AuthHeaderTemplate from 'templates/Auth/Header'
 import AuthErrorTemplate from 'templates/Auth/Error'
@@ -14,7 +14,7 @@ import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
 import { withTranslation } from 'react-i18next'
 
-const AuthSignin = ({
+const AuthSigninPhone = ({
   t,
   theme,
   formErrorMessage,
@@ -29,7 +29,7 @@ const AuthSignin = ({
   const navigation = useNavigation()
 
   return (
-    <View testID="components/AuthSignin" style={styling.root}>
+    <View testID="components/AuthSigninPhone" style={styling.root}>
       {formErrorMessage ?
         <AuthErrorTemplate
           text={formErrorMessage}
@@ -74,7 +74,7 @@ const styles = theme => StyleSheet.create({
   },
 })
 
-AuthSignin.propTypes = {
+AuthSigninPhone.propTypes = {
   t: PropTypes.any,
   theme: PropTypes.any,
   formErrorMessage: PropTypes.any,
@@ -86,4 +86,4 @@ AuthSignin.propTypes = {
   formInitialValues: PropTypes.any,
 }
 
-export default withTranslation()(withTheme(AuthSignin))
+export default withTranslation()(withTheme(AuthSigninPhone))

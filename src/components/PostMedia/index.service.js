@@ -38,7 +38,7 @@ const PostMediaService = ({ children, ...props }) => {
 
   useEffect(() => {
     if (postsDelete.status === 'success') {
-      dispatch(postsActions.postsDeleteIdle())
+      dispatch(postsActions.postsDeleteIdle({}))
     }
     if (postsDelete.status === 'loading') {
       navigationActions.navigateBack(navigation)()

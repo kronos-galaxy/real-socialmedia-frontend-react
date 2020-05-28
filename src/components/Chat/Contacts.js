@@ -29,7 +29,7 @@ const Contacts = ({
   const styling = styles(theme)
   const navigation = useNavigation()
 
-  const items = (path(['data', 'items'])(chatGetChats) || [])
+  const items = (path(['data'])(chatGetChats) || [])
     .map(chat => ({
       ...chat,
       users: ({

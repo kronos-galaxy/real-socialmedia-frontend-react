@@ -35,14 +35,14 @@ const AuthHomeComponentService = ({ children }) => {
   }
   
   const authSigninIdle = () => 
-    dispatch(authActions.authSigninIdle())
+    dispatch(authActions.authSigninIdle({}))
 
   useEffect(() => {
     if (authGoogle.status === 'success') {
-      dispatch(authActions.authCheckIdle())
+      dispatch(authActions.authCheckIdle({}))
       dispatch(authActions.authCheckRequest(authGoogle.data))
-      dispatch(authActions.authGoogleIdle())
-      dispatch(authActions.authSigninIdle())
+      dispatch(authActions.authGoogleIdle({}))
+      dispatch(authActions.authSigninIdle({}))
     }
   }, [
     authGoogle.status,
@@ -51,12 +51,12 @@ const AuthHomeComponentService = ({ children }) => {
   useEffect(() => {
     if (authSignin.status === 'success') {
       dispatch(authActions.authCheckRequest({}))
-      dispatch(authActions.authSigninIdle())
+      dispatch(authActions.authSigninIdle({}))
     }
 
     if (authSignin.status === 'failure' && authSignin.nextRoute) {
       navigation.navigate(authSignin.nextRoute)
-      dispatch(authActions.authSigninIdle())
+      dispatch(authActions.authSigninIdle({}))
     }
   }, [
     authSignin.status,
@@ -67,8 +67,6 @@ const AuthHomeComponentService = ({ children }) => {
       'AuthHome',
       'AuthPhoto',
       'AuthCognito',
-
-      'AuthSignup',
       'AuthSignupConfirm',
     ].includes(authCheck.nextRoute)
     if (shouldRedirect) {

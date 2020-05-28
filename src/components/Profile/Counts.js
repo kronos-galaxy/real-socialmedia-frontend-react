@@ -31,25 +31,31 @@ const ProfileCounts = ({
         <Headline style={styling.itemTitle}>{path(['data', 'postCount'])(usersGetProfile)}</Headline>
         <Caption style={styling.itemText} numberOfLines={1}>{t('Posts')}</Caption>
       </View>
-      
-      <TouchableOpacity style={styling.item} onPress={navigationActions.navigateProfileFollower(navigation, { user: usersGetProfile.data })}>
-        {!path(['data', 'followCountsHidden'])(usersGetProfile) && is(Number)(followerCount) ?
+
+      {!path(['data', 'followCountsHidden'])(usersGetProfile) && is(Number)(followerCount) ?
+        <TouchableOpacity style={styling.item} onPress={navigationActions.navigateProfileFollower(navigation, { user: usersGetProfile.data })}>
           <Headline style={styling.itemTitle}>{followerCount}</Headline>
-        :
+          <Caption style={styling.itemText} numberOfLines={1}>{t('Followers')}</Caption>
+        </TouchableOpacity>
+      :
+        <View style={styling.item}>
           <Headline style={styling.itemTitle}>•</Headline>
-        }
-        <Caption style={styling.itemText} numberOfLines={1}>{t('Followers')}</Caption>
-      </TouchableOpacity>
+          <Caption style={styling.itemText} numberOfLines={1}>{t('Followers')}</Caption>
+        </View>
+      }
 
       
-      <TouchableOpacity style={styling.item} onPress={navigationActions.navigateProfileFollowed(navigation, { user: usersGetProfile.data })}>
-        {!path(['data', 'followCountsHidden'])(usersGetProfile) && is(Number)(followedCount) ?
+      {!path(['data', 'followCountsHidden'])(usersGetProfile) && is(Number)(followedCount) ?
+        <TouchableOpacity style={styling.item} onPress={navigationActions.navigateProfileFollowed(navigation, { user: usersGetProfile.data })}>
           <Headline style={styling.itemTitle}>{followedCount}</Headline>
-        :
+          <Caption style={styling.itemText} numberOfLines={1}>{t('Following')}</Caption>
+        </TouchableOpacity>
+      :
+        <View style={styling.item}>
           <Headline style={styling.itemTitle}>•</Headline>
-        }
-        <Caption style={styling.itemText} numberOfLines={1}>{t('Following')}</Caption>
-      </TouchableOpacity>
+          <Caption style={styling.itemText} numberOfLines={1}>{t('Following')}</Caption>
+        </View>
+      }
     </View>
   )
 }

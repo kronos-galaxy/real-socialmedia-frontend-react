@@ -40,18 +40,18 @@ const ChatDirectService = ({ children }) => {
       navigation.setParams({
         chat: chatCreateDirect.data,
       })
-      dispatch(chatActions.chatCreateDirectIdle())
+      dispatch(chatActions.chatCreateDirectIdle({}))
     }
   }, [chatCreateDirect.status])
 
-  const chatCreateDirectRequest = () => {
+  const chatCreateDirectRequest = ({ text }) => {
     const chatId = uuid()
     const messageId = uuid()
     dispatch(chatActions.chatCreateDirectRequest({
       chatId,
       userId,
       messageId,
-      messageText: '👋',
+      messageText: text,
     }))
   }
 

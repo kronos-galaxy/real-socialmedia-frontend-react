@@ -94,7 +94,7 @@ const AuthPhotoUploadComponentService = ({ children }) => {
   useEffect(() => {
     if (usersEditProfile.status === 'success') {
       logEvent('POST_CREATE_SUCCESS')
-      dispatch(usersActions.usersEditProfileIdle())
+      dispatch(usersActions.usersEditProfileIdle({}))
       dispatch(postsActions.postsCreateIdle({ payload: postsCreate.payload }))
       dispatch(authActions.authCheckIdle({ nextRoute: 'Root' }))
     }
@@ -111,11 +111,11 @@ const AuthPhotoUploadComponentService = ({ children }) => {
   useFocusEffect(
     useCallback(() => {
       dispatch(postsActions.postsCreateIdle({ payload: postsCreate.payload }))
-      dispatch(usersActions.usersEditProfileIdle())
+      dispatch(usersActions.usersEditProfileIdle({}))
 
       return () => {
         dispatch(postsActions.postsCreateIdle({ payload: postsCreate.payload }))
-        dispatch(usersActions.usersEditProfileIdle())
+        dispatch(usersActions.usersEditProfileIdle({}))
       }
     }, [])
   )
@@ -123,7 +123,7 @@ const AuthPhotoUploadComponentService = ({ children }) => {
   const formErrorMessage = usersEditProfile.error.text
 
   const handleErrorClose = () => {
-    dispatch(usersActions.usersEditProfileIdle())
+    dispatch(usersActions.usersEditProfileIdle({}))
     navigationActions.navigateAuthPhoto(navigation)()
   }
 

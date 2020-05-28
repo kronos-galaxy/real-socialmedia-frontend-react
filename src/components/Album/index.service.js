@@ -18,7 +18,7 @@ const AlbumService = ({ children }) => {
 
   useEffect(() => {
     if (albumsDelete.status === 'success') {
-      dispatch(albumsActions.albumsDeleteIdle())
+      dispatch(albumsActions.albumsDeleteIdle({}))
       dispatch(albumsActions.albumsGetRequest({ userId: user.userId }))
       navigationActions.navigateBack(navigation)()
     }

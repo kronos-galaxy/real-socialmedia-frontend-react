@@ -7,7 +7,8 @@ import { ThemesContext } from 'navigation/context'
 import * as navigationOptions from 'navigation/options'
 
 import AuthHomeScreen from 'screens/AuthHomeScreen'
-import AuthSigninScreen from 'screens/AuthSigninScreen'
+import AuthSigninPhoneScreen from 'screens/AuthSigninPhoneScreen'
+import AuthSigninEmailScreen from 'screens/AuthSigninEmailScreen'
 import AuthUsernameScreen from 'screens/AuthUsernameScreen'
 import AuthPhoneScreen from 'screens/AuthPhoneScreen'
 import AuthPasswordScreen from 'screens/AuthPasswordScreen'
@@ -48,6 +49,32 @@ const SignupNavigator = () => {
   )
 }
 
+const SigninNavigator = () => {
+  const Tab = createMaterialTopTabNavigator()
+  const { theme, themes } = useContext(ThemesContext)
+  const tabNavigatorAuthProps = navigationOptions.tabNavigatorAuthProps({ theme })
+  return (
+    <Tab.Navigator {...tabNavigatorAuthProps}>
+      <Tab.Screen
+        name="AuthSigninPhone"
+        component={AuthSigninPhoneScreen}
+        options={{
+          tabBarLabel: 'Phone',
+          tabBarTestID: 'navigation/AuthNavigator/Signin/phone',
+        }}
+      />
+      <Tab.Screen
+        name="AuthSigninEmail"
+        component={AuthSigninEmailScreen}
+        options={{
+          tabBarLabel: 'Email',
+          tabBarTestID: 'navigation/AuthNavigator/Signin/email',
+        }}
+      />
+    </Tab.Navigator>
+  )
+}
+
 const AuthNavigator = ({ theme }) => {
   const Stack = createStackNavigator()
 
@@ -71,8 +98,8 @@ const AuthNavigator = ({ theme }) => {
       />
 
       <Stack.Screen
-        name="AuthSignin"
-        component={AuthSigninScreen}
+        name="Signin"
+        component={SigninNavigator}
         {...stackScreenAuthProps({ options: { title: 'Log In', headerLeft: navigationOptions.pageHeaderLeft, gestureEnabled: true, } })}
       />
 
