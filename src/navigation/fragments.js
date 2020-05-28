@@ -4,6 +4,7 @@ import PostMediaScreen from 'screens/PostMediaScreen'
 import PostLikesScreen from 'screens/PostLikesScreen'
 import PostViewsScreen from 'screens/PostViewsScreen'
 import PostShareScreen from 'screens/PostShareScreen'
+import PostErrorScreen from 'screens/PostErrorScreen'
 import ProfileScreen from 'screens/ProfileScreen'
 import ProfileFollowedScreen from 'screens/ProfileFollowedScreen'
 import ProfileFollowerScreen from 'screens/ProfileFollowerScreen'
@@ -30,6 +31,12 @@ export const media = ({
       <Stack.Screen
         name="PostMedia"
         component={PostMediaScreen}
+        {...stackScreenPageProps({ options: { title: 'Post' } })}
+      />
+
+      <Stack.Screen
+        name="PostError"
+        component={PostErrorScreen}
         {...stackScreenPageProps({ options: { title: 'Post' } })}
       />
 

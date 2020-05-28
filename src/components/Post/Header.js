@@ -99,7 +99,7 @@ const Header = ({
         : null}
 
         {failedVerificationVisibility ?
-          <TouchableOpacity onPress={navigationActions.navigateVerification(navigation, { post })} style={styling.verification}>
+          <TouchableOpacity onPress={navigationActions.navigatePostError(navigation, { post })} style={styling.verification}>
             <Caption style={styling.verificationStatus}>{t('Failed Verification')} - {t('Learn More')}</Caption>
             <VerificationIcon fill="#DC3644" />
           </TouchableOpacity>

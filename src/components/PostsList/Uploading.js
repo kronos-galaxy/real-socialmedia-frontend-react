@@ -53,7 +53,7 @@ const Uploading = ({
 
       {post.status === 'loading' ?
         <View style={styling.status}>
-          <TouchableOpacity style={styling.content} onPress={navigationActions.navigateVerification(navigation, { post: pseudoPost })}>
+          <TouchableOpacity style={styling.content} onPress={navigationActions.navigatePostError(navigation, { post: pseudoPost })}>
             <Text style={styling.title}>Uploading {post.meta.progress || 0}%</Text>
             <View style={styling.caption}>
               <Caption style={styling.subtitle}>{t('Pending Verification')} - {t('Learn More')}</Caption>

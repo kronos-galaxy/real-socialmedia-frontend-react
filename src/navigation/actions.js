@@ -51,8 +51,8 @@ export const navigateChatDirect = (navigation, params) => defaultThrottle(() =>
   navigation.navigate('ChatDirect', params)
 )
 
-export const navigateVerification = (navigation, params) => defaultThrottle(() =>
-  navigation.navigate('Verification', params)
+export const navigatePostError = (navigation, params) => defaultThrottle(() =>
+  navigation.navigate('PostError', params)
 )
 
 export const navigatePostShare = (navigation, params) => defaultThrottle(() =>
