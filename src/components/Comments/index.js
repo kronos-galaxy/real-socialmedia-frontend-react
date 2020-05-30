@@ -9,7 +9,6 @@ import {
 import FormComponent from 'components/Comments/Form'
 import { ifIphoneX } from 'react-native-iphone-x-helper'
 import CommentComponent from 'components/Comments/Comment'
-import SwipeableComponent from 'components/Comments/Swipeable'
 import path from 'ramda/src/path'
 import pathOr from 'ramda/src/pathOr'
 
@@ -64,13 +63,14 @@ const Comments = ({
               path(['postedBy', 'userId'])(post) === user.userId ||
               path(['commentedBy', 'userId'])(comment) === user.userId
             ) ?
-              <SwipeableComponent onPress={() => commentsDeleteRequest({ commentId: comment.commentId })}>
-                <CommentComponent comment={comment} />
-              </SwipeableComponent>
-            : null}
-
-            {comment.commentedBy.userId !== user.userId ?
-              <CommentComponent comment={comment} />
+              <CommentComponent
+                comment={comment}
+                commentsDeleteRequest={() => commentsDeleteRequest({ commentId: comment.commentId })}
+                deletable={(
+                  path(['postedBy', 'userId'])(post) === user.userId ||
+                  path(['commentedBy', 'userId'])(comment) === user.userId
+                )}
+              />
             : null}
           </View>
         )}
