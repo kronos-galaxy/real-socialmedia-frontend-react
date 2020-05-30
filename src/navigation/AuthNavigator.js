@@ -19,7 +19,8 @@ import AuthPhotoScreen from 'screens/AuthPhotoScreen'
 import AuthPhotoUploadScreen from 'screens/AuthPhotoUploadScreen'
 import AuthPhotoErrorScreen from 'screens/AuthPhotoErrorScreen'
 import CameraScreen from 'screens/CameraScreen'
-import AuthForgotScreen from 'screens/AuthForgotScreen'
+import AuthForgotPhoneScreen from 'screens/AuthForgotPhoneScreen'
+import AuthForgotEmailScreen from 'screens/AuthForgotEmailScreen'
 import AuthForgotConfirmScreen from 'screens/AuthForgotConfirmScreen'
 import AuthCognitoScreen from 'screens/AuthCognitoScreen'
 
@@ -75,6 +76,32 @@ const SigninNavigator = () => {
   )
 }
 
+const ForgotNavigator = () => {
+  const Tab = createMaterialTopTabNavigator()
+  const { theme, themes } = useContext(ThemesContext)
+  const tabNavigatorAuthProps = navigationOptions.tabNavigatorAuthProps({ theme })
+  return (
+    <Tab.Navigator {...tabNavigatorAuthProps}>
+      <Tab.Screen
+        name="AuthForgotPhone"
+        component={AuthForgotPhoneScreen}
+        options={{
+          tabBarLabel: 'Phone',
+          tabBarTestID: 'navigation/AuthNavigator/Forgot/phone',
+        }}
+      />
+      <Tab.Screen
+        name="AuthForgotEmail"
+        component={AuthForgotEmailScreen}
+        options={{
+          tabBarLabel: 'Email',
+          tabBarTestID: 'navigation/AuthNavigator/Forgot/email',
+        }}
+      />
+    </Tab.Navigator>
+  )
+}
+
 const AuthNavigator = ({ theme }) => {
   const Stack = createStackNavigator()
 
@@ -101,6 +128,12 @@ const AuthNavigator = ({ theme }) => {
         name="Signin"
         component={SigninNavigator}
         {...stackScreenAuthProps({ options: { title: 'Log In', headerLeft: navigationOptions.pageHeaderLeft, gestureEnabled: true, } })}
+      />
+
+      <Stack.Screen
+        name="Forgot"
+        component={ForgotNavigator}
+        {...stackScreenAuthProps({ options: { title: 'Forgot', headerLeft: navigationOptions.pageHeaderLeft, gestureEnabled: true, } })}
       />
 
       <Stack.Screen
@@ -149,12 +182,6 @@ const AuthNavigator = ({ theme }) => {
         name="AuthCamera"
         component={CameraScreen}
         {...stackScreenBlankProps}
-      />
-
-      <Stack.Screen
-        name="AuthForgot"
-        component={AuthForgotScreen}
-        {...stackScreenAuthProps({ options: { title: 'Forgot', headerLeft: navigationOptions.pageHeaderLeft, gestureEnabled: true, } })}
       />
 
       <Stack.Screen

@@ -4,7 +4,7 @@ import {
   View,
   StyleSheet,
 } from 'react-native'
-import FormComponent from 'components/AuthForgot/Form'
+import FormComponent from 'components/AuthForgotPhone/Form'
 import AuthActionTemplate from 'templates/Auth/Action'
 import AuthHeaderTemplate from 'templates/Auth/Header'
 import AuthErrorTemplate from 'templates/Auth/Error'
@@ -14,7 +14,7 @@ import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
 import { withTranslation } from 'react-i18next'
 
-const AuthForgot = ({
+const AuthForgotPhone = ({
   t,
   theme,
   formErrorMessage,
@@ -29,7 +29,7 @@ const AuthForgot = ({
   const navigation = useNavigation()
 
   return (
-    <View testID="components/AuthForgot" style={styling.root}>
+    <View testID="components/AuthForgotPhone" style={styling.root}>
       {formErrorMessage ?
         <AuthErrorTemplate
           text={formErrorMessage}
@@ -74,7 +74,7 @@ const styles = theme => StyleSheet.create({
   },
 })
 
-AuthForgot.propTypes = {
+AuthForgotPhone.propTypes = {
   t: PropTypes.any,
   theme: PropTypes.any,
   formErrorMessage: PropTypes.any,
@@ -86,4 +86,4 @@ AuthForgot.propTypes = {
   formInitialValues: PropTypes.any,
 }
 
-export default withTranslation()(withTheme(AuthForgot))
+export default withTranslation()(withTheme(AuthForgotPhone))

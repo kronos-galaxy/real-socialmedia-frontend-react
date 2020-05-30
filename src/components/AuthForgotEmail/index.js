@@ -4,7 +4,7 @@ import {
   View,
   StyleSheet,
 } from 'react-native'
-import FormComponent from 'components/AuthSigninEmail/Form'
+import FormComponent from 'components/AuthForgotEmail/Form'
 import AuthActionTemplate from 'templates/Auth/Action'
 import AuthHeaderTemplate from 'templates/Auth/Header'
 import AuthErrorTemplate from 'templates/Auth/Error'
@@ -14,7 +14,7 @@ import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
 import { withTranslation } from 'react-i18next'
 
-const AuthSigninEmail = ({
+const AuthForgotEmail = ({
   t,
   theme,
   formErrorMessage,
@@ -29,7 +29,7 @@ const AuthSigninEmail = ({
   const navigation = useNavigation()
 
   return (
-    <View testID="components/AuthSigninEmail" style={styling.root}>
+    <View testID="components/AuthForgotEmail" style={styling.root}>
       {formErrorMessage ?
         <AuthErrorTemplate
           text={formErrorMessage}
@@ -39,8 +39,8 @@ const AuthSigninEmail = ({
 
       <View style={styling.component}>
         <AuthHeaderTemplate
-          title={t('Welcome Back!')}
-          subtitle={t('Please login to continue')}
+          title={t('Forgot Password')}
+          subtitle={t('Reset your password')}
         />
 
         <View style={styling.content}>
@@ -54,8 +54,8 @@ const AuthSigninEmail = ({
         </View>
       </View>
 
-      <AuthActionTemplate onPress={navigationActions.navigateForgot(navigation)}>
-        {t('Reset your Password')}
+      <AuthActionTemplate onPress={navigationActions.navigateAuthSigninPhone(navigation)}>
+        {t('Already Have an Account ? Log In')}
       </AuthActionTemplate>
     </View>
   )
@@ -74,7 +74,7 @@ const styles = theme => StyleSheet.create({
   },
 })
 
-AuthSigninEmail.propTypes = {
+AuthForgotEmail.propTypes = {
   t: PropTypes.any,
   theme: PropTypes.any,
   formErrorMessage: PropTypes.any,
@@ -86,4 +86,4 @@ AuthSigninEmail.propTypes = {
   formInitialValues: PropTypes.any,
 }
 
-export default withTranslation()(withTheme(AuthSigninEmail))
+export default withTranslation()(withTheme(AuthForgotEmail))
