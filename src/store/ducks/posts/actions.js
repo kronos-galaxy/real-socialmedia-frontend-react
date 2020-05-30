@@ -1,6 +1,8 @@
 import { createAction } from 'redux-actions'
 import * as constants from 'store/ducks/posts/constants'
 
+export const postsResourcePoolMerge = createAction('POSTS_RESOURCE_POOL_MERGE')
+
 /**
  * 
  */

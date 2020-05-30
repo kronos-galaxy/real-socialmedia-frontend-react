@@ -12,9 +12,11 @@ import * as chatActions from 'store/ducks/chat/actions'
 import * as queryService from 'services/Query'
 import * as usersActions from 'store/ducks/users/actions'
 
-const usersResourcePoolMergeChatUser = (data) => data.reduce((acc, chat) => {
+const usersResourcePoolMergeChatUsers = (data) => data.reduce((acc, chat) => {
   return acc.concat(chat.users.items)
 }, [])
+
+const usersResourcePoolMergeChatUser = (data) => data.users.items
 
 /**
  * 
@@ -25,7 +27,7 @@ function* chatGetChatsRequest(req) {
     const dataSelector = path(['data', 'self', 'chats', 'items'])
     const metaSelector = compose(omit(['items']), path(['data', 'self', 'chats']))
 
-    yield put(usersActions.usersResourcePoolMerge({ data: usersResourcePoolMergeChatUser(dataSelector(data)) }))
+    yield put(usersActions.usersResourcePoolMerge({ data: usersResourcePoolMergeChatUsers(dataSelector(data)) }))
     yield put(actions.chatGetChatsSuccess({ payload: req.payload, data: dataSelector(data), meta: metaSelector(data) }))
   } catch (error) {
     yield put(actions.chatGetChatsFailure({ message: error.message, payload: req.payload }))
@@ -40,6 +42,7 @@ function* chatGetChatRequest(req) {
     const data = yield queryService.apiRequest(queries.chat, req.payload)
     const dataSelector = path(['data', 'chat'])
 
+    yield put(usersActions.usersResourcePoolMerge({ data: usersResourcePoolMergeChatUser(dataSelector(data)) }))
     yield put(actions.chatGetChatSuccess({ data: dataSelector(data), payload: req.payload, meta: data }))
   } catch (error) {
     yield put(actions.chatGetChatFailure({ message: error.message, payload: req.payload }))
@@ -54,6 +57,7 @@ function* chatCreateDirectRequest(req) {
     const data = yield queryService.apiRequest(queries.createDirectChat, req.payload)
     const dataSelector = path(['data', 'createDirectChat'])
 
+    yield put(usersActions.usersResourcePoolMerge({ data: usersResourcePoolMergeChatUser(dataSelector(data)) }))
     yield put(actions.chatCreateDirectSuccess({ data: dataSelector(data), payload: req.payload, meta: data }))
   } catch (error) {
     yield put(actions.chatCreateDirectFailure({ message: error.message, payload: req.payload }))

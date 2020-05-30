@@ -34,6 +34,7 @@ export const handleGallery = async (photoSize = '1:1', multiple = false) => {
   try {
     const selected = await CropPicker.openPicker({
       multiple,
+      avoidEmptySpaceAroundImage: false,
     })
 
     const responses = Array.isArray(selected) ? selected : [selected]
@@ -97,6 +98,7 @@ const CameraService = ({ children }) => {
         quality: 1,
         base64: false,
         exif: true,
+        mirrorImage: true,
       })
 
       const croppedPhoto = await CropPicker.openCropper({

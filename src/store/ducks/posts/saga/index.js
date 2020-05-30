@@ -12,6 +12,7 @@ import * as queryService from 'services/Query'
 
 const usersResourcePoolMergePostedBy = (data) => data.map(post => post.postedBy)
 const usersResourcePoolMergeCommentedBy = (data) => data.map(post => post.commentedBy)
+const usersResourcePoolMergeViewedBy = (data) => data
 
 /**
  *
@@ -52,6 +53,7 @@ function* postsViewsGetRequest(req) {
     const dataSelector = path(['data', 'post', 'viewedBy', 'items'])
     const metaSelector = compose(omit(['items']), path(['data', 'post', 'viewedBy']))
 
+    yield put(usersActions.usersResourcePoolMerge({ data: usersResourcePoolMergeViewedBy(dataSelector(data)) }))
     yield put(actions.postsViewsGetSuccess({ payload: req.payload, data: dataSelector(data), meta: metaSelector(data) }))
   } catch (error) {
     yield put(actions.postsViewsGetFailure({ payload: req.payload, message: errorWrapper(error) }))
@@ -66,6 +68,7 @@ function* postsViewsGetMoreRequest(req) {
     const dataSelector = path(['data', 'post', 'viewedBy', 'items'])
     const metaSelector = compose(omit(['items']), path(['data', 'post', 'viewedBy']))
 
+    yield put(usersActions.usersResourcePoolMerge({ data: usersResourcePoolMergeViewedBy(dataSelector(data)) }))
     yield put(actions.postsViewsGetMoreSuccess({ payload: req.payload, data: dataSelector(data), meta: metaSelector(data) }))
   } catch (error) {
     yield put(actions.postsViewsGetMoreFailure({ payload: req.payload, message: errorWrapper(error) }))

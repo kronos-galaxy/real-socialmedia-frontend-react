@@ -174,6 +174,18 @@ const initialState = {
   postsViewsGetCache: {},
   postsLikesGetCache: {},
 }
+ 
+const postsResourcePoolMerge = (state, action) => update(state, {
+  /**
+   * User pool entry
+   */
+  postsPool: {
+    $postsResourcePoolMerge: {
+      ...action,
+      initialState: initialState.postsSingleGet,
+    },
+  }
+})
 
 /**
  *
@@ -211,7 +223,7 @@ const postsGetSuccess = (state, action) => update(state, {
       ...action,
       initialState: initialState.postsSingleGet,
     },
-  }
+  },
 })
 
 const postsGetFailure = (state, action) => update(state, {
@@ -1132,6 +1144,8 @@ const commentsDeleteIdle = (state, action) => update(state, {
 })
 
 export default handleActions({
+  [constants.POSTS_RESOURCE_POOL_MERGE]: postsResourcePoolMerge,
+
   [constants.POSTS_GET_REQUEST]: postsGetRequest,
   [constants.POSTS_GET_SUCCESS]: postsGetSuccess,
   [constants.POSTS_GET_FAILURE]: postsGetFailure,

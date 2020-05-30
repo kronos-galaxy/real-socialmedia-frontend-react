@@ -1,3 +1,5 @@
+export const POSTS_RESOURCE_POOL_MERGE = 'POSTS_RESOURCE_POOL_MERGE'
+
 /**
  *
  */

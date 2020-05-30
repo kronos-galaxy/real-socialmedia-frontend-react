@@ -32,14 +32,19 @@ const ChatDirectService = ({ children }) => {
   }, [])
 
   useEffect(() => {
-    dispatch(chatActions.chatGetChatRequest({ chatId }))
+    if (chatAddMessage.status === 'success') {
+      dispatch(chatActions.chatGetChatRequest({ chatId }))
+      dispatch(chatActions.chatAddMessageIdle({}))
+    }
   }, [chatAddMessage.status])
 
   useEffect(() => {
     if (chatCreateDirect.status === 'success') {
       navigation.setParams({
-        chat: chatCreateDirect.data,
+        chat: { chatId: chatCreateDirect.payload.chatId },
       })
+      dispatch(chatActions.chatGetChatRequest({ chatId: chatCreateDirect.payload.chatId }))
+      dispatch(chatActions.chatGetChatsRequest())
       dispatch(chatActions.chatCreateDirectIdle({}))
     }
   }, [chatCreateDirect.status])

@@ -131,9 +131,18 @@ const chatCreateDirectRequest = (state, action) => update(state, {
 
 const chatCreateDirectSuccess = (state, action) => update(state, {
   chatCreateDirect: {
-    data: { $set: action.payload.data },
     status: { $set: 'success' },
     payload: { $set: action.payload.payload },
+  },
+
+  /**
+   * Chat pool entry
+   */
+  chatPool: {
+    $chatResourcePoolSet: {
+      ...action,
+      initialState: initialState.chatGetChat,
+    },
   },
 })
 

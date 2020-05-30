@@ -182,7 +182,10 @@ const CacheComponent = ({
 
         {uri ? (
           <Image
-            source={{ uri }}
+            source={{
+              uri,
+              cache: 'reload',
+            }}
             resizeMode={resizeMode}
             style={[styling.image, style]}
             onError={handleError}

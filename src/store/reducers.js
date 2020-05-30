@@ -24,11 +24,12 @@ const postsPersistConfig = {
   key: '/v2/posts',
   storage: AsyncStorage,
   whitelist: [
-    'postsFeedGet',
-    'postsGet',
-    'postsGetCache',
-    'postsGetTrendingPosts',
-    'postsPool',
+    // 'postsFeedGet',
+    // 'postsGet',
+    // 'postsGetCache',
+    // 'postsGetTrendingPosts',
+    // 'postsPool',
+    
     // 'postsCreateQueue',
     // 'postsRecreateQueue',
   ],
@@ -38,7 +39,7 @@ const usersPersistConfig = {
   key: '/v2/users',
   storage: AsyncStorage,
   whitelist: [
-    'usersPool',
+    // 'usersPool',
   ],
 }
 
@@ -46,7 +47,7 @@ const authPersistConfig = {
   key: '/v2/auth',
   storage: AsyncStorage,
   whitelist: [
-    'user',
+    // 'user',
   ],
 }
 
@@ -54,7 +55,7 @@ const signupPersistConfig = {
   key: '/v2/signup',
   storage: AsyncStorage,
   whitelist: [
-    'signupCognitoIdentity',
+    // 'signupCognitoIdentity',
   ],
 }
 
@@ -62,7 +63,7 @@ const chatPersistConfig = {
   key: '/v2/chat',
   storage: AsyncStorage,
   whitelist: [
-    'chatGetChats',
+    // 'chatGetChats',
   ],
 }
 
