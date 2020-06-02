@@ -418,7 +418,7 @@ function* commentsDeleteRequest(req) {
   }
 }
 
-export default () => [  
+export default () => [
   takeEvery(constants.POSTS_GET_REQUEST, postsGetRequest),
   takeEvery(constants.POSTS_GET_MORE_REQUEST, postsGetMoreRequest),
 

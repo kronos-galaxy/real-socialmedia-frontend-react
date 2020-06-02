@@ -33,6 +33,7 @@ const AuthForgotConfirmComponentService = ({ children }) => {
     ) return
 
     navigationActions.navigateAuthSigninPhone(navigation)()
+    dispatch(authActions.authForgotConfirmIdle({}))
   }, [
     authForgotConfirm.status === 'success',
   ])

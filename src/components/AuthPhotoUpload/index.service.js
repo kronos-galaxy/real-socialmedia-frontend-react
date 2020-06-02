@@ -1,11 +1,11 @@
-import { useEffect, useCallback } from 'react'
+import { useEffect } from 'react'
 import * as postsActions from 'store/ducks/posts/actions'
 import * as cameraActions from 'store/ducks/camera/actions'
 import * as usersActions from 'store/ducks/users/actions'
 import * as authActions from 'store/ducks/auth/actions'
 import * as navigationActions from 'navigation/actions'
 import { useDispatch, useSelector } from 'react-redux'
-import { useNavigation, useFocusEffect } from '@react-navigation/native'
+import { useNavigation } from '@react-navigation/native'
 import { v4 as uuid } from 'uuid'
 import dayjs from 'dayjs'
 import pathOr from 'ramda/src/pathOr'
@@ -104,21 +104,6 @@ const AuthPhotoUploadComponentService = ({ children }) => {
       navigationActions.navigateAuthPhotoError(navigation)()
     }
   }, [usersEditProfile.status])
-
-  /**
-   *
-   */
-  useFocusEffect(
-    useCallback(() => {
-      dispatch(postsActions.postsCreateIdle({ payload: postsCreate.payload }))
-      dispatch(usersActions.usersEditProfileIdle({}))
-
-      return () => {
-        dispatch(postsActions.postsCreateIdle({ payload: postsCreate.payload }))
-        dispatch(usersActions.usersEditProfileIdle({}))
-      }
-    }, [])
-  )
 
   const formErrorMessage = usersEditProfile.error.text
 
