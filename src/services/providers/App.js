@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react'
-import { ActivityIndicator } from 'react-native'
 import { useSelector, useDispatch } from 'react-redux'
 import * as uiActions from 'store/ducks/ui/actions'
 import * as themeActions from 'store/ducks/theme/actions'
@@ -14,7 +13,6 @@ import * as Logger from 'services/Logger'
 import * as Updates from 'services/Updates'
 import useAppState from 'services/AppState'
 import LoadingComponent from 'components/Loading'
-import BackgroundTimer from 'react-native-background-timer'
 
 /**
  * 
@@ -61,16 +59,9 @@ export const AuthProvider = ({
     dispatch(themeActions.themeFetchRequest(payload))
   const translationFetchRequest = (payload) =>
     dispatch(translationActions.translationFetchRequest(payload))
-  const postsCreateSchedulerRequest = (payload) =>
-    dispatch(postsActions.postsCreateSchedulerRequest(payload))
   const uiNotificationIdle = (payload) =>
     dispatch(uiActions.uiNotificationIdle(payload))
-  // useEffect(() => {
-  //   BackgroundTimer.runBackgroundTimer(() => { 
-  //     dispatch(postsActions.postsCreateSchedulerRequest({}))
-  //   }, 60000)
-  // }, [])
-
+  
   /**
    * Constructor function to fetch: Translations, Themes and Auth data
    */
@@ -87,7 +78,6 @@ export const AuthProvider = ({
   useAppState({
     onForeground: () => {
       authCheckRequest({})
-      postsCreateSchedulerRequest({})
       Updates.versionCheck()
     },
   })
@@ -144,15 +134,10 @@ export const AuthProvider = ({
 
   if (
     !path(['data', 'en'])(translationFetch) ||
-    !path(['data', 'length'])(themeFetch)
+    !path(['data', 'length'])(themeFetch) ||
+    !nextRoute
   ) {
     return <LoadingComponent />
-  }
-
-  if (!nextRoute) {
-    return (
-      <ActivityIndicator size="small" color="#ffffff" />
-    )
   }
 
   const authenticated = (
