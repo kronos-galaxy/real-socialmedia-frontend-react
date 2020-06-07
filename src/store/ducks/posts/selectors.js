@@ -10,6 +10,14 @@ const createDeepEqualSelector = createSelectorCreator(
   equals
 )
 
+const sortyByPostView = (prev, next) => {
+  if (prev.viewedStatus === 'NOT_VIEWED' && next.viewedStatus === 'VIEWED') {
+    return -1
+  } else {
+    return 0
+  }
+}
+
 const postsPool = () => path(['posts', 'postsPool'])
 const commentsPool = () => path(['posts', 'commentsPool'])
 const postsPoolPost = (postId) => path(['posts', 'postsPool', postId])
@@ -151,6 +159,7 @@ export const postsGetTrendingPostsSelector = () => createDeepEqualSelector(
       .map(postId =>
         path([postId, 'data'])(postsPool)
       )
+      .sort(sortyByPostView)
       .filter(post => post)
     return assocPath(['data'], mappedPosts)(postsGetTrendingPosts)
   },
