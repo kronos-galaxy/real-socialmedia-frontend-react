@@ -209,7 +209,7 @@ const CacheComponent = ({
             resizeMode={resizeMode}
             style={[styling.image, style]}
             onError={handleError}
-            blurRadius={filename === '64p' && !hideProgress ? 5 : 0}
+            blurRadius={filename !== '64p' || hideProgress ? 0 : 4}
           />
         ) : (
           <Image
@@ -217,7 +217,7 @@ const CacheComponent = ({
             resizeMode={resizeMode}
             style={[styling.image, style]}
             onError={handleError}
-            blurRadius={filename === '64p' && !hideProgress ? 5 : 0}
+            blurRadius={filename !== '64p' || hideProgress ? 0 : 4}
           />
         )}
       </View>

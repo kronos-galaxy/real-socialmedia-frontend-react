@@ -59,19 +59,14 @@ const Comments = ({
         : null}
         renderItem={({ item: comment, index }) => (
           <View style={styling.comment}>
-            {(
-              path(['postedBy', 'userId'])(post) === user.userId ||
-              path(['commentedBy', 'userId'])(comment) === user.userId
-            ) ?
-              <CommentComponent
-                comment={comment}
-                commentsDeleteRequest={() => commentsDeleteRequest({ commentId: comment.commentId })}
-                deletable={(
-                  path(['postedBy', 'userId'])(post) === user.userId ||
-                  path(['commentedBy', 'userId'])(comment) === user.userId
-                )}
-              />
-            : null}
+            <CommentComponent
+              comment={comment}
+              commentsDeleteRequest={() => commentsDeleteRequest({ commentId: comment.commentId })}
+              deletable={(
+                path(['postedBy', 'userId'])(post) === user.userId ||
+                path(['commentedBy', 'userId'])(comment) === user.userId
+              )}
+            />
           </View>
         )}
       />
