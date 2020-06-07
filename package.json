@@ -1,6 +1,6 @@
 {
   "name": "real",
-  "version": "1.6.3",
+  "version": "1.6.4",
   "private": true,
   "scripts": {
     "start": "react-native start",
