@@ -10,6 +10,13 @@ const initialState = {
     payload: {},
     meta: {},
   },
+  postsGetUnreadComments: {
+    data: [],
+    status: 'idle',
+    error: {},
+    payload: {},
+    meta: {},
+  },
   postsViewsGet: {
     data: [],
     status: 'idle',
@@ -275,6 +282,50 @@ const postsGetMoreSuccess = (state, action) => update(state, {
     },
   },
 })
+
+/**
+ *
+ */
+const postsGetUnreadCommentsRequest = (state, action) => update(state, {
+  postsGetUnreadComments: {
+    status: { $set: 'loading' },
+    payload: { $set: action.payload },
+  },
+})
+
+const postsGetUnreadCommentsSuccess = (state, action) => update(state, {
+  postsGetUnreadComments: {
+    data: { $postsResourceSetSuccess: action },
+    status: { $set: 'success' },
+    payload: { $set: action.payload.payload },
+    meta: { $set: action.payload.meta },
+  },
+  
+  /**
+   *
+   */
+  postsPool: {
+    $postsResourcePoolMerge: {
+      ...action,
+      initialState: initialState.postsSingleGet,
+    },
+  },
+})
+
+const postsGetUnreadCommentsFailure = (state, action) => update(state, {
+  postsGetUnreadComments: {
+    status: { $set: 'failure' },
+    payload: { $set: action.payload.payload },
+  },
+})
+
+const postsGetUnreadCommentsIdle = (state, action) => update(state, {
+  postsGetUnreadComments: {
+    status: { $set: 'idle' },
+    payload: { $set: action.payload.payload },
+  },
+})
+
 
 /**
  *
@@ -1159,6 +1210,11 @@ export default handleActions({
   [constants.POSTS_VIEWS_GET_IDLE]: postsViewsGetIdle,
   [constants.POSTS_VIEWS_GET_MORE_REQUEST]: postsViewsGetMoreRequest,
   [constants.POSTS_VIEWS_GET_MORE_SUCCESS]: postsViewsGetMoreSuccess,
+
+  [constants.POSTS_GET_UNREAD_COMMENTS_REQUEST]: postsGetUnreadCommentsRequest,
+  [constants.POSTS_GET_UNREAD_COMMENTS_SUCCESS]: postsGetUnreadCommentsSuccess,
+  [constants.POSTS_GET_UNREAD_COMMENTS_FAILURE]: postsGetUnreadCommentsFailure,
+  [constants.POSTS_GET_UNREAD_COMMENTS_IDLE]: postsGetUnreadCommentsIdle,
 
   [constants.POSTS_LIKES_GET_REQUEST]: postsLikesGetRequest,
   [constants.POSTS_LIKES_GET_SUCCESS]: postsLikesGetSuccess,

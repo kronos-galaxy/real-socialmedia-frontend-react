@@ -53,12 +53,6 @@ export const AuthProvider = ({
     (prevProps = {}, nextProps = {}) => prevProps.userId === nextProps.userId
   )
 
-  const authCheckRequest = (payload) =>
-    dispatch(authActions.authCheckRequest(payload))
-  const themeFetchRequest = (payload) =>
-    dispatch(themeActions.themeFetchRequest(payload))
-  const translationFetchRequest = (payload) =>
-    dispatch(translationActions.translationFetchRequest(payload))
   const uiNotificationIdle = (payload) =>
     dispatch(uiActions.uiNotificationIdle(payload))
   
@@ -66,9 +60,10 @@ export const AuthProvider = ({
    * Constructor function to fetch: Translations, Themes and Auth data
    */
   useEffect(() => {
-    themeFetchRequest({})
-    translationFetchRequest({})
-    authCheckRequest({})
+    dispatch(themeActions.themeFetchRequest())
+    dispatch(translationActions.translationFetchRequest())
+    dispatch(authActions.authCheckRequest())
+    dispatch(postsActions.postsGetUnreadCommentsRequest({ limit: 20 }))
   }, [])
 
   /**
@@ -77,7 +72,9 @@ export const AuthProvider = ({
    */
   useAppState({
     onForeground: () => {
-      authCheckRequest({})
+      dispatch(authActions.authCheckRequest())
+      dispatch(postsActions.postsCreateSchedulerRequest())
+      dispatch(postsActions.postsFeedGetRequest({ limit: 20 }))
       Updates.versionCheck()
     },
   })

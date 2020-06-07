@@ -18,6 +18,20 @@ export const getPosts = `
   ${postFragment}
 `
 
+export const getPostsUnreadComments = `
+  query GetPosts($limit: Int, $nextToken: String = null) {
+    self {
+      postsByNewCommentActivity(limit: $limit, nextToken: $nextToken) {
+        items {
+          ...postFragment
+        }
+        nextToken
+      }
+    }
+  }
+  ${postFragment}
+`
+
 export const getPost = `
   query GetPost($postId: ID!) {
     post(postId: $postId) {
