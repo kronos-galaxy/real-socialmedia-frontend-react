@@ -11,6 +11,7 @@ const createDeepEqualSelector = createSelectorCreator(
 )
 
 const postsPool = () => path(['posts', 'postsPool'])
+const commentsPool = () => path(['posts', 'commentsPool'])
 const postsPoolPost = (postId) => path(['posts', 'postsPool', postId])
 const postsGetCache = () => path(['posts', 'postsGetCache'])
 const postsGetCachePost = (userId) => path(['posts', 'postsGetCache', userId])
@@ -106,8 +107,16 @@ export const postsSingleGetSelector = (navigationParamPost) => createDeepEqualSe
 const postsCommentsGet = () => path(['posts', 'postsCommentsGet'])
 
 export const postsCommentsGetSelector = (postId) => createDeepEqualSelector(
-  [postsCommentsGet(postId), postsCommentsGetCachePost(postId)],
-  (postsCommentsGet, postsCommentsGetCachePost) => postsCommentsGetCachePost || postsCommentsGet,
+  [postsCommentsGet(postId), postsCommentsGetCachePost(postId), commentsPool()],
+  (postsCommentsGet, postsCommentsGetCachePost, commentsPool) => {
+    const mappedPosts = pathOr([], ['data'])(postsCommentsGetCachePost)
+      .map(commentId =>
+        path([commentId, 'data'])(commentsPool)
+      )
+      .filter(comment => comment)
+
+    return assocPath(['data'], mappedPosts)(postsCommentsGet)
+  },
 )
 
 /**

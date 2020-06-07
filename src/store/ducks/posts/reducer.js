@@ -174,6 +174,13 @@ const initialState = {
 
   },
 
+  /**
+   * commentId -> { data: {} }
+   */
+  commentsPool: {
+
+  },
+
   postsCreateQueue: {},
   postsRecreateQueue: {},
   postsGetCache: {},
@@ -1116,8 +1123,30 @@ const postsCommentsGetRequest = (state, action) => update(state, {
 
 const postsCommentsGetSuccess = (state, action) => update(state, {
   postsCommentsGet: {
-    data: { $set: action.payload.data },
     status: { $set: 'success' },
+  },
+
+  /**
+   * 
+   */
+  postsCommentsGetCache: {
+    $postsResourceCacheSetSuccess: {
+      ...action,
+      resourceKey: action.payload.payload.postId,
+      initialState: initialState.postsCommentsGet,
+      selector: 'commentId',
+    },
+  },
+  
+  /**
+   *
+   */
+  commentsPool: {
+    $postsResourcePoolMerge: {
+      ...action,
+      initialState: initialState.postsSingleGet,
+      selector: 'commentId',
+    },
   },
 })
 

@@ -28,11 +28,13 @@ const CommentsService = ({ children }) => {
   useEffect(() => {
     dispatch(postsActions.postsCommentsGetRequest({ postId, userId: postUserId }))
     dispatch(postsActions.postsSingleGetRequest({ postId, userId: postUserId }))
+    dispatch(postsActions.commentsAddIdle({}))
   }, [commentsAdd.status === 'success'])
 
   useEffect(() => {
     dispatch(postsActions.postsCommentsGetRequest({ postId, userId: postUserId }))
     dispatch(postsActions.postsSingleGetRequest({ postId, userId: postUserId }))
+    dispatch(postsActions.commentsDeleteIdle({}))
   }, [commentsDelete.status === 'success'])
 
   const commentsAddRequest = ({ text }) => {
