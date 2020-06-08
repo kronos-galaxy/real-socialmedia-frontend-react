@@ -29,7 +29,7 @@ const AppNavigator = () => {
       <Stack.Screen
         name="ProfileRequests"
         component={ProfileRequestsScreen}
-        {...stackScreenPageProps({ options: { title: 'Friend Requests' } })}
+        {...stackScreenPageProps({ options: { title: 'Follower Requests' } })}
       />
       
       {navigationFragments.media({

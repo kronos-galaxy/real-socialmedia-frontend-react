@@ -99,6 +99,12 @@ const initialState = {
     error: {},
     payload: {},
   },
+  usersSetApnsToken: {
+    data: [],
+    status: 'idle',
+    error: {},
+    payload: {},
+  },
 
   usersPool: {
 
@@ -822,6 +828,38 @@ const usersGetCardsIdle = (state, action) => update(state, {
   },
 })
 
+/**
+ *
+ */
+const usersSetApnsTokenRequest = (state, action) => update(state, {
+  usersSetApnsToken: {
+    status: { $set: 'loading' },
+    payload: { $set: action.payload },
+  },
+})
+
+const usersSetApnsTokenSuccess = (state, action) => update(state, {
+  usersSetApnsToken: {
+    data: { $set: action.payload.data },
+    status: { $set: 'success' },
+  },
+})
+
+const usersSetApnsTokenFailure = (state, action) => update(state, {
+  usersSetApnsToken: {
+    status: { $set: 'failure' },
+    error: { $set: action.payload.message },
+  },
+})
+
+const usersSetApnsTokenIdle = (state, action) => update(state, {
+  usersSetApnsToken: {
+    data: { $set: initialState.usersSetApnsToken.data },
+    error: { $set: initialState.usersSetApnsToken.error },
+    status: { $set: 'idle' },
+  },
+})
+
 export default handleActions({
   [constants.USERS_SEARCH_REQUEST]: usersSearchRequest,
   [constants.USERS_SEARCH_SUCCESS]: usersSearchSuccess,
@@ -897,6 +935,11 @@ export default handleActions({
   [constants.USERS_GET_CARDS_SUCCESS]: usersGetCardsSuccess,
   [constants.USERS_GET_CARDS_FAILURE]: usersGetCardsFailure,
   [constants.USERS_GET_CARDS_IDLE]: usersGetCardsIdle,
+
+  [constants.USERS_SET_APNS_TOKEN_REQUEST]: usersSetApnsTokenRequest,
+  [constants.USERS_SET_APNS_TOKEN_SUCCESS]: usersSetApnsTokenSuccess,
+  [constants.USERS_SET_APNS_TOKEN_FAILURE]: usersSetApnsTokenFailure,
+  [constants.USERS_SET_APNS_TOKEN_IDLE]: usersSetApnsTokenIdle,
 
   [constants.USERS_RESOURCE_POOL_MERGE]: usersResourcePoolMerge,
 

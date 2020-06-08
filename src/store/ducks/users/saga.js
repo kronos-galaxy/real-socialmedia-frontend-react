@@ -311,6 +311,21 @@ function* usersGetCardsRequest(req) {
   }
 }
 
+/**
+ *
+ */
+function* usersSetApnsTokenRequest(req) {
+  const errorWrapper = yield getContext('errorWrapper')
+
+  try {
+    const data = yield queryService.apiRequest(queries.setUserAPNSToken, req.payload)
+
+    yield put(actions.usersSetApnsTokenSuccess({ payload: req.payload, data, meta: {} }))
+  } catch (error) {
+    yield put(actions.usersSetApnsTokenFailure({ payload: req.payload, message: errorWrapper(error) }))
+  }
+}
+
 export default () => [
   takeEvery(constants.USERS_SEARCH_REQUEST, usersSearchRequest),
   takeLatest(constants.USERS_GET_FOLLOWED_USERS_WITH_STORIES_REQUEST, usersGetFollowedUsersWithStoriesRequest),
@@ -329,4 +344,5 @@ export default () => [
   takeLatest(constants.USERS_IMAGE_POSTS_GET_REQUEST, usersImagePostsGetRequest),
   takeEvery(constants.USERS_GET_TRENDING_USERS_REQUEST, usersGetTrendingUsersRequest),
   takeLatest(constants.USERS_GET_CARDS_REQUEST, usersGetCardsRequest),
+  takeLatest(constants.USERS_SET_APNS_TOKEN_REQUEST, usersSetApnsTokenRequest),
 ]

@@ -58,6 +58,7 @@
 		2D02E4901E0B4A5D006451C7 /* REAL-tvOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "REAL-tvOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		319F934039F41F0AFA0AC1FB /* libPods-REAL.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-REAL.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		45295B1B179B853E54FE59D6 /* libPods-REAL-tvOSTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-REAL-tvOSTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		631A273B248D8F1000A76AA4 /* REAL.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = REAL.entitlements; path = REAL/REAL.entitlements; sourceTree = "<group>"; };
 		6338E7AB2436093000CFD646 /* File.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = File.swift; sourceTree = "<group>"; };
 		63463B882435B6920088EDDC /* REAL-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "REAL-Bridging-Header.h"; sourceTree = "<group>"; };
 		7A6918AF89EFE331653013A2 /* Pods-REAL-tvOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-REAL-tvOS.release.xcconfig"; path = "Target Support Files/Pods-REAL-tvOS/Pods-REAL-tvOS.release.xcconfig"; sourceTree = "<group>"; };
@@ -133,6 +134,7 @@
 		13B07FAE1A68108700A75B9A /* REAL */ = {
 			isa = PBXGroup;
 			children = (
+				631A273B248D8F1000A76AA4 /* REAL.entitlements */,
 				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
@@ -723,6 +725,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = REAL/REAL.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 302;
@@ -838,6 +841,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = REAL/REAL.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 302;

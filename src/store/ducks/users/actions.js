@@ -141,3 +141,11 @@ export const usersGetCardsIdle = createAction(constants.USERS_GET_CARDS_IDLE)
 export const usersGetCardsRequest = createAction(constants.USERS_GET_CARDS_REQUEST)
 export const usersGetCardsSuccess = createAction(constants.USERS_GET_CARDS_SUCCESS)
 export const usersGetCardsFailure = createAction(constants.USERS_GET_CARDS_FAILURE)
+
+/**
+ * 
+ */
+export const usersSetApnsTokenIdle = createAction(constants.USERS_SET_APNS_TOKEN_IDLE)
+export const usersSetApnsTokenRequest = createAction(constants.USERS_SET_APNS_TOKEN_REQUEST)
+export const usersSetApnsTokenSuccess = createAction(constants.USERS_SET_APNS_TOKEN_SUCCESS)
+export const usersSetApnsTokenFailure = createAction(constants.USERS_SET_APNS_TOKEN_FAILURE)

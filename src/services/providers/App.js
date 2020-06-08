@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
+import * as usersActions from 'store/ducks/users/actions'
 import * as uiActions from 'store/ducks/ui/actions'
 import * as themeActions from 'store/ducks/theme/actions'
 import * as authActions from 'store/ducks/auth/actions'
@@ -13,6 +14,7 @@ import * as Logger from 'services/Logger'
 import * as Updates from 'services/Updates'
 import useAppState from 'services/AppState'
 import LoadingComponent from 'components/Loading'
+import PushNotificationIOS from '@react-native-community/push-notification-ios'
 
 /**
  * 
@@ -60,6 +62,11 @@ export const AuthProvider = ({
    * Constructor function to fetch: Translations, Themes and Auth data
    */
   useEffect(() => {
+    PushNotificationIOS.addEventListener('register', (token) => {
+      dispatch(usersActions.usersSetApnsTokenRequest({ token }))
+    })
+    PushNotificationIOS.requestPermissions()
+
     dispatch(themeActions.themeFetchRequest())
     dispatch(translationActions.translationFetchRequest())
     dispatch(authActions.authCheckRequest())
