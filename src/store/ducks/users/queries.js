@@ -212,3 +212,15 @@ export const setUserAPNSToken = `
     }
   }
 `
+
+export const onCardNotification = `
+  subscription onCardNotification ($userId: ID!) {
+    onCardNotification (userId: $userId) {
+      userId
+      type
+      card {
+        cardId
+      }
+    }
+  }
+`

@@ -48,7 +48,7 @@ const Settings = ({
       'Your photo will be uploaded as post',
       [{
         text: 'Take a Photo',
-        onPress: navigationActions.navigateCamera(navigation, { nextRoute: 'ProfilePhoto' }),
+        onPress: navigationActions.navigateCamera(navigation, { nextRoute: 'ProfilePhotoUpload' }),
       }],
       { cancelable: true }
     )
@@ -72,7 +72,7 @@ const Settings = ({
 
   return (
     <ScrollView style={styling.root}>
-      <TouchableOpacity onPress={() => navigation.navigate('ProfilePhoto')}>
+      <TouchableOpacity onPress={() => navigation.navigate('ProfilePhotoGrid')}>
         <Avatar
           size="large"
           thumbnailSource={{ uri: path(['photo', 'url64p'])(user) }}
@@ -89,7 +89,7 @@ const Settings = ({
             handleProfilePhotoUpload()
           }
           if (index === 1) {
-            navigation.navigate('ProfilePhoto')
+            navigation.navigate('ProfilePhotoGrid')
           }
         }}
       />

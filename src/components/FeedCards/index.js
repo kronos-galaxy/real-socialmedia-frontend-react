@@ -15,6 +15,7 @@ const FeedCards = ({
   t,
   theme,
   usersGetCards,
+  handleCardPress,
 }) => {
   const styling = styles(theme)
   const cardsRef = useRef(null)
@@ -32,6 +33,7 @@ const FeedCards = ({
         renderItem={Card({
           borderColor: theme.colors.border,
           backgroundColor: theme.colors.backgroundSecondary,
+          handleCardPress,
         })}
         sliderWidth={Layout.window.width}
         itemWidth={Layout.window.width}
@@ -52,6 +54,7 @@ FeedCards.propTypes = {
   t: PropTypes.any,
   theme: PropTypes.any,
   usersGetCards: PropTypes.any,
+  handleCardPress: PropTypes.any,
 }
 
 const styles = theme => StyleSheet.create({

@@ -5,6 +5,7 @@ import path from 'ramda/src/path'
 import * as postsActions from 'store/ducks/posts/actions'
 import * as usersActions from 'store/ducks/users/actions'
 import * as postsQueries from 'store/ducks/posts/queries'
+import * as usersQueries from 'store/ducks/users/queries'
 import * as queryService from 'services/Query'
 
 function postSubscriptionChannel({ subscription }) {
@@ -29,7 +30,6 @@ function* postSubscription(req) {
   yield put(postsActions.postsGetTrendingPostsRequest({ limit: 20 }))
   yield put(usersActions.usersGetPendingFollowersRequest({ userId }))
   yield put(usersActions.usersGetFollowedUsersWithStoriesRequest({}))
-  yield put(usersActions.usersGetCardsRequest({}))
 
   const channel = yield call(postSubscriptionChannel, {
     subscription,
@@ -48,11 +48,40 @@ function* postSubscription(req) {
       yield put(postsActions.postsFeedGetRequest({  }))
       yield put(postsActions.postsGetRequest({ userId }))
       yield put(usersActions.usersImagePostsGetRequest({ userId }))
-      // yield put(postsActions.postsCreateIdle({ payload: { postId } }))
     }
+  })
+}
+
+function cardSubscriptionChannel({ subscription }) {
+  return eventChannel(emitter => {
+    subscription.subscribe({
+      next: emitter,
+      error: () => {},
+    })
+
+    return () => subscription.unsubscribe()
+  })
+}
+
+function* cardSubscription(req) {
+  const AwsAPI = yield getContext('AwsAPI')
+  const userId = path(['payload', 'data', 'userId'])(req)
+
+  const subscription = AwsAPI.graphql(
+    graphqlOperation(usersQueries.onCardNotification, { userId })
+  )
+
+  const channel = yield call(cardSubscriptionChannel, {
+    subscription,
+  })
+
+  yield takeEvery(channel, function *(eventData) {
+    yield put(usersActions.usersGetCardsRequest({}))
+    yield put(postsActions.postsGetUnreadCommentsRequest({ limit: 20 }))
   })
 }
 
 export default () => [
   takeLatest('AUTH_CHECK_READY', postSubscription),
+  takeLatest('AUTH_CHECK_READY', cardSubscription),
 ]

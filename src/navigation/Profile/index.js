@@ -8,7 +8,8 @@ import * as navigationFragments from 'navigation/fragments'
 
 import ProfileSelfScreen from 'screens/ProfileSelfScreen'
 import ProfileEditScreen from 'screens/ProfileEditScreen'
-import ProfilePhotoScreen from 'screens/ProfilePhotoScreen'
+import ProfilePhotoGridScreen from 'screens/ProfilePhotoGridScreen'
+import ProfilePhotoUploadScreen from 'screens/ProfilePhotoUploadScreen'
 import ThemeScreen from 'screens/ThemeScreen'
 import PrivacyScreen from 'screens/PrivacyScreen'
 import TranslationScreen from 'screens/TranslationScreen'
@@ -37,8 +38,13 @@ const ProfileNavigator = () => {
         {...stackScreenPageProps({ options: { title: 'Edit Profile' } })}
       />
       <Stack.Screen
-        name="ProfilePhoto"
-        component={ProfilePhotoScreen}
+        name="ProfilePhotoGrid"
+        component={ProfilePhotoGridScreen}
+        {...stackScreenPageProps({ options: { title: 'Change Profile Photo' } })}
+      />
+      <Stack.Screen
+        name="ProfilePhotoUpload"
+        component={ProfilePhotoUploadScreen}
         {...stackScreenPageProps({ options: { title: 'Change Profile Photo' } })}
       />
       <Stack.Screen

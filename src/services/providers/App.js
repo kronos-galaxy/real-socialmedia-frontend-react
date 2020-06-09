@@ -70,6 +70,7 @@ export const AuthProvider = ({
     dispatch(themeActions.themeFetchRequest())
     dispatch(translationActions.translationFetchRequest())
     dispatch(authActions.authCheckRequest())
+    dispatch(usersActions.usersGetCardsRequest({}))
     dispatch(postsActions.postsGetUnreadCommentsRequest({ limit: 20 }))
   }, [])
 

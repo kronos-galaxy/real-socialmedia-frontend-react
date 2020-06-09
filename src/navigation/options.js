@@ -46,7 +46,7 @@ const homeHeaderTitle = ({ theme }) => () => (
 const homeHeaderRight = ({ theme, navigation }) => () => (
   <UIContextComponent.Consumer>
     {(props) => (
-      <TouchableOpacity style={{ paddingHorizontal: 12 }} onPress={() => {
+      <TouchableOpacity style={{ paddingHorizontal: 12, height: 24 }} onPress={() => {
         props.uiNotificationIdle()
         navigationActions.navigateChat(navigation)()
       }}>

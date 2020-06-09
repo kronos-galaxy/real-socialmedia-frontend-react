@@ -54,6 +54,7 @@ ChatCards.propTypes = {
   t: PropTypes.any,
   theme: PropTypes.any,
   postsGetUnreadComments: PropTypes.any,
+  handleCardPress: PropTypes.any,
 }
 
 const styles = theme => StyleSheet.create({

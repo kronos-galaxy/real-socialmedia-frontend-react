@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import {
   View,
   StyleSheet,
+  TouchableOpacity,
 } from 'react-native'
 import CloseIcon from 'assets/svg/post/Close'
 import { Text } from 'react-native-paper'
@@ -10,6 +11,7 @@ import { Text } from 'react-native-paper'
 const FeedCard = ({
   borderColor,
   backgroundColor,
+  handleCardPress,
 }) => ({ item: card }) => {
   const customStyle = {
     borderColor,
@@ -19,9 +21,9 @@ const FeedCard = ({
   return (
     <View style={[styles.root, customStyle]}>
       <View style={styles.header}>
-        <View style={styles.headerTitle}>
+        <TouchableOpacity style={styles.headerTitle} onPress={() => handleCardPress()}>
           <Text>{card.title}</Text>
-        </View>
+        </TouchableOpacity>
 
         <View style={styles.headerIcon}>
           <CloseIcon fill="#ffffff" />
