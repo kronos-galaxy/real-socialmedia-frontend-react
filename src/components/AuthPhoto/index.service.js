@@ -5,7 +5,9 @@ import * as navigationActions from 'navigation/actions'
 import * as cameraActions from 'store/ducks/camera/actions'
 import * as usersActions from 'store/ducks/users/actions'
 import * as postsActions from 'store/ducks/posts/actions'
+import * as authActions from 'store/ducks/auth/actions'
 import path from 'ramda/src/path'
+import { logEvent } from 'services/Analytics'
 
 const AuthPhotoComponentService = ({ children }) => {
   const dispatch = useDispatch()
@@ -21,6 +23,12 @@ const AuthPhotoComponentService = ({ children }) => {
       .forEach(post =>
         dispatch(postsActions.postsCreateIdle(post))
       )
+
+  const skipPhotoUpload = () => {
+    logEvent('POST_CREATE_SKIP')
+    dispatch(usersActions.usersEditProfileIdle({}))
+    dispatch(authActions.authCheckIdle({ nextRoute: 'Root' }))
+  }
 
   /**
    *
@@ -62,6 +70,7 @@ const AuthPhotoComponentService = ({ children }) => {
     handleCameraSnap,
     formErrorMessage,
     handleErrorClose,
+    skipPhotoUpload,
   })
 }
 

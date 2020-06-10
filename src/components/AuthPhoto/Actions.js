@@ -15,6 +15,7 @@ const Actions = ({
   theme,
   handleLibrarySnap,
   handleCameraSnap,
+  skipPhotoUpload,
 }) => {
   const styling = styles(theme)
   const navigation = useNavigation()
@@ -27,6 +28,9 @@ const Actions = ({
       <View style={styling.item}>
         <DefaultButton testID="components/AuthPhoto/Actions/library" label={t('Choose from Library')} onPress={handleLibrarySnap} loading={false} />
       </View>
+      <View style={styling.item}>
+        <DefaultButton testID="components/AuthPhoto/Actions/skip" label={t('Skip Photo Upload')} onPress={skipPhotoUpload} loading={false} />
+      </View>
     </View>
   )
 }
@@ -36,6 +40,7 @@ Actions.propTypes = {
   t: PropTypes.any,
   handleLibrarySnap: PropTypes.any,
   handleCameraSnap: PropTypes.any,
+  skipPhotoUpload: PropTypes.any,
 }
 
 const styles = theme => StyleSheet.create({

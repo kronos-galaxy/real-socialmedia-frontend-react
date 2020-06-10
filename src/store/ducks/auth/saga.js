@@ -27,9 +27,7 @@ function* handleAuthCheckRequest() {
 
 function handleAuthCheckValidation(self) {
   const photoUrl = path(['photo', 'url'])(self)
-  if (!photoUrl || photoUrl.includes('placeholder-photos')) {
-    throw new Error('PROFILE_PHOTO_MISSING')
-  }
+  return (!photoUrl || photoUrl.includes('placeholder-photos'))
 }
 
 /**
@@ -48,12 +46,12 @@ function* authCheckRequest(req) {
       data: { userId: selector(data).userId },
     }))
 
-    handleAuthCheckValidation(selector(data))
+    const nextRoute = handleAuthCheckValidation(selector(data)) ? 'AuthPhoto' : 'Root'
 
     yield put(actions.authCheckSuccess({
       message: errors.getMessagePayload(constants.AUTH_CHECK_SUCCESS, 'GENERIC'),
       data: selector(data),
-      nextRoute: 'Root',
+      nextRoute,
     }))
   } catch (error) {
     if (pathOr('', ['message'])(error).includes('Network request failed')) {

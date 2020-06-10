@@ -44,7 +44,7 @@ const SearchService = ({ children }) => {
     dispatch(usersActions.usersAcceptFollowerUserRequest({ userId }))
 
   const postsGetTrendingPostsRequest = () =>
-    dispatch(postsActions.postsGetTrendingPostsRequest({ limit: 30 }))
+    dispatch(postsActions.postsGetTrendingPostsRequest({ limit: 30, viewedStatus: 'NOT_VIEWED' }))
   
   const postsGetTrendingPostsMoreRequest = (payload) =>
     dispatch(postsActions.postsGetTrendingPostsMoreRequest(payload))

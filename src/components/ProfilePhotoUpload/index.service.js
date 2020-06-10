@@ -114,7 +114,7 @@ const AuthPhotoUploadComponentService = ({ children }) => {
       dispatch(postsActions.postsCreateIdle(activeUpload))
     }
     dispatch(usersActions.usersEditProfileIdle({}))
-    navigationActions.navigateAuthPhoto(navigation)()
+    navigationActions.navigateSettings(navigation)()
   }
 
   return children({

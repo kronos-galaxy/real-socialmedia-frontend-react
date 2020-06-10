@@ -240,8 +240,8 @@ export const reportCommentViews = `
 `
 
 export const trendingPosts = `
-  query trendingPosts($limit: Int, $nextToken: String = null) {
-    trendingPosts(limit: $limit, nextToken: $nextToken) {
+  query trendingPosts($viewedStatus: ViewedStatus, $limit: Int, $nextToken: String = null) {
+    trendingPosts(viewedStatus: $viewedStatus, limit: $limit, nextToken: $nextToken) {
       items {
         ...postFragment
       }

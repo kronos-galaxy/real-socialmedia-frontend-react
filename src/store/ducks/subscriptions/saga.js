@@ -27,7 +27,7 @@ function* postSubscription(req) {
     graphqlOperation(postsQueries.onPostNotification, { userId })
   )
   yield put(postsActions.postsFeedGetRequest({ limit: 20 }))
-  yield put(postsActions.postsGetTrendingPostsRequest({ limit: 20 }))
+  yield put(postsActions.postsGetTrendingPostsRequest({ limit: 20, viewedStatus: 'NOT_VIEWED' }))
   yield put(usersActions.usersGetPendingFollowersRequest({ userId }))
   yield put(usersActions.usersGetFollowedUsersWithStoriesRequest({}))
 

@@ -17,6 +17,7 @@ const AuthPhoto = ({
   theme,
   handleLibrarySnap,
   handleCameraSnap,
+  skipPhotoUpload,
 }) => {
   const styling = styles(theme)
   const navigation = useNavigation()
@@ -34,6 +35,7 @@ const AuthPhoto = ({
           <ActionsComponent
             handleLibrarySnap={handleLibrarySnap}
             handleCameraSnap={handleCameraSnap}
+            skipPhotoUpload={skipPhotoUpload}
           />
         </View>
       </View>
@@ -59,6 +61,7 @@ AuthPhoto.propTypes = {
   theme: PropTypes.any,
   handleLibrarySnap: PropTypes.any,
   handleCameraSnap: PropTypes.any,
+  skipPhotoUpload: PropTypes.any,
 }
 
 export default withTranslation()(withTheme(AuthPhoto))
