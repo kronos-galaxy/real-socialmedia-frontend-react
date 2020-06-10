@@ -8,13 +8,25 @@ const ProfileEditService = ({ children }) => {
   const dispatch = useDispatch()
   const user = useSelector(authSelector.authUserSelector)
   const usersEditProfile = useSelector(state => state.users.usersEditProfile)
+  const usersDelete = useSelector(state => state.users.usersDelete)
   const authSignout = useSelector(state => state.auth.authSignout)
   
   const usersEditProfileRequest = (payload) =>
     dispatch(usersActions.usersEditProfileRequest(payload))
   
+  const usersDeleteRequest = (payload) =>
+    dispatch(usersActions.usersDeleteRequest(payload))
+
   const authSignoutRequest = () => 
-    dispatch(authActions.authSignoutRequest())
+    dispatch(authActions.authSignoutRequest({}))
+
+  useEffect(() => {
+    if (usersDelete.status === 'success') {
+      dispatch(authActions.authSignoutRequest({}))
+    }
+  }, [
+    usersDelete.status,
+  ])
 
   useEffect(() => {
     if (authSignout.status === 'success') {
@@ -37,6 +49,8 @@ const ProfileEditService = ({ children }) => {
     user,
     usersEditProfile,
     usersEditProfileRequest,
+    usersDeleteRequest,
+    usersDelete,
   })
 }
 

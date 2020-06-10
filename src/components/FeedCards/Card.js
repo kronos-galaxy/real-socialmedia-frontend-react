@@ -12,6 +12,7 @@ const FeedCard = ({
   borderColor,
   backgroundColor,
   handleCardPress,
+  usersDeleteCardRequest,
 }) => ({ item: card }) => {
   const customStyle = {
     borderColor,
@@ -25,9 +26,9 @@ const FeedCard = ({
           <Text>{card.title}</Text>
         </TouchableOpacity>
 
-        <View style={styles.headerIcon}>
+        <TouchableOpacity style={styles.headerIcon} onPress={() => usersDeleteCardRequest({ cardId: card.cardId })}>
           <CloseIcon fill="#ffffff" />
-        </View>
+        </TouchableOpacity>
       </View>
     </View>
   )

@@ -16,6 +16,14 @@ export const usersSearchFailure = createAction(constants.USERS_SEARCH_FAILURE)
 /**
  * 
  */
+export const usersDeleteIdle = createAction(constants.USERS_DELETE_IDLE)
+export const usersDeleteRequest = createAction(constants.USERS_DELETE_REQUEST)
+export const usersDeleteSuccess = createAction(constants.USERS_DELETE_SUCCESS)
+export const usersDeleteFailure = createAction(constants.USERS_DELETE_FAILURE)
+
+/**
+ * 
+ */
 export const usersGetFollowedUsersWithStoriesIdle = createAction(constants.USERS_GET_FOLLOWED_USERS_WITH_STORIES_IDLE)
 export const usersGetFollowedUsersWithStoriesRequest = createAction(constants.USERS_GET_FOLLOWED_USERS_WITH_STORIES_REQUEST)
 export const usersGetFollowedUsersWithStoriesSuccess = createAction(constants.USERS_GET_FOLLOWED_USERS_WITH_STORIES_SUCCESS)
@@ -141,6 +149,14 @@ export const usersGetCardsIdle = createAction(constants.USERS_GET_CARDS_IDLE)
 export const usersGetCardsRequest = createAction(constants.USERS_GET_CARDS_REQUEST)
 export const usersGetCardsSuccess = createAction(constants.USERS_GET_CARDS_SUCCESS)
 export const usersGetCardsFailure = createAction(constants.USERS_GET_CARDS_FAILURE)
+
+/**
+ * 
+ */
+export const usersDeleteCardIdle = createAction(constants.USERS_DELETE_CARD_IDLE)
+export const usersDeleteCardRequest = createAction(constants.USERS_DELETE_CARD_REQUEST)
+export const usersDeleteCardSuccess = createAction(constants.USERS_DELETE_CARD_SUCCESS)
+export const usersDeleteCardFailure = createAction(constants.USERS_DELETE_CARD_FAILURE)
 
 /**
  * 

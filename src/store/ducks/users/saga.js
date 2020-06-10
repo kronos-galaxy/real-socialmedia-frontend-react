@@ -29,6 +29,22 @@ function* usersSearchRequest(req) {
 /**
  *
  */
+function* usersDeleteRequest(req) {
+  const errorWrapper = yield getContext('errorWrapper')
+
+  try {
+    const data = yield queryService.apiRequest(queries.deleteUser, req.payload)
+    const selector = path(['data', 'deleteUser'])
+
+    yield put(actions.usersDeleteSuccess({ payload: req.payload, data: selector(data), meta: {} }))
+  } catch (error) {
+    yield put(actions.usersDeleteFailure({ payload: req.payload, message: errorWrapper(error) }))
+  }
+}
+
+/**
+ *
+ */
 function* usersGetFollowerUsersRequest(req) {
   const errorWrapper = yield getContext('errorWrapper')
 
@@ -314,6 +330,22 @@ function* usersGetCardsRequest(req) {
 /**
  *
  */
+function* usersDeleteCardRequest(req) {
+  const errorWrapper = yield getContext('errorWrapper')
+
+  try {
+    const data = yield queryService.apiRequest(queries.deleteCard, req.payload)
+    const selector = path(['data', 'deleteCard'])
+
+    yield put(actions.usersDeleteCardSuccess({ payload: req.payload, data: selector(data), meta: {} }))
+  } catch (error) {
+    yield put(actions.usersDeleteCardFailure({ payload: req.payload, message: errorWrapper(error) }))
+  }
+}
+
+/**
+ *
+ */
 function* usersSetApnsTokenRequest(req) {
   const errorWrapper = yield getContext('errorWrapper')
 
@@ -328,6 +360,7 @@ function* usersSetApnsTokenRequest(req) {
 
 export default () => [
   takeEvery(constants.USERS_SEARCH_REQUEST, usersSearchRequest),
+  takeEvery(constants.USERS_DELETE_REQUEST, usersDeleteRequest),
   takeLatest(constants.USERS_GET_FOLLOWED_USERS_WITH_STORIES_REQUEST, usersGetFollowedUsersWithStoriesRequest),
   takeEvery(constants.USERS_GET_FOLLOWER_USERS_REQUEST, usersGetFollowerUsersRequest),
   takeEvery(constants.USERS_GET_FOLLOWED_USERS_REQUEST, usersGetFollowedUsersRequest),
@@ -344,5 +377,6 @@ export default () => [
   takeLatest(constants.USERS_IMAGE_POSTS_GET_REQUEST, usersImagePostsGetRequest),
   takeEvery(constants.USERS_GET_TRENDING_USERS_REQUEST, usersGetTrendingUsersRequest),
   takeLatest(constants.USERS_GET_CARDS_REQUEST, usersGetCardsRequest),
+  takeLatest(constants.USERS_DELETE_CARD_REQUEST, usersDeleteCardRequest),
   takeLatest(constants.USERS_SET_APNS_TOKEN_REQUEST, usersSetApnsTokenRequest),
 ]

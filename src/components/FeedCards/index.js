@@ -16,6 +16,7 @@ const FeedCards = ({
   theme,
   usersGetCards,
   handleCardPress,
+  usersDeleteCardRequest,
 }) => {
   const styling = styles(theme)
   const cardsRef = useRef(null)
@@ -34,6 +35,7 @@ const FeedCards = ({
           borderColor: theme.colors.border,
           backgroundColor: theme.colors.backgroundSecondary,
           handleCardPress,
+          usersDeleteCardRequest,
         })}
         sliderWidth={Layout.window.width}
         itemWidth={Layout.window.width}

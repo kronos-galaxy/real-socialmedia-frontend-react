@@ -34,6 +34,15 @@ export const unfollowUser = `
   ${userFragment}
 `
 
+export const deleteUser = `
+  mutation deleteUser {
+    deleteUser {
+      ...userFragment
+    }
+  }
+  ${userFragment}
+`
+
 export const blockUser = `
   mutation BlockUser($userId: ID!) {
     blockUser (userId: $userId) {
@@ -200,6 +209,15 @@ export const getCards = `
         }
         nextToken
       }
+    }
+  }
+  ${cardFragment}
+`
+
+export const deleteCard = `
+  mutation deleteCard($cardId: ID!) {
+    deleteCard(cardId: $cardId) {
+      ...cardFragment
     }
   }
   ${cardFragment}
