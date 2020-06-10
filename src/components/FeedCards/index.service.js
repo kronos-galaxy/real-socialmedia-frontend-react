@@ -1,3 +1,4 @@
+import { Linking } from 'react-native'
 import { useSelector, useDispatch } from 'react-redux'
 import * as navigationActions from 'navigation/actions'
 import { useNavigation } from '@react-navigation/native'
@@ -7,8 +8,8 @@ const FeedCardsService = ({ children }) => {
   const navigation = useNavigation()
   const usersGetCards = useSelector(state => state.users.usersGetCards)
 
-  const handleCardPress = () =>
-		navigationActions.navigateChat(navigation)()
+  const handleCardPress = ({ action }) =>
+		Linking.openURL(action)
  
   return children({
 		usersGetCards,

@@ -38,10 +38,11 @@ const Routes = ({
   const { theme, themes } = useContext(ThemesContext)
 
   const linking = {
-    prefixes: ['real.app://'],
+    prefixes: ['real.app://', 'https://real.app/'],
     config: {
       AuthEmailConfirm: 'email/confirm/:userId/:confirmationCode',
       AuthForgotConfirm: 'forgot/confirm/:userId/:confirmationCode',
+      Chat: 'chat/',
     },
   }
 

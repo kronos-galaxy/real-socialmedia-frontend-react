@@ -21,7 +21,7 @@ const FeedCard = ({
   return (
     <View style={[styles.root, customStyle]}>
       <View style={styles.header}>
-        <TouchableOpacity style={styles.headerTitle} onPress={() => handleCardPress()}>
+        <TouchableOpacity style={styles.headerTitle} onPress={() => handleCardPress({ action: card.action })}>
           <Text>{card.title}</Text>
         </TouchableOpacity>
 
