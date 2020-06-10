@@ -2,12 +2,13 @@ import { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import * as usersActions from 'store/ducks/users/actions'
 import * as authSelector from 'store/ducks/auth/selectors'
+import * as usersSelector from 'store/ducks/users/selectors'
 
 const ProfileFollowerService = ({ children }) => {
   const dispatch = useDispatch()
   const user = useSelector(authSelector.authUserSelector)
   const userId = user.userId
-  const usersGetPendingFollowers = useSelector(state => state.users.usersGetPendingFollowers)
+  const usersGetPendingFollowers = useSelector(usersSelector.usersGetPendingFollowersSelector())
   const usersFollow = useSelector(state => state.users.usersFollow)
   const usersUnfollow = useSelector(state => state.users.usersUnfollow)
   const usersAcceptFollowerUser = useSelector(state => state.users.usersAcceptFollowerUser)

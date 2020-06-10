@@ -107,3 +107,20 @@ export const usersGetFollowedUsersWithStoriesSelector = () => createDeepEqualSel
     return assocPath(['data'], mappedUsers)(usersGetFollowedUsersWithStories)
   },
 )
+
+/**
+ *
+ */
+const usersGetPendingFollowers = () => path(['users', 'usersGetPendingFollowers'])
+
+export const usersGetPendingFollowersSelector = () => createDeepEqualSelector(
+  [usersGetPendingFollowers(), usersPool()],
+  (usersGetPendingFollowers, usersPool) => {
+    const mappedUsers = pathOr([], ['data'])(usersGetPendingFollowers)
+      .map(userId =>
+        path([userId, 'data'])(usersPool)
+      )
+      .filter(user => user)
+    return assocPath(['data'], mappedUsers)(usersGetPendingFollowers)
+  },
+)

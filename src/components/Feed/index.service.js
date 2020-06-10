@@ -8,6 +8,7 @@ import path from 'ramda/src/path'
 import pathOr from 'ramda/src/pathOr'
 import * as authSelector from 'store/ducks/auth/selectors'
 import * as postsSelector from 'store/ducks/posts/selectors'
+import * as usersSelector from 'store/ducks/users/selectors'
 
 const FeedService = ({ children }) => {
   const dispatch = useDispatch()
@@ -16,7 +17,7 @@ const FeedService = ({ children }) => {
   const postsFeedGet = useSelector(postsSelector.postsFeedGetSelector())
   const postsCreate = useSelector(state => state.posts.postsCreate)
   const postsCreateQueue = useSelector(state => state.posts.postsCreateQueue)
-  const usersGetPendingFollowers = useSelector(state => state.users.usersGetPendingFollowers)
+  const usersGetPendingFollowers = useSelector(usersSelector.usersGetPendingFollowersSelector())
   const usersAcceptFollowerUser = useSelector(state => state.users.usersAcceptFollowerUser)
   const postsGetTrendingPosts = useSelector(postsSelector.postsGetTrendingPostsSelector())
   
