@@ -15,6 +15,11 @@ platform :ios do
       readonly: true
     )
 
+    get_push_certificate(
+      app_identifier: ENV["APP_IDENTIFIER"],
+      save_private_key: true
+    )
+
     settings_to_override = {
       :BUNDLE_IDENTIFIER => ENV["APP_IDENTIFIER"],
       :PROVISIONING_PROFILE_SPECIFIER => ENV["APP_IDENTIFIER"],
