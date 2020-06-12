@@ -28,7 +28,9 @@ const storyUsersSchema = new schema.Entity(
 	/**
 	 * Definition
 	 */
-	undefined,
+	{
+		photo: imageSchema,
+	},
 	/**
 	 * Options
 	 */
@@ -89,6 +91,7 @@ const usersSchema = new schema.Entity(
 	 * Definition
 	 */
 	{
+		photo: imageSchema,
 		stories: {
 			items: [storySchema],
 		},
@@ -111,6 +114,9 @@ const commentsSchema = new schema.Entity(
 	 */
 	{
 		commentedBy: usersSchema,
+		textTaggedUsers: [{
+			user: usersSchema,
+		}],
 	},
 	/**
 	 * Options
@@ -155,6 +161,7 @@ const albumSchema = new schema.Entity(
 	 * Definition
 	 */
 	{
+		art: imageSchema,
 		ownedBy: usersSchema,
 		posts: {
 			items: [albumPostsSchema],
