@@ -185,7 +185,6 @@ Feed.propTypes = {
   postsFlag: PropTypes.any,
   postsFlagRequest: PropTypes.any,
   postsDeleteRequest: PropTypes.any,
-  postsAnonymouslyLikeRequest: PropTypes.any,
   postsOnymouslyLikeRequest: PropTypes.any,
   postsDislikeRequest: PropTypes.any,
   t: PropTypes.any,

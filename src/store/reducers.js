@@ -15,6 +15,7 @@ import layout from 'store/ducks/layout/reducer'
 import translation from 'store/ducks/translation/reducer'
 import ui from 'store/ducks/ui/reducer'
 import cache from 'store/ducks/cache/reducer'
+import entities from 'store/ducks/entities/reducer'
 
 import 'store/ducks/posts/updates'
 import 'store/ducks/users/updates'
@@ -80,4 +81,5 @@ export default combineReducers({
   translation,
   ui,
   cache,
+  entities,
 })

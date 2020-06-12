@@ -130,15 +130,6 @@ export const postsCreateSchedulerSuccess = createAction(constants.POSTS_CREATE_S
 export const postsCreateSchedulerFailure = createAction(constants.POSTS_CREATE_SCHEDULER_FAILURE)
 export const postsCreateSchedulerIdle = createAction(constants.POSTS_CREATE_SCHEDULER_IDLE)
 
-
-/**
- * 
- */
-export const postsAnonymouslyLikeIdle = createAction(constants.POSTS_ANONYMOUSLY_LIKE_IDLE)
-export const postsAnonymouslyLikeRequest = createAction(constants.POSTS_ANONYMOUSLY_LIKE_REQUEST)
-export const postsAnonymouslyLikeSuccess = createAction(constants.POSTS_ANONYMOUSLY_LIKE_SUCCESS)
-export const postsAnonymouslyLikeFailure = createAction(constants.POSTS_ANONYMOUSLY_LIKE_FAILURE)
-
 /**
  * 
  */

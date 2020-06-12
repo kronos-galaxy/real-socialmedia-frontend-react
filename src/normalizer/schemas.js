@@ -1,0 +1,267 @@
+import { normalize, denormalize, schema } from 'normalizr'
+
+const imageSchema = new schema.Entity(
+	/**
+	 * Key
+	 */
+	'images',
+	/**
+	 * Definition
+	 */
+	undefined,
+	/**
+	 * Options
+	 */
+	{
+		idAttribute: (value) => {
+			try { return value.url.split('?')[0] }
+			catch (err) { return value }
+		}
+	}
+)
+
+const storyUsersSchema = new schema.Entity(
+	/**
+	 * Key
+	 */
+	'users',
+	/**
+	 * Definition
+	 */
+	undefined,
+	/**
+	 * Options
+	 */
+	{
+		idAttribute: 'userId',
+	}
+)
+
+const storyCommentsSchema = new schema.Entity(
+	/**
+	 * Key
+	 */
+	'comments', 
+	/**
+	 * Definition
+	 */
+	undefined,
+	/**
+	 * Options
+	 */
+	{
+		idAttribute: 'commentId',
+	}
+)
+
+const storySchema = new schema.Entity(
+	/**
+	 * Key
+	 */
+	'posts',
+	/**
+	 * Definition
+	 */
+	{
+		image: imageSchema,
+		postedBy: storyUsersSchema,
+		textTaggedUsers: [{
+			user: storyUsersSchema,
+		}],
+		comments: {
+			items: [storyCommentsSchema],
+		},
+	},
+	/**
+	 * Options
+	 */
+	{
+		idAttribute: 'postId'
+	}
+)
+
+const usersSchema = new schema.Entity(
+	/**
+	 * Key
+	 */
+	'users',
+	/**
+	 * Definition
+	 */
+	{
+		stories: {
+			items: [storySchema],
+		},
+	},
+	/**
+	 * Options
+	 */
+	{
+		idAttribute: 'userId',
+	}
+)
+
+const commentsSchema = new schema.Entity(
+	/**
+	 * Key
+	 */
+	'comments', 
+	/**
+	 * Definition
+	 */
+	{
+		commentedBy: usersSchema,
+	},
+	/**
+	 * Options
+	 */
+	{
+		idAttribute: 'commentId',
+	}
+)
+
+const albumPostsSchema = new schema.Entity(
+	/**
+	 * Key
+	 */
+	'posts',
+	/**
+	 * Definition
+	 */
+	{
+		image: imageSchema,
+		postedBy: usersSchema,
+		textTaggedUsers: [{
+			user: usersSchema,
+		}],
+		comments: {
+			items: [commentsSchema],
+		},
+	},
+	/**
+	 * Options
+	 */
+	{
+		idAttribute: 'postId'
+	}
+)
+
+const albumSchema = new schema.Entity(
+	/**
+	 * Key
+	 */
+	'albums',
+	/**
+	 * Definition
+	 */
+	{
+		ownedBy: usersSchema,
+		posts: {
+			items: [albumPostsSchema],
+		},
+	},
+	/**
+	 * Options
+	 */
+	{
+		idAttribute: 'albumId'
+	}
+)
+
+const originalPostSchema = new schema.Entity(
+	/**
+	 * Key
+	 */
+	'posts',
+	/**
+	 * Definition
+	 */
+	{
+		image: imageSchema,
+		album: albumSchema,
+		postedBy: usersSchema,
+		textTaggedUsers: [{
+			user: usersSchema,
+		}],
+		comments: {
+			items: [commentsSchema],
+		},
+	},
+	/**
+	 * Options
+	 */
+	{
+		idAttribute: 'postId'
+	}
+)
+
+const postSchema = new schema.Entity(
+	/**
+	 * Key
+	 */
+	'posts', 
+	/**
+	 * Definition
+	 */
+	{
+		image: imageSchema,
+		album: albumSchema,
+		postedBy: usersSchema,
+		textTaggedUsers: [{
+			user: usersSchema,
+		}],
+		comments: {
+			items: [commentsSchema],
+		},
+		originalPost: originalPostSchema,
+	},
+	/**
+	 * Options
+	 */
+	{
+		idAttribute: 'postId'
+	}
+)
+
+/**
+ *
+ */
+export function normalizePostsGet(payload) {
+	return normalize(payload, [postSchema])
+}
+
+export function denormalizePostsGet(payload, entities) {
+	return denormalize(payload, [postSchema], entities)
+}
+
+export function normalizePostGet(payload) {
+	return normalize(payload, postSchema)
+}
+
+export function denormalizePostGet(payload, entities) {
+	return denormalize(payload, postSchema, entities)
+}
+
+export function normalizeCommentsGet(payload) {
+	return normalize(payload, [commentsSchema])
+}
+
+export function denormalizeCommentsGet(payload, entities) {
+	return denormalize(payload, [commentsSchema], entities)
+}
+
+export function normalizeCommentGet(payload) {
+	return normalize(payload, commentsSchema)
+}
+
+export function denormalizeCommentGet(payload, entities) {
+	return denormalize(payload, commentsSchema, entities)
+}
+
+export function normalizeUsersGet(payload) {
+	return normalize(payload, [usersSchema])
+}
+
+export function denormalizeUsersGet(payload, entities) {
+	return denormalize(payload, [usersSchema], entities)
+}

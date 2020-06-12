@@ -26,9 +26,6 @@ const PostsService = ({ children }) => {
   const postsShareRequest = (payload) =>
     dispatch(postsActions.postsShareRequest(payload))
 
-  const postsAnonymouslyLikeRequest = (payload) =>
-    dispatch(postsActions.postsAnonymouslyLikeRequest(payload))
-
   const postsOnymouslyLikeRequest = (payload) =>
     dispatch(postsActions.postsOnymouslyLikeRequest(payload))
 
@@ -111,7 +108,6 @@ const PostsService = ({ children }) => {
     user,
     postsShareRequest,
     postsAnonymouslyLike,
-    postsAnonymouslyLikeRequest,
     postsOnymouslyLike,
     postsOnymouslyLikeRequest,
     postsDislike,

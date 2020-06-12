@@ -44,6 +44,7 @@
     "i18next-scanner": "^2.11.0",
     "immutability-helper": "^3.1.1",
     "lodash.throttle": "^4.1.1",
+    "normalizr": "^3.6.0",
     "path": "^0.12.7",
     "promise-retry": "^1.1.1",
     "prop-types": "^15.7.2",

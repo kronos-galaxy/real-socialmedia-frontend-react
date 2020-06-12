@@ -8,24 +8,42 @@ import * as actions from 'store/ducks/posts/actions'
 import * as queries from 'store/ducks/posts/queries'
 import * as constants from 'store/ducks/posts/constants'
 import * as usersActions from 'store/ducks/users/actions'
+import * as entitiesActions from 'store/ducks/entities/actions'
 import * as queryService from 'services/Query'
-
-const usersResourcePoolMergePostedBy = (data) => data.map(post => post.postedBy)
-const usersResourcePoolMergeCommentedBy = (data) => data.map(post => post.commentedBy)
-const usersResourcePoolMergeViewedBy = (data) => data
+import * as normalizer from 'normalizer/schemas'
 
 /**
  *
  */
+function* postsGetRequestData(req, api) {
+  const dataSelector = path(['data', 'user', 'posts', 'items'])
+  const metaSelector = compose(omit(['items']), path(['data', 'user', 'posts']))
+
+  const data = dataSelector(api)
+  const meta = metaSelector(api)
+  const payload = req.payload
+
+  const normalized = normalizer.normalizePostsGet(data)
+  yield put(entitiesActions.entitiesAlbumsMerge({ data: normalized.entities.albums || {} }))
+  yield put(entitiesActions.entitiesPostsMerge({ data: normalized.entities.posts || {} }))
+  yield put(entitiesActions.entitiesUsersMerge({ data: normalized.entities.users || {} }))
+  yield put(entitiesActions.entitiesCommentsMerge({ data: normalized.entities.comments || {} }))
+  yield put(entitiesActions.entitiesImagesMerge({ data: normalized.entities.images || {} }))
+
+  return {
+    data: normalized.result,
+    meta,
+    payload,
+  }
+}
+
 function* postsGetRequest(req) {
   const errorWrapper = yield getContext('errorWrapper')
 
   try {
     const data = yield queryService.apiRequest(queries.getPosts, { ...req.payload, postStatus: 'COMPLETED' })
-    const dataSelector = path(['data', 'user', 'posts', 'items'])
-    const metaSelector = compose(omit(['items']), path(['data', 'user', 'posts']))
-
-    yield put(actions.postsGetSuccess({ payload: req.payload, data: dataSelector(data), meta: metaSelector(data) }))
+    const next = yield postsGetRequestData(req, data)
+    yield put(actions.postsGetSuccess({ data: next.data, payload: next.payload, meta: next.meta }))
   } catch (error) {
     yield put(actions.postsGetFailure({ payload: req.payload, message: errorWrapper(error) }))
   }
@@ -36,10 +54,8 @@ function* postsGetMoreRequest(req) {
 
   try {
     const data = yield queryService.apiRequest(queries.getPosts, { ...req.payload, postStatus: 'COMPLETED' })
-    const dataSelector = path(['data', 'user', 'posts', 'items'])
-    const metaSelector = compose(omit(['items']), path(['data', 'user', 'posts']))
-
-    yield put(actions.postsGetMoreSuccess({ payload: req.payload, data: dataSelector(data), meta: metaSelector(data) }))
+    const next = yield postsGetRequestData(req, data)
+    yield put(actions.postsGetMoreSuccess({ data: next.data, payload: next.payload, meta: next.meta }))
   } catch (error) {
     yield put(actions.postsGetMoreFailure({ payload: req.payload, message: errorWrapper(error) }))
   }
@@ -48,17 +64,62 @@ function* postsGetMoreRequest(req) {
 /**
  *
  */
+function* postsGetUnreadCommentsRequestData(req, api) {
+  const dataSelector = path(['data', 'self', 'postsByNewCommentActivity', 'items'])
+  const metaSelector = compose(omit(['items']), path(['data', 'self', 'postsByNewCommentActivity']))
+
+  const data = dataSelector(api)
+  const meta = metaSelector(api)
+  const payload = req.payload
+
+  const normalized = normalizer.normalizePostsGet(data)
+  yield put(entitiesActions.entitiesAlbumsMerge({ data: normalized.entities.albums || {} }))
+  yield put(entitiesActions.entitiesPostsMerge({ data: normalized.entities.posts || {} }))
+  yield put(entitiesActions.entitiesUsersMerge({ data: normalized.entities.users || {} }))
+  yield put(entitiesActions.entitiesCommentsMerge({ data: normalized.entities.comments || {} }))
+  yield put(entitiesActions.entitiesImagesMerge({ data: normalized.entities.images || {} }))
+
+  return {
+    data: normalized.result,
+    meta,
+    payload,
+  }
+}
+
 function* postsGetUnreadCommentsRequest(req) {
   const errorWrapper = yield getContext('errorWrapper')
 
   try {
     const data = yield queryService.apiRequest(queries.getPostsUnreadComments, req.payload)
-    const dataSelector = path(['data', 'self', 'postsByNewCommentActivity', 'items'])
-    const metaSelector = compose(omit(['items']), path(['data', 'self', 'postsByNewCommentActivity']))
-
-    yield put(actions.postsGetUnreadCommentsSuccess({ payload: req.payload, data: dataSelector(data), meta: metaSelector(data) }))
+    const next = yield postsGetUnreadCommentsRequestData(req, data)
+    yield put(actions.postsGetUnreadCommentsSuccess({ data: next.data, payload: next.payload, meta: next.meta }))
   } catch (error) {
     yield put(actions.postsGetUnreadCommentsFailure({ payload: req.payload, message: errorWrapper(error) }))
+  }
+}
+
+/**
+ *
+ */
+function* postsViewsGetRequestData(req, api) {
+  const dataSelector = path(['data', 'post', 'viewedBy', 'items'])
+  const metaSelector = compose(omit(['items']), path(['data', 'post', 'viewedBy']))
+
+  const data = dataSelector(api)
+  const meta = metaSelector(api)
+  const payload = req.payload
+
+  const normalized = normalizer.normalizeUsersGet(data)
+  yield put(entitiesActions.entitiesAlbumsMerge({ data: normalized.entities.albums || {} }))
+  yield put(entitiesActions.entitiesPostsMerge({ data: normalized.entities.posts || {} }))
+  yield put(entitiesActions.entitiesUsersMerge({ data: normalized.entities.users || {} }))
+  yield put(entitiesActions.entitiesCommentsMerge({ data: normalized.entities.comments || {} }))
+  yield put(entitiesActions.entitiesImagesMerge({ data: normalized.entities.images || {} }))
+
+  return {
+    data: normalized.result,
+    meta,
+    payload,
   }
 }
 
@@ -67,11 +128,8 @@ function* postsViewsGetRequest(req) {
 
   try {
     const data = yield queryService.apiRequest(queries.viewedBy, req.payload)
-    const dataSelector = path(['data', 'post', 'viewedBy', 'items'])
-    const metaSelector = compose(omit(['items']), path(['data', 'post', 'viewedBy']))
-
-    yield put(usersActions.usersResourcePoolMerge({ data: usersResourcePoolMergeViewedBy(dataSelector(data)) }))
-    yield put(actions.postsViewsGetSuccess({ payload: req.payload, data: dataSelector(data), meta: metaSelector(data) }))
+    const next = yield postsViewsGetRequestData(req, data)
+    yield put(actions.postsViewsGetSuccess({ data: next.data, payload: next.payload, meta: next.meta }))
   } catch (error) {
     yield put(actions.postsViewsGetFailure({ payload: req.payload, message: errorWrapper(error) }))
   }
@@ -82,26 +140,45 @@ function* postsViewsGetMoreRequest(req) {
 
   try {
     const data = yield queryService.apiRequest(queries.viewedBy, req.payload)
-    const dataSelector = path(['data', 'post', 'viewedBy', 'items'])
-    const metaSelector = compose(omit(['items']), path(['data', 'post', 'viewedBy']))
-
-    yield put(usersActions.usersResourcePoolMerge({ data: usersResourcePoolMergeViewedBy(dataSelector(data)) }))
-    yield put(actions.postsViewsGetMoreSuccess({ payload: req.payload, data: dataSelector(data), meta: metaSelector(data) }))
+    const next = yield postsViewsGetRequestData(req, data)
+    yield put(actions.postsViewsGetMoreSuccess({ data: next.data, payload: next.payload, meta: next.meta }))
   } catch (error) {
     yield put(actions.postsViewsGetMoreFailure({ payload: req.payload, message: errorWrapper(error) }))
   }
 }
 
+/**
+ *
+ */
+function* postsLikesGetRequestData(req, api) {
+  const dataSelector = path(['data', 'post', 'onymouslyLikedBy', 'items'])
+  const metaSelector = compose(omit(['items']), path(['data', 'post', 'onymouslyLikedBy']))
+
+  const data = dataSelector(api)
+  const meta = metaSelector(api)
+  const payload = req.payload
+
+  const normalized = normalizer.normalizeUsersGet(data)
+  yield put(entitiesActions.entitiesAlbumsMerge({ data: normalized.entities.albums || {} }))
+  yield put(entitiesActions.entitiesPostsMerge({ data: normalized.entities.posts || {} }))
+  yield put(entitiesActions.entitiesUsersMerge({ data: normalized.entities.users || {} }))
+  yield put(entitiesActions.entitiesCommentsMerge({ data: normalized.entities.comments || {} }))
+  yield put(entitiesActions.entitiesImagesMerge({ data: normalized.entities.images || {} }))
+
+  return {
+    data: normalized.result,
+    meta,
+    payload,
+  }
+}
 
 function* postsLikesGetRequest(req) {
   const errorWrapper = yield getContext('errorWrapper')
 
   try {
     const data = yield queryService.apiRequest(queries.onymouslyLikedBy, req.payload)
-    const dataSelector = path(['data', 'post', 'onymouslyLikedBy', 'items'])
-    const metaSelector = compose(omit(['items']), path(['data', 'post', 'onymouslyLikedBy']))
-
-    yield put(actions.postsLikesGetSuccess({ payload: req.payload, data: dataSelector(data), meta: metaSelector(data) }))
+    const next = yield postsLikesGetRequestData(req, data)
+    yield put(actions.postsLikesGetSuccess({ data: next.data, payload: next.payload, meta: next.meta }))
   } catch (error) {
     yield put(actions.postsLikesGetFailure({ payload: req.payload, message: errorWrapper(error) }))
   }
@@ -110,16 +187,35 @@ function* postsLikesGetRequest(req) {
 /**
  *
  */
+function* postsFeedGetRequestData(req, api) {
+  const dataSelector = path(['data', 'self', 'feed', 'items'])
+  const metaSelector = compose(omit(['items']), path(['data', 'self', 'feed']))
+
+  const data = dataSelector(api)
+  const meta = metaSelector(api)
+  const payload = req.payload
+
+  const normalized = normalizer.normalizePostsGet(data)
+  yield put(entitiesActions.entitiesAlbumsMerge({ data: normalized.entities.albums || {} }))
+  yield put(entitiesActions.entitiesPostsMerge({ data: normalized.entities.posts || {} }))
+  yield put(entitiesActions.entitiesUsersMerge({ data: normalized.entities.users || {} }))
+  yield put(entitiesActions.entitiesCommentsMerge({ data: normalized.entities.comments || {} }))
+  yield put(entitiesActions.entitiesImagesMerge({ data: normalized.entities.images || {} }))
+
+  return {
+    data: normalized.result,
+    meta,
+    payload,
+  }
+}
+
 function* postsFeedGetRequest(req) {
   const errorWrapper = yield getContext('errorWrapper')
 
   try {
     const data = yield queryService.apiRequest(queries.getFeed, req.payload)
-    const dataSelector = path(['data', 'self', 'feed', 'items'])
-    const metaSelector = compose(omit(['items']), path(['data', 'self', 'feed']))
-
-    yield put(usersActions.usersResourcePoolMerge({ data: usersResourcePoolMergePostedBy(dataSelector(data)) }))
-    yield put(actions.postsFeedGetSuccess({ data: dataSelector(data), payload: req.payload, meta: metaSelector(data) }))
+    const next = yield postsFeedGetRequestData(req, data)
+    yield put(actions.postsFeedGetSuccess({ data: next.data, payload: next.payload, meta: next.meta }))
   } catch (error) {
     yield put(actions.postsFeedGetFailure({ message: errorWrapper(error), payload: req.payload, }))
   }
@@ -130,11 +226,8 @@ function* postsFeedGetMoreRequest(req) {
 
   try {
     const data = yield queryService.apiRequest(queries.getFeed, req.payload)
-    const dataSelector = path(['data', 'self', 'feed', 'items'])
-    const metaSelector = compose(omit(['items']), path(['data', 'self', 'feed']))
-
-    yield put(usersActions.usersResourcePoolMerge({ data: usersResourcePoolMergePostedBy(dataSelector(data)) }))
-    yield put(actions.postsFeedGetMoreSuccess({ data: dataSelector(data), payload: req.payload, meta: metaSelector(data) }))
+    const next = yield postsFeedGetRequestData(req, data)
+    yield put(actions.postsFeedGetMoreSuccess({ data: next.data, payload: next.payload, meta: next.meta }))
   } catch (error) {
     yield put(actions.postsFeedGetMoreFailure({ message: errorWrapper(error), payload: req.payload, }))
   }
@@ -143,38 +236,77 @@ function* postsFeedGetMoreRequest(req) {
 /**
  *
  */
+function* postsGetArchivedRequestData(req, api) {
+  const dataSelector = path(['data', 'user', 'posts', 'items'])
+  const metaSelector = compose(omit(['items']), path(['data', 'user', 'posts']))
+
+  const data = dataSelector(api)
+  const meta = metaSelector(api)
+  const payload = req.payload
+
+  const normalized = normalizer.normalizePostsGet(data)
+  yield put(entitiesActions.entitiesAlbumsMerge({ data: normalized.entities.albums || {} }))
+  yield put(entitiesActions.entitiesPostsMerge({ data: normalized.entities.posts || {} }))
+  yield put(entitiesActions.entitiesUsersMerge({ data: normalized.entities.users || {} }))
+  yield put(entitiesActions.entitiesCommentsMerge({ data: normalized.entities.comments || {} }))
+  yield put(entitiesActions.entitiesImagesMerge({ data: normalized.entities.images || {} }))
+
+  return {
+    data: normalized.result,
+    meta,
+    payload,
+  }
+}
+
 function* postsGetArchivedRequest(req) {
   const errorWrapper = yield getContext('errorWrapper')
 
   try {
     const data = yield queryService.apiRequest(queries.getPosts, { ...req.payload, postStatus: 'ARCHIVED' })
-    const selector = path(['data', 'user', 'posts', 'items'])
-    const metaSelector = compose(omit(['items']), path(['data', 'user', 'posts']))
-
-    yield put(actions.postsGetArchivedSuccess({ data: selector(data), payload: req.payload, meta: metaSelector(data) }))
+    const next = yield postsGetArchivedRequestData(req, data)
+    yield put(actions.postsGetArchivedSuccess({ data: next.data, payload: next.payload, meta: next.meta }))
   } catch (error) {
     yield put(actions.postsGetArchivedFailure({ message: errorWrapper(error), payload: req.payload }))
   }
 }
 
+/**
+ *
+ */
 function* handlePostsEditRequest(payload) {
   yield queryService.apiRequest(queries.editPostExpiresAt, payload)
   yield queryService.apiRequest(queries.editPostAlbum, payload)
   return yield queryService.apiRequest(queries.editPost, payload)
 }
 
-/**
- *
- */
+function* postsEditRequestData(req, api) {
+  const dataSelector = path(['data', 'editPost'])
+
+  const data = dataSelector(api)
+  const meta = {}
+  const payload = req.payload
+
+  const normalized = normalizer.normalizePostGet(data)
+  yield put(entitiesActions.entitiesAlbumsMerge({ data: normalized.entities.albums || {} }))
+  yield put(entitiesActions.entitiesPostsMerge({ data: normalized.entities.posts || {} }))
+  yield put(entitiesActions.entitiesUsersMerge({ data: normalized.entities.users || {} }))
+  yield put(entitiesActions.entitiesCommentsMerge({ data: normalized.entities.comments || {} }))
+  yield put(entitiesActions.entitiesImagesMerge({ data: normalized.entities.images || {} }))
+
+  return {
+    data: normalized.result,
+    meta,
+    payload,
+  }
+}
+
 function* postsEditRequest(req) {
   const errorWrapper = yield getContext('errorWrapper')
 
   try {
     const data = yield handlePostsEditRequest(req.payload)
-    const selector = path(['data', 'editPost'])
-    const meta = {}
-
-    yield put(actions.postsEditSuccess({ data: selector(data), payload: req.payload, meta }))
+    const next = yield postsEditRequestData(req, data)
+    yield put(actions.postsEditSuccess({ data: next.data, payload: next.payload, meta: next.meta }))
   } catch (error) {
     yield put(actions.postsEditFailure({ message: errorWrapper(error), payload: req.payload }))
   }
@@ -183,15 +315,34 @@ function* postsEditRequest(req) {
 /**
  *
  */
+function* postsDeleteRequestData(req, api) {
+  const dataSelector = path(['data', 'deletePost'])
+
+  const data = dataSelector(api)
+  const meta = {}
+  const payload = req.payload
+
+  const normalized = normalizer.normalizePostGet(data)
+  yield put(entitiesActions.entitiesAlbumsMerge({ data: normalized.entities.albums || {} }))
+  yield put(entitiesActions.entitiesPostsMerge({ data: normalized.entities.posts || {} }))
+  yield put(entitiesActions.entitiesUsersMerge({ data: normalized.entities.users || {} }))
+  yield put(entitiesActions.entitiesCommentsMerge({ data: normalized.entities.comments || {} }))
+  yield put(entitiesActions.entitiesImagesMerge({ data: normalized.entities.images || {} }))
+
+  return {
+    data: normalized.result,
+    meta,
+    payload,
+  }
+}
+
 function* postsDeleteRequest(req) {
   const errorWrapper = yield getContext('errorWrapper')
 
   try {
     const data = yield queryService.apiRequest(queries.deletePost, req.payload)
-    const selector = path(['data', 'deletePost'])
-    const meta = {}
-
-    yield put(actions.postsDeleteSuccess({ data: selector(data), payload: req.payload, meta }))
+    const next = yield postsDeleteRequestData(req, data)
+    yield put(actions.postsDeleteSuccess({ data: next.data, payload: next.payload, meta: next.meta }))
   } catch (error) {
     yield put(actions.postsDeleteFailure({ message: errorWrapper(error), payload: req.payload }))
   }
@@ -200,15 +351,34 @@ function* postsDeleteRequest(req) {
 /**
  *
  */
+function* postsArchiveRequestData(req, api) {
+  const dataSelector = path(['data', 'archivePost'])
+
+  const data = dataSelector(api)
+  const meta = {}
+  const payload = req.payload
+
+  const normalized = normalizer.normalizePostGet(data)
+  yield put(entitiesActions.entitiesAlbumsMerge({ data: normalized.entities.albums || {} }))
+  yield put(entitiesActions.entitiesPostsMerge({ data: normalized.entities.posts || {} }))
+  yield put(entitiesActions.entitiesUsersMerge({ data: normalized.entities.users || {} }))
+  yield put(entitiesActions.entitiesCommentsMerge({ data: normalized.entities.comments || {} }))
+  yield put(entitiesActions.entitiesImagesMerge({ data: normalized.entities.images || {} }))
+
+  return {
+    data: normalized.result,
+    meta,
+    payload,
+  }
+}
+
 function* postsArchiveRequest(req) {
   const errorWrapper = yield getContext('errorWrapper')
 
   try {
     const data = yield queryService.apiRequest(queries.archivePost, req.payload)
-    const selector = path(['data', 'archivePost'])
-    const meta = {}
-
-    yield put(actions.postsArchiveSuccess({ data: selector(data), payload: req.payload, meta }))
+    const next = yield postsArchiveRequestData(req, data)
+    yield put(actions.postsArchiveSuccess({ data: next.data, payload: next.payload, meta: next.meta }))
   } catch (error) {
     yield put(actions.postsArchiveFailure({ message: errorWrapper(error), payload: req.payload }))
   }
@@ -217,15 +387,34 @@ function* postsArchiveRequest(req) {
 /**
  *
  */
+function* postsRestoreArchivedRequestData(req, api) {
+  const dataSelector = path(['data', 'restoreArchivedPost'])
+
+  const data = dataSelector(api)
+  const meta = {}
+  const payload = req.payload
+
+  const normalized = normalizer.normalizePostGet(data)
+  yield put(entitiesActions.entitiesAlbumsMerge({ data: normalized.entities.albums || {} }))
+  yield put(entitiesActions.entitiesPostsMerge({ data: normalized.entities.posts || {} }))
+  yield put(entitiesActions.entitiesUsersMerge({ data: normalized.entities.users || {} }))
+  yield put(entitiesActions.entitiesCommentsMerge({ data: normalized.entities.comments || {} }))
+  yield put(entitiesActions.entitiesImagesMerge({ data: normalized.entities.images || {} }))
+
+  return {
+    data: normalized.result,
+    meta,
+    payload,
+  }
+}
+
 function* postsRestoreArchivedRequest(req) {
   const errorWrapper = yield getContext('errorWrapper')
 
   try {
     const data = yield queryService.apiRequest(queries.restoreArchivedPost, req.payload)
-    const selector = path(['data', 'restoreArchivedPost'])
-    const meta = {}
-
-    yield put(actions.postsRestoreArchivedSuccess({ data: selector(data), payload: req.payload, meta }))
+    const next = yield postsRestoreArchivedRequestData(req, data)
+    yield put(actions.postsRestoreArchivedSuccess({ data: next.data, payload: next.payload, meta: next.meta }))
   } catch (error) {
     yield put(actions.postsRestoreArchivedFailure({ message: errorWrapper(error), payload: req.payload }))
   }
@@ -234,15 +423,34 @@ function* postsRestoreArchivedRequest(req) {
 /**
  *
  */
+function* postsFlagRequestData(req, api) {
+  const dataSelector = path(['data', 'flagPost'])
+
+  const data = dataSelector(api)
+  const meta = {}
+  const payload = req.payload
+
+  const normalized = normalizer.normalizePostGet(data)
+  yield put(entitiesActions.entitiesAlbumsMerge({ data: normalized.entities.albums || {} }))
+  yield put(entitiesActions.entitiesPostsMerge({ data: normalized.entities.posts || {} }))
+  yield put(entitiesActions.entitiesUsersMerge({ data: normalized.entities.users || {} }))
+  yield put(entitiesActions.entitiesCommentsMerge({ data: normalized.entities.comments || {} }))
+  yield put(entitiesActions.entitiesImagesMerge({ data: normalized.entities.images || {} }))
+
+  return {
+    data: normalized.result,
+    meta,
+    payload,
+  }
+}
+
 function* postsFlagRequest(req) {
   const errorWrapper = yield getContext('errorWrapper')
 
   try {
     const data = yield queryService.apiRequest(queries.flagPost, req.payload)
-    const selector = path(['data', 'flagPost'])
-    const meta = {}
-
-    yield put(actions.postsFlagSuccess({ data: selector(data), payload: req.payload, meta }))
+    const next = yield postsFlagRequestData(req, data)
+    yield put(actions.postsFlagSuccess({ data: next.data, payload: next.payload, meta: next.meta }))
   } catch (error) {
     yield put(actions.postsFlagFailure({ message: errorWrapper(error), payload: req.payload }))
   }
@@ -251,15 +459,34 @@ function* postsFlagRequest(req) {
 /**
  *
  */
+function* postsSingleGetRequestData(req, api) {
+  const dataSelector = path(['data', 'post'])
+
+  const data = dataSelector(api)
+  const meta = {}
+  const payload = req.payload
+
+  const normalized = normalizer.normalizePostGet(data)
+  yield put(entitiesActions.entitiesAlbumsMerge({ data: normalized.entities.albums || {} }))
+  yield put(entitiesActions.entitiesPostsMerge({ data: normalized.entities.posts || {} }))
+  yield put(entitiesActions.entitiesUsersMerge({ data: normalized.entities.users || {} }))
+  yield put(entitiesActions.entitiesCommentsMerge({ data: normalized.entities.comments || {} }))
+  yield put(entitiesActions.entitiesImagesMerge({ data: normalized.entities.images || {} }))
+
+  return {
+    data: normalized.result,
+    meta,
+    payload,
+  }
+}
+
 function* postsSingleGetRequest(req) {
   const errorWrapper = yield getContext('errorWrapper')
 
   try {
     const data = yield queryService.apiRequest(queries.getPost, req.payload)
-    const selector = path(['data', 'post'])
-    const meta = {}
-
-    yield put(actions.postsSingleGetSuccess({ data: selector(data), payload: req.payload, meta }))
+    const next = yield postsSingleGetRequestData(req, data)
+    yield put(actions.postsSingleGetSuccess({ data: next.data, payload: next.payload, meta: next.meta }))
   } catch (error) {
     yield put(actions.postsSingleGetFailure({ message: errorWrapper(error), payload: req.payload }))
   }
@@ -268,15 +495,34 @@ function* postsSingleGetRequest(req) {
 /**
  *
  */
+function* postsOnymouslyLikeRequestData(req, api) {
+  const dataSelector = path(['data', 'onymouslyLikePost'])
+
+  const data = dataSelector(api)
+  const meta = {}
+  const payload = req.payload
+
+  const normalized = normalizer.normalizePostGet(data)
+  yield put(entitiesActions.entitiesAlbumsMerge({ data: normalized.entities.albums || {} }))
+  yield put(entitiesActions.entitiesPostsMerge({ data: normalized.entities.posts || {} }))
+  yield put(entitiesActions.entitiesUsersMerge({ data: normalized.entities.users || {} }))
+  yield put(entitiesActions.entitiesCommentsMerge({ data: normalized.entities.comments || {} }))
+  yield put(entitiesActions.entitiesImagesMerge({ data: normalized.entities.images || {} }))
+
+  return {
+    data: normalized.result,
+    meta,
+    payload,
+  }
+}
+
 function* postsOnymouslyLikeRequest(req) {
   const errorWrapper = yield getContext('errorWrapper')
 
   try {
     const data = yield queryService.apiRequest(queries.onymouslyLikePost, req.payload)
-    const selector = path(['data', 'onymouslyLikePost'])
-    const meta = {}
-
-    yield put(actions.postsOnymouslyLikeSuccess({ data: selector(data), payload: req.payload, meta }))
+    const next = yield postsOnymouslyLikeRequestData(req, data)
+    yield put(actions.postsOnymouslyLikeSuccess({ data: next.data, payload: next.payload, meta: next.meta }))
   } catch (error) {
     yield put(actions.postsOnymouslyLikeFailure({ message: errorWrapper(error), payload: req.payload }))
   }
@@ -285,32 +531,34 @@ function* postsOnymouslyLikeRequest(req) {
 /**
  *
  */
-function* postsAnonymouslyLikeRequest(req) {
-  const errorWrapper = yield getContext('errorWrapper')
+function* postsDislikeRequestData(req, api) {
+  const dataSelector = path(['data', 'dislikePost'])
 
-  try {
-    const data = yield queryService.apiRequest(queries.anonymouslyLikePost, req.payload)
-    const selector = path(['data', 'anonymouslyLikePost'])
-    const meta = {}
+  const data = dataSelector(api)
+  const meta = {}
+  const payload = req.payload
 
-    yield put(actions.postsAnonymouslyLikeSuccess({ data: selector(data), payload: req.payload, meta }))
-  } catch (error) {
-    yield put(actions.postsAnonymouslyLikeFailure({ message: errorWrapper(error), payload: req.payload }))
+  const normalized = normalizer.normalizePostGet(data)
+  yield put(entitiesActions.entitiesAlbumsMerge({ data: normalized.entities.albums || {} }))
+  yield put(entitiesActions.entitiesPostsMerge({ data: normalized.entities.posts || {} }))
+  yield put(entitiesActions.entitiesUsersMerge({ data: normalized.entities.users || {} }))
+  yield put(entitiesActions.entitiesCommentsMerge({ data: normalized.entities.comments || {} }))
+  yield put(entitiesActions.entitiesImagesMerge({ data: normalized.entities.images || {} }))
+
+  return {
+    data: normalized.result,
+    meta,
+    payload,
   }
 }
 
-/**
- *
- */
 function* postsDislikeRequest(req) {
   const errorWrapper = yield getContext('errorWrapper')
 
   try {
     const data = yield queryService.apiRequest(queries.dislikePost, req.payload)
-    const selector = path(['data', 'dislikePost'])
-    const meta = {}
-
-    yield put(actions.postsDislikeSuccess({ data: selector(data), payload: req.payload, meta }))
+    const next = yield postsDislikeRequestData(req, data)
+    yield put(actions.postsDislikeSuccess({ data: next.data, payload: next.payload, meta: next.meta }))
   } catch (error) {
     yield put(actions.postsDislikeFailure({ message: errorWrapper(error), payload: req.payload, }))
   }
@@ -353,16 +601,35 @@ function* postsReportCommentViewsRequest(req) {
 /**
  *
  */
+function* postsGetTrendingPostsRequestData(req, api) {
+  const dataSelector = path(['data', 'trendingPosts', 'items'])
+  const metaSelector = compose(omit(['items']), path(['data', 'trendingPosts']))
+
+  const data = dataSelector(api)
+  const meta = metaSelector(api)
+  const payload = req.payload
+
+  const normalized = normalizer.normalizePostsGet(data)
+  yield put(entitiesActions.entitiesAlbumsMerge({ data: normalized.entities.albums || {} }))
+  yield put(entitiesActions.entitiesPostsMerge({ data: normalized.entities.posts || {} }))
+  yield put(entitiesActions.entitiesUsersMerge({ data: normalized.entities.users || {} }))
+  yield put(entitiesActions.entitiesCommentsMerge({ data: normalized.entities.comments || {} }))
+  yield put(entitiesActions.entitiesImagesMerge({ data: normalized.entities.images || {} }))
+
+  return {
+    data: normalized.result,
+    meta,
+    payload,
+  }
+}
+
 function* postsGetTrendingPostsRequest(req) {
   const errorWrapper = yield getContext('errorWrapper')
 
   try {
     const data = yield queryService.apiRequest(queries.trendingPosts, req.payload)
-    const dataSelector = path(['data', 'trendingPosts', 'items'])
-    const metaSelector = compose(omit(['items']), path(['data', 'trendingPosts']))
-
-    yield put(usersActions.usersResourcePoolMerge({ data: usersResourcePoolMergePostedBy(dataSelector(data)) }))
-    yield put(actions.postsGetTrendingPostsSuccess({ data: dataSelector(data), payload: req.payload, meta: metaSelector(data) }))
+    const next = yield postsGetTrendingPostsRequestData(req, data)
+    yield put(actions.postsGetTrendingPostsSuccess({ data: next.data, payload: next.payload, meta: next.meta }))
   } catch (error) {
     yield put(actions.postsGetTrendingPostsFailure({ message: errorWrapper(error), payload: req.payload }))
   }
@@ -373,11 +640,8 @@ function* postsGetTrendingPostsMoreRequest(req) {
 
   try {
     const data = yield queryService.apiRequest(queries.trendingPosts, req.payload)
-    const dataSelector = path(['data', 'trendingPosts', 'items'])
-    const metaSelector = compose(omit(['items']), path(['data', 'trendingPosts']))
-
-    yield put(usersActions.usersResourcePoolMerge({ data: usersResourcePoolMergePostedBy(dataSelector(data)) }))
-    yield put(actions.postsGetTrendingPostsMoreSuccess({ data: dataSelector(data), payload: req.payload, meta: metaSelector(data) }))
+    const next = yield postsGetTrendingPostsRequestData(req, data)
+    yield put(actions.postsGetTrendingPostsMoreSuccess({ data: next.data, payload: next.payload, meta: next.meta }))
   } catch (error) {
     yield put(actions.postsGetTrendingPostsMoreFailure({ message: errorWrapper(error), payload: req.payload }))
   }
@@ -386,16 +650,35 @@ function* postsGetTrendingPostsMoreRequest(req) {
 /**
  *
  */
+function* postsCommentsGetRequestData(req, api) {
+  const dataSelector = path(['data', 'post', 'comments', 'items'])
+  const metaSelector = compose(omit(['items']), path(['data', 'post', 'comments']))
+
+  const data = dataSelector(api)
+  const meta = metaSelector(api)
+  const payload = req.payload
+
+  const normalized = normalizer.normalizeCommentsGet(data)
+  yield put(entitiesActions.entitiesAlbumsMerge({ data: normalized.entities.albums || {} }))
+  yield put(entitiesActions.entitiesPostsMerge({ data: normalized.entities.posts || {} }))
+  yield put(entitiesActions.entitiesUsersMerge({ data: normalized.entities.users || {} }))
+  yield put(entitiesActions.entitiesCommentsMerge({ data: normalized.entities.comments || {} }))
+  yield put(entitiesActions.entitiesImagesMerge({ data: normalized.entities.images || {} }))
+
+  return {
+    data: normalized.result,
+    meta,
+    payload,
+  }
+}
+
 function* postsCommentsGetRequest(req) {
   const errorWrapper = yield getContext('errorWrapper')
 
   try {
     const data = yield queryService.apiRequest(queries.comments, req.payload)
-    const dataSelector = path(['data', 'post', 'comments', 'items'])
-    const metaSelector = compose(omit(['items']), path(['data', 'post', 'comments']))
-
-    yield put(usersActions.usersResourcePoolMerge({ data: usersResourcePoolMergeCommentedBy(dataSelector(data)) }))
-    yield put(actions.postsCommentsGetSuccess({ data: dataSelector(data), payload: req.payload, meta: metaSelector(data) }))
+    const next = yield postsCommentsGetRequestData(req, data)
+    yield put(actions.postsCommentsGetSuccess({ data: next.data, payload: next.payload, meta: next.meta }))
   } catch (error) {
     yield put(actions.postsCommentsGetFailure({ message: errorWrapper(error), payload: req.payload }))
   }
@@ -404,15 +687,34 @@ function* postsCommentsGetRequest(req) {
 /**
  *
  */
+function* commentsAddRequestData(req, api) {
+  const dataSelector = path(['data', 'addComment'])
+
+  const data = dataSelector(api)
+  const meta = {}
+  const payload = req.payload
+
+  const normalized = normalizer.normalizeCommentGet(data)
+  yield put(entitiesActions.entitiesAlbumsMerge({ data: normalized.entities.albums || {} }))
+  yield put(entitiesActions.entitiesPostsMerge({ data: normalized.entities.posts || {} }))
+  yield put(entitiesActions.entitiesUsersMerge({ data: normalized.entities.users || {} }))
+  yield put(entitiesActions.entitiesCommentsMerge({ data: normalized.entities.comments || {} }))
+  yield put(entitiesActions.entitiesImagesMerge({ data: normalized.entities.images || {} }))
+
+  return {
+    data: normalized.result,
+    meta,
+    payload,
+  }
+}
+
 function* commentsAddRequest(req) {
   const errorWrapper = yield getContext('errorWrapper')
 
   try {
     const data = yield queryService.apiRequest(queries.addComment, req.payload)
-    const selector = path(['data', 'addComment'])
-    const meta = {}
-
-    yield put(actions.commentsAddSuccess({ data: selector(data), payload: req.payload, meta }))
+    const next = yield commentsAddRequestData(req, data)
+    yield put(actions.commentsAddSuccess({ data: next.data, payload: next.payload, meta: next.meta }))
   } catch (error) {
     yield put(actions.commentsAddFailure({ message: errorWrapper(error), payload: req.payload }))
   }
@@ -421,15 +723,34 @@ function* commentsAddRequest(req) {
 /**
  *
  */
+function* commentsDeleteRequestData(req, api) {
+  const dataSelector = path(['data', 'deleteComment'])
+
+  const data = dataSelector(api)
+  const meta = {}
+  const payload = req.payload
+
+  const normalized = normalizer.normalizeCommentGet(data)
+  yield put(entitiesActions.entitiesAlbumsMerge({ data: normalized.entities.albums || {} }))
+  yield put(entitiesActions.entitiesPostsMerge({ data: normalized.entities.posts || {} }))
+  yield put(entitiesActions.entitiesUsersMerge({ data: normalized.entities.users || {} }))
+  yield put(entitiesActions.entitiesCommentsMerge({ data: normalized.entities.comments || {} }))
+  yield put(entitiesActions.entitiesImagesMerge({ data: normalized.entities.images || {} }))
+
+  return {
+    data: normalized.result,
+    meta,
+    payload,
+  }
+}
+
 function* commentsDeleteRequest(req) {
   const errorWrapper = yield getContext('errorWrapper')
 
   try {
     const data = yield queryService.apiRequest(queries.deleteComment, req.payload)
-    const selector = path(['data', 'deleteComment'])
-    const meta = {}
-
-    yield put(actions.commentsDeleteSuccess({ data: selector(data), payload: req.payload, meta }))
+    const next = yield commentsDeleteRequestData(req, data)
+    yield put(actions.commentsDeleteSuccess({ data: next.data, payload: next.payload, meta: next.meta }))
   } catch (error) {
     yield put(actions.commentsDeleteFailure({ message: errorWrapper(error), payload: req.payload }))
   }
@@ -458,7 +779,6 @@ export default () => [
   takeLatest(constants.POSTS_SINGLE_GET_REQUEST, postsSingleGetRequest),
 
   takeEvery(constants.POSTS_ONYMOUSLY_LIKE_REQUEST, postsOnymouslyLikeRequest),
-  takeEvery(constants.POSTS_ANONYMOUSLY_LIKE_REQUEST, postsAnonymouslyLikeRequest),
   takeEvery(constants.POSTS_DISLIKE_REQUEST, postsDislikeRequest),
   takeEvery(constants.POSTS_REPORT_POST_VIEWS_REQUEST, postsReportPostViewsRequest),
   takeEvery(constants.POSTS_REPORT_COMMENT_VIEWS_REQUEST, postsReportCommentViewsRequest),

@@ -1,0 +1,8 @@
+import { createAction } from 'redux-actions'
+import * as constants from 'store/ducks/entities/constants'
+
+export const entitiesAlbumsMerge = createAction(constants.ENTITIES_ALBUMS_MERGE)
+export const entitiesPostsMerge = createAction(constants.ENTITIES_POSTS_MERGE)
+export const entitiesCommentsMerge = createAction(constants.ENTITIES_COMMENTS_MERGE)
+export const entitiesUsersMerge = createAction(constants.ENTITIES_USERS_MERGE)
+export const entitiesImagesMerge = createAction(constants.ENTITIES_IMAGES_MERGE)
