@@ -265,3 +265,11 @@ export function normalizeUsersGet(payload) {
 export function denormalizeUsersGet(payload, entities) {
 	return denormalize(payload, [usersSchema], entities)
 }
+
+export function normalizeUserGet(payload) {
+	return normalize(payload, usersSchema)
+}
+
+export function denormalizeUserGet(payload, entities) {
+	return denormalize(payload, usersSchema, entities)
+}
