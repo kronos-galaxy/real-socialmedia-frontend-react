@@ -4,8 +4,6 @@ import * as actions from 'store/ducks/cache/actions'
 import * as constants from 'store/ducks/cache/constants'
 import * as service from 'store/ducks/cache/service'
 import path from 'ramda/src/path'
-import * as Logger from 'services/Logger'
-import update from 'immutability-helper'
 
 /**
  * 
@@ -88,8 +86,8 @@ function* cacheFetchRequest(req) {
     return
   }
 
-  const nextBuffer = yield select(state => state.cache.buffer[req.payload.signature.partial])
-  if (nextBuffer) {
+  const nextProgress = yield select(state => state.cache.progress[req.payload.signature.partial])
+  if (nextProgress) {
     return
   }
 
@@ -124,6 +122,7 @@ function* cacheFetchIdle(req) {
   try {
     yield service.removeLocalFolder(req.payload.signature.pathFolder)
   } catch (error) {
+    // handler
   }
 }
 
@@ -131,6 +130,7 @@ function* cacheFetchFailure(req) {
   try {
     yield service.removeLocalFolder(req.payload.signature.pathFolder)
   } catch (error) {
+    // handler
   }
 }
 
