@@ -150,18 +150,8 @@ const usersSearchRequest = (state, action) => update(state, {
 
 const usersSearchSuccess = (state, action) => update(state, {
   usersSearch: {
-    data: { $usersResourceSetSuccess: action },
+    data: { $set: action.payload.data },
     status: { $set: 'success' },
-  },
-
-  /**
-   * User pool entry
-   */
-  usersPool: {
-    $usersResourcePoolMerge: {
-      ...action,
-      initialState: initialState.usersGetProfile,
-    },
   },
 })
 
@@ -224,18 +214,8 @@ const usersGetFollowedUsersWithStoriesRequest = (state, action) => update(state,
 
 const usersGetFollowedUsersWithStoriesSuccess = (state, action) => update(state, {
   usersGetFollowedUsersWithStories: {
-    data: { $usersResourceSetSuccess: action },
+    data: { $set: action.payload.data },
     status: { $set: 'success' },
-  },
-
-  /**
-   * User pool entry
-   */
-  usersPool: {
-    $usersResourcePoolMerge: {
-      ...action,
-      initialState: initialState.usersGetProfile,
-    },
   },
 })
 
@@ -273,7 +253,7 @@ const usersGetFollowedUsersRequest = (state, action) => update(state, {
 
 const usersGetFollowedUsersSuccess = (state, action) => update(state, {
   usersGetFollowedUsers: {
-    data: { $usersResourceSetSuccess: action },
+    data: { $set: action.payload.data },
     status: { $set: 'success' },
   },
   usersGetFollowedUsersCache: {
@@ -281,16 +261,6 @@ const usersGetFollowedUsersSuccess = (state, action) => update(state, {
       ...action,
       resourceKey: action.payload.payload.userId,
       initialState: initialState.usersGetFollowedUsers,
-    },
-  },
-
-  /**
-   * User pool entry
-   */
-  usersPool: {
-    $usersResourcePoolMerge: {
-      ...action,
-      initialState: initialState.usersGetProfile,
     },
   },
 })
@@ -343,7 +313,7 @@ const usersGetFollowerUsersRequest = (state, action) => update(state, {
 
 const usersGetFollowerUsersSuccess = (state, action) => update(state, {
   usersGetFollowerUsers: {
-    data: { $usersResourceSetSuccess: action },
+    data: { $set: action.payload.data },
     status: { $set: 'success' },
   },
   usersGetFollowerUsersCache: {
@@ -351,16 +321,6 @@ const usersGetFollowerUsersSuccess = (state, action) => update(state, {
       ...action,
       resourceKey: action.payload.payload.userId,
       initialState: initialState.usersGetFollowerUsers,
-    },
-  },
-
-  /**
-   * User pool entry
-   */
-  usersPool: {
-    $usersResourcePoolMerge: {
-      ...action,
-      initialState: initialState.usersGetProfile,
     },
   },
 })
@@ -413,7 +373,7 @@ const usersGetPendingFollowersRequest = (state, action) => update(state, {
 
 const usersGetPendingFollowersSuccess = (state, action) => update(state, {
   usersGetPendingFollowers: {
-    data: { $usersResourceSetSuccess: action },
+    data: { $set: action.payload.data },
     status: { $set: 'success' },
   },
   usersGetFollowerUsersCache: {
@@ -421,16 +381,6 @@ const usersGetPendingFollowersSuccess = (state, action) => update(state, {
       ...action,
       resourceKey: action.payload.payload.userId,
       initialState: initialState.usersGetPendingFollowers,
-    },
-  },
-
-  /**
-   * User pool entry
-   */
-  usersPool: {
-    $usersResourcePoolMerge: {
-      ...action,
-      initialState: initialState.usersGetProfile,
     },
   },
 })
@@ -476,14 +426,8 @@ const usersFollowRequest = (state, action) => update(state, {
 
 const usersFollowSuccess = (state, action) => update(state, {
   usersFollow: {
+    data: { $set: action.payload.data },
     status: { $set: 'success' },
-  },
-
-  /**
-   * User pool entry
-   */
-  usersPool: {
-    $usersResourcePoolSet: action,
   },
 })
 
@@ -514,14 +458,8 @@ const usersUnfollowRequest = (state, action) => update(state, {
 
 const usersUnfollowSuccess = (state, action) => update(state, {
   usersUnfollow: {
+    data: { $set: action.payload.data },
     status: { $set: 'success' },
-  },
-
-  /**
-   * User pool entry
-   */
-  usersPool: {
-    $usersResourcePoolSet: action,
   },
 })
 
@@ -552,14 +490,8 @@ const usersAcceptFollowerUserRequest = (state, action) => update(state, {
 
 const usersAcceptFollowerUserSuccess = (state, action) => update(state, {
   usersAcceptFollowerUser: {
+    data: { $set: action.payload.data },
     status: { $set: 'success' },
-  },
-
-  /**
-   * User pool entry
-   */
-  usersPool: {
-    $usersResourcePoolSet: action,
   },
 })
 
@@ -590,14 +522,8 @@ const usersBlockRequest = (state, action) => update(state, {
 
 const usersBlockSuccess = (state, action) => update(state, {
   usersBlock: {
+    data: { $set: action.payload.data },
     status: { $set: 'success' },
-  },
-
-  /**
-   * User pool entry
-   */
-  usersPool: {
-    $usersResourcePoolSet: action,
   },
 })
 
@@ -631,13 +557,6 @@ const usersUnblockSuccess = (state, action) => update(state, {
     data: { $set: action.payload.data },
     status: { $set: 'success' },
   },
-
-  /**
-   * User pool entry
-   */
-  usersPool: {
-    $usersResourcePoolSet: action,
-  },
 })
 
 const usersUnblockFailure = (state, action) => update(state, {
@@ -667,14 +586,8 @@ const usersGetProfileRequest = (state, action) => update(state, {
 
 const usersGetProfileSuccess = (state, action) => update(state, {
   usersGetProfile: {
+    data: { $set: action.payload.data },
     status: { $set: 'success' },
-  },
-
-  /**
-   * User pool entry
-   */
-  usersPool: {
-    $usersResourcePoolSet: action,
   },
 })
 
@@ -705,14 +618,8 @@ const usersGetProfileSelfRequest = (state, action) => update(state, {
 
 const usersGetProfileSelfSuccess = (state, action) => update(state, {
   usersGetProfileSelf: {
+    data: { $set: action.payload.data },
     status: { $set: 'success' },
-  },
-
-  /**
-   * User pool entry
-   */
-  usersPool: {
-    $usersResourcePoolSet: action,
   },
 })
 
@@ -743,14 +650,8 @@ const usersEditProfileRequest = (state, action) => update(state, {
 
 const usersEditProfileSuccess = (state, action) => update(state, {
   usersEditProfile: {
+    data: { $set: action.payload.data },
     status: { $set: 'success' },
-  },
-
-  /**
-   * User pool entry
-   */
-  usersPool: {
-    $usersResourcePoolSet: action,
   },
 })
 
@@ -813,15 +714,8 @@ const usersGetTrendingUsersRequest = (state, action) => update(state, {
 
 const usersGetTrendingUsersSuccess = (state, action) => update(state, {
   usersGetTrendingUsers: {
-    data: { $usersResourceSetSuccess: action },
+    data: { $set: action.payload.data },
     status: { $set: 'success' },
-  },
-
-  usersPool: {
-    $usersResourcePoolMerge: {
-      ...action,
-      initialState: initialState.usersGetProfile,
-    },
   },
 })
 

@@ -4,12 +4,14 @@ import path from 'ramda/src/path'
 import pathOr from 'ramda/src/pathOr'
 import equals from 'ramda/src/equals'
 import assocPath from 'ramda/src/assocPath'
+import * as normalizer from 'normalizer/schemas'
 
 const createDeepEqualSelector = createSelectorCreator(
   defaultMemoize,
   equals
 )
 
+const entities = () => path(['entities'])
 const usersPool = () => path(['users', 'usersPool'])
 const usersPoolUser = (userId) => path(['users', 'usersPool', userId])
 const user = () => path(['auth', 'user'])
@@ -23,8 +25,11 @@ const usersGetFollowerUsersCacheUser = (userId) => path(['users', 'usersGetFollo
 const usersGetProfile = () => path(['users', 'usersGetProfile'])
 
 export const usersGetProfileSelector = (userId) => createDeepEqualSelector(
-  [usersGetProfile(), usersPoolUser(userId)],
-  (usersGetProfile, usersPoolUser) => usersPoolUser,
+  [usersGetProfile(), entities()],
+  (usersGetProfile, entities) => {
+    const denormalized = normalizer.denormalizeUserGet(usersGetProfile.data, entities)
+    return assocPath(['data'], denormalized)(usersGetProfile)
+  }
 )
 
 /**
@@ -33,8 +38,11 @@ export const usersGetProfileSelector = (userId) => createDeepEqualSelector(
 const usersGetProfileSelf = () => path(['users', 'usersGetProfileSelf'])
 
 export const usersGetProfileSelfSelector = () => createDeepEqualSelector(
-  [usersGetProfileSelf(), user()],
-  (usersGetProfileSelf, user) => update(user || usersGetProfileSelf, { data: { $set: user } }),
+  [usersGetProfileSelf(), entities()],
+  (usersGetProfileSelf, entities) => {
+    const denormalized = normalizer.denormalizeUserGet(usersGetProfileSelf.data, entities)
+    return assocPath(['data'], denormalized)(usersGetProfileSelf)
+  }
 )
 
 /**
@@ -43,8 +51,11 @@ export const usersGetProfileSelfSelector = () => createDeepEqualSelector(
 const usersGetFollowedUsers = () => path(['users', 'usersGetFollowedUsers'])
 
 export const usersGetFollowedUsersSelector = (userId) => createDeepEqualSelector(
-  [usersGetFollowedUsers(), usersGetFollowedUsersCacheUser(userId)],
-  (usersGetFollowedUsers, usersGetFollowedUsersCacheUser) => usersGetFollowedUsersCacheUser || usersGetFollowedUsers,
+  [usersGetFollowedUsers(), entities()],
+  (usersGetFollowedUsers, entities) => {
+    const denormalized = normalizer.denormalizeUsersGet(usersGetFollowedUsers.data, entities)
+    return assocPath(['data'], denormalized)(usersGetFollowedUsers)
+  }
 )
 
 /**
@@ -53,8 +64,11 @@ export const usersGetFollowedUsersSelector = (userId) => createDeepEqualSelector
 const usersGetFollowerUsers = () => path(['users', 'usersGetFollowerUsers'])
 
 export const usersGetFollowerUsersSelector = (userId) => createDeepEqualSelector(
-  [usersGetFollowerUsers(), usersGetFollowerUsersCacheUser(userId)],
-  (usersGetFollowerUsers, usersGetFollowerUsersCacheUser) => usersGetFollowerUsersCacheUser || usersGetFollowerUsers,
+  [usersGetFollowerUsers(), entities()],
+  (usersGetFollowerUsers, entities) => {
+    const denormalized = normalizer.denormalizeUsersGet(usersGetFollowerUsers.data, entities)
+    return assocPath(['data'], denormalized)(usersGetFollowerUsers)
+  }
 )
 
 /**
@@ -63,15 +77,11 @@ export const usersGetFollowerUsersSelector = (userId) => createDeepEqualSelector
 const usersGetTrendingUsers = () => path(['users', 'usersGetTrendingUsers'])
 
 export const usersGetTrendingUsersSelector = () => createDeepEqualSelector(
-  [usersGetTrendingUsers(), usersPool()],
-  (usersGetTrendingUsers, usersPool) => {
-    const mappedUsers = pathOr([], ['data'])(usersGetTrendingUsers)
-      .map(userId =>
-        path([userId, 'data'])(usersPool)
-      )
-      .filter(user => user)
-    return assocPath(['data'], mappedUsers)(usersGetTrendingUsers)
-  },
+  [usersGetTrendingUsers(), entities()],
+  (usersGetTrendingUsers, entities) => {
+    const denormalized = normalizer.denormalizeUsersGet(usersGetTrendingUsers.data, entities)
+    return assocPath(['data'], denormalized)(usersGetTrendingUsers)
+  }
 )
 
 /**
@@ -80,15 +90,11 @@ export const usersGetTrendingUsersSelector = () => createDeepEqualSelector(
 const usersSearch = () => path(['users', 'usersSearch'])
 
 export const usersSearchSelector = () => createDeepEqualSelector(
-  [usersSearch(), usersPool()],
-  (usersSearch, usersPool) => {
-    const mappedUsers = pathOr([], ['data'])(usersSearch)
-      .map(userId =>
-        path([userId, 'data'])(usersPool)
-      )
-      .filter(user => user)
-    return assocPath(['data'], mappedUsers)(usersSearch)
-  },
+  [usersSearch(), entities()],
+  (usersSearch, entities) => {
+    const denormalized = normalizer.denormalizeUsersGet(usersSearch.data, entities)
+    return assocPath(['data'], denormalized)(usersSearch)
+  }
 )
 
 /**
@@ -97,15 +103,11 @@ export const usersSearchSelector = () => createDeepEqualSelector(
 const usersGetFollowedUsersWithStories = () => path(['users', 'usersGetFollowedUsersWithStories'])
 
 export const usersGetFollowedUsersWithStoriesSelector = () => createDeepEqualSelector(
-  [usersGetFollowedUsersWithStories(), usersPool()],
-  (usersGetFollowedUsersWithStories, usersPool) => {
-    const mappedUsers = pathOr([], ['data'])(usersGetFollowedUsersWithStories)
-      .map(userId =>
-        path([userId, 'data'])(usersPool)
-      )
-      .filter(user => user)
-    return assocPath(['data'], mappedUsers)(usersGetFollowedUsersWithStories)
-  },
+  [usersGetFollowedUsersWithStories(), entities()],
+  (usersGetFollowedUsersWithStories, entities) => {
+    const denormalized = normalizer.denormalizeUsersGet(usersGetFollowedUsersWithStories.data, entities)
+    return assocPath(['data'], denormalized)(usersGetFollowedUsersWithStories)
+  }
 )
 
 /**
@@ -114,13 +116,19 @@ export const usersGetFollowedUsersWithStoriesSelector = () => createDeepEqualSel
 const usersGetPendingFollowers = () => path(['users', 'usersGetPendingFollowers'])
 
 export const usersGetPendingFollowersSelector = () => createDeepEqualSelector(
-  [usersGetPendingFollowers(), usersPool()],
-  (usersGetPendingFollowers, usersPool) => {
-    const mappedUsers = pathOr([], ['data'])(usersGetPendingFollowers)
-      .map(userId =>
-        path([userId, 'data'])(usersPool)
-      )
-      .filter(user => user)
-    return assocPath(['data'], mappedUsers)(usersGetPendingFollowers)
-  },
+  [usersGetPendingFollowers(), entities()],
+  (usersGetPendingFollowers, entities) => {
+    const denormalized = normalizer.denormalizeUsersGet(usersGetPendingFollowers.data, entities)
+    return assocPath(['data'], denormalized)(usersGetPendingFollowers)
+  }
+)
+
+const usersImagePostsGet = () => path(['users', 'usersGetPendingFollowers'])
+
+export const usersImagePostsGetSelector = () => createDeepEqualSelector(
+  [usersImagePostsGet(), entities()],
+  (usersImagePostsGet, entities) => {
+    const denormalized = normalizer.denormalizePostsGet(usersImagePostsGet.data, entities)
+    return assocPath(['data'], denormalized)(usersImagePostsGet)
+  }
 )

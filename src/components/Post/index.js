@@ -34,7 +34,6 @@ const PostComponent = ({
   postsArchiveRequest,
   postsFlagRequest,
   postsDeleteRequest,
-  postsAnonymouslyLikeRequest,
   postsOnymouslyLikeRequest,
   postsDislikeRequest,
   postsRestoreArchivedRequest,
@@ -138,7 +137,6 @@ const PostComponent = ({
         user={user}
         post={post}
         postsShareRequest={postsShareRequest}
-        postsAnonymouslyLikeRequest={postsAnonymouslyLikeRequest}
         postsOnymouslyLikeRequest={postsOnymouslyLikeRequest}
         postsDislikeRequest={postsDislikeRequest}
         handlePostShare={handlePostShare}
@@ -195,7 +193,6 @@ PostComponent.propTypes = {
   postsFlag: PropTypes.any,
   postsFlagRequest: PropTypes.any,
   postsDeleteRequest: PropTypes.any,
-  postsAnonymouslyLikeRequest: PropTypes.any,
   postsOnymouslyLikeRequest: PropTypes.any,
   postsDislikeRequest: PropTypes.any,
   usersGetFollowedUsersWithStories: PropTypes.any,

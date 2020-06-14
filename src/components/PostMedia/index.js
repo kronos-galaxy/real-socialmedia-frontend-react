@@ -23,7 +23,6 @@ const PostMedia = ({
   postsFlag,
   postsFlagRequest,
   postsDeleteRequest,
-  postsAnonymouslyLikeRequest,
   postsOnymouslyLikeRequest,
   postsDislikeRequest,
   postsSingleGet,
@@ -68,7 +67,6 @@ const PostMedia = ({
             postsFlagRequest={postsFlagRequest}
             postsDeleteRequest={postsDeleteRequest}
             postsShareRequest={postsShareRequest}
-            postsAnonymouslyLikeRequest={postsAnonymouslyLikeRequest}
             postsOnymouslyLikeRequest={postsOnymouslyLikeRequest}
             postsDislikeRequest={postsDislikeRequest}
             priorityIndex={index}
@@ -110,7 +108,6 @@ PostMedia.propTypes = {
   postsFlag: PropTypes.any,
   postsFlagRequest: PropTypes.any,
   postsDeleteRequest: PropTypes.any,
-  postsAnonymouslyLikeRequest: PropTypes.any,
   postsOnymouslyLikeRequest: PropTypes.any,
   postsDislikeRequest: PropTypes.any,
   usersGetFollowedUsersWithStories: PropTypes.any,
