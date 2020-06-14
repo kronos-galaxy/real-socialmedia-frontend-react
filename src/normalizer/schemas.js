@@ -175,6 +175,52 @@ const albumSchema = new schema.Entity(
 	}
 )
 
+const messageSchema = new schema.Entity(
+	/**
+	 * Key
+	 */
+	'chats',
+	/**
+	 * Definition
+	 */
+	{
+		textTaggedUsers: [{
+			user: usersSchema,
+		}],
+		author: usersSchema,
+	},
+	/**
+	 * Options
+	 */
+	{
+		idAttribute: 'messageId'
+	}
+)
+
+const chatSchema = new schema.Entity(
+	/**
+	 * Key
+	 */
+	'chats',
+	/**
+	 * Definition
+	 */
+	{
+		users: {
+			items: [usersSchema],
+		},
+		messages: {
+			items: [messageSchema],
+		},
+	},
+	/**
+	 * Options
+	 */
+	{
+		idAttribute: 'chatId'
+	}
+)
+
 const originalPostSchema = new schema.Entity(
 	/**
 	 * Key
@@ -305,3 +351,23 @@ export function normalizeAlbumGet(payload) {
 export function denormalizeAlbumGet(payload, entities) {
 	return denormalize(payload, albumSchema, entities)
 }
+
+/**
+ *
+ */
+export function normalizeChatsGet(payload) {
+	return normalize(payload, [chatSchema])
+}
+
+export function denormalizeChatsGet(payload, entities) {
+	return denormalize(payload, [chatSchema], entities)
+}
+
+export function normalizeChatGet(payload) {
+	return normalize(payload, chatSchema)
+}
+
+export function denormalizeChatGet(payload, entities) {
+	return denormalize(payload, chatSchema, entities)
+}
+
