@@ -153,8 +153,6 @@ function* handleAuthGoogleRequest() {
   AWS.config.region = Config.AWS_COGNITO_REGION
   AWS.config.credentials = GoogleCognitoIdentityCredentials
 
-  console.log(google)
-
   return google
 }
 

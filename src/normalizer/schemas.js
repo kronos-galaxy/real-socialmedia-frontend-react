@@ -249,6 +249,9 @@ export function denormalizePostGet(payload, entities) {
 	return denormalize(payload, postSchema, entities)
 }
 
+/**
+ *
+ */
 export function normalizeCommentsGet(payload) {
 	return normalize(payload, [commentsSchema])
 }
@@ -265,6 +268,9 @@ export function denormalizeCommentGet(payload, entities) {
 	return denormalize(payload, commentsSchema, entities)
 }
 
+/**
+ *
+ */
 export function normalizeUsersGet(payload) {
 	return normalize(payload, [usersSchema])
 }
@@ -279,4 +285,23 @@ export function normalizeUserGet(payload) {
 
 export function denormalizeUserGet(payload, entities) {
 	return denormalize(payload, usersSchema, entities)
+}
+
+/**
+ *
+ */
+export function normalizeAlbumsGet(payload) {
+	return normalize(payload, [albumSchema])
+}
+
+export function denormalizeAlbumsGet(payload, entities) {
+	return denormalize(payload, [albumSchema], entities)
+}
+
+export function normalizeAlbumGet(payload) {
+	return normalize(payload, albumSchema)
+}
+
+export function denormalizeAlbumGet(payload, entities) {
+	return denormalize(payload, albumSchema, entities)
 }
