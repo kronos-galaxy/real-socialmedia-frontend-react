@@ -57,16 +57,9 @@ export const AuthProvider = ({
    * Constructor function to fetch: Translations, Themes and Auth data
    */
   useEffect(() => {
-    PushNotificationIOS.addEventListener('register', (token) => {
-      dispatch(usersActions.usersSetApnsTokenRequest({ token }))
-    })
-    PushNotificationIOS.requestPermissions()
-
     dispatch(themeActions.themeFetchRequest())
     dispatch(translationActions.translationFetchRequest())
     dispatch(authActions.authCheckRequest())
-    dispatch(usersActions.usersGetCardsRequest({}))
-    dispatch(postsActions.postsGetUnreadCommentsRequest({ limit: 20 }))
   }, [])
 
   /**
@@ -76,9 +69,12 @@ export const AuthProvider = ({
   useAppState({
     onForeground: () => {
       dispatch(authActions.authCheckRequest())
-      dispatch(postsActions.postsCreateSchedulerRequest())
-      dispatch(postsActions.postsFeedGetRequest({ limit: 20 }))
       Updates.versionCheck()
+
+      if (user.userId) {
+        dispatch(postsActions.postsCreateSchedulerRequest())
+        dispatch(postsActions.postsFeedGetRequest({ limit: 20 }))
+      }
     },
   })
 
@@ -106,8 +102,17 @@ export const AuthProvider = ({
    * Sentry specific logger to map partial user data to error log
    */
   useEffect(() => {
+    if (!user.userId) {
+      return
+    }
     Logger.setUser(user)
-  }, [path(['userId'])(user)])
+    PushNotificationIOS.addEventListener('register', (token) => {
+      dispatch(usersActions.usersSetApnsTokenRequest({ token }))
+    })
+    PushNotificationIOS.requestPermissions()
+    dispatch(usersActions.usersGetCardsRequest({}))
+    dispatch(postsActions.postsGetUnreadCommentsRequest({ limit: 20 }))
+  }, [user.userId])
 
   useEffect(() => {
     if (postsDelete.status === 'success') {
