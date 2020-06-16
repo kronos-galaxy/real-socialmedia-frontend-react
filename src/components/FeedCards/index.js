@@ -61,7 +61,7 @@ FeedCards.propTypes = {
 
 const styles = theme => StyleSheet.create({
   root: {
-    height: 80,
+    height: 100,
     backgroundColor: theme.colors.secondary,
   },
 })

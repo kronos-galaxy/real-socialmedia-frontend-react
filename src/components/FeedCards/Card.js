@@ -7,6 +7,8 @@ import {
 } from 'react-native'
 import CloseIcon from 'assets/svg/post/Close'
 import { Text } from 'react-native-paper'
+import Avatar from 'templates/Avatar'
+import path from 'ramda/src/path'
 
 const FeedCard = ({
   borderColor,
@@ -21,6 +23,16 @@ const FeedCard = ({
 
   return (
     <View style={[styles.root, customStyle]}>
+      {card.thumbnail ?
+        <View style={styles.image} onPress={() => handleCardPress({ action: card.action })}>
+          <Avatar
+            key={path(['thumbnail', 'url64p'])(card)}
+            thumbnailSource={{ uri: path(['thumbnail', 'url64p'])(card) }}
+            imageSource={{ uri: path(['thumbnail', 'url64p'])(card) }}
+          />
+        </View>
+      : null}
+
       <View style={styles.header}>
         <TouchableOpacity style={styles.headerTitle} onPress={() => handleCardPress({ action: card.action })}>
           <Text>{card.title}</Text>
@@ -46,11 +58,16 @@ const styles = StyleSheet.create({
     margin: 12,
     borderRadius: 4,
     borderWidth: 1,
-    justifyContent: 'center',
+    flexDirection: 'row',
+    alignItems: 'center',
   },
   header: {
+    flex: 1,
     flexDirection: 'row',
     justifyContent: 'space-between',
+  },
+  image: {
+    marginRight: 12,
   },
 })
 

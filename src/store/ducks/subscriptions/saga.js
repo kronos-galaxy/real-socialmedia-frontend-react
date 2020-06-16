@@ -21,7 +21,7 @@ function postSubscriptionChannel({ subscription }) {
 
 function* postSubscription(req) {
   const AwsAPI = yield getContext('AwsAPI')
-  const userId = path(['payload', 'data', 'userId'])(req)
+  const userId = path(['payload', 'data'])(req)
 
   const subscription = AwsAPI.graphql(
     graphqlOperation(postsQueries.onPostNotification, { userId })
@@ -65,7 +65,7 @@ function cardSubscriptionChannel({ subscription }) {
 
 function* cardSubscription(req) {
   const AwsAPI = yield getContext('AwsAPI')
-  const userId = path(['payload', 'data', 'userId'])(req)
+  const userId = path(['payload', 'data'])(req)
 
   const subscription = AwsAPI.graphql(
     graphqlOperation(usersQueries.onCardNotification, { userId })

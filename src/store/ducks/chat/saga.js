@@ -146,7 +146,7 @@ function chatMessageSubscriptionChannel({ subscription }) {
 
 function* chatMessageSubscription(req) {
   const AwsAPI = yield getContext('AwsAPI')
-  const userId = path(['payload', 'data', 'userId'])(req)
+  const userId = path(['payload', 'data'])(req)
 
   const subscription = AwsAPI.graphql(
     graphqlOperation(queries.onChatMessageNotification, { userId })

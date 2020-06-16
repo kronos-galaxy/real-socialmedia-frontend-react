@@ -261,5 +261,10 @@ export const cardFragment = `
     title
     subTitle
     action
+    thumbnail {
+      ...imageFragment
+    }
   }
+ 
+  ${imageFragment}
 `

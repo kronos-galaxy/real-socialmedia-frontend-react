@@ -1,3 +1,4 @@
+import { Linking } from 'react-native'
 import { useSelector, useDispatch } from 'react-redux'
 import * as navigationActions from 'navigation/actions'
 import { useNavigation } from '@react-navigation/native'
@@ -12,8 +13,16 @@ const FeedCardsService = ({ children }) => {
   const usersDeleteCardRequest = (payload) =>
     dispatch(usersActions.usersDeleteCardRequest(payload))
 
-  const handleCardPress = ({ action }) =>
-		navigationActions.navigateChat(navigation)()
+  const handleCardPress = ({ action }) => {
+    if (action === 'https://real.app/chat/') {
+      navigationActions.navigateChat(navigation)()
+    } if (action.includes('https://real.app/chat/post/')) {
+      const post = { postId: action.split('https://real.app/chat/post/')[1] }
+      navigationActions.navigatePostMedia(navigation, { post })()
+    } else {
+      Linking.openURL(action)
+    }
+  }
  
   return children({
 		usersGetCards,
