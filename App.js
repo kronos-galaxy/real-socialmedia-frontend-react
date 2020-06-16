@@ -42,7 +42,13 @@ const Routes = ({
     config: {
       AuthEmailConfirm: 'email/confirm/:userId/:confirmationCode',
       AuthForgotConfirm: 'forgot/confirm/:userId/:confirmationCode',
-      Chat: 'chat/',
+      Chat: {
+        path: 'chat',
+        initialRouteName: 'Chat',
+        screens: {
+          Chat: 'chat',
+        },
+      },
     },
   }
 
