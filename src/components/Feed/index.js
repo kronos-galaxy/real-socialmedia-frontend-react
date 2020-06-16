@@ -148,7 +148,7 @@ const Feed = ({
               />
             </View>
           </React.Fragment>
-        ), [])}
+        ), [postsCreateQueue])}
         renderItem={renderItem}
         ListFooterComponent={scroll.loadingmore ? ActivityIndicator : null}
         ListFooterComponentStyle={styling.loading}

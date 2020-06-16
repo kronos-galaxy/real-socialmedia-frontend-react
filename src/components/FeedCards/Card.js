@@ -24,7 +24,7 @@ const FeedCard = ({
   return (
     <View style={[styles.root, customStyle]}>
       {card.thumbnail ?
-        <View style={styles.image} onPress={() => handleCardPress({ action: card.action })}>
+        <View style={styles.image} onPress={() => handleCardPress({ action: card.action, cardId: card.cardId })}>
           <Avatar
             key={path(['thumbnail', 'url64p'])(card)}
             thumbnailSource={{ uri: path(['thumbnail', 'url64p'])(card) }}
@@ -34,7 +34,7 @@ const FeedCard = ({
       : null}
 
       <View style={styles.header}>
-        <TouchableOpacity style={styles.headerTitle} onPress={() => handleCardPress({ action: card.action })}>
+        <TouchableOpacity style={styles.headerTitle} onPress={() => handleCardPress({ action: card.action, cardId: card.cardId })}>
           <Text>{card.title}</Text>
         </TouchableOpacity>
 

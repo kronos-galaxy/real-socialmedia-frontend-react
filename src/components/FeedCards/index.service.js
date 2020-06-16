@@ -8,12 +8,13 @@ const FeedCardsService = ({ children }) => {
   const dispatch = useDispatch()
   const navigation = useNavigation()
   const usersGetCards = useSelector(state => state.users.usersGetCards)
-  const usersDeleteCard = useSelector(state => state.users.usersDeleteCard)
 
   const usersDeleteCardRequest = (payload) =>
     dispatch(usersActions.usersDeleteCardRequest(payload))
 
-  const handleCardPress = ({ action }) => {
+  const handleCardPress = ({ action, cardId }) => {
+    dispatch(usersActions.usersDeleteCardRequest({ cardId }))
+
     if (action === 'https://real.app/chat/') {
       navigationActions.navigateChat(navigation)()
     } if (action.includes('https://real.app/chat/post/')) {
