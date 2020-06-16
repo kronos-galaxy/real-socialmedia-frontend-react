@@ -315,6 +315,17 @@ const postsViewsGetSuccess = (state, action) => update(state, {
     status: { $set: 'success' },
     payload: { $set: action.payload.payload },
   },
+
+  /**
+   * 
+   */
+  postsViewsGetCache: {
+    $postsResourceCacheSetSuccess: {
+      ...action,
+      resourceKey: action.payload.payload.postId,
+      initialState: initialState.postsCommentsGet,
+    },
+  },
 })
 
 const postsViewsGetFailure = (state, action) => update(state, {
@@ -343,6 +354,17 @@ const postsViewsGetMoreSuccess = (state, action) => update(state, {
     status: { $set: 'success' },
     payload: { $set: action.payload.payload },
   },
+
+  /**
+   * 
+   */
+  postsViewsGetCache: {
+    $postsResourceCachePushSuccess: {
+      ...action,
+      resourceKey: action.payload.payload.postId,
+      initialState: initialState.postsCommentsGet,
+    },
+  },  
 })
 
 
