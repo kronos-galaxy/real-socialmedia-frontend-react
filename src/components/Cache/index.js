@@ -53,6 +53,7 @@ const CacheComponent = ({
         : null}
 
         <Image
+          key={uri}
           source={{ uri }}
           resizeMode={resizeMode}
           style={[styles.image, style]}

@@ -50,6 +50,7 @@ const PostsGrid = ({
                 priorityIndex={priorityIndex}
                 resizeMode="cover"
                 priorityQueueInstance={priorityQueueInstance}
+                hideProgress={true}
               />
             : null}
 

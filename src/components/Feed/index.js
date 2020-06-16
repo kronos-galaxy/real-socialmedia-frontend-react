@@ -101,7 +101,7 @@ const Feed = ({
         keyExtractor={item => item.postId}
         data={path(['data'])(postsFeedGet)}
         onEndReached={scroll.handleLoadMore}
-        onEndReachedThreshold={0.4}
+        onEndReachedThreshold={15}
         scrollEventThrottle={500}
         refreshControl={(
           <RefreshControl
