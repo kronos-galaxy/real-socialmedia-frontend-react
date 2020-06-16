@@ -54,6 +54,8 @@ const composeEnhancers = composeWithDevTools({
   trace: true,
   traceLimit: 25,
   actionsBlacklist: [
+    'persist/REHYDRATE',
+
     'LAYOUT_POSTS_LIST_ITEM_SUCCESS',
     'LAYOUT_POSTS_LIST_SCROLL_SUCCESS',
     'LAYOUT_POST_MEDIA_ITEM_SUCCESS',
@@ -64,6 +66,13 @@ const composeEnhancers = composeWithDevTools({
     'CACHE_FETCH_REQUEST',
     'CACHE_FETCH_SUCCESS',
     'CACHE_FETCH_PROGRESS',
+
+    'ENTITIES_ALBUMS_MERGE',
+    'ENTITIES_POSTS_MERGE',
+    'ENTITIES_COMMENTS_MERGE',
+    'ENTITIES_USERS_MERGE',
+    'ENTITIES_IMAGES_MERGE',
+    'ENTITIES_CHATS_MERGE',
   ],
 })
 
