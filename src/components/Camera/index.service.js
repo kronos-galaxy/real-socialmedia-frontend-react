@@ -35,6 +35,7 @@ export const handleGallery = async (photoSize = '1:1', multiple = false) => {
     const selected = await CropPicker.openPicker({
       multiple,
       avoidEmptySpaceAroundImage: false,
+      mediaType: 'photo',
     })
 
     const responses = Array.isArray(selected) ? selected : [selected]
