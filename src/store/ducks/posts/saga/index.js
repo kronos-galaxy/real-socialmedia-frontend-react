@@ -4,6 +4,7 @@ import { eventChannel } from 'redux-saga'
 import path from 'ramda/src/path'
 import compose from 'ramda/src/compose'
 import omit from 'ramda/src/omit'
+import assocPath from 'ramda/src/assocPath'
 import * as actions from 'store/ducks/posts/actions'
 import * as queries from 'store/ducks/posts/queries'
 import * as constants from 'store/ducks/posts/constants'
@@ -601,6 +602,21 @@ function* postsReportCommentViewsRequest(req) {
 /**
  *
  */
+function* handlePostsGetTrendingPostsRequest(payload, extraData = []) {
+  const api = yield queryService.apiRequest(queries.trendingPosts, { ...payload, viewedStatus: 'NOT_VIEWED' })
+  const dataSelector = path(['data', 'trendingPosts', 'items'])
+  const metaSelector = compose(omit(['items']), path(['data', 'trendingPosts']))
+  
+  const data = [...extraData, ...dataSelector(api)]
+  const meta = metaSelector(api)
+
+  if (data.length < 20 && meta.nextToken) {
+    return yield handlePostsGetTrendingPostsRequest(meta, data)
+  }
+
+  return assocPath(['data', 'trendingPosts', 'items'], data)(api)
+}
+
 function* postsGetTrendingPostsRequestData(req, api) {
   const dataSelector = path(['data', 'trendingPosts', 'items'])
   const metaSelector = compose(omit(['items']), path(['data', 'trendingPosts']))
@@ -627,7 +643,7 @@ function* postsGetTrendingPostsRequest(req) {
   const errorWrapper = yield getContext('errorWrapper')
 
   try {
-    const data = yield queryService.apiRequest(queries.trendingPosts, req.payload)
+    const data = yield handlePostsGetTrendingPostsRequest(req.payload)
     const next = yield postsGetTrendingPostsRequestData(req, data)
     yield put(actions.postsGetTrendingPostsSuccess({ data: next.data, payload: next.payload, meta: next.meta }))
   } catch (error) {
@@ -639,7 +655,7 @@ function* postsGetTrendingPostsMoreRequest(req) {
   const errorWrapper = yield getContext('errorWrapper')
 
   try {
-    const data = yield queryService.apiRequest(queries.trendingPosts, req.payload)
+    const data = yield handlePostsGetTrendingPostsRequest(req.payload)
     const next = yield postsGetTrendingPostsRequestData(req, data)
     yield put(actions.postsGetTrendingPostsMoreSuccess({ data: next.data, payload: next.payload, meta: next.meta }))
   } catch (error) {
