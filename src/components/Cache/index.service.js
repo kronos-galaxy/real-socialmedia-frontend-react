@@ -25,11 +25,11 @@ const CacheService = ({
    * Fetched items counter
    */
   const [counter, setCounter] = useState(0)
-  const [failed, setFailed] = useState(false)
 
   const signature = compose(helpers.generateSignature, path([counter, 0]))(images)
   const cached = useSelector(cacheSelector.cachedSelector(signature.partial))
   const progress = useSelector(cacheSelector.progressSelector(signature.partial))
+  const failed = useSelector(cacheSelector.failedSelector(signature.partial))
   const previousCached = usePreviousDistinct(cached)
   const uri = useMemo(() => failed ? fallback : (cached || previousCached), [cached])
   const filename = useMemo(() => helpers.getFilename(uri), [uri]) 
@@ -64,6 +64,7 @@ const CacheService = ({
    * Error handler
    */
   const handleError = useCallback(() => {
+    dispatch(actions.cacheFetchFailure({ signature }))
     request.retry()
   }, [signature.partial])
 

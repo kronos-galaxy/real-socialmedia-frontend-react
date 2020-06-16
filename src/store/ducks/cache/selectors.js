@@ -26,3 +26,13 @@ export const progressSelector = (partial) => createDeepEqualSelector(
   [progress(partial)],
   (progress) => progress
 )
+
+/**
+ *
+ */
+const failed = (partial) => path(['cache', 'failed', partial])
+
+export const failedSelector = (partial) => createDeepEqualSelector(
+  [failed(partial)],
+  (failed) => failed
+)
