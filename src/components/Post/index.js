@@ -47,7 +47,6 @@ const PostComponent = ({
   textPostRef,
 
   feedRef,
-  priorityQueueInstance,
 }) => {
   const styling = styles(theme)
   const navigation = useNavigation()
@@ -110,7 +109,6 @@ const PostComponent = ({
           feedRef={feedRef}
         >
           <CacheComponent
-            priorityQueueInstance={priorityQueueInstance}
             images={[
               [path(['image', 'url64p'])(post), true],
               [path(['image', 'url480p'])(post), true],
@@ -208,7 +206,6 @@ PostComponent.propTypes = {
   actionSheetRef: PropTypes.any,
   createTextPostRef: PropTypes.any,
   textPostRef: PropTypes.any,
-  priorityQueueInstance: PropTypes.any,
 }
 
 export default withTranslation()(withTheme(PostComponent))

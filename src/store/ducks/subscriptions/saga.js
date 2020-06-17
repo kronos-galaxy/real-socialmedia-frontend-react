@@ -8,6 +8,9 @@ import * as postsQueries from 'store/ducks/posts/queries'
 import * as usersQueries from 'store/ducks/users/queries'
 import * as queryService from 'services/Query'
 
+/**
+ *
+ */
 function postSubscriptionChannel({ subscription }) {
   return eventChannel(emitter => {
     subscription.subscribe({
@@ -26,10 +29,6 @@ function* postSubscription(req) {
   const subscription = AwsAPI.graphql(
     graphqlOperation(postsQueries.onPostNotification, { userId })
   )
-  yield put(postsActions.postsFeedGetRequest({ limit: 20 }))
-  yield put(postsActions.postsGetTrendingPostsRequest({ limit: 20 }))
-  yield put(usersActions.usersGetPendingFollowersRequest({ userId }))
-  yield put(usersActions.usersGetFollowedUsersWithStoriesRequest({}))
 
   const channel = yield call(postSubscriptionChannel, {
     subscription,
@@ -45,13 +44,16 @@ function* postSubscription(req) {
 
     if (type === 'COMPLETED') {
       yield put(postsActions.postsCreateSuccess({ data: {}, payload: selector(data), meta: {} }))
-      yield put(postsActions.postsFeedGetRequest({  }))
+      yield put(postsActions.postsFeedGetRequest({ limit: 20 }))
       yield put(postsActions.postsGetRequest({ userId }))
       yield put(usersActions.usersImagePostsGetRequest({ userId }))
     }
   })
 }
 
+/**
+ *
+ */
 function cardSubscriptionChannel({ subscription }) {
   return eventChannel(emitter => {
     subscription.subscribe({
@@ -81,7 +83,23 @@ function* cardSubscription(req) {
   })
 }
 
+/**
+ *
+ */
+function* appSubscription(req) {
+  const userId = path(['payload', 'data'])(req)
+  const type = path(['payload', 'payload', 'type'])(req)
+
+  if (type !== 'STATE_CHANGE') {
+    yield put(postsActions.postsFeedGetRequest({ limit: 20 }))
+    yield put(postsActions.postsGetTrendingPostsRequest({ limit: 20 }))
+    yield put(usersActions.usersGetPendingFollowersRequest({ userId }))
+    yield put(usersActions.usersGetFollowedUsersWithStoriesRequest({}))
+  }
+}
+
 export default () => [
   takeLatest('AUTH_CHECK_READY', postSubscription),
   takeLatest('AUTH_CHECK_READY', cardSubscription),
+  takeLatest('AUTH_CHECK_READY', appSubscription),
 ]

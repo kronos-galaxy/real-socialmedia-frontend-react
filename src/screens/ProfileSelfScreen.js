@@ -3,13 +3,6 @@ import AlbumsGridServiceComponent from 'components/AlbumsGrid/index.service'
 import PostsGridServiceComponent from 'components/PostsGrid/index.service'
 import ProfileSelfServiceComponent from 'components/ProfileSelf/index.service'
 import ProfileComponent from 'components/Profile'
-import ContextComponent from 'components/Cache/Context'
-import { initializePriorityQueue } from 'store/ducks/cache/service'
-
-const queues = {
-  feedImages: initializePriorityQueue(),
-  albumImages: initializePriorityQueue(),
-}
 
 class ProfileSelfScreen extends React.Component {
   render() {
@@ -20,13 +13,11 @@ class ProfileSelfScreen extends React.Component {
             {(postsProps) => (
               <AlbumsGridServiceComponent>
                 {(albumsProps) => (
-                  <ContextComponent.Provider value={queues}>
-                    <ProfileComponent
-                      {...postsProps}
-                      {...albumsProps}
-                      {...profileProps}
-                    />
-                  </ContextComponent.Provider>
+                  <ProfileComponent
+                    {...postsProps}
+                    {...albumsProps}
+                    {...profileProps}
+                  />
                 )}
               </AlbumsGridServiceComponent>
             )}

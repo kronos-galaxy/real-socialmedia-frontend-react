@@ -8,7 +8,6 @@ import AlbumsGridComponent from 'components/AlbumsGrid'
 import AlbumsGridServiceComponent from 'components/AlbumsGrid/index.service'
 import path from 'ramda/src/path'
 import PostsLoadingComponent from 'components/Feed/PostsLoading'
-import ContextComponent from 'components/Cache/Context'
 
 import { withTheme } from 'react-native-paper'
 import { useNavigation, useRoute } from '@react-navigation/native'
@@ -24,16 +23,11 @@ const ProfileAlbums = ({
     <AlbumsGridServiceComponent albumsGetRequestOnMount={true}>
       {(albumsProps) => (
         <View style={styling.root}>
-          <ContextComponent.Consumer>
-            {(contextProps) => (
-              <AlbumsGridComponent
-                albumsGet={albumsProps.albumsGet}
-                themeFetch={albumsProps.themeFetch}
-                themeCode={path(['data', 'themeCode'])(albumsProps.user)}
-                priorityQueueInstance={contextProps.albumImages}
-              />
-            )}
-          </ContextComponent.Consumer>
+          <AlbumsGridComponent
+            albumsGet={albumsProps.albumsGet}
+            themeFetch={albumsProps.themeFetch}
+            themeCode={path(['data', 'themeCode'])(albumsProps.user)}
+          />
 
           {(path(['status'])(albumsProps.albumsGet) === 'loading' && !path(['data', 'length'])(albumsProps.albumsGet)) ?
             <PostsLoadingComponent />

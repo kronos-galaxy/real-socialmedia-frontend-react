@@ -1,15 +1,8 @@
-import { useEffect, useState, useRef } from 'react'
-import { InteractionManager } from 'react-native'
 import { useSelector, useDispatch } from 'react-redux'
-import { v4 as uuid } from 'uuid'
 import * as postsActions from 'store/ducks/posts/actions'
-import * as usersActions from 'store/ducks/users/actions'
-import { useNavigation, useScrollToTop } from '@react-navigation/native'
-import path from 'ramda/src/path'
-import pathOr from 'ramda/src/pathOr'
+import { useNavigation } from '@react-navigation/native'
 import * as navigationActions from 'navigation/actions'
 import * as authSelector from 'store/ducks/auth/selectors'
-import * as postsSelector from 'store/ducks/posts/selectors'
 
 const PostsService = ({ children }) => {
   const dispatch = useDispatch()
@@ -47,63 +40,6 @@ const PostsService = ({ children }) => {
   const handleEditPress = (post) =>
     navigationActions.navigatePostEdit(navigation, { post })()
 
-  const onViewableItemsChanged = ({ viewableItems }) => {
-    const postIds = viewableItems.map(viewable => path(['item', 'postId'])(viewable))
-      .filter(item => item)
-
-    if (!Array.isArray(postIds) || !postIds.length) {
-      return
-    }
-
-    InteractionManager.runAfterInteractions(() => {
-      dispatch(postsActions.postsReportPostViewsRequest({ postIds }))
-    })
-  }
-
-  const handleScrollPrev = (index) => () => {
-    try {
-      feedRef.current.scrollToIndex({
-        index: index - 1,
-        viewPosition: 0.5,
-      })
-    } catch (error) {}
-  }
-
-  const handleScrollNext = (index) => () => {
-    try {
-      feedRef.current.scrollToIndex({
-        index: index + 1,
-        viewPosition: 0.5,
-      })
-    } catch (error) {}
-  }
-
-  /**
-   * FlatList feed ref, used for scroll to top on tab bar press
-   */
-  const feedRef = useRef(null)
-  useScrollToTop(feedRef)
-
-  /**
-   * Post header dropdown ref, used for header actions dropdown
-   */
-  const actionSheetRefs = useRef({})
-
-  /**
-   * Text only post ref, used for rendering textonly post component into image
-   */
-  const textPostRefs = useRef({})
-
-  /**
-   * FlatList feed config ref, used for reporting scroll events
-   */
-  const onViewableItemsChangedRef = useRef(onViewableItemsChanged)
-  const viewabilityConfigRef = useRef({
-    minimumViewTime: 3000,
-    viewAreaCoveragePercentThreshold: 30,
-    waitForInteraction: false,
-  })
-
   return children({
     user,
     postsShareRequest,
@@ -121,15 +57,6 @@ const PostsService = ({ children }) => {
     postsFlagRequest,
     postsDelete,
     postsDeleteRequest,
-    onViewableItemsChanged,
-    handleScrollPrev,
-    handleScrollNext,
-
-    feedRef,
-    actionSheetRefs,
-    textPostRefs,
-    onViewableItemsChangedRef,
-    viewabilityConfigRef,
   })
 }
 

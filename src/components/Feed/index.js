@@ -62,36 +62,31 @@ const Feed = ({
   })
 
   const renderItem = useCallback(({ item: post, index }) => (
-    <ContextComponent.Consumer>
-      {(contextProps) => (
-        <React.Fragment>
-          {(bookmarkSeparatorIndex === index) ?
-            <BookmarkComponent
-              postsGetTrendingPosts={postsGetTrendingPosts}
-            />
-          : null}
+    <React.Fragment>
+      {(bookmarkSeparatorIndex === index) ?
+        <BookmarkComponent
+          postsGetTrendingPosts={postsGetTrendingPosts}
+        />
+      : null}
 
-          <PostServiceComponent>
-            {(postProps) => (
-              <PostComponent
-                {...postProps}
-                post={post}
-                priorityIndex={index}
+      <PostServiceComponent>
+        {(postProps) => (
+          <PostComponent
+            {...postProps}
+            post={post}
+            priorityIndex={index}
 
-                handleScrollPrev={handleScrollPrev(index)}
-                handleScrollNext={handleScrollNext(index)}
-                createActionSheetRef={createActionSheetRef(post)}
-                actionSheetRef={getActionSheetRef(post)}
-                createTextPostRef={createTextPostRef(post)}
-                textPostRef={getTextPostRef(post)}
-                feedRef={feedRef}
-                priorityQueueInstance={contextProps.feedImages}
-              />
-            )}
-          </PostServiceComponent>
-        </React.Fragment>
-      )}
-    </ContextComponent.Consumer>
+            handleScrollPrev={handleScrollPrev(index)}
+            handleScrollNext={handleScrollNext(index)}
+            createActionSheetRef={createActionSheetRef(post)}
+            actionSheetRef={getActionSheetRef(post)}
+            createTextPostRef={createTextPostRef(post)}
+            textPostRef={getTextPostRef(post)}
+            feedRef={feedRef}
+          />
+        )}
+      </PostServiceComponent>
+    </React.Fragment>
   ), [path(['data'])(postsFeedGet)])
 
   return (

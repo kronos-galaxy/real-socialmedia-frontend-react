@@ -4,11 +4,9 @@ import * as usersActions from 'store/ducks/users/actions'
 import * as postsActions from 'store/ducks/posts/actions'
 import { useScrollToTop } from '@react-navigation/native'
 import toLower from 'ramda/src/toLower'
-import path from 'ramda/src/path'
 import * as authSelector from 'store/ducks/auth/selectors'
 import * as usersSelector from 'store/ducks/users/selectors'
 import * as postsSelector from 'store/ducks/posts/selectors'
-import useS3ExpiryState from 'services/S3ExpiryState'
 
 const SearchService = ({ children }) => {
   const dispatch = useDispatch()

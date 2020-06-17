@@ -20,7 +20,6 @@ const PostsGrid = ({
   t,
   theme,
   postsGet,
-  priorityQueueInstance,
 }) => {
   const styling = styles(theme)
   const navigation = useNavigation()
@@ -49,7 +48,6 @@ const PostsGrid = ({
                 fallback={path(['image', 'url480p'])(post)}
                 priorityIndex={priorityIndex}
                 resizeMode="cover"
-                priorityQueueInstance={priorityQueueInstance}
                 hideProgress={true}
               />
             : null}
@@ -87,7 +85,6 @@ PostsGrid.propTypes = {
   themes: PropTypes.any,
   themeFetch: PropTypes.any,
   themeCode: PropTypes.any,
-  priorityQueueInstance: PropTypes.any,
 }
 
 export default withTranslation()(withTheme(PostsGrid))

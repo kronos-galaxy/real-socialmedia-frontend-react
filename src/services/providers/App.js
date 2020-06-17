@@ -59,7 +59,7 @@ export const AuthProvider = ({
   useEffect(() => {
     dispatch(themeActions.themeFetchRequest())
     dispatch(translationActions.translationFetchRequest())
-    dispatch(authActions.authCheckRequest())
+    dispatch(authActions.authCheckRequest({ type: 'FIRST_MOUNT' }))
   }, [])
 
   /**
@@ -68,13 +68,8 @@ export const AuthProvider = ({
    */
   useAppState({
     onForeground: () => {
-      dispatch(authActions.authCheckRequest())
+      dispatch(authActions.authCheckRequest({ type: 'STATE_CHANGE' }))
       Updates.versionCheck()
-
-      if (user.userId) {
-        dispatch(postsActions.postsCreateSchedulerRequest())
-        dispatch(postsActions.postsFeedGetRequest({ limit: 20 }))
-      }
     },
   })
 

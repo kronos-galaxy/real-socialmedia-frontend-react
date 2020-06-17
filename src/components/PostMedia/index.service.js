@@ -14,7 +14,6 @@ const PostMediaService = ({ children }) => {
   const route = useRoute()
   const postId = path(['params', 'post', 'postId'])(route)
   const postUserId = path(['params', 'post', 'postedBy', 'userId'])(route)
-  const navigationParamPost = path(['params', 'post'])(route)
   const postsSingleGet = useSelector(postsSelector.postsSingleGetSelector(postId))
   const postsDelete = useSelector(state => state.posts.postsDelete)
   const postsGetTrendingPosts = useSelector(postsSelector.postsGetTrendingPostsSelector())
@@ -46,16 +45,6 @@ const PostMediaService = ({ children }) => {
   }, [postsDelete.status])
 
   const onViewableItemsChanged = ({ viewableItems }) => {
-    const postIds = viewableItems.map(viewable => path(['item', 'postId'])(viewable))
-      .filter(item => item)
-
-    if (!Array.isArray(postIds) || !postIds.length) {
-      return
-    }
-
-    InteractionManager.runAfterInteractions(() => {
-      dispatch(postsActions.postsReportPostViewsRequest({ postIds }))
-    })
   }
 
   const handleScrollPrev = (index) => () => {

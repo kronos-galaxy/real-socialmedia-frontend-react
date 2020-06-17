@@ -35,7 +35,6 @@ const PostMedia = ({
   textPostRefs,
   onViewableItemsChangedRef,
   viewabilityConfigRef,
-  priorityQueueInstance,
 }) => {
   const styling = styles(theme)
   
@@ -77,7 +76,6 @@ const PostMedia = ({
             actionSheetRef={actionSheetRefs.current[post.postId]}
             createTextPostRef={element => textPostRefs.current[post.postId] = element}
             textPostRef={textPostRefs.current[post.postId]}
-            priorityQueueInstance={priorityQueueInstance}
           />
         )}
       />
@@ -122,7 +120,6 @@ PostMedia.propTypes = {
   textPostRefs: PropTypes.any,
   onViewableItemsChangedRef: PropTypes.any,
   viewabilityConfigRef: PropTypes.any,
-  priorityQueueInstance: PropTypes.any,
 }
 
 export default withTranslation()(withTheme(PostMedia))

@@ -82,17 +82,12 @@ const SearchComponent = ({
           onScroll={scroll.handleScrollChange}
           scrollEventThrottle={400}
         >
-          <ContextComponent.Consumer>
-            {(contextProps) => (
-              <PostsGridComponent
-                themes={themes}
-                postsGet={postsGetTrendingPosts}
-                themeFetch={themeFetch}
-                themeCode={path(['themeCode'])(user)}
-                priorityQueueInstance={contextProps.searchImages}
-              />
-            )}
-          </ContextComponent.Consumer>
+          <PostsGridComponent
+            themes={themes}
+            postsGet={postsGetTrendingPosts}
+            themeFetch={themeFetch}
+            themeCode={path(['themeCode'])(user)}
+          />
 
           {scroll.loadingmore ?
             <View style={styling.activity}>

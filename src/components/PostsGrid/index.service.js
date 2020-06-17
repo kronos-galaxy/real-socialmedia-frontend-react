@@ -3,7 +3,6 @@ import { useSelector, useDispatch } from 'react-redux'
 import * as postsActions from 'store/ducks/posts/actions'
 import { useRoute } from '@react-navigation/native'
 import path from 'ramda/src/path'
-import useS3ExpiryState from 'services/S3ExpiryState'
 import * as authSelector from 'store/ducks/auth/selectors'
 import * as postsSelector from 'store/ducks/posts/selectors'
 
