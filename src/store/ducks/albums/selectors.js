@@ -1,9 +1,9 @@
 import { createSelectorCreator, defaultMemoize } from 'reselect'
-import update from 'immutability-helper'
 import path from 'ramda/src/path'
 import equals from 'ramda/src/equals'
 import assocPath from 'ramda/src/assocPath'
 import * as normalizer from 'normalizer/schemas'
+import { initialState } from 'store/ducks/albums/reducer'
 
 const createDeepEqualSelector = createSelectorCreator(
   defaultMemoize,
@@ -11,18 +11,17 @@ const createDeepEqualSelector = createSelectorCreator(
 )
 
 const entities = () => path(['entities'])
-const albumsGetCache = (userId) => path(['albums', 'albumsGetCache', userId])
 
 /**
  *
  */
-const albumsGet = () => path(['albums', 'albumsGet'])
+const albumsGetCache = (userId) => path(['albums', 'albumsGetCache', userId])
 
 export const albumsGetSelector = (userId) => createDeepEqualSelector(
-  [albumsGet(), albumsGetCache(userId), entities()],
-  (albumsGet, albumsGetCache, entities) => {
-    const posts = path(['data'])(albumsGetCache) || []
-    const denormalized = normalizer.denormalizeAlbumsGet(posts, entities)
-    return assocPath(['data'], denormalized)(albumsGet)
+  [albumsGetCache(userId), entities()],
+  (albumsGetCache, entities) => {
+    const albums = path(['data'])(albumsGetCache) ? albumsGetCache : initialState.albumsGet
+    const denormalized = normalizer.denormalizeAlbumsGet(albums.data, entities)
+    return assocPath(['data'], denormalized)(albums)
   }
 )

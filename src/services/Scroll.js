@@ -37,7 +37,7 @@ const ScrollHelper = ({
   resource,
   loadInit,
   loadMore,
-  multiplier = 1.80,
+  multiplier = 3,
 }) => {
   /**
    *

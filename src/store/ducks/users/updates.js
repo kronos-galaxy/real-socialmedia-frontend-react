@@ -55,19 +55,3 @@ extend('$usersResourcePoolSet', ({ payload }, original) => {
     assocPath([payload.data.userId, 'status'], 'success')
   )(original)
 })
-
-/**
- * Resource pool merge
- */
-extend('$usersResourcePoolMerge', ({ payload, initialState }, original) => {
-  return update(original, {
-    $merge: pathOr([], ['data'])(payload).reduce((acc, user) => {
-      acc[user.userId] = update(initialState, {
-        data: { $set: user },
-        status: { $set: 'success' },
-      })
-      return acc
-    }, {})
-  })
-})
-

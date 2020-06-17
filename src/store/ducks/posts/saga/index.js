@@ -1,5 +1,5 @@
 import { graphqlOperation } from '@aws-amplify/api'
-import { call, put, takeEvery, takeLatest, getContext, select } from 'redux-saga/effects'
+import { call, put, takeLatest, getContext, select } from 'redux-saga/effects'
 import { eventChannel } from 'redux-saga'
 import path from 'ramda/src/path'
 import compose from 'ramda/src/compose'
@@ -773,17 +773,17 @@ function* commentsDeleteRequest(req) {
 }
 
 export default () => [
-  takeEvery(constants.POSTS_GET_REQUEST, postsGetRequest),
-  takeEvery(constants.POSTS_GET_MORE_REQUEST, postsGetMoreRequest),
-  takeEvery(constants.POSTS_GET_UNREAD_COMMENTS_REQUEST, postsGetUnreadCommentsRequest),
+  takeLatest(constants.POSTS_GET_REQUEST, postsGetRequest),
+  takeLatest(constants.POSTS_GET_MORE_REQUEST, postsGetMoreRequest),
+  takeLatest(constants.POSTS_GET_UNREAD_COMMENTS_REQUEST, postsGetUnreadCommentsRequest),
 
-  takeEvery(constants.POSTS_VIEWS_GET_REQUEST, postsViewsGetRequest),
-  takeEvery(constants.POSTS_VIEWS_GET_MORE_REQUEST, postsViewsGetMoreRequest),
+  takeLatest(constants.POSTS_VIEWS_GET_REQUEST, postsViewsGetRequest),
+  takeLatest(constants.POSTS_VIEWS_GET_MORE_REQUEST, postsViewsGetMoreRequest),
 
   takeLatest(constants.POSTS_FEED_GET_REQUEST, postsFeedGetRequest),
   takeLatest(constants.POSTS_FEED_GET_MORE_REQUEST, postsFeedGetMoreRequest),
 
-  takeEvery(constants.POSTS_LIKES_GET_REQUEST, postsLikesGetRequest),
+  takeLatest(constants.POSTS_LIKES_GET_REQUEST, postsLikesGetRequest),
   takeLatest(constants.POSTS_GET_ARCHIVED_REQUEST, postsGetArchivedRequest),
   takeLatest(constants.POSTS_EDIT_REQUEST, postsEditRequest),
   takeLatest(constants.POSTS_DELETE_REQUEST, postsDeleteRequest),
@@ -794,15 +794,15 @@ export default () => [
   takeLatest(constants.POSTS_FLAG_REQUEST, postsFlagRequest),
   takeLatest(constants.POSTS_SINGLE_GET_REQUEST, postsSingleGetRequest),
 
-  takeEvery(constants.POSTS_ONYMOUSLY_LIKE_REQUEST, postsOnymouslyLikeRequest),
-  takeEvery(constants.POSTS_DISLIKE_REQUEST, postsDislikeRequest),
-  takeEvery(constants.POSTS_REPORT_POST_VIEWS_REQUEST, postsReportPostViewsRequest),
-  takeEvery(constants.POSTS_REPORT_COMMENT_VIEWS_REQUEST, postsReportCommentViewsRequest),
+  takeLatest(constants.POSTS_ONYMOUSLY_LIKE_REQUEST, postsOnymouslyLikeRequest),
+  takeLatest(constants.POSTS_DISLIKE_REQUEST, postsDislikeRequest),
+  takeLatest(constants.POSTS_REPORT_POST_VIEWS_REQUEST, postsReportPostViewsRequest),
+  takeLatest(constants.POSTS_REPORT_COMMENT_VIEWS_REQUEST, postsReportCommentViewsRequest),
 
-  takeEvery(constants.POSTS_GET_TRENDING_POSTS_REQUEST, postsGetTrendingPostsRequest),
-  takeEvery(constants.POSTS_GET_TRENDING_POSTS_MORE_REQUEST, postsGetTrendingPostsMoreRequest),
+  takeLatest(constants.POSTS_GET_TRENDING_POSTS_REQUEST, postsGetTrendingPostsRequest),
+  takeLatest(constants.POSTS_GET_TRENDING_POSTS_MORE_REQUEST, postsGetTrendingPostsMoreRequest),
   
-  takeEvery(constants.POSTS_COMMENTS_GET_REQUEST, postsCommentsGetRequest),
-  takeEvery(constants.COMMENTS_ADD_REQUEST, commentsAddRequest),
-  takeEvery(constants.COMMENTS_DELETE_REQUEST, commentsDeleteRequest),
+  takeLatest(constants.POSTS_COMMENTS_GET_REQUEST, postsCommentsGetRequest),
+  takeLatest(constants.COMMENTS_ADD_REQUEST, commentsAddRequest),
+  takeLatest(constants.COMMENTS_DELETE_REQUEST, commentsDeleteRequest),
 ]

@@ -90,18 +90,3 @@ extend('$postsResourcePoolSet', ({ payload }, original) => {
   })
 })
 
-/**
- * Resource pool merge
- */
-extend('$postsResourcePoolMerge', ({ payload, initialState }, original) => {
-  return update(original, {
-    $merge: pathOr([], ['data'])(payload).reduce((acc, post) => {
-      acc[post[selector]] = update(initialState, {
-        data: { $set: post },
-        status: { $set: 'success' },
-      })
-      return acc
-    }, {})
-  })
-})
-

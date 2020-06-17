@@ -1,5 +1,5 @@
 import { graphqlOperation } from '@aws-amplify/api'
-import { call, put, takeLatest, getContext, takeEvery } from 'redux-saga/effects'
+import { call, put, takeLatest, getContext } from 'redux-saga/effects'
 import path from 'ramda/src/path'
 import compose from 'ramda/src/compose'
 import omit from 'ramda/src/omit'
@@ -690,23 +690,23 @@ function* usersSetApnsTokenRequest(req) {
 }
 
 export default () => [
-  takeEvery(constants.USERS_SEARCH_REQUEST, usersSearchRequest),
-  takeEvery(constants.USERS_DELETE_REQUEST, usersDeleteRequest),
+  takeLatest(constants.USERS_SEARCH_REQUEST, usersSearchRequest),
+  takeLatest(constants.USERS_DELETE_REQUEST, usersDeleteRequest),
   takeLatest(constants.USERS_GET_FOLLOWED_USERS_WITH_STORIES_REQUEST, usersGetFollowedUsersWithStoriesRequest),
-  takeEvery(constants.USERS_GET_FOLLOWER_USERS_REQUEST, usersGetFollowerUsersRequest),
-  takeEvery(constants.USERS_GET_FOLLOWED_USERS_REQUEST, usersGetFollowedUsersRequest),
+  takeLatest(constants.USERS_GET_FOLLOWER_USERS_REQUEST, usersGetFollowerUsersRequest),
+  takeLatest(constants.USERS_GET_FOLLOWED_USERS_REQUEST, usersGetFollowedUsersRequest),
   takeLatest(constants.USERS_GET_PENDING_FOLLOWERS_REQUEST, usersGetPendingFollowersRequest),
-  takeEvery(constants.USERS_ACCEPT_FOLLOWER_USER_REQUEST, usersAcceptFollowerUserRequest),
-  takeEvery(constants.USERS_DECLINE_FOLLOWER_USER_REQUEST, usersDeclineFollowerUserRequest),
-  takeEvery(constants.USERS_FOLLOW_REQUEST, usersFollowRequest),
-  takeEvery(constants.USERS_UNFOLLOW_REQUEST, usersUnfollowRequest),
-  takeEvery(constants.USERS_BLOCK_REQUEST, usersBlockRequest),
-  takeEvery(constants.USERS_UNBLOCK_REQUEST, usersUnblockRequest),
-  takeEvery(constants.USERS_GET_PROFILE_REQUEST, usersGetProfileRequest),
-  takeEvery(constants.USERS_GET_PROFILE_SELF_REQUEST, usersGetProfileSelfRequest),
+  takeLatest(constants.USERS_ACCEPT_FOLLOWER_USER_REQUEST, usersAcceptFollowerUserRequest),
+  takeLatest(constants.USERS_DECLINE_FOLLOWER_USER_REQUEST, usersDeclineFollowerUserRequest),
+  takeLatest(constants.USERS_FOLLOW_REQUEST, usersFollowRequest),
+  takeLatest(constants.USERS_UNFOLLOW_REQUEST, usersUnfollowRequest),
+  takeLatest(constants.USERS_BLOCK_REQUEST, usersBlockRequest),
+  takeLatest(constants.USERS_UNBLOCK_REQUEST, usersUnblockRequest),
+  takeLatest(constants.USERS_GET_PROFILE_REQUEST, usersGetProfileRequest),
+  takeLatest(constants.USERS_GET_PROFILE_SELF_REQUEST, usersGetProfileSelfRequest),
   takeLatest(constants.USERS_EDIT_PROFILE_REQUEST, usersEditProfileRequest),
   takeLatest(constants.USERS_IMAGE_POSTS_GET_REQUEST, usersImagePostsGetRequest),
-  takeEvery(constants.USERS_GET_TRENDING_USERS_REQUEST, usersGetTrendingUsersRequest),
+  takeLatest(constants.USERS_GET_TRENDING_USERS_REQUEST, usersGetTrendingUsersRequest),
   takeLatest(constants.USERS_GET_CARDS_REQUEST, usersGetCardsRequest),
   takeLatest(constants.USERS_DELETE_CARD_REQUEST, usersDeleteCardRequest),
   takeLatest(constants.USERS_SET_APNS_TOKEN_REQUEST, usersSetApnsTokenRequest),

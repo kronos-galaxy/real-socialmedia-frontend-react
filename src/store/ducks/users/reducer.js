@@ -2,7 +2,7 @@ import { handleActions } from 'redux-actions'
 import update from 'immutability-helper'
 import * as constants from 'store/ducks/users/constants'
 
-const initialState = {
+export const initialState = {
   usersSearch: {
     data: [],
     status: 'idle',
@@ -118,25 +118,9 @@ const initialState = {
     payload: {},
   },
 
-  usersPool: {
-
-  },
-
   usersGetFollowerUsersCache: {},
   usersGetFollowedUsersCache: {},
 }
-
-const usersResourcePoolMerge = (state, action) => update(state, {
-  /**
-   * User pool entry
-   */
-  usersPool: {
-    $usersResourcePoolMerge: {
-      ...action,
-      initialState: initialState.usersGetProfile,
-    },
-  },
-})
 
 /**
  *
@@ -238,10 +222,6 @@ const usersGetFollowedUsersWithStoriesIdle = (state, action) => update(state, {
  *
  */
 const usersGetFollowedUsersRequest = (state, action) => update(state, {
-  usersGetFollowedUsers: {
-    status: { $set: 'loading' },
-    payload: { $set: action.payload },
-  },
   usersGetFollowedUsersCache: {
     $resourceCacheSetRequest: {
       ...action,
@@ -252,10 +232,6 @@ const usersGetFollowedUsersRequest = (state, action) => update(state, {
 })
 
 const usersGetFollowedUsersSuccess = (state, action) => update(state, {
-  usersGetFollowedUsers: {
-    data: { $set: action.payload.data },
-    status: { $set: 'success' },
-  },
   usersGetFollowedUsersCache: {
     $resourceCacheSetSuccess: {
       ...action,
@@ -266,10 +242,6 @@ const usersGetFollowedUsersSuccess = (state, action) => update(state, {
 })
 
 const usersGetFollowedUsersFailure = (state, action) => update(state, {
-  usersGetFollowedUsers: {
-    status: { $set: 'failure' },
-    error: { $set: action.payload.message },
-  },
   usersGetFollowedUsersCache: {
     $resourceCacheSetFailure: {
       ...action,
@@ -280,11 +252,6 @@ const usersGetFollowedUsersFailure = (state, action) => update(state, {
 })
 
 const usersGetFollowedUsersIdle = (state, action) => update(state, {
-  usersGetFollowedUsers: {
-    data: { $set: initialState.usersGetFollowedUsers.data },
-    error: { $set: initialState.usersGetFollowedUsers.error },
-    status: { $set: 'idle' },
-  },
   usersGetFollowedUsersCache: {
     $resourceCacheSetIdle: {
       ...action,
@@ -298,10 +265,6 @@ const usersGetFollowedUsersIdle = (state, action) => update(state, {
  *
  */
 const usersGetFollowerUsersRequest = (state, action) => update(state, {
-  usersGetFollowerUsers: {
-    status: { $set: 'loading' },
-    payload: { $set: action.payload },
-  },
   usersGetFollowerUsersCache: {
     $resourceCacheSetRequest: {
       ...action,
@@ -312,10 +275,6 @@ const usersGetFollowerUsersRequest = (state, action) => update(state, {
 })
 
 const usersGetFollowerUsersSuccess = (state, action) => update(state, {
-  usersGetFollowerUsers: {
-    data: { $set: action.payload.data },
-    status: { $set: 'success' },
-  },
   usersGetFollowerUsersCache: {
     $resourceCacheSetSuccess: {
       ...action,
@@ -326,10 +285,6 @@ const usersGetFollowerUsersSuccess = (state, action) => update(state, {
 })
 
 const usersGetFollowerUsersFailure = (state, action) => update(state, {
-  usersGetFollowerUsers: {
-    status: { $set: 'failure' },
-    error: { $set: action.payload.message },
-  },
   usersGetFollowerUsersCache: {
     $resourceCacheSetFailure: {
       ...action,
@@ -340,11 +295,6 @@ const usersGetFollowerUsersFailure = (state, action) => update(state, {
 })
 
 const usersGetFollowerUsersIdle = (state, action) => update(state, {
-  usersGetFollowerUsers: {
-    data: { $set: initialState.usersGetFollowerUsers.data },
-    error: { $set: initialState.usersGetFollowerUsers.error },
-    status: { $set: 'idle' },
-  },
   usersGetFollowerUsersCache: {
     $resourceCacheSetIdle: {
       ...action,
@@ -362,26 +312,12 @@ const usersGetPendingFollowersRequest = (state, action) => update(state, {
     status: { $set: 'loading' },
     payload: { $set: action.payload },
   },
-  usersGetFollowerUsersCache: {
-    $resourceCacheSetRequest: {
-      ...action,
-      resourceKey: action.payload.userId,
-      initialState: initialState.usersGetPendingFollowers,
-    },
-  },
 })
 
 const usersGetPendingFollowersSuccess = (state, action) => update(state, {
   usersGetPendingFollowers: {
     data: { $set: action.payload.data },
     status: { $set: 'success' },
-  },
-  usersGetFollowerUsersCache: {
-    $resourceCacheSetSuccess: {
-      ...action,
-      resourceKey: action.payload.payload.userId,
-      initialState: initialState.usersGetPendingFollowers,
-    },
   },
 })
 
@@ -390,13 +326,6 @@ const usersGetPendingFollowersFailure = (state, action) => update(state, {
     status: { $set: 'failure' },
     error: { $set: action.payload.message },
   },
-  usersGetFollowerUsersCache: {
-    $resourceCacheSetFailure: {
-      ...action,
-      resourceKey: action.payload.payload.userId,
-      initialState: initialState.usersGetPendingFollowers,
-    },
-  },
 })
 
 const usersGetPendingFollowersIdle = (state, action) => update(state, {
@@ -404,13 +333,6 @@ const usersGetPendingFollowersIdle = (state, action) => update(state, {
     data: { $set: initialState.usersGetPendingFollowers.data },
     error: { $set: initialState.usersGetPendingFollowers.error },
     status: { $set: 'idle' },
-  },
-  usersGetFollowerUsersCache: {
-    $resourceCacheSetIdle: {
-      ...action,
-      resourceKey: action.payload.payload.userId,
-      initialState: initialState.usersGetPendingFollowers,
-    },
   },
 })
 
@@ -920,8 +842,6 @@ export default handleActions({
   [constants.USERS_SET_APNS_TOKEN_SUCCESS]: usersSetApnsTokenSuccess,
   [constants.USERS_SET_APNS_TOKEN_FAILURE]: usersSetApnsTokenFailure,
   [constants.USERS_SET_APNS_TOKEN_IDLE]: usersSetApnsTokenIdle,
-
-  [constants.USERS_RESOURCE_POOL_MERGE]: usersResourcePoolMerge,
 
   /**
    * Clear on logout
