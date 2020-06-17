@@ -28,7 +28,7 @@ export const fetchRemoteImage = async ({
     fromUrl: signature.source,
     toFile: signature.path,
     background: true,
-    discretionary: false,
+    discretionary: true,
     cacheable: false,
     readTimeout: 20000,
     backgroundTimeout: 20000,
@@ -86,7 +86,9 @@ export const priorotizedRemoteImageFetch = ({
 }) => {
   const hasDuplicates = (() => {
     try {
-      return priorityQueueInstance._tasks.toArray()
+      const allTasks = priorityQueueInstance._tasks.toArray()
+      console.log(allTasks)
+      return allTasks
         .find(task => task.signature.path === signature.path)
     } catch (error) {
       return false
