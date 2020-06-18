@@ -2,6 +2,7 @@ import Auth from '@aws-amplify/auth'
 import Api from '@aws-amplify/api'
 import Config from 'react-native-config'
 import * as Google from 'services/Google'
+import DeviceInfo from 'react-native-device-info'
 
 /**
  * AWS Configuration
@@ -22,6 +23,11 @@ export const amplifyConfig = async () => {
     aws_appsync_region: Config.AWS_COGNITO_REGION,
     aws_appsync_authenticationType: Config.AWS_APPSYNC_AUTHENTICATION_TYPE,
     aws_appsync_apiKey: 'null',
+    graphql_headers: async () => ({
+      'x-real-version': await DeviceInfo.getReadableVersion(),
+      'x-real-device': DeviceInfo.getDeviceId(),
+      'x-real-system': DeviceInfo.getSystemName(),
+    }),
   })
 }
 

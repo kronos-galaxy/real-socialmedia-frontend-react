@@ -87,7 +87,6 @@ export const priorotizedRemoteImageFetch = ({
   const hasDuplicates = (() => {
     try {
       const allTasks = priorityQueueInstance._tasks.toArray()
-      console.log(allTasks)
       return allTasks
         .find(task => task.signature.path === signature.path)
     } catch (error) {
