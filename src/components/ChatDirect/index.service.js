@@ -6,6 +6,7 @@ import * as authSelector from 'store/ducks/auth/selectors'
 import { v4 as uuid } from 'uuid'
 import { useNavigation, useRoute } from '@react-navigation/native'
 import path from 'ramda/src/path'
+import pathOr from 'ramda/src/pathOr'
 import { ifIphoneX } from 'react-native-iphone-x-helper'
 import * as chatSelector from 'store/ducks/chat/selectors'
 import * as usersSelector from 'store/ducks/users/selectors'
@@ -30,6 +31,16 @@ const ChatDirectService = ({ children }) => {
   useEffect(() => {
     dispatch(chatActions.chatGetChatRequest({ chatId }))
   }, [])
+
+  useEffect(() => {
+    if (chatGetChat.status !== 'success') {
+      return
+    }
+
+    const messageIds = pathOr([], ['data', 'messages', 'items'])(chatGetChat)
+      .map(message => message.messageId)
+    dispatch(chatActions.chatReportMessageViewRequest({ messageIds }))
+  }, [chatGetChat.status])
 
   useEffect(() => {
     if (chatAddMessage.status === 'success') {

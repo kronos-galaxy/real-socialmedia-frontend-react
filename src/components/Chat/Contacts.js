@@ -65,7 +65,14 @@ const Contacts = ({
               content={
                 <TouchableOpacity onPress={navigationActions.navigateChatDirect(navigation, { chat, user: path(['users', 'items', '0'])(chat) })} style={styling.user}>
                   <Text style={styling.username}>{path(['users', 'items', '0', 'username'])(chat)}</Text>
-                  <Caption style={styling.fullname}>{path(['messages', 'items', '0', 'text'])(chat)}</Caption>
+
+                  {path(['messages', 'items', '0', 'viewedStatus'])(chat) === 'NOT_VIEWED' ?
+                    <Caption style={styling.notViewed}>{path(['messages', 'items', '0', 'text'])(chat)}</Caption>
+                  : null}
+
+                  {path(['messages', 'items', '0', 'viewedStatus'])(chat) === 'VIEWED' ?
+                    <Caption style={styling.viewed}>{path(['messages', 'items', '0', 'text'])(chat)}</Caption>
+                  : null}
                 </TouchableOpacity>
               }
               action={(
@@ -89,7 +96,11 @@ const styles = theme => StyleSheet.create({
   },
   username: {
   },
-  fullname: {
+  viewed: {
+  },
+  notViewed: {
+    color: theme.colors.text,
+    fontWeight: '600',
   },
 })
 

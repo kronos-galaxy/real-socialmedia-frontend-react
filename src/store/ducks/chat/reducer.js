@@ -27,6 +27,12 @@ const initialState = {
     error: {},
     payload: {},
   },
+  chatReportMessageView: {
+    data: [],
+    status: 'idle',
+    error: {},
+    payload: {},
+  },
 
   /**
    *
@@ -162,6 +168,38 @@ const chatAddMessageIdle = (state, action) => update(state, {
   },
 })
 
+/**
+ *
+ */
+const chatReportMessageViewRequest = (state, action) => update(state, {
+  chatReportMessageView: {
+    status: { $set: 'loading' },
+    payload: { $set: action.payload },
+  },
+})
+
+const chatReportMessageViewSuccess = (state, action) => update(state, {
+  chatReportMessageView: {
+    data: { $set: action.payload.data },
+    status: { $set: 'success' },
+    payload: { $set: action.payload.payload },
+  },
+})
+
+const chatReportMessageViewFailure = (state, action) => update(state, {
+  chatReportMessageView: {
+    status: { $set: 'failure' },
+    payload: { $set: action.payload.payload },
+  },
+})
+
+const chatReportMessageViewIdle = (state, action) => update(state, {
+  chatReportMessageView: {
+    status: { $set: 'idle' },
+    payload: { $set: action.payload.payload },
+  },
+})
+
 export default handleActions({
   [constants.CHAT_GET_CHATS_REQUEST]: chatGetChatsRequest,
   [constants.CHAT_GET_CHATS_SUCCESS]: chatGetChatsSuccess,
@@ -182,4 +220,9 @@ export default handleActions({
   [constants.CHAT_ADD_MESSAGE_SUCCESS]: chatAddMessageSuccess,
   [constants.CHAT_ADD_MESSAGE_FAILURE]: chatAddMessageFailure,
   [constants.CHAT_ADD_MESSAGE_IDLE]: chatAddMessageIdle,
+
+  [constants.CHAT_REEPORT_MESSAGE_VIEW_REQUEST]: chatReportMessageViewRequest,
+  [constants.CHAT_REEPORT_MESSAGE_VIEW_SUCCESS]: chatReportMessageViewSuccess,
+  [constants.CHAT_REEPORT_MESSAGE_VIEW_FAILURE]: chatReportMessageViewFailure,
+  [constants.CHAT_REEPORT_MESSAGE_VIEW_IDLE]: chatReportMessageViewIdle,
 }, initialState)

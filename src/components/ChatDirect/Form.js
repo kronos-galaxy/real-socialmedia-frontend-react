@@ -16,7 +16,7 @@ import { useNavigation } from '@react-navigation/native'
 import { withTranslation } from 'react-i18next'
 
 const formSchema = Yup.object().shape({
-  text: Yup.string().min(1).max(50).required(),
+  text: Yup.string().min(1).required(),
 })
 
 const ChatDirectForm = ({

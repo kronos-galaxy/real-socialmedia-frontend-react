@@ -32,3 +32,11 @@ export const chatAddMessageIdle = createAction(constants.CHAT_ADD_MESSAGE_IDLE)
 export const chatAddMessageRequest = createAction(constants.CHAT_ADD_MESSAGE_REQUEST)
 export const chatAddMessageSuccess = createAction(constants.CHAT_ADD_MESSAGE_SUCCESS)
 export const chatAddMessageFailure = createAction(constants.CHAT_ADD_MESSAGE_FAILURE)
+
+/**
+ * 
+ */
+export const chatReportMessageViewIdle = createAction(constants.CHAT_REPORT_MESSAGE_VIEW_IDLE)
+export const chatReportMessageViewRequest = createAction(constants.CHAT_REPORT_MESSAGE_VIEW_REQUEST)
+export const chatReportMessageViewSuccess = createAction(constants.CHAT_REPORT_MESSAGE_VIEW_SUCCESS)
+export const chatReportMessageViewFailure = createAction(constants.CHAT_REPORT_MESSAGE_VIEW_FAILURE)

@@ -133,6 +133,20 @@ function* chatAddMessageRequest(req) {
   }
 }
 
+/**
+ * 
+ */
+function* chatReportMessageViewRequest(req) {
+  try {
+    const data = yield queryService.apiRequest(queries.reportChatMessageViews, req.payload)
+    const dataSelector = path(['data', 'reportChatMessageViews'])
+
+    yield put(actions.chatReportMessageViewSuccess({ data: dataSelector(data), payload: req.payload, meta: data }))
+  } catch (error) {
+    yield put(actions.chatReportMessageViewFailure({ message: error.message, payload: req.payload }))
+  }
+}
+
 function chatMessageSubscriptionChannel({ subscription }) {
   return eventChannel(emitter => {
     subscription.subscribe({
@@ -172,4 +186,5 @@ export default () => [
   takeLatest(constants.CHAT_GET_CHAT_REQUEST, chatGetChatRequest),
   takeLatest(constants.CHAT_CREATE_DIRECT_REQUEST, chatCreateDirectRequest),
   takeLatest(constants.CHAT_ADD_MESSAGE_REQUEST, chatAddMessageRequest),
+  takeLatest(constants.CHAT_REPORT_MESSAGE_VIEW_REQUEST, chatReportMessageViewRequest),
 ]
