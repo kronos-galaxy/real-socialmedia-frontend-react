@@ -20,6 +20,7 @@ const PostsGrid = ({
   t,
   theme,
   postsGet,
+  thread,
 }) => {
   const styling = styles(theme)
   const navigation = useNavigation()
@@ -41,6 +42,7 @@ const PostsGrid = ({
           >
             {post.postType === 'IMAGE' ?
               <CacheComponent
+                thread={thread}
                 images={[
                   [path(['image', 'url64p'])(post), true],
                   [path(['image', 'url480p'])(post), true],
@@ -82,9 +84,7 @@ PostsGrid.propTypes = {
   theme: PropTypes.any,
   postsGet: PropTypes.any,
   t: PropTypes.any,
-  themes: PropTypes.any,
-  themeFetch: PropTypes.any,
-  themeCode: PropTypes.any,
+  thread: PropTypes.any,
 }
 
 export default withTranslation()(withTheme(PostsGrid))

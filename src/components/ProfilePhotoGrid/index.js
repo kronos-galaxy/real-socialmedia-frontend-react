@@ -46,6 +46,7 @@ const ProfilePhotoGrid = ({
               inactiveIcon={<UncheckedIcon fill={theme.colors.iconPrimary} />}
             >
               <CacheComponent
+                thread="default"
                 images={[
                   [path(['image', 'url64p'])(post), true],
                   [path(['image', 'url480p'])(post), true],

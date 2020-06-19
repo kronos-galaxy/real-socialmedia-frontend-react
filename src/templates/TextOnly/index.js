@@ -16,21 +16,16 @@ import { withTranslation } from 'react-i18next'
 const TextComponent = ({
   t,
   theme,
-  themes,
   children,
   text,
   themeCode,
 }) => {
   const styling = styles(theme)
 
-  const themeSelector = (activeThemeCode) =>
-    ((themes || []).find(theme => theme.key === activeThemeCode) || {}).theme
-  const activeTheme = themeSelector(themeCode) || theme
-
   return (
     <View style={styling.root}>
       <LinearGradient
-        colors={[`${activeTheme.colors.primary}`, `${activeTheme.colors.primary}90`]}
+        colors={[`${theme.colors.primary}`, `${theme.colors.primary}90`]}
         style={styling.gradient}
       />
       <Text style={styling.text}>{text}</Text>

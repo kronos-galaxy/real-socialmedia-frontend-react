@@ -15,7 +15,6 @@ const AlbumsGridService = ({ children, albumsGetRequestOnMount }) => {
 
   const albumsGet = useSelector(albumsSelector.albumsGetSelector(userId))
   const themeFetch = useSelector(state => state.theme.themeFetch)
-  const themes = useSelector(state => state.theme.themeFetch.data)
 
   const albumsGetRequest = ({ nextToken }) =>
     dispatch(albumsActions.albumsGetRequest({ userId, nextToken }))
@@ -30,7 +29,6 @@ const AlbumsGridService = ({ children, albumsGetRequestOnMount }) => {
   }, [userId])
 
   return children({
-    themes,
     themeFetch,
     user,
     albumsGet,

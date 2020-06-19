@@ -92,7 +92,7 @@ function* appSubscription(req) {
 
   if (type !== 'STATE_CHANGE') {
     yield put(postsActions.postsFeedGetRequest({ limit: 20 }))
-    yield put(postsActions.postsGetTrendingPostsRequest({ limit: 20 }))
+    yield put(postsActions.postsGetTrendingPostsRequest({ limit: 100 }))
     yield put(usersActions.usersGetPendingFollowersRequest({ userId }))
     yield put(usersActions.usersGetFollowedUsersWithStoriesRequest({}))
   }

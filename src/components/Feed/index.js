@@ -183,7 +183,6 @@ Feed.propTypes = {
   postsOnymouslyLikeRequest: PropTypes.any,
   postsDislikeRequest: PropTypes.any,
   t: PropTypes.any,
-  themes: PropTypes.any,
   postsFeedGetMoreRequest: PropTypes.any,
   postsRestoreArchivedRequest: PropTypes.any,
   postsCreateRequest: PropTypes.any,

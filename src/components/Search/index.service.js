@@ -18,7 +18,6 @@ const SearchService = ({ children }) => {
   const postsGetTrendingPosts = useSelector(postsSelector.postsGetTrendingPostsSelector())
   const themeFetch = useSelector(state => state.theme.themeFetch)
   const usersAcceptFollowerUser = useSelector(state => state.users.usersAcceptFollowerUser)
-  const themes = useSelector(state => state.theme.themeFetch.data)
 
   /**
    * FlatList feed ref, used for scroll to top on tab bar press
@@ -42,7 +41,7 @@ const SearchService = ({ children }) => {
     dispatch(usersActions.usersAcceptFollowerUserRequest({ userId }))
 
   const postsGetTrendingPostsRequest = () =>
-    dispatch(postsActions.postsGetTrendingPostsRequest({ limit: 30 }))
+    dispatch(postsActions.postsGetTrendingPostsRequest({ limit: 100 }))
   
   const postsGetTrendingPostsMoreRequest = (payload) =>
     dispatch(postsActions.postsGetTrendingPostsMoreRequest(payload))
@@ -63,7 +62,6 @@ const SearchService = ({ children }) => {
   const [formChange, handleFormChange] = useState(false)
 
   return children({
-    themes,
     feedRef,
     user,
     themeFetch,

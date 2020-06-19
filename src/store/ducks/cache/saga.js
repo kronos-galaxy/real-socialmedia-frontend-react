@@ -48,10 +48,12 @@ const failureCallback = (signature, emitter) => (data) => emitter({
 /**
  * 
  */
-function cacheFetchRequestChannel({ signature }) {
+function cacheFetchRequestChannel({ signature, priority, thread }) {
   return eventChannel(emitter => {
     service.priorotizedRemoteImageFetch({
       signature,
+      priority,
+      thread,
       progressCallback: progressCallback(signature, emitter),
       requestCallback: requestCallback(signature, emitter),
       successCallback: successCallback(signature, emitter),
@@ -96,6 +98,7 @@ function* cacheFetchRequest(req) {
   const channel = yield call(cacheFetchRequestChannel, {
     signature: req.payload.signature,
     priority: req.payload.priority,
+    thread: req.payload.thread,
   })
 
   function* channelListener(eventData) {

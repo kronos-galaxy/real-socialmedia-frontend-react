@@ -60,9 +60,10 @@ const StoryCarousel = ({
           />
         )}
         content={(
-          <>
+          <React.Fragment>
             {story.postType === 'IMAGE' ?
               <CacheComponent
+                thread="story"
                 images={[
                   [path(['image', 'url64p'])(story), true],
                   [path(['image', 'url4k'])(story), true],
@@ -75,11 +76,10 @@ const StoryCarousel = ({
 
             {story.postType === 'TEXT_ONLY' ?
               <TextOnlyComponent
-                themes={themes}
                 text={story.text}
               />
             : null}
-          </>
+          </React.Fragment>
         )}
         footer={null}
         selector={null}

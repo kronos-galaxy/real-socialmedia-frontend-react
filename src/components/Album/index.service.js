@@ -10,7 +10,6 @@ const AlbumService = ({ children }) => {
   const navigation = useNavigation()
   const user = useSelector(authSelector.authUserSelector)
   const themeFetch = useSelector(state => state.theme.themeFetch)
-  const themes = useSelector(state => state.theme.themeFetch.data)
   const albumsDelete = useSelector(state => state.albums.albumsDelete)
 
   const albumsDeleteRequest = (payload) =>
@@ -27,7 +26,6 @@ const AlbumService = ({ children }) => {
   return children({
     user,
     themeFetch,
-    themes,
     albumsDeleteRequest,
   })
 }

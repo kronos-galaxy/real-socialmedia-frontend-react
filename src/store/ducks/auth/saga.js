@@ -21,10 +21,12 @@ import * as queryService from 'services/Query'
  */
 function* handleAuthCheckRequest() {
   const AwsAuth = yield getContext('AwsAuth')
-  yield AwsAuth.currentCredentials()
+  const credentials = yield AwsAuth.currentCredentials()
   yield AwsAuth.currentAuthenticatedUser({
     bypassCache: false,
   })
+
+  return credentials
 }
 
 function handleAuthCheckValidation(self) {
@@ -60,13 +62,13 @@ function* authCheckRequestData(req, api) {
 
 function* authCheckRequest(req) {
   try {
-    yield handleAuthCheckRequest(req.payload)
+    const credentials = yield handleAuthCheckRequest(req.payload)
 
     const data = yield queryService.apiRequest(queries.self, req.payload)
     const nextRoute = handleAuthCheckValidation(data) ? 'AuthPhoto' : 'Root'
     const next = yield authCheckRequestData(req, data)
-    yield put(actions.authCheckReady({ data: next.data, payload: next.payload, meta: next.meta, nextRoute }))
-    yield put(actions.authCheckSuccess({ data: next.data, payload: next.payload, meta: next.meta, nextRoute }))
+    yield put(actions.authCheckReady({ data: next.data, payload: next.payload, meta: credentials, nextRoute }))
+    yield put(actions.authCheckSuccess({ data: next.data, payload: next.payload, meta: credentials, nextRoute }))
   } catch (error) {
     if (pathOr('', ['message'])(error).includes('Network request failed')) {
       yield put(actions.authCheckFailure({

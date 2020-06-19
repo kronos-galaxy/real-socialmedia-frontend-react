@@ -18,6 +18,7 @@ const CacheService = ({
   style,
   hideProgress,
   hideLabel,
+  thread,
 }) => {
   const dispatch = useDispatch()
 
@@ -31,7 +32,7 @@ const CacheService = ({
   const progress = useSelector(cacheSelector.progressSelector(signature.partial))
   const failed = useSelector(cacheSelector.failedSelector(signature.partial))
   const previousCached = usePreviousDistinct(cached)
-  const uri = useMemo(() => failed ? fallback : (cached || previousCached), [cached])
+  const uri = useMemo(() => failed ? fallback : (cached || previousCached), [cached, failed])
   const filename = useMemo(() => helpers.getFilename(uri), [uri]) 
 
   /**
@@ -42,23 +43,23 @@ const CacheService = ({
 
     if (await helpers.checkLocalImage(signature.path)) {
       dispatch(actions.cacheFetchSuccess({ signature, progress: 100 }))
-    } else {
-      dispatch(actions.cacheFetchRequest({ signature, priority }))
+    } else if (path([counter, 1])(images)) {
+      dispatch(actions.cacheFetchRequest({ signature, priority, thread }))
     }
-  }, [counter])
+  }, [signature.partial, counter])
 
   /**
    * Switch image to higher resolution if download was successful
    */
   useEffect(() => {
-    const availableImages = images.filter(([uri, shouldDownload]) => shouldDownload).length
+    const availableImages = images.length
     const moreToDownload = availableImages - 1 > counter
     const firstCondition = (moreToDownload && cached && !progress)
     if (!firstCondition) {
       return
     }
     setCounter(counter + 1)
-  }, [counter, cached, progress])
+  }, [signature.partial, counter, cached, progress])
 
   /**
    * Error handler

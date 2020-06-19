@@ -33,6 +33,7 @@ const ChatCard = ({
           <View style={styles.content}>
             <View style={styles.image}>
               <CacheComponent
+                thread="default"
                 images={[
                   [post.image.url64p, true],
                 ]}

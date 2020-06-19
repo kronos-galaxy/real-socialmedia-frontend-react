@@ -79,6 +79,7 @@ const authCheckSuccess = (state, action) => update(state, {
     data: { $set: action.payload.data },
     status: { $set: 'success' },
     nextRoute: { $set: action.payload.nextRoute },
+    meta: { $set: action.payload.meta },
   },
 })
 

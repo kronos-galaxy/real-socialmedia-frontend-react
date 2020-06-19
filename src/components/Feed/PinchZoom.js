@@ -28,8 +28,9 @@ export class PinchZoom extends React.Component {
           }]}
         >
           <CacheComponent
+            thread="zoom"
             images={[
-              [this.props.draggedImage.image.url64p, true],
+              [this.props.draggedImage.image.url480p, true],
               [this.props.draggedImage.image.url4k, true],
               [this.props.draggedImage.image.url, true],
             ]}

@@ -30,8 +30,8 @@ export const fetchRemoteImage = async ({
     background: true,
     discretionary: true,
     cacheable: false,
-    readTimeout: 20000,
-    backgroundTimeout: 20000,
+    readTimeout: 10000,
+    backgroundTimeout: 30000,
     progressDivider: 10,
     resumable: () =>
       RNFS.isResumable(jobId).then(() => RNFS.resumeDownload(jobId)),
@@ -65,6 +65,17 @@ export const fetchRemoteImage = async ({
 
 export const priorityQueueInstance = priorityQueue(fetchRemoteImage, 3)
 
+export const queueInstances = {
+  albums: priorityQueue(fetchRemoteImage, 6),
+  archived: priorityQueue(fetchRemoteImage, 6),
+  default: priorityQueue(fetchRemoteImage, 6),
+  zoom: priorityQueue(fetchRemoteImage, 6),
+  post: priorityQueue(fetchRemoteImage, 6),
+  posts: priorityQueue(fetchRemoteImage, 6),
+  story: priorityQueue(fetchRemoteImage, 6),
+  avatar: priorityQueue(fetchRemoteImage, 6),
+}
+
 /**
  * 
  */
@@ -76,17 +87,18 @@ export const removeLocalFolder = async (pathFolder) => {
 }
 
 export const priorotizedRemoteImageFetch = ({
+  thread,
   signature,
   priority,
-  queueInstance,
   progressCallback,
   requestCallback,
   successCallback,
   failureCallback,
 }) => {
+  const queueInstance = queueInstances[thread] || queueInstances['default']
   const hasDuplicates = (() => {
     try {
-      const allTasks = priorityQueueInstance._tasks.toArray()
+      const allTasks = queueInstance._tasks.toArray()
       return allTasks
         .find(task => task.signature.path === signature.path)
     } catch (error) {
@@ -98,7 +110,7 @@ export const priorotizedRemoteImageFetch = ({
     return
   }
 
-  priorityQueueInstance.push({
+  queueInstance.push({
     signature,
     progressCallback,
     requestCallback,

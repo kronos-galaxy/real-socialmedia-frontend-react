@@ -398,7 +398,7 @@ const postsGetArchivedRequest = (state, action) => update(state, {
 
 const postsGetArchivedSuccess = (state, action) => update(state, {
   postsGetArchived: {
-    data: { $set: action },
+    data: { $set: action.payload.data },
     status: { $set: 'success' },
   },
 })

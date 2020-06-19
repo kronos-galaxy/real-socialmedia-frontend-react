@@ -24,7 +24,6 @@ import { withTranslation } from 'react-i18next'
 const SearchComponent = ({
   t,
   theme,
-  themes,
   feedRef,
   user,
   usersSearchRequest,
@@ -83,10 +82,10 @@ const SearchComponent = ({
           scrollEventThrottle={400}
         >
           <PostsGridComponent
-            themes={themes}
             postsGet={postsGetTrendingPosts}
             themeFetch={themeFetch}
             themeCode={path(['themeCode'])(user)}
+            thread="posts/trending"
           />
 
           {scroll.loadingmore ?
@@ -171,7 +170,6 @@ SearchComponent.propTypes = {
   usersUnfollow: PropTypes.any,
   usersUnfollowRequest: PropTypes.any,
   t: PropTypes.any,
-  themes: PropTypes.any,
   feedRef: PropTypes.any,
   user: PropTypes.any,
   usersAcceptFollowerUser: PropTypes.any,

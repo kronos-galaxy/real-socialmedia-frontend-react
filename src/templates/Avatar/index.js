@@ -49,6 +49,7 @@ const AvatarTemplate = ({
       <View style={componentStyle}>
         <View style={photoStyle}>
           <CacheComponent
+            thread="avatar"
             images={[
               [thumbnailSource.uri, true],
               [imageSource.uri, true],

@@ -20,7 +20,6 @@ import { withTranslation } from 'react-i18next'
 const Album = ({
   t,
   theme,
-  themes,
   user,
   albumsDeleteRequest,
   themeFetch,
@@ -62,7 +61,7 @@ const Album = ({
             postsGet={{ data: album.posts.items }}
             themeFetch={themeFetch}
             themeCode={path(['ownedBy', 'themeCode'])(album)}
-            themes={themes}
+            thread="albums"
           />
         </View>
         
@@ -127,7 +126,6 @@ Album.propTypes = {
   postsShareRequest: PropTypes.any,
   t: PropTypes.any,
   theme: PropTypes.any,
-  themes: PropTypes.any,
   themeFetch: PropTypes.any,
   user: PropTypes.any,
 }
