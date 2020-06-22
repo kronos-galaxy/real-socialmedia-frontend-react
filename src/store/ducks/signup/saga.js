@@ -236,7 +236,7 @@ function* handleSignupConfirmRequest(payload) {
     fullName: payload.username,
   })
   const next = yield handleSignupConfirmRequestData({ payload }, data)
-  yield put(actions.authCheckReady({ data: next.data, payload: next.payload, meta: next.meta }))
+  yield put(authActions.authCheckReady({ data: next.data, payload: next.payload, meta: next.meta }))
   yield queryService.apiRequest(queries.setUserAcceptedEULAVersion, { version: '15-11-2019' })
 }
 
@@ -313,7 +313,7 @@ function* handleCognitoRequest(payload) {
     googleIdToken: session.token,
   })
   const next = yield handleCognitoRequestData({ payload }, data)
-  yield put(actions.authCheckReady({ data: next.data, payload: next.payload, meta: next.meta }))
+  yield put(authActions.authCheckReady({ data: next.data, payload: next.payload, meta: next.meta }))
   yield queryService.apiRequest(queries.setUserAcceptedEULAVersion, { version: '15-11-2019' })
 }
 

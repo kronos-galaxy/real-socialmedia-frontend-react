@@ -65,7 +65,7 @@ const StoryCarousel = ({
               <CacheComponent
                 thread="story"
                 images={[
-                  [path(['image', 'url64p'])(story), true],
+                  [path(['image', 'url480p'])(story), true],
                   [path(['image', 'url4k'])(story), true],
                 ]}
                 fallback={path(['image', 'url4k'])(story)}

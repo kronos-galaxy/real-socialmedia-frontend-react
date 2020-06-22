@@ -38,6 +38,7 @@ const Uploading = ({
   const pseudoPost = {
     image: {
       url64p: path(['payload', 'images', '0'])(post),
+      url480p: path(['payload', 'images', '0'])(post),
       url1080p: path(['payload', 'images', '0'])(post),
     },
     postedBy: user,

@@ -111,7 +111,6 @@ const PostComponent = ({
           <CacheComponent
             thread="post"
             images={[
-              [path(['image', 'url64p'])(post), true],
               [path(['image', 'url480p'])(post), true],
               [path(['image', 'url4k'])(post), true],
               [path(['image', 'url'])(post), false],
