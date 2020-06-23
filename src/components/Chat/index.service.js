@@ -13,6 +13,8 @@ const ChatService = ({ children }) => {
   const user = useSelector(authSelector.authUserSelector)
   const usersSearch = useSelector(usersSelector.usersSearchSelector())
   const chatGetChats = useSelector(chatSelector.chatGetChatsSelector())
+  const usersGetPendingFollowers = useSelector(usersSelector.usersGetPendingFollowersSelector())
+  const usersAcceptFollowerUser = useSelector(state => state.users.usersAcceptFollowerUser)
 
   useEffect(() => {
     dispatch(chatActions.chatGetChatsRequest())
@@ -20,6 +22,13 @@ const ChatService = ({ children }) => {
 
   const chatGetChatsRequest = () =>
     dispatch(chatActions.chatGetChatsRequest())
+
+  const usersGetPendingFollowersRequest = (payload) => 
+    dispatch(usersActions.usersGetPendingFollowersRequest(payload))
+
+  useEffect(() => {
+    usersGetPendingFollowersRequest({ userId: user.userId })
+  }, [usersAcceptFollowerUser.status])
 
   /**
    * FlatList feed ref, used for scroll to top on tab bar press
@@ -55,6 +64,7 @@ const ChatService = ({ children }) => {
     chatGetChatsRequest,
     usersSearch,
     usersSearchRequest,
+    usersGetPendingFollowers,
   })
 }
 

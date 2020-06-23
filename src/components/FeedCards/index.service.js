@@ -13,16 +13,17 @@ const FeedCardsService = ({ children }) => {
     dispatch(usersActions.usersDeleteCardRequest(payload))
 
   const handleCardPress = ({ action, cardId }) => {
+    navigationActions.navigateChat(navigation)()
     dispatch(usersActions.usersDeleteCardRequest({ cardId }))
 
-    if (action === 'https://real.app/chat/') {
-      navigationActions.navigateChat(navigation)()
-    } if (action.includes('https://real.app/chat/post/')) {
-      const post = { postId: action.split('https://real.app/chat/post/')[1] }
-      navigationActions.navigatePostMedia(navigation,{ postId: post.postId, userId: post.postedBy.userId })()
-    } else {
-      Linking.openURL(action)
-    }
+    // if (action === 'https://real.app/chat/') {
+    //   navigationActions.navigateChat(navigation)()
+    // } if (action.includes('https://real.app/chat/post/')) {
+    //   const post = { postId: action.split('https://real.app/chat/post/')[1] }
+    //   navigationActions.navigatePostMedia(navigation,{ postId: post.postId, userId: post.postedBy.userId })()
+    // } else {
+    //   Linking.openURL(action)
+    // }
   }
  
   return children({

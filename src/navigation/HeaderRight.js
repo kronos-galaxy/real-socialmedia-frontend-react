@@ -14,6 +14,7 @@ const HeaderRight = ({
   theme,
   onPress,
   hidden,
+  style = {},
 }) => {
   const styling = styles(theme)
   
@@ -23,7 +24,7 @@ const HeaderRight = ({
   
   return (
     <TouchableOpacity onPress={onPress}>
-      <Text style={styling.headerRight}>{t(title)}</Text>
+      <Text style={[styling.headerRight, style]}>{t(title)}</Text>
     </TouchableOpacity>
   )
 }
@@ -34,10 +35,12 @@ HeaderRight.propTypes = {
   title: PropTypes.any,
   onPress: PropTypes.any,
   hidden: PropTypes.any,
+  style: PropTypes.any,
 }
 
 HeaderRight.defaultProps = {
   hidden: false,
+  style: {},
 }
 
 const styles = theme => StyleSheet.create({

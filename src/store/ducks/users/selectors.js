@@ -30,11 +30,12 @@ export const usersGetProfileSelector = (userId) => createDeepEqualSelector(
  *
  */
 const usersGetProfileSelf = () => path(['users', 'usersGetProfileSelf'])
+const authUser = () => path(['auth', 'user'])
 
 export const usersGetProfileSelfSelector = () => createDeepEqualSelector(
-  [usersGetProfileSelf(), entities()],
-  (usersGetProfileSelf, entities) => {
-    const denormalized = normalizer.denormalizeUserGet(usersGetProfileSelf.data, entities)
+  [authUser(), entities()],
+  (authUser, entities) => {
+    const denormalized = normalizer.denormalizeUserGet(authUser, entities)
     return assocPath(['data'], denormalized)(usersGetProfileSelf)
   }
 )

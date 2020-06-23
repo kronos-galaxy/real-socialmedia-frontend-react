@@ -7,6 +7,7 @@ import {
 import ActionsComponent from 'components/AuthPhoto/Actions'
 import AuthHeaderTemplate from 'templates/Auth/Header'
 import AuthPhotoTemplate from 'templates/Auth/Photo'
+import HeaderRight from 'navigation/HeaderRight'
 
 import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
@@ -21,6 +22,10 @@ const AuthPhoto = ({
 }) => {
   const styling = styles(theme)
   const navigation = useNavigation()
+
+  navigation.setOptions({
+    headerRight: () => <HeaderRight onPress={skipPhotoUpload} title="Skip" style={{ color: '#ffffff' }} />,
+  })
 
   return (
     <View testID="components/AuthPhoto" style={styling.root}>

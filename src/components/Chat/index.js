@@ -10,6 +10,7 @@ import ContactsComponent from 'components/Chat/Contacts'
 import UsersComponent from 'components/Chat/Users'
 import HeaderComponent from 'components/Search/Header'
 import FormComponent from 'components/Search/Form'
+import PendingRequestsComponent from 'components/Feed/PendingRequests'
 import { Subheading } from 'react-native-paper'
 
 import { withTheme } from 'react-native-paper'
@@ -30,11 +31,16 @@ const Chat = ({
   chatGetChatsRequest,
   usersSearch,
   usersSearchRequest,
+  usersGetPendingFollowers,
 }) => {
   const styling = styles(theme)
 
   return (
     <View style={styling.root}>
+      <PendingRequestsComponent
+        usersGetPendingFollowers={usersGetPendingFollowers}
+      />
+
       <HeaderComponent>
         <FormComponent
           usersSearch={usersSearch}

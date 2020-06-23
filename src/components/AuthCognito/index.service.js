@@ -1,5 +1,6 @@
 import { useEffect } from 'react'
 import * as signupActions from 'store/ducks/signup/actions'
+import * as authActions from 'store/ducks/auth/actions'
 import * as navigationActions from 'navigation/actions'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigation } from '@react-navigation/native'
@@ -45,7 +46,7 @@ const AuthCognitoComponentService = ({ children }) => {
       signupCognito.status !== 'success'
     ) return
 
-    navigationActions.navigateAuthPhoto(navigation)()
+    dispatch(authActions.authCheckRequest({ type: 'FIRST_MOUNT' }))
   }, [
     signupCognito.status,
   ])

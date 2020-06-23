@@ -99,6 +99,7 @@ export default withTranslation()(withTheme(({
     initialValues={user}
     validationSchema={formSchema}
     onSubmit={usersEditProfileRequest}
+    enableReinitialize
   >
     {(formikProps) => (
       <ProfileEditForm

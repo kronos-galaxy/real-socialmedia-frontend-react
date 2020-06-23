@@ -1,14 +1,12 @@
-import { useEffect, useRef } from 'react'
+import { useRef } from 'react'
 import { InteractionManager } from 'react-native'
 import { useSelector, useDispatch } from 'react-redux'
 import * as postsActions from 'store/ducks/posts/actions'
-import * as usersActions from 'store/ducks/users/actions'
 import { useNavigation, useScrollToTop } from '@react-navigation/native'
 import path from 'ramda/src/path'
 import pathOr from 'ramda/src/pathOr'
 import * as authSelector from 'store/ducks/auth/selectors'
 import * as postsSelector from 'store/ducks/posts/selectors'
-import * as usersSelector from 'store/ducks/users/selectors'
 
 const FeedService = ({ children }) => {
   const dispatch = useDispatch()
@@ -17,8 +15,6 @@ const FeedService = ({ children }) => {
   const postsFeedGet = useSelector(postsSelector.postsFeedGetSelector())
   const postsCreate = useSelector(state => state.posts.postsCreate)
   const postsCreateQueue = useSelector(state => state.posts.postsCreateQueue)
-  const usersGetPendingFollowers = useSelector(usersSelector.usersGetPendingFollowersSelector())
-  const usersAcceptFollowerUser = useSelector(state => state.users.usersAcceptFollowerUser)
   const postsGetTrendingPosts = useSelector(postsSelector.postsGetTrendingPostsSelector())
   
   const postsFeedGetRequest = (payload) =>
@@ -26,9 +22,6 @@ const FeedService = ({ children }) => {
 
   const postsFeedGetMoreRequest = (payload) =>
     dispatch(postsActions.postsFeedGetMoreRequest(payload))
-  
-  const usersGetPendingFollowersRequest = (payload) => 
-    dispatch(usersActions.usersGetPendingFollowersRequest(payload))
 
   const postsCreateRequest = (payload) => {
     dispatch(postsActions.postsCreateRequest(payload))
@@ -36,10 +29,6 @@ const FeedService = ({ children }) => {
 
   const postsCreateIdle = (payload) =>
     dispatch(postsActions.postsCreateIdle(payload))
-
-  useEffect(() => {
-    usersGetPendingFollowersRequest({ userId: user.userId })
-  }, [usersAcceptFollowerUser.status])
 
   const onViewableItemsChanged = ({ viewableItems }) => {
     const postIds = viewableItems.map(viewable => path(['item', 'postId'])(viewable))
@@ -129,7 +118,6 @@ const FeedService = ({ children }) => {
     postsCreateRequest,
     postsCreateIdle,
     postsCreateQueue,
-    usersGetPendingFollowers,
     postsGetTrendingPosts,
     handleScrollPrev,
     handleScrollNext,

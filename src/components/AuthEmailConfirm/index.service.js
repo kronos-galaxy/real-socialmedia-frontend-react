@@ -1,5 +1,6 @@
 import { useEffect, useCallback } from 'react'
 import { Keyboard } from 'react-native'
+import * as authActions from 'store/ducks/auth/actions'
 import * as signupActions from 'store/ducks/signup/actions'
 import * as navigationActions from 'navigation/actions'
 import { useDispatch, useSelector } from 'react-redux'
@@ -82,7 +83,7 @@ const AuthEmailConfirmComponentService = ({ children }) => {
     dispatch(signupActions.signupPasswordIdle({}))
 
     Keyboard.dismiss()
-    navigationActions.navigateAuthPhoto(navigation)()
+    dispatch(authActions.authCheckRequest({ type: 'FIRST_MOUNT' }))
   }, [
     signupConfirm.status,
   ])

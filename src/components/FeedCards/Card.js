@@ -22,7 +22,7 @@ const FeedCard = ({
   }
 
   return (
-    <View style={[styles.root, customStyle]}>
+    <TouchableOpacity style={[styles.root, customStyle]} onPress={() => handleCardPress({ action: card.action, cardId: card.cardId })}>
       {card.thumbnail ?
         <View style={styles.image} onPress={() => handleCardPress({ action: card.action, cardId: card.cardId })}>
           <Avatar
@@ -34,15 +34,15 @@ const FeedCard = ({
       : null}
 
       <View style={styles.header}>
-        <TouchableOpacity style={styles.headerTitle} onPress={() => handleCardPress({ action: card.action, cardId: card.cardId })}>
+        <View style={styles.headerTitle}>
           <Text>{card.title}</Text>
-        </TouchableOpacity>
+        </View>
 
         <TouchableOpacity style={styles.headerIcon} onPress={() => usersDeleteCardRequest({ cardId: card.cardId })}>
           <CloseIcon fill="#ffffff" />
         </TouchableOpacity>
       </View>
-    </View>
+    </TouchableOpacity>
   )
 }
 

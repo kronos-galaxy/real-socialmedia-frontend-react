@@ -9,7 +9,6 @@ import {
 } from 'react-native'
 import path from 'ramda/src/path'
 import UploadingComponent from 'components/Feed/Uploading'
-import PendingRequestsComponent from 'components/Feed/PendingRequests'
 import BookmarkComponent from 'components/Feed/Bookmark'
 import PostComponent from 'components/Post'
 import PostServiceComponent from 'components/Post/index.service'
@@ -35,7 +34,6 @@ const Feed = ({
   postsCreateRequest,
   postsCreateIdle,
   postsCreateQueue,
-  usersGetPendingFollowers,
   handleScrollPrev,
   handleScrollNext,
   postsGetTrendingPosts,
@@ -136,12 +134,6 @@ const Feed = ({
                 />
               ))}
             </View>
-  
-            <View style={styling.uploading}>
-              <PendingRequestsComponent
-                usersGetPendingFollowers={usersGetPendingFollowers}
-              />
-            </View>
           </React.Fragment>
         ), [postsCreateQueue])}
         renderItem={renderItem}
@@ -188,7 +180,6 @@ Feed.propTypes = {
   postsCreateRequest: PropTypes.any,
   postsCreateIdle: PropTypes.any,
   postsCreateQueue: PropTypes.any,
-  usersGetPendingFollowers: PropTypes.any,
   handleScrollPrev: PropTypes.any,
   handleScrollNext: PropTypes.any,
   postsGetTrendingPosts: PropTypes.any,
