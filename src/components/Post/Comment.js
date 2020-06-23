@@ -24,7 +24,7 @@ const Comment = ({
   const regex = /(?:@)([A-Za-z0-9_](?:(?:[A-Za-z0-9_]|(?:\.(?!\.))){0,28}(?:[A-Za-z0-9_]))?)/g
 
   return (
-    <TouchableOpacity onPress={navigationActions.navigateComments(navigation, { post })} style={styling.root}>
+    <TouchableOpacity onPress={navigationActions.navigateComments(navigation, { postId: post.postId, userId: post.postedBy.userId })} style={styling.root}>
       {pathOr(0, ['commentCount'], post) > 3 ?
         <Text style={styling.count}>{t('View all comments')}</Text>
       : null}
@@ -46,7 +46,7 @@ const Comment = ({
 
               if (tagged) {
                 return (
-                  <Text key={match + i} onPress={navigationActions.navigateProfile(navigation, { user: tagged.user })} style={styling.textUsername}>@{match}</Text>
+                  <Text key={match + i} onPress={navigationActions.navigateProfile(navigation, { userId: tagged.user.userId })} style={styling.textUsername}>@{match}</Text>
                 )
               }
               

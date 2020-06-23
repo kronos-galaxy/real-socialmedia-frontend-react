@@ -11,7 +11,7 @@ import CacheComponent from 'components/Cache'
 import * as navigationActions from 'navigation/actions'
 
 import { withTheme } from 'react-native-paper'
-import { useNavigation, useRoute } from '@react-navigation/native'
+import { useNavigation } from '@react-navigation/native'
 import { withTranslation } from 'react-i18next'
 
 const Archived = ({
@@ -22,14 +22,13 @@ const Archived = ({
 }) => {
   const styling = styles(theme)
   const navigation = useNavigation()
-  const route = useRoute()
 
   return (
     <ScrollView style={styling.root}>
       <GridComponent items={path(['data'])(postsGetArchived)}>
         {(post, priorityIndex) => (
           <GridItemComponent
-            onPress={navigationActions.navigatePostMedia(navigation, { post, theme, })}
+            onPress={navigationActions.navigatePostMedia(navigation, { postId: post.postId, userId: post.postedBy.userId })}
             active={false}
             activeIcon={null}
             inactiveIcon={null}

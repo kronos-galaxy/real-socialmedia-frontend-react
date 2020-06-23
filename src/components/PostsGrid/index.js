@@ -35,7 +35,7 @@ const PostsGrid = ({
       <GridComponent items={path(['data'])(postsGet)}>
         {(post, priorityIndex) => (
           <GridItemComponent
-            onPress={navigationActions.navigatePostMedia(navigation, { post })}
+            onPress={navigationActions.navigatePostMedia(navigation, { postId: post.postId, userId: post.postedBy.userId })}
             active={path(['hasNewCommentActivity'])(post)}
             activeIcon={activeIcon}
             inactiveIcon={null}
@@ -80,9 +80,9 @@ PostsGrid.defaultProps = {
 }
 
 PostsGrid.propTypes = {
+  t: PropTypes.any,
   theme: PropTypes.any,
   postsGet: PropTypes.any,
-  t: PropTypes.any,
   thread: PropTypes.any,
 }
 

@@ -14,14 +14,16 @@ const CommentsService = ({ children }) => {
   const dispatch = useDispatch()
   const navigation = useNavigation()
   const route = useRoute()
-  const postId = path(['params', 'post', 'postId'])(route)
-  const postUserId = path(['params', 'post', 'postedBy', 'userId'])(route)
+  const postId = route.params.postId
+  const postUserId = route.params.userId
   const user = useSelector(authSelector.authUserSelector)
   const commentsAdd = useSelector(state => state.posts.commentsAdd)
   const commentsDelete = useSelector(state => state.posts.commentsDelete)
   const postsCommentsGet = useSelector(postsSelector.postsCommentsGetSelector(postId))
+  const postsSingleGet = useSelector(postsSelector.postsSingleGetSelector(postId))
 
   useEffect(() => {
+    dispatch(postsActions.postsSingleGetRequest({ postId, userId: postUserId }))
     dispatch(postsActions.postsCommentsGetRequest({ postId, userId: postUserId }))
   }, [])
 
@@ -103,7 +105,7 @@ const CommentsService = ({ children }) => {
     commentsAddRequest,
     commentsDeleteRequest,
     postsCommentsGet,
-    post: path(['params', 'post'])(route),
+    postsSingleGet,
     marginBottom,
     onViewableItemsChangedRef,
     viewabilityConfigRef,

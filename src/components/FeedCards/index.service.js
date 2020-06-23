@@ -19,7 +19,7 @@ const FeedCardsService = ({ children }) => {
       navigationActions.navigateChat(navigation)()
     } if (action.includes('https://real.app/chat/post/')) {
       const post = { postId: action.split('https://real.app/chat/post/')[1] }
-      navigationActions.navigatePostMedia(navigation, { post })()
+      navigationActions.navigatePostMedia(navigation,{ postId: post.postId, userId: post.postedBy.userId })()
     } else {
       Linking.openURL(action)
     }

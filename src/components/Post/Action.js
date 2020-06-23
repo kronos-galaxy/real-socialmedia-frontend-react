@@ -91,19 +91,19 @@ const Action = ({
       <View style={styling.actionLeft}>
 
         {likeButtonVisibility && post.likeStatus === 'NOT_LIKED' ?
-          <TouchableOpacity style={styling.actionLeftIcon} onPress={() => postsOnymouslyLikeRequest({ postId: path(['postId'])(post), userId: path(['postedBy', 'userId'])(post) })}>
+          <TouchableOpacity style={styling.actionLeftIcon} onPress={() => postsOnymouslyLikeRequest({ postId: post.postId, userId: post.postedBy.userId })}>
             <LikeIcon fill={theme.colors.primaryIcon} />
           </TouchableOpacity>
         : null}
 
         {likeButtonVisibility && post.likeStatus !== 'NOT_LIKED' ?
-          <TouchableOpacity style={styling.actionLeftIcon} onPress={() => postsDislikeRequest({ postId: path(['postId'])(post), userId: path(['postedBy', 'userId'])(post) })}>
+          <TouchableOpacity style={styling.actionLeftIcon} onPress={() => postsDislikeRequest({ postId: post.postId, userId: post.postedBy.userId })}>
             <UnlikeIcon fill={theme.colors.primary} />
           </TouchableOpacity>
         : null}
         
         {commentButtonVisibility ?
-          <TouchableOpacity style={styling.actionLeftIcon} onPress={navigationActions.navigateComments(navigation, { post })}>
+          <TouchableOpacity style={styling.actionLeftIcon} onPress={navigationActions.navigateComments(navigation, { postId: post.postId, userId: post.postedBy.userId })}>
             <BubbleIcon fill={theme.colors.primaryIcon} />
           </TouchableOpacity>
         : null}

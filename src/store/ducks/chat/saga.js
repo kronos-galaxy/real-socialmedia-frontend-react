@@ -31,6 +31,7 @@ function* chatGetChatsRequestData(req, api) {
   yield put(entitiesActions.entitiesCommentsMerge({ data: normalized.entities.comments || {} }))
   yield put(entitiesActions.entitiesImagesMerge({ data: normalized.entities.images || {} }))
   yield put(entitiesActions.entitiesChatsMerge({ data: normalized.entities.chats || {} }))
+  yield put(entitiesActions.entitiesMessagesMerge({ data: normalized.entities.messages || {} }))
 
   return {
     data: normalized.result,
@@ -66,6 +67,7 @@ function* chatGetChatRequestData(req, api) {
   yield put(entitiesActions.entitiesCommentsMerge({ data: normalized.entities.comments || {} }))
   yield put(entitiesActions.entitiesImagesMerge({ data: normalized.entities.images || {} }))
   yield put(entitiesActions.entitiesChatsMerge({ data: normalized.entities.chats || {} }))
+  yield put(entitiesActions.entitiesMessagesMerge({ data: normalized.entities.messages || {} }))
 
   return {
     data: normalized.result,
@@ -101,6 +103,7 @@ function* chatCreateDirectRequestData(req, api) {
   yield put(entitiesActions.entitiesCommentsMerge({ data: normalized.entities.comments || {} }))
   yield put(entitiesActions.entitiesImagesMerge({ data: normalized.entities.images || {} }))
   yield put(entitiesActions.entitiesChatsMerge({ data: normalized.entities.chats || {} }))
+  yield put(entitiesActions.entitiesMessagesMerge({ data: normalized.entities.messages || {} }))
 
   return {
     data: normalized.result,

@@ -18,6 +18,27 @@ import FeedContextComponent from 'components/Feed/Context'
 import UIContextComponent from 'components/UI/Context'
 import ErrorTemplate from 'templates/Error'
 
+const linking = {
+  prefixes: ['real.app://', 'https://real.app/'],
+  config: {
+    AuthEmailConfirm: 'email/confirm/:userId/:confirmationCode',
+    AuthForgotConfirm: 'forgot/confirm/:userId/:confirmationCode',
+    Chat: {
+      screens: {
+        Chat: 'chat',
+        ChatDirect: 'chat/:chatId',
+      },
+    },
+    Root: {
+      screens: {
+        Profile: 'user/:userId',
+        PostMedia: 'user/:userId/post/:postId',
+        Comments: 'user/:userId/post/:postId/comments',
+      },
+    },
+  },
+}
+
 enableScreens()
 
 dayjs.extend(relativeTime)
@@ -36,21 +57,6 @@ const Routes = ({
   handleErrorClose,
 }) => {
   const { theme, themes } = useContext(ThemesContext)
-
-  const linking = {
-    prefixes: ['real.app://', 'https://real.app/'],
-    config: {
-      AuthEmailConfirm: 'email/confirm/:userId/:confirmationCode',
-      AuthForgotConfirm: 'forgot/confirm/:userId/:confirmationCode',
-      Chat: {
-        path: 'chat',
-        initialRouteName: 'Chat',
-        screens: {
-          Chat: 'chat',
-        },
-      },
-    },
-  }
 
   return (
     <NavigationContainer theme={theme} linking={linking}>

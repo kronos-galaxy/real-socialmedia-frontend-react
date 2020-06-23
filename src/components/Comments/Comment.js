@@ -31,7 +31,7 @@ const Comment = ({
 
   return (
     <View style={styling.root}>
-      <TouchableOpacity style={styling.image} onPress={navigationActions.navigateProfile(navigation, { user: comment.commentedBy })}>
+      <TouchableOpacity style={styling.image} onPress={navigationActions.navigateProfile(navigation, { userId: comment.commentedBy.userId })}>
         <Avatar
           active={path(['commentedBy', 'stories', 'items', 'length'])(comment) || false}
           thumbnailSource={{ uri: path(['commentedBy', 'photo', 'url64p'])(comment) }}
@@ -55,7 +55,7 @@ const Comment = ({
 
               if (tagged) {
                 return (
-                  <Text key={match + i} onPress={navigationActions.navigateProfile(navigation, { user: tagged.user })} style={styling.textUsername}>@{match}</Text>
+                  <Text key={match + i} onPress={navigationActions.navigateProfile(navigation, { userId: tagged.user.userId })} style={styling.textUsername}>@{match}</Text>
                 )
               }
               

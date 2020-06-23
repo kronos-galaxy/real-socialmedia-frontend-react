@@ -37,7 +37,9 @@ const PostMedia = ({
   viewabilityConfigRef,
 }) => {
   const styling = styles(theme)
-  
+
+  const data = postsSingleGet.data ? [postsSingleGet.data] : []
+
   return (
     <View style={styling.root}>
       <NativeError
@@ -53,7 +55,7 @@ const PostMedia = ({
         bounces={false}
         ref={feedRef}
         keyExtractor={item => item.postId}
-        data={[postsSingleGet.data]}
+        data={data}
         onViewableItemsChanged={onViewableItemsChangedRef.current}
         viewabilityConfig={viewabilityConfigRef.current}
         renderItem={({ item: post, index }) => (

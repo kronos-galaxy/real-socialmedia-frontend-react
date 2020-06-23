@@ -7,3 +7,4 @@ export const entitiesCommentsMerge = createAction(constants.ENTITIES_COMMENTS_ME
 export const entitiesUsersMerge = createAction(constants.ENTITIES_USERS_MERGE)
 export const entitiesImagesMerge = createAction(constants.ENTITIES_IMAGES_MERGE)
 export const entitiesChatsMerge = createAction(constants.ENTITIES_CHATS_MERGE)
+export const entitiesMessagesMerge = createAction(constants.ENTITIES_MESSAGES_MERGE)

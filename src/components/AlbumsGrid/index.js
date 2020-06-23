@@ -11,19 +11,16 @@ import path from 'ramda/src/path'
 import * as navigationActions from 'navigation/actions'
 
 import { withTheme } from 'react-native-paper'
-import { useNavigation, useRoute } from '@react-navigation/native'
+import { useNavigation } from '@react-navigation/native'
 import { withTranslation } from 'react-i18next'
 
 const AlbumsGrid = ({
   t,
   theme,
   albumsGet,
-  themeFetch,
-  themeCode,
 }) => {
   const styling = styles(theme)
   const navigation = useNavigation()
-  const route = useRoute()
 
   return (
     <View style={styling.root}>
@@ -63,11 +60,9 @@ AlbumsGrid.defaultProps = {
 }
 
 AlbumsGrid.propTypes = {
+  t: PropTypes.any,
   theme: PropTypes.any,
   albumsGet: PropTypes.any,
-  t: PropTypes.any,
-  themeFetch: PropTypes.any,
-  themeCode: PropTypes.any,
 }
 
 export default withTranslation()(withTheme(AlbumsGrid))

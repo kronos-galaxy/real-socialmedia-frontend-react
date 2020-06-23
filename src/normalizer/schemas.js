@@ -179,7 +179,7 @@ const messageSchema = new schema.Entity(
 	/**
 	 * Key
 	 */
-	'chats',
+	'messages',
 	/**
 	 * Definition
 	 */

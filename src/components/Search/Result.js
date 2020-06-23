@@ -40,7 +40,7 @@ const Result = ({
           <RowsItemComponent>
             <UserRowComponent
               avatar={
-                <TouchableOpacity onPress={navigationActions.navigateProfile(navigation, { user })}>
+                <TouchableOpacity onPress={navigationActions.navigateProfile(navigation, { userId: user.userId })}>
                   <Avatar
                     key={path(['photo', 'url64p'])(user)}
                     active={path(['stories', 'items', 'length'])(user) || false}
@@ -51,7 +51,7 @@ const Result = ({
                 </TouchableOpacity>
               }
               content={
-                <TouchableOpacity onPress={navigationActions.navigateProfile(navigation, { user })} style={styling.user}>
+                <TouchableOpacity onPress={navigationActions.navigateProfile(navigation, { userId: user.userId })} style={styling.user}>
                   <Text style={styling.username}>{path(['username'])(user)}</Text>
                   <Text style={styling.fullname}>{path(['fullName'])(user)}</Text>
                 </TouchableOpacity>

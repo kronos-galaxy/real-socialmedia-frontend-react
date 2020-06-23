@@ -28,13 +28,13 @@ const Description = ({
   }
   
   return (
-    <TouchableOpacity style={styling.root} onPress={navigationActions.navigateComments(navigation, { post })}>
+    <TouchableOpacity style={styling.root} onPress={navigationActions.navigateComments(navigation, { postId: post.postId, userId: post.postedBy.userId })}>
       <Text style={styling.text} numberOfLines={4} ellipsizeMode="tail">
         {[
           /**
            * Username of post owner
            */
-          <Text key="username" onPress={navigationActions.navigateProfile(navigation, { user: post.postedBy })} style={styling.username}>{post.postedBy.username} </Text>,
+          <Text key="username" onPress={navigationActions.navigateProfile(navigation, { userId: post.postedBy.userId })} style={styling.username}>{post.postedBy.username} </Text>,
 
           /**
            * Tagged @username occurrences with attached user object
@@ -45,7 +45,7 @@ const Description = ({
 
             if (tagged) {
               return (
-                <Text key={match + i} onPress={navigationActions.navigateProfile(navigation, { user: tagged.user })} style={styling.textUsername}>@{match}</Text>
+                <Text key={match + i} onPress={navigationActions.navigateProfile(navigation, { userId: tagged.user.userId })} style={styling.textUsername}>@{match}</Text>
               )
             }
             

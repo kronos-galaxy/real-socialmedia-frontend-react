@@ -25,17 +25,17 @@ const Comments = ({
   commentsDeleteRequest,
   postsCommentsGet,
   marginBottom,
-  post,
+  postsSingleGet,
   onViewableItemsChangedRef,
   viewabilityConfigRef,
 }) => {
   const styling = styles(theme)
   
-  const pseudoCommentVisibility = path(['text', 'length'])(post)
+  const pseudoCommentVisibility = path(['text', 'length'])(postsSingleGet.data)
   const pseudoComment = {
-    ...post,
-    commentedBy: path(['postedBy'])(post),
-    commentedAt: path(['postedAt'])(post),
+    ...postsSingleGet.data,
+    commentedBy: path(['postedBy'])(postsSingleGet.data),
+    commentedAt: path(['postedAt'])(postsSingleGet.data),
   }
 
   return (
@@ -63,7 +63,7 @@ const Comments = ({
               comment={comment}
               commentsDeleteRequest={() => commentsDeleteRequest({ commentId: comment.commentId })}
               deletable={(
-                path(['postedBy', 'userId'])(post) === user.userId ||
+                path(['postedBy', 'userId'])(postsSingleGet.data) === user.userId ||
                 path(['commentedBy', 'userId'])(comment) === user.userId
               )}
             />
@@ -110,7 +110,7 @@ Comments.propTypes = {
   commentsDeleteRequest: PropTypes.any,
   postsCommentsGet: PropTypes.any,
   marginBottom: PropTypes.any,
-  post: PropTypes.any,
+  postsSingleGet: PropTypes.any,
   onViewableItemsChangedRef: PropTypes.any,
   viewabilityConfigRef: PropTypes.any,
 }

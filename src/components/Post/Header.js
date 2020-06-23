@@ -66,7 +66,7 @@ const Header = ({
         usersGetFollowedUsersWithStories: { data: [post.postedBy] },
       })()
     } else {
-      navigationActions.navigateProfile(navigation, { user: post.postedBy })()
+      navigationActions.navigateProfile(navigation, { userId: post.postedBy.userId })()
     }
   }
 
@@ -82,12 +82,12 @@ const Header = ({
       </TouchableOpacity>
 
       <View style={styling.headerText}>
-        <TouchableOpacity onPress={navigationActions.navigateProfile(navigation, { user: post.postedBy })}>
+        <TouchableOpacity onPress={navigationActions.navigateProfile(navigation, { userId: post.postedBy.userId })}>
           <Text style={styling.headerUsername}>{path(['postedBy', 'username'])(post)}</Text>
         </TouchableOpacity>
 
         {repostVisiblity ?
-          <TouchableOpacity style={styling.verification} onPress={navigationActions.navigateProfile(navigation, { user: post.originalPost.postedBy })}>
+          <TouchableOpacity style={styling.verification} onPress={navigationActions.navigateProfile(navigation, { userId: post.originalPost.postedBy.userId })}>
             <Caption style={styling.headerStatus}>{t('Reposted from {{ username }}', { username: repostedUsername })}</Caption>
           </TouchableOpacity>
         : null}
@@ -107,7 +107,7 @@ const Header = ({
       </View>
 
       {path(['hasNewCommentActivity'])(post) ?
-        <TouchableOpacity style={styling.headerAction} onPress={navigationActions.navigateComments(navigation, { post })}>
+        <TouchableOpacity style={styling.headerAction} onPress={navigationActions.navigateComments(navigation, { postId: post.postId, userId: post.postedBy.userId })}>
           <BellIcon fill="red" />
         </TouchableOpacity>
       : null}

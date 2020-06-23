@@ -2,7 +2,6 @@ import { useEffect, useRef } from 'react'
 import { InteractionManager } from 'react-native'
 import { useSelector, useDispatch } from 'react-redux'
 import * as postsActions from 'store/ducks/posts/actions'
-import * as postsServices from 'store/ducks/posts/services'
 import * as postsSelector from 'store/ducks/posts/selectors'
 import { useNavigation, useScrollToTop, useRoute } from '@react-navigation/native'
 import path from 'ramda/src/path'
@@ -12,8 +11,8 @@ const PostMediaService = ({ children }) => {
   const dispatch = useDispatch()
   const navigation = useNavigation()
   const route = useRoute()
-  const postId = path(['params', 'post', 'postId'])(route)
-  const postUserId = path(['params', 'post', 'postedBy', 'userId'])(route)
+  const postId = route.params.postId
+  const postUserId = route.params.userId
   const postsSingleGet = useSelector(postsSelector.postsSingleGetSelector(postId))
   const postsDelete = useSelector(state => state.posts.postsDelete)
   const postsGetTrendingPosts = useSelector(postsSelector.postsGetTrendingPostsSelector())
@@ -97,7 +96,6 @@ const PostMediaService = ({ children }) => {
     handleScrollPrev,
     handleScrollNext,
     
-    feedRef,
     actionSheetRefs,
     textPostRefs,
     onViewableItemsChangedRef,

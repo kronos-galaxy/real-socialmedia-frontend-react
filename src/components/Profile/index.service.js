@@ -10,8 +10,7 @@ const ProfileService = ({ children }) => {
   const navigation = useNavigation()
   const route = useRoute()
 
-  const user = path(['params', 'user'])(route)
-  const userId = user.userId
+  const { userId } = route.params
 
   const usersGetProfile = useSelector(usersSelector.usersGetProfileSelector(userId))
   const usersBlock = useSelector(state => state.users.usersBlock)
@@ -59,7 +58,6 @@ const ProfileService = ({ children }) => {
 
   return children({
     profileRef,
-    user,
     usersGetProfile,
     usersGetProfileRequest,
     usersUnblock,
