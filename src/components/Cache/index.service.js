@@ -66,7 +66,7 @@ const CacheService = ({
    */
   const handleError = useCallback(() => {
     dispatch(actions.cacheFetchFailure({ signature }))
-    request.retry()
+    !request.loading && request.retry()
   }, [signature.partial])
 
   return children({

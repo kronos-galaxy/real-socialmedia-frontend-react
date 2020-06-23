@@ -27,12 +27,12 @@ export const fetchRemoteImage = async ({
   const { promise, jobId } = RNFS.downloadFile({
     fromUrl: signature.source,
     toFile: signature.path,
-    background: true,
+    background: false,
     discretionary: true,
     cacheable: false,
-    readTimeout: 10000,
+    readTimeout: 30000,
     backgroundTimeout: 30000,
-    progressDivider: 10,
+    progressDivider: 20,
     resumable: () =>
       RNFS.isResumable(jobId).then(() => RNFS.resumeDownload(jobId)),
     begin: requestCallback,
@@ -41,7 +41,7 @@ export const fetchRemoteImage = async ({
 
   try {
     const response = await promise
-    await RNFS.completeHandlerIOS(jobId)
+    // await RNFS.completeHandlerIOS(jobId)
 
     if (response.statusCode !== 200) {
       throw new Error(`http error ${response.statusCode}`)
