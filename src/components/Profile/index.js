@@ -51,12 +51,6 @@ const Profile = ({
   const navigation = useNavigation()
   const route = useRoute()
 
-  const [index, setIndex] = React.useState(0)
-  const [routes] = React.useState([
-    { key: 'feed', title: 'Feed' },
-    { key: 'albums', title: 'Albums' },
-  ])
-
   const handleUserStoryPress = () => {
     if (!pathOr(0, ['data', 'stories', 'items', 'length'], usersGetProfile)) {
       return
@@ -134,11 +128,7 @@ const Profile = ({
         />
       </View>
 
-      <ProfileTabViewComponent
-        index={index}
-        setIndex={setIndex}
-        routes={routes}
-      />
+      <ProfileTabViewComponent />
 
       {scroll.loadingmore ?
         <View style={styling.activity}>

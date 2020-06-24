@@ -49,7 +49,7 @@ const SearchComponent = ({
   const scroll = ScrollService({
     resource: postsGetTrendingPosts,
     loadInit: postsGetTrendingPostsRequest,
-    loadMore: postsGetTrendingPostsMoreRequest
+    loadMore: postsGetTrendingPostsMoreRequest,
   })
 
   return (

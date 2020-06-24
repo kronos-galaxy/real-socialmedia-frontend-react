@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useCallback } from 'react'
 import PropTypes from 'prop-types'
 import {
   StyleSheet,
@@ -14,40 +14,43 @@ import { withTheme } from 'react-native-paper'
 import { useNavigation, useRoute } from '@react-navigation/native'
 import { withTranslation } from 'react-i18next'
 
+const renderScene = SceneMap({
+  feed: FeedComponent,
+  albums: AlbumsComponent,
+})
+
 const ProfileTabView = ({
   t,
   theme,
   index,
   setIndex,
   routes,
+  styling,
 }) => {
-  const renderScene = SceneMap({
-    feed: FeedComponent,
-    albums: AlbumsComponent,
-  })
+  const renderLabel = useCallback(({ route }) => (
+    <Text style={styling.label}>
+      {route.title}
+    </Text>
+  ), [])
 
-  const renderTabBar = props => (
+  const renderTabBar = useCallback(props => (
     <TabBar
       {...props}
       activeColor={theme.colors.primary}
       inactiveColor={theme.colors.text}
-      indicatorStyle={{ backgroundColor: theme.colors.primary }}
-      style={{ backgroundColor: 'transparent' }}
-      renderLabel={({ route, focused, color }) => (
-        <Text style={{ color, fontSize: 14, fontWeight: '600', margin: 8 }}>
-          {route.title}
-        </Text>
-      )}
+      indicatorStyle={styling.indicator}
+      style={styling.tabbar}
+      renderLabel={renderLabel}
     />
-  )
+  ), [])
 
   return (
     <TabView
       navigationState={{ index, routes }}
       renderScene={renderScene}
       onIndexChange={setIndex}
-      initialLayout={{ width: Dimensions.get('window').width }}
-      indicatorStyle={{ backgroundColor: 'transparent' }}
+      initialLayout={styling.initial}
+      indicatorStyle={styling.tabbar}
       renderTabBar={renderTabBar}
     />
   )
@@ -56,11 +59,14 @@ const ProfileTabView = ({
 const Profile = ({
   t,
   theme,
-  index,
-  setIndex,
-  routes,
 }) => {
   const styling = styles(theme)
+
+  const [index, setIndex] = React.useState(0)
+  const [routes] = React.useState([
+    { key: 'feed', title: 'Feed' },
+    { key: 'albums', title: 'Albums' },
+  ])
   
   return (
     <View style={styling.root}>
@@ -69,6 +75,7 @@ const Profile = ({
         index={index}
         setIndex={setIndex}
         routes={routes}
+        styling={styling}
       />
     </View>
   )
@@ -79,25 +86,38 @@ const styles = theme => StyleSheet.create({
     flex: 1,
     backgroundColor: theme.colors.backgroundPrimary,
   },
+  tabbar: {
+    backgroundColor: 'transparent',
+  },
+  indicator: {
+    backgroundColor: theme.colors.primary,
+  },
+  label: {
+    color: theme.colors.text,
+    fontSize: 14,
+    fontWeight: '600',
+    margin: 8,
+  },
+  initial: {
+    width: Dimensions.get('window').width,
+  },
 })
 
 Profile.propTypes = {
-  theme: PropTypes.any,
-  usersGetProfile: PropTypes.any,
-  user: PropTypes.any,
-  usersBlock: PropTypes.any,
-  usersBlockRequest: PropTypes.any,
-  usersUnblock: PropTypes.any,
-  usersUnblockRequest: PropTypes.any,
-  usersFollow: PropTypes.any,
-  usersFollowRequest: PropTypes.any,
-  usersUnfollow: PropTypes.any,
-  usersUnfollowRequest: PropTypes.any,
-  postsGet: PropTypes.any,
   t: PropTypes.any,
+  theme: PropTypes.any,
   index: PropTypes.any,
   setIndex: PropTypes.any,
   routes: PropTypes.any,
+}
+
+ProfileTabView.propTypes = {
+  t: PropTypes.any,
+  theme: PropTypes.any,
+  index: PropTypes.any,
+  setIndex: PropTypes.any,
+  routes: PropTypes.any,
+  styling: PropTypes.any,
 }
 
 export default withTranslation()(withTheme(Profile))
