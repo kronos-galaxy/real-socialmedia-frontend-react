@@ -758,6 +758,11 @@ export default handleActions({
   [constants.USERS_SEARCH_FAILURE]: usersSearchFailure,
   [constants.USERS_SEARCH_IDLE]: usersSearchIdle,
 
+  [constants.USERS_GET_TRENDING_USERS_REQUEST]: usersGetTrendingUsersRequest,
+  [constants.USERS_GET_TRENDING_USERS_SUCCESS]: usersGetTrendingUsersSuccess,
+  [constants.USERS_GET_TRENDING_USERS_FAILURE]: usersGetTrendingUsersFailure,
+  [constants.USERS_GET_TRENDING_USERS_IDLE]: usersGetTrendingUsersIdle,
+
   [constants.USERS_DELETE_REQUEST]: usersDeleteRequest,
   [constants.USERS_DELETE_SUCCESS]: usersDeleteSuccess,
   [constants.USERS_DELETE_FAILURE]: usersDeleteFailure,
