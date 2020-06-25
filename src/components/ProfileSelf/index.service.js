@@ -16,9 +16,11 @@ const ProfileSelfService = ({ children }) => {
   const profileRef = useRef(null)
   useScrollToTop(profileRef)
 
-  navigation.setOptions({
-    title: path(['data', 'username'])(usersGetProfile),
-  })
+  useEffect(() => {
+    navigation.setOptions({
+      title: path(['data', 'username'])(usersGetProfile),
+    })
+  }, [])
 
   const usersGetProfileSelfRequest = ({ userId }) => 
     dispatch(usersActions.usersGetProfileSelfRequest({ userId }))

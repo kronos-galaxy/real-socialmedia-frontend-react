@@ -1,5 +1,6 @@
 import * as Sentry from '@sentry/react-native'
 import Config from 'react-native-config'
+import pick from 'ramda/src/pick'
 
 /**
  * By including and configuring Sentry, the SDK will automatically attach global handlers
@@ -34,7 +35,8 @@ export const captureMessage = (error) => {
  * Attach user to error log
  */
 export const setUser = (payload) => {
-  Sentry.setUser(payload)
+  const user = pick(['id', 'username', 'email'], payload)
+  Sentry.setUser(user)
 }
 
 export const withScope = Sentry.withScope

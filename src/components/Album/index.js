@@ -1,4 +1,4 @@
-import React, { useRef } from 'react'
+import React, { useRef, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import {
   StyleSheet,
@@ -11,7 +11,7 @@ import ModalProfileComponent from 'templates/ModalProfile'
 import path from 'ramda/src/path'
 import * as navigationActions from 'navigation/actions'
 import ActionSheet from 'react-native-actionsheet'
-import HeaderRight from 'navigation/HeaderRight'
+import { useHeader } from 'components/Album/header'
 
 import { withTheme } from 'react-native-paper'
 import { useNavigation, useRoute } from '@react-navigation/native'
@@ -30,19 +30,12 @@ const Album = ({
   const album = path(['params', 'album'])(route)
   const actionSheetRef = useRef(null)
 
-  navigation.setOptions({
-    title: path(['name'])(album),
+  useHeader({
+    user,
+    album,
+    title: 'Edit',
+    onPress: () => actionSheetRef.current && actionSheetRef.current.show(),
   })
-
-  if (path(['ownedBy', 'userId'])(album) === user.userId) {
-    navigation.setOptions({
-      headerRight: () => <HeaderRight onPress={() => actionSheetRef.current && actionSheetRef.current.show()} title="Edit" />,
-    })
-  } else {
-    navigation.setOptions({
-      headerRight: () => null,
-    })
-  }
 
   return (
     <View style={styling.root}>

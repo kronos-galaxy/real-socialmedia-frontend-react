@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import PropTypes from 'prop-types'
 import {
   View,
@@ -23,9 +23,11 @@ const AuthPhoto = ({
   const styling = styles(theme)
   const navigation = useNavigation()
 
-  navigation.setOptions({
-    headerRight: () => <HeaderRight onPress={skipPhotoUpload} title="Skip" style={{ color: '#ffffff' }} />,
-  })
+  useEffect(() => {
+    navigation.setOptions({
+      headerRight: () => <HeaderRight onPress={skipPhotoUpload} title="Skip" style={{ color: '#ffffff' }} />,
+    })
+  }, [])
 
   return (
     <View testID="components/AuthPhoto" style={styling.root}>

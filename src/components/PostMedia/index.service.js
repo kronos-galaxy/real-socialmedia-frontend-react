@@ -17,9 +17,11 @@ const PostMediaService = ({ children }) => {
   const postsDelete = useSelector(state => state.posts.postsDelete)
   const postsGetTrendingPosts = useSelector(postsSelector.postsGetTrendingPostsSelector())
 
-  navigation.setOptions({
-    title: path(['params', 'post', 'postedBy', 'username'])(route),
-  })
+  useEffect(() => {
+    navigation.setOptions({
+      title: path(['data', 'postedBy', 'username'])(postsSingleGet),
+    })
+  }, [path(['data', 'postedBy', 'username'])(postsSingleGet)])
 
   const postsSingleGetRequest = ({ postId }) =>
     dispatch(postsActions.postsSingleGetRequest({ postId, userId: postUserId }))

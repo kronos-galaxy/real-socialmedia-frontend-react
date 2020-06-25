@@ -11,7 +11,7 @@ import GridItemComponent from 'templates/GridItem'
 import CacheComponent from 'components/Cache'
 import CheckedIcon from 'assets/svg/other/Checked'
 import UncheckedIcon from 'assets/svg/other/Unchecked'
-import HeaderRight from 'navigation/HeaderRight'
+import { useHeader } from 'components/ProfilePhotoGrid/header'
 
 import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
@@ -26,12 +26,11 @@ const ProfilePhotoGrid = ({
   usersEditProfileRequest,
 }) => {
   const styling = styles(theme)
-  const navigation = useNavigation()
 
-  useEffect(() => {
-    navigation.setOptions({
-      headerRight: () => <HeaderRight onPress={usersEditProfileRequest} title="Update" hidden={!selectedPost.postId} />,
-    })
+  useHeader({
+    title: 'Update',
+    onPress: usersEditProfileRequest,
+    hidden: !selectedPost.postId,
   }, [selectedPost.postId])
 
   return (

@@ -20,9 +20,11 @@ const ProfileService = ({ children }) => {
 
   const profileRef = useRef(null)
 
-  navigation.setOptions({
-    title: path(['data', 'username'])(usersGetProfile),
-  })
+  useEffect(() => {
+    navigation.setOptions({
+      title: path(['data', 'username'])(usersGetProfile),
+    })
+  }, [path(['data', 'username'])(usersGetProfile)])
 
   const usersGetProfileRequest = ({ userId }) => 
     dispatch(usersActions.usersGetProfileRequest({ userId }))

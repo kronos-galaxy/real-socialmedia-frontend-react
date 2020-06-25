@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import PropTypes from 'prop-types'
 import {
   StyleSheet,
@@ -8,7 +8,7 @@ import TextField from 'components/Formik/TextField'
 import DefaultButton from 'components/Formik/Button/DefaultButton'
 import { Formik, Field } from 'formik'
 import * as Yup from 'yup'
-import HeaderRight from 'navigation/HeaderRight'
+import { useHeader } from 'components/ProfileEdit/header'
 
 import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
@@ -38,10 +38,11 @@ const ProfileEditForm = ({
   const styling = styles(theme)
   const navigation = useNavigation()
 
-  navigation.setOptions({
-    headerRight: () => <HeaderRight onPress={handleSubmit} title="Update" />,
+  useHeader({
+    onPress: handleSubmit,
+    title: 'Update',
   })
-
+  
   return (
     <View style={styling.root}>
       <View style={styling.input}>

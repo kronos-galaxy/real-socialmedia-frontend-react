@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import PropTypes from 'prop-types'
 import {
   View,
@@ -16,7 +16,7 @@ import RowsItemComponent from 'templates/RowsItem'
 import UserRowComponent from 'templates/UserRow'
 import CollapsableComponent from 'templates/Collapsable'
 import { Text, Caption, Switch } from 'react-native-paper'
-import HeaderRight from 'navigation/HeaderRight'
+import { useHeader } from 'components/PostCreate/header'
 
 import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
@@ -49,8 +49,9 @@ const PostCreateForm = ({
     url1080p: values.images[0],
   }
 
-  navigation.setOptions({
-    headerRight: () => <HeaderRight onPress={handleSubmit} title="Post" />,
+  useHeader({
+    title: 'Post',
+    onPress: handleSubmit,
   })
 
   return (

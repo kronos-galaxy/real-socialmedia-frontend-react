@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import PropTypes from 'prop-types'
 import {
   StyleSheet,
@@ -8,7 +8,7 @@ import {
 import AlbumsGridComponent from 'components/AlbumsGrid'
 import * as navigationActions from 'navigation/actions'
 import path from 'ramda/src/path'
-import HeaderRight from 'navigation/HeaderRight'
+import { useHeader } from 'components/Albums/header'
 
 import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
@@ -24,8 +24,9 @@ const Albums = ({
   const styling = styles(theme)
   const navigation = useNavigation()
 
-  navigation.setOptions({
-    headerRight: () => <HeaderRight onPress={navigationActions.navigateAlbumCreate(navigation)} title="Create" />,
+  useHeader({
+    title: 'Create',
+    onPress: navigationActions.navigateAlbumCreate(navigation),
   })
 
   return (

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import PropTypes from 'prop-types'
 import {
   StyleSheet,
@@ -7,7 +7,7 @@ import {
 import TextField from 'components/Formik/TextField'
 import { Formik, Field } from 'formik'
 import * as Yup from 'yup'
-import HeaderRight from 'navigation/HeaderRight'
+import { useHeader } from 'components/AlbumEdit/header'
 
 import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
@@ -26,8 +26,9 @@ const AlbumEditForm = ({
   const styling = styles(theme)
   const navigation = useNavigation()
 
-  navigation.setOptions({
-    headerRight: () => <HeaderRight onPress={handleSubmit} title="Save" />,
+  useHeader({
+    title: 'Save',
+    onPress: handleSubmit,
   })
 
   return (

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import PropTypes from 'prop-types'
 import {
   View,
@@ -17,7 +17,7 @@ import UserRowComponent from 'templates/UserRow'
 import CollapsableComponent from 'templates/Collapsable'
 import { Text, Caption, Switch } from 'react-native-paper'
 import dayjs from 'dayjs'
-import HeaderRight from 'navigation/HeaderRight'
+import { useHeader } from 'components/PostEdit/header'
 
 import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
@@ -63,8 +63,9 @@ const PostEditForm = ({
     url1080p: values.uri,
   }
 
-  navigation.setOptions({
-    headerRight: () => <HeaderRight onPress={handleSubmit} title="Update" />,
+  useHeader({
+    title: 'Save',
+    onPress: handleSubmit,
   })
 
   return (
