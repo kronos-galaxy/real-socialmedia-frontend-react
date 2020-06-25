@@ -64,8 +64,9 @@ const Profile = ({
 
   const scroll = ScrollService({
     resource: postsGet,
-    loadInit: () => postsGetRequest({ userId: path(['data', 'userId'])(usersGetProfile) }),
-    loadMore: (payload) => postsGetMoreRequest({ ...payload, userId: path(['data', 'userId'])(usersGetProfile) }),
+    loadInit: postsGetRequest,
+    loadMore: postsGetMoreRequest,
+    extra: { userId: path(['data', 'userId'])(usersGetProfile) },
   })
 
   return (

@@ -10,9 +10,10 @@ import {
 import ResultComponent from 'components/Search/Result'
 import ScrollService from 'services/Scroll'
 import { Caption } from 'react-native-paper'
+import path from 'ramda/src/path'
 
 import { withTheme } from 'react-native-paper'
-import { useNavigation } from '@react-navigation/native'
+import { useNavigation, useRoute } from '@react-navigation/native'
 import { withTranslation } from 'react-i18next'
 
 const PostViews = ({
@@ -29,11 +30,14 @@ const PostViews = ({
   usersAcceptFollowerUserRequest,
 }) => {
   const styling = styles(theme)
+  const route = useRoute()
+  const postId = route.params.post.postId
 
   const scroll = ScrollService({
     resource: postsViewsGet,
     loadInit: postsViewsGetRequest,
-    loadMore: postsViewsGetMoreRequest
+    loadMore: postsViewsGetMoreRequest,
+    extra: { postId },
   })
   
   return (
@@ -48,6 +52,8 @@ const PostViews = ({
             refreshing={scroll.refreshing}
           />
         }
+        onScroll={scroll.handleScrollChange}
+        scrollEventThrottle={400}
       >
         <ResultComponent
           usersSearch={postsViewsGet}

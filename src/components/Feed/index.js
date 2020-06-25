@@ -52,9 +52,7 @@ const Feed = ({
   
   const scroll = ScrollService({
     resource: postsFeedGet,
-    loadInit: () => (
-      postsFeedGetRequest()
-    ),
+    loadInit: postsFeedGetRequest,
     loadMore: postsFeedGetMoreRequest,
     multiplier: 3,
   })

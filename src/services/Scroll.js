@@ -1,3 +1,4 @@
+import { memo } from 'react'
 import path from 'ramda/src/path'
 import Layout from 'constants/Layout'
 
@@ -37,13 +38,14 @@ const ScrollHelper = ({
   resource,
   loadInit,
   loadMore,
+  extra = {},
   multiplier = 3,
 }) => {
   /**
    *
    */
   const handleLoadMore = () =>
-    getLoadMoreCondition(resource) && loadMore({ nextToken: path(['meta', 'nextToken'])(resource) })
+    getLoadMoreCondition(resource) && loadMore({ nextToken: path(['meta', 'nextToken'])(resource), ...extra })
 
   /**
    *
@@ -55,7 +57,7 @@ const ScrollHelper = ({
    *
    */
   const handleRefresh = () =>
-    loadInit({})
+    loadInit(extra)
 
   /**
    *
