@@ -610,8 +610,8 @@ function* handlePostsGetTrendingPostsRequest(payload, extraData = []) {
   const data = [...extraData, ...dataSelector(api)]
   const meta = metaSelector(api)
 
-  if (data.length < 20 && meta.nextToken) {
-    return yield handlePostsGetTrendingPostsRequest(meta, data)
+  if (data.length < 60 && meta.nextToken) {
+    return yield handlePostsGetTrendingPostsRequest({ ...payload, ...meta }, data)
   }
 
   return assocPath(['data', 'trendingPosts', 'items'], data)(api)

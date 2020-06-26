@@ -50,6 +50,7 @@ const SearchComponent = ({
     resource: postsGetTrendingPosts,
     loadInit: postsGetTrendingPostsRequest,
     loadMore: postsGetTrendingPostsMoreRequest,
+    extra: { limit: path(['payload', 'limit'])(postsGetTrendingPosts) },
   })
 
   return (
