@@ -3,6 +3,13 @@ import { useSelector, useDispatch } from 'react-redux'
 import * as navigationActions from 'navigation/actions'
 import { useNavigation } from '@react-navigation/native'
 import * as usersActions from 'store/ducks/users/actions'
+import urlPattern from 'url-pattern'
+
+const options = { segmentValueCharset: '/:a-zA-Z0-9_-' }
+const matchComment = new urlPattern(
+  '*/user/:userId/post/:postId/comments',
+  options
+)
 
 const FeedCardsService = ({ children }) => {
   const dispatch = useDispatch()
@@ -13,17 +20,17 @@ const FeedCardsService = ({ children }) => {
     dispatch(usersActions.usersDeleteCardRequest(payload))
 
   const handleCardPress = ({ action, cardId }) => {
-    navigationActions.navigateChat(navigation)()
     dispatch(usersActions.usersDeleteCardRequest({ cardId }))
+    
+    const matchedComment = matchComment.match(action)
 
-    // if (action === 'https://real.app/chat/') {
-    //   navigationActions.navigateChat(navigation)()
-    // } if (action.includes('https://real.app/chat/post/')) {
-    //   const post = { postId: action.split('https://real.app/chat/post/')[1] }
-    //   navigationActions.navigatePostMedia(navigation,{ postId: post.postId, userId: post.postedBy.userId })()
-    // } else {
-    //   Linking.openURL(action)
-    // }
+    if (action === 'https://real.app/chat/') {
+      navigationActions.navigateChat(navigation)()
+    } else if (matchedComment) {
+      navigationActions.navigateComments(navigation, matchedComment)()
+    } else {
+      Linking.openURL(action)
+    }
   }
  
   return children({
