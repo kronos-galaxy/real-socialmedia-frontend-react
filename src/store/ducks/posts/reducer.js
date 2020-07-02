@@ -189,7 +189,7 @@ const postsGetRequest = (state, action) => update(state, {
   postsGetCache: {
     $resourceCacheSetRequest: {
       ...action,
-      resourceKey: action.payload.postId,
+      resourceKey: action.payload.userId,
       initialState: initialState.postsGet,
     },
   },

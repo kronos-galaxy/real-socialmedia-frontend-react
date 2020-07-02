@@ -728,7 +728,7 @@
 				CODE_SIGN_ENTITLEMENTS = REAL/REAL.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 337;
+				CURRENT_PROJECT_VERSION = 340;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = YA5Y244F5C;
 				INFOPLIST_FILE = REAL/Info.plist;
@@ -824,7 +824,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = app.real.mobile.development;
+				PRODUCT_BUNDLE_IDENTIFIER = app.real.mobile;
 				PRODUCT_NAME = REAL;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "REAL-Bridging-Header.h";
@@ -844,7 +844,7 @@
 				CODE_SIGN_ENTITLEMENTS = REAL/REAL.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 337;
+				CURRENT_PROJECT_VERSION = 340;
 				DEVELOPMENT_TEAM = YA5Y244F5C;
 				INFOPLIST_FILE = REAL/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
@@ -938,7 +938,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = app.real.mobile.development;
+				PRODUCT_BUNDLE_IDENTIFIER = app.real.mobile;
 				PRODUCT_NAME = REAL;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "REAL-Bridging-Header.h";
