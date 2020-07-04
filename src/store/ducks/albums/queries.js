@@ -2,6 +2,8 @@ import {
   albumFragment,
 } from 'store/fragments'
 
+import * as grid from 'store/ducks/albums/queries/grid'
+
 export const addAlbum = `
   mutation addAlbum(
     $albumId: ID!,
@@ -22,13 +24,13 @@ export const getAlbums = `
     user(userId: $userId) {
       albums(limit: 10) {
         items {
-          ...albumFragment
+          ...gridAlbumFragment
         }
         nextToken
       }
     }
   }
-  ${albumFragment}
+  ${grid.gridAlbumFragment}
 `
 
 export const editAlbum = `

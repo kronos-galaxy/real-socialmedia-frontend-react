@@ -4,18 +4,21 @@ import {
   commentFragment,
 } from 'store/fragments'
 
+import * as feed from 'store/ducks/posts/queries/feed'
+import * as grid from 'store/ducks/posts/queries/grid'
+
 export const getPosts = `
   query GetPosts($userId: ID!, $postStatus: PostStatus, $nextToken: String = null) {
     user(userId: $userId) {
       posts(postStatus: $postStatus, nextToken: $nextToken) {
         items {
-          ...postFragment
+          ...gridPostFragment
         }
         nextToken
       }
     }
   }
-  ${postFragment}
+  ${grid.gridPostFragment}
 `
 
 export const getPostsUnreadComments = `
@@ -46,13 +49,13 @@ export const getFeed = `
     self {
       feed(limit: $limit, nextToken: $nextToken) {
         items {
-          ...postFragment
+          ...feedPostFragment
         }
         nextToken
       }
     }
   }
-  ${postFragment}
+  ${feed.feedPostFragment}
 `
 
 export const addTextOnlyPost = `
@@ -243,12 +246,12 @@ export const trendingPosts = `
   query trendingPosts($viewedStatus: ViewedStatus, $limit: Int, $nextToken: String = null) {
     trendingPosts(limit: $limit, nextToken: $nextToken) {
       items(viewedStatus: $viewedStatus) {
-        ...postFragment
+        ...gridPostFragment
       }
       nextToken
     }
   }
-  ${postFragment}
+  ${grid.gridPostFragment}
 `
 
 export const viewedBy = `
