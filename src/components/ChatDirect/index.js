@@ -7,7 +7,8 @@ import {
 import { GiftedChat } from 'react-native-gifted-chat'
 import pathOr from 'ramda/src/pathOr'
 import FormComponent from 'components/ChatDirect/Form'
-import DefaultButton from 'components/Formik/Button/DefaultButton'
+import { useHeader } from 'components/ChatDirect/header'
+import * as navigationActions from 'navigation/actions'
 
 import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
@@ -26,6 +27,7 @@ const ChatDirect = ({
   chatId,
 }) => {
   const styling = styles(theme)
+  const navigation = useNavigation()
 
   const messagesAdapter = pathOr([], ['data', 'messages', 'items'])(chatGetChat)
     .map(message => ({
@@ -43,6 +45,11 @@ const ChatDirect = ({
     _id: user.userId,
   }
 
+  useHeader({
+    user,
+    chatGetChat,
+  })
+
   return (
     <View style={styling.root}>
       <GiftedChat
@@ -51,6 +58,8 @@ const ChatDirect = ({
         user={userAdapter}
         renderInputToolbar={() => null}
         minInputToolbarHeight={0}
+        onPressAvatar={({ _id }) => navigationActions.navigateProfile(navigation, { userId: _id })()}
+        isKeyboardInternallyHandled={false}
       />
       
       {chatId ?
