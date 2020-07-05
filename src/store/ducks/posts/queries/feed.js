@@ -70,6 +70,7 @@ export const feedPostFragment = `
 
   fragment originalPostFragment on Post {
     postId
+    isVerified
     postedBy {
       ...originalPostUserFragment
     }
@@ -77,6 +78,7 @@ export const feedPostFragment = `
 
   fragment postAlbumFragment on Post {
     postId
+    isVerified
     image {
       ...imageFragment
     }

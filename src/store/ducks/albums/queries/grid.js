@@ -30,6 +30,7 @@ export const gridAlbumFragment = `
 
   fragment postAlbumFragment on Post {
     postId
+    isVerified
     image {
       ...imageFragment
     }

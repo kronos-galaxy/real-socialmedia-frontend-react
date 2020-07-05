@@ -16,7 +16,6 @@ import StoriesComponent from 'components/Stories'
 import StoriesServiceComponent from 'components/Stories/index.service'
 import FeedCardsComponent from 'components/FeedCards'
 import FeedCardsServiceComponent from 'components/FeedCards/index.service'
-import ContextComponent from 'components/Cache/Context'
 import ScrollService from 'services/Scroll'
 
 import { withTheme } from 'react-native-paper'
