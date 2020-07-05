@@ -111,19 +111,22 @@ export const AuthProvider = ({
 
   useEffect(() => {
     if (postsDelete.status === 'success') {
-      dispatch(postsActions.postsDeleteIdle())
+      dispatch(postsActions.postsDeleteIdle({}))
+      dispatch(postsActions.postsGetRequest({ userId: user.userId }))
     }
 
     if (postsArchive.status === 'success') {
-      dispatch(postsActions.postsArchiveIdle())
+      dispatch(postsActions.postsArchiveIdle({}))
+      dispatch(postsActions.postsGetRequest({ userId: user.userId }))
     }
 
     if (postsRestoreArchived.status === 'success') {
-      dispatch(postsActions.postsRestoreArchivedIdle())
+      dispatch(postsActions.postsRestoreArchivedIdle({}))
+      dispatch(postsActions.postsGetRequest({ userId: user.userId }))
     }
 
     if (postsFlag.status === 'success') {
-      dispatch(postsActions.postsFlagIdle())
+      dispatch(postsActions.postsFlagIdle({}))
     }
   }, [
     postsDelete.status,

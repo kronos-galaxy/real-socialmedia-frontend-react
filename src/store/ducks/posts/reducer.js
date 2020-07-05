@@ -491,6 +491,13 @@ const postsArchiveSuccess = (state, action) => update(state, {
     data: { $set: action.payload.data },
     status: { $set: 'success' },
   },
+
+  /**
+   *
+   */
+  postsFeedGet: {
+    data: { $postsResourceRemoveSuccess: action },
+  },
 })
 
 const postsArchiveFailure = (state, action) => update(state, {
@@ -520,6 +527,10 @@ const postsRestoreArchivedSuccess = (state, action) => update(state, {
   postsRestoreArchived: {
     data: { $set: action.payload.data },
     status: { $set: 'success' },
+  },
+
+  postsGetArchived: {
+    data: { $postsResourceRemoveSuccess: action },
   },
 })
 
