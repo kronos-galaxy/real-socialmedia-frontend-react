@@ -2,7 +2,8 @@ import {
   albumFragment,
 } from 'store/fragments'
 
-import * as grid from 'store/ducks/albums/queries/grid'
+import * as albumsGrid from 'store/ducks/albums/queries/grid'
+import * as albumsSingle from 'store/ducks/albums/queries/single'
 
 export const addAlbum = `
   mutation addAlbum(
@@ -19,6 +20,23 @@ export const addAlbum = `
   ${albumFragment}
 `
 
+export const getAlbum = `
+  query getAlbum($albumId: ID!, $limit: Int = 10, $nextToken: String = null) {
+    album(albumId: $albumId) {
+      ...singleAlbumFragment
+
+      posts(limit: $limit, nextToken: $nextToken) {
+        items {
+          ...singleAlbumPostFragment
+        }
+        nextToken
+      }
+    }
+  }
+  ${albumsSingle.singleAlbumFragment}
+  ${albumsSingle.singleAlbumPostFragment}
+`
+
 export const getAlbums = `
   query getAlbums($userId: ID!) {
     user(userId: $userId) {
@@ -30,7 +48,7 @@ export const getAlbums = `
       }
     }
   }
-  ${grid.gridAlbumFragment}
+  ${albumsGrid.gridAlbumFragment}
 `
 
 export const editAlbum = `

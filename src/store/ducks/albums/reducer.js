@@ -9,6 +9,12 @@ export const initialState = {
     error: {},
     payload: {},
   },
+  albumsSingleGet: {
+    data: [],
+    status: 'idle',
+    error: {},
+    payload: {},
+  },
   albumsCreate: {
     data: [],
     status: 'idle',
@@ -108,6 +114,37 @@ const albumsCreateIdle = (state, action) => update(state, {
 /**
  *
  */
+const albumsSingleGetRequest = (state, action) => update(state, {
+  albumsSingleGet: {
+    status: { $set: 'loading' },
+    payload: { $set: action.payload },
+  },
+})
+
+const albumsSingleGetSuccess = (state, action) => update(state, {
+  albumsSingleGet: {
+    status: { $set: 'success' },
+    payload: { $set: action.payload.payload },
+  },
+})
+
+const albumsSingleGetFailure = (state, action) => update(state, {
+  albumsSingleGet: {
+    status: { $set: 'failure' },
+    payload: { $set: action.payload.payload },
+  },
+})
+
+const albumsSingleGetIdle = (state, action) => update(state, {
+  albumsSingleGet: {
+    status: { $set: 'idle' },
+    payload: { $set: action.payload.payload },
+  },
+})
+
+/**
+ *
+ */
 const albumsEditRequest = (state, action) => update(state, {
   albumsEdit: {
     status: { $set: 'loading' },
@@ -172,6 +209,11 @@ export default handleActions({
   [constants.ALBUMS_GET_SUCCESS]: albumsGetSuccess,
   [constants.ALBUMS_GET_FAILURE]: albumsGetFailure,
   [constants.ALBUMS_GET_IDLE]: albumsGetIdle,
+
+  [constants.ALBUMS_SINGLE_GET_REQUEST]: albumsSingleGetRequest,
+  [constants.ALBUMS_SINGLE_GET_SUCCESS]: albumsSingleGetSuccess,
+  [constants.ALBUMS_SINGLE_GET_FAILURE]: albumsSingleGetFailure,
+  [constants.ALBUMS_SINGLE_GET_IDLE]: albumsSingleGetIdle,
 
   [constants.ALBUMS_CREATE_REQUEST]: albumsCreateRequest,
   [constants.ALBUMS_CREATE_SUCCESS]: albumsCreateSuccess,

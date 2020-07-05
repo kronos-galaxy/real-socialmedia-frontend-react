@@ -25,3 +25,16 @@ export const albumsGetSelector = (userId) => createDeepEqualSelector(
     return assocPath(['data'], denormalized)(albums)
   }
 )
+
+/**
+ *
+ */
+const albumsSingleGet = () => path(['albums', 'albumsSingleGet'])
+
+export const albumsSingleGetSelector = (albumId) => createDeepEqualSelector(
+  [albumsSingleGet(), entities()],
+  (albumsSingleGet, entities) => {
+    const denormalized = normalizer.denormalizeAlbumGet(albumId, entities)
+    return assocPath(['data'], denormalized)(albumsSingleGet)
+  }
+)

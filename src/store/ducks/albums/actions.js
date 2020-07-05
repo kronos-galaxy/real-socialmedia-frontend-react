@@ -12,6 +12,14 @@ export const albumsGetFailure = createAction(constants.ALBUMS_GET_FAILURE)
 /**
  * 
  */
+export const albumsSingleGetIdle = createAction(constants.ALBUMS_SINGLE_GET_IDLE)
+export const albumsSingleGetRequest = createAction(constants.ALBUMS_SINGLE_GET_REQUEST)
+export const albumsSingleGetSuccess = createAction(constants.ALBUMS_SINGLE_GET_SUCCESS)
+export const albumsSingleGetFailure = createAction(constants.ALBUMS_SINGLE_GET_FAILURE)
+
+/**
+ * 
+ */
 export const albumsCreateIdle = createAction(constants.ALBUMS_CREATE_IDLE)
 export const albumsCreateRequest = createAction(constants.ALBUMS_CREATE_REQUEST)
 export const albumsCreateSuccess = createAction(constants.ALBUMS_CREATE_SUCCESS)
