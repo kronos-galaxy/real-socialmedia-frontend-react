@@ -15,6 +15,12 @@ export const initialState = {
     error: {},
     payload: {},
   },
+  albumsPostsGet: {
+    data: [],
+    status: 'idle',
+    error: {},
+    payload: {},
+  },
   albumsCreate: {
     data: [],
     status: 'idle',
@@ -35,6 +41,7 @@ export const initialState = {
   },
 
   albumsGetCache: {},
+  albumsPostsGetCache: {},
 }
 
 /**
@@ -145,6 +152,69 @@ const albumsSingleGetIdle = (state, action) => update(state, {
 /**
  *
  */
+const albumsPostsGetRequest = (state, action) => update(state, {
+  albumsPostsGetCache: {
+    $resourceCacheSetRequest: {
+      ...action,
+      resourceKey: action.payload.albumId,
+      initialState: initialState.albumsPostsGet,
+    },
+  },
+})
+
+const albumsPostsGetSuccess = (state, action) => update(state, {
+  albumsPostsGetCache: {
+    $resourceCacheSetSuccess: {
+      ...action,
+      resourceKey: action.payload.payload.albumId,
+      initialState: initialState.albumsPostsGet,
+    },
+  },
+})
+
+const albumsPostsGetFailure = (state, action) => update(state, {
+  albumsPostsGetCache: {
+    $resourceCacheSetFailure: {
+      ...action,
+      resourceKey: action.payload.payload.albumId,
+      initialState: initialState.albumsPostsGet,
+    },
+  },
+})
+
+const albumsPostsGetIdle = (state, action) => update(state, {
+  albumsPostsGetCache: {
+    $resourceCacheSetIdle: {
+      ...action,
+      resourceKey: action.payload.payload.albumId,
+      initialState: initialState.albumsPostsGet,
+    },
+  },
+})
+
+const albumsPostsGetMoreRequest = (state, action) => update(state, {
+  albumsPostsGetCache: {
+    $resourceCachePushRequest: {
+      ...action,
+      resourceKey: action.payload.albumId,
+      initialState: initialState.albumsPostsGet,
+    },
+  },
+})
+
+const albumsPostsGetMoreSuccess = (state, action) => update(state, {
+  albumsPostsGetCache: {
+    $postsResourceCachePushSuccess: {
+      ...action,
+      resourceKey: action.payload.payload.albumId,
+      initialState: initialState.albumsPostsGet,
+    },
+  },
+})
+
+/**
+ *
+ */
 const albumsEditRequest = (state, action) => update(state, {
   albumsEdit: {
     status: { $set: 'loading' },
@@ -214,6 +284,13 @@ export default handleActions({
   [constants.ALBUMS_SINGLE_GET_SUCCESS]: albumsSingleGetSuccess,
   [constants.ALBUMS_SINGLE_GET_FAILURE]: albumsSingleGetFailure,
   [constants.ALBUMS_SINGLE_GET_IDLE]: albumsSingleGetIdle,
+
+  [constants.ALBUMS_POSTS_GET_REQUEST]: albumsPostsGetRequest,
+  [constants.ALBUMS_POSTS_GET_SUCCESS]: albumsPostsGetSuccess,
+  [constants.ALBUMS_POSTS_GET_FAILURE]: albumsPostsGetFailure,
+  [constants.ALBUMS_POSTS_GET_IDLE]: albumsPostsGetIdle,
+  [constants.ALBUMS_POSTS_GET_MORE_REQUEST]: albumsPostsGetMoreRequest,
+  [constants.ALBUMS_POSTS_GET_MORE_SUCCESS]: albumsPostsGetMoreSuccess,
 
   [constants.ALBUMS_CREATE_REQUEST]: albumsCreateRequest,
   [constants.ALBUMS_CREATE_SUCCESS]: albumsCreateSuccess,

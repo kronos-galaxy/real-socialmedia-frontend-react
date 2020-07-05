@@ -81,6 +81,51 @@ function* albumsSingleGetRequest(req) {
 /**
  * 
  */
+function* albumsPostsGetRequestData(req, api) {
+  const dataSelector = path(['data', 'album', 'posts', 'items'])
+  const metaSelector = compose(omit(['items']), path(['data', 'album', 'posts']))
+
+  const data = dataSelector(api)
+  const meta = metaSelector(api)
+  const payload = req.payload
+
+  const normalized = normalizer.normalizePostsGet(data)
+  yield put(entitiesActions.entitiesAlbumsMerge({ data: normalized.entities.albums || {} }))
+  yield put(entitiesActions.entitiesPostsMerge({ data: normalized.entities.posts || {} }))
+  yield put(entitiesActions.entitiesUsersMerge({ data: normalized.entities.users || {} }))
+  yield put(entitiesActions.entitiesCommentsMerge({ data: normalized.entities.comments || {} }))
+  yield put(entitiesActions.entitiesImagesMerge({ data: normalized.entities.images || {} }))
+
+  return {
+    data: normalized.result,
+    meta,
+    payload,
+  }
+}
+
+function* albumsPostsGetRequest(req) {
+  try {
+    const data = yield queryService.apiRequest(queries.getAlbumPosts, req.payload)
+    const next = yield albumsPostsGetRequestData(req, data)
+    yield put(actions.albumsPostsGetSuccess({ data: next.data, payload: next.payload, meta: next.meta }))
+  } catch (error) {
+    yield put(actions.albumsPostsGetFailure({ message: error.message, payload: req.payload }))
+  }
+}
+
+function* albumsPostsGetMoreRequest(req) {
+  try {
+    const data = yield queryService.apiRequest(queries.getAlbumPosts, req.payload)
+    const next = yield albumsPostsGetRequestData(req, data)
+    yield put(actions.albumsPostsGetMoreSuccess({ data: next.data, payload: next.payload, meta: next.meta }))
+  } catch (error) {
+    yield put(actions.albumsPostsGetMoreFailure({ message: error.message, payload: req.payload }))
+  }
+}
+
+/**
+ * 
+ */
 function* albumsCreateRequestData(req, api) {
   const dataSelector = path(['data', 'addAlbum'])
 
@@ -183,6 +228,8 @@ function* albumsDeleteRequest(req) {
 export default () => [
   takeLatest(constants.ALBUMS_GET_REQUEST, albumsGetRequest),
   takeLatest(constants.ALBUMS_SINGLE_GET_REQUEST, albumsSingleGetRequest),
+  takeLatest(constants.ALBUMS_POSTS_GET_REQUEST, albumsPostsGetRequest),
+  takeLatest(constants.ALBUMS_POSTS_GET_MORE_REQUEST, albumsPostsGetMoreRequest),
   takeLatest(constants.ALBUMS_CREATE_REQUEST, albumsCreateRequest),
   takeLatest(constants.ALBUMS_EDIT_REQUEST, albumsEditRequest),
   takeLatest(constants.ALBUMS_DELETE_REQUEST, albumsDeleteRequest),

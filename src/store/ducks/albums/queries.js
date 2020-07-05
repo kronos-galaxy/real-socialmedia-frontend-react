@@ -24,7 +24,14 @@ export const getAlbum = `
   query getAlbum($albumId: ID!, $limit: Int = 10, $nextToken: String = null) {
     album(albumId: $albumId) {
       ...singleAlbumFragment
+    }
+  }
+  ${albumsSingle.singleAlbumFragment}
+`
 
+export const getAlbumPosts = `
+  query getAlbumPosts($albumId: ID!, $limit: Int = 10, $nextToken: String = null) {
+    album(albumId: $albumId) {
       posts(limit: $limit, nextToken: $nextToken) {
         items {
           ...singleAlbumPostFragment
@@ -33,7 +40,6 @@ export const getAlbum = `
       }
     }
   }
-  ${albumsSingle.singleAlbumFragment}
   ${albumsSingle.singleAlbumPostFragment}
 `
 

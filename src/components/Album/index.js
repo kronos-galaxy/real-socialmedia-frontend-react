@@ -1,8 +1,9 @@
-import React, { useRef, useEffect } from 'react'
+import React, { useRef } from 'react'
 import PropTypes from 'prop-types'
 import {
   StyleSheet,
   ScrollView,
+  RefreshControl,
   View,
 } from 'react-native'
 import Layout from 'constants/Layout'
@@ -12,6 +13,7 @@ import path from 'ramda/src/path'
 import * as navigationActions from 'navigation/actions'
 import ActionSheet from 'react-native-actionsheet'
 import { useHeader } from 'components/Album/header'
+import ScrollService from 'services/Scroll'
 
 import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
@@ -22,6 +24,9 @@ const Album = ({
   theme,
   user,
   albumsSingleGet,
+  albumsPostsGet,
+  albumsPostsGetRequest,
+  albumsPostsGetMoreRequest,
   albumsDeleteRequest,
   themeFetch,
 }) => {
@@ -36,9 +41,26 @@ const Album = ({
     onPress: () => actionSheetRef.current && actionSheetRef.current.show(),
   })
 
+  const scroll = ScrollService({
+    resource: albumsPostsGet,
+    loadInit: albumsPostsGetRequest,
+    loadMore: albumsPostsGetMoreRequest,
+    extra: { albumId: path(['data', 'albumId'])(albumsSingleGet) },
+  })
+
   return (
     <View style={styling.root}>
-      <ScrollView bounces={false}>
+      <ScrollView
+        onScroll={scroll.handleScrollChange}
+        scrollEventThrottle={400}
+        refreshControl={(
+          <RefreshControl
+            tintColor={theme.colors.border}
+            onRefresh={scroll.handleRefresh}
+            refreshing={scroll.refreshing}
+          />
+        )}
+      >
         <View style={styling.content}>
           <ModalProfileComponent
             thumbnailSource={{ uri: path(['ownedBy', 'photo', 'url64p'])(albumsSingleGet.data) }}
@@ -50,7 +72,7 @@ const Album = ({
 
         <View>
           <PostsGridComponent
-            postsGet={{ data: albumsSingleGet.data.posts.items }}
+            postsGet={albumsPostsGet}
             themeFetch={themeFetch}
             themeCode={path(['ownedBy', 'themeCode'])(albumsSingleGet.data)}
             thread="albums"

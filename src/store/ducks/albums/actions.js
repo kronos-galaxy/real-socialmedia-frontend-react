@@ -28,6 +28,22 @@ export const albumsCreateFailure = createAction(constants.ALBUMS_CREATE_FAILURE)
 /**
  * 
  */
+export const albumsPostsGetIdle = createAction(constants.ALBUMS_POSTS_GET_IDLE)
+export const albumsPostsGetRequest = createAction(constants.ALBUMS_POSTS_GET_REQUEST)
+export const albumsPostsGetSuccess = createAction(constants.ALBUMS_POSTS_GET_SUCCESS)
+export const albumsPostsGetFailure = createAction(constants.ALBUMS_POSTS_GET_FAILURE)
+
+/**
+ * 
+ */
+export const albumsPostsGetMoreIdle = createAction(constants.ALBUMS_POSTS_GET_MORE_IDLE)
+export const albumsPostsGetMoreRequest = createAction(constants.ALBUMS_POSTS_GET_MORE_REQUEST)
+export const albumsPostsGetMoreSuccess = createAction(constants.ALBUMS_POSTS_GET_MORE_SUCCESS)
+export const albumsPostsGetMoreFailure = createAction(constants.ALBUMS_POSTS_GET_MORE_FAILURE)
+
+/**
+ * 
+ */
 export const albumsEditIdle = createAction(constants.ALBUMS_EDIT_IDLE)
 export const albumsEditRequest = createAction(constants.ALBUMS_EDIT_REQUEST)
 export const albumsEditSuccess = createAction(constants.ALBUMS_EDIT_SUCCESS)
