@@ -90,12 +90,12 @@ export const addChatMessage = `
   ${chatMessageFragment}
 `
 
-export const reportChatMessageViews = `
-  mutation reportChatMessageViews(
-    $messageIds: [ID!]!,
+export const reportChatViews = `
+  mutation reportChatViews(
+    $chatIds: [ID!]!,
   ) {
-    reportChatMessageViews(
-      messageIds: $messageIds,
+    reportChatViews(
+      chatIds: $chatIds,
     )
   }
 `

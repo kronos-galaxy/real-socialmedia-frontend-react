@@ -33,9 +33,7 @@ const ChatDirectService = ({ children }) => {
       return
     }
 
-    const messageIds = pathOr([], ['data', 'messages', 'items'])(chatGetChat)
-      .map(message => message.messageId)
-    dispatch(chatActions.chatReportMessageViewRequest({ messageIds }))
+    dispatch(chatActions.chatReportViewRequest({ chatIds: [chatId] }))    
   }, [chatGetChat.status])
 
   useEffect(() => {

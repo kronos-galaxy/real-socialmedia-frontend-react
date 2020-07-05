@@ -139,14 +139,14 @@ function* chatAddMessageRequest(req) {
 /**
  * 
  */
-function* chatReportMessageViewRequest(req) {
+function* chatReportViewRequest(req) {
   try {
-    const data = yield queryService.apiRequest(queries.reportChatMessageViews, req.payload)
-    const dataSelector = path(['data', 'reportChatMessageViews'])
+    const data = yield queryService.apiRequest(queries.reportChatViews, req.payload)
+    const dataSelector = path(['data', 'reportChatViews'])
 
-    yield put(actions.chatReportMessageViewSuccess({ data: dataSelector(data), payload: req.payload, meta: data }))
+    yield put(actions.chatReportViewSuccess({ data: dataSelector(data), payload: req.payload, meta: data }))
   } catch (error) {
-    yield put(actions.chatReportMessageViewFailure({ message: error.message, payload: req.payload }))
+    yield put(actions.chatReportViewFailure({ message: error.message, payload: req.payload }))
   }
 }
 
@@ -189,5 +189,5 @@ export default () => [
   takeLatest(constants.CHAT_GET_CHAT_REQUEST, chatGetChatRequest),
   takeLatest(constants.CHAT_CREATE_DIRECT_REQUEST, chatCreateDirectRequest),
   takeLatest(constants.CHAT_ADD_MESSAGE_REQUEST, chatAddMessageRequest),
-  takeLatest(constants.CHAT_REPORT_MESSAGE_VIEW_REQUEST, chatReportMessageViewRequest),
+  takeLatest(constants.CHAT_REPORT_MESSAGE_VIEW_REQUEST, chatReportViewRequest),
 ]
