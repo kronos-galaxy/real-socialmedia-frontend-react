@@ -14,6 +14,7 @@ import CommentsScreen from 'screens/CommentsScreen'
 import CameraScreen from 'screens/CameraScreen'
 import ChatScreen from 'screens/ChatScreen'
 import ChatDirectScreen from 'screens/ChatDirectScreen'
+import ProfileRequestsScreen from 'screens/ProfileRequestsScreen'
 
 const ChatNavigator = ({ navigation }) => {
   const { theme, themes } = useContext(ThemesContext)
@@ -37,6 +38,11 @@ const ChatNavigator = ({ navigation }) => {
         name="Comments"
         component={CommentsScreen}
         {...stackScreenPageProps({ options: { title: 'Comments' } })}
+      />
+      <Stack.Screen
+        name="ProfileRequests"
+        component={ProfileRequestsScreen}
+        {...stackScreenPageProps({ options: { title: 'Follower Requests' } })}
       />
     </Stack.Navigator>
   )
