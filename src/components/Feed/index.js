@@ -93,6 +93,11 @@ const Feed = ({
         onEndReached={scroll.handleLoadMore}
         onEndReachedThreshold={15}
         scrollEventThrottle={500}
+        ListEmptyComponent={scroll.refreshing && (
+          <ActivityIndicator
+            tintColor={theme.colors.border}
+          />
+        )}
         refreshControl={(
           <RefreshControl
             tintColor={theme.colors.border}

@@ -34,7 +34,7 @@ const PostCreateService = ({ children }) => {
     images = [],
     lifetime = '',
     commentsDisabled = false,
-    likesDisabled = true,
+    likesDisabled = false,
     sharingDisabled = false,
     verificationHidden = false,
     takenInReal = false,
