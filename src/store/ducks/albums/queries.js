@@ -1,7 +1,3 @@
-import {
-  albumFragment,
-} from 'store/fragments'
-
 import * as albumsGrid from 'store/ducks/albums/queries/grid'
 import * as albumsSingle from 'store/ducks/albums/queries/single'
 
@@ -14,10 +10,10 @@ export const addAlbum = `
       albumId: $albumId,
       name: $name
     ) {
-      ...albumFragment
+      ...singleAlbumFragment
     }
   }
-  ${albumFragment}
+  ${albumsSingle.singleAlbumFragment}
 `
 
 export const getAlbum = `
@@ -66,17 +62,17 @@ export const editAlbum = `
       albumId: $albumId,
       name: $name,
     ) {
-      ...albumFragment
+      ...singleAlbumFragment
     }
   }
-  ${albumFragment}
+  ${albumsSingle.singleAlbumFragment}
 `
 
 export const deleteAlbum = `
   mutation deleteAlbum($albumId: ID!) {
     deleteAlbum (albumId: $albumId) {
-      ...albumFragment
+      ...singleAlbumFragment
     }
   }
-  ${albumFragment}
+  ${albumsSingle.singleAlbumFragment}
 `
