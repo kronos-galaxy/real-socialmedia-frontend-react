@@ -15,7 +15,7 @@ export const searchUsers = `
       nextToken
     }
   }
-  ${usersList.singleUserFragment}
+  ${usersSingle.singleUserFragment}
 `
 
 export const followUser = `

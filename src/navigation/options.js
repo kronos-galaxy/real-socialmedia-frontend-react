@@ -52,6 +52,7 @@ const homeHeaderRight = ({ theme, navigation }) => () => (
       }}>
         <DirectIcon
           fill={theme.colors.primaryIcon}
+          user={props.user}
           uiNotifications={props.uiNotifications}
         />
       </TouchableOpacity>

@@ -6,6 +6,8 @@ import * as postsActions from 'store/ducks/posts/actions'
 import * as usersActions from 'store/ducks/users/actions'
 import * as postsQueries from 'store/ducks/posts/queries'
 import * as usersQueries from 'store/ducks/users/queries'
+import * as chatQueries from 'store/ducks/chat/queries'
+import * as chatActions from 'store/ducks/chat/actions'
 import * as queryService from 'services/Query'
 
 /**
@@ -98,7 +100,44 @@ function* appSubscription(req) {
   }
 }
 
+/**
+ *
+ */
+function chatMessageSubscriptionChannel({ subscription }) {
+  return eventChannel(emitter => {
+    subscription.subscribe({
+      next: emitter,
+      error: () => {},
+    })
+
+    return () => subscription.unsubscribe()
+  })
+}
+
+function* chatMessageSubscription(req) {
+  const AwsAPI = yield getContext('AwsAPI')
+  const userId = path(['payload', 'data'])(req)
+
+  const subscription = AwsAPI.graphql(
+    graphqlOperation(chatQueries.onChatMessageNotification, { userId })
+  )
+
+  const channel = yield call(chatMessageSubscriptionChannel, {
+    subscription,
+  })
+
+  yield takeEvery(channel, function *(eventData) {
+    const data = path(['value', 'data', 'onChatMessageNotification'])(eventData)
+    const chatId = path(['message', 'chat', 'chatId'])(data)
+
+    yield put(chatActions.chatGetChatRequest({ chatId }))
+    yield put(chatActions.chatGetChatsRequest())
+    yield put(usersActions.usersGetProfileSelfRequest({}))
+  })
+}
+
 export default () => [
+  takeLatest('AUTH_CHECK_READY', chatMessageSubscription),
   takeLatest('AUTH_CHECK_READY', postSubscription),
   takeLatest('AUTH_CHECK_READY', cardSubscription),
   takeLatest('AUTH_CHECK_READY', appSubscription),

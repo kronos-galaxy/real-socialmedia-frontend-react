@@ -20,10 +20,11 @@ const style = {
   },
 }
 
-const Direct = ({ fill = '#333', uiNotifications }) => {
+const Direct = ({ fill = '#333', user }) => {
+  console.log(user)
   return (
     <View>
-      {!uiNotifications.length ?
+      {!user.chatsWithUnviewedMessagesCount ?
         <Svg height={24} width={24} viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
           <G fill={fill} stroke={fill} strokeLinecap="round" strokeWidth="1.5">
             <Path d="M7.799,16.601 C9.092,18.61,11.826,20,15,20c0.59,0,1.163-0.051,1.716-0.142L21,22v-4.04c1.241-1.057,2-2.44,2-3.96 c0-1.552-0.792-2.961-2.081-4.027" fill="none"/>
@@ -32,9 +33,9 @@ const Direct = ({ fill = '#333', uiNotifications }) => {
         </Svg>
       : null}
   
-      {uiNotifications.length ?
+      {user.chatsWithUnviewedMessagesCount ?
         <View style={style.icon}>
-          <Text style={style.iconText}>{uiNotifications.length}</Text>
+          <Text style={style.iconText}>{user.chatsWithUnviewedMessagesCount}</Text>
         </View>
       : null}
     </View>

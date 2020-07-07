@@ -89,6 +89,7 @@ const App = () => {
       <PersistGate loading={null} persistor={persistor}>
         <AuthProvider>
           {({
+            user,
             theme,
             themes,
             authenticated,
@@ -99,7 +100,7 @@ const App = () => {
           }) => (
             <ThemesContext.Provider value={{ theme, themes }}>
               <FeedContextComponent.Provider value={{ draggedImage, setDraggedImage }}>
-                <UIContextComponent.Provider value={{ uiNotifications, uiNotificationIdle }}>
+                <UIContextComponent.Provider value={{ uiNotifications, uiNotificationIdle, user }}>
                   <StatusBar barStyle={theme.dark ? 'light-content' : 'dark-content'} />
                   <PinchZoomComponent />
                   <Routes
