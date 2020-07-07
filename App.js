@@ -3,7 +3,7 @@ import { StatusBar, Text, TextInput } from 'react-native'
 import { Provider } from 'react-redux'
 import { PersistGate } from 'redux-persist/integration/react'
 import { NavigationContainer } from '@react-navigation/native'
-import { AuthProvider } from 'services/providers/App'
+import { AuthProvider } from 'services/providers/Auth'
 import { Provider as PaperProvider } from 'react-native-paper'
 import { ThemesContext } from 'navigation/context'
 import AuthNavigator from 'navigation/AuthNavigator'
@@ -15,7 +15,6 @@ import 'services/Logger'
 import { enableScreens } from 'react-native-screens'
 import PinchZoomComponent from 'components/Feed/PinchZoom'
 import FeedContextComponent from 'components/Feed/Context'
-import UIContextComponent from 'components/UI/Context'
 import ErrorTemplate from 'templates/Error'
 
 const linking = {
@@ -74,6 +73,7 @@ const Routes = ({
           {appErrorMessage ?
             <ErrorTemplate text={appErrorMessage} onClose={handleErrorClose} />
           : null}
+
           <AppNavigator themes={themes} />
         </PaperProvider>
       : null}
@@ -89,26 +89,21 @@ const App = () => {
       <PersistGate loading={null} persistor={persistor}>
         <AuthProvider>
           {({
-            user,
             theme,
             themes,
             authenticated,
-            uiNotifications,
-            uiNotificationIdle,
             appErrorMessage,
             handleErrorClose,
           }) => (
             <ThemesContext.Provider value={{ theme, themes }}>
               <FeedContextComponent.Provider value={{ draggedImage, setDraggedImage }}>
-                <UIContextComponent.Provider value={{ uiNotifications, uiNotificationIdle, user }}>
-                  <StatusBar barStyle={theme.dark ? 'light-content' : 'dark-content'} />
-                  <PinchZoomComponent />
-                  <Routes
-                    authenticated={authenticated}
-                    appErrorMessage={appErrorMessage}
-                    handleErrorClose={handleErrorClose}
-                  />
-                </UIContextComponent.Provider>
+                <StatusBar barStyle={theme.dark ? 'light-content' : 'dark-content'} />
+                <PinchZoomComponent />
+                <Routes
+                  authenticated={authenticated}
+                  appErrorMessage={appErrorMessage}
+                  handleErrorClose={handleErrorClose}
+                />
               </FeedContextComponent.Provider>
             </ThemesContext.Provider>
           )}

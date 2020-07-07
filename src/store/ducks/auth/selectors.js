@@ -15,6 +15,13 @@ export const authUserSelector = createSelector(
   }
 )
 
+export const authUserIdSelector = createSelector(
+  [authUser()],
+  (authUser) => {
+    return authUser
+  }
+)
+
 export const languageCodeSelector = 
   state => pathOr('', ['auth', 'user', 'languageCode'], state)
 
