@@ -6,10 +6,11 @@ import * as normalizer from 'normalizer/schemas'
 const entities = () => path(['entities'])
 const authUser = () => path(['auth', 'user'])
 const usersEditProfile = () => path(['users', 'usersEditProfile'])
+const usersGetProfileSelf = () => path(['users', 'usersGetProfileSelf'])
 
 export const authUserSelector = createSelector(
-  [authUser(), usersEditProfile(), entities()],
-  (authUser, usersEditProfile, entities) => {
+  [authUser(), usersEditProfile(), usersGetProfileSelf(), entities()],
+  (authUser, usersEditProfile, usersGetProfileSelf, entities) => {
     return normalizer.denormalizeUserGet(authUser, entities)
   }
 )

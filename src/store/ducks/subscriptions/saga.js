@@ -82,6 +82,7 @@ function* cardSubscription(req) {
   yield takeEvery(channel, function *(eventData) {
     yield put(usersActions.usersGetCardsRequest({}))
     yield put(postsActions.postsGetUnreadCommentsRequest({ limit: 20 }))
+    yield put(usersActions.usersGetProfileSelfRequest({ userId }))
   })
 }
 
@@ -132,7 +133,7 @@ function* chatMessageSubscription(req) {
 
     yield put(chatActions.chatGetChatRequest({ chatId }))
     yield put(chatActions.chatGetChatsRequest())
-    yield put(usersActions.usersGetProfileSelfRequest({}))
+    yield put(usersActions.usersGetProfileSelfRequest({ userId }))
   })
 }
 

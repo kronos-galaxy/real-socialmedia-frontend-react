@@ -151,5 +151,5 @@ export default () => [
   takeLatest(constants.CHAT_GET_CHAT_REQUEST, chatGetChatRequest),
   takeLatest(constants.CHAT_CREATE_DIRECT_REQUEST, chatCreateDirectRequest),
   takeLatest(constants.CHAT_ADD_MESSAGE_REQUEST, chatAddMessageRequest),
-  takeLatest(constants.CHAT_REPORT_MESSAGE_VIEW_REQUEST, chatReportViewRequest),
+  takeLatest(constants.CHAT_REPORT_VIEW_REQUEST, chatReportViewRequest),
 ]

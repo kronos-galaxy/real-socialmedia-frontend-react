@@ -221,8 +221,8 @@ export default handleActions({
   [constants.CHAT_ADD_MESSAGE_FAILURE]: chatAddMessageFailure,
   [constants.CHAT_ADD_MESSAGE_IDLE]: chatAddMessageIdle,
 
-  [constants.CHAT_REEPORT_MESSAGE_VIEW_REQUEST]: chatReportViewRequest,
-  [constants.CHAT_REEPORT_MESSAGE_VIEW_SUCCESS]: chatReportViewSuccess,
-  [constants.CHAT_REEPORT_MESSAGE_VIEW_FAILURE]: chatReportViewFailure,
-  [constants.CHAT_REEPORT_MESSAGE_VIEW_IDLE]: chatReportViewIdle,
+  [constants.CHAT_REEPORT_VIEW_REQUEST]: chatReportViewRequest,
+  [constants.CHAT_REEPORT_VIEW_SUCCESS]: chatReportViewSuccess,
+  [constants.CHAT_REEPORT_VIEW_FAILURE]: chatReportViewFailure,
+  [constants.CHAT_REEPORT_VIEW_IDLE]: chatReportViewIdle,
 }, initialState)
