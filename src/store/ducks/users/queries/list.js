@@ -62,7 +62,7 @@ export const listUserFragment = `
 
     stories (limit: 12) {
       items {
-        ...storyFragment
+        ...userStoryFragment
       }
       nextToken 
     }

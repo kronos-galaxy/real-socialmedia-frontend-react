@@ -74,7 +74,7 @@ export const singleUserFragment = `
 
     stories (limit: 12) {
       items {
-        ...storyFragment
+        ...userStoryFragment
       }
       nextToken
     }

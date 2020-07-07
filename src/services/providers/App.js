@@ -153,6 +153,7 @@ export const AuthProvider = ({
   )
 
   return children({
+    user,
     theme,
     themes: themeFetch.data,
     authenticated,
