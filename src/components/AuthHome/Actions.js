@@ -16,6 +16,8 @@ const Actions = ({
   theme,
   authGoogle,
   authGoogleRequest,
+  authApple,
+  authAppleRequest,
 }) => {
   const styling = styles(theme)
   const navigation = useNavigation()
@@ -24,6 +26,9 @@ const Actions = ({
     <View style={styling.root}>
       <View style={styling.item}>
         <DefaultButton testID="components/AuthHome/Actions/signin" label={t('Use Phone or Email')} onPress={navigationActions.navigateAuthUsername(navigation)} loading={false} />
+      </View>
+      <View style={styling.item}>
+        <DefaultButton testID="components/AuthHome/Actions/apple" label={t('Login with Apple')} onPress={authAppleRequest} loading={authApple.status === 'loading'} />
       </View>
       <View style={styling.item}>
         <DefaultButton testID="components/AuthHome/Actions/google" label={t('Login with Google')} onPress={authGoogleRequest} loading={authGoogle.status === 'loading'} />
@@ -37,6 +42,8 @@ Actions.propTypes = {
   theme: PropTypes.any,
   authGoogle: PropTypes.any,
   authGoogleRequest: PropTypes.any,
+  authApple: PropTypes.any,
+  authAppleRequest: PropTypes.any,
 }
 
 const styles = theme => StyleSheet.create({

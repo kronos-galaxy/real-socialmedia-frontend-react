@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "start": "react-native start",
-    "dev": "ENVFILE=.env.production react-native run-ios --simulator='iPhone 11' --scheme REAL.production -- --reset-cache",
+    "dev": "ENVFILE=.env.development react-native run-ios --simulator='iPhone 11' --scheme REAL.development -- --reset-cache",
     "test": "jest",
     "lint": "eslint .",
     "translations-scan": "i18next-scanner --config i18next-scanner.config.engine.js src/**/*.js"
@@ -16,6 +16,7 @@
     "@aws-amplify/cache": "^3.1.18",
     "@aws-amplify/core": "^3.4.1",
     "@aws-amplify/pubsub": "^3.0.19",
+    "@invertase/react-native-apple-authentication": "^1.1.2",
     "@react-native-community/async-storage": "^1.11.0",
     "@react-native-community/blur": "^3.6.0",
     "@react-native-community/cameraroll": "^4.0.0",
