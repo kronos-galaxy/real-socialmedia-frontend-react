@@ -16,6 +16,7 @@ export const amplifyConfig = async () => {
     identityPoolId: Config.AWS_COGNITO_IDENTITY_POOL_ID,
     refreshHandlers: {
       'google': Google.refresh,
+      'apple': Apple.refresh,
     },
   })
 

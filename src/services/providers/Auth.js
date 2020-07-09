@@ -26,17 +26,17 @@ export const AuthProvider = ({
   const languageCode = useSelector(authSelector.languageCodeSelector)
   const theme = useSelector(authSelector.themeSelector)
   const authGoogle = useSelector(state => state.auth.authGoogle)
-  const authCheck = useSelector(state => state.auth.authCheck)
+  const authApple = useSelector(state => state.auth.authApple)
 
   const errorsPool = [{
     appErrorMessage: authGoogle.error.text,
     handleErrorClose: () => dispatch(authActions.authGoogleIdle()),
   }, {
-    appErrorMessage: authCheck.error.text,
-    handleErrorClose: () => dispatch(authActions.authCheckIdle()),
+    appErrorMessage: authApple.error.text,
+    handleErrorClose: () => dispatch(authActions.authAppleIdle()),
   }]
   const { appErrorMessage, handleErrorClose } = errorsPool
-    .filter(error => error.appErrorMessage && !error.appErrorMessage.includes('Failed to authorize'))
+    .filter(error => error.appErrorMessage && !error.appErrorMessage.length)
     .pop() || {}
   
   /**
