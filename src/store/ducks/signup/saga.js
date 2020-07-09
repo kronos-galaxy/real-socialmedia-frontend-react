@@ -283,6 +283,7 @@ function* handleSignupCognitoRequestData(req, api, selectorType) {
   const selector = (() => {
     if (selectorType === 'GOOGLE') return path(['data', 'createGoogleUser'])
     if (selectorType === 'APPLE') return path(['data', 'createAppleUser'])
+    if (selectorType === 'COGNITO') return path(['data', 'createCognitoOnlyUser'])
   })()
 
   const data = selector(api)
@@ -321,12 +322,13 @@ function* handleSignupCognitoRequest(payload) {
     })
     const next = yield handleSignupCognitoRequestData({ payload }, data, session.authProvider)
     yield put(authActions.authCheckReady({ data: next.data, payload: next.payload, meta: next.meta }))
+    yield queryService.apiRequest(queries.setUserAcceptedEULAVersion, { version: '15-11-2019' })
   }
 
   /**
    *
    */
-  if (session.authProvider === 'GOOGLE') {
+  else if (session.authProvider === 'GOOGLE') {
     const data = yield queryService.apiRequest(queries.createGoogleUser, {
       username: payload.username,
       fullName: session.name,
@@ -334,9 +336,21 @@ function* handleSignupCognitoRequest(payload) {
     })
     const next = yield handleSignupCognitoRequestData({ payload }, data, session.authProvider)
     yield put(authActions.authCheckReady({ data: next.data, payload: next.payload, meta: next.meta }))    
+    yield queryService.apiRequest(queries.setUserAcceptedEULAVersion, { version: '15-11-2019' })
   }
 
-  yield queryService.apiRequest(queries.setUserAcceptedEULAVersion, { version: '15-11-2019' })
+  /**
+   *
+   */
+  else {
+    const data = yield queryService.apiRequest(queries.createCognitoOnlyUser, {
+      username: payload.username,
+      fullName: payload.username,
+    })
+    const next = yield handleSignupCognitoRequestData({ payload }, data, 'COGNITO')
+    yield put(authActions.authCheckReady({ data: next.data, payload: next.payload, meta: next.meta }))    
+    yield queryService.apiRequest(queries.setUserAcceptedEULAVersion, { version: '15-11-2019' })
+  }
 }
 
 function* signupCognitoRequest(req) {
