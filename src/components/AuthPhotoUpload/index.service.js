@@ -12,6 +12,7 @@ import path from 'ramda/src/path'
 import pathOr from 'ramda/src/pathOr'
 import last from 'ramda/src/last'
 import { logEvent } from 'services/Analytics'
+import { pageHeaderLeft } from 'navigation/options'
 
 const AuthPhotoUploadComponentService = ({ children }) => {
   const dispatch = useDispatch()
@@ -121,6 +122,12 @@ const AuthPhotoUploadComponentService = ({ children }) => {
     dispatch(usersActions.usersEditProfileIdle({}))
     navigationActions.navigateAuthPhoto(navigation)()
   }
+
+  useEffect(() => {
+    navigation.setOptions({
+      headerLeft: (props) => pageHeaderLeft({ ...props, onPress: handleErrorClose }),
+    })
+  }, [])
 
   return children({
     formErrorMessage,

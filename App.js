@@ -20,8 +20,8 @@ import ErrorTemplate from 'templates/Error'
 const linking = {
   prefixes: ['real.app://', 'https://real.app/'],
   config: {
-    AuthEmailConfirm: 'email/confirm/:userId/:confirmationCode',
-    AuthForgotConfirm: 'forgot/confirm/:userId/:confirmationCode',
+    AuthEmailConfirm: 'confirm/email/:userId/:confirmationCode',
+    AuthForgotConfirm: 'confirm/forgot/:userId/:confirmationCode',
     Chat: {
       screens: {
         Chat: 'chat',
