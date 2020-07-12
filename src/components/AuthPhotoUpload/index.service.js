@@ -37,6 +37,8 @@ const AuthPhotoUploadComponentService = ({ children }) => {
     takenInReal = false,
     originalFormat = 'jpg',
     originalMetadata = '',
+    imageFormat = 'JPEG',
+    crop = null,
   }) => {
     logEvent('POST_CREATE_REQUEST')
 
@@ -58,6 +60,8 @@ const AuthPhotoUploadComponentService = ({ children }) => {
       takenInReal,
       originalFormat,
       originalMetadata,
+      imageFormat,
+      crop,
       setAsUserPhoto: true,
       createdAt: dayjs().toJSON(),
       attempt: 0,

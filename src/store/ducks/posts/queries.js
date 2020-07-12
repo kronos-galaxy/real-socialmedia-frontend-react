@@ -100,6 +100,8 @@ export const addPhotoPost = `
     $takenInReal: Boolean,
     $originalFormat: String,
     $originalMetadata: String,
+    $imageFormat: ImageFormat,
+    $crop: CropInput,
     $verificationHidden: Boolean,
     $setAsUserPhoto: Boolean,
   ) {
@@ -116,8 +118,10 @@ export const addPhotoPost = `
       setAsUserPhoto: $setAsUserPhoto,
       imageInput: {
         takenInReal: $takenInReal,
+        imageFormat: $imageFormat,
         originalFormat: $originalFormat,
         originalMetadata: $originalMetadata,
+        crop: $crop,
       }
     ) {
       ...postFragment

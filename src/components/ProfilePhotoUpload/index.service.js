@@ -34,6 +34,8 @@ const ProfilePhotoUploadComponentService = ({ children }) => {
     takenInReal = false,
     originalFormat = 'jpg',
     originalMetadata = '',
+    imageFormat = 'JPEG',
+    crop = null,
   }) => {
     const postId = uuid()
     const mediaId = uuid()
@@ -53,6 +55,8 @@ const ProfilePhotoUploadComponentService = ({ children }) => {
       takenInReal,
       originalFormat,
       originalMetadata,
+      imageFormat,
+      crop,
       setAsUserPhoto: true,
       createdAt: dayjs().toJSON(),
       attempt: 0,

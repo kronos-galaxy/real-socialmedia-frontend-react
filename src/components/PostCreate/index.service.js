@@ -40,6 +40,8 @@ const PostCreateService = ({ children }) => {
     takenInReal = false,
     originalFormat = 'jpg',
     originalMetadata = '',
+    imageFormat = 'JPEG',
+    crop = null,
   }) => {
     const postId = uuid()
     const mediaId = uuid()
@@ -59,6 +61,8 @@ const PostCreateService = ({ children }) => {
       takenInReal,
       originalFormat,
       originalMetadata,
+      imageFormat,
+      crop,
       createdAt: dayjs().toJSON(),
       attempt: 0,
     }))
