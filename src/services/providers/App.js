@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import * as usersActions from 'store/ducks/users/actions'
 import * as postsActions from 'store/ducks/posts/actions'
@@ -8,6 +8,7 @@ import * as Logger from 'services/Logger'
 import PushNotificationIOS from '@react-native-community/push-notification-ios'
 import * as Linking from 'services/Linking'
 import { useNavigation } from '@react-navigation/native'
+import useAppState from 'services/AppState'
 
 /**
  * 
@@ -24,21 +25,42 @@ export const AppProvider = ({
   const postsRestoreArchived = useSelector(state => state.posts.postsRestoreArchived)
   const postsFlag = useSelector(state => state.posts.postsFlag)
 
+  const handlePushNotification = (notification) => {
+    if (!notification) return
+    const action = path(['data', 'pinpoint', 'deeplink'])(notification.getData())
+    Linking.deeplinkNavigation(navigation)(action)
+  }
+
+  const handlePermissions = (permissions) => {
+    if (permissions && permissions.alert && permissions.badge) {
+      return
+    }
+    PushNotificationIOS.requestPermissions()
+  }
+
+  useAppState({
+    onForeground: () => {
+      PushNotificationIOS.checkPermissions(handlePermissions)
+    },
+  })
+
   /**
    * Sentry specific logger to map partial user data to error log
    */
   useEffect(() => {
     Logger.setUser(user)
+
+    PushNotificationIOS.checkPermissions(handlePermissions)
+    PushNotificationIOS.getInitialNotification().then(handlePushNotification)
+    PushNotificationIOS.addEventListener('notification', handlePushNotification)
     PushNotificationIOS.addEventListener('register', (token) => {
       dispatch(usersActions.usersSetApnsTokenRequest({ token }))
     })
-    PushNotificationIOS.addEventListener('notification', (notification) => {
-      const action = path(['data', 'pinpoint', 'deeplink'])(notification.getData())
-      Linking.deeplinkNavigation(navigation)(action)
-    })
-    PushNotificationIOS.requestPermissions()
-    dispatch(usersActions.usersGetCardsRequest({}))
-    dispatch(postsActions.postsGetUnreadCommentsRequest({ limit: 20 }))
+
+    return () => {
+      PushNotificationIOS.removeEventListener('notification', () => {})
+      PushNotificationIOS.removeEventListener('register', () => {})
+    }
   }, [user.userId])
 
 

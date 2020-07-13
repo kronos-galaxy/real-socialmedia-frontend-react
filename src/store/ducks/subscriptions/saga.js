@@ -112,6 +112,7 @@ function* appSubscription(req) {
     const type = path(['payload', 'payload', 'type'])(req)
 
     if (type !== 'STATE_CHANGE') {
+      yield put(usersActions.usersGetCardsRequest({}))
       yield put(postsActions.postsFeedGetRequest({ limit: 20 }))
       yield put(postsActions.postsGetTrendingPostsRequest({ limit: 100 }))
       yield put(usersActions.usersGetPendingFollowersRequest({ userId }))
