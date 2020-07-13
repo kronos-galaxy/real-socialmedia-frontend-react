@@ -116,7 +116,7 @@ const Action = ({
       </View>
 
       {seenByVisibility ?
-        <TouchableOpacity style={styling.actionRight} onPress={navigationActions.navigatePostViews(navigation, { post })}>
+        <TouchableOpacity style={styling.actionRight} onPress={navigationActions.navigatePostViews(navigation, { postId: post.postId, userId: post.postedBy.userId })}>
           <Caption>{t('Seen by {{viewedByCount}} people', { viewedByCount: post.viewedByCount })}</Caption>
         </TouchableOpacity>
       :

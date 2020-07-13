@@ -8,7 +8,6 @@ import * as Logger from 'services/Logger'
 import PushNotificationIOS from '@react-native-community/push-notification-ios'
 import * as Linking from 'services/Linking'
 import { useNavigation } from '@react-navigation/native'
-import useAppState from 'services/AppState'
 
 /**
  * 
@@ -28,6 +27,7 @@ export const AppProvider = ({
   const handlePushNotification = (notification) => {
     if (!notification) return
     const action = path(['data', 'pinpoint', 'deeplink'])(notification.getData())
+    if (!action) return
     Linking.deeplinkNavigation(navigation)(action)
   }
 
@@ -37,12 +37,6 @@ export const AppProvider = ({
     }
     PushNotificationIOS.requestPermissions()
   }
-
-  useAppState({
-    onForeground: () => {
-      PushNotificationIOS.checkPermissions(handlePermissions)
-    },
-  })
 
   /**
    * Sentry specific logger to map partial user data to error log
@@ -56,10 +50,18 @@ export const AppProvider = ({
     PushNotificationIOS.addEventListener('register', (token) => {
       dispatch(usersActions.usersSetApnsTokenRequest({ token }))
     })
+    PushNotificationIOS.addEventListener('registrationError', ({ message, code }) => {
+      Logger.withScope(scope => {
+        scope.setExtra('message', message)
+        scope.setExtra('code', code)
+        Logger.captureMessage('PUSH_NOTIFICATION_REGISTER_ERROR')
+      })
+    })
 
     return () => {
       PushNotificationIOS.removeEventListener('notification', () => {})
       PushNotificationIOS.removeEventListener('register', () => {})
+      PushNotificationIOS.removeEventListener('registrationError', () => {})
     }
   }, [user.userId])
 
