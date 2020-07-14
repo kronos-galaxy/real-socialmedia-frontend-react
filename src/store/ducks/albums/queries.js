@@ -17,7 +17,7 @@ export const addAlbum = `
 `
 
 export const getAlbum = `
-  query getAlbum($albumId: ID!, $limit: Int = 10, $nextToken: String = null) {
+  query getAlbum($albumId: ID!, $limit: Int, $nextToken: String = null) {
     album(albumId: $albumId) {
       ...singleAlbumFragment
     }
@@ -26,7 +26,7 @@ export const getAlbum = `
 `
 
 export const getAlbumPosts = `
-  query getAlbumPosts($albumId: ID!, $limit: Int = 10, $nextToken: String = null) {
+  query getAlbumPosts($albumId: ID!, $limit: Int, $nextToken: String = null) {
     album(albumId: $albumId) {
       posts(limit: $limit, nextToken: $nextToken) {
         items {
@@ -42,7 +42,7 @@ export const getAlbumPosts = `
 export const getAlbums = `
   query getAlbums($userId: ID!) {
     user(userId: $userId) {
-      albums(limit: 10) {
+      albums(limit) {
         items {
           ...gridAlbumFragment
         }
