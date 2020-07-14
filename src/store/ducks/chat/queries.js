@@ -98,3 +98,29 @@ export const reportChatViews = `
     )
   }
 `
+
+export const flagChatMessage = `
+  mutation flagChatMessage(
+    $messageId: ID!,
+  ) {
+    flagChatMessage(
+      messageId: $messageId,
+    ) {
+      ...chatMessageFragment
+    }
+  }
+  ${message.chatMessageFragment}
+`
+
+export const deleteChatMessage = `
+  mutation deleteChatMessage(
+    $messageId: ID!,
+  ) {
+    deleteChatMessage(
+      messageId: $messageId,
+    ) {
+      ...chatMessageFragment
+    }
+  }
+  ${message.chatMessageFragment}
+`

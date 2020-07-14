@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useRef } from 'react'
 import PropTypes from 'prop-types'
 import {
   StyleSheet,
@@ -9,6 +9,7 @@ import pathOr from 'ramda/src/pathOr'
 import FormComponent from 'components/ChatDirect/Form'
 import { useHeader } from 'components/ChatDirect/header'
 import * as navigationActions from 'navigation/actions'
+import ActionSheet from 'react-native-actionsheet'
 
 import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
@@ -25,9 +26,13 @@ const ChatDirect = ({
   chatAddMessageRequest,
   marginBottom,
   chatId,
+  chatDeleteMessageRequest,
+  chatFlagMessageRequest,
 }) => {
   const styling = styles(theme)
   const navigation = useNavigation()
+  const actionSheetRef = useRef(null)
+  const [selectedMessage, setSelectedMessage] = useState(null)
 
   const messagesAdapter = pathOr([], ['data', 'messages', 'items'])(chatGetChat)
     .map(message => ({
@@ -60,6 +65,10 @@ const ChatDirect = ({
         minInputToolbarHeight={0}
         onPressAvatar={({ _id }) => navigationActions.navigateProfile(navigation, { userId: _id })()}
         isKeyboardInternallyHandled={false}
+        onLongPress={(_, message) => {
+          setSelectedMessage(message)
+          actionSheetRef.current && actionSheetRef.current.show()
+        }}
       />
       
       {chatId ?
@@ -79,6 +88,36 @@ const ChatDirect = ({
           />
         </View>
       : null}
+
+      {selectedMessage && (selectedMessage.user._id === user.userId) ?
+        <ActionSheet
+          ref={actionSheetRef}
+          options={[t('Delete Message'), t('Cancel')]}
+          cancelButtonIndex={1}
+          onPress={(index) => {
+            if (index === 0) {
+              chatDeleteMessageRequest({ messageId: selectedMessage._id })
+            }
+          }}
+        />
+      : null}
+
+      {selectedMessage && (selectedMessage.user._id !== user.userId) ?
+        <ActionSheet
+          ref={actionSheetRef}
+          options={[t('Delete Message'), t('Report Message'), t('Cancel')]}
+          cancelButtonIndex={2}
+          onPress={(index) => {
+            if (index === 0) {
+              chatDeleteMessageRequest({ messageId: selectedMessage._id })
+            }
+            if (index === 1) {
+              chatFlagMessageRequest({ messageId: selectedMessage._id })
+            }
+          }}
+        />
+      : null}
+
     </View>
   )
 }
@@ -100,6 +139,8 @@ ChatDirect.propTypes = {
   chatAddMessageRequest: PropTypes.any,
   marginBottom: PropTypes.any,
   chatId: PropTypes.any,
+  chatDeleteMessageRequest: PropTypes.any,
+  chatFlagMessageRequest: PropTypes.any,
 }
 
 export default withTranslation()(withTheme(ChatDirect))

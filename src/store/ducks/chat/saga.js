@@ -146,10 +146,42 @@ function* chatReportViewRequest(req) {
   }
 }
 
+/**
+ * 
+ */
+function* chatFlagMessageRequest(req) {
+  try {
+    const data = yield queryService.apiRequest(queries.flagChatMessage, req.payload)
+    const dataSelector = path(['data', 'flagChatMessage'])
+
+    yield put(actions.chatFlagMessageSuccess({ data: dataSelector(data), payload: req.payload, meta: data }))
+  } catch (error) {
+    console.log(error)
+    yield put(actions.chatFlagMessageFailure({ message: error.message, payload: req.payload }))
+  }
+}
+
+/**
+ * 
+ */
+function* chatDeleteMessageRequest(req) {
+  try {
+    const data = yield queryService.apiRequest(queries.deleteChatMessage, req.payload)
+    const dataSelector = path(['data', 'deleteChatMessage'])
+
+    yield put(actions.chatDeleteMessageSuccess({ data: dataSelector(data), payload: req.payload, meta: data }))
+  } catch (error) {
+    console.log(error)
+    yield put(actions.chatDeleteMessageFailure({ message: error.message, payload: req.payload }))
+  }
+}
+
 export default () => [
   takeLatest(constants.CHAT_GET_CHATS_REQUEST, chatGetChatsRequest),
   takeLatest(constants.CHAT_GET_CHAT_REQUEST, chatGetChatRequest),
   takeLatest(constants.CHAT_CREATE_DIRECT_REQUEST, chatCreateDirectRequest),
   takeLatest(constants.CHAT_ADD_MESSAGE_REQUEST, chatAddMessageRequest),
   takeLatest(constants.CHAT_REPORT_VIEW_REQUEST, chatReportViewRequest),
+  takeLatest(constants.CHAT_FLAG_MESSAGE_REQUEST, chatFlagMessageRequest),
+  takeLatest(constants.CHAT_DELETE_MESSAGE_REQUEST, chatDeleteMessageRequest),
 ]

@@ -33,6 +33,18 @@ const initialState = {
     error: {},
     payload: {},
   },
+  chatDeleteMessage: {
+    data: [],
+    status: 'idle',
+    error: {},
+    payload: {},
+  },
+  chatFlagMessage: {
+    data: [],
+    status: 'idle',
+    error: {},
+    payload: {},
+  },
 
   /**
    *
@@ -200,6 +212,71 @@ const chatReportViewIdle = (state, action) => update(state, {
   },
 })
 
+/**
+ *
+ */
+const chatDeleteMessageRequest = (state, action) => update(state, {
+  chatDeleteMessage: {
+    status: { $set: 'loading' },
+    payload: { $set: action.payload },
+  },
+})
+
+const chatDeleteMessageSuccess = (state, action) => update(state, {
+  chatDeleteMessage: {
+    data: { $set: action.payload.data },
+    status: { $set: 'success' },
+    payload: { $set: action.payload.payload },
+  },
+})
+
+const chatDeleteMessageFailure = (state, action) => update(state, {
+  chatDeleteMessage: {
+    status: { $set: 'failure' },
+    payload: { $set: action.payload.payload },
+  },
+})
+
+const chatDeleteMessageIdle = (state, action) => update(state, {
+  chatDeleteMessage: {
+    status: { $set: 'idle' },
+    payload: { $set: action.payload.payload },
+  },
+})
+
+
+/**
+ *
+ */
+const chatFlagMessageRequest = (state, action) => update(state, {
+  chatFlagMessage: {
+    status: { $set: 'loading' },
+    payload: { $set: action.payload },
+  },
+})
+
+const chatFlagMessageSuccess = (state, action) => update(state, {
+  chatFlagMessage: {
+    data: { $set: action.payload.data },
+    status: { $set: 'success' },
+    payload: { $set: action.payload.payload },
+  },
+})
+
+const chatFlagMessageFailure = (state, action) => update(state, {
+  chatFlagMessage: {
+    status: { $set: 'failure' },
+    payload: { $set: action.payload.payload },
+  },
+})
+
+const chatFlagMessageIdle = (state, action) => update(state, {
+  chatFlagMessage: {
+    status: { $set: 'idle' },
+    payload: { $set: action.payload.payload },
+  },
+})
+
 export default handleActions({
   [constants.CHAT_GET_CHATS_REQUEST]: chatGetChatsRequest,
   [constants.CHAT_GET_CHATS_SUCCESS]: chatGetChatsSuccess,
@@ -221,8 +298,18 @@ export default handleActions({
   [constants.CHAT_ADD_MESSAGE_FAILURE]: chatAddMessageFailure,
   [constants.CHAT_ADD_MESSAGE_IDLE]: chatAddMessageIdle,
 
-  [constants.CHAT_REEPORT_VIEW_REQUEST]: chatReportViewRequest,
-  [constants.CHAT_REEPORT_VIEW_SUCCESS]: chatReportViewSuccess,
-  [constants.CHAT_REEPORT_VIEW_FAILURE]: chatReportViewFailure,
-  [constants.CHAT_REEPORT_VIEW_IDLE]: chatReportViewIdle,
+  [constants.CHAT_REPORT_VIEW_REQUEST]: chatReportViewRequest,
+  [constants.CHAT_REPORT_VIEW_SUCCESS]: chatReportViewSuccess,
+  [constants.CHAT_REPORT_VIEW_FAILURE]: chatReportViewFailure,
+  [constants.CHAT_REPORT_VIEW_IDLE]: chatReportViewIdle,
+
+  [constants.CHAT_DELETE_MESSAGE_REQUEST]: chatDeleteMessageRequest,
+  [constants.CHAT_DELETE_MESSAGE_SUCCESS]: chatDeleteMessageSuccess,
+  [constants.CHAT_DELETE_MESSAGE_FAILURE]: chatDeleteMessageFailure,
+  [constants.CHAT_DELETE_MESSAGE_IDLE]: chatDeleteMessageIdle,
+
+  [constants.CHAT_FLAG_MESSAGE_REQUEST]: chatFlagMessageRequest,
+  [constants.CHAT_FLAG_MESSAGE_SUCCESS]: chatFlagMessageSuccess,
+  [constants.CHAT_FLAG_MESSAGE_FAILURE]: chatFlagMessageFailure,
+  [constants.CHAT_FLAG_MESSAGE_IDLE]: chatFlagMessageIdle,
 }, initialState)

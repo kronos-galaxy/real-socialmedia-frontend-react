@@ -40,3 +40,19 @@ export const chatReportViewIdle = createAction(constants.CHAT_REPORT_VIEW_IDLE)
 export const chatReportViewRequest = createAction(constants.CHAT_REPORT_VIEW_REQUEST)
 export const chatReportViewSuccess = createAction(constants.CHAT_REPORT_VIEW_SUCCESS)
 export const chatReportViewFailure = createAction(constants.CHAT_REPORT_VIEW_FAILURE)
+
+/**
+ * 
+ */
+export const chatDeleteMessageIdle = createAction(constants.CHAT_DELETE_MESSAGE_IDLE)
+export const chatDeleteMessageRequest = createAction(constants.CHAT_DELETE_MESSAGE_REQUEST)
+export const chatDeleteMessageSuccess = createAction(constants.CHAT_DELETE_MESSAGE_SUCCESS)
+export const chatDeleteMessageFailure = createAction(constants.CHAT_DELETE_MESSAGE_FAILURE)
+
+/**
+ * 
+ */
+export const chatFlagMessageIdle = createAction(constants.CHAT_FLAG_MESSAGE_IDLE)
+export const chatFlagMessageRequest = createAction(constants.CHAT_FLAG_MESSAGE_REQUEST)
+export const chatFlagMessageSuccess = createAction(constants.CHAT_FLAG_MESSAGE_SUCCESS)
+export const chatFlagMessageFailure = createAction(constants.CHAT_FLAG_MESSAGE_FAILURE)
