@@ -16,6 +16,7 @@ import CommentsScreen from 'screens/CommentsScreen'
 import CameraScreen from 'screens/CameraScreen'
 import ChatScreen from 'screens/ChatScreen'
 import ChatDirectScreen from 'screens/ChatDirectScreen'
+import ChatOptionsScreen from 'screens/ChatOptionsScreen'
 import ProfileScreen from 'screens/ProfileScreen'
 import ProfileRequestsScreen from 'screens/ProfileRequestsScreen'
 
@@ -35,6 +36,11 @@ const ChatNavigator = ({ navigation }) => {
       <Stack.Screen
         name="ChatDirect"
         component={ChatDirectScreen}
+        {...stackScreenPageProps({ options: { title: 'Chat' } })}
+      />
+      <Stack.Screen
+        name="ChatOptions"
+        component={ChatOptionsScreen}
         {...stackScreenPageProps({ options: { title: 'Chat' } })}
       />
       <Stack.Screen

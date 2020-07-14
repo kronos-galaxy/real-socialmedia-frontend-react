@@ -79,6 +79,10 @@ export const navigateChatDirect = (navigation, params) => defaultThrottle(() =>
   navigation.navigate('ChatDirect', params)
 )
 
+export const navigateChatOptions = (navigation, params) => defaultThrottle(() =>
+  navigation.navigate('ChatOptions', params)
+)
+
 export const navigatePostError = (navigation, params) => defaultThrottle(() =>
   navigation.navigate('PostError', params)
 )
