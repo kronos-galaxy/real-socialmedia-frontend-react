@@ -24,7 +24,7 @@ export const getPosts = `
 export const getPostsUnreadComments = `
   query GetPosts($limit: Int, $nextToken: String = null) {
     self {
-      postsByNewCommentActivity(limit: $limit, nextToken: $nextToken) {
+      postsWithUnviewedComments(limit: $limit, nextToken: $nextToken) {
         items {
           ...postFragment
         }

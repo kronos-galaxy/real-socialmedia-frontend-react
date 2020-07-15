@@ -25,8 +25,8 @@ export const userFragment = `
     privacyStatus
     followedStatus
     followerStatus
-    followedCount
-    followerCount
+    followedsCount
+    followersCount
     followCountsHidden
     viewCountsHidden
     commentsDisabled
@@ -127,7 +127,8 @@ export const postFragment = `
     imageUploadUrl
     isVerified
     likeStatus
-    commentCount
+    commentsCount
+    commentsUnviewedCount: commentsCount(viewedStatus: NOT_VIEWED)
     commentsDisabled
     likesDisabled
     sharingDisabled
@@ -136,7 +137,6 @@ export const postFragment = `
     anonymousLikeCount
     viewedByCount
     viewedStatus
-    hasNewCommentActivity
   }
 
   fragment postFragment on Post {
@@ -233,7 +233,7 @@ export const chatFragment = `
     name
     createdAt
     lastMessageActivityAt
-    userCount
+    usersCount
   }
 
   fragment chatFragment on Chat {

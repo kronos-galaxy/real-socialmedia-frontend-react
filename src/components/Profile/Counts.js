@@ -22,22 +22,26 @@ const ProfileCounts = ({
   const styling = styles(theme)
   const navigation = useNavigation()
 
-  const followerCount = path(['data', 'followerCount'])(usersGetProfile)
-  const followedCount = path(['data', 'followedCount'])(usersGetProfile)
+  const followersCount = path(['data', 'followersCount'])(usersGetProfile)
+  const followedsCount = path(['data', 'followedsCount'])(usersGetProfile)
 
   const followingVisibility = (
-    !path(['data', 'followCountsHidden'])(usersGetProfile) &&
-    is(Number)(followedCount) &&
-    !(
+    is(Number)(followedsCount) &&
+    (
+      path(['data', 'followCountsHidden'])(usersGetProfile) !== true ||
+      path(['data', 'followedStatus'])(usersGetProfile) === 'SELF'
+    ) && !(
       path(['data', 'followedStatus'])(usersGetProfile) === 'NOT_FOLLOWING' &&
       path(['data', 'privacyStatus'])(usersGetProfile) === 'PRIVATE'
     )
   )
 
   const followerVisibility = (
-    !path(['data', 'followCountsHidden'])(usersGetProfile) &&
-    is(Number)(followerCount) &&
-    !(
+    is(Number)(followersCount) &&
+    (
+      path(['data', 'followCountsHidden'])(usersGetProfile) !== true ||
+      path(['data', 'followedStatus'])(usersGetProfile) === 'SELF'
+    ) && !(
       path(['data', 'followedStatus'])(usersGetProfile) === 'NOT_FOLLOWING' &&
       path(['data', 'privacyStatus'])(usersGetProfile) === 'PRIVATE'
     )
@@ -52,7 +56,7 @@ const ProfileCounts = ({
 
       {followerVisibility ?
         <TouchableOpacity style={styling.item} onPress={navigationActions.navigateProfileFollower(navigation, { userId: usersGetProfile.data.userId })}>
-          <Headline style={styling.itemTitle}>{followerCount}</Headline>
+          <Headline style={styling.itemTitle}>{followersCount}</Headline>
           <Caption style={styling.itemText} numberOfLines={1}>{t('Followers')}</Caption>
         </TouchableOpacity>
       :
@@ -65,7 +69,7 @@ const ProfileCounts = ({
       
       {followingVisibility ?
         <TouchableOpacity style={styling.item} onPress={navigationActions.navigateProfileFollowed(navigation, { userId: usersGetProfile.data.userId })}>
-          <Headline style={styling.itemTitle}>{followedCount}</Headline>
+          <Headline style={styling.itemTitle}>{followedsCount}</Headline>
           <Caption style={styling.itemText} numberOfLines={1}>{t('Following')}</Caption>
         </TouchableOpacity>
       :
