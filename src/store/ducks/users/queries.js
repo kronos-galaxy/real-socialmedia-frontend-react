@@ -244,3 +244,13 @@ export const onCardNotification = `
     }
   }
 `
+
+export const onUnviewedNotificationNotification = `
+  subscription onNotification ($userId: ID!) {
+    onNotification (userId: $userId) {
+      userId
+      type
+      userChatsWithUnviewedMessagesCount
+    }
+  }
+`

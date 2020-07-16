@@ -57,6 +57,7 @@ function initPostsCreateUploadChannel({ image, uploadUrl }) {
   }
 
   const handleFailure = (emitter) => (error) => {
+    console.log(error, 321)
     emitter({ status: 'failure', progress: 0 })
     emitter(END)
   }

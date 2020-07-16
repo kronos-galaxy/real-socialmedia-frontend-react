@@ -171,7 +171,47 @@ function* chatMessageSubscription(req) {
   }
 }
 
+/**
+ *
+ */
+function chatNotificationSubscriptionChannel({ subscription }) {
+  return eventChannel(emitter => {
+    subscription.subscribe({
+      next: emitter,
+      error: () => {},
+    })
+
+    return () => subscription.unsubscribe()
+  })
+}
+
+function* chatNotificationSubscription(req) {
+  try {
+    const AwsAPI = yield getContext('AwsAPI')
+    const userId = path(['payload', 'data'])(req)
+
+    const subscription = AwsAPI.graphql(
+      graphqlOperation(chatQueries.onUnviewedNotificationNotification, { userId })
+    )
+
+    const channel = yield call(chatNotificationSubscriptionChannel, {
+      subscription,
+    })
+
+    yield takeEvery(channel, function *(eventData) {
+      yield put(usersActions.usersGetProfileSelfRequest({ userId }))
+    })
+  } catch (error) {
+    Logger.withScope(scope => {
+      scope.setExtra('code', 'CHAT_MESSAGE_SUBSCRIPTION_ERROR')
+      scope.setExtra('message', error.message)
+      Logger.captureMessage('CHAT_MESSAGE_SUBSCRIPTION')
+    })
+  }
+}
+
 export default () => [
+  takeLatest('AUTH_CHECK_READY', chatNotificationSubscription),
   takeLatest('AUTH_CHECK_READY', chatMessageSubscription),
   takeLatest('AUTH_CHECK_READY', postSubscription),
   takeLatest('AUTH_CHECK_READY', cardSubscription),
