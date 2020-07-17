@@ -318,13 +318,13 @@ PODS:
     - React-RCTImage
   - react-native-netinfo (5.9.4):
     - React
-  - react-native-safe-area-context (3.0.7):
+  - react-native-safe-area-context (3.1.1):
     - React
-  - react-native-slider (3.0.0):
+  - react-native-slider (3.0.2):
     - React
   - react-native-view-shot (3.1.2):
     - React
-  - react-native-viewpager (4.0.1):
+  - react-native-viewpager (4.1.0):
     - React
   - React-RCTActionSheet (0.62.2):
     - React-Core/RCTActionSheetHeaders (= 0.62.2)
@@ -436,9 +436,9 @@ PODS:
   - RNSVG (12.1.0):
     - React
   - RSKImageCropper (2.0.0)
-  - Sentry (5.1.8):
-    - Sentry/Core (= 5.1.8)
-  - Sentry/Core (5.1.8)
+  - Sentry (5.1.9):
+    - Sentry/Core (= 5.1.9)
+  - Sentry/Core (5.1.9)
   - SSZipArchive (2.2.3)
   - TOCropViewController (2.5.3)
   - Yoga (1.14.0)
@@ -727,10 +727,10 @@ SPEC CHECKSUMS:
   react-native-get-random-values: 2b7500cdb68066aba87cdccd97067c29e16ffe95
   react-native-image-editor: 9361a215c3991cafbe5e7f28cbbad6e72c9c2705
   react-native-netinfo: cd479ab1b67cdd1cb1403a99ecdb24190a6dd7ef
-  react-native-safe-area-context: ef6f16c66b0797ecae1bf86c103dfb3dc16fc33d
-  react-native-slider: 12bd76d3d568c9c5500825db54123d44b48e4ad4
+  react-native-safe-area-context: 344b969c45af3d8464d36e8dea264942992ef033
+  react-native-slider: 0221b417686c5957f6e77cd9ac22c1478a165355
   react-native-view-shot: 4475fde003fe8a210053d1f98fb9e06c1d834e1c
-  react-native-viewpager: 1af972f5a745647b51250285f4da26d3fb3d5f0f
+  react-native-viewpager: 6f8c102e8081d70259252b254143b4193a9fb4cb
   React-RCTActionSheet: f41ea8a811aac770e0cc6e0ad6b270c644ea8b7c
   React-RCTAnimation: 49ab98b1c1ff4445148b72a3d61554138565bad0
   React-RCTBlob: a332773f0ebc413a0ce85942a55b064471587a71
@@ -762,7 +762,7 @@ SPEC CHECKSUMS:
   RNShare: a1d5064df7a0ebe778d001869b3f0a124bf0a491
   RNSVG: ce9d996113475209013317e48b05c21ee988d42e
   RSKImageCropper: d9a1acbc0600bf8decc8f0d21895872c99a9e4cf
-  Sentry: 795e8ffe1c45d9d20b3aa398774d7ea6a443fb05
+  Sentry: 81f7f2bd3cb041137ea7efcde3aa5ad0d5a67632
   SSZipArchive: 62d4947b08730e4cda640473b0066d209ff033c9
   TOCropViewController: 20a14b6a7a098308bf369e7c8d700dc983a974e6
   Yoga: 3ebccbdd559724312790e7742142d062476b698e

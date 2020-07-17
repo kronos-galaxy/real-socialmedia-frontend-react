@@ -25,10 +25,27 @@ export const AppProvider = ({
   const postsFlag = useSelector(state => state.posts.postsFlag)
 
   const handlePushNotification = (notification) => {
-    if (!notification) return
+    if (!notification || !notification.getData()) return
+  
     const action = path(['data', 'pinpoint', 'deeplink'])(notification.getData())
-    if (!action) return
-    Linking.deeplinkNavigation(navigation)(action)
+  
+    if (action) {
+      Linking.deeplinkNavigation(navigation)(action)
+    } else {
+      Logger.withScope(scope => {
+        scope.setExtra('payload', JSON.stringify(notification.getData()))
+        Logger.captureMessage('PUSH_NOTIFICATION_LISTENER_ERROR')
+      })
+    }
+
+    try {
+      // notification.finish(PushNotificationIOS.FetchResult.NewData)
+    } catch (error) {
+      Logger.withScope(scope => {
+        scope.setExtra('payload', error.message)
+        Logger.captureMessage('PUSH_NOTIFICATION_LISTENER_ERROR')
+      })
+    }
   }
 
   const handlePermissions = (permissions) => {
@@ -59,9 +76,9 @@ export const AppProvider = ({
     })
 
     return () => {
-      PushNotificationIOS.removeEventListener('notification', () => {})
-      PushNotificationIOS.removeEventListener('register', () => {})
-      PushNotificationIOS.removeEventListener('registrationError', () => {})
+      // PushNotificationIOS.removeEventListener('notification', () => {})
+      // PushNotificationIOS.removeEventListener('register', () => {})
+      // PushNotificationIOS.removeEventListener('registrationError', () => {})
     }
   }, [user.userId])
 

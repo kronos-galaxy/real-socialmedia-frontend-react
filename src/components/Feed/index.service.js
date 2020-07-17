@@ -89,8 +89,8 @@ const FeedService = ({ children }) => {
   const onViewableItemsChangedRef = useRef(onViewableItemsChanged)
   const viewabilityConfigRef = useRef({
     minimumViewTime: 3000,
-    viewAreaCoveragePercentThreshold: 30,
-    waitForInteraction: false,
+    viewAreaCoveragePercentThreshold: 90,
+    waitForInteraction: true,
   })
 
   const createActionSheetRef = post => element => {

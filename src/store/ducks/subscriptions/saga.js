@@ -191,7 +191,7 @@ function* chatNotificationSubscription(req) {
     const userId = path(['payload', 'data'])(req)
 
     const subscription = AwsAPI.graphql(
-      graphqlOperation(chatQueries.onUnviewedNotificationNotification, { userId })
+      graphqlOperation(usersQueries.onUnviewedNotificationNotification, { userId })
     )
 
     const channel = yield call(chatNotificationSubscriptionChannel, {

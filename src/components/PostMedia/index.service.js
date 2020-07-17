@@ -89,8 +89,8 @@ const PostMediaService = ({ children }) => {
    */
   const onViewableItemsChangedRef = useRef(onViewableItemsChanged)
   const viewabilityConfigRef = useRef({
-    minimumViewTime: 3000,
-    viewAreaCoveragePercentThreshold: 30,
+    minimumViewTime: 1000,
+    viewAreaCoveragePercentThreshold: 90,
     waitForInteraction: false,
   })
 

@@ -11,13 +11,14 @@ export const useHeader = ({
   chatGetChat,
 }) => {
   const navigation = useNavigation()
+  const chatId = path(['data', 'chatId'])(chatGetChat)
 
   /**
    *
    */
   const headerRight = useCallback(() =>
-    <HeaderRight onPress={navigationActions.navigateChatOptions(navigation, { chatId: chatGetChat.data.chatId })}><InfoIcon fill="#ffffff" /></HeaderRight>
-  , [chatGetChat.data.chatId])
+    <HeaderRight onPress={navigationActions.navigateChatOptions(navigation, { chatId })}><InfoIcon fill="#ffffff" /></HeaderRight>
+  , [chatId])
 
   /**
    *
