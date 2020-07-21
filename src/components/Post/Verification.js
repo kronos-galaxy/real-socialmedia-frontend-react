@@ -24,6 +24,7 @@ const Verification = ({
       <FeatureComponent active>{t('The Photo must be unrotated')}</FeatureComponent>
       <FeatureComponent active>{t('The Photo must have been taken on this phone (not sent to you)')}</FeatureComponent>
       <FeatureComponent active>{t('If you’re still having trouble, photos taken using the camera inside the REAL app will always pass verification')}</FeatureComponent>
+      <FeatureComponent active>{t('Unverified posts can’t be trending/discovered, used as profile pictures, or used in dating. They can only be seen by your followers')}</FeatureComponent>
     </BlurView>
   )
 }

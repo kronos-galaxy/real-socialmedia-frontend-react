@@ -12,6 +12,7 @@ import * as Yup from 'yup'
 import path from 'ramda/src/path'
 import useDebounce from 'react-use/lib/useDebounce'
 import CloseIcon from 'assets/svg/camera/Close'
+import { useIsFocused } from '@react-navigation/native'
 
 import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
@@ -36,12 +37,17 @@ const SearchForm = ({
 
   const formFocus = getFieldMeta('searchToken').touched
   const formChange = path(['searchToken', 'length'])(values)
+  const isFocused = useIsFocused()
 
   const close = (event) => {
     Keyboard.dismiss()
     handleReset()
   }
 
+  useEffect(() => {
+    if (isFocused) return
+    close()
+  }, [isFocused])
   useEffect(() => {
     handleFormFocus(formFocus)
   }, [formFocus])

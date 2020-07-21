@@ -31,7 +31,7 @@ const FormAlbums = ({
   return (
     <View style={styling.root}>
       <ScrollView style={styling.albums} horizontal>
-        <TouchableOpacity style={[styling.album, styling.albumCreate]} onPress={navigationActions.navigateAlbums(navigation)}>
+        <TouchableOpacity style={[styling.album, styling.albumCreate]} onPress={navigationActions.navigateAlbumCreate(navigation)}>
           <Text>{t('New Album')}</Text>
         </TouchableOpacity>
 
