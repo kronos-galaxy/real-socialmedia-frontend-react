@@ -24,6 +24,7 @@ const Comment = ({
   comment,
   deletable,
   commentsDeleteRequest,
+  handleUserReply,
 }) => {
   const styling = styles(theme)
   const navigation = useNavigation()
@@ -38,7 +39,7 @@ const Comment = ({
           imageSource={{ uri: path(['commentedBy', 'photo', 'url64p'])(comment) }}
         />
       </TouchableOpacity>
-      <View style={styling.comment}>
+      <TouchableOpacity style={styling.comment} onPress={() => handleUserReply(comment.commentedBy.username)}>
         <Paragraph>
           {[
             /**
@@ -63,8 +64,8 @@ const Comment = ({
             })
           ]}
         </Paragraph>
-        <Caption>{dayjs(path(['commentedAt'])(comment)).from(dayjs())}</Caption>
-      </View>
+        <Caption>{dayjs(path(['commentedAt'])(comment)).from(dayjs())} | Reply</Caption>
+      </TouchableOpacity>
       <View style={styling.action}>
         {deletable ?
           <TouchableOpacity style={styling.action} onPress={commentsDeleteRequest}>
@@ -108,6 +109,7 @@ Comment.propTypes = {
   comment: PropTypes.any,
   deletable: PropTypes.any,
   commentsDeleteRequest: PropTypes.any,
+  handleUserReply: PropTypes.any,
 }
 
 export default withTranslation()(withTheme(Comment))

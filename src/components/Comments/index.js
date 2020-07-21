@@ -28,6 +28,13 @@ const Comments = ({
   postsSingleGet,
   onViewableItemsChangedRef,
   viewabilityConfigRef,
+  handleUserReply,
+
+  handleFormSubmit,
+  handleFormTransform,
+  formSubmitLoading,
+  formSubmitDisabled,
+  formInitialValues,
 }) => {
   const styling = styles(theme)
   
@@ -54,7 +61,10 @@ const Comments = ({
         viewabilityConfig={viewabilityConfigRef.current}
         ListHeaderComponent={pseudoCommentVisibility ?
           <View style={styling.comment} key="desc">
-            <CommentComponent comment={pseudoComment} />
+            <CommentComponent
+              comment={pseudoComment}
+              handleUserReply={handleUserReply}
+            />
           </View>
         : null}
         renderItem={({ item: comment, index }) => (
@@ -62,6 +72,7 @@ const Comments = ({
             <CommentComponent
               comment={comment}
               commentsDeleteRequest={() => commentsDeleteRequest({ commentId: comment.commentId })}
+              handleUserReply={handleUserReply}
               deletable={(
                 path(['postedBy', 'userId'])(postsSingleGet.data) === user.userId ||
                 path(['commentedBy', 'userId'])(comment) === user.userId
@@ -72,8 +83,11 @@ const Comments = ({
       />
       <View style={{ marginBottom }}>
         <FormComponent
-          commentsAdd={commentsAdd}
-          commentsAddRequest={commentsAddRequest}
+          handleFormSubmit={handleFormSubmit}
+          handleFormTransform={handleFormTransform}
+          formSubmitLoading={formSubmitLoading}
+          formSubmitDisabled={formSubmitDisabled}
+          formInitialValues={formInitialValues}
         />
       </View>
     </View>
@@ -113,6 +127,13 @@ Comments.propTypes = {
   postsSingleGet: PropTypes.any,
   onViewableItemsChangedRef: PropTypes.any,
   viewabilityConfigRef: PropTypes.any,
+  handleUserReply: PropTypes.any,
+
+  handleFormSubmit: PropTypes.any,
+  handleFormTransform: PropTypes.any,
+  formSubmitLoading: PropTypes.any,
+  formSubmitDisabled: PropTypes.any,
+  formInitialValues: PropTypes.any,
 }
 
 export default withTranslation()(withTheme(Comments))

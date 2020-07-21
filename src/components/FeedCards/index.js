@@ -21,8 +21,6 @@ const FeedCards = ({
   const styling = styles(theme)
   const cardsRef = useRef(null)
 
-  console.log(filteredCardsData)
-
   if (!filteredCardsData.length) {
     return null
   }

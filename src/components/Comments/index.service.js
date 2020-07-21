@@ -1,5 +1,5 @@
 import { useRef } from 'react'
-import { Keyboard, InteractionManager } from 'react-native'
+import { Keyboard } from 'react-native'
 import { useEffect, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import * as postsActions from 'store/ducks/posts/actions'
@@ -8,6 +8,10 @@ import { v4 as uuid } from 'uuid'
 import { ifIphoneX } from 'react-native-iphone-x-helper'
 import * as authSelector from 'store/ducks/auth/selectors'
 import * as postsSelector from 'store/ducks/posts/selectors'
+import trim from 'ramda/src/trim'
+import compose from 'ramda/src/compose'
+import toLower from 'ramda/src/toLower'
+import pathOr from 'ramda/src/pathOr'
 
 const CommentsService = ({ children }) => {
   const dispatch = useDispatch()
@@ -90,6 +94,34 @@ const CommentsService = ({ children }) => {
     waitForInteraction: false,
   })
 
+  /**
+   *
+   */
+  const [replyUser, setReplyUser] = useState(null)
+  const handleUserReply = (username) => {
+    setReplyUser(`@${username}`)
+  }
+
+  const handleFormSubmit = (values, { resetForm }) => {
+    commentsAddRequest(values)
+    resetForm()
+    Keyboard.dismiss()
+  }
+
+  const formSubmitLoading = commentsAdd.status === 'loading'
+  const formSubmitDisabled = commentsAdd.status === 'loading'
+  const formErrorMessage = commentsAdd.error.text
+
+  const formInitialValues = {
+    text: replyUser,
+  }
+
+  const handleFormTransform = (values) => ({
+    text: compose(trim, pathOr('', ['text']))(values),
+  })
+
+  const handleErrorClose = () => dispatch(postsActions.commentsAddIdle({}))
+
   return children({
     user,
     commentsAdd,
@@ -100,6 +132,15 @@ const CommentsService = ({ children }) => {
     marginBottom,
     onViewableItemsChangedRef,
     viewabilityConfigRef,
+    handleUserReply,
+
+    formErrorMessage,
+    handleFormSubmit,
+    handleFormTransform,
+    handleErrorClose,
+    formSubmitLoading,
+    formSubmitDisabled,
+    formInitialValues,
   })
 }
 

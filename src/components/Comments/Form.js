@@ -23,14 +23,19 @@ const CommentsForm = ({
   t,
   theme,
   handleSubmit,
-  handleFormFocus,
-  handleFormChange,
-  getFieldMeta,
-  handleReset,
   loading,
-  values,
+  disabled,
+  dirty,
+  isValid,
+  isValidating,
 }) => {
   const styling = styles(theme)
+
+  const submitDisabled = (
+    disabled ||
+    !isValid ||
+    isValidating
+  )
 
   return (
     <View style={styling.root}>
@@ -80,26 +85,25 @@ CommentsForm.propTypes = {
 }
 
 export default withTranslation()(withTheme(({
-  commentsAdd,
-  commentsAddRequest,
+  handleFormSubmit,
+  handleFormTransform,
+  formSubmitLoading,
+  formSubmitDisabled,
+  formInitialValues,
   ...props
 }) => (
   <Formik
-    initialValues={{
-      text: '',
-    }}
+    initialValues={formInitialValues}
     validationSchema={formSchema}
-    onSubmit={(values, { resetForm }) => {
-      commentsAddRequest(values)
-      resetForm()
-      Keyboard.dismiss()
-    }}
+    onSubmit={handleFormSubmit}
+    enableReinitialize
   >
     {(formikProps) => (
       <CommentsForm
         {...formikProps}
         {...props}
-        loading={commentsAdd.status === 'loading'}
+        loading={formSubmitLoading}
+        disabled={formSubmitDisabled}
       />
     )}
   </Formik>

@@ -156,7 +156,6 @@ function* chatFlagMessageRequest(req) {
 
     yield put(actions.chatFlagMessageSuccess({ data: dataSelector(data), payload: req.payload, meta: data }))
   } catch (error) {
-    console.log(error)
     yield put(actions.chatFlagMessageFailure({ message: error.message, payload: req.payload }))
   }
 }
@@ -170,8 +169,7 @@ function* chatDeleteMessageRequest(req) {
     const dataSelector = path(['data', 'deleteChatMessage'])
 
     yield put(actions.chatDeleteMessageSuccess({ data: dataSelector(data), payload: req.payload, meta: data }))
-  } catch (error) {
-    console.log(error)
+  } catch (error) {console.log(error)
     yield put(actions.chatDeleteMessageFailure({ message: error.message, payload: req.payload }))
   }
 }
