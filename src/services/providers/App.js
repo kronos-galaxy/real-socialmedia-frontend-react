@@ -1,3 +1,4 @@
+import { Linking } from 'react-native'
 import { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import * as usersActions from 'store/ducks/users/actions'
@@ -6,7 +7,8 @@ import * as authSelector from 'store/ducks/auth/selectors'
 import path from 'ramda/src/path'
 import * as Logger from 'services/Logger'
 import PushNotificationIOS from '@react-native-community/push-notification-ios'
-import * as Linking from 'services/Linking'
+import * as navigationActions from 'navigation/actions'
+import * as LinkingService from 'services/Linking'
 import { useNavigation } from '@react-navigation/native'
 
 /**
@@ -30,7 +32,7 @@ export const AppProvider = ({
     const action = path(['data', 'pinpoint', 'deeplink'])(notification.getData())
   
     if (action) {
-      Linking.deeplinkNavigation(navigation)(action)
+      LinkingService.deeplinkNavigation(navigation, navigationActions, Linking)(action)
     } else {
       Logger.withScope(scope => {
         scope.setExtra('payload', JSON.stringify(notification.getData()))

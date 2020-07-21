@@ -1,32 +1,49 @@
-import { Linking } from 'react-native'
-import * as navigationActions from 'navigation/actions'
 import urlPattern from 'url-pattern'
 
-const options = { segmentValueCharset: '/:a-zA-Z0-9_-' }
+export class MissingDeeplinkParamsError extends Error {
+  constructor(...args) {
+    super(...args)
+    this.code = 'MISSING_DEEP_LINK_PARAMS_ERROR'
+    Error.captureStackTrace(this, MissingDeeplinkParamsError)
+  }
+}
+
+const options = { segmentValueCharset: ':a-zA-Z0-9_-' }
 const matchedPostAction = new urlPattern(
-  '*/user/(:userId)/post/(:postId)/(:action)',
-  options
-)
-const matchedPost = new urlPattern(
-  '*/user/(:userId)/post/(:postId)',
+  '*/user/(:userId)/post/(:postId)((/):action)(/)',
   options
 )
 
-export const deeplinkNavigation = (navigation) => (action) => {
-  const postActionParams = matchedPostAction.match(action)
-  const postParams = matchedPost.match(action)
+export const deeplinkPath = (action) => {
+  const params = matchedPostAction.match(action)
 
-  if (action === 'https://real.app/chat/') {
-    return navigationActions.navigateChat(navigation)()
-  } else if (postActionParams && postActionParams.action === 'comments') {
-    return navigationActions.navigateNestedComments(navigation, postActionParams)()
-  } else if (postActionParams && postActionParams.action === 'views') {
-    return navigationActions.navigateNestedPostViews(navigation, postActionParams)()
-  } else if (postActionParams && postActionParams.action === 'likes') {
-    return navigationActions.navigateNestedPostLikes(navigation, postActionParams)()
-  } if (postParams) {
-    return navigationActions.navigateNestedPost(navigation, postParams)()
-  } else {
-    return Linking.openURL(action)
+  if (!params || !params.userId || !params.postId) {
+    throw new MissingDeeplinkParamsError('Missing userId or postId parameters')
+  }
+
+  return params
+}
+
+export const deeplinkNavigation = (navigation, navigationActions, Linking) => (action) => {
+  try {
+    if (action === 'https://real.app/chat/') {
+      return navigationActions.navigateChat(navigation)()
+    }
+
+    const params = deeplinkPath(action)
+
+    if (params && params.action === 'comments') {
+      return navigationActions.navigateNestedComments(navigation, params)()
+    } else if (params && params.action === 'views') {
+      return navigationActions.navigateNestedPostViews(navigation, params)()
+    } else if (params && params.action === 'likes') {
+      return navigationActions.navigateNestedPostLikes(navigation, params)()
+    } else if (params && !params.action) {
+      return navigationActions.navigateNestedPost(navigation, params)()
+    }
+  } catch (error) {
+    if (error.code === 'MISSING_DEEP_LINK_PARAMS_ERROR') {
+      return Linking.openURL(action)
+    }
   }
 }

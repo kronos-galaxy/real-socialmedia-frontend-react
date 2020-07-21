@@ -14,14 +14,16 @@ import { withTranslation } from 'react-i18next'
 const FeedCards = ({
   t,
   theme,
-  usersGetCards,
+  filteredCardsData,
   handleCardPress,
   usersDeleteCardRequest,
 }) => {
   const styling = styles(theme)
   const cardsRef = useRef(null)
 
-  if (!usersGetCards.data.length) {
+  console.log(filteredCardsData)
+
+  if (!filteredCardsData.length) {
     return null
   }
 
@@ -30,7 +32,7 @@ const FeedCards = ({
       <Carousel
         ref={cardsRef}
         enableMomentum
-        data={usersGetCards.data}
+        data={filteredCardsData}
         renderItem={Card({
           borderColor: theme.colors.border,
           backgroundColor: theme.colors.backgroundSecondary,
@@ -55,7 +57,7 @@ const FeedCards = ({
 FeedCards.propTypes = {
   t: PropTypes.any,
   theme: PropTypes.any,
-  usersGetCards: PropTypes.any,
+  filteredCardsData: PropTypes.any,
   handleCardPress: PropTypes.any,
 }
 
