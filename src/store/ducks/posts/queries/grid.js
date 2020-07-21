@@ -40,6 +40,8 @@ export const gridPostFragment = `
     postedAt
     expiresAt
     text
+    commentsUnviewedCount: commentsCount(viewedStatus: NOT_VIEWED)
+
     image {
       ...imageFragment
     }

@@ -568,6 +568,15 @@ function* postsDislikeRequest(req) {
 /**
  *
  */
+function* handlePostsReportPostViewsRequest(payload) {
+  const data = payload.postIds.reduce((acc, item) => {
+    acc[item] = { commentsUnviewedCount: 0 }
+    return acc
+  }, {})
+
+  yield put(entitiesActions.entitiesPostsMerge({ data }))
+}
+
 function* postsReportPostViewsRequest(req) {
   const errorWrapper = yield getContext('errorWrapper')
 
@@ -576,6 +585,7 @@ function* postsReportPostViewsRequest(req) {
     const selector = path(['data', 'reportPostViews'])
     const meta = {}
 
+    yield handlePostsReportPostViewsRequest(req.payload)
     yield put(actions.postsReportPostViewsSuccess({ data: selector(data), payload: req.payload, meta }))
   } catch (error) {
     yield put(actions.postsReportPostViewsFailure({ message: errorWrapper(error), payload: req.payload }))
