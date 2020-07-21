@@ -93,6 +93,7 @@ function* cardSubscription(req) {
       yield put(usersActions.usersGetCardsRequest({}))
       yield put(postsActions.postsGetUnreadCommentsRequest({ limit: 20 }))
       yield put(usersActions.usersGetProfileSelfRequest({ userId }))
+      yield put(usersActions.usersGetPendingFollowersRequest({ userId }))
     })
   } catch (error) {
     Logger.withScope(scope => {
