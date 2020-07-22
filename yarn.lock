@@ -2182,10 +2182,10 @@
   resolved "https://registry.npmjs.org/@react-native-community/netinfo/-/netinfo-5.9.5.tgz#3bad0d855d2e813be085ec305139d4175c512ccc"
   integrity sha512-PbSsRmhRwYIMdeVJTf9gJtvW0TVq/hmgz1xyjsrTIsQ7QS7wbMEiv1Eb/M/y6AEEsdUped5Axm5xykq9TGISHg==
 
-"@react-native-community/push-notification-ios@^1.2.0":
-  version "1.2.0"
-  resolved "https://registry.npmjs.org/@react-native-community/push-notification-ios/-/push-notification-ios-1.2.0.tgz#3353598450a39c42d079603aad2d1c0f9c2c1729"
-  integrity sha512-B5qPb9P/6vvxGGQDePlK/q6NxoZPWSVFtKCQ9jlboP7gNZmf3AAyBhTzrb++s2NSXXogjkGi6vt9df1ipZiawQ==
+"@react-native-community/push-notification-ios@^1.2.2":
+  version "1.4.0"
+  resolved "https://registry.npmjs.org/@react-native-community/push-notification-ios/-/push-notification-ios-1.4.0.tgz#e1781e60fb8a2569547e3f1613c62e1c3b46960c"
+  integrity sha512-YnfxtAuHkiuvprh1d9npGZVwOrso6sys8+w8XY6RQAs8kD2LHZg0C8rA5gfX4jW/GrQV7m14Y6ngciE6Rpd91w==
   dependencies:
     invariant "^2.2.4"
 
@@ -3145,19 +3145,19 @@ babel-jest@^26.1.0:
     graceful-fs "^4.2.4"
     slash "^3.0.0"
 
-babel-plugin-dotenv@0.1.1:
-  version "0.1.1"
-  resolved "https://registry.npmjs.org/babel-plugin-dotenv/-/babel-plugin-dotenv-0.1.1.tgz#9c8faea67a7c034fe7e94099187ab2e7573400bc"
-  integrity sha1-nI+upnp8A0/n6UCZGHqy51c0ALw=
-  dependencies:
-    dotenv "^2.0.0"
-
 babel-plugin-dynamic-import-node@^2.3.3:
   version "2.3.3"
   resolved "https://registry.npmjs.org/babel-plugin-dynamic-import-node/-/babel-plugin-dynamic-import-node-2.3.3.tgz#84fda19c976ec5c6defef57f9427b3def66e17a3"
   integrity sha512-jZVI+s9Zg3IqA/kdi0i6UDCybUI3aSBLnglhYbSSjKlV7yF1F/5LWv8MakQmvYpnbJDS6fcBL2KzHSxNCMtWSQ==
   dependencies:
     object.assign "^4.1.0"
+
+babel-plugin-inline-dotenv@^1.5.0:
+  version "1.5.0"
+  resolved "https://registry.npmjs.org/babel-plugin-inline-dotenv/-/babel-plugin-inline-dotenv-1.5.0.tgz#a4e94c17194d66deabfe1691fb5b20e4ac95a33f"
+  integrity sha512-5US4vuZPQkASBE5bVvcJPlQfL2xXkdM/uUKwRvXh6pBT7Fc+bp5WgJhI1Nd1HHmHvreKe94U8i5zjGEBrTG7XA==
+  dependencies:
+    dotenv "^8.1.0"
 
 babel-plugin-istanbul@^6.0.0:
   version "6.0.0"
@@ -3537,6 +3537,14 @@ chalk@^4.0.0:
     ansi-styles "^4.1.0"
     supports-color "^7.1.0"
 
+chalk@^4.1.0:
+  version "4.1.0"
+  resolved "https://registry.npmjs.org/chalk/-/chalk-4.1.0.tgz#4e14870a618d9e2edd97dd8345fd9d9dc315646a"
+  integrity sha512-qwx12AxXe2Q5xQ43Ac//I6v5aXTipYrSESdOgzrN+9XjgEpyjpKuvSGaN4qE93f7TQTlerQQ8S+EQ0EyDoVL1A==
+  dependencies:
+    ansi-styles "^4.1.0"
+    supports-color "^7.1.0"
+
 char-regex@^1.0.2:
   version "1.0.2"
   resolved "https://registry.npmjs.org/char-regex/-/char-regex-1.0.2.tgz#d744358226217f981ed58f479b1d6bcc29545dcf"
@@ -3599,6 +3607,11 @@ cli-width@^2.0.0:
   version "2.2.1"
   resolved "https://registry.npmjs.org/cli-width/-/cli-width-2.2.1.tgz#b0433d0b4e9c847ef18868a4ef16fd5fc8271c48"
   integrity sha512-GRMWDxpOB6Dgk2E5Uo+3eEBvtOOlimMmpbFiKuLFnQzYDavtLFY3K5ona41jgN/WdRZtG7utuVSVTL4HbZHGkw==
+
+cli-width@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.npmjs.org/cli-width/-/cli-width-3.0.0.tgz#a2f48437a2caa9a22436e794bf071ec9e61cedf6"
+  integrity sha512-FxqpkPPwu1HjuN93Omfm4h8uIanXofW0RxVEW3k5RKx+mJJYSthzNhp32Kzxxy3YAEZ/Dc/EWN1vZRY0+kOhbw==
 
 cliui@^4.0.0:
   version "4.1.0"
@@ -4272,10 +4285,10 @@ dooboolab-welcome@^1.2.0:
   resolved "https://registry.npmjs.org/dooboolab-welcome/-/dooboolab-welcome-1.2.0.tgz#295818ce85a8e97dc90c0ec0510b4008e2d722dc"
   integrity sha512-XgEbjJHAsKLge/e8jtuHsv84Ovg1Gx0GvnOTOmOlVGV1643nduTAkT3fyo/mxKbzvyXBr47RHaJAY4R2toI0UA==
 
-dotenv@^2.0.0:
-  version "2.0.0"
-  resolved "https://registry.npmjs.org/dotenv/-/dotenv-2.0.0.tgz#bd759c357aaa70365e01c96b7b0bec08a6e0d949"
-  integrity sha1-vXWcNXqqcDZeAclrewvsCKbg2Uk=
+dotenv@^8.0.0, dotenv@^8.1.0:
+  version "8.2.0"
+  resolved "https://registry.npmjs.org/dotenv/-/dotenv-8.2.0.tgz#97e619259ada750eea3e4ea3e26bceea5424b16a"
+  integrity sha512-8sJ78ElpbDJBHNeBzUbUVLsqKdccaa/BXF1uPTw3GrvQTBgrQrtObr2mUrE38vzYd8cEv+m/JBfDLioYcfXoaw==
 
 dtrace-provider@~0.8:
   version "0.8.8"
@@ -5777,21 +5790,21 @@ inquirer@^6.2.0:
     strip-ansi "^5.1.0"
     through "^2.3.6"
 
-inquirer@^7.1.0:
-  version "7.1.0"
-  resolved "https://registry.npmjs.org/inquirer/-/inquirer-7.1.0.tgz#1298a01859883e17c7264b82870ae1034f92dd29"
-  integrity sha512-5fJMWEmikSYu0nv/flMc475MhGbB7TSPd/2IpFV4I4rMklboCH2rQjYY5kKiYGHqUF9gvaambupcJFFG9dvReg==
+inquirer@^7.2.0:
+  version "7.3.2"
+  resolved "https://registry.npmjs.org/inquirer/-/inquirer-7.3.2.tgz#25245d2e32dc9f33dbe26eeaada231daa66e9c7c"
+  integrity sha512-DF4osh1FM6l0RJc5YWYhSDB6TawiBRlbV9Cox8MWlidU218Tb7fm3lQTULyUJDfJ0tjbzl0W4q651mrCCEM55w==
   dependencies:
     ansi-escapes "^4.2.1"
-    chalk "^3.0.0"
+    chalk "^4.1.0"
     cli-cursor "^3.1.0"
-    cli-width "^2.0.0"
+    cli-width "^3.0.0"
     external-editor "^3.0.3"
     figures "^3.0.0"
-    lodash "^4.17.15"
+    lodash "^4.17.16"
     mute-stream "0.0.8"
     run-async "^2.4.0"
-    rxjs "^6.5.3"
+    rxjs "^6.6.0"
     string-width "^4.1.0"
     strip-ansi "^6.0.0"
     through "^2.3.6"
@@ -6928,7 +6941,7 @@ lodash@4.x.x, lodash@^4, lodash@^4.0.0, lodash@^4.17.10, lodash@^4.17.11, lodash
   resolved "https://registry.npmjs.org/lodash/-/lodash-4.17.15.tgz#b447f6670a0455bbfeedd11392eff330ea097548"
   integrity sha512-8xOcRHvCjnocdS5cpwXQXVzmmh5e5+saE2QGoeQmbKmRS6J3VQppPOIt0MnmE+4xlZoumy0GPG0D0MVIQbNA1A==
 
-lodash@^4.17.19:
+lodash@^4.17.16, lodash@^4.17.19:
   version "4.17.19"
   resolved "https://registry.npmjs.org/lodash/-/lodash-4.17.19.tgz#e48ddedbe30b3321783c5b4301fbd353bc1e4a4b"
   integrity sha512-JNvd8XER9GQX0v2qJgsaN/mzFCNA5BRe/j8JN9d+tWyGLSodKQHKFicdwNYzWwI3wjRnaKPsGj1XkBjx/F96DQ==
@@ -8393,15 +8406,15 @@ react-native-animatable@1.3.3, react-native-animatable@^1.3.3:
   dependencies:
     prop-types "^15.7.2"
 
-react-native-background-timer@^2.2.0:
-  version "2.2.0"
-  resolved "https://registry.npmjs.org/react-native-background-timer/-/react-native-background-timer-2.2.0.tgz#ff82d30899209b924983cc00e6ce174b8de5054a"
-  integrity sha512-Y7N6diSFko/FCJPMmB0PoBlmY1kEcma7qDVwn8t7zi12GLqpe/Vwls97onkSD8/QL+BR33BygUHOrLTPwgeKfg==
+react-native-background-timer@^2.3.1:
+  version "2.3.1"
+  resolved "https://registry.npmjs.org/react-native-background-timer/-/react-native-background-timer-2.3.1.tgz#83044a4572c62f5b99e929057b7bda5596b033ae"
+  integrity sha512-cqsXqNOZYtFYrzdwXdfFciJOXjQwr1DpCb2Oy4Z3+FGETRRl+wH3uf8YuqnYUHFnKulHJ0BwYKTvkmmbY0eTxQ==
 
-react-native-camera@^3.31.0:
-  version "3.31.0"
-  resolved "https://registry.npmjs.org/react-native-camera/-/react-native-camera-3.31.0.tgz#7b9b4dd30b6d1363bdffed4ce0a0bef93c3ebf87"
-  integrity sha512-TTuse7JGVUbh/cj+a4OfyXoPqhwPyYx+63tzJWZT0sWwZX5bvlxjYaEur/U1hiZZjOC03muEIMkTD7nYp6ZVFA==
+react-native-camera@^3.33.0:
+  version "3.33.0"
+  resolved "https://registry.npmjs.org/react-native-camera/-/react-native-camera-3.33.0.tgz#7c098051533cf2401e2511bfc42a949d23aa2356"
+  integrity sha512-fl2mTSLcpqHcI3ydXYpvxdZUCJDmf4pRCDySISrUKCV40VCv2QEriyxekjA1GMWXgVUu3Kb45LJZ0ZxhJ86/SA==
   dependencies:
     prop-types "^15.6.2"
 
@@ -8412,40 +8425,40 @@ react-native-circular-progress@^1.3.6:
   dependencies:
     prop-types "^15.7.2"
 
-react-native-code-push@^6.2.1:
-  version "6.2.1"
-  resolved "https://registry.npmjs.org/react-native-code-push/-/react-native-code-push-6.2.1.tgz#016bd75b9d2e4d8024de3b249cc2313e8769f6b8"
-  integrity sha512-FrvIq16fqVKWdDCh/akj5Hf59eJQDJEwUHAYo1BCo1I+q5GOCZuLs97n2ec+E/x0JOoszRcjVqKSEFXldODoNg==
+react-native-code-push@^6.3.0:
+  version "6.3.0"
+  resolved "https://registry.npmjs.org/react-native-code-push/-/react-native-code-push-6.3.0.tgz#a30bdefe91867fe9d38c73caa126f3c9ff0061e4"
+  integrity sha512-y90hv2oGZkuQDbDJfjt7oMrdZWtXKk/5mz0gQPB8VztWD90JDZGkFNfvB7pUPvrJc1M68xty94F6AtlNJReY9Q==
   dependencies:
     code-push "^3.1.0"
     glob "^7.1.6"
     hoist-non-react-statics "^3.3.2"
-    inquirer "^7.1.0"
+    inquirer "^7.2.0"
     plist "3.0.1"
-    semver "^7.2.1"
-    xcode "2.1.0"
+    semver "^7.3.2"
+    xcode "3.0.1"
 
 react-native-communications@^2.2.1:
   version "2.2.1"
   resolved "https://registry.npmjs.org/react-native-communications/-/react-native-communications-2.2.1.tgz#7883b56b20a002eeb790c113f8616ea8692ca795"
   integrity sha1-eIO1ayCgAu63kMET+GFuqGksp5U=
 
-react-native-config@^1.2.1:
-  version "1.2.1"
-  resolved "https://registry.npmjs.org/react-native-config/-/react-native-config-1.2.1.tgz#f80454fc58ea89b549819ccb4bdab26518a9f0db"
-  integrity sha512-u7MDku3fUUKAtxfUFLLwnj4htBYO840EBGdlDB9ry/eX1TY+asHwULaUkAj9x+pJo4vSpIp8GtYxxi8dLzDtJw==
+react-native-config@^1.3.1:
+  version "1.3.1"
+  resolved "https://registry.npmjs.org/react-native-config/-/react-native-config-1.3.1.tgz#d1e86031c49b2b1b968ebb158ac02a293acce0b8"
+  integrity sha512-Wmkn6WjCc1P0k77FiYQdRTU3AE9fR01vbkETLp9u5OK6+6kfsTbmFZwjMPE0Ao8LbRQP3mStK7niheKCFyIENA==
 
-react-native-device-info@^5.6.1:
-  version "5.6.1"
-  resolved "https://registry.npmjs.org/react-native-device-info/-/react-native-device-info-5.6.1.tgz#3ae88d8659b7b64d204dbfc39f69126b769363d4"
-  integrity sha512-FxjenoDZJKT53pp/Tl5gMsw5DA82Y5tOuySQlKS5AaDmw+Bu6EqEJjt0z4TRhJOVoqVJ35oCiZ3xViVbz/hB0w==
+react-native-device-info@^5.6.3:
+  version "5.6.3"
+  resolved "https://registry.npmjs.org/react-native-device-info/-/react-native-device-info-5.6.3.tgz#8b964866fc538bcfb82e25ad88f872139d7a591d"
+  integrity sha512-fmaXRjG0NW9FAOdOD86cmjgoxA/2I0lBq1NZmxQ2sgElyRjLxZLtuJn/QpP8hmFeTlKFDSZpSDvEnB+UUihcmw==
 
-react-native-dotenv@^0.2.0:
-  version "0.2.0"
-  resolved "https://registry.npmjs.org/react-native-dotenv/-/react-native-dotenv-0.2.0.tgz#311551cb6a35a3dcfede648bded55c0e3ece579d"
-  integrity sha1-MRVRy2o1o9z+3mSL3tVcDj7OV50=
+react-native-dotenv@^2.2.0:
+  version "2.2.0"
+  resolved "https://registry.npmjs.org/react-native-dotenv/-/react-native-dotenv-2.2.0.tgz#d64289483c7956b97424b34164e56995e9919976"
+  integrity sha512-awcQNP7XBOJYR0RGAAgF/ia9yQeJgE023xUii/DiaTo/jDcnJEOXCPepnTmYsgk8Wtj6argVDBFAeAi3nUOfAw==
   dependencies:
-    babel-plugin-dotenv "0.1.1"
+    dotenv "^8.0.0"
 
 react-native-fbsdk@^2.0.0:
   version "2.0.0"
@@ -8460,10 +8473,10 @@ react-native-fs@^2.16.6:
     base-64 "^0.1.0"
     utf8 "^3.0.0"
 
-react-native-gesture-handler@^1.6.1:
-  version "1.6.1"
-  resolved "https://registry.npmjs.org/react-native-gesture-handler/-/react-native-gesture-handler-1.6.1.tgz#678e2dce250ed66e93af409759be22cd6375dd17"
-  integrity sha512-gQgIKhDiYf754yzhhliagLuLupvGb6ZyBdzYzr7aus3Fyi87TLOw63ers+r4kGw0h26oAWTAdHd34JnF4NeL6Q==
+react-native-gesture-handler@^1.7.0:
+  version "1.7.0"
+  resolved "https://registry.npmjs.org/react-native-gesture-handler/-/react-native-gesture-handler-1.7.0.tgz#0ef74a5ba836832e497dc49eb1ce58baa6c617e5"
+  integrity sha512-1CrjJf8Z6Iz2XWzfZknYtsm2sud5Lu/pLhhokkgBIKttxqGDtetDEVFDJOTJWJyKCrUPk0X5tnWi/diSF4q++w==
   dependencies:
     "@egjs/hammerjs" "^2.0.17"
     hoist-non-react-statics "^2.3.1"
@@ -8604,17 +8617,17 @@ react-native-phone-input@^0.2.4:
     lodash "^4.17.4"
     prop-types "^15.5.10"
 
-react-native-push-notification@^3.5.2:
-  version "3.5.2"
-  resolved "https://registry.npmjs.org/react-native-push-notification/-/react-native-push-notification-3.5.2.tgz#5f6226d12a00c25c15279325b57c5fbddd5b1c82"
-  integrity sha512-eh9l7WeL7Lxq17ntsafCrNQF6aW8XS6b7PG/s1Y8amAqpDt8GJ8hz125z566N1jsj3PDh9pfd4SjNS+tLaV47A==
+react-native-push-notification@^4.0.0:
+  version "4.0.0"
+  resolved "https://registry.npmjs.org/react-native-push-notification/-/react-native-push-notification-4.0.0.tgz#85c795abef6ddbdbed039ca6a5ffcedc0f36d0dd"
+  integrity sha512-PwFxGupwlAKc8qz8nMhX9U+/En/kiEH/1cyuKvUQdMa+tx96xZ/t81RTyOkkehkx4lbsI+Tv2F+D+fJV9IQb+A==
   dependencies:
-    "@react-native-community/push-notification-ios" "^1.2.0"
+    "@react-native-community/push-notification-ios" "^1.2.2"
 
-react-native-reanimated@^1.9.0:
-  version "1.9.0"
-  resolved "https://registry.npmjs.org/react-native-reanimated/-/react-native-reanimated-1.9.0.tgz#38676c99dd585504fdc7331efb45e5f48ec7339a"
-  integrity sha512-Aj+spgIHRiVv7ezGADxnSH1EoKrQRD2+XaSiGY0MiB/pvRNNrZPSJ+3NVpvLwWf9lZMOP7dwqqyJIzoZgBDt8w==
+react-native-reanimated@^1.10.0:
+  version "1.10.0"
+  resolved "https://registry.npmjs.org/react-native-reanimated/-/react-native-reanimated-1.10.0.tgz#529f9a5716164c72362e2e60bc720cea65239e1d"
+  integrity sha512-0+rRXZr199NMsGbJJ00fxi0XA7JRJuL7UnzapwSzx4J6CmrDHvb8qU3A/dTFPM4sbvL7MLmlD0aItaDU+0ELqQ==
   dependencies:
     fbjs "^1.0.0"
 
@@ -8676,7 +8689,7 @@ react-native-view-shot@^3.1.2:
   resolved "https://registry.npmjs.org/react-native-view-shot/-/react-native-view-shot-3.1.2.tgz#8c8e84c67a4bc8b603e697dbbd59dbc9b4f84825"
   integrity sha512-9u9fPtp6a52UMoZ/UCPrCjKZk8tnkI9To0Eh6yYnLKFEGkRZ7Chm6DqwDJbYJHeZrheCCopaD5oEOnRqhF4L2Q==
 
-react-native@^0.62.2:
+react-native@0.62.2:
   version "0.62.2"
   resolved "https://registry.npmjs.org/react-native/-/react-native-0.62.2.tgz#d831e11a3178705449142df19a70ac2ca16bad10"
   integrity sha512-gADZZ3jcm2WFTjh8CCBCbl5wRSbdxqZGd+8UpNwLQFgrkp/uHorwAhLNqcd4+fHmADgPBltNL0uR1Vhv47zcOw==
@@ -9202,10 +9215,17 @@ rxjs@^5.4.3:
   dependencies:
     symbol-observable "1.0.1"
 
-rxjs@^6.4.0, rxjs@^6.5.3:
+rxjs@^6.4.0:
   version "6.5.5"
   resolved "https://registry.npmjs.org/rxjs/-/rxjs-6.5.5.tgz#c5c884e3094c8cfee31bf27eb87e54ccfc87f9ec"
   integrity sha512-WfQI+1gohdf0Dai/Bbmk5L5ItH5tYqm3ki2c5GdWhKjalzjg93N3avFjVStyZZz+A2Em+ZxKH5bNghw9UeylGQ==
+  dependencies:
+    tslib "^1.9.0"
+
+rxjs@^6.6.0:
+  version "6.6.0"
+  resolved "https://registry.npmjs.org/rxjs/-/rxjs-6.6.0.tgz#af2901eedf02e3a83ffa7f886240ff9018bbec84"
+  integrity sha512-3HMA8z/Oz61DUHe+SdOiQyzIf4tOx5oQHmMir7IZEu6TMqCLHT4LRcmNaUS0NwOz8VLvmmBduMsoaUvMaIiqzg==
   dependencies:
     tslib "^1.9.0"
 
@@ -9464,7 +9484,7 @@ signal-exit@^3.0.0, signal-exit@^3.0.2, signal-exit@^3.0.3:
   resolved "https://registry.npmjs.org/signal-exit/-/signal-exit-3.0.3.tgz#a1410c2edd8f077b08b4e253c8eacfcaf057461c"
   integrity sha512-VUJ49FC8U1OxwZLxIbTTrDvLnf/6TDgxZcK8wxR8zs13xpx7xbG60ndBlhNrFi2EMuFRoeDoJO7wthSLq42EjA==
 
-simple-plist@^1.0.0:
+simple-plist@^1.0.0, simple-plist@^1.1.0:
   version "1.1.0"
   resolved "https://registry.npmjs.org/simple-plist/-/simple-plist-1.1.0.tgz#8354ab63eb3922a054c78ce96c209c532e907a23"
   integrity sha512-2i5Tc0BYAqppM7jVzmNrI+aEUntPolIq4fDgji6WuNNn1D/qYdn2KwoLhZdzQkE04lu9L5tUoeJsjuJAvd+lFg==
@@ -10814,7 +10834,15 @@ xcode@2.0.0:
     simple-plist "^1.0.0"
     uuid "^3.3.2"
 
-xcode@2.1.0, xcode@^2.0.0:
+xcode@3.0.1:
+  version "3.0.1"
+  resolved "https://registry.npmjs.org/xcode/-/xcode-3.0.1.tgz#3efb62aac641ab2c702458f9a0302696146aa53c"
+  integrity sha512-kCz5k7J7XbJtjABOvkc5lJmkiDh8VhjVCGNiqdKCscmVpdVUpEAyXv1xmCLkQJ5dsHqx3IPO4XW+NTDhU/fatA==
+  dependencies:
+    simple-plist "^1.1.0"
+    uuid "^7.0.3"
+
+xcode@^2.0.0:
   version "2.1.0"
   resolved "https://registry.npmjs.org/xcode/-/xcode-2.1.0.tgz#bab64a7e954bb50ca8d19da7e09531c65a43ecfe"
   integrity sha512-uCrmPITrqTEzhn0TtT57fJaNaw8YJs1aCzs+P/QqxsDbvPZSv7XMPPwXrKvHtD6pLjBM/NaVwraWJm8q83Y4iQ==
