@@ -10,7 +10,9 @@ const PostViewsService = ({ children }) => {
   const navigation = useNavigation()
   const route = useRoute()
   const postId = route.params.postId
+  const userId = route.params.userId
   const postsViewsGet = useSelector(postsSelector.postsViewsGetSelector(postId))
+  const postsSingleGet = useSelector(postsSelector.postsSingleGetSelector(postId))
   const usersFollow = useSelector(state => state.users.usersFollow)
   const usersUnfollow = useSelector(state => state.users.usersUnfollow)
   const usersAcceptFollowerUser = useSelector(state => state.users.usersAcceptFollowerUser)
@@ -29,6 +31,10 @@ const PostViewsService = ({ children }) => {
   
   const postsViewsGetMoreRequest = (payload) => 
     dispatch(postsActions.postsViewsGetMoreRequest(payload))
+
+  useEffect(() => {
+    dispatch(postsActions.postsSingleGetRequest({ postId, userId }))
+  }, [postId])
 
   useEffect(() => {
     if (usersFollow.status === 'success') {
@@ -53,6 +59,7 @@ const PostViewsService = ({ children }) => {
     usersFollowRequest,
     usersUnfollowRequest,
     usersAcceptFollowerUserRequest,
+    postsSingleGet,
   })
 }
 

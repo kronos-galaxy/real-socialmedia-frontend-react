@@ -169,7 +169,7 @@ function* chatDeleteMessageRequest(req) {
     const dataSelector = path(['data', 'deleteChatMessage'])
 
     yield put(actions.chatDeleteMessageSuccess({ data: dataSelector(data), payload: req.payload, meta: data }))
-  } catch (error) {console.log(error)
+  } catch (error) {
     yield put(actions.chatDeleteMessageFailure({ message: error.message, payload: req.payload }))
   }
 }

@@ -9,10 +9,8 @@ import path from 'ramda/src/path'
 import { Headline, Caption } from 'react-native-paper'
 import AccordionComponent from 'templates/Accordion'
 import ModalProfileComponent from 'templates/ModalProfile'
-import ModalHeaderComponent from 'templates/ModalHeader'
 import ModalPreviewComponent from 'templates/ModalPreview'
 import dayjs from 'dayjs'
-import * as navigationActions from 'navigation/actions'
 import NativeError from 'templates/NativeError'
 
 import { withTheme } from 'react-native-paper'
@@ -86,12 +84,6 @@ const PostShare = ({
         hidden={path(['payload', 'type'])(postsShare) !== 'cameraroll'}
       />
 
-      <View style={styling.header}>
-        <ModalHeaderComponent
-          onPress={navigationActions.navigateBack(navigation)}
-        />
-      </View>
-
       <ScrollView bounces={false}>
         <ModalPreviewComponent
           post={path(['data'])(postsSingleGet)}
@@ -153,9 +145,6 @@ const styles = theme => StyleSheet.create({
   root: {
     flex: 1,
     backgroundColor: theme.colors.backgroundPrimary,
-  },
-  header: {
-    zIndex: 2,
   },
   content: {
     padding: theme.spacing.base,

@@ -13,7 +13,6 @@ const SearchNavigator = () => {
   const { theme, themes } = useContext(ThemesContext)
   const stackNavigatorDefaultProps = navigationOptions.stackNavigatorDefaultProps({ theme, themes })
   const stackScreenDefaultProps = navigationOptions.stackScreenDefaultProps({ theme, themes })
-  const stackScreenCardProps = navigationOptions.stackScreenCardProps({ theme, themes })
   const stackScreenPageProps = navigationOptions.stackScreenPageProps({ theme, themes })
 
   return (
@@ -26,7 +25,6 @@ const SearchNavigator = () => {
 
       {navigationFragments.media({
         Stack,
-        stackScreenCardProps,
         stackScreenPageProps,
       })}
     </Stack.Navigator>

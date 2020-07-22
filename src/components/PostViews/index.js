@@ -11,9 +11,12 @@ import ResultComponent from 'components/Search/Result'
 import ScrollService from 'services/Scroll'
 import { Caption } from 'react-native-paper'
 import path from 'ramda/src/path'
+import ModalProfileComponent from 'templates/ModalProfile'
+import ModalPreviewComponent from 'templates/ModalPreview'
+import dayjs from 'dayjs'
 
 import { withTheme } from 'react-native-paper'
-import { useNavigation, useRoute } from '@react-navigation/native'
+import { useNavigation } from '@react-navigation/native'
 import { withTranslation } from 'react-i18next'
 
 const PostViews = ({
@@ -28,23 +31,19 @@ const PostViews = ({
   usersUnfollowRequest,
   usersAcceptFollowerUser,
   usersAcceptFollowerUserRequest,
+  postsSingleGet,
 }) => {
   const styling = styles(theme)
-  const route = useRoute()
-  const postId = route.params.postId
 
   const scroll = ScrollService({
     resource: postsViewsGet,
     loadInit: postsViewsGetRequest,
     loadMore: postsViewsGetMoreRequest,
-    extra: { postId },
+    extra: { postId: path(['data', 'postId'])(postsSingleGet) },
   })
   
   return (
     <View style={styling.root}>
-      <View style={styling.info}>
-        <Caption>{t('Only you can see who viewed your post')}</Caption>
-      </View>
       <ScrollView
         refreshControl={
           <RefreshControl
@@ -55,6 +54,19 @@ const PostViews = ({
         onScroll={scroll.handleScrollChange}
         scrollEventThrottle={400}
       >
+        <ModalPreviewComponent
+          post={path(['data'])(postsSingleGet)}
+        />
+
+        <View style={styling.content}>
+          <ModalProfileComponent
+            thumbnailSource={{ uri: path(['data', 'postedBy', 'photo', 'url480p'])(postsSingleGet) }}
+            imageSource={{ uri: path(['data', 'postedBy', 'photo', 'url480p'])(postsSingleGet) }}
+            title={path(['data', 'postedBy', 'username'])(postsSingleGet)}
+            subtitle={`${t('Posted')} ${dayjs(path(['data', 'postedAt'])(postsSingleGet)).from(dayjs())}`}
+          />
+        </View>
+
         <ResultComponent
           usersSearch={postsViewsGet}
           usersFollow={usersFollow}
@@ -64,6 +76,10 @@ const PostViews = ({
           usersAcceptFollowerUser={usersAcceptFollowerUser}
           usersAcceptFollowerUserRequest={usersAcceptFollowerUserRequest}
         />
+
+        <View style={styling.info}>
+          <Caption>{t('Only you can see who viewed your post')}</Caption>
+        </View>
 
         {scroll.loadingmore ?
           <View style={styling.activity}>
@@ -86,6 +102,9 @@ const styles = theme => StyleSheet.create({
   activity: {
     padding: theme.spacing.base * 2,
   },
+  content: {
+    padding: theme.spacing.base,
+  },
 })
 
 PostViews.propTypes = {
@@ -100,6 +119,7 @@ PostViews.propTypes = {
   t: PropTypes.any,
   usersAcceptFollowerUser: PropTypes.any,
   usersAcceptFollowerUserRequest: PropTypes.any,
+  postsSingleGet: PropTypes.any,
 }
 
 export default withTranslation()(withTheme(PostViews))

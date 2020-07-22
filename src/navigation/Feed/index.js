@@ -13,7 +13,6 @@ const AppNavigator = () => {
   const Stack = createStackNavigator()
   const stackNavigatorCardProps = navigationOptions.stackNavigatorCardProps({ theme, themes })
   const stackScreenDefaultProps = navigationOptions.stackScreenDefaultProps({ theme, themes })
-  const stackScreenCardProps = navigationOptions.stackScreenCardProps({ theme, themes })
   const stackScreenPageProps = navigationOptions.stackScreenPageProps({ theme, themes })
 
   return (
@@ -26,7 +25,6 @@ const AppNavigator = () => {
       
       {navigationFragments.media({
         Stack,
-        stackScreenCardProps,
         stackScreenPageProps,
       })}
     </Stack.Navigator>

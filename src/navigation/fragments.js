@@ -73,7 +73,7 @@ export const media = ({
       <Stack.Screen
         name="PostShare"
         component={PostShareScreen}
-        {...stackScreenCardProps}
+        {...stackScreenPageProps({ options: { title: 'Share' } })}
       />
 
       <Stack.Screen

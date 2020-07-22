@@ -143,6 +143,7 @@ export const postFragment = `
     ...rootPost
     originalPost {
       postId
+      isVerified
       postedBy {
         ...userFragment
       }

@@ -10,7 +10,9 @@ const PostsLikesService = ({ children }) => {
   const navigation = useNavigation()
   const route = useRoute()
   const postId = route.params.postId
+  const userId = route.params.userId
   const postsLikesGet = useSelector(postsSelector.postsLikesGetSelector(postId))
+  const postsSingleGet = useSelector(postsSelector.postsSingleGetSelector(postId))
   const usersFollow = useSelector(state => state.users.usersFollow)
   const usersUnfollow = useSelector(state => state.users.usersUnfollow)
   const usersAcceptFollowerUser = useSelector(state => state.users.usersAcceptFollowerUser)
@@ -26,6 +28,10 @@ const PostsLikesService = ({ children }) => {
 
   const postsLikesGetRequest = (payload) => 
     dispatch(postsActions.postsLikesGetRequest(payload))
+
+  useEffect(() => {
+    dispatch(postsActions.postsSingleGetRequest({ postId, userId }))
+  }, [postId])
 
   useEffect(() => {
     if (usersFollow.status === 'success') {
@@ -49,6 +55,7 @@ const PostsLikesService = ({ children }) => {
     usersFollowRequest,
     usersUnfollowRequest,
     usersAcceptFollowerUserRequest,
+    postsSingleGet,
   })
 }
 

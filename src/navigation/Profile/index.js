@@ -22,7 +22,6 @@ const ProfileNavigator = () => {
   const { theme, themes } = useContext(ThemesContext)
   const Stack = createStackNavigator()
   const stackNavigatorDefaultProps = navigationOptions.stackNavigatorDefaultProps({ theme, themes })
-  const stackScreenCardProps = navigationOptions.stackScreenCardProps({ theme, themes })
   const stackScreenPageProps = navigationOptions.stackScreenPageProps({ theme, themes })
 
   return (
@@ -85,7 +84,6 @@ const ProfileNavigator = () => {
 
       {navigationFragments.media({
         Stack,
-        stackScreenCardProps,
         stackScreenPageProps,
       })}
     </Stack.Navigator>

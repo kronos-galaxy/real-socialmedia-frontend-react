@@ -221,33 +221,6 @@ const chatSchema = new schema.Entity(
 	}
 )
 
-const originalPostSchema = new schema.Entity(
-	/**
-	 * Key
-	 */
-	'posts',
-	/**
-	 * Definition
-	 */
-	{
-		image: imageSchema,
-		album: albumSchema,
-		postedBy: usersSchema,
-		textTaggedUsers: [{
-			user: usersSchema,
-		}],
-		comments: {
-			items: [commentsSchema],
-		},
-	},
-	/**
-	 * Options
-	 */
-	{
-		idAttribute: 'postId'
-	}
-)
-
 const postSchema = new schema.Entity(
 	/**
 	 * Key
@@ -266,7 +239,6 @@ const postSchema = new schema.Entity(
 		comments: {
 			items: [commentsSchema],
 		},
-		originalPost: originalPostSchema,
 	},
 	/**
 	 * Options
