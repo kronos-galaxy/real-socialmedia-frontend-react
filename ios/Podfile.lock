@@ -316,11 +316,11 @@ PODS:
   - react-native-image-editor (2.3.0):
     - React
     - React-RCTImage
-  - react-native-netinfo (5.9.4):
+  - react-native-netinfo (5.9.5):
     - React
   - react-native-safe-area-context (3.1.1):
     - React
-  - react-native-slider (3.0.2):
+  - react-native-slider (3.0.3):
     - React
   - react-native-view-shot (3.1.2):
     - React
@@ -428,7 +428,7 @@ PODS:
     - React
   - RNScreens (2.9.0):
     - React
-  - RNSentry (1.6.1):
+  - RNSentry (1.6.3):
     - React
     - Sentry (~> 5.1.8)
   - RNShare (3.7.0):
@@ -726,9 +726,9 @@ SPEC CHECKSUMS:
   react-native-fbsdk: 00c15d138bba6d4efa628670886fc58cec858c19
   react-native-get-random-values: 2b7500cdb68066aba87cdccd97067c29e16ffe95
   react-native-image-editor: 9361a215c3991cafbe5e7f28cbbad6e72c9c2705
-  react-native-netinfo: cd479ab1b67cdd1cb1403a99ecdb24190a6dd7ef
+  react-native-netinfo: a53b00d949b6456913aaf507d9dba90c4008c611
   react-native-safe-area-context: 344b969c45af3d8464d36e8dea264942992ef033
-  react-native-slider: 0221b417686c5957f6e77cd9ac22c1478a165355
+  react-native-slider: e99fc201cefe81270fc9d81714a7a0f5e566b168
   react-native-view-shot: 4475fde003fe8a210053d1f98fb9e06c1d834e1c
   react-native-viewpager: 6f8c102e8081d70259252b254143b4193a9fb4cb
   React-RCTActionSheet: f41ea8a811aac770e0cc6e0ad6b270c644ea8b7c
@@ -758,7 +758,7 @@ SPEC CHECKSUMS:
   RNPermissions: ad71dd4f767ec254f2cd57592fbee02afee75467
   RNReanimated: b5ccb50650ba06f6e749c7c329a1bc3ae0c88b43
   RNScreens: c526239bbe0e957b988dacc8d75ac94ec9cb19da
-  RNSentry: 57824da1293d03966605d682d5868b11aa1b6e5a
+  RNSentry: ae1e005e4f2655775475445a9c49c1d343e8e3a7
   RNShare: a1d5064df7a0ebe778d001869b3f0a124bf0a491
   RNSVG: ce9d996113475209013317e48b05c21ee988d42e
   RSKImageCropper: d9a1acbc0600bf8decc8f0d21895872c99a9e4cf
