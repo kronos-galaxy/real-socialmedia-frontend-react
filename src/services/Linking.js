@@ -17,8 +17,12 @@ const matchedPostAction = new urlPattern(
 export const deeplinkPath = (action) => {
   const params = matchedPostAction.match(action)
 
+  if (action === 'https://real.app/chat/') {
+    return { action: 'chats' }
+  }
+
   if (!params || !params.userId || !params.postId) {
-    throw new MissingDeeplinkParamsError('Missing userId or postId parameters')
+    throw new MissingDeeplinkParamsError('Missing userId or postId parameters for post endpoint')
   }
 
   return params
@@ -26,13 +30,11 @@ export const deeplinkPath = (action) => {
 
 export const deeplinkNavigation = (navigation, navigationActions, Linking) => (action) => {
   try {
-    if (action === 'https://real.app/chat/') {
-      return navigationActions.navigateChat(navigation)()
-    }
-
     const params = deeplinkPath(action)
 
-    if (params && params.action === 'comments') {
+    if (params.action === 'chats') {
+      return navigationActions.navigateChat(navigation)()
+    } else if (params && params.action === 'comments') {
       return navigationActions.navigateNestedComments(navigation, params)()
     } else if (params && params.action === 'views') {
       return navigationActions.navigateNestedPostViews(navigation, params)()

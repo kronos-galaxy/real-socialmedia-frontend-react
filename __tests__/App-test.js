@@ -1,6 +1,14 @@
 import * as LinkingService from 'services/Linking'
 
 test('deeplinkPath determines provided post params', () => {
+  /**
+   * Chats
+   */
+  const chatsUrl = 'https://real.app/chat/'
+  expect(LinkingService.deeplinkPath(chatsUrl)).toMatchObject({
+    action: 'chats',
+  })
+
 	/**
 	 * Root post without action
 	 */
@@ -63,10 +71,13 @@ test('deeplinkPath determines provided post params', () => {
    * Failing url
    */
 	const appUrl = 'https://real.app/'
-  expect(() => LinkingService.deeplinkPath(appUrl)).toThrow(/Missing userId or postId parameters/)
+  expect(() => LinkingService.deeplinkPath(appUrl)).toThrow(/Missing userId or postId parameters for post endpoint/)
+  
+  const missingUserUrl = 'https://real.app/user/us-east-1:6b33c0d0-cc30-4083-92a1-043f7cd313ce'
+  expect(() => LinkingService.deeplinkPath(missingUserUrl)).toThrow(/Missing userId or postId parameters for post endpoint/)
 })
 
-describe('', () => {
+describe('deeplinkNavigation redirect routes', () => {
   afterEach(() => {
     jest.clearAllMocks()
   })
@@ -86,7 +97,7 @@ describe('', () => {
     openURL: jest.fn().mockName('mockedOpenUrl'),
   }
 
-  test('chat', () => {
+  test('chats', () => {
     const rootUrl = 'https://real.app/chat/'
     LinkingService.deeplinkNavigation(navigation, actions, Linking)(rootUrl)
     expect(actions.navigateChat).toHaveBeenLastCalledWith(navigation)

@@ -27,6 +27,7 @@ const FeedCardsService = ({ children }) => {
       Logger.withScope(scope => {
         scope.setExtra('action', card.action)
         scope.setExtra('code', error.code)
+        scope.setExtra('message', error.message)
         Logger.captureMessage('FEED_CARDS_UNSUPPORTED_CARD')
       })
       return false
