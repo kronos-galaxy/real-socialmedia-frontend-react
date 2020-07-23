@@ -63,7 +63,7 @@ export const handleGallery = async (photoSize = '1:1', multiple = false) => {
           originalFormat: sourcePhoto.extension,
           crop: croppedCoords,
           originalMetadata: JSON.stringify(response.exif),
-          imageFormat: sourcePhoto.imageFormat,
+          imageFormat: sourcePhoto.format,
           takenInReal: false,
           photoSize,
         })
