@@ -40,7 +40,7 @@ const TextField = ({
   }
   const onBlur = (event) => {
     form.handleBlur(name)(event)
-    // form.setFieldTouched(name, false)
+    form.setFieldTouched(name, false)
   }
   const onChangeText = (event) => {
     form.handleChange(name)(event)

@@ -97,9 +97,16 @@ const CommentsService = ({ children }) => {
   /**
    *
    */
+  const inputRefs = useRef({
+    text: useRef(null),
+  })
+
   const [replyUser, setReplyUser] = useState(null)
   const handleUserReply = (username) => {
-    setReplyUser(`@${username}`)
+    setReplyUser(`@${username} `)
+    if (inputRefs.current.text.current) {
+      inputRefs.current.text.current.focus()
+    }
   }
 
   const handleFormSubmit = (values, { resetForm }) => {
@@ -141,6 +148,7 @@ const CommentsService = ({ children }) => {
     formSubmitLoading,
     formSubmitDisabled,
     formInitialValues,
+    inputRefs,
   })
 }
 

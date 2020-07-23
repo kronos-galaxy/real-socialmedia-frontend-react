@@ -25,6 +25,7 @@ const TextGrowing = ({
   keyboardType = 'default',
   onSubmitEditing,
   disabled,
+  inputRef,
 }) => {
   const styling = styles(theme)
   
@@ -44,6 +45,7 @@ const TextGrowing = ({
   return (
     <View style={styling.root}>
       <TextInput
+        ref={inputRef}
         style={[styling.input, { height }]}
         name={name}
         onChangeText={onChangeText}
@@ -101,6 +103,7 @@ TextGrowing.propTypes = {
   onSubmitEditing: PropTypes.any,
   disabled: PropTypes.any,
   t: PropTypes.any,
+  inputRef: PropTypes.any,
 }
 
 export default withTranslation()(withTheme(TextGrowing))

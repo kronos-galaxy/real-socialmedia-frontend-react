@@ -35,6 +35,7 @@ const Comments = ({
   formSubmitLoading,
   formSubmitDisabled,
   formInitialValues,
+  inputRefs,
 }) => {
   const styling = styles(theme)
   
@@ -88,6 +89,7 @@ const Comments = ({
           formSubmitLoading={formSubmitLoading}
           formSubmitDisabled={formSubmitDisabled}
           formInitialValues={formInitialValues}
+          inputRefs={inputRefs}
         />
       </View>
     </View>

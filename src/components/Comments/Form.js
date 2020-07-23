@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useRef } from 'react'
 import PropTypes from 'prop-types'
 import {
   StyleSheet,
@@ -28,6 +28,7 @@ const CommentsForm = ({
   dirty,
   isValid,
   isValidating,
+  inputRefs,
 }) => {
   const styling = styles(theme)
 
@@ -40,7 +41,7 @@ const CommentsForm = ({
   return (
     <View style={styling.root}>
       <View style={styling.input}>
-        <Field name="text" component={TextGrowing} placeholder={t('Add a comment')} hideError />
+        <Field name="text" component={TextGrowing} placeholder={t('Add a comment')} hideError inputRef={inputRefs.current.text} />
       </View>
       <View style={styling.button}>
         <DefaultButton label={t('Post')} onPress={handleSubmit} loading={loading} disabled={loading} />
