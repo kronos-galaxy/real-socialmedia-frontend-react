@@ -65,6 +65,9 @@ export const singleAlbumPostFragment = `
     postedAt
     expiresAt
     text
+    likesDisabled
+    commentsDisabled
+    sharingDisabled
     image {
       ...postImageFragment
     }

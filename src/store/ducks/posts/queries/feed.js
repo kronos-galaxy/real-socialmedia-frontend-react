@@ -75,6 +75,9 @@ export const feedPostFragment = `
   fragment originalPostFragment on Post {
     postId
     isVerified
+    likesDisabled
+    commentsDisabled
+    sharingDisabled
     postedBy {
       ...originalPostUserFragment
     }

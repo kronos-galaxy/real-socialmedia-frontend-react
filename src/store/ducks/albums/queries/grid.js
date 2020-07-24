@@ -31,6 +31,9 @@ export const gridAlbumFragment = `
   fragment postAlbumFragment on Post {
     postId
     isVerified
+    likesDisabled
+    commentsDisabled
+    sharingDisabled
     image {
       ...imageFragment
     }

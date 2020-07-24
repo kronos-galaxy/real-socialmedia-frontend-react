@@ -27,7 +27,7 @@ const Header = ({
         <View style={styling.actionItem} />
         <TouchableOpacity style={styling.actionItem} onPress={navigationActions.navigateBack(navigation)}>
           <CloseIcon
-            fill="#ffffff"
+            fill={theme.colors.text}
           />
         </TouchableOpacity>
       </View>

@@ -54,7 +54,6 @@ const Picker = ({
     <View style={styling.root}>
       <Carousel
         firstItem={0}
-        enableMomentum
         ref={pickerRef}
         data={[
           { title: t('Rectangle'), handleChange: () => setPhotoSize('4:3') },

@@ -14,9 +14,11 @@ import CameraTemplate from 'templates/Camera'
 import CameraHeaderTemplate from 'templates/Camera/Header'
 import TextOnlyComponent from 'templates/TextOnly'
 import { BlurView } from '@react-native-community/blur'
-import LinearGradient from 'react-native-linear-gradient'
 import pathOr from 'ramda/src/pathOr'
 import CacheComponent from 'components/Cache'
+import ActionComponent from 'components/Post/Action'
+import ViewShot from 'react-native-view-shot'
+import * as navigationActions from 'navigation/actions'
 
 import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
@@ -30,17 +32,41 @@ const StoryCarousel = ({
   onNextStory,
   onPrevStory,
   onCloseStory,
+  createTextPostRef,
+  getTextPostRef,
+  textPostRefs,
+  navigation,
+  postsShareRequest,
+  postsOnymouslyLikeRequest,
+  postsDislikeRequest,
 }) => ({
   item: user,
   index,
 }) => {
   const styling = styles(theme)
 
-  const story = pathOr(0, ['stories', 'items', currentStory], user)
+  const post = pathOr(0, ['stories', 'items', currentStory], user)
 
-  if (!story) {
+  const handlePostShare = () => {
+    if (post.postType === 'TEXT_ONLY') {
+      textPostRef.capture()
+    }
+
+    if (post.postType === 'IMAGE') {
+      navigationActions.navigatePostShare(navigation, { post })()
+    }
+  }
+
+  const onCapture = (renderUri) => {
+    navigationActions.navigatePostShare(navigation, { post, renderUri })()
+  }
+
+  if (!post) {
     return null
   }
+
+  const textPostRef = getTextPostRef(post)
+  const viewshotRef = element => textPostRefs.current[post.postId] = element
 
   return (
     <View style={styling.sliderItem}>
@@ -54,35 +80,46 @@ const StoryCarousel = ({
         header={(
           <CameraHeaderTemplate
             content={(
-              <HeaderComponent story={story} usersGetProfile={{ data: user }} />
+              <HeaderComponent story={post} usersGetProfile={{ data: user }} />
             )}
             handleClosePress={onCloseStory}
           />
         )}
         content={(
           <React.Fragment>
-            {story.postType === 'IMAGE' ?
+            {post.postType === 'IMAGE' ?
               <CacheComponent
                 thread="story"
                 images={[
-                  [path(['image', 'url480p'])(story), true],
-                  [path(['image', 'url4k'])(story), true],
+                  [path(['image', 'url480p'])(post), true],
+                  [path(['image', 'url4k'])(post), true],
                 ]}
-                fallback={path(['image', 'url4k'])(story)}
+                fallback={path(['image', 'url4k'])(post)}
                 priorityIndex={1}
                 resizeMode="contain"
               />
             : null}
 
-            {story.postType === 'TEXT_ONLY' ?
-              <TextOnlyComponent
-                text={story.text}
-              />
+            {post.postType === 'TEXT_ONLY' ?
+              <ViewShot ref={viewshotRef} onCapture={onCapture}>
+                <TextOnlyComponent
+                  text={post.text}
+                />
+              </ViewShot>
             : null}
           </React.Fragment>
         )}
         footer={null}
-        selector={null}
+        selector={(
+          <ActionComponent
+            user={user}
+            post={post}
+            postsShareRequest={postsShareRequest}
+            postsOnymouslyLikeRequest={postsOnymouslyLikeRequest}
+            postsDislikeRequest={postsDislikeRequest}
+            handlePostShare={handlePostShare}
+          />
+        )}
         wrapper={(
           <React.Fragment>
             <TouchableOpacity style={styling.wrapperLeft} onPress={onPrevStory} />
@@ -106,22 +143,23 @@ const Story = ({
   onPrevStory,
   onCloseStory,
   onSnapItem,
+  createTextPostRef,
+  getTextPostRef,
+  textPostRefs,
+  postsShareRequest,
+  postsOnymouslyLikeRequest,
+  postsDislikeRequest,
 }) => {
   const styling = styles(theme)
-  
+  const navigation = useNavigation()
   
   return (
     <View style={styling.root} key={currentStory}>
       <View style={styling.backdrop} />
       <BlurView style={styling.blur} />
-      <LinearGradient
-        colors={[theme.colors.backgroundPrimary, `transparent`]}
-        style={styling.gradient}
-      />
 
       <Carousel
         firstItem={usersGetFollowedUsersWithStories.data.findIndex(user => user.userId === userId)}
-        enableMomentum
         ref={storyRef}
         data={usersGetFollowedUsersWithStories.data}
         renderItem={StoryCarousel({
@@ -132,6 +170,13 @@ const Story = ({
           onNextStory,
           onPrevStory,
           onCloseStory,
+          createTextPostRef,
+          getTextPostRef,
+          textPostRefs,
+          navigation,
+          postsShareRequest,
+          postsOnymouslyLikeRequest,
+          postsDislikeRequest,
         })}
         sliderWidth={Layout.window.width}
         itemWidth={Layout.window.width}
@@ -143,7 +188,7 @@ const Story = ({
         inactiveSlideScale={1}
         inactiveSlideOpacity={1}
         layout="stack"
-        onBeforeSnapToItem={onSnapItem}
+        onScrollIndexChanged={onSnapItem}
       />
     </View>
   )
@@ -163,7 +208,7 @@ const styles = theme => StyleSheet.create({
     position: 'absolute',
     top: 120,
     left: 0,
-    bottom: 0,
+    bottom: 120,
     zIndex: 1,
     width: '30%',
   },
@@ -171,7 +216,7 @@ const styles = theme => StyleSheet.create({
     position: 'absolute',
     top: 120,
     right: 0,
-    bottom: 0,
+    bottom: 120,
     zIndex: 1,
     width: '70%',
   },
@@ -209,10 +254,6 @@ const styles = theme => StyleSheet.create({
     zIndex: 1,
     height: 30,
     paddingHorizontal: 10,
-  },
-  gradient: {
-    ...StyleSheet.absoluteFill,
-    height: 140,
   },
 })
 

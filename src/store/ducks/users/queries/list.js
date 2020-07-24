@@ -33,6 +33,9 @@ export const listUserFragment = `
     onymousLikeCount
     anonymousLikeCount
     viewedByCount
+    likesDisabled
+    commentsDisabled
+    sharingDisabled
     image {
       ...userImageFragment
     }

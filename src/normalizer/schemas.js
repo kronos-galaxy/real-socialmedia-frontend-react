@@ -1,252 +1,131 @@
 import { normalize, denormalize, schema } from 'normalizr'
 
+/**
+ *
+ */
+const usersSchema = new schema.Entity(
+	'users',
+	{},
+	{ idAttribute: 'userId' }
+)
+
+/**
+ *
+ */
 const imageSchema = new schema.Entity(
-	/**
-	 * Key
-	 */
 	'images',
-	/**
-	 * Definition
-	 */
-	undefined,
-	/**
-	 * Options
-	 */
+	{},
 	{
 		idAttribute: (value) => {
 			try { return value.url.split('?')[0] }
 			catch (err) { return value }
-		}
+		},
 	}
 )
 
-const storyUsersSchema = new schema.Entity(
-	/**
-	 * Key
-	 */
-	'users',
-	/**
-	 * Definition
-	 */
-	{
-		photo: imageSchema,
-	},
-	/**
-	 * Options
-	 */
-	{
-		idAttribute: 'userId',
-	}
-)
-
-const storyCommentsSchema = new schema.Entity(
-	/**
-	 * Key
-	 */
-	'comments', 
-	/**
-	 * Definition
-	 */
-	undefined,
-	/**
-	 * Options
-	 */
-	{
-		idAttribute: 'commentId',
-	}
-)
-
-const storySchema = new schema.Entity(
-	/**
-	 * Key
-	 */
+/**
+ *
+ */
+const postSchema = new schema.Entity(
 	'posts',
-	/**
-	 * Definition
-	 */
-	{
-		image: imageSchema,
-		postedBy: storyUsersSchema,
-		textTaggedUsers: [{
-			user: storyUsersSchema,
-		}],
-		comments: {
-			items: [storyCommentsSchema],
-		},
-	},
-	/**
-	 * Options
-	 */
-	{
-		idAttribute: 'postId'
-	}
+	{},
+	{ idAttribute: 'postId' }
 )
 
-const usersSchema = new schema.Entity(
-	/**
-	 * Key
-	 */
-	'users',
-	/**
-	 * Definition
-	 */
-	{
-		photo: imageSchema,
-		stories: {
-			items: [storySchema],
-		},
-	},
-	/**
-	 * Options
-	 */
-	{
-		idAttribute: 'userId',
-	}
-)
-
-const commentsSchema = new schema.Entity(
-	/**
-	 * Key
-	 */
-	'comments', 
-	/**
-	 * Definition
-	 */
-	{
-		commentedBy: usersSchema,
-		textTaggedUsers: [{
-			user: usersSchema,
-		}],
-	},
-	/**
-	 * Options
-	 */
-	{
-		idAttribute: 'commentId',
-	}
-)
-
-const albumPostsSchema = new schema.Entity(
-	/**
-	 * Key
-	 */
-	'posts',
-	/**
-	 * Definition
-	 */
-	{
-		image: imageSchema,
-		postedBy: usersSchema,
-		textTaggedUsers: [{
-			user: usersSchema,
-		}],
-		comments: {
-			items: [commentsSchema],
-		},
-	},
-	/**
-	 * Options
-	 */
-	{
-		idAttribute: 'postId'
-	}
-)
-
-const albumSchema = new schema.Entity(
-	/**
-	 * Key
-	 */
-	'albums',
-	/**
-	 * Definition
-	 */
-	{
-		art: imageSchema,
-		ownedBy: usersSchema,
-		posts: {
-			items: [albumPostsSchema],
-		},
-	},
-	/**
-	 * Options
-	 */
-	{
-		idAttribute: 'albumId'
-	}
-)
-
-const messageSchema = new schema.Entity(
-	/**
-	 * Key
-	 */
-	'messages',
-	/**
-	 * Definition
-	 */
-	{
-		textTaggedUsers: [{
-			user: usersSchema,
-		}],
-		author: usersSchema,
-	},
-	/**
-	 * Options
-	 */
-	{
-		idAttribute: 'messageId'
-	}
-)
-
+/**
+ *
+ */
 const chatSchema = new schema.Entity(
-	/**
-	 * Key
-	 */
 	'chats',
-	/**
-	 * Definition
-	 */
-	{
-		users: {
-			items: [usersSchema],
-		},
-		messages: {
-			items: [messageSchema],
-		},
-	},
-	/**
-	 * Options
-	 */
+	{},
 	{
 		idAttribute: 'chatId'
 	}
 )
 
-const postSchema = new schema.Entity(
-	/**
-	 * Key
-	 */
-	'posts', 
-	/**
-	 * Definition
-	 */
+/**
+ *
+ */
+const commentsSchema = new schema.Entity(
+	'comments',
+	{},
 	{
-		image: imageSchema,
-		album: albumSchema,
-		postedBy: usersSchema,
-		textTaggedUsers: [{
-			user: usersSchema,
-		}],
-		comments: {
-			items: [commentsSchema],
-		},
-	},
-	/**
-	 * Options
-	 */
-	{
-		idAttribute: 'postId'
+		idAttribute: 'commentId',
 	}
 )
+
+/**
+ *
+ */
+const albumSchema = new schema.Entity(
+	'albums',
+	{},
+	{
+		idAttribute: 'albumId',
+	}
+)
+
+/**
+ *
+ */
+const messageSchema = new schema.Entity(
+	'messages',
+	{},
+	{
+		idAttribute: 'messageId'
+	}
+)
+
+commentsSchema.define({
+	commentedBy: usersSchema,
+	textTaggedUsers: [{
+		user: usersSchema,
+	}],
+})
+
+albumSchema.define({
+	art: imageSchema,
+	ownedBy: usersSchema,
+	posts: {
+		items: [postSchema],
+	},
+})
+
+messageSchema.define({
+	textTaggedUsers: [{
+		user: usersSchema,
+	}],
+	author: usersSchema,
+})
+
+chatSchema.define({
+	users: {
+		items: [usersSchema],
+	},
+	messages: {
+		items: [messageSchema],
+	},
+})
+
+usersSchema.define({
+	photo: imageSchema,
+	stories: {
+		items: [postSchema],
+	},
+})
+
+postSchema.define({
+	image: imageSchema,
+	album: albumSchema,
+	postedBy: usersSchema,
+	textTaggedUsers: [{
+		user: usersSchema,
+	}],
+	comments: {
+		items: [commentsSchema],
+	},
+	originalPost: postSchema,
+})
 
 /**
  *

@@ -28,7 +28,6 @@ const ChatCards = ({
     <View style={styling.root}>
       <Carousel
         ref={cardsRef}
-        enableMomentum
         data={postsGetUnreadComments.data}
         renderItem={ChatCard({
           borderColor: theme.colors.border,

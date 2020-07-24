@@ -1,10 +1,12 @@
 import { useEffect, useRef } from 'react'
 import { useDispatch } from 'react-redux'
 import * as usersActions from 'store/ducks/users/actions'
+import * as postsActions from 'store/ducks/posts/actions'
 import { useNavigation, useRoute } from '@react-navigation/native'
 import useCounter from 'react-use/lib/useCounter'
 import pathOr from 'ramda/src/pathOr'
 import path from 'ramda/src/path'
+import assocPath from 'ramda/src/assocPath'
 import * as navigationActions from 'navigation/actions'
 
 const StoryService = ({ children }) => {
@@ -27,6 +29,15 @@ const StoryService = ({ children }) => {
   const userStoryIndex = pathOr([], ['data'], usersGetFollowedUsersWithStories).findIndex(user => user.userId === userId)
   const nextUserStoryPool = pathOr([], ['data', userStoryIndex + 1], usersGetFollowedUsersWithStories)
   const prevUserStoryPool = pathOr([], ['data', userStoryIndex - 1], usersGetFollowedUsersWithStories)
+
+  const postsShareRequest = (payload) =>
+    dispatch(postsActions.postsShareRequest(payload))
+
+  const postsOnymouslyLikeRequest = (payload) =>
+    dispatch(postsActions.postsOnymouslyLikeRequest(payload))
+
+  const postsDislikeRequest = (payload) =>
+    dispatch(postsActions.postsDislikeRequest(payload))
 
   const onSnapItem = (index) => {
     navigation.setParams({
@@ -74,6 +85,19 @@ const StoryService = ({ children }) => {
     navigationActions.navigateBack(navigation)()
   }
 
+  /**
+   *
+   */
+  const textPostRefs = useRef({})
+  const createTextPostRef = post => element => {
+    if (!textPostRefs.current[post.postId]) {
+      textPostRefs.current[post.postId] = element
+    }
+  }
+
+  const getTextPostRef = post => textPostRefs.current[post.postId]
+
+
   return children({
     storyRef,
     userId,
@@ -84,6 +108,13 @@ const StoryService = ({ children }) => {
     onPrevStory,
     onCloseStory,
     onSnapItem,
+    postsShareRequest,
+    postsOnymouslyLikeRequest,
+    postsDislikeRequest,
+
+    textPostRefs,
+    createTextPostRef,
+    getTextPostRef,
   })
 }
 

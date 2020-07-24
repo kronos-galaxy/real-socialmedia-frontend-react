@@ -35,7 +35,7 @@ const styles = theme => StyleSheet.create({
   root: {
     flex: 1,
     justifyContent: 'center',
-    padding: 12,
+    padding: 8,
   },
   progress: {
     flexDirection: 'row',

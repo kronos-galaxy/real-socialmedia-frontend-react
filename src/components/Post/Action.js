@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import {
   StyleSheet,
@@ -31,6 +31,15 @@ const Action = ({
   const navigation = useNavigation()
 
   const self = path(['postedBy', 'userId'])(post) === path(['userId'])(user)
+  const [likeStatus, setLikeStatus] = useState(post.likeStatus)
+  const handleLikeRequest = () => {
+    setLikeStatus('ONYMOUSLY_LIKED')
+    postsOnymouslyLikeRequest({ postId: post.postId, userId: post.postedBy.userId })
+  }
+  const handleDisikeRequest = () => {
+    setLikeStatus('NOT_LIKED')
+    postsDislikeRequest({ postId: post.postId, userId: post.postedBy.userId })
+  }
 
   /**
    * See if current authenticated user is tagged in post by author
@@ -90,14 +99,14 @@ const Action = ({
     <View style={styling.action}>
       <View style={styling.actionLeft}>
 
-        {likeButtonVisibility && post.likeStatus === 'NOT_LIKED' ?
-          <TouchableOpacity style={styling.actionLeftIcon} onPress={() => postsOnymouslyLikeRequest({ postId: post.postId, userId: post.postedBy.userId })}>
+        {likeButtonVisibility && likeStatus === 'NOT_LIKED' ?
+          <TouchableOpacity style={styling.actionLeftIcon} onPress={handleLikeRequest}>
             <LikeIcon fill={theme.colors.primaryIcon} />
           </TouchableOpacity>
         : null}
 
-        {likeButtonVisibility && post.likeStatus !== 'NOT_LIKED' ?
-          <TouchableOpacity style={styling.actionLeftIcon} onPress={() => postsDislikeRequest({ postId: post.postId, userId: post.postedBy.userId })}>
+        {likeButtonVisibility && likeStatus === 'ONYMOUSLY_LIKED' ?
+          <TouchableOpacity style={styling.actionLeftIcon} onPress={handleDisikeRequest}>
             <UnlikeIcon fill={theme.colors.primary} />
           </TouchableOpacity>
         : null}

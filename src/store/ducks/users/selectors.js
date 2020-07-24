@@ -11,6 +11,7 @@ const createDeepEqualSelector = createSelectorCreator(
 )
 
 const entities = () => path(['entities'])
+const postsOnymouslyLike = () => path(['posts', 'postsOnymouslyLike'])
 
 /**
  *
@@ -100,8 +101,8 @@ export const usersSearchSelector = () => createDeepEqualSelector(
 const usersGetFollowedUsersWithStories = () => path(['users', 'usersGetFollowedUsersWithStories'])
 
 export const usersGetFollowedUsersWithStoriesSelector = () => createDeepEqualSelector(
-  [usersGetFollowedUsersWithStories(), entities()],
-  (usersGetFollowedUsersWithStories, entities) => {
+  [usersGetFollowedUsersWithStories(), postsOnymouslyLike(), entities()],
+  (usersGetFollowedUsersWithStories, postsOnymouslyLike, entities) => {
     const denormalized = normalizer.denormalizeUsersGet(usersGetFollowedUsersWithStories.data, entities)
     return assocPath(['data'], denormalized)(usersGetFollowedUsersWithStories)
   }

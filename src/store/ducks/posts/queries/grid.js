@@ -40,6 +40,9 @@ export const gridPostFragment = `
     postedAt
     expiresAt
     text
+    likesDisabled
+    commentsDisabled
+    sharingDisabled
     commentsUnviewedCount: commentsCount(viewedStatus: NOT_VIEWED)
 
     image {

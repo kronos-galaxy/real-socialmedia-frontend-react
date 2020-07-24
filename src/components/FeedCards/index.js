@@ -29,7 +29,6 @@ const FeedCards = ({
     <View style={styling.root}>
       <Carousel
         ref={cardsRef}
-        enableMomentum
         data={filteredCardsData}
         renderItem={Card({
           borderColor: theme.colors.border,

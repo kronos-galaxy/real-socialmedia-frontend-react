@@ -86,7 +86,7 @@
     "react-native-safe-area-context": "^3.1.1",
     "react-native-screens": "^2.9.0",
     "react-native-share": "^3.7.0",
-    "react-native-snap-carousel": "^3.9.1",
+    "react-native-snap-carousel": "3.9.1",
     "react-native-svg": "^12.1.0",
     "react-native-tab-view": "^2.15.0",
     "react-native-tab-view-viewpager-adapter": "^1.1.0",
