@@ -67,6 +67,15 @@ test('deeplinkPath determines provided post params', () => {
     action: 'comments'
   })
 
+  const commentsUrlAction = 'https://real.app/user/us-east-1:6b33c0d0-cc30-4083-92a1-043f7cd313ce/post/1bb30c92-ff1d-4d38-98b7-73942557dfbd/comments/3fb30c92-ffgg-4d53-98b7-73957dfs425'
+  expect(LinkingService.deeplinkPath(commentsUrlAction)).toMatchObject({
+    _: 'https://real.app',
+    userId: 'us-east-1:6b33c0d0-cc30-4083-92a1-043f7cd313ce',
+    postId: '1bb30c92-ff1d-4d38-98b7-73942557dfbd',
+    action: 'comments',
+    actionId: '3fb30c92-ffgg-4d53-98b7-73957dfs425',
+  })
+
   /**
    * Failing url
    */
@@ -121,6 +130,18 @@ describe('deeplinkNavigation redirect routes', () => {
       userId: 'us-east-1:6b33c0d0-cc30-4083-92a1-043f7cd313ce',
       postId: '1bb30c92-ff1d-4d38-98b7-73942557dfbd',
       action: 'comments',
+    })
+  })
+
+  test('comments with commentId', () => {
+    const rootUrl = 'https://real.app/user/us-east-1:6b33c0d0-cc30-4083-92a1-043f7cd313ce/post/1bb30c92-ff1d-4d38-98b7-73942557dfbd/comments/3fb30c92-ffgg-4d53-98b7-73957dfs425'
+    LinkingService.deeplinkNavigation(navigation, actions, Linking)(rootUrl)
+    expect(actions.navigateNestedComments).toHaveBeenLastCalledWith(navigation, {
+      _: 'https://real.app',
+      userId: 'us-east-1:6b33c0d0-cc30-4083-92a1-043f7cd313ce',
+      postId: '1bb30c92-ff1d-4d38-98b7-73942557dfbd',
+      action: 'comments',
+      actionId: '3fb30c92-ffgg-4d53-98b7-73957dfs425',
     })
   })
 
