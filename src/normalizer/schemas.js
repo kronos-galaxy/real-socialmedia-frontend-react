@@ -3,11 +3,14 @@ import { normalize, denormalize, schema } from 'normalizr'
 /**
  *
  */
-const usersSchema = new schema.Object(
+const userSchema = new schema.Entity(
 	'users',
 	{},
-	{ idAttribute: 'userId' }
+	{
+		idAttribute: 'userId',
+	}
 )
+const usersSchema = [usersSchema]
 
 /**
  *
@@ -31,6 +34,7 @@ const postSchema = new schema.Entity(
 	{},
 	{ idAttribute: 'postId' }
 )
+const postsSchema = [postSchema]
 
 /**
  *
@@ -77,30 +81,30 @@ const messageSchema = new schema.Entity(
 )
 
 commentsSchema.define({
-	commentedBy: usersSchema,
+	commentedBy: userSchema,
 	textTaggedUsers: [{
-		user: usersSchema,
+		user: userSchema,
 	}],
 })
 
 albumSchema.define({
 	art: imageSchema,
-	ownedBy: usersSchema,
+	ownedBy: userSchema,
 	posts: {
-		items: [postSchema],
+		items: postsSchema,
 	},
 })
 
 messageSchema.define({
 	textTaggedUsers: [{
-		user: usersSchema,
+		user: userSchema,
 	}],
-	author: usersSchema,
+	author: userSchema,
 })
 
 chatSchema.define({
 	users: {
-		items: [usersSchema],
+		items: usersSchema,
 	},
 	messages: {
 		items: [messageSchema],
@@ -110,19 +114,19 @@ chatSchema.define({
 postSchema.define({
 	image: imageSchema,
 	album: albumSchema,
-	postedBy: usersSchema,
+	postedBy: userSchema,
 	textTaggedUsers: [{
-		user: usersSchema,
+		user: userSchema,
 	}],
 	comments: {
 		items: [commentsSchema],
 	},
 })
 
-usersSchema.define({
+userSchema.define({
 	photo: imageSchema,
 	stories: {
-		items: [postSchema],
+		items: postsSchema,
 	},
 })
 
@@ -131,11 +135,11 @@ usersSchema.define({
  *
  */
 export function normalizePostsGet(payload) {
-	return normalize(payload, [postSchema])
+	return normalize(payload, postsSchema)
 }
 
 export function denormalizePostsGet(payload, entities) {
-	return denormalize(payload, [postSchema], entities)
+	return denormalize(payload, postsSchema, entities)
 }
 
 export function normalizePostGet(payload) {
@@ -169,19 +173,19 @@ export function denormalizeCommentGet(payload, entities) {
  *
  */
 export function normalizeUsersGet(payload) {
-	return normalize(payload, [usersSchema])
-}
-
-export function denormalizeUsersGet(payload, entities) {
-	return denormalize(payload, [usersSchema], entities)
-}
-
-export function normalizeUserGet(payload) {
 	return normalize(payload, usersSchema)
 }
 
-export function denormalizeUserGet(payload, entities) {
+export function denormalizeUsersGet(payload, entities) {
 	return denormalize(payload, usersSchema, entities)
+}
+
+export function normalizeUserGet(payload) {
+	return normalize(payload, userSchema)
+}
+
+export function denormalizeUserGet(payload, entities) {
+	return denormalize(payload, userSchema, entities)
 }
 
 /**

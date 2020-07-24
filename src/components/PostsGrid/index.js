@@ -30,6 +30,8 @@ const PostsGrid = ({
     <View style={{ padding: theme.spacing.base }}><BellIcon fill="red" /></View>
   )
 
+  const hideProgress = ['posts/trending'].includes(thread)
+
   return (
     <View style={styling.root}>
       <GridComponent items={path(['data'])(postsGet)}>
@@ -49,7 +51,7 @@ const PostsGrid = ({
                 fallback={path(['image', 'url480p'])(post)}
                 priorityIndex={priorityIndex}
                 resizeMode="cover"
-                hideProgress={true}
+                hideProgress={hideProgress}
               />
             : null}
 

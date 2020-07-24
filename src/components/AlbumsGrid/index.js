@@ -37,7 +37,6 @@ const AlbumsGrid = ({
               fallback={path(['art', 'url480p'])(album)}
               priorityIndex={priorityIndex}
               resizeMode="cover"
-              hideProgress={true}
             />
 
             <View style={styling.title}>
