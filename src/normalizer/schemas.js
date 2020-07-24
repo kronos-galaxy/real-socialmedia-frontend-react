@@ -3,7 +3,7 @@ import { normalize, denormalize, schema } from 'normalizr'
 /**
  *
  */
-const usersSchema = new schema.Entity(
+const usersSchema = new schema.Object(
 	'users',
 	{},
 	{ idAttribute: 'userId' }
@@ -107,13 +107,6 @@ chatSchema.define({
 	},
 })
 
-usersSchema.define({
-	photo: imageSchema,
-	stories: {
-		items: [postSchema],
-	},
-})
-
 postSchema.define({
 	image: imageSchema,
 	album: albumSchema,
@@ -124,8 +117,15 @@ postSchema.define({
 	comments: {
 		items: [commentsSchema],
 	},
-	originalPost: postSchema,
 })
+
+usersSchema.define({
+	photo: imageSchema,
+	stories: {
+		items: [postSchema],
+	},
+})
+
 
 /**
  *
