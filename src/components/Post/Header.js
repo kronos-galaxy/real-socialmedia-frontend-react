@@ -14,6 +14,7 @@ import BellIcon from 'assets/svg/action/Bell'
 import VerificationIcon from 'assets/svg/action/Verification'
 import dayjs from 'dayjs'
 import * as navigationActions from 'navigation/actions'
+import * as UserService from 'services/User'
 
 import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
@@ -73,7 +74,7 @@ const Header = ({
     <View style={styling.header}>
       <TouchableOpacity onPress={onProfilePhotoPress}>
         <Avatar
-          active={path(['postedBy', 'stories', 'items', 'length'])(post) || false}
+          active={UserService.hasActiveStories(path(['postedBy'])(post))}
           thumbnailSource={{ uri: path(['postedBy', 'photo', 'url64p'])(post) }}
           imageSource={{ uri: path(['postedBy', 'photo', 'url64p'])(post) }}
           themeCode={path(['postedBy', 'themeCode'])(post)}

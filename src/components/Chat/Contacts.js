@@ -14,6 +14,7 @@ import UserRowComponent from 'templates/UserRow'
 import Avatar from 'templates/Avatar'
 import * as navigationActions from 'navigation/actions'
 import DefaultButton from 'components/Formik/Button/DefaultButton'
+import * as UserService from 'services/User'
 
 import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
@@ -55,7 +56,7 @@ const Contacts = ({
               avatar={
                 <TouchableOpacity onPress={navigationActions.navigateChatDirect(navigation, { userId: path(['users', 'items', '0', 'userId'])(chat), chatId: chat.chatId })}>
                   <Avatar
-                    active={path(['users', 'items', '0', 'stories', 'items', 'length'])(chat) || false}
+                    active={UserService.hasActiveStories(path(['users', 'items', '0'])(chat))}
                     thumbnailSource={{ uri: path(['users', 'items', '0', 'photo', 'url64p'])(chat) }}
                     imageSource={{ uri: path(['users', 'items', '0', 'photo', 'url64p'])(chat) }}
                     themeCode={path(['users', 'items', '0', 'themeCode'])(chat)}

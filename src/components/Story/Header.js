@@ -8,6 +8,7 @@ import { Text, Caption } from 'react-native-paper'
 import Avatar from 'templates/Avatar'
 import path from 'ramda/src/path'
 import dayjs from 'dayjs'
+import * as UserService from 'services/User'
 
 import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
@@ -25,7 +26,7 @@ const Header = ({
     <View style={styling.root}>
       <View style={styling.action}>
         <Avatar
-          active={path(['data', 'stories', 'items', 'length'])(usersGetProfile) || false}
+          active={UserService.hasActiveStories(usersGetProfile.stories) || false}
           thumbnailSource={{ uri: path(['data', 'photo', 'url64p'])(usersGetProfile) }}
           imageSource={{ uri: path(['data', 'photo', 'url64p'])(usersGetProfile) }}
         />

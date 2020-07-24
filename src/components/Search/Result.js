@@ -13,6 +13,7 @@ import UserRowComponent from 'templates/UserRow'
 import UserRowActionComponent from 'templates/UserRowAction'
 import Avatar from 'templates/Avatar'
 import * as navigationActions from 'navigation/actions'
+import * as UserService from 'services/User'
 
 import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
@@ -43,7 +44,7 @@ const Result = ({
                 <TouchableOpacity onPress={navigationActions.navigateProfile(navigation, { userId: user.userId })}>
                   <Avatar
                     key={path(['photo', 'url64p'])(user)}
-                    active={path(['stories', 'items', 'length'])(user) || false}
+                    active={UserService.hasActiveStories(user)}
                     thumbnailSource={{ uri: path(['photo', 'url64p'])(user) }}
                     imageSource={{ uri: path(['photo', 'url64p'])(user) }}
                     themeCode={path(['themeCode'])(user)}

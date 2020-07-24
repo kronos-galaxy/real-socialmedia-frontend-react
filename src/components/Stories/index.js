@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useCallback } from 'react'
 import PropTypes from 'prop-types'
 import {
   StyleSheet,
@@ -9,6 +9,7 @@ import path from 'ramda/src/path'
 import Avatar from 'templates/Avatar'
 import { Caption } from 'react-native-paper'
 import * as navigationActions from 'navigation/actions'
+import * as UserService from 'services/User'
 
 import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
@@ -40,7 +41,7 @@ const Stories = ({
         style={styling.story}
       >
         <Avatar
-          active={path(['stories', 'items', 'length'])(user) || false}
+          active={UserService.hasActiveStories(user)}
           size="medium"
           thumbnailSource={{ uri: path(['photo', 'url64p'])(user) }}
           imageSource={{ uri: path(['photo', 'url480p'])(user) }}
@@ -56,7 +57,7 @@ const Stories = ({
           style={styling.story}
         >
           <Avatar
-            active={path(['stories', 'items', 'length'])(user) || false}
+            active={UserService.hasActiveStories(user)}
             size="medium"
             thumbnailSource={{ uri: path(['photo', 'url64p'])(user) }}
             imageSource={{ uri: path(['photo', 'url480p'])(user) }}

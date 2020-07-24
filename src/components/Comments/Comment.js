@@ -13,6 +13,7 @@ import reactStringReplace from 'react-string-replace'
 import path from 'ramda/src/path'
 import pathOr from 'ramda/src/pathOr'
 import DeleteIcon from 'assets/svg/comment/Delete'
+import * as UserService from 'services/User'
 
 import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
@@ -34,7 +35,7 @@ const Comment = ({
     <View style={styling.root}>
       <TouchableOpacity style={styling.image} onPress={navigationActions.navigateProfile(navigation, { userId: comment.commentedBy.userId })}>
         <Avatar
-          active={path(['commentedBy', 'stories', 'items', 'length'])(comment) || false}
+          active={UserService.hasActiveStories(path(['commentedBy'])(comment))}
           thumbnailSource={{ uri: path(['commentedBy', 'photo', 'url64p'])(comment) }}
           imageSource={{ uri: path(['commentedBy', 'photo', 'url64p'])(comment) }}
         />

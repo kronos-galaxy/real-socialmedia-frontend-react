@@ -18,6 +18,7 @@ import path from 'ramda/src/path'
 import pathOr from 'ramda/src/pathOr'
 import * as navigationActions from 'navigation/actions'
 import ScrollService from 'services/Scroll'
+import * as UserService from 'services/User'
 
 import { withTheme } from 'react-native-paper'
 import { useNavigation, useRoute } from '@react-navigation/native'
@@ -99,7 +100,7 @@ const Profile = ({
         <TouchableOpacity style={styling.image} onPress={handleUserStoryPress}>
           <Avatar
             size="large"
-            active={path(['data', 'stories', 'items', 'length'])(usersGetProfile) || false}
+            active={UserService.hasActiveStories(usersGetProfile.data)}
             thumbnailSource={{ uri: path(['data', 'photo', 'url64p'])(usersGetProfile) }}
             imageSource={{ uri: path(['data', 'photo', 'url480p'])(usersGetProfile) }}
             themeCode={path(['data', 'themeCode'])(usersGetProfile)}
