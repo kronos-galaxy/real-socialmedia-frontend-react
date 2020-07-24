@@ -2194,10 +2194,10 @@
   resolved "https://registry.npmjs.org/@react-native-community/slider/-/slider-3.0.3.tgz#830167fd757ba70ac638747ba3169b2dbae60330"
   integrity sha512-8IeHfDwJ9/CTUwFs6x90VlobV3BfuPgNLjTgC6dRZovfCWigaZwVNIFFJnHBakK3pW2xErAPwhdvNR4JeNoYbw==
 
-"@react-native-community/viewpager@^4.1.0":
-  version "4.1.0"
-  resolved "https://registry.npmjs.org/@react-native-community/viewpager/-/viewpager-4.1.0.tgz#b6908329a39e27e5cd3236540aadd65133420563"
-  integrity sha512-+YbmuKAL4ahc2D/u0ix+xMCgAN0KukUnc+uvlMD+NPn/zUdUposqF6dsZu1cRarBzKcswchlj3kAH8yN3bazxA==
+"@react-native-community/viewpager@^4.1.1":
+  version "4.1.1"
+  resolved "https://registry.npmjs.org/@react-native-community/viewpager/-/viewpager-4.1.1.tgz#4eb582c098effed2c82a3c824b440fd07862e3fe"
+  integrity sha512-53PhBre51A7nXZhHaKAwvxvGmCBi9dQ9hiCyLbaaFdKP6j5PpINfpozJXwOV7sEwGH4mDUuCXUh6fA8bS8cOXg==
 
 "@react-navigation/bottom-tabs@^5.7.2":
   version "5.7.2"
@@ -3086,10 +3086,10 @@ atob@^2.1.2:
   resolved "https://registry.npmjs.org/atob/-/atob-2.1.2.tgz#6d9517eb9e030d2436666651e86bd9f6f13533c9"
   integrity sha512-Wm6ukoaOGJi/73p/cl2GvLjTI5JM1k/O14isD73YML8StrH/7/lRFgmg8nICZgD3bZZvjwCGxtMOD3wWNAu8cg==
 
-aws-sdk@^2.717.0:
-  version "2.717.0"
-  resolved "https://registry.npmjs.org/aws-sdk/-/aws-sdk-2.717.0.tgz#be68dab4d9016944814ced76580459c4738763ed"
-  integrity sha512-UTDDXF3kUqhaSMAMe6YcOdp3qK7KMikDIAH5SgUPgTUqC4NRSBmLKPdKkXT0ZwAaEOf9QnD1nAV8+WmVRUX+hw==
+aws-sdk@^2.719.0:
+  version "2.719.0"
+  resolved "https://registry.npmjs.org/aws-sdk/-/aws-sdk-2.719.0.tgz#346421f3335a7ded2cc6184fbcdbf71e42544d08"
+  integrity sha512-vqVAeZ2C8VLvL1hJIBCRFnKMomIoWSIUeYjULRiwRlBYH95EgcDY559Mq2rkx+E0733jdf3wNHA+eRVmwHyXvQ==
   dependencies:
     buffer "4.9.2"
     events "1.1.1"
@@ -3152,12 +3152,12 @@ babel-plugin-dynamic-import-node@^2.3.3:
   dependencies:
     object.assign "^4.1.0"
 
-babel-plugin-inline-dotenv@^1.5.0:
-  version "1.5.0"
-  resolved "https://registry.npmjs.org/babel-plugin-inline-dotenv/-/babel-plugin-inline-dotenv-1.5.0.tgz#a4e94c17194d66deabfe1691fb5b20e4ac95a33f"
-  integrity sha512-5US4vuZPQkASBE5bVvcJPlQfL2xXkdM/uUKwRvXh6pBT7Fc+bp5WgJhI1Nd1HHmHvreKe94U8i5zjGEBrTG7XA==
+babel-plugin-inline-dotenv@^1.6.0:
+  version "1.6.0"
+  resolved "https://registry.npmjs.org/babel-plugin-inline-dotenv/-/babel-plugin-inline-dotenv-1.6.0.tgz#ebb3ff358507d0e76e52ea8a53fe0b073d9e71b8"
+  integrity sha512-oWd5JmwfzdFN38PMBn35Ac1d+DKCkgIxKieEyWON3QTa4hCZV+VcTxaYkfQFMTwiqgCxe0a8o8NWyVjWwrrLXw==
   dependencies:
-    dotenv "^8.1.0"
+    dotenv "^8.2.0"
 
 babel-plugin-istanbul@^6.0.0:
   version "6.0.0"
@@ -4285,7 +4285,7 @@ dooboolab-welcome@^1.2.0:
   resolved "https://registry.npmjs.org/dooboolab-welcome/-/dooboolab-welcome-1.2.0.tgz#295818ce85a8e97dc90c0ec0510b4008e2d722dc"
   integrity sha512-XgEbjJHAsKLge/e8jtuHsv84Ovg1Gx0GvnOTOmOlVGV1643nduTAkT3fyo/mxKbzvyXBr47RHaJAY4R2toI0UA==
 
-dotenv@^8.0.0, dotenv@^8.1.0:
+dotenv@^8.0.0, dotenv@^8.2.0:
   version "8.2.0"
   resolved "https://registry.npmjs.org/dotenv/-/dotenv-8.2.0.tgz#97e619259ada750eea3e4ea3e26bceea5424b16a"
   integrity sha512-8sJ78ElpbDJBHNeBzUbUVLsqKdccaa/BXF1uPTw3GrvQTBgrQrtObr2mUrE38vzYd8cEv+m/JBfDLioYcfXoaw==
@@ -8624,10 +8624,10 @@ react-native-push-notification@^4.0.0:
   dependencies:
     "@react-native-community/push-notification-ios" "^1.2.2"
 
-react-native-reanimated@^1.10.0:
-  version "1.10.0"
-  resolved "https://registry.npmjs.org/react-native-reanimated/-/react-native-reanimated-1.10.0.tgz#529f9a5716164c72362e2e60bc720cea65239e1d"
-  integrity sha512-0+rRXZr199NMsGbJJ00fxi0XA7JRJuL7UnzapwSzx4J6CmrDHvb8qU3A/dTFPM4sbvL7MLmlD0aItaDU+0ELqQ==
+react-native-reanimated@^1.10.1:
+  version "1.10.1"
+  resolved "https://registry.npmjs.org/react-native-reanimated/-/react-native-reanimated-1.10.1.tgz#82e79ae119e97b282ce53d16bc6db9765a56b22b"
+  integrity sha512-j9+GOEmLLEzFpxpYOA9dSBusUHGaTJAHSJ9tIXU4IgklN7hIB5CA6ONMnm6iQ5lC/nhNFdLKag/jOgzVa+mHBQ==
   dependencies:
     fbjs "^1.0.0"
 
@@ -8764,10 +8764,10 @@ react-universal-interface@^0.6.2:
   resolved "https://registry.npmjs.org/react-universal-interface/-/react-universal-interface-0.6.2.tgz#5e8d438a01729a4dbbcbeeceb0b86be146fe2b3b"
   integrity sha512-dg8yXdcQmvgR13RIlZbTRQOoUrDciFVoSBZILwjE2LFISxZZ8loVJKAkuzswl5js8BHda79bIb2b84ehU8IjXw==
 
-react-use@^15.3.2:
-  version "15.3.2"
-  resolved "https://registry.npmjs.org/react-use/-/react-use-15.3.2.tgz#73b2a0e071f47e7e907eb0024e4e7681ac2aab33"
-  integrity sha512-DAbc+pVedZC4P5rLBKdIvTTB03+4T/pR6jZ2pKQPgqfq4UC1Oymmbehon5z8XXSUgZs0tgIvbBzVEdiWMS9k+g==
+react-use@^15.3.3:
+  version "15.3.3"
+  resolved "https://registry.npmjs.org/react-use/-/react-use-15.3.3.tgz#f16de7a16286c446388e8bd99680952fc3dc9a95"
+  integrity sha512-nYb94JbmDCaLZg3sOXmFW8HN+lXWxnl0caspXoYfZG1CON8JfLN9jMOyxRDUpm7dUq7WZ5mIept/ByqBQKJ0wQ==
   dependencies:
     "@types/js-cookie" "2.2.6"
     "@xobotyi/scrollbar-width" "1.9.5"
