@@ -16,6 +16,7 @@ const ProfileFollowed = ({
   t,
   theme,
   usersGetFollowedUsers,
+  usersGetFollowedUsersRequest,
   usersFollow,
   usersFollowRequest,
   usersUnfollow,
@@ -31,7 +32,8 @@ const ProfileFollowed = ({
         refreshControl={
           <RefreshControl
             tintColor={theme.colors.border}
-            refreshing={false}
+            refreshing={usersGetFollowedUsers.status === 'loading'}
+            onRefresh={usersGetFollowedUsersRequest}
           />
         }
       >
@@ -60,6 +62,7 @@ const styles = theme => StyleSheet.create({
 ProfileFollowed.propTypes = {
   theme: PropTypes.any,
   usersGetFollowedUsers: PropTypes.any,
+  usersGetFollowedUsersRequest: PropTypes.any,
   usersFollow: PropTypes.any,
   usersFollowRequest: PropTypes.any,
   usersUnfollow: PropTypes.any,

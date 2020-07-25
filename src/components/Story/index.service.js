@@ -6,7 +6,6 @@ import { useNavigation, useRoute } from '@react-navigation/native'
 import useCounter from 'react-use/lib/useCounter'
 import pathOr from 'ramda/src/pathOr'
 import path from 'ramda/src/path'
-import assocPath from 'ramda/src/assocPath'
 import * as navigationActions from 'navigation/actions'
 
 const StoryService = ({ children }) => {
@@ -15,7 +14,8 @@ const StoryService = ({ children }) => {
   const route = useRoute()
 
   const userId = path(['user', 'userId'])(route.params)
-  const usersGetFollowedUsersWithStories = path(['usersGetFollowedUsersWithStories'])(route.params)
+  const stories = pathOr([], ['usersGetFollowedUsersWithStories', 'data'])(route.params)
+    .sort((prev) => (prev.viewedStatus === 'VIEWED') ? 1 : -1)
 
   const [currentStory, { inc: nextStory, dec: prevStory, reset: resetStory }] = useCounter(0)
 
@@ -24,11 +24,11 @@ const StoryService = ({ children }) => {
   }, [])
 
   const storyRef = useRef(null)
-  const currentUserStory = pathOr([], ['data'], usersGetFollowedUsersWithStories).find(user => user.userId === userId)
+  const currentUserStory = stories.find(user => user.userId === userId)
   const countStories = pathOr(0, ['stories', 'items', 'length'], currentUserStory)
-  const userStoryIndex = pathOr([], ['data'], usersGetFollowedUsersWithStories).findIndex(user => user.userId === userId)
-  const nextUserStoryPool = pathOr([], ['data', userStoryIndex + 1], usersGetFollowedUsersWithStories)
-  const prevUserStoryPool = pathOr([], ['data', userStoryIndex - 1], usersGetFollowedUsersWithStories)
+  const userStoryIndex = stories.findIndex(user => user.userId === userId)
+  const nextUserStoryPool = pathOr([], [userStoryIndex + 1], stories)
+  const prevUserStoryPool = pathOr([], [userStoryIndex - 1], stories)
 
   const postsShareRequest = (payload) =>
     dispatch(postsActions.postsShareRequest(payload))
@@ -41,7 +41,7 @@ const StoryService = ({ children }) => {
 
   const onSnapItem = (index) => {
     navigation.setParams({
-      user: usersGetFollowedUsersWithStories.data[index]
+      user: stories[index]
     })
     resetStory()
   }
@@ -101,7 +101,7 @@ const StoryService = ({ children }) => {
   return children({
     storyRef,
     userId,
-    usersGetFollowedUsersWithStories,
+    stories,
     countStories,
     currentStory,
     onNextStory,

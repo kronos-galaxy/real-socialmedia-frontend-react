@@ -58,8 +58,8 @@ export const handleGallery = async (photoSize = '1:1', multiple = false) => {
         const croppedCoords = AssetService.generateCroppedCoordinates(croppedPhoto.cropRect)
 
         callback(null, {
-          uri: sourcePhoto.path,
-          preview: croppedPhoto.path,
+          uri: sourcePhoto.path.replace('file://', ''),
+          preview: croppedPhoto.path.replace('file://', ''),
           originalFormat: sourcePhoto.extension,
           crop: croppedCoords,
           originalMetadata: JSON.stringify(response.exif),
@@ -117,13 +117,13 @@ const CameraService = ({ children }) => {
       const croppedCoords = AssetService.generateCroppedCoordinates(croppedPhoto.cropRect)
 
       dispatch(cameraActions.cameraCaptureRequest([{
-        uri: snappedPhoto.uri,
-        preview: croppedPhoto.path,
+        uri: snappedPhoto.uri.replace('file://', ''),
+        preview: croppedPhoto.path.replace('file://', ''),
         originalFormat: 'jpg',
         crop: croppedCoords,
         originalMetadata: JSON.stringify(snappedPhoto.exif),
         imageFormat: 'JPEG',
-        takenInReal: false,
+        takenInReal: true,
         photoSize,
       }]))
 

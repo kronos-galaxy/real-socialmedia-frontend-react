@@ -31,6 +31,7 @@ const ProfilePhotoUploadComponentService = ({ children }) => {
    */
   const postsCreateRequest = ({
     images = [],
+    preview = [],
     takenInReal = false,
     originalFormat = 'jpg',
     originalMetadata = '',
@@ -48,6 +49,7 @@ const ProfilePhotoUploadComponentService = ({ children }) => {
       mediaId,
       text: '',
       images,
+      preview,
       commentsDisabled: false,
       likesDisabled: true,
       sharingDisabled: false,

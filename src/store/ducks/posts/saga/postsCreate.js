@@ -2,6 +2,9 @@ import { graphqlOperation } from '@aws-amplify/api'
 import { call, put, takeEvery, all, getContext, select } from 'redux-saga/effects'
 import { eventChannel, END } from 'redux-saga'
 import path from 'ramda/src/path'
+import compose from 'ramda/src/compose'
+import toLower from 'ramda/src/toLower'
+import replace from 'ramda/src/replace'
 import * as actions from 'store/ducks/posts/actions'
 import * as queries from 'store/ducks/posts/queries'
 import * as constants from 'store/ducks/posts/constants'
@@ -11,13 +14,21 @@ import RNFS from 'react-native-fs'
 import * as Logger from 'services/Logger'
 import filePath from 'path'
 
-function initPostsCreateUploadChannel({ image, uploadUrl }) {
+function initPostsCreateUploadChannel({ image, uploadUrl, payload }) {
   const getName = (image) => {
-    return filePath.basename(image, '.jpg')
+    return compose(
+      replace('.heic', ''),
+      replace('.jpg', ''),
+      toLower,
+      filePath.basename
+    )(image)
   }
 
   const getFilename = (image) => {
-    return filePath.basename(image)
+    return compose(
+      toLower,
+      filePath.basename
+    )(image)
   }
 
   const getFilepath = (image) => {
@@ -25,6 +36,9 @@ function initPostsCreateUploadChannel({ image, uploadUrl }) {
   }
 
   const getFiletype = (image) => {
+    if (toLower(payload.imageFormat) === 'heic') {
+      return 'image/heic'
+    }
     return 'image/jpeg'
   }
 
@@ -160,6 +174,7 @@ function* handleImagePost(req) {
     const channel = yield call(initPostsCreateUploadChannel, {
       uploadUrl: data.imageUrl,
       image: data.image,
+      payload: req.payload,
     })
 
     yield takeEvery(channel, function *(upload) {

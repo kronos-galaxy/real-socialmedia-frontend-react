@@ -118,6 +118,7 @@ function* appSubscription(req) {
       yield put(postsActions.postsGetTrendingPostsRequest({ limit: 100 }))
       yield put(usersActions.usersGetPendingFollowersRequest({ userId }))
       yield put(usersActions.usersGetFollowedUsersWithStoriesRequest({}))
+      yield put(chatActions.chatGetChatsRequest({}))
     }
   } catch (error) {
     Logger.withScope(scope => {

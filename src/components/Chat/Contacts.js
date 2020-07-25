@@ -15,6 +15,7 @@ import Avatar from 'templates/Avatar'
 import * as navigationActions from 'navigation/actions'
 import DefaultButton from 'components/Formik/Button/DefaultButton'
 import * as UserService from 'services/User'
+import dayjs from 'dayjs'
 
 import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
@@ -67,13 +68,19 @@ const Contacts = ({
                 <TouchableOpacity onPress={navigationActions.navigateChatDirect(navigation, { userId: path(['users', 'items', '0', 'userId'])(chat), chatId: chat.chatId })} style={styling.user}>
                   <Text style={styling.username}>{path(['users', 'items', '0', 'username'])(chat)}</Text>
 
-                  {path(['messages', 'items', '0', 'viewedStatus'])(chat) === 'NOT_VIEWED' ?
-                    <Caption style={styling.notViewed}>{path(['messages', 'items', '0', 'text'])(chat)}</Caption>
-                  : null}
+                  {path(['messages', 'items', '0', 'author', 'userId'])(chat) === user.userId ?
+                    <Caption style={styling.viewed}>{t('Sent')} {dayjs(path(['messages', 'items', '0', 'createdAt'])(chat)).from(dayjs())}</Caption>
+                  : (
+                    <React.Fragment>
+                      {path(['messages', 'items', '0', 'viewedStatus'])(chat) === 'NOT_VIEWED' ?
+                        <Caption style={styling.notViewed}>{path(['messages', 'items', '0', 'text'])(chat)}</Caption>
+                      : null}
 
-                  {path(['messages', 'items', '0', 'viewedStatus'])(chat) === 'VIEWED' ?
-                    <Caption style={styling.viewed}>{path(['messages', 'items', '0', 'text'])(chat)}</Caption>
-                  : null}
+                      {path(['messages', 'items', '0', 'viewedStatus'])(chat) === 'VIEWED' ?
+                        <Caption style={styling.viewed}>{path(['messages', 'items', '0', 'text'])(chat)}</Caption>
+                      : null}
+                    </React.Fragment>
+                  )}
                 </TouchableOpacity>
               }
               action={(

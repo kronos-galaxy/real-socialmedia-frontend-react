@@ -34,6 +34,7 @@ const AuthPhotoUploadComponentService = ({ children }) => {
    */
   const postsCreateRequest = ({
     images = [],
+    preview = [],
     takenInReal = false,
     originalFormat = 'jpg',
     originalMetadata = '',
@@ -53,6 +54,7 @@ const AuthPhotoUploadComponentService = ({ children }) => {
       mediaId,
       text: '',
       images,
+      preview,
       commentsDisabled: false,
       likesDisabled: true,
       sharingDisabled: false,

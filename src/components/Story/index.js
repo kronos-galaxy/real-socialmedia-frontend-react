@@ -10,6 +10,7 @@ import Carousel from 'react-native-snap-carousel'
 import Layout from 'constants/Layout'
 import StepsTemplate from 'templates/Steps'
 import HeaderComponent from 'components/Story/Header'
+import FooterComponent from 'components/Story/Footer'
 import CameraTemplate from 'templates/Camera'
 import CameraHeaderTemplate from 'templates/Camera/Header'
 import TextOnlyComponent from 'templates/TextOnly'
@@ -80,7 +81,7 @@ const StoryCarousel = ({
         header={(
           <CameraHeaderTemplate
             content={(
-              <HeaderComponent story={post} usersGetProfile={{ data: user }} />
+              <HeaderComponent post={post} usersGetProfile={{ data: user }} />
             )}
             handleClosePress={onCloseStory}
           />
@@ -109,7 +110,9 @@ const StoryCarousel = ({
             : null}
           </React.Fragment>
         )}
-        footer={null}
+        footer={(
+          <FooterComponent post={post} />
+        )}
         selector={(
           <ActionComponent
             user={user}
@@ -135,7 +138,7 @@ const Story = ({
   t,
   theme,
   userId,
-  usersGetFollowedUsersWithStories,
+  stories,
   storyRef,
   countStories,
   currentStory,
@@ -159,9 +162,9 @@ const Story = ({
       <BlurView style={styling.blur} />
 
       <Carousel
-        firstItem={usersGetFollowedUsersWithStories.data.findIndex(user => user.userId === userId)}
+        firstItem={stories.findIndex(user => user.userId === userId)}
         ref={storyRef}
-        data={usersGetFollowedUsersWithStories.data}
+        data={stories}
         renderItem={StoryCarousel({
           storyRef,
           theme,
@@ -266,7 +269,7 @@ Story.propTypes = {
   onCloseStory: PropTypes.any,
   t: PropTypes.any,
   userId: PropTypes.any,
-  usersGetFollowedUsersWithStories: PropTypes.any,
+  stories: PropTypes.any,
   storyRef: PropTypes.any,
   onSnapItem: PropTypes.any,
 }
