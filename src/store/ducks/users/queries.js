@@ -245,7 +245,7 @@ export const onCardNotification = `
   }
 `
 
-export const onUnviewedNotificationNotification = `
+export const onNotification = `
   subscription onNotification ($userId: ID!) {
     onNotification (userId: $userId) {
       userId

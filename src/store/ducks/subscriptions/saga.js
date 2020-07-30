@@ -193,7 +193,7 @@ function* chatNotificationSubscription(req) {
     const userId = path(['payload', 'data'])(req)
 
     const subscription = AwsAPI.graphql(
-      graphqlOperation(usersQueries.onUnviewedNotificationNotification, { userId })
+      graphqlOperation(usersQueries.onNotification, { userId })
     )
 
     const channel = yield call(chatNotificationSubscriptionChannel, {
@@ -201,7 +201,13 @@ function* chatNotificationSubscription(req) {
     })
 
     yield takeEvery(channel, function *(eventData) {
-      yield put(usersActions.usersGetProfileSelfRequest({ userId }))
+      if (eventData.type === 'USER_CHATS_WITH_UNVIEWED_MESSAGES_COUNT_CHANGED') {
+        yield put(usersActions.usersGetProfileSelfRequest({ userId }))
+      }
+
+      if (eventData.type === 'USER_FEED_POST_ADDED') {
+        yield put(postsActions.postsFeedGetRequest({ limit: 20 }))
+      }
     })
   } catch (error) {
     Logger.withScope(scope => {
