@@ -56,11 +56,47 @@ index 0000000..3166687
 +	</dict>
 +</dict>
 +</plist>
+diff --git a/node_modules/react-native-fs/RNFSManager.h b/node_modules/react-native-fs/RNFSManager.h
+index 8ef10e4..907069d 100644
+--- a/node_modules/react-native-fs/RNFSManager.h
++++ b/node_modules/react-native-fs/RNFSManager.h
+@@ -16,4 +16,6 @@ typedef void (^CompletionHandler)(void);
+ 
+ +(void)setCompletionHandlerForIdentifier: (NSString *)identifier completionHandler: (CompletionHandler)completionHandler;
+ 
++pthread_mutex_t *tj_HEICEncodingLock(void);
++
+ @end
 diff --git a/node_modules/react-native-fs/RNFSManager.m b/node_modules/react-native-fs/RNFSManager.m
-index c443d20..bafe45d 100755
+index c443d20..e52ad1e 100755
 --- a/node_modules/react-native-fs/RNFSManager.m
 +++ b/node_modules/react-native-fs/RNFSManager.m
-@@ -764,7 +764,7 @@ + (BOOL)requiresMainQueueSetup
+@@ -23,6 +23,7 @@
+ 
+ #import <CommonCrypto/CommonDigest.h>
+ #import <Photos/Photos.h>
++#include <pthread.h>
+ 
+ 
+ @interface RNFSManager()
+@@ -39,6 +40,16 @@ @implementation RNFSManager
+ 
+ RCT_EXPORT_MODULE();
+ 
++pthread_mutex_t *tj_HEICEncodingLock(void)
++{
++    static pthread_mutex_t lock;
++    static dispatch_once_t onceToken;
++    dispatch_once(&onceToken, ^{
++        pthread_mutex_init(&lock, nil);
++    });
++    return &lock;
++}
++
+ - (dispatch_queue_t)methodQueue
+ {
+   return dispatch_queue_create("pe.lum.rnfs", DISPATCH_QUEUE_SERIAL);
+@@ -764,7 +775,7 @@ + (BOOL)requiresMainQueueSetup
   * width and height. Also the resizeMode will be considered.
   */
  RCT_EXPORT_METHOD(copyAssetsFileIOS: (NSString *) imageUri
@@ -69,7 +105,7 @@ index c443d20..bafe45d 100755
                    width: (NSInteger) width
                    height: (NSInteger) height
                    scale: (CGFloat) scale
-@@ -826,11 +826,26 @@ + (BOOL)requiresMainQueueSetup
+@@ -826,11 +837,31 @@ + (BOOL)requiresMainQueueSetup
                                                contentMode:contentMode
                                                    options:imageOptions
                                              resultHandler:^(UIImage *result, NSDictionary<NSString *, id> *info) {
@@ -88,6 +124,11 @@ index c443d20..bafe45d 100755
 +            NSMutableData *destinationData = [NSMutableData new];
 +            CGImageDestinationRef destination = CGImageDestinationCreateWithData((__bridge CFMutableDataRef)destinationData, (__bridge CFStringRef)AVFileTypeHEIC, 1, NULL);
 +            NSDictionary *options = @{(__bridge NSString *)kCGImageDestinationLossyCompressionQuality: @1};
++            
++            // iOS devices seem to corrupt image data when concurrently creating HEIC images.
++            // Locking to ensure HEIC creation doesn't occur concurrently.
++            pthread_mutex_t *lock = tj_HEICEncodingLock();
++            pthread_mutex_lock(lock);
 +            
 +            CGImageDestinationAddImage(destination, result.CGImage, (__bridge CFDictionaryRef)options);
 +            CGImageDestinationFinalize(destination);
