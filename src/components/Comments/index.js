@@ -11,6 +11,9 @@ import { ifIphoneX } from 'react-native-iphone-x-helper'
 import CommentComponent from 'components/Comments/Comment'
 import path from 'ramda/src/path'
 import pathOr from 'ramda/src/pathOr'
+import ModalProfileComponent from 'templates/ModalProfile'
+import ModalPreviewComponent from 'templates/ModalPreview'
+import dayjs from 'dayjs'
 
 import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
@@ -60,14 +63,31 @@ const Comments = ({
         data={pathOr([], ['data'])(postsCommentsGet)}
         onViewableItemsChanged={onViewableItemsChangedRef.current}
         viewabilityConfig={viewabilityConfigRef.current}
-        ListHeaderComponent={pseudoCommentVisibility ?
-          <View style={styling.comment} key="desc">
-            <CommentComponent
-              comment={pseudoComment}
-              handleUserReply={handleUserReply}
+        ListHeaderComponent={(
+          <React.Fragment>
+            <ModalPreviewComponent
+              post={path(['data'])(postsSingleGet)}
             />
-          </View>
-        : null}
+
+            <View style={styling.content}>
+              <ModalProfileComponent
+                thumbnailSource={{ uri: path(['data', 'postedBy', 'photo', 'url480p'])(postsSingleGet) }}
+                imageSource={{ uri: path(['data', 'postedBy', 'photo', 'url480p'])(postsSingleGet) }}
+                title={path(['data', 'postedBy', 'username'])(postsSingleGet)}
+                subtitle={`${t('Posted')} ${dayjs(path(['data', 'postedAt'])(postsSingleGet)).from(dayjs())}`}
+              />
+            </View>
+
+            {pseudoCommentVisibility ?
+              <View style={styling.comment} key="desc">
+                <CommentComponent
+                  comment={pseudoComment}
+                  handleUserReply={handleUserReply}
+                />
+              </View>
+            : null}
+          </React.Fragment>
+        )}
         renderItem={({ item: comment, index }) => (
           <View style={styling.comment}>
             <CommentComponent
@@ -114,7 +134,10 @@ const styles = theme => StyleSheet.create({
     }, {
       paddingBottom: 0,
     }),
-  }
+  },
+  content: {
+    padding: theme.spacing.base,
+  },
 })
 
 Comments.propTypes = {
