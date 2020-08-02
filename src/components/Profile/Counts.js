@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import PropTypes from 'prop-types'
 import {
   StyleSheet,
@@ -7,8 +7,8 @@ import {
 } from 'react-native'
 import { Caption, Headline } from 'react-native-paper'
 import path from 'ramda/src/path'
-import is from 'ramda/src/is'
 import * as navigationActions from 'navigation/actions'
+import * as PrivacyService from 'services/Privacy'
 
 import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
@@ -25,27 +25,8 @@ const ProfileCounts = ({
   const followersCount = path(['data', 'followersCount'])(usersGetProfile)
   const followedsCount = path(['data', 'followedsCount'])(usersGetProfile)
 
-  const followingVisibility = (
-    is(Number)(followedsCount) &&
-    (
-      path(['data', 'followCountsHidden'])(usersGetProfile) !== true ||
-      path(['data', 'followedStatus'])(usersGetProfile) === 'SELF'
-    ) && !(
-      path(['data', 'followedStatus'])(usersGetProfile) === 'NOT_FOLLOWING' &&
-      path(['data', 'privacyStatus'])(usersGetProfile) === 'PRIVATE'
-    )
-  )
-
-  const followerVisibility = (
-    is(Number)(followersCount) &&
-    (
-      path(['data', 'followCountsHidden'])(usersGetProfile) !== true ||
-      path(['data', 'followedStatus'])(usersGetProfile) === 'SELF'
-    ) && !(
-      path(['data', 'followedStatus'])(usersGetProfile) === 'NOT_FOLLOWING' &&
-      path(['data', 'privacyStatus'])(usersGetProfile) === 'PRIVATE'
-    )
-  )
+  const followingVisibility = useMemo(() => PrivacyService.userFollowingVisibility(usersGetProfile.data), [usersGetProfile.data])
+  const followerVisibility = useMemo(() => PrivacyService.userFollowerVisibility(usersGetProfile.data), [usersGetProfile.data])
 
   return (
     <View style={styling.root}>

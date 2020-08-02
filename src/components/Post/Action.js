@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useMemo } from 'react'
 import PropTypes from 'prop-types'
 import {
   StyleSheet,
@@ -9,10 +9,10 @@ import BubbleIcon from 'assets/svg/action/Bubble'
 import DirectIcon from 'assets/svg/action/Direct'
 import LikeIcon from 'assets/svg/action/Like'
 import UnlikeIcon from 'assets/svg/action/Unlike'
-import path from 'ramda/src/path'
 import { Caption } from 'react-native-paper'
 import dayjs from 'dayjs'
 import * as navigationActions from 'navigation/actions'
+import * as PrivacyService from 'services/Privacy'
 
 import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
@@ -30,7 +30,6 @@ const Action = ({
   const styling = styles(theme)
   const navigation = useNavigation()
 
-  const self = path(['postedBy', 'userId'])(post) === path(['userId'])(user)
   const [likeStatus, setLikeStatus] = useState(post.likeStatus)
   const handleLikeRequest = () => {
     setLikeStatus('ONYMOUSLY_LIKED')
@@ -41,59 +40,10 @@ const Action = ({
     postsDislikeRequest({ postId: post.postId, userId: post.postedBy.userId })
   }
 
-  /**
-   * See if current authenticated user is tagged in post by author
-   */
-  const tagged = (path(['textTaggedUsers'])(post) || [])
-    .find(textTag => textTag.tag === `@${path(['username'])(user)}`)
-
-  /**
-   * Visibility of like button, like button will be visible if:
-   * - Post owner has enabled likes
-   * - Post owner has not enabled likesDisabled global setting
-   * - Like hasn't been set before, which allows only 1 like per post
-   */
-  const likeButtonVisibility = (
-    post.likesDisabled === false &&
-    !path(['postedBy', 'likesDisabled'])(post) &&
-    !path(['likesDisabled'])(user)
-  )
-
-  /**
-   * Visibility of comment button, comment button will be visible if:
-   * - Post owner has enabled comments
-   * - Post owner has not enabled commentsDisabled global setting
-   */
-  const commentButtonVisibility = (
-    post.commentsDisabled === false &&
-    !path(['postedBy', 'commentsDisabled'])(post) &&
-    !path(['commentsDisabled'])(user)
-  )
-
-  /**
-   * Visibility of share button, share button will be visible if:
-   * - Post owner has enabled shares
-   * - Current authenticated user has shares enabled in settings
-   * - Current authenticated user is tagged in post by author
-   */
-  const shareButtonVisibility = (
-    post.sharingDisabled === false &&
-    !path(['sharingDisabled'])(user) &&
-    tagged
-  )
-
-  /**
-   * Visibility of seen by text, text will be visible if:
-   * - Current authenticated user owns the post
-   * - Post has not enabled viewCountsHidden setting
-   * - Post owner has not enabled viewCountsHidden global setting
-   */
-  const seenByVisibility = (
-    self &&
-    !post.viewCountsHidden &&
-    !path(['postedBy', 'viewCountsHidden'])(post) &&
-    post.viewedByCount > 0
-  )
+  const likeButtonVisibility = useMemo(() => PrivacyService.postLikeVisibility(post, user), [post, user])
+  const commentButtonVisibility = useMemo(() => PrivacyService.postCommentVisibility(post, user), [post, user])
+  const shareButtonVisibility = useMemo(() => PrivacyService.postShareVisibility(post, user), [post, user])
+  const seenByVisibility = useMemo(() => PrivacyService.postSeenByVisility(post, user), [post, user])
 
   return (
     <View style={styling.action}>

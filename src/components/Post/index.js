@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import PropTypes from 'prop-types'
 import {
   StyleSheet,
@@ -19,6 +19,7 @@ import TextOnlyComponent from 'templates/TextOnly'
 import ReactionsPreviewTemplate from 'templates/ReactionsPreview'
 import ViewShot from 'react-native-view-shot'
 import * as navigationActions from 'navigation/actions'
+import * as PrivacyService from 'services/Privacy'
 
 import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
@@ -67,11 +68,7 @@ const PostComponent = ({
     }
   }
 
-  const failedVerificationVisibility = (
-    user.userId === !path(['postedBy', 'userId'])(post) &&
-    !path(['isVerified'])(post) &&
-    path(['postType'])(post) !== 'TEXT_ONLY'
-  )
+  const selfFailedPostVisibility = useMemo(() => PrivacyService.selfPostVerificationVisibility(post, user), [post, user])
 
   return (
     <View style={styling.root}>
@@ -120,7 +117,7 @@ const PostComponent = ({
             resizeMode="contain"
             hideLabel={false}
           />
-          {failedVerificationVisibility ?
+          {selfFailedPostVisibility ?
             <VerificationComponent />
           : null}
           <TouchableOpacity style={styling.prev} onPress={handleScrollPrev} />

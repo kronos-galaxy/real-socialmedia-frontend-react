@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import PropTypes from 'prop-types'
 import {
   StyleSheet,
@@ -12,6 +12,7 @@ import ModalProfileComponent from 'templates/ModalProfile'
 import ModalPreviewComponent from 'templates/ModalPreview'
 import dayjs from 'dayjs'
 import NativeError from 'templates/NativeError'
+import * as PrivacyService from 'services/Privacy'
 
 import { withTheme } from 'react-native-paper'
 import { useNavigation, useRoute } from '@react-navigation/native'
@@ -28,20 +29,9 @@ const PostShare = ({
   handleWatermark,
 }) => {
   const styling = styles(theme)
-  const navigation = useNavigation()
   const route = useRoute()
 
-  const tagged = (path(['data', 'textTaggedUsers'])(postsSingleGet) || [])
-    .find(textTag => textTag.tag === `@${path(['username'])(user)}`)
-
-  /**
-   * Visibility of repost button, repost button will be visible if:
-   * - Post owner has tagged current authenticated user
-   */
-  const repostButtonVisibility = (
-    !path(['data', 'sharingDisabled'])(postsSingleGet) ||
-    tagged
-  )
+  const repostButtonVisibility = useMemo(() => PrivacyService.postShareVisibility(postsSingleGet.data, user), [postsSingleGet.data, user])
 
   const photoUrl = (
     route.params.renderUri ||

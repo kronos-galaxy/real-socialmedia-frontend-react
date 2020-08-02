@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import PropTypes from 'prop-types'
 import {
   StyleSheet,
@@ -13,6 +13,7 @@ import VerificationIcon from 'assets/svg/action/Verification'
 import dayjs from 'dayjs'
 import * as navigationActions from 'navigation/actions'
 import * as UserService from 'services/User'
+import * as PrivacyService from 'services/Privacy'
 
 import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
@@ -28,22 +29,9 @@ const Header = ({
 
   const repostedUsername = path(['originalPost', 'postedBy', 'username'])(post)
 
-  const repostVisiblity = (
-    path(['originalPost', 'postedBy', 'username', 'length'])(post) &&
-    path(['postedBy', 'username'])(post) !== repostedUsername
-  )
-
-  const failedVerificationVisibility = (
-    !repostVisiblity &&
-    path(['isVerified'])(post) === false &&
-    path(['postType'])(post) !== 'TEXT_ONLY'
-  )
-
-  const expiryVisiblity = (
-    !repostVisiblity &&
-    !failedVerificationVisibility &&
-    path(['expiresAt'])(post)
-  )
+  const repostVisiblity = useMemo(() => PrivacyService.postRepostVisiblity(post), [post])
+  const verificationVisibility = useMemo(() => PrivacyService.postVerificationVisibility(post), [post])
+  const expiryVisiblity = useMemo(() => PrivacyService.postExpiryVisiblity(post), [post])
 
   const onProfilePhotoPress = () => {
     navigationActions.navigateProfile(navigation, { userId: post.postedBy.userId })()
@@ -77,7 +65,7 @@ const Header = ({
           </View>
         : null}
 
-        {failedVerificationVisibility ?
+        {verificationVisibility ?
           <TouchableOpacity onPress={navigationActions.navigatePostError(navigation, { post })} style={styling.verification}>
             <Caption style={styling.verificationStatus}>{t('Failed Verification')} - {t('Learn More')}</Caption>
             <VerificationIcon fill="#DC3644" />

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import PropTypes from 'prop-types'
 import {
   StyleSheet,
@@ -9,6 +9,7 @@ import path from 'ramda/src/path'
 import { Text } from 'react-native-paper'
 import Avatar from 'templates/Avatar'
 import * as navigationActions from 'navigation/actions'
+import * as PrivacyService from 'services/Privacy'
 
 import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
@@ -23,14 +24,9 @@ const ReactionsPreviewTemplate = ({
   const styling = styles(theme)
   const navigation = useNavigation()
 
-  const visibility = (
-    path(['onymouslyLikedBy', 'items', '0', 'username'])(post) &&
-    !path(['postedBy', 'likesDisabled'])(post) &&
-    !post.likesDisabled &&
-    path(['postedBy', 'userId'])(post) === user.userId
-  )
+  const postLikedVisibility = useMemo(() => PrivacyService.postLikedVisibility(post, user), [post, user])
   
-  if (!visibility) {
+  if (!postLikedVisibility) {
     return null
   }
 
@@ -92,9 +88,10 @@ ReactionsPreviewTemplate.defaultProps = {
 }
 
 ReactionsPreviewTemplate.propTypes = {
+  t: PropTypes.any,
   theme: PropTypes.any,
-  children: PropTypes.any,
   post: PropTypes.any,
+  user: PropTypes.any,
 }
 
 export default withTranslation()(withTheme(ReactionsPreviewTemplate))
