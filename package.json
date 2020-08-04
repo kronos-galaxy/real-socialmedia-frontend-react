@@ -3,6 +3,7 @@
   "version": "1.6.6",
   "private": true,
   "scripts": {
+    "postinstall": "patch-package",
     "start": "react-native start",
     "dev": "ENVFILE=.env.development react-native run-ios --simulator='iPhone 11' --scheme REAL.development -- --reset-cache",
     "test": "jest",
@@ -121,6 +122,7 @@
     "jest": "^26.2.1",
     "mailslurp-client": "^8.7.8",
     "metro-react-native-babel-preset": "^0.61.0",
+    "patch-package": "^6.2.2",
     "react-native-dotenv": "^2.2.0",
     "react-test-renderer": "^16.13.1"
   },

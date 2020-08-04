@@ -46,7 +46,7 @@ const PostType = ({
           </TouchableOpacity>
           <TouchableOpacity style={styling.type} onPress={() => {
             navigation.popToTop()
-            handleLibrarySnap()
+            handleLibrarySnap(true)
           }}>
             <View style={styling.icon}>
               <GalleryIcon fill="#000000" />

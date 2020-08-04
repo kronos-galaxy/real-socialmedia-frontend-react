@@ -5,7 +5,7 @@ import {
   View,
 } from 'react-native'
 import path from 'ramda/src/path'
-import { getDimensionsFromPostSize } from 'services/Camera'
+import { getDimensionsFromPostSize } from 'services/Dimensions'
 import PinchZoom from 'templates/ListItem/PinchZoom'
 import Layout from 'constants/Layout'
 import LinearGradient from 'react-native-linear-gradient'

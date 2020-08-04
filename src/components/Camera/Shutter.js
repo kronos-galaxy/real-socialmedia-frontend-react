@@ -24,7 +24,7 @@ const Shutter = ({
   return (
     <View style={styling.root}>
       <View style={styling.action}>
-        <TouchableOpacity style={styling.item} onPress={handleLibrarySnap}>
+        <TouchableOpacity style={styling.item} onPress={() => handleLibrarySnap(true)}>
           <UploadIcon
             fill="#ffffff"
           />

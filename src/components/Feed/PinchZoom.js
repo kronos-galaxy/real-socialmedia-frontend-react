@@ -4,7 +4,7 @@ import {
   StyleSheet,
   Animated,
 } from 'react-native'
-import { getDimensionsFromPostSize } from 'services/Camera'
+import { getDimensionsFromPostSize } from 'services/Dimensions'
 import CacheComponent from 'components/Cache'
 import { withTheme } from 'react-native-paper'
 import ContextComponent from 'components/Feed/Context'

@@ -12,7 +12,7 @@ import PickerComponent from 'components/Camera/Picker'
 import { RNCamera } from 'react-native-camera'
 import Layout from 'constants/Layout'
 import usePrevious from 'react-use/lib/usePrevious'
-import { getCameraBonds } from 'services/Camera'
+import { getCameraBonds } from 'services/Dimensions'
 import { BlurView } from '@react-native-community/blur'
 import * as navigationActions from 'navigation/actions'
 

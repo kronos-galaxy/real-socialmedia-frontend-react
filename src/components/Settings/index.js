@@ -90,7 +90,7 @@ const Settings = ({
             handleProfilePhotoUpload()
           }
           if (index === 1) {
-            handleLibrarySnap()
+            handleLibrarySnap(false)
           }
           if (index === 2) {
             navigation.navigate('ProfilePhotoGrid')
