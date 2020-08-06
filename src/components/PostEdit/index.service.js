@@ -16,7 +16,6 @@ const PostEditService = ({ children }) => {
   const user = useSelector(authSelector.authUserSelector)
   const postId = path(['params', 'post', 'postId'])(route)
   const postUserId = path(['params', 'post', 'postedBy', 'userId'])(route)
-  const navigationParamPost = path(['params', 'post'])(route)
   const postsSingleGet = useSelector(postsSelector.postsSingleGetSelector(postId))
   const postsEdit = useSelector(state => state.posts.postsEdit)
   const albumsGet = useSelector(albumsSelector.albumsGetSelector(user.userId))

@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import {
   TouchableOpacity,
+  SafeAreaView,
   StyleSheet,
   View,
 } from 'react-native'
@@ -11,6 +12,7 @@ import PhotoIcon from 'assets/svg/types/Photo'
 import GalleryIcon from 'assets/svg/types/Gallery'
 import { Subheading } from 'react-native-paper'
 import * as navigationActions from 'navigation/actions'
+import color from 'color'
 
 import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
@@ -28,19 +30,14 @@ const PostType = ({
     <View style={styling.root}>
       <TouchableOpacity style={styling.backdrop} onPress={navigationActions.navigateBack(navigation)} />
     
-      <View style={styling.component}>
-        <LinearGradient
-          colors={['#0984e3', '#74b9ff']}
-          style={styling.gradient}
-        />
-
+      <SafeAreaView style={styling.component}>
         <View style={styling.types}>
           <TouchableOpacity style={styling.type} onPress={() => {
             navigation.popToTop()
             navigationActions.navigateCamera(navigation)()
           }}>
             <View style={styling.icon}>
-              <PhotoIcon fill="#000000" />
+              <PhotoIcon fill={theme.colors.backgroundSecondary} />
             </View>
             <Subheading style={styling.text}>{t('Photo')}</Subheading>
           </TouchableOpacity>
@@ -49,7 +46,7 @@ const PostType = ({
             handleLibrarySnap(true)
           }}>
             <View style={styling.icon}>
-              <GalleryIcon fill="#000000" />
+              <GalleryIcon fill={theme.colors.backgroundSecondary} />
             </View>
             <Subheading style={styling.text}>{t('Gallery')}</Subheading>
           </TouchableOpacity>
@@ -58,7 +55,7 @@ const PostType = ({
             navigationActions.navigatePostCreate(navigation, { type: 'TEXT_ONLY', })()
           }}>
             <View style={styling.icon}>
-              <TextIcon fill="#000000" />
+              <TextIcon fill={theme.colors.backgroundSecondary} />
             </View>
             <Subheading style={styling.text}>{t('Text')}</Subheading>
           </TouchableOpacity>
@@ -70,7 +67,7 @@ const PostType = ({
         }}>
           <Subheading style={styling.closeText}>{t('x close')}</Subheading>
         </TouchableOpacity>
-      </View>
+      </SafeAreaView>
     </View>
   )
 }
@@ -85,13 +82,11 @@ const styles = theme => StyleSheet.create({
   },
   gradient: {
     ...StyleSheet.absoluteFill,
-    zIndex: 1,
   },
   component: {
     height: 180,
-    width: '100%',
-    borderRadius: 38,
-    overflow: 'hidden',
+    borderRadius: 24,
+    backgroundColor: theme.colors.backgroundSecondary,
   },
   types: {
     zIndex: 2,
@@ -113,18 +108,19 @@ const styles = theme => StyleSheet.create({
     width: 70,
     height: 70,
     borderRadius: 35,
-    backgroundColor: '#ffffff',
+    backgroundColor: theme.colors.border,
     justifyContent: 'center',
     alignItems: 'center',
+    overflow: 'hidden',
   },
   text: {
-    color: '#ffffff',
+    color: color(theme.colors.text).fade(.4),
     fontWeight: '500',
     alignSelf: 'center',
     fontSize: 14,
   },
   closeText: {
-    color: '#eeeeee',
+    color: theme.colors.text,
     fontSize: 14,
   },
 })

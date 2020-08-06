@@ -8,11 +8,13 @@ import {
 import path from 'ramda/src/path'
 import { Headline, Caption } from 'react-native-paper'
 import AccordionComponent from 'templates/Accordion'
-import ModalProfileComponent from 'templates/ModalProfile'
-import ModalPreviewComponent from 'templates/ModalPreview'
 import dayjs from 'dayjs'
 import NativeError from 'templates/NativeError'
 import * as PrivacyService from 'services/Privacy'
+
+import PreviewServiceComponent from 'components/Preview/index.service'
+import PreviewPostComponent from 'components/Preview/Post'
+import PreviewUserComponent from 'components/Preview/User'
 
 import { withTheme } from 'react-native-paper'
 import { useNavigation, useRoute } from '@react-navigation/native'
@@ -75,19 +77,14 @@ const PostShare = ({
       />
 
       <ScrollView bounces={false}>
-        <ModalPreviewComponent
-          post={path(['data'])(postsSingleGet)}
-          renderUri={route.params.renderUri}
-        />
-
-        <View style={styling.content}>
-          <ModalProfileComponent
-            thumbnailSource={{ uri: path(['data', 'postedBy', 'photo', 'url480p'])(postsSingleGet) }}
-            imageSource={{ uri: path(['data', 'postedBy', 'photo', 'url480p'])(postsSingleGet) }}
-            title={path(['data', 'postedBy', 'username'])(postsSingleGet)}
-            subtitle={`${t('Posted')} ${dayjs(path(['data', 'postedAt'])(postsSingleGet)).from(dayjs())}`}
-          />
-        </View>
+        <PreviewServiceComponent>
+          {({ postPreviewProps, postUserProps }) => (
+            <React.Fragment>
+              <PreviewPostComponent {...postPreviewProps} />
+              <PreviewUserComponent {...postUserProps} />
+            </React.Fragment>
+          )}
+        </PreviewServiceComponent>
 
         {repostButtonVisibility ?
           <View style={styling.content}>

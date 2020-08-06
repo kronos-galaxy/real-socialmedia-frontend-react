@@ -208,12 +208,16 @@ function* chatNotificationSubscription(req) {
       if (eventData.type === 'USER_FEED_POST_ADDED') {
         yield put(postsActions.postsFeedGetRequest({ limit: 20 }))
       }
+
+      if (eventData.type === 'USER_FOLLOWED_USERS_WITH_STORIES_CHANGED') {
+        yield put(usersActions.usersGetFollowedUsersWithStoriesRequest({}))
+      }
     })
   } catch (error) {
     Logger.withScope(scope => {
-      scope.setExtra('code', 'CHAT_MESSAGE_SUBSCRIPTION_ERROR')
+      scope.setExtra('code', 'NOTIFICATION_SUBSCRIPTION_ERROR')
       scope.setExtra('message', error.message)
-      Logger.captureMessage('CHAT_MESSAGE_SUBSCRIPTION')
+      Logger.captureMessage('NOTIFICATION_SUBSCRIPTION')
     })
   }
 }

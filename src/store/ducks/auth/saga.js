@@ -7,6 +7,12 @@ import {
   federatedGoogleSignout,
   federatedAppleSignin,
 } from 'services/AWS'
+import {
+  checkPhotoValidation,
+  resetPhotoValidation,
+  saveAppleSigninPersist,
+  getAppleSigninPersist,
+} from 'services/Auth'
 import * as actions from 'store/ducks/auth/actions'
 import * as queries from 'store/ducks/auth/queries'
 import * as constants from 'store/ducks/auth/constants'
@@ -30,7 +36,10 @@ function* handleAuthCheckRequest() {
   return credentials
 }
 
-function handleAuthCheckValidation(self) {
+function* handleAuthCheckValidation(self) {
+  if (yield checkPhotoValidation()) {
+    return false
+  }
   const photoUrl = path(['data', 'self', 'photo', 'url'])(self)
   return (!photoUrl || photoUrl.includes('placeholder-photos'))
 }
@@ -64,9 +73,9 @@ function* authCheckRequestData(req, api) {
 function* authCheckRequest(req) {
   try {
     const credentials = yield handleAuthCheckRequest(req.payload)
-
     const data = yield queryService.apiRequest(queries.self, req.payload)
-    const nextRoute = handleAuthCheckValidation(data) ? 'AuthPhoto' : 'Root'
+    const authValidation = yield handleAuthCheckValidation(data)
+    const nextRoute = authValidation ? 'AuthPhoto' : 'Root'
     const next = yield authCheckRequestData(req, data)
     yield put(actions.authCheckReady({ data: next.data, payload: next.payload, meta: credentials, nextRoute }))
     yield put(actions.authCheckSuccess({ data: next.data, payload: next.payload, meta: credentials, nextRoute }))
@@ -185,15 +194,32 @@ function* authGoogleRequest(req) {
 /**
  *
  */
+function* mergeAppleCache(apple) {
+  const cachedAppleUser = yield getAppleSigninPersist()
+  const isSameCachedUser = path(['user', 'id'])(apple) === path(['user', 'id'])(cachedAppleUser)
+  const isNewAppleUser = path(['user', 'email'])(apple)
+  const isCachedAppleUser = path(['user', 'email'])(cachedAppleUser)
+
+  if (isNewAppleUser) {
+    yield saveAppleSigninPersist(apple)
+    return apple
+  } else if (isCachedAppleUser && isSameCachedUser) {
+    return ({ ...apple, user: ({ ...apple.user, name: cachedAppleUser.user.name, email: cachedAppleUser.user.email }) })
+  } else {
+    return apple
+  }
+}
+
 function* handleAuthAppleRequest() {
   const AwsAuth = yield getContext('AwsAuth')
 
   const apple = yield federatedAppleSignin()
+  const cached = yield mergeAppleCache(apple)
 
   const userPayload = {
     id: apple.user.id,
-    name: apple.user.name,
-    email: apple.user.email,
+    name: cached.user.name,
+    email: cached.user.email,
     authProvider: 'APPLE',
     token: apple.token,
   }
@@ -241,6 +267,7 @@ function* handleAuthSignoutRequest() {
   const AwsCredentials = yield getContext('AwsCredentials')
 
   try {
+    yield resetPhotoValidation()
     yield federatedGoogleSignout()
   } catch (error) {}
 

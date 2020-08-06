@@ -17,10 +17,15 @@ const ProfilePhotoUploadComponentService = ({ children }) => {
     navigationActions.navigateProfileSelf(navigation)()
   }
   const handleProfilePhotoChangeFailure = () => {
-    navigationActions.navigatePostError(navigation)()
+    navigationActions.navigateSettings(navigation)()
+    navigationActions.navigateVerification(navigation, { actionType: 'BACK' })()
   }
   const handleUploadSuccess = (postsCreate) => {
     dispatch(usersActions.usersEditProfileRequest({ photoPostId: postsCreate.payload.postId }))
+  }
+  const handleUploadFailure = (postsCreate) => {
+    navigationActions.navigateSettings(navigation)()
+    navigationActions.navigateVerification(navigation, { actionType: 'BACK' })()
   }
 
   /**
@@ -29,6 +34,7 @@ const ProfilePhotoUploadComponentService = ({ children }) => {
   const { handleProfilePhotoUpload } = useUpload({})
   const { activeUpload } = useUploadState({
     handleUploadSuccess,
+    handleUploadFailure,
     handleProfilePhotoChangeSuccess,
     handleProfilePhotoChangeFailure,
     handleActivePhotoSelected: handleProfilePhotoUpload,

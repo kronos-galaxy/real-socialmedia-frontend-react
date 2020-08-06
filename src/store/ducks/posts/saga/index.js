@@ -765,6 +765,20 @@ function* commentsDeleteRequest(req) {
   }
 }
 
+function* commentsFlagRequest(req) {
+  const errorWrapper = yield getContext('errorWrapper')
+
+  try {
+    const data = yield queryService.apiRequest(queries.flagComment, req.payload)
+    const selector = path(['data', 'flagComment'])
+    const meta = {}
+
+    yield put(actions.commentsFlagSuccess({ data: selector(data), payload: req.payload, meta }))
+  } catch (error) {
+    yield put(actions.commentsFlagFailure({ message: errorWrapper(error), payload: req.payload }))
+  }
+}
+
 export default () => [
   takeLatest(constants.POSTS_GET_REQUEST, postsGetRequest),
   takeLatest(constants.POSTS_GET_MORE_REQUEST, postsGetMoreRequest),
@@ -797,4 +811,5 @@ export default () => [
   takeLatest(constants.POSTS_COMMENTS_GET_REQUEST, postsCommentsGetRequest),
   takeLatest(constants.COMMENTS_ADD_REQUEST, commentsAddRequest),
   takeLatest(constants.COMMENTS_DELETE_REQUEST, commentsDeleteRequest),
+  takeLatest(constants.COMMENTS_FLAG_REQUEST, commentsFlagRequest),
 ]

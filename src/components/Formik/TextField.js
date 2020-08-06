@@ -34,7 +34,6 @@ const TextField = ({
 }) => {
   const styling = styles(theme)
   
-
   const onFocus = () => {
     form.setFieldTouched(name, true)
   }

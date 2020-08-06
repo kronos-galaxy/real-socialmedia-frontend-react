@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useRef } from 'react'
 import PropTypes from 'prop-types'
 import {
   StyleSheet,
@@ -11,9 +11,13 @@ import { ifIphoneX } from 'react-native-iphone-x-helper'
 import CommentComponent from 'components/Comments/Comment'
 import path from 'ramda/src/path'
 import pathOr from 'ramda/src/pathOr'
-import ModalProfileComponent from 'templates/ModalProfile'
-import ModalPreviewComponent from 'templates/ModalPreview'
 import dayjs from 'dayjs'
+import SwipableTemplate from 'templates/Swipable'
+import useRefs from 'services/providers/Refs'
+
+import PreviewServiceComponent from 'components/Preview/index.service'
+import PreviewPostComponent from 'components/Preview/Post'
+import PreviewUserComponent from 'components/Preview/User'
 
 import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
@@ -26,12 +30,14 @@ const Comments = ({
   commentsAdd,
   commentsAddRequest,
   commentsDeleteRequest,
+  commentsFlagRequest,
   postsCommentsGet,
   marginBottom,
   postsSingleGet,
   onViewableItemsChangedRef,
   viewabilityConfigRef,
   handleUserReply,
+  commentsRef,
 
   handleFormSubmit,
   handleFormTransform,
@@ -39,9 +45,11 @@ const Comments = ({
   formSubmitDisabled,
   formInitialValues,
   inputRefs,
+  rowRefs,
 }) => {
   const styling = styles(theme)
-  
+  const commentRefs = useRefs({ keyPath: ['commentId'] })
+
   const pseudoCommentVisibility = path(['text', 'length'])(postsSingleGet.data)
   const pseudoComment = {
     ...postsSingleGet.data,
@@ -52,6 +60,7 @@ const Comments = ({
   return (
     <View style={styling.root}>
       <FlatList
+        ref={commentsRef}
         style={styling.comments}
         refreshControl={
           <RefreshControl
@@ -65,42 +74,62 @@ const Comments = ({
         viewabilityConfig={viewabilityConfigRef.current}
         ListHeaderComponent={(
           <React.Fragment>
-            <ModalPreviewComponent
-              post={path(['data'])(postsSingleGet)}
-            />
-
-            <View style={styling.content}>
-              <ModalProfileComponent
-                thumbnailSource={{ uri: path(['data', 'postedBy', 'photo', 'url480p'])(postsSingleGet) }}
-                imageSource={{ uri: path(['data', 'postedBy', 'photo', 'url480p'])(postsSingleGet) }}
-                title={path(['data', 'postedBy', 'username'])(postsSingleGet)}
-                subtitle={`${t('Posted')} ${dayjs(path(['data', 'postedAt'])(postsSingleGet)).from(dayjs())}`}
-              />
-            </View>
+            <PreviewServiceComponent>
+              {({ postPreviewProps, postUserProps }) => (
+                <React.Fragment>
+                  <PreviewPostComponent {...postPreviewProps} />
+                  <PreviewUserComponent {...postUserProps} />
+                </React.Fragment>
+              )}
+            </PreviewServiceComponent>
 
             {pseudoCommentVisibility ?
-              <View style={styling.comment} key="desc">
-                <CommentComponent
-                  comment={pseudoComment}
-                  handleUserReply={handleUserReply}
-                />
-              </View>
+              <SwipableTemplate>
+                <View style={styling.comment} key="desc">
+                  <CommentComponent
+                    comment={pseudoComment}
+                    handleUserReply={handleUserReply}
+                  />
+                </View>
+              </SwipableTemplate>
             : null}
           </React.Fragment>
         )}
-        renderItem={({ item: comment, index }) => (
-          <View style={styling.comment}>
-            <CommentComponent
-              comment={comment}
-              commentsDeleteRequest={() => commentsDeleteRequest({ commentId: comment.commentId })}
-              handleUserReply={handleUserReply}
-              deletable={(
-                path(['postedBy', 'userId'])(postsSingleGet.data) === user.userId ||
-                path(['commentedBy', 'userId'])(comment) === user.userId
-              )}
-            />
-          </View>
-        )}
+        renderItem={({ item: comment, index }) => {
+          const tappable = (
+            path(['postedBy', 'userId'])(postsSingleGet.data) === user.userId ||
+            path(['commentedBy', 'userId'])(comment) === user.userId
+          )
+          const handleDeletePress = () => {
+            commentsDeleteRequest({ commentId: comment.commentId })
+            commentRefs.getRef(comment).close()
+          }
+          const handleReportPress = () => {
+            commentsFlagRequest({ commentId: comment.commentId })
+            commentRefs.getRef(comment).close()
+          }
+          const rowProps = tappable ? ({
+            handleReportPress,
+            handleDeletePress,
+          }) : ({
+            handleReportPress,
+          })
+          return (
+            <SwipableTemplate
+              rowRef={commentRefs.createRef(comment)}
+              rowProps={rowProps}
+            >
+              <View style={styling.comment}>
+                <CommentComponent
+                  comment={comment}
+                  handleTap={() => commentRefs.getRef(comment).openRight()}
+                  handleUserReply={handleUserReply}
+                  tappable={true}
+                />
+              </View>
+            </SwipableTemplate>
+          )}
+        }
       />
       <View style={{ marginBottom }}>
         <FormComponent

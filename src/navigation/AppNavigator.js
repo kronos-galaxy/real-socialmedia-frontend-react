@@ -19,6 +19,7 @@ import ChatDirectScreen from 'screens/ChatDirectScreen'
 import ChatOptionsScreen from 'screens/ChatOptionsScreen'
 import ProfileScreen from 'screens/ProfileScreen'
 import ProfileRequestsScreen from 'screens/ProfileRequestsScreen'
+import VerificationScreen from 'screens/VerificationScreen'
 
 const ChatNavigator = ({ navigation }) => {
   const { theme, themes } = useContext(ThemesContext)
@@ -85,6 +86,12 @@ const RootNavigator = () => {
             <Stack.Screen
               name="PostType"
               component={PostTypeScreen}
+              {...stackScreenModalProps}
+            />
+
+            <Stack.Screen
+              name="Verification"
+              component={VerificationScreen}
               {...stackScreenModalProps}
             />
 

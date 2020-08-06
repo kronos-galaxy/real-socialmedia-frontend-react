@@ -688,6 +688,12 @@ const usersGetCardsIdle = (state, action) => update(state, {
   },
 })
 
+const usersGetCardsOptimistic = (state, action) => update(state, {
+  usersGetCards: {
+    data: { $set: state.usersGetCards.data.filter(card => card.cardId !== action.payload.cardId) },
+  },
+})
+
 /**
  *
  */
@@ -837,6 +843,7 @@ export default handleActions({
   [constants.USERS_GET_CARDS_SUCCESS]: usersGetCardsSuccess,
   [constants.USERS_GET_CARDS_FAILURE]: usersGetCardsFailure,
   [constants.USERS_GET_CARDS_IDLE]: usersGetCardsIdle,
+  [constants.USERS_GET_CARDS_OPTIMISTIC]: usersGetCardsOptimistic,
 
   [constants.USERS_DELETE_CARD_REQUEST]: usersDeleteCardRequest,
   [constants.USERS_DELETE_CARD_SUCCESS]: usersDeleteCardSuccess,

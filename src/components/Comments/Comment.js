@@ -12,7 +12,7 @@ import * as navigationActions from 'navigation/actions'
 import reactStringReplace from 'react-string-replace'
 import path from 'ramda/src/path'
 import pathOr from 'ramda/src/pathOr'
-import DeleteIcon from 'assets/svg/comment/Delete'
+import MoreIcon from 'assets/svg/comment/More'
 import * as UserService from 'services/User'
 
 import { withTheme } from 'react-native-paper'
@@ -23,8 +23,8 @@ const Comment = ({
   t,
   theme,
   comment,
-  deletable,
-  commentsDeleteRequest,
+  tappable,
+  handleTap,
   handleUserReply,
 }) => {
   const styling = styles(theme)
@@ -68,9 +68,9 @@ const Comment = ({
         <Caption>{dayjs(path(['commentedAt'])(comment)).from(dayjs())} | Reply</Caption>
       </TouchableOpacity>
       <View style={styling.action}>
-        {deletable ?
-          <TouchableOpacity style={styling.action} onPress={commentsDeleteRequest}>
-            <DeleteIcon fill={theme.colors.text} />
+        {tappable ?
+          <TouchableOpacity style={styling.action} onPress={handleTap}>
+            <MoreIcon fill={theme.colors.text} />
           </TouchableOpacity>
         : null}
       </View>
@@ -108,8 +108,8 @@ Comment.propTypes = {
   theme: PropTypes.any,
   t: PropTypes.any,
   comment: PropTypes.any,
-  deletable: PropTypes.any,
-  commentsDeleteRequest: PropTypes.any,
+  tappable: PropTypes.any,
+  handleTap: PropTypes.any,
   handleUserReply: PropTypes.any,
 }
 

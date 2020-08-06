@@ -26,16 +26,17 @@ const DefaultButton = ({
   const colorStyle = (mode === 'contained') ? { color: theme.colors.buttonText } : {}
 
   return (
-    <View style={styling.root}>
-      <Button {...props} contentStyle={contentStyle} uppercase={false} compact mode={mode} labelStyle={[styling.text, colorStyle, labelStyle]}>
-        {label}
-      </Button>
-    </View>
+    <Button {...props} contentStyle={contentStyle} uppercase={false} compact mode={mode} labelStyle={[styling.text, colorStyle, labelStyle]} style={styling.root}>
+      {label}
+    </Button>
   )
 }
 
 const styles = theme => StyleSheet.create({
   root: {
+    // backgroundColor: 'rgb(10, 132, 255)',
+    overflow: 'hidden',
+    borderRadius: 8,
   },
   compactContent: {
     height: 34,
@@ -47,6 +48,7 @@ const styles = theme => StyleSheet.create({
     fontWeight: '500',
     letterSpacing: 0.25,
     fontSize: 15,
+    // color: '#ffffff',
   },
 })
 

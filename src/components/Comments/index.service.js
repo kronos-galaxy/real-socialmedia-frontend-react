@@ -19,17 +19,27 @@ const CommentsService = ({ children }) => {
   const route = useRoute()
   const postId = route.params.postId
   const postUserId = route.params.userId
+  const actionId = route.params.actionId
   const user = useSelector(authSelector.authUserSelector)
   const commentsAdd = useSelector(state => state.posts.commentsAdd)
   const commentsDelete = useSelector(state => state.posts.commentsDelete)
+  const commentsFlag = useSelector(state => state.posts.commentsFlag)
   const postsCommentsGet = useSelector(postsSelector.postsCommentsGetSelector(postId))
   const postsSingleGet = useSelector(postsSelector.postsSingleGetSelector(postId))
+
+  const commentsRef = useRef()
+
+  useEffect(() => {
+    const commentIndex = postsCommentsGet.data.findIndex(item => item.commentId === actionId)
+    if (postsCommentsGet.status === 'success' && commentIndex !== -1) {
+      commentsRef.current.scrollToIndex(commentIndex)
+    }
+  }, [postsCommentsGet.status])
 
   useEffect(() => {
     dispatch(postsActions.postsSingleGetRequest({ postId, userId: postUserId }))
     dispatch(postsActions.postsCommentsGetRequest({ postId, userId: postUserId }))
     dispatch(postsActions.postsReportPostViewsRequest({ postIds: [postId] }))
-
   }, [])
 
   useEffect(() => {
@@ -44,6 +54,12 @@ const CommentsService = ({ children }) => {
     dispatch(postsActions.commentsDeleteIdle({}))
   }, [commentsDelete.status === 'success'])
 
+  useEffect(() => {
+    dispatch(postsActions.postsCommentsGetRequest({ postId, userId: postUserId }))
+    dispatch(postsActions.postsSingleGetRequest({ postId, userId: postUserId }))
+    dispatch(postsActions.commentsFlagIdle({}))
+  }, [commentsFlag.status === 'success'])
+
   const commentsAddRequest = ({ text }) => {
     const commentId = uuid()
     dispatch(postsActions.commentsAddRequest({
@@ -55,6 +71,9 @@ const CommentsService = ({ children }) => {
 
   const commentsDeleteRequest = (payload) =>
     dispatch(postsActions.commentsDeleteRequest(payload))
+
+  const commentsFlagRequest = (payload) =>
+    dispatch(postsActions.commentsFlagRequest(payload))
 
   /**
    * Keyboard movement calculator 
@@ -134,12 +153,14 @@ const CommentsService = ({ children }) => {
     commentsAdd,
     commentsAddRequest,
     commentsDeleteRequest,
+    commentsFlagRequest,
     postsCommentsGet,
     postsSingleGet,
     marginBottom,
     onViewableItemsChangedRef,
     viewabilityConfigRef,
     handleUserReply,
+    commentsRef,
 
     formErrorMessage,
     handleFormSubmit,

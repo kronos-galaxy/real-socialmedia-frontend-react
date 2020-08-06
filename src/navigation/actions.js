@@ -83,10 +83,6 @@ export const navigateChatOptions = (navigation, params) => defaultThrottle(() =>
   navigation.navigate('ChatOptions', params)
 )
 
-export const navigatePostError = (navigation, params) => defaultThrottle(() =>
-  navigation.navigate('PostError', params)
-)
-
 export const navigatePostShare = (navigation, params) => defaultThrottle(() =>
   navigation.push('PostShare', params)
 )
@@ -163,6 +159,11 @@ export const navigatePayout = (navigation, params) => defaultThrottle(() =>
   navigation.navigate('Payout', params)
 )
 
+export const navigateVerification = (navigation, params) => defaultThrottle(() =>
+  navigation.navigate('Verification', params)
+)
+
+
 /**
  * 
  */
@@ -210,9 +211,6 @@ export const navigateAuthPhoto = (navigation, params) => () =>
 
 export const navigateAuthPhotoUpload = (navigation, params) => () =>
   navigation.navigate('AuthPhotoUpload', params)
-
-export const navigateAuthPhotoError = (navigation, params) => () =>
-  navigation.navigate('AuthPhotoError', params)
 
 export const navigateForgot = (navigation, params) => () =>
   navigation.navigate('Forgot', params)

@@ -39,7 +39,7 @@ const TabNavigator = ({ navigation, route }) => {
   }
 
   const CameraTabIconComponent = ({ color }) => <CreateIcon fill={color} />
-  const CameraTabButtonComponent = (props) => <TouchableOpacity {...props} onPress={navigationActions.navigatePostType(navigation)} />
+  const CameraTabButtonComponent = (props) => <TouchableOpacity {...props} onPress={navigationActions.navigatePostType(navigation, { actionType: 'HOME' })} />
   const cameraTabScreenPropsCard = {
     options: {
       tabBarIcon: CameraTabIconComponent,

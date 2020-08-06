@@ -11,9 +11,11 @@ import ResultComponent from 'components/Search/Result'
 import ScrollService from 'services/Scroll'
 import { Caption } from 'react-native-paper'
 import path from 'ramda/src/path'
-import ModalProfileComponent from 'templates/ModalProfile'
-import ModalPreviewComponent from 'templates/ModalPreview'
 import dayjs from 'dayjs'
+
+import PreviewServiceComponent from 'components/Preview/index.service'
+import PreviewPostComponent from 'components/Preview/Post'
+import PreviewUserComponent from 'components/Preview/User'
 
 import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
@@ -54,18 +56,14 @@ const PostViews = ({
         onScroll={scroll.handleScrollChange}
         scrollEventThrottle={400}
       >
-        <ModalPreviewComponent
-          post={path(['data'])(postsSingleGet)}
-        />
-
-        <View style={styling.content}>
-          <ModalProfileComponent
-            thumbnailSource={{ uri: path(['data', 'postedBy', 'photo', 'url480p'])(postsSingleGet) }}
-            imageSource={{ uri: path(['data', 'postedBy', 'photo', 'url480p'])(postsSingleGet) }}
-            title={path(['data', 'postedBy', 'username'])(postsSingleGet)}
-            subtitle={`${t('Posted')} ${dayjs(path(['data', 'postedAt'])(postsSingleGet)).from(dayjs())}`}
-          />
-        </View>
+        <PreviewServiceComponent>
+          {({ postPreviewProps, postUserProps }) => (
+            <React.Fragment>
+              <PreviewPostComponent {...postPreviewProps} />
+              <PreviewUserComponent {...postUserProps} />
+            </React.Fragment>
+          )}
+        </PreviewServiceComponent>
 
         <ResultComponent
           usersSearch={postsViewsGet}

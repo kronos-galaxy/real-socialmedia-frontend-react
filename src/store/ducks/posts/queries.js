@@ -207,6 +207,15 @@ export const deletePost = `
   ${postFragment}
 `
 
+export const flagComment = `
+  mutation flagComment($commentId: ID!) {
+    flagComment (commentId: $commentId) {
+      ...commentFragment
+    }
+  }
+  ${commentFragment}
+`
+
 export const onymouslyLikePost = `
   mutation OnymouslyLikePost($postId: ID!) {
     onymouslyLikePost (postId: $postId) {

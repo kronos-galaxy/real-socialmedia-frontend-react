@@ -3,9 +3,11 @@ import PropTypes from 'prop-types'
 import {
   View,
   StyleSheet,
+  TouchableOpacity,
 } from 'react-native'
 import { BlurView } from '@react-native-community/blur'
-import FeatureComponent from 'templates/Feature'
+import { Text } from 'react-native-paper'
+import * as navigationActions from 'navigation/actions'
 
 import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
@@ -20,21 +22,29 @@ const Verification = ({
   
   return (
     <BlurView style={styling.root}>
-      <FeatureComponent active>{t('The Photo must be uncropped')}</FeatureComponent>
-      <FeatureComponent active>{t('The Photo must be unrotated')}</FeatureComponent>
-      <FeatureComponent active>{t('The Photo must have been taken on this phone (not sent to you)')}</FeatureComponent>
-      <FeatureComponent active>{t('If you’re still having trouble, photos taken using the camera inside the REAL app will always pass verification')}</FeatureComponent>
-      <FeatureComponent active>{t('Unverified posts can’t be trending/discovered, used as profile pictures, or used in dating. They can only be seen by your followers')}</FeatureComponent>
+      <TouchableOpacity onPress={navigationActions.navigateVerification(navigation, { actionType: 'BACK' })}>
+        <Text style={styling.text}>{t('Failed Verification, tap to learn more.')}</Text>
+      </TouchableOpacity>
     </BlurView>
   )
 }
 
 const styles = theme => StyleSheet.create({
   root: {
-    ...StyleSheet.absoluteFill,
+    position: 'absolute',
     justifyContent: 'center',
+    bottom: 0,
+    left: 0,
+    right: 0,
+    padding: 12,
+    zIndex: 1,
   },
   blur: {
+    width: '100%',
+    height: '100%',
+  },
+  text: {
+    color: 'red',
     width: '100%',
     height: '100%',
   },

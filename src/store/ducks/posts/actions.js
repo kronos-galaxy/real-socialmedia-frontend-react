@@ -182,3 +182,8 @@ export const commentsDeleteIdle = createAction(constants.COMMENTS_DELETE_IDLE)
 export const commentsDeleteRequest = createAction(constants.COMMENTS_DELETE_REQUEST)
 export const commentsDeleteSuccess = createAction(constants.COMMENTS_DELETE_SUCCESS)
 export const commentsDeleteFailure = createAction(constants.COMMENTS_DELETE_FAILURE)
+
+export const commentsFlagIdle = createAction(constants.COMMENTS_FLAG_IDLE)
+export const commentsFlagRequest = createAction(constants.COMMENTS_FLAG_REQUEST)
+export const commentsFlagSuccess = createAction(constants.COMMENTS_FLAG_SUCCESS)
+export const commentsFlagFailure = createAction(constants.COMMENTS_FLAG_FAILURE)

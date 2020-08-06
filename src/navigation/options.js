@@ -232,6 +232,34 @@ export const stackScreenModalProps = ({ theme }) => ({
   }),
 })
 
+
+export const stackScreenAuthModalProps = ({ theme }) => ({
+  options: (props) => ({
+    gestureDirection: 'vertical',
+    gestureResponseDistance: {
+      horizontal: Layout.window.width,
+      vertical: Layout.window.height,
+    },
+    cardStyle: {
+      backgroundColor: 'transparent',
+      gestureDirection: 'vertical',
+    },
+    cardStyleInterpolator: CardStyleInterpolators.forVerticalIOS,
+    headerStyle: {
+      backgroundColor: theme.colors.backgroundPrimary,
+      shadowRadius: 0,
+      shadowOffset: {
+        height: 0,
+      },
+      borderBottomWidth: 0,
+      shadowColor: 'transparent',
+    },
+    headerTitleStyle: {
+      color: theme.colors.text,
+    },
+  }),
+})
+
 /**
  * Used for Profile Screens without application logo but text
  */

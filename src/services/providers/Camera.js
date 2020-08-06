@@ -85,7 +85,7 @@ const useCamera = ({
    *
    */
   const pickerOptions = (multiple) => ({
-    multiple,
+    multiple: Boolean(multiple),
     avoidEmptySpaceAroundImage: false,
     mediaType: 'photo',
     includeExif: true,

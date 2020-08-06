@@ -71,7 +71,7 @@ export const postVerificationVisibility = (post) => (
  *
  */
 export const selfPostVerificationVisibility = (post, user) => (
-  user.userId === !path(['postedBy', 'userId'])(post) &&
+  user.userId === path(['postedBy', 'userId'])(post) &&
   postVerificationVisibility(post)
 )
 

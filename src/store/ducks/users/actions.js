@@ -145,6 +145,7 @@ export const usersGetCardsIdle = createAction(constants.USERS_GET_CARDS_IDLE)
 export const usersGetCardsRequest = createAction(constants.USERS_GET_CARDS_REQUEST)
 export const usersGetCardsSuccess = createAction(constants.USERS_GET_CARDS_SUCCESS)
 export const usersGetCardsFailure = createAction(constants.USERS_GET_CARDS_FAILURE)
+export const usersGetCardsOptimistic = createAction(constants.USERS_GET_CARDS_OPTIMISTIC)
 
 /**
  * 

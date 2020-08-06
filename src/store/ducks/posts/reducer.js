@@ -152,6 +152,13 @@ export const initialState = {
     payload: {},
     meta: {},
   },
+  commentsFlag: {
+    data: [],
+    status: 'idle',
+    error: {},
+    payload: {},
+    meta: {},
+  },
 
   /**
    * postId -> { data: {} }
@@ -1019,6 +1026,36 @@ const commentsDeleteIdle = (state, action) => update(state, {
   },
 })
 
+/**
+ * 
+ */
+const commentsFlagRequest = (state, action) => update(state, {
+  commentsFlag: {
+    status: { $set: 'loading' },
+    payload: { $set: action.payload },
+  },
+})
+
+const commentsFlagSuccess = (state, action) => update(state, {
+  commentsFlag: {
+    data: { $set: action.payload.data },
+    status: { $set: 'success' },
+  },
+})
+
+const commentsFlagFailure = (state, action) => update(state, {
+  commentsFlag: {
+    status: { $set: 'failure' },
+  },
+})
+
+const commentsFlagIdle = (state, action) => update(state, {
+  commentsFlag: {
+    data: { $set: initialState.commentsFlag.data },
+    status: { $set: 'idle' },
+  },
+})
+
 export default handleActions({
   [constants.POSTS_GET_REQUEST]: postsGetRequest,
   [constants.POSTS_GET_SUCCESS]: postsGetSuccess,
@@ -1133,6 +1170,11 @@ export default handleActions({
   [constants.COMMENTS_DELETE_SUCCESS]: commentsDeleteSuccess,
   [constants.COMMENTS_DELETE_FAILURE]: commentsDeleteFailure,
   [constants.COMMENTS_DELETE_IDLE]: commentsDeleteIdle,
+
+  [constants.COMMENTS_FLAG_REQUEST]: commentsFlagRequest,
+  [constants.COMMENTS_FLAG_SUCCESS]: commentsFlagSuccess,
+  [constants.COMMENTS_FLAG_FAILURE]: commentsFlagFailure,
+  [constants.COMMENTS_FLAG_IDLE]: commentsFlagIdle,
 
   /**
    * Clear on logout

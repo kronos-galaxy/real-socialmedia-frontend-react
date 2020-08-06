@@ -22,15 +22,23 @@ const AuthPhotoUploadComponentService = ({ children }) => {
     dispatch(authActions.authCheckIdle({ nextRoute: 'Root' }))
   }
   const handleProfilePhotoChangeFailure = () => {
-    navigationActions.navigateAuthPhotoError(navigation)()
+    dispatch(usersActions.usersEditProfileIdle({}))
+    navigationActions.navigateAuthPhoto(navigation)()
+    navigationActions.navigateVerification(navigation, { actionType: 'HIDE' })()
   }
   const handleUploadSuccess = (postsCreate) => {
     dispatch(usersActions.usersEditProfileRequest({ photoPostId: postsCreate.payload.postId }))
+  }
+  const handleUploadFailure = (postsCreate) => {
+    dispatch(usersActions.usersEditProfileIdle({}))
+    navigationActions.navigateAuthPhoto(navigation)()
+    navigationActions.navigateVerification(navigation, { actionType: 'HIDE' })()
   }
 
   const { handleProfilePhotoUpload } = useUpload({})
   const { activeUpload } = useUploadState({
     handleUploadSuccess,
+    handleUploadFailure,
     handleProfilePhotoChangeSuccess,
     handleProfilePhotoChangeFailure,
     handleActivePhotoSelected: handleProfilePhotoUpload,
@@ -61,7 +69,6 @@ const AuthPhotoUploadComponentService = ({ children }) => {
   return children({
     formErrorMessage,
     activeUpload,
-    postsCreateRequest,
     postsCreateQueue,
     handleErrorClose,
   })

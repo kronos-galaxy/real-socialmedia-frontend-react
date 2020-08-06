@@ -16,6 +16,7 @@ const FeedCardsService = ({ children }) => {
     dispatch(usersActions.usersDeleteCardRequest(payload))
 
   const handleCardPress = ({ action, cardId }) => {
+    dispatch(usersActions.usersGetCardsOptimistic({ cardId }))
     dispatch(usersActions.usersDeleteCardRequest({ cardId }))
     LinkingService.deeplinkNavigation(navigation, navigationActions, Linking)(action)
   }
