@@ -32,7 +32,7 @@ const CommentsService = ({ children }) => {
   useEffect(() => {
     const commentIndex = postsCommentsGet.data.findIndex(item => item.commentId === actionId)
     if (postsCommentsGet.status === 'success' && commentIndex !== -1) {
-      commentsRef.current.scrollToIndex(commentIndex)
+      commentsRef.current.scrollToIndex({ animated: false, index: commentIndex })
     }
   }, [postsCommentsGet.status])
 

@@ -55,7 +55,7 @@ const PostComponent = ({
   const albumLength = path(['album', 'posts', 'items', 'length'])(post) || 0
 
   const onCapture = (renderUri) => {
-    navigationActions.navigatePostShare(navigation, { post, renderUri })()
+    navigationActions.navigatePostShare(navigation, { postId: post.postId, userId: post.postedBy.userId, renderUri })()
   }
 
   const handlePostShare = () => {
@@ -64,7 +64,7 @@ const PostComponent = ({
     }
 
     if (post.postType === 'IMAGE') {
-      navigationActions.navigatePostShare(navigation, { post })()
+      navigationActions.navigatePostShare(navigation, { postId: post.postId, userId: post.postedBy.userId })()
     }
   }
 

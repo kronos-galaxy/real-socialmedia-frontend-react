@@ -320,9 +320,9 @@ export const deleteComment = `
 `
 
 export const comments = `
-  query comments($postId: ID!, $limit: Int, $nextToken: String) {
+  query comments($postId: ID!, $limit: Int, $nextToken: String, $reverse: Boolean = true) {
     post(postId: $postId) {
-      comments(limit: $limit, nextToken: $nextToken) {
+      comments(limit: $limit, nextToken: $nextToken, reverse: $reverse) {
         items {
           ...commentFragment
         }

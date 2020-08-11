@@ -69,7 +69,7 @@ const Comments = ({
           />
         }
         keyExtractor={item => item.commentId}
-        data={pathOr([], ['data'])(postsCommentsGet)}
+        data={pathOr([], ['data'])(postsCommentsGet).reverse()}
         onViewableItemsChanged={onViewableItemsChangedRef.current}
         viewabilityConfig={viewabilityConfigRef.current}
         ListHeaderComponent={(

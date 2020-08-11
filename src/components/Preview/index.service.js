@@ -2,11 +2,14 @@ import { useEffect, useMemo } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { useRoute } from '@react-navigation/native'
 import * as postsSelector from 'store/ducks/posts/selectors'
+import * as postsActions from 'store/ducks/posts/actions'
 import path from 'ramda/src/path'
 import dayjs from 'dayjs'
 
 export const PostPreviewService = ({ children }) => {
+  const dispatch = useDispatch()
   const route = useRoute()
+
   const postId = path(['params', 'postId'])(route)
   const userId = path(['params', 'userId'])(route)
   const renderUri = path(['params', 'renderUri'])(route)
@@ -20,8 +23,8 @@ export const PostPreviewService = ({ children }) => {
     if (postsSingleGet.data.postId === postId || postsSingleGet.status === 'loading') {
       return
     }
-    dispatch(postsActions.postsSingleGetRequest({ postId, userId: postUserId }))
-  }, [])
+    dispatch(postsActions.postsSingleGetRequest({ postId, userId }))
+  }, [postId])
 
   /**
    * Props required for post image preview component
@@ -32,7 +35,7 @@ export const PostPreviewService = ({ children }) => {
       imageSource: { uri: path(['data', 'image', 'url1080p'])(postsSingleGet) },
     },
     text: {
-      text: postsSingleGet.data.postType === 'TEXT_ONLY' ? postsSingleGet.data.text : null
+      text: path(['data', 'postType'])(postsSingleGet) === 'TEXT_ONLY' ? postsSingleGet.data.text : null
     },
     renderUri,
   }), [postsSingleGet])

@@ -78,7 +78,7 @@ export const postsSingleGetSelector = (postId) => createDeepEqualSelector(
   [postsSingleGet(), postsOnymouslyLike(), postsDislike(), postsReportPostViewsRequest(), entities()],
   (postsSingleGet, postsOnymouslyLike, postsDislike, postsReportPostViewsRequest, entities) => {
     const denormalized = normalizer.denormalizePostGet(postId, entities)
-    return assocPath(['data'], denormalized)(postsSingleGet)
+    return assocPath(['data'], denormalized || {})(postsSingleGet)
   }
 )
 
