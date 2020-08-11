@@ -3,6 +3,7 @@ import { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import * as usersActions from 'store/ducks/users/actions'
 import * as postsActions from 'store/ducks/posts/actions'
+import * as subscriptionsActions from 'store/ducks/subscriptions/actions'
 import * as authSelector from 'store/ducks/auth/selectors'
 import path from 'ramda/src/path'
 import * as Logger from 'services/Logger'
@@ -10,6 +11,7 @@ import PushNotificationIOS from '@react-native-community/push-notification-ios'
 import * as navigationActions from 'navigation/actions'
 import * as LinkingService from 'services/Linking'
 import { useNavigation } from '@react-navigation/native'
+import useAppState from 'services/AppState'
 
 /**
  * 
@@ -25,6 +27,21 @@ export const AppProvider = ({
   const postsArchive = useSelector(state => state.posts.postsArchive)
   const postsRestoreArchived = useSelector(state => state.posts.postsRestoreArchived)
   const postsFlag = useSelector(state => state.posts.postsFlag)
+
+  /**
+   * Application version check handler, which forces users to update
+   * the app if new build is available
+   */
+  useAppState({
+    onForeground: () => {
+      dispatch(subscriptionsActions.subscriptionMainStart(user))
+      dispatch(subscriptionsActions.subscriptionPollStart(user))
+    },
+    onBackground: () => {
+      dispatch(subscriptionsActions.subscriptionMainStop(user))
+      dispatch(subscriptionsActions.subscriptionPollStop(user))
+    },
+  })
 
   const handlePushNotification = (notification) => {
     if (!notification || !notification.getData()) return
@@ -62,6 +79,7 @@ export const AppProvider = ({
    */
   useEffect(() => {
     Logger.setUser(user)
+    dispatch(subscriptionsActions.subscriptionMainStart(user))
 
     PushNotificationIOS.checkPermissions(handlePermissions)
     PushNotificationIOS.getInitialNotification().then(handlePushNotification)

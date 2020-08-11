@@ -1,6 +1,6 @@
 import { graphqlOperation } from '@aws-amplify/api'
-import { call, put, takeEvery, takeLatest, getContext } from 'redux-saga/effects'
-import { eventChannel } from 'redux-saga'
+import { call, put, take, takeEvery, takeLatest, cancel, getContext } from 'redux-saga/effects'
+import { eventChannel, END } from 'redux-saga'
 import path from 'ramda/src/path'
 import * as postsActions from 'store/ducks/posts/actions'
 import * as usersActions from 'store/ducks/users/actions'
@@ -8,224 +8,209 @@ import * as postsQueries from 'store/ducks/posts/queries'
 import * as usersQueries from 'store/ducks/users/queries'
 import * as chatQueries from 'store/ducks/chat/queries'
 import * as chatActions from 'store/ducks/chat/actions'
+import * as constants from 'store/ducks/subscriptions/constants'
 import * as queryService from 'services/Query'
 import * as Logger from 'services/Logger'
 
 /**
- *
+ * Apollo subscription channel messagee emitter, used for graphql subscriptions
  */
-function postSubscriptionChannel({ subscription }) {
+function subscriptionEmitter({ subscription }) {
   return eventChannel(emitter => {
-    subscription.subscribe({
+    const api = subscription.subscribe({
       next: emitter,
-      error: () => {},
+      error: ({ error }) => {
+        Logger.withScope(scope => {
+          scope.setExtra('payload', JSON.stringify(error))
+          Logger.captureMessage('SUBSCRIPTION_EMITTER_ERROR')
+        })
+      },
     })
 
-    return () => subscription.unsubscribe()
+    return () => api.unsubscribe()
   })
 }
 
-function* postSubscription(req) {
-  try {
-    const AwsAPI = yield getContext('AwsAPI')
-    const userId = path(['payload', 'data'])(req)
+/**
+ * Interval channel message emitter, used for grapql polling
+ */
+function intervalEmitter({ frequency }) {
+  return eventChannel(emitter => {
+    const interval = setInterval(() => {
+      emitter({})
+    }, frequency)
 
-    const subscription = AwsAPI.graphql(
-      graphqlOperation(postsQueries.onPostNotification, { userId })
-    )
+    return () => clearInterval(interval)
+  })
+}
 
-    const channel = yield call(postSubscriptionChannel, {
-      subscription,
-    })
+/**
+ * 
+ */
+function* appSubscription(req) {
+  const userId = path(['payload', 'userId'])(req)
 
-    yield takeEvery(channel, function *(eventData) {
-      const postId = path(['value', 'data', 'onPostNotification', 'post', 'postId'])(eventData)
-      const userId = path(['value', 'data', 'onPostNotification', 'userId'])(eventData)
-      const type = path(['value', 'data', 'onPostNotification', 'type'])(eventData)
-      
+  yield put(usersActions.usersGetCardsRequest({}))
+  yield put(postsActions.postsFeedGetRequest({ limit: 20 }))
+  yield put(postsActions.postsGetTrendingPostsRequest({ limit: 100 }))
+  yield put(usersActions.usersGetPendingFollowersRequest({ userId }))
+  yield put(usersActions.usersGetFollowedUsersWithStoriesRequest({}))
+  yield put(chatActions.chatGetChatsRequest({}))
+}
+
+/**
+ * Cards subscription channel
+ */
+function* cardSubscription(req) {
+  const AwsAPI = yield getContext('AwsAPI')
+  const userId = path(['payload', 'userId'])(req)
+
+  const subscription = AwsAPI.graphql(
+    graphqlOperation(usersQueries.onCardNotification, { userId })
+  )
+
+  const channel = yield call(subscriptionEmitter, {
+    subscription,
+  })
+
+  yield takeEvery(channel, function *(eventData) {
+    yield put(usersActions.usersGetCardsRequest({}))
+    yield put(postsActions.postsGetUnreadCommentsRequest({ limit: 20 }))
+    yield put(usersActions.usersGetProfileSelfRequest({ userId }))
+    yield put(usersActions.usersGetPendingFollowersRequest({ userId }))
+  })
+
+  /**
+   * Close channel subscription on application toggle
+   */
+  yield take(constants.SUBSCRIPTION_POLL_STOP)
+  channel.close()
+}
+
+/**
+ *
+ */
+function* chatMessageSubscription(req) {
+  const AwsAPI = yield getContext('AwsAPI')
+  const userId = path(['payload', 'userId'])(req)
+
+  const subscription = AwsAPI.graphql(
+    graphqlOperation(chatQueries.onChatMessageNotification, { userId })
+  )
+
+  const channel = yield call(subscriptionEmitter, {
+    subscription,
+  })
+
+  yield takeEvery(channel, function *(eventData) {
+    const data = path(['value', 'data', 'onChatMessageNotification'])(eventData)
+    const chatId = path(['message', 'chat', 'chatId'])(data)
+
+    yield put(chatActions.chatGetChatRequest({ chatId }))
+    yield put(chatActions.chatGetChatsRequest())
+    yield put(usersActions.usersGetProfileSelfRequest({ userId }))
+  })
+
+  /**
+   * Close channel subscription on application toggle
+   */
+  yield take(constants.SUBSCRIPTION_POLL_STOP)
+  channel.close()
+}
+
+/**
+ * New subscription that is used for various real-time updates
+ */
+function* subscriptionNotificationStart(req) {
+  const AwsAPI = yield getContext('AwsAPI')
+  const userId = path(['payload', 'userId'])(req)
+
+  const subscription = AwsAPI.graphql(
+    graphqlOperation(usersQueries.onNotification, { userId })
+  )
+
+  const channel = yield call(subscriptionEmitter, {
+    subscription,
+  })
+
+  yield takeEvery(channel, function *(eventData) {
+    const postId = path(['value', 'data', 'onNotification', 'postId'])(eventData)
+    const userId = path(['value', 'data', 'onNotification', 'userId'])(eventData)
+    const type = path(['value', 'data', 'onNotification', 'type'])(eventData)
+
+    /**
+     * Fires when one of the user's followeds changes their first story
+     */
+    if (type === 'USER_CHATS_WITH_UNVIEWED_MESSAGES_COUNT_CHANGED') {
+      yield put(usersActions.usersGetProfileSelfRequest({ userId }))
+    }
+
+    /**
+     * Fires when a post is added to User.feed
+     */
+    if (type === 'USER_FEED_POST_ADDED') {
+      yield put(postsActions.postsFeedGetRequest({ limit: 20 }))
+    }
+
+    /**
+     * Fires when User.chatsWithUnviewedMessagesCount changes
+     */
+    if (type === 'USER_FOLLOWED_USERS_WITH_STORIES_CHANGED') {
+      yield put(usersActions.usersGetFollowedUsersWithStoriesRequest({}))
+    }
+
+    /**
+     * Fires when one of the user's posts reaches COMPLETED state for the first time
+     */
+    if (type === 'POST_COMPLETED') {
       const data = yield queryService.apiRequest(postsQueries.getPost, { postId })
       const selector = path(['data', 'post'])
 
-      if (type === 'COMPLETED') {
-        yield put(postsActions.postsCreateSuccess({ data: {}, payload: selector(data), meta: {} }))
-        yield put(postsActions.postsFeedGetRequest({ limit: 20 }))
-        yield put(postsActions.postsGetRequest({ userId }))
-        yield put(usersActions.usersImagePostsGetRequest({ userId }))
-      }
-    })
-  } catch (error) {
-    Logger.withScope(scope => {
-      scope.setExtra('code', 'POST_SUBSCRIPTION_ERROR')
-      scope.setExtra('message', error.message)
-      Logger.captureMessage('POST_SUBSCRIPTION')
-    })
-  }
-}
-
-/**
- *
- */
-function cardSubscriptionChannel({ subscription }) {
-  return eventChannel(emitter => {
-    subscription.subscribe({
-      next: emitter,
-      error: () => {},
-    })
-
-    return () => subscription.unsubscribe()
-  })
-}
-
-function* cardSubscription(req) {
-  try {
-    const AwsAPI = yield getContext('AwsAPI')
-    const userId = path(['payload', 'data'])(req)
-
-    const subscription = AwsAPI.graphql(
-      graphqlOperation(usersQueries.onCardNotification, { userId })
-    )
-
-    const channel = yield call(cardSubscriptionChannel, {
-      subscription,
-    })
-
-    yield takeEvery(channel, function *(eventData) {
-      yield put(usersActions.usersGetCardsRequest({}))
-      yield put(postsActions.postsGetUnreadCommentsRequest({ limit: 20 }))
-      yield put(usersActions.usersGetProfileSelfRequest({ userId }))
-      yield put(usersActions.usersGetPendingFollowersRequest({ userId }))
-    })
-  } catch (error) {
-    Logger.withScope(scope => {
-      scope.setExtra('code', 'CARD_SUBSCRIPTION_ERROR')
-      scope.setExtra('message', error.message)
-      Logger.captureMessage('CARD_SUBSCRIPTION')
-    })
-  }
-}
-
-/**
- *
- */
-function* appSubscription(req) {
-  try {
-    const userId = path(['payload', 'data'])(req)
-    const type = path(['payload', 'payload', 'type'])(req)
-
-    if (type !== 'STATE_CHANGE') {
-      yield put(usersActions.usersGetCardsRequest({}))
-      yield put(postsActions.postsFeedGetRequest({ limit: 20 }))
-      yield put(postsActions.postsGetTrendingPostsRequest({ limit: 100 }))
-      yield put(usersActions.usersGetPendingFollowersRequest({ userId }))
-      yield put(usersActions.usersGetFollowedUsersWithStoriesRequest({}))
-      yield put(chatActions.chatGetChatsRequest({}))
+      yield put(postsActions.postsCreateSuccess({ data: {}, payload: selector(data), meta: {} }))
+      yield put(postsActions.postsGetRequest({ userId }))
+      yield put(usersActions.usersImagePostsGetRequest({ userId }))
     }
-  } catch (error) {
-    Logger.withScope(scope => {
-      scope.setExtra('code', 'APP_SUBSCRIPTION_ERROR')
-      scope.setExtra('message', error.message)
-      Logger.captureMessage('APP_SUBSCRIPTION')
-    })
-  }
+
+    /**
+     * Fires when one of the user's posts reaches ERROR state
+     */
+    if (type === 'POST_ERROR') {
+      const data = yield queryService.apiRequest(postsQueries.getPost, { postId })
+      const selector = path(['data', 'post'])
+      yield put(postsActions.postsCreateFailure({ data: {}, payload: selector(data), meta: {} }))
+    }
+  })
+
+  /**
+   * Close channel subscription on application toggle
+   */
+  yield take(constants.SUBSCRIPTION_POLL_STOP)
+  channel.close()
 }
 
 /**
  *
  */
-function chatMessageSubscriptionChannel({ subscription }) {
-  return eventChannel(emitter => {
-    subscription.subscribe({
-      next: emitter,
-      error: () => {},
-    })
-
-    return () => subscription.unsubscribe()
+function* subscriptionPollStart() {
+  const channel = yield call(intervalEmitter, {
+    frequency: (30 * 60000),
   })
-}
 
-function* chatMessageSubscription(req) {
-  try {
-    const AwsAPI = yield getContext('AwsAPI')
-    const userId = path(['payload', 'data'])(req)
-
-    const subscription = AwsAPI.graphql(
-      graphqlOperation(chatQueries.onChatMessageNotification, { userId })
-    )
-
-    const channel = yield call(chatMessageSubscriptionChannel, {
-      subscription,
-    })
-
-    yield takeEvery(channel, function *(eventData) {
-      const data = path(['value', 'data', 'onChatMessageNotification'])(eventData)
-      const chatId = path(['message', 'chat', 'chatId'])(data)
-
-      yield put(chatActions.chatGetChatRequest({ chatId }))
-      yield put(chatActions.chatGetChatsRequest())
-      yield put(usersActions.usersGetProfileSelfRequest({ userId }))
-    })
-  } catch (error) {
-    Logger.withScope(scope => {
-      scope.setExtra('code', 'CHAT_MESSAGE_SUBSCRIPTION_ERROR')
-      scope.setExtra('message', error.message)
-      Logger.captureMessage('CHAT_MESSAGE_SUBSCRIPTION')
-    })
-  }
-}
-
-/**
- *
- */
-function chatNotificationSubscriptionChannel({ subscription }) {
-  return eventChannel(emitter => {
-    subscription.subscribe({
-      next: emitter,
-      error: () => {},
-    })
-
-    return () => subscription.unsubscribe()
+  yield takeEvery(channel, function *() {
+    yield put(postsActions.postsGetTrendingPostsRequest({ limit: 100 }))
   })
-}
 
-function* chatNotificationSubscription(req) {
-  try {
-    const AwsAPI = yield getContext('AwsAPI')
-    const userId = path(['payload', 'data'])(req)
-
-    const subscription = AwsAPI.graphql(
-      graphqlOperation(usersQueries.onNotification, { userId })
-    )
-
-    const channel = yield call(chatNotificationSubscriptionChannel, {
-      subscription,
-    })
-
-    yield takeEvery(channel, function *(eventData) {
-      if (eventData.type === 'USER_CHATS_WITH_UNVIEWED_MESSAGES_COUNT_CHANGED') {
-        yield put(usersActions.usersGetProfileSelfRequest({ userId }))
-      }
-
-      if (eventData.type === 'USER_FEED_POST_ADDED') {
-        yield put(postsActions.postsFeedGetRequest({ limit: 20 }))
-      }
-
-      if (eventData.type === 'USER_FOLLOWED_USERS_WITH_STORIES_CHANGED') {
-        yield put(usersActions.usersGetFollowedUsersWithStoriesRequest({}))
-      }
-    })
-  } catch (error) {
-    Logger.withScope(scope => {
-      scope.setExtra('code', 'NOTIFICATION_SUBSCRIPTION_ERROR')
-      scope.setExtra('message', error.message)
-      Logger.captureMessage('NOTIFICATION_SUBSCRIPTION')
-    })
-  }
+  /**
+   * Close channel subscription on application toggle
+   */
+  yield take(constants.SUBSCRIPTION_POLL_STOP)
+  channel.close()
 }
 
 export default () => [
-  takeLatest('AUTH_CHECK_READY', chatNotificationSubscription),
-  takeLatest('AUTH_CHECK_READY', chatMessageSubscription),
-  takeLatest('AUTH_CHECK_READY', postSubscription),
-  takeLatest('AUTH_CHECK_READY', cardSubscription),
-  takeLatest('AUTH_CHECK_READY', appSubscription),
+  takeEvery(constants.SUBSCRIPTION_MAIN_START, subscriptionNotificationStart),
+  takeEvery(constants.SUBSCRIPTION_MAIN_START, chatMessageSubscription),
+  takeEvery(constants.SUBSCRIPTION_MAIN_START, cardSubscription),
+  takeEvery(constants.SUBSCRIPTION_MAIN_START, appSubscription),
+  takeEvery(constants.SUBSCRIPTION_POLL_START, subscriptionPollStart),
 ]

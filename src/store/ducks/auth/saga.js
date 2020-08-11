@@ -77,7 +77,6 @@ function* authCheckRequest(req) {
     const authValidation = yield handleAuthCheckValidation(data)
     const nextRoute = authValidation ? 'AuthPhoto' : 'Root'
     const next = yield authCheckRequestData(req, data)
-    yield put(actions.authCheckReady({ data: next.data, payload: next.payload, meta: credentials, nextRoute }))
     yield put(actions.authCheckSuccess({ data: next.data, payload: next.payload, meta: credentials, nextRoute }))
   } catch (error) {
     if (pathOr('', ['message'])(error).includes('Network request failed')) {

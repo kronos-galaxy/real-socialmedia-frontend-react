@@ -249,6 +249,8 @@ export const onNotification = `
   subscription onNotification ($userId: ID!) {
     onNotification (userId: $userId) {
       userId
+      postId
+      followedUserId
       type
       userChatsWithUnviewedMessagesCount
     }
