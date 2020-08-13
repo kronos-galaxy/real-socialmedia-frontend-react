@@ -23,7 +23,13 @@ export const AppProvider = ({
    * Sentry specific logger to map partial user data to error log
    */
   useEffect(() => {
-    Logger.setUser(user)
+    if (user && user.userId) {
+      Logger.setUser({
+        id: user.userId,
+        username: user.username,
+        email: user.email,
+      })
+    }
   }, [user.userId])
 
   /**

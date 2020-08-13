@@ -68,6 +68,10 @@ export const usePushNotification = () => {
    * Register user's new apns token which allows enables push notification on this device
    */
   const handleRegistrationEvent = (token) => {
+    Logger.withScope(scope => {
+      scope.setExtra('apns', token)
+      Logger.captureMessage('PUSH_NOTIFICATION_REGISTER')
+    })
     dispatch(usersActions.usersSetApnsTokenRequest({ token }))
   }
 
