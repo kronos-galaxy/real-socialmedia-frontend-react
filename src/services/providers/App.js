@@ -34,12 +34,12 @@ export const AppProvider = ({
    */
   useAppState({
     onForeground: () => {
-      dispatch(subscriptionsActions.subscriptionMainStart(user))
-      dispatch(subscriptionsActions.subscriptionPollStart(user))
+      dispatch(subscriptionsActions.subscriptionMainStart(user.userId))
+      dispatch(subscriptionsActions.subscriptionPollStart(user.userId))
     },
     onBackground: () => {
-      dispatch(subscriptionsActions.subscriptionMainStop(user))
-      dispatch(subscriptionsActions.subscriptionPollStop(user))
+      dispatch(subscriptionsActions.subscriptionMainStop(user.userId))
+      dispatch(subscriptionsActions.subscriptionPollStop(user.userId))
     },
   })
 
@@ -79,7 +79,6 @@ export const AppProvider = ({
    */
   useEffect(() => {
     Logger.setUser(user)
-    dispatch(subscriptionsActions.subscriptionMainStart(user))
 
     PushNotificationIOS.checkPermissions(handlePermissions)
     PushNotificationIOS.getInitialNotification().then(handlePushNotification)

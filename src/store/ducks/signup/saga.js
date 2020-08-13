@@ -4,7 +4,7 @@ import * as CognitoIdentity from 'amazon-cognito-identity-js'
 import Config from 'react-native-config'
 import path from 'ramda/src/path'
 import { promisify } from 'es6-promisify'
-import * as authActions from 'store/ducks/auth/actions'
+import * as subscriptionsActions from 'store/ducks/subscriptions/actions'
 import * as actions from 'store/ducks/signup/actions'
 import * as constants from 'store/ducks/signup/constants'
 import * as errors from 'store/ducks/signup/errors'
@@ -236,7 +236,8 @@ function* handleSignupConfirmRequest(payload) {
     fullName: payload.username,
   })
   const next = yield handleSignupConfirmRequestData({ payload }, data)
-  yield put(authActions.authCheckReady({ data: next.data, payload: next.payload, meta: next.meta }))
+  yield put(subscriptionsActions.subscriptionMainStart(next.data))
+  yield put(subscriptionsActions.subscriptionPollStart(next.data))
   yield queryService.apiRequest(queries.setUserAcceptedEULAVersion, { version: '15-11-2019' })
 }
 
@@ -321,7 +322,8 @@ function* handleSignupCognitoRequest(payload) {
       appleIdToken: session.token,
     })
     const next = yield handleSignupCognitoRequestData({ payload }, data, session.authProvider)
-    yield put(authActions.authCheckReady({ data: next.data, payload: next.payload, meta: next.meta }))
+    yield put(subscriptionsActions.subscriptionMainStart(next.data))
+    yield put(subscriptionsActions.subscriptionPollStart(next.data))
     yield queryService.apiRequest(queries.setUserAcceptedEULAVersion, { version: '15-11-2019' })
   }
 
@@ -335,7 +337,8 @@ function* handleSignupCognitoRequest(payload) {
       googleIdToken: session.token,
     })
     const next = yield handleSignupCognitoRequestData({ payload }, data, session.authProvider)
-    yield put(authActions.authCheckReady({ data: next.data, payload: next.payload, meta: next.meta }))    
+    yield put(subscriptionsActions.subscriptionMainStart(next.data))
+    yield put(subscriptionsActions.subscriptionPollStart(next.data))    
     yield queryService.apiRequest(queries.setUserAcceptedEULAVersion, { version: '15-11-2019' })
   }
 
@@ -348,7 +351,8 @@ function* handleSignupCognitoRequest(payload) {
       fullName: payload.username,
     })
     const next = yield handleSignupCognitoRequestData({ payload }, data, 'COGNITO')
-    yield put(authActions.authCheckReady({ data: next.data, payload: next.payload, meta: next.meta }))    
+    yield put(subscriptionsActions.subscriptionMainStart(next.data))
+    yield put(subscriptionsActions.subscriptionPollStart(next.data))    
     yield queryService.apiRequest(queries.setUserAcceptedEULAVersion, { version: '15-11-2019' })
   }
 }
