@@ -50,8 +50,6 @@ function intervalEmitter({ frequency }) {
 function* appSubscription(req) {
   const userId = path(['payload'])(req)
 
-  console.log(req)
-
   yield put(usersActions.usersGetCardsRequest({}))
   yield put(postsActions.postsFeedGetRequest({ limit: 20 }))
   yield put(postsActions.postsGetTrendingPostsRequest({ limit: 100 }))

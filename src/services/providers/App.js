@@ -1,17 +1,9 @@
-import { Linking } from 'react-native'
 import { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import * as usersActions from 'store/ducks/users/actions'
 import * as postsActions from 'store/ducks/posts/actions'
-import * as subscriptionsActions from 'store/ducks/subscriptions/actions'
 import * as authSelector from 'store/ducks/auth/selectors'
-import path from 'ramda/src/path'
 import * as Logger from 'services/Logger'
-import PushNotificationIOS from '@react-native-community/push-notification-ios'
-import * as navigationActions from 'navigation/actions'
-import * as LinkingService from 'services/Linking'
-import { useNavigation } from '@react-navigation/native'
-import useAppState from 'services/AppState'
+import { usePushNotification } from 'services/providers/Push'
 
 /**
  * 
@@ -20,7 +12,6 @@ export const AppProvider = ({
   children,
 }) => {
   const dispatch = useDispatch()
-  const navigation = useNavigation()
   
   const user = useSelector(authSelector.authUserSelector)
   const postsDelete = useSelector(state => state.posts.postsDelete)
@@ -29,78 +20,19 @@ export const AppProvider = ({
   const postsFlag = useSelector(state => state.posts.postsFlag)
 
   /**
-   * Application version check handler, which forces users to update
-   * the app if new build is available
-   */
-  useAppState({
-    onForeground: () => {
-      dispatch(subscriptionsActions.subscriptionMainStart(user.userId))
-      dispatch(subscriptionsActions.subscriptionPollStart(user.userId))
-    },
-    onBackground: () => {
-      dispatch(subscriptionsActions.subscriptionMainStop(user.userId))
-      dispatch(subscriptionsActions.subscriptionPollStop(user.userId))
-    },
-  })
-
-  const handlePushNotification = (notification) => {
-    if (!notification || !notification.getData()) return
-  
-    const action = path(['data', 'pinpoint', 'deeplink'])(notification.getData())
-  
-    if (action) {
-      LinkingService.deeplinkNavigation(navigation, navigationActions, Linking)(action)
-    } else {
-      Logger.withScope(scope => {
-        scope.setExtra('payload', JSON.stringify(notification.getData()))
-        Logger.captureMessage('PUSH_NOTIFICATION_LISTENER_ERROR')
-      })
-    }
-
-    try {
-      // notification.finish(PushNotificationIOS.FetchResult.NewData)
-    } catch (error) {
-      Logger.withScope(scope => {
-        scope.setExtra('payload', error.message)
-        Logger.captureMessage('PUSH_NOTIFICATION_LISTENER_ERROR')
-      })
-    }
-  }
-
-  const handlePermissions = (permissions) => {
-    if (permissions && permissions.alert && permissions.badge) {
-      return
-    }
-    PushNotificationIOS.requestPermissions()
-  }
-
-  /**
    * Sentry specific logger to map partial user data to error log
    */
   useEffect(() => {
     Logger.setUser(user)
-
-    PushNotificationIOS.checkPermissions(handlePermissions)
-    PushNotificationIOS.getInitialNotification().then(handlePushNotification)
-    PushNotificationIOS.addEventListener('notification', handlePushNotification)
-    PushNotificationIOS.addEventListener('register', (token) => {
-      dispatch(usersActions.usersSetApnsTokenRequest({ token }))
-    })
-    PushNotificationIOS.addEventListener('registrationError', ({ message, code }) => {
-      Logger.withScope(scope => {
-        scope.setExtra('message', message)
-        scope.setExtra('code', code)
-        Logger.captureMessage('PUSH_NOTIFICATION_REGISTER_ERROR')
-      })
-    })
-
-    return () => {
-      // PushNotificationIOS.removeEventListener('notification', () => {})
-      // PushNotificationIOS.removeEventListener('register', () => {})
-      // PushNotificationIOS.removeEventListener('registrationError', () => {})
-    }
   }, [user.userId])
 
+  /**
+   * Push notifications event listeners initialization
+   * - handles permissions check
+   * - handles setting apns token
+   * - handles received push notifications
+   */
+  usePushNotification()
 
   useEffect(() => {
     if (postsDelete.status === 'success') {
