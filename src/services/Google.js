@@ -6,7 +6,6 @@ class TokenExpiredError extends Error {
   constructor(...args) {
     super(...args)
     this.code = 'TOKEN_EXPIRED'
-    Error.captureStackTrace(this, TokenExpiredError)
   }
 }
 

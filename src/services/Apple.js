@@ -9,7 +9,6 @@ class AppleCredentialsError extends Error {
   constructor(...args) {
     super(...args)
     this.code = 'APPLE_CREDENTIALS_ERROR'
-    Error.captureStackTrace(this, AppleCredentialsError)
   }
 }
 

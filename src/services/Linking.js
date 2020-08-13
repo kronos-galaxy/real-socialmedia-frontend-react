@@ -4,7 +4,6 @@ export class MissingDeeplinkParamsError extends Error {
   constructor(...args) {
     super(...args)
     this.code = 'MISSING_DEEP_LINK_PARAMS_ERROR'
-    Error.captureStackTrace(this, MissingDeeplinkParamsError)
   }
 }
 

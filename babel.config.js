@@ -3,7 +3,7 @@ module.exports = {
     'module:metro-react-native-babel-preset'
   ],
   plugins: [
-    ["inline-dotenv"],
+    ['inline-dotenv'],
     ['module-resolver', {
       root: ['./src'],
       alias: {
@@ -12,6 +12,9 @@ module.exports = {
     }],
     ['optional-require', {
       blacklist: ['react-native-vector-icons'],
+    }],
+    ['babel-plugin-transform-builtin-extend', {
+      globals: ['Error']
     }],
   ],
 }
