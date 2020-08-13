@@ -6,7 +6,44 @@ import CropPicker from 'react-native-image-crop-picker'
 import { getScreenAspectRatio } from 'services/Dimensions'
 import mapSeries from 'async/mapSeries'
 import path from 'ramda/src/path'
-import * as AssetService from 'services/Asset'
+import * as Logger from 'services/Logger'
+
+/**
+ * Asset format definition is required for createPost graphql query
+ */
+const generateAssetFormat = (extension) => {
+  if (extension && extension.toUpperCase().includes('HEIC')) {
+    return 'HEIC'
+  }
+  return `JPEG`
+}
+
+/**
+ * Formatting react-native-image-crop-picker libs response
+ * to match react-native-camera libs response
+ * 
+ * note that selectedPhoto.fileSource is coming from manual code
+ * which only works by applying a patch from patches/react-native-image-crop-picker
+ */
+export const formatPickerResponse = (selectedPhoto) => {
+  const extension = selectedPhoto.filename.split('?')[0].split('#')[0].split('.').pop()
+  const format = generateAssetFormat(extension)
+
+  return {
+    format,
+    extension,
+    path: selectedPhoto.fileSource,
+    filename: selectedPhoto.filename,
+  }
+}
+
+/**
+ * Formatting crop coordinates to match graphql supported format
+ */
+export const formatCropCoordinates = (cropRect) => ({
+  lowerRight: { x: cropRect.x + cropRect.width, y: cropRect.y + cropRect.height },
+  upperLeft: { x: cropRect.x, y: cropRect.y },
+})
 
 export const useCameraState = () => {
   const postsCreate = useSelector(state => state.posts.postsCreate)
@@ -32,7 +69,7 @@ const useCamera = ({
   const cameraRef = useRef(null)
 
   /**
-   *
+   * react-native-camera request object
    */
   const cameraOptions = () => ({
     quality: 1,
@@ -42,6 +79,9 @@ const useCamera = ({
     mirrorImage: false,
   })
 
+  /**
+   * react-native-image-crop-picker request object
+   */
   const cropperOptions = (state, snappedPhoto) => ({
     avoidEmptySpaceAroundImage: false,
     path: snappedPhoto.path || snappedPhoto.uri,
@@ -51,38 +91,22 @@ const useCamera = ({
     compressImageQuality: 1,
   })
 
+  /**
+   * graphql request object
+   */
   const requestPayload = (type = gallery) => (state, snappedPhoto, croppedPhoto) => ({
     uri: (snappedPhoto.uri || snappedPhoto.path).replace('file://', ''),
     preview: (croppedPhoto.path || croppedPhoto.path).replace('file://', ''),
     originalFormat: snappedPhoto.extension || 'jpg',
     imageFormat: snappedPhoto.format || 'JPEG',
-    crop: AssetService.generateCroppedCoordinates(croppedPhoto.cropRect),
+    crop: formatCropCoordinates(croppedPhoto.cropRect),
     originalMetadata: JSON.stringify(snappedPhoto.exif),
     takenInReal: type === 'camera',
     photoSize: state.photoSize,
   })
 
   /**
-   *
-   */
-  const handleCameraSnap = async () => {
-    if (!cameraRef.current) return
-    cameraRef.current.pausePreview()
-    const snappedPhoto = await cameraRef.current.takePictureAsync(cameraOptions())
-    const croppedPhoto = await CropPicker.openCropper(cropperOptions(cameraState, snappedPhoto))
-    const payload = await requestPayload('camera')(cameraState, snappedPhoto, croppedPhoto)
-    handleProcessedPhoto([payload])
-    cameraRef.current.resumePreview()
-  }
-
-  const mapCropperResponse = async (selected, processor) => {
-    const responses = Array.isArray(selected) ? selected : [selected] 
-    const mapped = await mapSeries(responses, processor)
-    return mapped.filter(item => item)
-  }
-
-  /**
-   *
+   * react-native-image-crop-picker request object
    */
   const pickerOptions = (multiple) => ({
     multiple: Boolean(multiple),
@@ -92,17 +116,53 @@ const useCamera = ({
     compressImageQuality: 1,
   })
 
-  const handleLibrarySnap = async (multiple = false) => {
-    const selectedMedia = await CropPicker.openPicker(pickerOptions(multiple))
-    const payloadSeries = await mapCropperResponse(selectedMedia, async (selectedPhoto, callback) => {
-      const tempPhoto = await AssetService.getAssetFileAbsolutePath(selectedPhoto.localIdentifier, selectedPhoto.filename)
-      const snappedPhoto = ({ ...selectedPhoto, ...tempPhoto })
-      const croppedPhoto = await CropPicker.openCropper(cropperOptions(cameraState, selectedPhoto))
-      const payload = requestPayload('gallery')(cameraState, snappedPhoto, croppedPhoto)
-      callback(null, payload)
-    })
+  /**
+   * Handle camera photo capture 
+   */
+  const handleCameraSnap = async () => {
+    /**
+     * Camera module might eventually throw an error when camera is not initialized on native side
+     */
+    try {
+      if (!cameraRef.current) return
+      cameraRef.current.pausePreview()
+      const snappedPhoto = await cameraRef.current.takePictureAsync(cameraOptions())
+      const croppedPhoto = await CropPicker.openCropper(cropperOptions(cameraState, snappedPhoto))
+      const payload = await requestPayload('camera')(cameraState, snappedPhoto, croppedPhoto)
+      handleProcessedPhoto([payload])
+      cameraRef.current.resumePreview()
+    } catch (error) {
+      Logger.captureException(error)
+    }
+  }
 
-    return handleProcessedPhoto(payloadSeries)
+  const mapCropperResponse = async (selected, processor) => {
+    const responses = Array.isArray(selected) ? selected : [selected] 
+    const mapped = await mapSeries(responses, processor)
+    return mapped.filter(item => item)
+  }
+
+  /**
+   * Handle gallery photo selection
+   */
+  const handleLibrarySnap = async (multiple = false) => {
+    /**
+     * Image crop picker might eventually throw an error when user cancelled image selection
+     */
+    try {
+      const selectedMedia = await CropPicker.openPicker(pickerOptions(multiple))
+      const payloadSeries = await mapCropperResponse(selectedMedia, async (selectedPhoto, callback) => {
+        const tempPhoto = formatPickerResponse(selectedPhoto)
+        const snappedPhoto = ({ ...selectedPhoto, ...tempPhoto })
+        const croppedPhoto = await CropPicker.openCropper(cropperOptions(cameraState, selectedPhoto))
+        const payload = requestPayload('gallery')(cameraState, snappedPhoto, croppedPhoto)
+        callback(null, payload)
+      })
+
+      return handleProcessedPhoto(payloadSeries)
+    } catch (error) {
+      Logger.captureException(error)
+    }
   }
 
   return ({
