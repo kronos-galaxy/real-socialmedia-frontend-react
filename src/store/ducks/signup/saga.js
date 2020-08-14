@@ -12,6 +12,7 @@ import * as queries from 'store/ducks/signup/queries'
 import * as queryService from 'services/Query'
 import * as entitiesActions from 'store/ducks/entities/actions'
 import * as normalizer from 'normalizer/schemas'
+import * as Logger from 'services/Logger'
 
 /**
  *
@@ -236,8 +237,25 @@ function* handleSignupConfirmRequest(payload) {
     fullName: payload.username,
   })
   const next = yield handleSignupConfirmRequestData({ payload }, data)
+
+  /**
+   * Define user for sentry logger, authorized users will be re-defined at services/providers/App
+   * But user won't reach that part until profile photo is puloaded
+   */
+  Logger.setUser({
+    id: path(['data', 'createCognitoOnlyUser', 'userId'])(data),
+    username: path(['data', 'createCognitoOnlyUser', 'username'])(data),
+    email: path(['data', 'createCognitoOnlyUser', 'email'])(data),
+  })
+
+  /**
+   * Api subscriptions initialization, most important one we need at this stage
+   * is postsCreate subscription listener. Which won't let user proceed to main screen
+   * if photo is uploaded and verified but postsCreateSuccess was not triggered
+   */
   yield put(subscriptionsActions.subscriptionMainStart(next.data))
   yield put(subscriptionsActions.subscriptionPollStart(next.data))
+
   yield queryService.apiRequest(queries.setUserAcceptedEULAVersion, { version: '15-11-2019' })
 }
 
@@ -315,46 +333,80 @@ function* handleSignupCognitoRequest(payload) {
   /**
    *
    */
-  if (session.authProvider === 'APPLE') {
-    const data = yield queryService.apiRequest(queries.createAppleUser, {
-      username: payload.username,
-      fullName: session.name,
-      appleIdToken: session.token,
-    })
-    const next = yield handleSignupCognitoRequestData({ payload }, data, session.authProvider)
-    yield put(subscriptionsActions.subscriptionMainStart(next.data))
-    yield put(subscriptionsActions.subscriptionPollStart(next.data))
-    yield queryService.apiRequest(queries.setUserAcceptedEULAVersion, { version: '15-11-2019' })
-  }
+  const { next, user } = yield (function* createUser() {
+    /**
+     * Create new user APPLE user
+     * email and fullname will be null if apple auth flow was interrupted (if not first request)
+     * we backup that data in async-storage to ensure data is always available
+     */
+    if (session.authProvider === 'APPLE') {
+      const data = yield queryService.apiRequest(queries.createAppleUser, {
+        username: payload.username,
+        fullName: session.name,
+        appleIdToken: session.token,
+      })
+      const user = ({
+        id: path(['data', 'createAppleUser', 'userId'])(data),
+        username: path(['data', 'createAppleUser', 'username'])(data),
+        email: path(['data', 'createAppleUser', 'email'])(data),
+      })
+      const next = yield handleSignupCognitoRequestData({ payload }, data, session.authProvider)
+      return { next, user }
+    }
+
+    /**
+     * Create new user GOOGLE user
+     */
+    else if (session.authProvider === 'GOOGLE') {
+      const data = yield queryService.apiRequest(queries.createGoogleUser, {
+        username: payload.username,
+        fullName: session.name,
+        googleIdToken: session.token,
+      })
+      const user = ({
+        id: path(['data', 'createGoogleUser', 'userId'])(data),
+        username: path(['data', 'createGoogleUser', 'username'])(data),
+        email: path(['data', 'createGoogleUser', 'email'])(data),
+      })
+      const next = yield handleSignupCognitoRequestData({ payload }, data, session.authProvider)
+      return { next, user }
+    }
+
+    /**
+     * Create new user EMAIL user
+     * this is a duplicate block of handleSignupConfirmRequest function above
+     * user will reach this step if signup flow was interrupted after cognito account was confirmed
+     */
+    else {
+      const data = yield queryService.apiRequest(queries.createCognitoOnlyUser, {
+        username: payload.username,
+        fullName: payload.username,
+      })
+      const user = ({
+        id: path(['data', 'createCognitoOnlyUser', 'userId'])(data),
+        username: path(['data', 'createCognitoOnlyUser', 'username'])(data),
+        email: path(['data', 'createCognitoOnlyUser', 'email'])(data),
+      })
+      const next = yield handleSignupCognitoRequestData({ payload }, data, 'COGNITO')
+      return { next, user }
+    }
+  })()
 
   /**
-   *
+   * Define user for sentry logger, authorized users will be re-defined at services/providers/App
+   * But user won't reach that part until profile photo is puloaded
    */
-  else if (session.authProvider === 'GOOGLE') {
-    const data = yield queryService.apiRequest(queries.createGoogleUser, {
-      username: payload.username,
-      fullName: session.name,
-      googleIdToken: session.token,
-    })
-    const next = yield handleSignupCognitoRequestData({ payload }, data, session.authProvider)
-    yield put(subscriptionsActions.subscriptionMainStart(next.data))
-    yield put(subscriptionsActions.subscriptionPollStart(next.data))    
-    yield queryService.apiRequest(queries.setUserAcceptedEULAVersion, { version: '15-11-2019' })
-  }
+  Logger.setUser(user)
+
 
   /**
-   *
+   * Api subscriptions initialization, most important one we need at this stage
+   * is postsCreate subscription listener. Which won't let user proceed to main screen
+   * if photo is uploaded and verified but postsCreateSuccess was not triggered
    */
-  else {
-    const data = yield queryService.apiRequest(queries.createCognitoOnlyUser, {
-      username: payload.username,
-      fullName: payload.username,
-    })
-    const next = yield handleSignupCognitoRequestData({ payload }, data, 'COGNITO')
-    yield put(subscriptionsActions.subscriptionMainStart(next.data))
-    yield put(subscriptionsActions.subscriptionPollStart(next.data))    
-    yield queryService.apiRequest(queries.setUserAcceptedEULAVersion, { version: '15-11-2019' })
-  }
+  yield put(subscriptionsActions.subscriptionMainStart(next.data))
+  yield put(subscriptionsActions.subscriptionPollStart(next.data))
+  yield queryService.apiRequest(queries.setUserAcceptedEULAVersion, { version: '15-11-2019' })
 }
 
 function* signupCognitoRequest(req) {
