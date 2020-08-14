@@ -20,14 +20,14 @@ function initPostsCreateUploadChannel({ image, uploadUrl, payload }) {
       replace('.heic', ''),
       replace('.jpg', ''),
       toLower,
-      filePath.basename
+      filePath.basename,
     )(image)
   }
 
   const getFilename = (image) => {
     return compose(
       toLower,
-      filePath.basename
+      filePath.basename,
     )(image)
   }
 
@@ -35,7 +35,7 @@ function initPostsCreateUploadChannel({ image, uploadUrl, payload }) {
     return image
   }
 
-  const getFiletype = (image) => {
+  const getFiletype = () => {
     if (toLower(payload.imageFormat) === 'heic') {
       return 'image/heic'
     }
@@ -51,7 +51,7 @@ function initPostsCreateUploadChannel({ image, uploadUrl, payload }) {
 
   const handleRequest = (emitter) => (response) => {
     const jobId = response.jobId
-    emitter({ status: 'retry', progress: 0, jobId, })
+    emitter({ status: 'retry', progress: 0, jobId })
   }
 
   const handleProgress = (emitter) => (response) => {
@@ -70,12 +70,12 @@ function initPostsCreateUploadChannel({ image, uploadUrl, payload }) {
     emitter(END)
   }
 
-  const handleFailure = (emitter) => (error) => {
+  const handleFailure = (emitter) => () => {
     emitter({ status: 'failure', progress: 0 })
     emitter(END)
   }
 
-  const initUpload = (emitter) => (begin, progress) =>
+  const initUpload = () => (begin, progress) =>
     RNFS.uploadFiles({
       binaryStreamOnly: true,
       toUrl: uploadUrl,
@@ -94,7 +94,7 @@ function initPostsCreateUploadChannel({ image, uploadUrl, payload }) {
   return eventChannel((emitter) => {
     const uploader = initUpload(emitter)(
       handleRequest(emitter),
-      handleProgress(emitter)
+      handleProgress(emitter),
     )
 
     const next = (response) => {
@@ -150,9 +150,7 @@ function* handleTextOnlyPost(req) {
   const errorWrapper = yield getContext('errorWrapper')
 
   try {
-    const data = yield AwsAPI.graphql(graphqlOperation(queries.addTextOnlyPost, req.payload))
-    const userIdSelector = path(['data', 'addPost', 'postedBy', 'userId'])
-    const meta = { attempt: 1, progress: 100 }
+    yield AwsAPI.graphql(graphqlOperation(queries.addTextOnlyPost, req.payload))
   } catch (error) {
     yield put(actions.postsCreateFailure({
       message: errorWrapper(error),
@@ -269,12 +267,6 @@ function* postsCreateSchedulerRequest() {
       return post
     }
 
-    function* storePost(post) {
-      const source = path(['payload', 'images', '0'])(post)
-      const desination = `${RNFS.DocumentDirectory}/REAL/${path(['payload', 'mediaId'])(post)}.jpg`
-      return RNFS.copyFile(source, desination)
-    }
-
     function* recreatePost(post) {
       yield removePost(post)
       yield createPost(post)
@@ -284,11 +276,11 @@ function* postsCreateSchedulerRequest() {
      * Cleanup
      */
     yield all(
-      successPosts.map((post) => call(removePost, post))
+      successPosts.map((post) => call(removePost, post)),
     )
 
     yield all(
-      idlePosts.map((post) => call(removePost, post))
+      idlePosts.map((post) => call(removePost, post)),
     )
 
     /**
@@ -296,12 +288,12 @@ function* postsCreateSchedulerRequest() {
      */
     yield all(
       loadingPosts
-      .map((post) => call(recreatePost, post))
+      .map((post) => call(recreatePost, post)),
     )
 
     yield all(
       failedPosts
-      .map((post) => call(recreatePost, post))
+      .map((post) => call(recreatePost, post)),
     )
   } catch (error) {
     Logger.withScope(scope => {

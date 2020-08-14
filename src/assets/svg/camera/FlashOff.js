@@ -1,7 +1,8 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import Svg, { G, Line, Circle, Polyline } from 'react-native-svg'
 
-const FlashOff = ({ fill = '#333', style = {} }) => (
+const FlashOff = ({ fill = '#333' }) => (
   <Svg height={24} width={24} viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
     <G fill={fill} stroke={fill} strokeLinecap="round" strokeWidth="2">
       <Line fill="none" x1="16.172" x2="21.828" y1="16.172" y2="21.828"/>
@@ -10,5 +11,9 @@ const FlashOff = ({ fill = '#333', style = {} }) => (
     </G>
   </Svg>
 )
+
+FlashOff.propTypes = {
+  fill: PropTypes.string,
+}
 
 export default FlashOff

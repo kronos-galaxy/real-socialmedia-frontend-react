@@ -1,7 +1,6 @@
 import { useNavigation } from '@react-navigation/native'
 import { useDispatch } from 'react-redux'
 import * as navigationActions from 'navigation/actions'
-import * as cameraActions from 'store/ducks/camera/actions'
 import * as usersActions from 'store/ducks/users/actions'
 import * as authActions from 'store/ducks/auth/actions'
 import {

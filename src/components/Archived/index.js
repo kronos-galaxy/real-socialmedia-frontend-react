@@ -10,17 +10,12 @@ import GridItemComponent from 'templates/GridItem'
 import CacheComponent from 'components/Cache'
 import * as navigationActions from 'navigation/actions'
 
-import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
-import { withTranslation } from 'react-i18next'
 
 const Archived = ({
-  t,
-  theme,
   postsGetArchived,
-  postsGetArchivedRequest,
 }) => {
-  const styling = styles(theme)
+  const styling = styles
   const navigation = useNavigation()
 
   return (
@@ -49,7 +44,7 @@ const Archived = ({
     </ScrollView>
   )
 }
-const styles = theme => StyleSheet.create({
+const styles = StyleSheet.create({
   root: {
     flex: 1,
   },
@@ -60,10 +55,7 @@ Archived.defaultProps = {
 }
 
 Archived.propTypes = {
-  theme: PropTypes.any,
   postsGetArchived: PropTypes.any,
-  postsGetArchivedRequest: PropTypes.any,
-  t: PropTypes.any,
 }
 
-export default withTranslation()(withTheme(Archived))
+export default Archived

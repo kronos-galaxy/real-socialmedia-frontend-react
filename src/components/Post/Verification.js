@@ -1,7 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import {
-  View,
   StyleSheet,
   TouchableOpacity,
 } from 'react-native'
@@ -9,15 +8,13 @@ import { BlurView } from '@react-native-community/blur'
 import { Text } from 'react-native-paper'
 import * as navigationActions from 'navigation/actions'
 
-import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
 import { withTranslation } from 'react-i18next'
 
 const Verification = ({
   t,
-  theme,
 }) => {
-  const styling = styles(theme)
+  const styling = styles
   const navigation = useNavigation()
   
   return (
@@ -29,7 +26,7 @@ const Verification = ({
   )
 }
 
-const styles = theme => StyleSheet.create({
+const styles = StyleSheet.create({
   root: {
     position: 'absolute',
     justifyContent: 'center',
@@ -52,7 +49,6 @@ const styles = theme => StyleSheet.create({
 
 Verification.propTypes = {
   t: PropTypes.any,
-  theme: PropTypes.any,
 }
 
-export default withTranslation()(withTheme(Verification))
+export default withTranslation()(Verification)

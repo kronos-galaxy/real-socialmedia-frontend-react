@@ -6,19 +6,13 @@ import {
   TouchableOpacity,
 } from 'react-native'
 
-import { withTheme } from 'react-native-paper'
-import { useNavigation } from '@react-navigation/native'
-import { withTranslation } from 'react-i18next'
-
 const UserRowTemplate = ({
-  t,
-  theme,
   avatar,
   content,
   action,
   onPress,
 }) => {
-  const styling = styles(theme)
+  const styling = styles
   
   return (
     <TouchableOpacity style={styling.root} onPress={onPress} disabled={!onPress}>
@@ -31,7 +25,7 @@ const UserRowTemplate = ({
   )
 }
 
-const styles = theme => StyleSheet.create({
+const styles = StyleSheet.create({
   root: {
   },
   component: {
@@ -51,11 +45,10 @@ UserRowTemplate.defaultProps = {
 }
 
 UserRowTemplate.propTypes = {
-  theme: PropTypes.any,
   avatar: PropTypes.any,
   content: PropTypes.any,
   action: PropTypes.any,
   onPress: PropTypes.any,
 }
 
-export default withTranslation()(withTheme(UserRowTemplate))
+export default UserRowTemplate

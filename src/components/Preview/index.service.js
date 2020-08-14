@@ -35,7 +35,7 @@ export const PostPreviewService = ({ children }) => {
       imageSource: { uri: path(['data', 'image', 'url1080p'])(postsSingleGet) },
     },
     text: {
-      text: path(['data', 'postType'])(postsSingleGet) === 'TEXT_ONLY' ? postsSingleGet.data.text : null
+      text: path(['data', 'postType'])(postsSingleGet) === 'TEXT_ONLY' ? postsSingleGet.data.text : null,
     },
     renderUri,
   }), [postsSingleGet])

@@ -1,4 +1,5 @@
 import React, { useContext } from 'react'
+import PropTypes from 'prop-types'
 import { createStackNavigator } from '@react-navigation/stack'
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs'
 import { withTheme } from 'react-native-paper'
@@ -63,6 +64,10 @@ const ChatNavigator = ({ navigation }) => {
   )
 }
 
+ChatNavigator.propTypes = {
+  navigation: PropTypes.any,
+}
+
 const RootNavigator = () => {
   const Stack = createStackNavigator()
   const { theme, themes } = useContext(ThemesContext)
@@ -119,7 +124,7 @@ const RootNavigator = () => {
   )
 }
 
-const AppNavigator = withTheme(({ theme }) => {
+const AppNavigator = withTheme(() => {
   const Tab = createMaterialTopTabNavigator()
   const tabNavigatorDefaultProps = navigationOptions.tabNavigatorDefaultProps()
   return (

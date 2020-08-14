@@ -7,15 +7,13 @@ import {
 import DefaultButton from 'components/Formik/Button/DefaultButton'
 import * as navigationActions from 'navigation/actions'
 
-import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
 import { withTranslation } from 'react-i18next'
 
 const Actions = ({
   t,
-  theme,
 }) => {
-  const styling = styles(theme)
+  const styling = styles
   const navigation = useNavigation()
   
   return (
@@ -28,11 +26,10 @@ const Actions = ({
 }
 
 Actions.propTypes = {
-  theme: PropTypes.any,
   t: PropTypes.any,
 }
 
-const styles = theme => StyleSheet.create({
+const styles = StyleSheet.create({
   root: {
   },
   item: {
@@ -40,4 +37,4 @@ const styles = theme => StyleSheet.create({
   },
 })
 
-export default withTranslation()(withTheme(Actions))
+export default withTranslation()(Actions)

@@ -51,7 +51,7 @@ const Comment = ({
               }
               
               return <Text style={styling.textDefault}>{`@${match}`}</Text>
-            })
+            }),
           ]}
         </Text>
       ))}

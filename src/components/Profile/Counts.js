@@ -10,16 +10,14 @@ import path from 'ramda/src/path'
 import * as navigationActions from 'navigation/actions'
 import * as PrivacyService from 'services/Privacy'
 
-import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
 import { withTranslation } from 'react-i18next'
 
 const ProfileCounts = ({
   t,
-  theme,
   usersGetProfile,
 }) => {
-  const styling = styles(theme)
+  const styling = styles
   const navigation = useNavigation()
 
   const followersCount = path(['data', 'followersCount'])(usersGetProfile)
@@ -63,7 +61,7 @@ const ProfileCounts = ({
   )
 }
 
-const styles = theme => StyleSheet.create({
+const styles = StyleSheet.create({
   root: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -82,9 +80,8 @@ const styles = theme => StyleSheet.create({
 })
 
 ProfileCounts.propTypes = {
-  theme: PropTypes.any,
   usersGetProfile: PropTypes.any,
   t: PropTypes.any,
 }
 
-export default withTranslation()(withTheme(ProfileCounts))
+export default withTranslation()(ProfileCounts)

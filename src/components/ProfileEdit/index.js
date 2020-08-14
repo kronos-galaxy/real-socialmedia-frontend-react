@@ -10,11 +10,8 @@ import PrivacyForm from 'components/Privacy/Form'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 
 import { withTheme } from 'react-native-paper'
-import { useNavigation } from '@react-navigation/native'
-import { withTranslation } from 'react-i18next'
 
 const ProfileEdit = ({
-  t,
   theme,
   user,
   usersEditProfile,
@@ -80,7 +77,6 @@ const styles = theme => StyleSheet.create({
 })
 
 ProfileEdit.propTypes = {
-  t: PropTypes.any,
   theme: PropTypes.any,
   user: PropTypes.any,
   usersEditProfile: PropTypes.any,
@@ -96,5 +92,5 @@ ProfileEdit.propTypes = {
   usersDeleteRequest: PropTypes.any,
 }
 
-export default withTranslation()(withTheme(ProfileEdit))
+export default withTheme(ProfileEdit)
 

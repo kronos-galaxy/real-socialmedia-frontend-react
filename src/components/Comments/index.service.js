@@ -3,19 +3,17 @@ import { Keyboard } from 'react-native'
 import { useEffect, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import * as postsActions from 'store/ducks/posts/actions'
-import { useNavigation, useRoute } from '@react-navigation/native'
+import { useRoute } from '@react-navigation/native'
 import { v4 as uuid } from 'uuid'
 import { ifIphoneX } from 'react-native-iphone-x-helper'
 import * as authSelector from 'store/ducks/auth/selectors'
 import * as postsSelector from 'store/ducks/posts/selectors'
 import trim from 'ramda/src/trim'
 import compose from 'ramda/src/compose'
-import toLower from 'ramda/src/toLower'
 import pathOr from 'ramda/src/pathOr'
 
 const CommentsService = ({ children }) => {
   const dispatch = useDispatch()
-  const navigation = useNavigation()
   const route = useRoute()
   const postId = route.params.postId
   const postUserId = route.params.userId
@@ -84,7 +82,7 @@ const CommentsService = ({ children }) => {
     setOffset(event.endCoordinates.height - ifIphoneX(40, 0) + 12)
   }
 
-  const keyboardWillHide = (event) => {
+  const keyboardWillHide = () => {
     setOffset(0)
   }
 
@@ -100,7 +98,7 @@ const CommentsService = ({ children }) => {
 
   const marginBottom = offset + ifIphoneX(40, 0)
   
-  const onViewableItemsChanged = ({ viewableItems }) => {
+  const onViewableItemsChanged = () => {
   }
 
   /**

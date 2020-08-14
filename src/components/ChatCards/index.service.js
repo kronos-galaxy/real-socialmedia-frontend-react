@@ -1,10 +1,9 @@
-import { useSelector, useDispatch } from 'react-redux'
+import { useSelector } from 'react-redux'
 import * as postsSelector from 'store/ducks/posts/selectors'
 import * as navigationActions from 'navigation/actions'
 import { useNavigation } from '@react-navigation/native'
 
 const ChatCardsService = ({ children }) => {
-  const dispatch = useDispatch()
   const navigation = useNavigation()
   const postsGetUnreadComments = useSelector(postsSelector.postsGetUnreadCommentsSelector())
  

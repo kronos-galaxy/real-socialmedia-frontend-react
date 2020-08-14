@@ -1,6 +1,7 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { View, Text } from 'react-native'
-import Svg, { G, Path, Line } from 'react-native-svg'
+import Svg, { G, Path } from 'react-native-svg'
 
 const style = {
   icon: {
@@ -38,5 +39,10 @@ const Direct = ({ fill = '#333', user }) => (
     : null}
   </View>
 )
+
+Direct.propTypes = {
+  fill: PropTypes.string,
+  user: PropTypes.any,
+}
 
 export default Direct

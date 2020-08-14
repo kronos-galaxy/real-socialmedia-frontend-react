@@ -1,11 +1,9 @@
 import { useState, useRef } from 'react'
 import { useSelector } from 'react-redux'
 import useToggle from 'react-use/lib/useToggle'
-import { useNavigation, useRoute } from '@react-navigation/native'
 import CropPicker from 'react-native-image-crop-picker'
 import { getScreenAspectRatio } from 'services/Dimensions'
 import mapSeries from 'async/mapSeries'
-import path from 'ramda/src/path'
 import * as Logger from 'services/Logger'
 
 /**
@@ -15,7 +13,7 @@ const generateAssetFormat = (extension) => {
   if (extension && extension.toUpperCase().includes('HEIC')) {
     return 'HEIC'
   }
-  return `JPEG`
+  return 'JPEG'
 }
 
 /**
@@ -94,7 +92,7 @@ const useCamera = ({
   /**
    * graphql request object
    */
-  const requestPayload = (type = gallery) => (state, snappedPhoto, croppedPhoto) => ({
+  const requestPayload = (type = 'gallery') => (state, snappedPhoto, croppedPhoto) => ({
     uri: (snappedPhoto.uri || snappedPhoto.path).replace('file://', ''),
     preview: (croppedPhoto.path || croppedPhoto.path).replace('file://', ''),
     originalFormat: snappedPhoto.extension || 'jpg',
@@ -169,7 +167,7 @@ const useCamera = ({
     handleCameraSnap,
     handleLibrarySnap,
     cameraRef,
-    ...cameraState
+    ...cameraState,
   })
 }
 

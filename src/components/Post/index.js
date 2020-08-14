@@ -23,10 +23,8 @@ import * as PrivacyService from 'services/Privacy'
 
 import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
-import { withTranslation } from 'react-i18next'
 
 const PostComponent = ({
-  t,
   theme,
   user,
   post,
@@ -193,7 +191,6 @@ PostComponent.propTypes = {
   postsDislikeRequest: PropTypes.any,
   usersGetFollowedUsersWithStories: PropTypes.any,
   usersGetFollowedUsersWithStoriesRequest: PropTypes.any,
-  t: PropTypes.any,
   post: PropTypes.any,
   postsRestoreArchivedRequest: PropTypes.any,
   priorityIndex: PropTypes.any,
@@ -205,4 +202,4 @@ PostComponent.propTypes = {
   textPostRef: PropTypes.any,
 }
 
-export default withTranslation()(withTheme(PostComponent))
+export default withTheme(PostComponent)

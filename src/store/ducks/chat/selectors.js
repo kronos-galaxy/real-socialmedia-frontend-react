@@ -6,7 +6,7 @@ import * as normalizer from 'normalizer/schemas'
 
 const createDeepEqualSelector = createSelectorCreator(
   defaultMemoize,
-  equals
+  equals,
 )
 
 const entities = () => path(['entities'])
@@ -20,7 +20,7 @@ export const chatGetChatSelector = (chatId) => createDeepEqualSelector(
   (chatGetChat, entities) => {
     const denormalized = normalizer.denormalizeChatGet(chatId, entities)
     return assocPath(['data'], denormalized)(chatGetChat)
-  }
+  },
 )
 
 /**
@@ -32,7 +32,7 @@ export const chatGetChatsSelector = () => createDeepEqualSelector(
   (chatGetChats, chatGetChat, entities) => {
     const denormalized = normalizer.denormalizeChatsGet(chatGetChats.data, entities)
     return assocPath(['data'], denormalized)(chatGetChats)
-  }
+  },
 )
 
 
@@ -45,5 +45,5 @@ export const chatCreateDirectSelector = (chatId) => createDeepEqualSelector(
   (chatCreateDirect, entities) => {
     const denormalized = normalizer.denormalizeChatGet(chatId, entities)
     return assocPath(['data'], denormalized)(chatCreateDirect)
-  }
+  },
 )

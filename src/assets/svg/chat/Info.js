@@ -1,7 +1,8 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import Svg, { G, Circle, Line } from 'react-native-svg'
 
-const Close = ({ fill = '#333', style = {} }) => (
+const Info = ({ fill = '#333' }) => (
   <Svg height={24} width={24} viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
     <G fill={fill} stroke={fill} strokeLinecap="round" strokeWidth="1.5">
       <Circle cx="12" cy="12" fill="none" r="11" stroke={fill}/>
@@ -11,4 +12,8 @@ const Close = ({ fill = '#333', style = {} }) => (
   </Svg>
 )
 
-export default Close
+Info.propTypes = {
+  fill: PropTypes.string,
+}
+
+export default Info

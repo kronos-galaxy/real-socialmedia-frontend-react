@@ -1,7 +1,8 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import Svg, { G, Rect, Polyline, Circle, Path, Polygon } from 'react-native-svg'
 
-const Rotate = ({ fill = '#333', style = {} }) => (
+const Rotate = ({ fill = '#333' }) => (
   <Svg height={28} width={28} viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
     <G fill={fill} stroke={fill} strokeLinecap="round" strokeWidth="1.5">
       <Polyline fill="none" points="11,23 17,16 22,19 " stroke={fill}/>
@@ -13,5 +14,9 @@ const Rotate = ({ fill = '#333', style = {} }) => (
     </G>
   </Svg>
 )
+
+Rotate.propTypes = {
+  fill: PropTypes.string,
+}
 
 export default Rotate

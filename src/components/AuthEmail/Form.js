@@ -9,8 +9,6 @@ import DefaultButton from 'components/Formik/Button/DefaultButton'
 import { Formik, Field } from 'formik'
 import * as Yup from 'yup'
 
-import { withTheme } from 'react-native-paper'
-import { useNavigation } from '@react-navigation/native'
 import { withTranslation } from 'react-i18next'
 
 const formSchema = Yup.object().shape({
@@ -24,11 +22,10 @@ const formSchema = Yup.object().shape({
 
 const EmailForm = ({
   t,
-  theme,
   handleSubmit,
   loading,
 }) => {
-  const styling = styles(theme)
+  const styling = styles
   
   return (
     <View style={styling.root}>
@@ -42,7 +39,7 @@ const EmailForm = ({
   )
 }
 
-const styles = theme => StyleSheet.create({
+const styles = StyleSheet.create({
   root: {
   },
   input: {
@@ -52,12 +49,11 @@ const styles = theme => StyleSheet.create({
 
 EmailForm.propTypes = {
   t: PropTypes.any,
-  theme: PropTypes.any,
   handleSubmit: PropTypes.any,
   loading: PropTypes.any,
 }
 
-export default withTranslation()(withTheme(({
+export default withTranslation()(({
   handleFormSubmit,
   handleFormTransform,
   formSubmitLoading,
@@ -82,4 +78,4 @@ export default withTranslation()(withTheme(({
       />
     )}
   </Formik>
-)))
+))

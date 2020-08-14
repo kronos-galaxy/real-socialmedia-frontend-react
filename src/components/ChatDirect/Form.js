@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import {
   StyleSheet,
@@ -9,10 +9,8 @@ import TextGrowing from 'components/Formik/TextGrowing'
 import DefaultButton from 'components/Formik/Button/DefaultButton'
 import { Formik, Field } from 'formik'
 import * as Yup from 'yup'
-import path from 'ramda/src/path'
 
 import { withTheme } from 'react-native-paper'
-import { useNavigation } from '@react-navigation/native'
 import { withTranslation } from 'react-i18next'
 
 const formSchema = Yup.object().shape({
@@ -23,12 +21,7 @@ const ChatDirectForm = ({
   t,
   theme,
   handleSubmit,
-  handleFormFocus,
-  handleFormChange,
-  getFieldMeta,
-  handleReset,
   loading,
-  values,
 }) => {
   const styling = styles(theme)
 
@@ -72,11 +65,6 @@ ChatDirectForm.propTypes = {
   dirtySinceLastSubmit: PropTypes.any,
   loading: PropTypes.any,
   t: PropTypes.any,
-  handleFormFocus: PropTypes.any,
-  handleFormChange: PropTypes.any,
-  getFieldMeta: PropTypes.any,
-  handleReset: PropTypes.any,
-  values: PropTypes.any,
 }
 
 export default withTranslation()(withTheme(({

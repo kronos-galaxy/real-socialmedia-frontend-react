@@ -2,15 +2,13 @@ import { useEffect } from 'react'
 import { Keyboard } from 'react-native'
 import * as signupActions from 'store/ducks/signup/actions'
 import * as authActions from 'store/ducks/auth/actions'
-import * as navigationActions from 'navigation/actions'
 import { useDispatch, useSelector } from 'react-redux'
-import { useNavigation, useRoute } from '@react-navigation/native'
+import { useRoute } from '@react-navigation/native'
 import path from 'ramda/src/path'
 import { logEvent } from 'services/Analytics'
 
 const AuthPhoneConfirmComponentService = ({ children }) => {
   const dispatch = useDispatch()
-  const navigation = useNavigation()
   const route = useRoute()
 
   const signupUsername = useSelector(state => state.signup.signupUsername)
@@ -48,7 +46,7 @@ const AuthPhoneConfirmComponentService = ({ children }) => {
   }, [
     signupUsername.status,
     signupPhone.status,
-    signupPassword.status
+    signupPassword.status,
   ])
 
   /**

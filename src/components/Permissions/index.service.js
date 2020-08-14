@@ -1,13 +1,9 @@
-import { AppState } from 'react-native'
 import { useState, useEffect } from 'react'
 import { PERMISSIONS, RESULTS, check, request } from 'react-native-permissions'
-import { useNavigation } from '@react-navigation/native'
 import useAppState from 'services/AppState'
 import { openSettings } from 'react-native-permissions'
 
 const Permissions = ({ children }) => {
-  const navigation = useNavigation()
-
   const [cameraEnabled, setCameraEnabled] = useState(true)
   const [libraryEnabled, setLibraryEnabled] = useState(true)
 

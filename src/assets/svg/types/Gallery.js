@@ -1,7 +1,8 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import Svg, { G, Line, Rect, Polygon, Circle } from 'react-native-svg'
 
-const Gallery = ({ fill = '#333', style = {} }) => (
+const Gallery = ({ fill = '#333' }) => (
   <Svg height={36} width={36} viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
     <G fill={fill} stroke={fill} strokeLinecap="round" strokeWidth="1.5">
       <Rect height="18" width="22" fill="none" stroke={fill} x="1" y="5"/>
@@ -11,5 +12,9 @@ const Gallery = ({ fill = '#333', style = {} }) => (
     </G>
   </Svg>
 )
+
+Gallery.propTypes = {
+  fill: PropTypes.string,
+}
 
 export default Gallery

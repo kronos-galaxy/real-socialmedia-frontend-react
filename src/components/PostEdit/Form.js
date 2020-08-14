@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import {
   View,
@@ -20,7 +20,6 @@ import dayjs from 'dayjs'
 import { useHeader } from 'components/PostEdit/header'
 
 import { withTheme } from 'react-native-paper'
-import { useNavigation } from '@react-navigation/native'
 import { withTranslation } from 'react-i18next'
 
 const formSchema = Yup.object().shape({
@@ -56,7 +55,6 @@ const PostEditForm = ({
   albumsGet,
 }) => {
   const styling = styles(theme)
-  const navigation = useNavigation()
   const image = {
     url4k: values.uri,
     url64p: values.uri,

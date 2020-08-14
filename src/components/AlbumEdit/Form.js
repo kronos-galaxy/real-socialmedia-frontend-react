@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import {
   StyleSheet,
@@ -9,8 +9,6 @@ import { Formik, Field } from 'formik'
 import * as Yup from 'yup'
 import { useHeader } from 'components/AlbumEdit/header'
 
-import { withTheme } from 'react-native-paper'
-import { useNavigation } from '@react-navigation/native'
 import { withTranslation } from 'react-i18next'
 
 const formSchema = Yup.object().shape({
@@ -19,12 +17,9 @@ const formSchema = Yup.object().shape({
 
 const AlbumEditForm = ({
   t,
-  theme,
   handleSubmit,
-  loading,
 }) => {
-  const styling = styles(theme)
-  const navigation = useNavigation()
+  const styling = styles
 
   useHeader({
     title: 'Save',
@@ -40,7 +35,7 @@ const AlbumEditForm = ({
   )
 }
 
-const styles = theme => StyleSheet.create({
+const styles = StyleSheet.create({
   root: {
   },
   input: {
@@ -50,14 +45,12 @@ const styles = theme => StyleSheet.create({
 
 AlbumEditForm.propTypes = {
   t: PropTypes.any,
-  theme: PropTypes.any,
   handleSubmit: PropTypes.any,
   loading: PropTypes.any,
 }
 
-export default withTranslation()(withTheme(({
+export default withTranslation()(({
   album,
-  albumsEdit,
   albumsEditRequest,
   ...props
 }) => (
@@ -78,4 +71,4 @@ export default withTranslation()(withTheme(({
       />
     )}
   </Formik>
-)))
+))

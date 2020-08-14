@@ -16,13 +16,13 @@ import SettingsAvatar from 'templates/SettingsAvatar'
 import EditIcon from 'assets/svg/settings/Edit'
 import PhotoIcon from 'assets/svg/settings/Photo'
 import NextIcon from 'assets/svg/settings/Next'
-import LanguageIcon from 'assets/svg/settings/Language'
+// import LanguageIcon from 'assets/svg/settings/Language'
 import ThemeIcon from 'assets/svg/settings/Theme'
 import ArchiveIcon from 'assets/svg/settings/Archive'
 import SignoutIcon from 'assets/svg/settings/Signout'
 import PrivacyIcon from 'assets/svg/settings/Privacy'
-import DiamondIcon from 'assets/svg/settings/Diamond'
-import CashIcon from 'assets/svg/settings/Cash'
+// import DiamondIcon from 'assets/svg/settings/Diamond'
+// import CashIcon from 'assets/svg/settings/Cash'
 import Avatar from 'templates/Avatar'
 import path from 'ramda/src/path'
 import * as navigationActions from 'navigation/actions'
@@ -51,7 +51,7 @@ const Settings = ({
         text: 'Take a Photo',
         onPress: navigationActions.navigateCamera(navigation, { nextRoute: 'ProfilePhotoUpload' }),
       }],
-      { cancelable: true }
+      { cancelable: true },
     )
   }
 
@@ -165,16 +165,15 @@ const styles = theme => StyleSheet.create({
   helper: {
     paddingVertical: 8,
     paddingBottom: 32,
-  }
+  },
 })
 
 Settings.propTypes = {
-  theme: PropTypes.any,
-  authSignout: PropTypes.any,
-  authSignoutRequest: PropTypes.any,
-  user: PropTypes.any,
   t: PropTypes.any,
+  theme: PropTypes.any,
   authSignoutRequest: PropTypes.any,
+  handleLibrarySnap: PropTypes.any,
+  user: PropTypes.any,
 }
 
 export default withTranslation()(withTheme(Settings))

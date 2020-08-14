@@ -34,7 +34,7 @@ test('deeplinkPath determines provided post params', () => {
     _: 'https://real.app',
     userId: 'us-east-1:6b33c0d0-cc30-4083-92a1-043f7cd313ce',
     postId: '1bb30c92-ff1d-4d38-98b7-73942557dfbd',
-    action: 'views'
+    action: 'views',
   })
 
   /**
@@ -45,7 +45,7 @@ test('deeplinkPath determines provided post params', () => {
     _: 'https://real.app',
     userId: 'us-east-1:6b33c0d0-cc30-4083-92a1-043f7cd313ce',
     postId: '1bb30c92-ff1d-4d38-98b7-73942557dfbd',
-    action: 'likes'
+    action: 'likes',
   })
 
   /**
@@ -56,7 +56,7 @@ test('deeplinkPath determines provided post params', () => {
     _: 'https://real.app',
     userId: 'us-east-1:6b33c0d0-cc30-4083-92a1-043f7cd313ce',
     postId: '1bb30c92-ff1d-4d38-98b7-73942557dfbd',
-    action: 'comments'
+    action: 'comments',
   })
 
   const commentsUrlSlashed = 'https://real.app/user/us-east-1:6b33c0d0-cc30-4083-92a1-043f7cd313ce/post/1bb30c92-ff1d-4d38-98b7-73942557dfbd/comments/'
@@ -64,7 +64,7 @@ test('deeplinkPath determines provided post params', () => {
     _: 'https://real.app',
     userId: 'us-east-1:6b33c0d0-cc30-4083-92a1-043f7cd313ce',
     postId: '1bb30c92-ff1d-4d38-98b7-73942557dfbd',
-    action: 'comments'
+    action: 'comments',
   })
 
   const commentsUrlAction = 'https://real.app/user/us-east-1:6b33c0d0-cc30-4083-92a1-043f7cd313ce/post/1bb30c92-ff1d-4d38-98b7-73942557dfbd/comments/3fb30c92-ffgg-4d53-98b7-73957dfs425'

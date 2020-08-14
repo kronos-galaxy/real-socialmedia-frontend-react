@@ -5,16 +5,10 @@ import {
   View,
 } from 'react-native'
 
-import { withTheme } from 'react-native-paper'
-import { useNavigation } from '@react-navigation/native'
-import { withTranslation } from 'react-i18next'
-
 const ThemeAvatarTemplate = ({
-  t,
-  theme,
   icon,
 }) => {
-  const styling = styles(theme)
+  const styling = styles
   
   return (
     <View style={styling.root}>
@@ -25,7 +19,7 @@ const ThemeAvatarTemplate = ({
   )
 }
 
-const styles = theme => StyleSheet.create({
+const styles = StyleSheet.create({
   root: {
     position: 'relative',
   },
@@ -43,8 +37,7 @@ ThemeAvatarTemplate.defaultProps = {
 }
 
 ThemeAvatarTemplate.propTypes = {
-  theme: PropTypes.any,
   icon: PropTypes.any,
 }
 
-export default withTranslation()(withTheme(ThemeAvatarTemplate))
+export default ThemeAvatarTemplate

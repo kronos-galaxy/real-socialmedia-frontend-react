@@ -10,7 +10,6 @@ import FormComponent from 'components/ChatDirect/Form'
 import { useHeader } from 'components/ChatDirect/header'
 import * as navigationActions from 'navigation/actions'
 import ActionSheet from 'react-native-actionsheet'
-import color from 'color'
 
 import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
@@ -94,6 +93,7 @@ const ChatDirect = ({
       : null}
 
       {!chatId ?
+        // eslint-disable-next-line react-native/no-inline-styles
         <View style={{ marginBottom, paddingHorizontal: 12 }}>
           <FormComponent
             chatAddMessage={chatCreateDirect}
@@ -151,10 +151,11 @@ const styles = theme => StyleSheet.create({
 })
 
 ChatDirect.propTypes = {
-  theme: PropTypes.any,
   t: PropTypes.any,
+  theme: PropTypes.any,
   user: PropTypes.any,
   chatGetChat: PropTypes.any,
+  chatCreateDirect: PropTypes.any,
   chatCreateDirectRequest: PropTypes.any,
   chatAddMessage: PropTypes.any,
   chatAddMessageRequest: PropTypes.any,

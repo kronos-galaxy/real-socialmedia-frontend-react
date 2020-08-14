@@ -31,7 +31,7 @@ const AuthEmailComponentService = ({ children }) => {
   }, [])
 
   useEffect(() => {
-    const tabNavigator = navigation.dangerouslyGetParent();
+    const tabNavigator = navigation.dangerouslyGetParent()
     if (!tabNavigator) return
     tabNavigator.setOptions({
       headerLeft: (props) => pageHeaderLeft({ ...props, onPress: handleGoBack }),
@@ -85,7 +85,7 @@ const AuthEmailComponentService = ({ children }) => {
 
     signupUsername.status,
     signupEmail.status,
-    signupPassword.status
+    signupPassword.status,
   ])
 
   /**

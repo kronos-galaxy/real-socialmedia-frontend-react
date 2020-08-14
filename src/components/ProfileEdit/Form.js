@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import {
   StyleSheet,
@@ -10,8 +10,6 @@ import { Formik, Field } from 'formik'
 import * as Yup from 'yup'
 import { useHeader } from 'components/ProfileEdit/header'
 
-import { withTheme } from 'react-native-paper'
-import { useNavigation } from '@react-navigation/native'
 import { withTranslation } from 'react-i18next'
 
 const formSchema = Yup.object().shape({
@@ -30,13 +28,11 @@ const formSchema = Yup.object().shape({
 
 const ProfileEditForm = ({
   t,
-  theme,
   handleSubmit,
   loading,
   PrivacyComponent,
 }) => {
-  const styling = styles(theme)
-  const navigation = useNavigation()
+  const styling = styles
 
   useHeader({
     onPress: handleSubmit,
@@ -70,7 +66,7 @@ const ProfileEditForm = ({
   )
 }
 
-const styles = theme => StyleSheet.create({
+const styles = StyleSheet.create({
   root: {
   },
   input: {
@@ -79,7 +75,6 @@ const styles = theme => StyleSheet.create({
 })
 
 ProfileEditForm.propTypes = {
-  theme: PropTypes.any,
   handleSubmit: PropTypes.any,
   submitErrors: PropTypes.any,
   dirtySinceLastSubmit: PropTypes.any,
@@ -90,7 +85,7 @@ ProfileEditForm.propTypes = {
   PrivacyComponent: PropTypes.any,
 }
 
-export default withTranslation()(withTheme(({
+export default withTranslation()(({
   usersEditProfile,
   usersEditProfileRequest,
   user,
@@ -110,4 +105,4 @@ export default withTranslation()(withTheme(({
       />
     )}
   </Formik>
-)))
+))

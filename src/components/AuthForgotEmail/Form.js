@@ -8,10 +8,7 @@ import TextField from 'components/Formik/TextField'
 import DefaultButton from 'components/Formik/Button/DefaultButton'
 import { Formik, Field } from 'formik'
 import * as Yup from 'yup'
-import Config from 'react-native-config'
 
-import { withTheme } from 'react-native-paper'
-import { useNavigation } from '@react-navigation/native'
 import { withTranslation } from 'react-i18next'
 
 const formSchema = Yup.object().shape({
@@ -24,15 +21,13 @@ const formSchema = Yup.object().shape({
 
 const ForgotForm = ({
   t,
-  theme,
   handleSubmit,
   loading,
   disabled,
-  dirty,
   isValid,
   isValidating,
 }) => {
-  const styling = styles(theme)
+  const styling = styles
 
   const submitDisabled = (
     disabled ||
@@ -52,7 +47,7 @@ const ForgotForm = ({
   )
 }
 
-const styles = theme => StyleSheet.create({
+const styles = StyleSheet.create({
   root: {
   },
   input: {
@@ -62,12 +57,14 @@ const styles = theme => StyleSheet.create({
 
 ForgotForm.propTypes = {
   t: PropTypes.any,
-  theme: PropTypes.any,
   handleSubmit: PropTypes.any,
   loading: PropTypes.any,
+  disabled: PropTypes.any,
+  isValid: PropTypes.any,
+  isValidating: PropTypes.any,
 }
 
-export default withTranslation()(withTheme(({
+export default withTranslation()(({
   handleFormSubmit,
   handleFormTransform,
   formSubmitLoading,
@@ -95,4 +92,4 @@ export default withTranslation()(withTheme(({
       />
     )}
   </Formik>
-)))
+))

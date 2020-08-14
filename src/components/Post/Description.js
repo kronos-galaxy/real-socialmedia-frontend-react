@@ -11,10 +11,8 @@ import * as navigationActions from 'navigation/actions'
 
 import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
-import { withTranslation } from 'react-i18next'
 
 const Description = ({
-  t,
   theme,
   post,
 }) => {
@@ -50,7 +48,7 @@ const Description = ({
             }
             
             return <Text key="matched" style={styling.textDefault}>{`@${match}`}</Text>
-          })
+          }),
         ]}
       </Text>
     </TouchableOpacity>
@@ -83,7 +81,6 @@ const styles = theme => StyleSheet.create({
 Description.propTypes = {
   theme: PropTypes.any,
   post: PropTypes.any,
-  t: PropTypes.any,
 }
 
-export default withTranslation()(withTheme(Description))
+export default withTheme(Description)

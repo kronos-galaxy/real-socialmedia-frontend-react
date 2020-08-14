@@ -8,16 +8,13 @@ import { Subheading, Text, Caption } from 'react-native-paper'
 import path from 'ramda/src/path'
 import dayjs from 'dayjs'
 
-import { withTheme } from 'react-native-paper'
-import { useNavigation } from '@react-navigation/native'
 import { withTranslation } from 'react-i18next'
 
 const ProfileAbout = ({
   t,
-  theme,
   usersGetProfile,
 }) => {
-  const styling = styles(theme)
+  const styling = styles
   
   return (
     <View style={styling.root}>
@@ -30,7 +27,7 @@ const ProfileAbout = ({
   )
 }
 
-const styles = theme => StyleSheet.create({
+const styles = StyleSheet.create({
   root: {
   },
   itemTitle: {
@@ -40,9 +37,8 @@ const styles = theme => StyleSheet.create({
 })
 
 ProfileAbout.propTypes = {
-  theme: PropTypes.any,
   usersGetProfile: PropTypes.any,
   t: PropTypes.any,
 }
 
-export default withTranslation()(withTheme(ProfileAbout))
+export default withTranslation()(ProfileAbout)

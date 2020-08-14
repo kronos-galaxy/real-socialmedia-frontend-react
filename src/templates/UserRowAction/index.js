@@ -6,13 +6,10 @@ import {
 } from 'react-native'
 import DefaultButton from 'components/Formik/Button/DefaultButton'
 
-import { withTheme } from 'react-native-paper'
-import { useNavigation } from '@react-navigation/native'
 import { withTranslation } from 'react-i18next'
 
 const UserRowActionTemplate = ({
   t,
-  theme,
   followActive,
   followloading,
   onFollowPress,
@@ -26,7 +23,7 @@ const UserRowActionTemplate = ({
   onReplyPress,
   replyloading,
 }) => {
-  const styling = styles(theme)
+  const styling = styles
   
   return (
     <View style={styling.root}>
@@ -51,7 +48,7 @@ const UserRowActionTemplate = ({
   )
 }
 
-const styles = theme => StyleSheet.create({
+const styles = StyleSheet.create({
   root: {
   },
   component: {
@@ -69,7 +66,7 @@ UserRowActionTemplate.defaultProps = {
 }
 
 UserRowActionTemplate.propTypes = {
-  theme: PropTypes.any,
+  t: PropTypes.any,
   followActive: PropTypes.any,
   followloading: PropTypes.any,
   onFollowPress: PropTypes.any,
@@ -79,6 +76,9 @@ UserRowActionTemplate.propTypes = {
   requestActive: PropTypes.any,
   requestloading: PropTypes.any,
   onRequestedPress: PropTypes.any,
+  replyActive: PropTypes.any,
+  onReplyPress: PropTypes.any,
+  replyloading: PropTypes.any,
 }
 
-export default withTranslation()(withTheme(UserRowActionTemplate))
+export default withTranslation()(UserRowActionTemplate)

@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import Svg, { Path } from 'react-native-svg'
 
 const Mask = ({ fill = '#333', style = {} }) => (
@@ -6,5 +7,10 @@ const Mask = ({ fill = '#333', style = {} }) => (
     <Path d="M49 0C75.51 0 97 21.49 97 48C97 74.51 75.51 96 49 96C22.49 96 1 74.51 1 48C1 21.49 22.49 0 49 0Z" />
   </Svg>
 )
+
+Mask.propTypes = {
+  fill: PropTypes.string,
+  style: PropTypes.any,
+}
 
 export default Mask

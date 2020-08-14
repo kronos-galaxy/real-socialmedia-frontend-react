@@ -1,7 +1,8 @@
 import React from 'react'
-import Svg, { G, Line, Circle } from 'react-native-svg'
+import PropTypes from 'prop-types'
+import Svg, { G, Circle } from 'react-native-svg'
 
-const Delete = ({ fill = '#333', style = {} }) => (
+const More = ({ fill = '#333' }) => (
   <Svg height={18} width={18} viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
     <G fill={fill} stroke={fill} strokeLinecap="round" strokeWidth="1.5">
       <Circle cx="12" cy="12" fill={fill} r="2"/>
@@ -11,4 +12,8 @@ const Delete = ({ fill = '#333', style = {} }) => (
   </Svg>
 )
 
-export default Delete
+More.propTypes = {
+  fill: PropTypes.string,
+}
+
+export default More

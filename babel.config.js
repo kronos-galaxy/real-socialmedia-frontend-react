@@ -1,6 +1,6 @@
 module.exports = {
   presets: [
-    'module:metro-react-native-babel-preset'
+    'module:metro-react-native-babel-preset',
   ],
   plugins: [
     ['inline-dotenv'],
@@ -8,13 +8,13 @@ module.exports = {
       root: ['./src'],
       alias: {
         appconfig: './config.js',
-      }
+      },
     }],
     ['optional-require', {
       blacklist: ['react-native-vector-icons'],
     }],
     ['babel-plugin-transform-builtin-extend', {
-      globals: ['Error']
+      globals: ['Error'],
     }],
   ],
 }

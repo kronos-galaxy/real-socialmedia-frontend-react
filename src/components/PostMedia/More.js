@@ -6,16 +6,13 @@ import {
 } from 'react-native'
 import DefaultButton from 'components/Formik/Button/DefaultButton'
 
-import { withTheme } from 'react-native-paper'
-import { useNavigation } from '@react-navigation/native'
 import { withTranslation } from 'react-i18next'
 
 const MoreComponent = ({
   t,
-  theme,
   onPress,
 }) => {
-  const styling = styles(theme)
+  const styling = styles
   
   return (
     <View style={styling.root}>
@@ -26,7 +23,7 @@ const MoreComponent = ({
   )
 }
 
-const styles = theme => StyleSheet.create({
+const styles = StyleSheet.create({
   root: {
     position: 'absolute',
     bottom: 40,
@@ -44,9 +41,8 @@ MoreComponent.defaultProps = {
 }
 
 MoreComponent.propTypes = {
-  theme: PropTypes.any,
   t: PropTypes.any,
   onPress: PropTypes.any,
 }
 
-export default withTranslation()(withTheme(MoreComponent))
+export default withTranslation()(MoreComponent)

@@ -8,11 +8,8 @@ import {
 import { Text } from 'react-native-paper'
 
 import { withTheme } from 'react-native-paper'
-import { useNavigation } from '@react-navigation/native'
-import { withTranslation } from 'react-i18next'
 
 const Subtitle = ({
-  t,
   theme,
   actions,
 }) => {
@@ -64,4 +61,4 @@ const styles = theme => StyleSheet.create({
   },
 })
 
-export default withTranslation()(withTheme(Subtitle))
+export default withTheme(Subtitle)

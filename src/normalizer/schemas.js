@@ -8,7 +8,7 @@ const userSchema = new schema.Entity(
 	{},
 	{
 		idAttribute: 'userId',
-	}
+	},
 )
 
 /**
@@ -22,7 +22,7 @@ const imageSchema = new schema.Entity(
 			try { return value.url.split('?')[0] }
 			catch (err) { return value }
 		},
-	}
+	},
 )
 
 /**
@@ -31,7 +31,7 @@ const imageSchema = new schema.Entity(
 const postSchema = new schema.Entity(
 	'posts',
 	{},
-	{ idAttribute: 'postId' }
+	{ idAttribute: 'postId' },
 )
 
 /**
@@ -41,8 +41,8 @@ const chatSchema = new schema.Entity(
 	'chats',
 	{},
 	{
-		idAttribute: 'chatId'
-	}
+		idAttribute: 'chatId',
+	},
 )
 
 /**
@@ -53,7 +53,7 @@ const commentSchema = new schema.Entity(
 	{},
 	{
 		idAttribute: 'commentId',
-	}
+	},
 )
 
 /**
@@ -64,7 +64,7 @@ const albumSchema = new schema.Entity(
 	{},
 	{
 		idAttribute: 'albumId',
-	}
+	},
 )
 
 // const [userSchema] = [userSchema]
@@ -81,8 +81,8 @@ const messageSchema = new schema.Entity(
 	'messages',
 	{},
 	{
-		idAttribute: 'messageId'
-	}
+		idAttribute: 'messageId',
+	},
 )
 
 commentSchema.define({

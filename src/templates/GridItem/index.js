@@ -7,13 +7,7 @@ import {
 } from 'react-native'
 import Layout from 'constants/Layout'
 
-import { withTheme } from 'react-native-paper'
-import { useNavigation } from '@react-navigation/native'
-import { withTranslation } from 'react-i18next'
-
 const GridItemTemplate = ({
-  t,
-  theme,
   children,
   onPress,
 
@@ -24,7 +18,7 @@ const GridItemTemplate = ({
   activeIcon,
   inactiveIcon,
 }) => {
-  const styling = styles(theme)
+  const styling = styles
   
   return (
     <TouchableOpacity style={styling.root} onPress={onPress}>
@@ -43,7 +37,7 @@ const GridItemTemplate = ({
   )
 }
 
-const styles = theme => StyleSheet.create({
+const styles = StyleSheet.create({
   root: {
     width: Layout.window.width / 3,
     height: Layout.window.width / 3,
@@ -74,7 +68,6 @@ GridItemTemplate.defaultProps = {
 }
 
 GridItemTemplate.propTypes = {
-  theme: PropTypes.any,
   children: PropTypes.any,
   onPress: PropTypes.any,
   active: PropTypes.any,
@@ -82,4 +75,4 @@ GridItemTemplate.propTypes = {
   inactiveIcon: PropTypes.any,
 }
 
-export default withTranslation()(withTheme(GridItemTemplate))
+export default GridItemTemplate

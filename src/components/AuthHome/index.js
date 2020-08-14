@@ -10,19 +10,17 @@ import AuthHeaderTemplate from 'templates/Auth/Header'
 import AuthTermsTemplate from 'templates/Auth/Terms'
 import * as navigationActions from 'navigation/actions'
 
-import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
 import { withTranslation } from 'react-i18next'
 
 const AuthHome = ({
   t,
-  theme,
   authGoogle,
   authGoogleRequest,
   authApple,
   authAppleRequest,
 }) => {
-  const styling = styles(theme)
+  const styling = styles
   const navigation = useNavigation()
 
   return (
@@ -52,7 +50,7 @@ const AuthHome = ({
   )
 }
 
-const styles = theme => StyleSheet.create({
+const styles = StyleSheet.create({
   root: {
     flex: 1,
   },
@@ -67,9 +65,10 @@ const styles = theme => StyleSheet.create({
 
 AuthHome.propTypes = {
   t: PropTypes.any,
-  theme: PropTypes.any,
   authGoogle: PropTypes.any,
   authGoogleRequest: PropTypes.any,
+  authApple: PropTypes.any,
+  authAppleRequest: PropTypes.any,
 }
 
-export default withTranslation()(withTheme(AuthHome))
+export default withTranslation()(AuthHome)

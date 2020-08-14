@@ -7,11 +7,8 @@ import {
 import { Headline, Subheading } from 'react-native-paper'
 
 import { withTheme } from 'react-native-paper'
-import { useNavigation } from '@react-navigation/native'
-import { withTranslation } from 'react-i18next'
 
 const Header = ({
-  t,
   theme,
   title,
   subtitle,
@@ -48,10 +45,9 @@ const styles = theme => StyleSheet.create({
 })
 
 Header.propTypes = {
-  t: PropTypes.any,
   theme: PropTypes.any,
   title: PropTypes.any,
   subtitle: PropTypes.any,
 }
 
-export default withTranslation()(withTheme(Header))
+export default withTheme(Header)

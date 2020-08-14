@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 import React from 'react'
 import {
   View,
@@ -9,9 +10,7 @@ import Layout from 'constants/Layout'
 
 import PropTypes from 'prop-types'
 import { withTheme } from 'react-native-paper'
-import { useNavigation } from '@react-navigation/native'
 import { withTranslation } from 'react-i18next'
-import { Props } from 'react-native-image-zoom-viewer/built/image-viewer.type'
 
 const trackerWidth = (Layout.window.width - 24) - 28
 
@@ -27,16 +26,16 @@ const LifetimeIndicator = ({
       <TouchableOpacity style={[{ left: '0%' }, styling.indicator]} onPress={() => onValueChange(1)}>
         <Caption style={[styling.caption, styling.captionStart]}>{t('Day')}</Caption>
       </TouchableOpacity>
-      <TouchableOpacity style={[{ left: '25%', }, styling.indicator]} onPress={() => onValueChange(2)}>
+      <TouchableOpacity style={[{ left: '25%' }, styling.indicator]} onPress={() => onValueChange(2)}>
         <Caption style={styling.caption}>{t('Week')}</Caption>
       </TouchableOpacity>
-      <TouchableOpacity style={[{ left: '50%', }, styling.indicator]} onPress={() => onValueChange(3)}>
+      <TouchableOpacity style={[{ left: '50%' }, styling.indicator]} onPress={() => onValueChange(3)}>
         <Caption style={styling.caption}>{t('Month')}</Caption>
       </TouchableOpacity>
-      <TouchableOpacity style={[{ left: '75%', }, styling.indicator]} onPress={() => onValueChange(4)}>
+      <TouchableOpacity style={[{ left: '75%' }, styling.indicator]} onPress={() => onValueChange(4)}>
         <Caption style={styling.caption}>{t('Year')}</Caption>
       </TouchableOpacity>
-      <TouchableOpacity style={[{ left: '100%', }, styling.indicator]} onPress={() => onValueChange(5)}>
+      <TouchableOpacity style={[{ left: '100%' }, styling.indicator]} onPress={() => onValueChange(5)}>
         <Caption style={[styling.caption, styling.captionEnd]}>{t('Forever')}</Caption>
       </TouchableOpacity>
     </View>

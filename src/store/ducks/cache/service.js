@@ -83,6 +83,7 @@ export const removeLocalFolder = async (pathFolder) => {
   try {
     return await RNFS.unlink(pathFolder)
   } catch (error) {
+    // ignore
   }
 }
 

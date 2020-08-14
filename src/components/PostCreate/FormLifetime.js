@@ -10,7 +10,6 @@ import Layout from 'constants/Layout'
 import LifetimeIndicator from 'components/PostCreate/LifetimeIndicator'
 
 import { withTheme } from 'react-native-paper'
-import { useNavigation } from '@react-navigation/native'
 import { withTranslation } from 'react-i18next'
 
 const getTextByValue = (t) => (lifetime) => {
@@ -87,7 +86,6 @@ FormLifetime.propTypes = {
   values: PropTypes.any,
   setFieldValue: PropTypes.any,
   t: PropTypes.any,
-  setFieldValue: PropTypes.any,
 }
 
 export default withTranslation()(withTheme(FormLifetime))

@@ -6,13 +6,12 @@ import {
   StyleSheet,
   View,
 } from 'react-native'
-import { Subheading, Text } from 'react-native-paper'
+import { Text } from 'react-native-paper'
 import InfoIcon from 'assets/svg/verification/Info'
 import CameraIcon from 'assets/svg/verification/Camera'
 import CropIcon from 'assets/svg/verification/Crop'
 import RotateIcon from 'assets/svg/verification/Rotate'
 import ShareIcon from 'assets/svg/verification/Share'
-import SearchIcon from 'assets/svg/verification/Search'
 import * as navigationActions from 'navigation/actions'
 import color from 'color'
 import DefaultButton from 'components/Formik/Button/DefaultButton'

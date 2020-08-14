@@ -6,10 +6,8 @@ import * as navigationActions from 'navigation/actions'
 
 import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
-import { withTranslation } from 'react-i18next'
 
 const Header = ({
-  t,
   theme,
   content,
 }) => {
@@ -65,4 +63,4 @@ Header.propTypes = {
   content: PropTypes.any,
 }
 
-export default withTranslation()(withTheme(Header))
+export default withTheme(Header)

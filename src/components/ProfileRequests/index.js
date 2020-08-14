@@ -9,11 +9,8 @@ import {
 import ResultComponent from 'components/Search/Result'
 
 import { withTheme } from 'react-native-paper'
-import { useNavigation } from '@react-navigation/native'
-import { withTranslation } from 'react-i18next'
 
 const ProfileRequests = ({
-  t,
   theme,
   usersGetPendingFollowers,
   usersFollow,
@@ -23,7 +20,7 @@ const ProfileRequests = ({
   usersAcceptFollowerUser,
   usersAcceptFollowerUserRequest,
 }) => {
-  const styling = styles(theme)
+  const styling = styles
   
   return (
     <View style={styling.root}>
@@ -49,7 +46,7 @@ const ProfileRequests = ({
   )
 }
 
-const styles = theme => StyleSheet.create({
+const styles = StyleSheet.create({
   root: {
     flex: 1,
   },
@@ -62,9 +59,8 @@ ProfileRequests.propTypes = {
   usersFollowRequest: PropTypes.any,
   usersUnfollow: PropTypes.any,
   usersUnfollowRequest: PropTypes.any,
-  t: PropTypes.any,
   usersAcceptFollowerUser: PropTypes.any,
   usersAcceptFollowerUserRequest: PropTypes.any,
 }
 
-export default withTranslation()(withTheme(ProfileRequests))
+export default withTheme(ProfileRequests)

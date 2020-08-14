@@ -7,7 +7,7 @@ import { initialState } from 'store/ducks/posts/reducer'
 
 const createDeepEqualSelector = createSelectorCreator(
   defaultMemoize,
-  equals
+  equals,
 )
 
 const entities = () => path(['entities'])
@@ -27,7 +27,7 @@ export const postsGetSelector = (userId) => createDeepEqualSelector(
     const posts = path(['data'])(postsGetCache) ? postsGetCache : initialState.postsGet
     const denormalized = normalizer.denormalizePostsGet(posts.data, entities)
     return assocPath(['data'], denormalized)(posts)
-  }
+  },
 )
 
 /**
@@ -40,7 +40,7 @@ export const postsGetUnreadCommentsSelector = () => createDeepEqualSelector(
   (postsGetUnreadComments, entities) => {
     const denormalized = normalizer.denormalizePostsGet(postsGetUnreadComments.data, entities)
     return assocPath(['data'], denormalized)(postsGetUnreadComments)
-  }
+  },
 )
 
 /**
@@ -53,7 +53,7 @@ export const postsGetArchivedSelector = () => createDeepEqualSelector(
   (postsGetArchived, entities) => {
     const denormalized = normalizer.denormalizePostsGet(postsGetArchived.data, entities)
     return assocPath(['data'], denormalized)(postsGetArchived)
-  }
+  },
 )
 
 /**
@@ -66,7 +66,7 @@ export const postsFeedGetSelector = () => createDeepEqualSelector(
   (postsFeedGet, postsOnymouslyLike, postsDislike, postsReportPostViewsRequest, entities) => {
     const denormalized = normalizer.denormalizePostsGet(postsFeedGet.data, entities)
     return assocPath(['data'], denormalized)(postsFeedGet)
-  }
+  },
 )
 
 /**
@@ -79,7 +79,7 @@ export const postsSingleGetSelector = (postId) => createDeepEqualSelector(
   (postsSingleGet, postsOnymouslyLike, postsDislike, postsReportPostViewsRequest, entities) => {
     const denormalized = normalizer.denormalizePostGet(postId, entities)
     return assocPath(['data'], denormalized || {})(postsSingleGet)
-  }
+  },
 )
 
 /**
@@ -93,7 +93,7 @@ export const postsCommentsGetSelector = (postId) => createDeepEqualSelector(
     const comments = path(['data'])(postsCommentsGetCache) ? postsCommentsGetCache : initialState.postsCommentsGet
     const denormalized = normalizer.denormalizeCommentsGet(comments.data, entities)
     return assocPath(['data'], denormalized)(comments)
-  }
+  },
 )
 
 /**
@@ -107,7 +107,7 @@ export const postsViewsGetSelector = (postId) => createDeepEqualSelector(
     const users = path(['data'])(postsViewsGetCache) ? postsViewsGetCache : initialState.postsViewsGet
     const denormalized = normalizer.denormalizeUsersGet(users.data, entities)
     return assocPath(['data'], denormalized)(users)
-  }
+  },
 )
 
 /**
@@ -121,7 +121,7 @@ export const postsLikesGetSelector = (postId) => createDeepEqualSelector(
     const users = path(['data'])(postsLikesGetCache) ? postsLikesGetCache : initialState.postsLikesGet
     const denormalized = normalizer.denormalizeUsersGet(users.data, entities)
     return assocPath(['data'], denormalized)(users)
-  }
+  },
 )
 
 /**
@@ -134,5 +134,5 @@ export const postsGetTrendingPostsSelector = () => createDeepEqualSelector(
   (postsGetTrendingPosts, entities) => {
     const denormalized = normalizer.denormalizePostsGet(postsGetTrendingPosts.data, entities)
     return assocPath(['data'], denormalized)(postsGetTrendingPosts)
-  }
+  },
 )

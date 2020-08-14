@@ -10,19 +10,15 @@ import AuthHeaderTemplate from 'templates/Auth/Header'
 import AuthPhotoTemplate from 'templates/Auth/Photo'
 import AuthErrorTemplate from 'templates/Auth/Error'
 
-import { withTheme } from 'react-native-paper'
-import { useNavigation } from '@react-navigation/native'
 import { withTranslation } from 'react-i18next'
 
 const AuthPhotoUpload = ({
   t,
-  theme,
   formErrorMessage,
   handleErrorClose,
   activeUpload,
 }) => {
-  const styling = styles(theme)
-  const navigation = useNavigation()
+  const styling = styles
 
   return (
     <View testID="components/AuthPhotoUpload" style={styling.root}>
@@ -59,7 +55,7 @@ const AuthPhotoUpload = ({
   )
 }
 
-const styles = theme => StyleSheet.create({
+const styles = StyleSheet.create({
   root: {
     flex: 1,
   },
@@ -74,10 +70,9 @@ const styles = theme => StyleSheet.create({
 
 AuthPhotoUpload.propTypes = {
   t: PropTypes.any,
-  theme: PropTypes.any,
   formErrorMessage: PropTypes.any,
   handleErrorClose: PropTypes.any,
   activeUpload: PropTypes.any,
 }
 
-export default withTranslation()(withTheme(AuthPhotoUpload))
+export default withTranslation()(AuthPhotoUpload)

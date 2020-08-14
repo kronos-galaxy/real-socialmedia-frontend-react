@@ -10,10 +10,8 @@ import path from 'ramda/src/path'
 
 import { withTheme } from 'react-native-paper'
 import { useNavigation, useRoute } from '@react-navigation/native'
-import { withTranslation } from 'react-i18next'
 
 const AlbumEditComponent = ({
-  t,
   theme,
   user,
   albumsEdit,
@@ -42,7 +40,6 @@ const AlbumEditComponent = ({
 }
 
 AlbumEditComponent.propTypes = {
-  t: PropTypes.any,
   theme: PropTypes.any,
   user: PropTypes.any,
   albumsEdit: PropTypes.any,
@@ -59,4 +56,4 @@ const styles = theme => StyleSheet.create({
   },
 })
 
-export default withTranslation()(withTheme(AlbumEditComponent))
+export default withTheme(AlbumEditComponent)

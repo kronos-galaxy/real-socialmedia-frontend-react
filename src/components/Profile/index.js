@@ -21,7 +21,7 @@ import ScrollService from 'services/Scroll'
 import * as UserService from 'services/User'
 
 import { withTheme } from 'react-native-paper'
-import { useNavigation, useRoute } from '@react-navigation/native'
+import { useNavigation } from '@react-navigation/native'
 import { withTranslation } from 'react-i18next'
 
 const Profile = ({
@@ -36,9 +36,7 @@ const Profile = ({
   postsGetRequest,
   postsGetMoreRequest,
   
-  albumsGet,
   albumsGetRequest,
-  albumsGetMoreRequest,
 
   usersBlockRequest,
   usersUnblock,
@@ -50,7 +48,6 @@ const Profile = ({
 }) => {
   const styling = styles(theme)
   const navigation = useNavigation()
-  const route = useRoute()
 
   const handleUserStoryPress = () => {
     if (!pathOr(0, ['data', 'stories', 'items', 'length'], usersGetProfile)) {
@@ -182,7 +179,6 @@ Profile.propTypes = {
   usersFollowRequest: PropTypes.any,
   usersUnfollow: PropTypes.any,
   usersUnfollowRequest: PropTypes.any,
-  postsGet: PropTypes.any,
   t: PropTypes.any,
   profileRef: PropTypes.any,
   postsGet: PropTypes.any,

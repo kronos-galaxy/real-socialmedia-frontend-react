@@ -31,7 +31,7 @@ const layoutPostsListItemSuccess = (state, action) => update(state, {
 /**
  *
  */
-const layoutPostsListItemIdle = (state, action) => update(state, {
+const layoutPostsListItemIdle = (state) => update(state, {
   layoutPostsListItem: { $set: initialState.layoutPostsListItem },
 })
 
@@ -47,7 +47,7 @@ const layoutPostsListScrollSuccess = (state, action) => update(state, {
 /**
  *
  */
-const layoutPostsListScrollIdle = (state, action) => update(state, {
+const layoutPostsListScrollIdle = (state) => update(state, {
   layoutPostsListScroll: { $set: initialState.layoutPostsListScroll },
 })
 
@@ -65,7 +65,7 @@ const layoutPostMediaItemSuccess = (state, action) => update(state, {
 /**
  *
  */
-const layoutPostMediaItemIdle = (state, action) => update(state, {
+const layoutPostMediaItemIdle = (state) => update(state, {
   layoutPostMediaItem: { $set: initialState.layoutPostMediaItem },
 })
 
@@ -81,7 +81,7 @@ const layoutPostMediaScrollSuccess = (state, action) => update(state, {
 /**
  *
  */
-const layoutPostMediaScrollIdle = (state, action) => update(state, {
+const layoutPostMediaScrollIdle = (state) => update(state, {
   layoutPostMediaScroll: { $set: initialState.layoutPostMediaScroll },
 })
 

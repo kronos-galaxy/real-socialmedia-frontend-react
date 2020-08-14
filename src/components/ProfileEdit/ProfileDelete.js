@@ -9,7 +9,6 @@ import DefaultButton from 'components/Formik/Button/DefaultButton'
 import { Text } from 'react-native-paper'
 
 import { withTheme } from 'react-native-paper'
-import { useNavigation } from '@react-navigation/native'
 import { withTranslation } from 'react-i18next'
 
 const ProfileDelete = ({
@@ -28,7 +27,7 @@ const ProfileDelete = ({
         text: 'Delete now',
         onPress: usersDeleteRequest,
       }],
-      { cancelable: true }
+      { cancelable: true },
     )
   }
 

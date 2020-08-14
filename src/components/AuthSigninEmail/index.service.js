@@ -1,6 +1,5 @@
 import * as authActions from 'store/ducks/auth/actions'
 import { useDispatch, useSelector } from 'react-redux'
-import { useNavigation } from '@react-navigation/native'
 import trim from 'ramda/src/trim'
 import compose from 'ramda/src/compose'
 import toLower from 'ramda/src/toLower'
@@ -8,7 +7,6 @@ import pathOr from 'ramda/src/pathOr'
 
 const AuthSigninComponentService = ({ children }) => {
   const dispatch = useDispatch()
-  const navigation = useNavigation()
 
   const authSignin = useSelector(state => state.auth.authSignin)
 

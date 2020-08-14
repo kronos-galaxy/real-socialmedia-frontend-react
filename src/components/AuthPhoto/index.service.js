@@ -20,7 +20,7 @@ const AuthPhotoComponentService = ({ children }) => {
     (Object.values(postsCreateQueue) || [])
       .filter(path(['payload', 'postId']))
       .forEach(post =>
-        dispatch(postsActions.postsCreateIdle(post))
+        dispatch(postsActions.postsCreateIdle(post)),
       )
 
   const skipPhotoUpload = () => {

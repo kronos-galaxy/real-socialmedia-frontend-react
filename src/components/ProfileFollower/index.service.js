@@ -2,11 +2,10 @@ import { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import * as usersActions from 'store/ducks/users/actions'
 import * as usersSelector from 'store/ducks/users/selectors'
-import { useNavigation, useRoute } from '@react-navigation/native'
+import { useRoute } from '@react-navigation/native'
 
 const ProfileFollowerService = ({ children }) => {
   const dispatch = useDispatch()
-  const navigation = useNavigation()
   const route = useRoute()
   const userId = route.params.userId
   const usersGetFollowerUsers = useSelector(usersSelector.usersGetFollowerUsersSelector(userId))

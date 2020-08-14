@@ -11,14 +11,12 @@ import ResultComponent from 'components/Search/Result'
 import ScrollService from 'services/Scroll'
 import { Caption } from 'react-native-paper'
 import path from 'ramda/src/path'
-import dayjs from 'dayjs'
 
 import PreviewServiceComponent from 'components/Preview/index.service'
 import PreviewPostComponent from 'components/Preview/Post'
 import PreviewUserComponent from 'components/Preview/User'
 
 import { withTheme } from 'react-native-paper'
-import { useNavigation } from '@react-navigation/native'
 import { withTranslation } from 'react-i18next'
 
 const PostViews = ({

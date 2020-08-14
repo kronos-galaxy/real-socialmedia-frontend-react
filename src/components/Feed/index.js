@@ -19,11 +19,8 @@ import FeedCardsServiceComponent from 'components/FeedCards/index.service'
 import ScrollService from 'services/Scroll'
 
 import { withTheme } from 'react-native-paper'
-import { useNavigation } from '@react-navigation/native'
-import { withTranslation } from 'react-i18next'
 
 const Feed = ({
-  t,
   theme,
   user,
   postsFeedGet,
@@ -176,7 +173,6 @@ Feed.propTypes = {
   postsDeleteRequest: PropTypes.any,
   postsOnymouslyLikeRequest: PropTypes.any,
   postsDislikeRequest: PropTypes.any,
-  t: PropTypes.any,
   postsFeedGetMoreRequest: PropTypes.any,
   postsRestoreArchivedRequest: PropTypes.any,
   postsCreateRequest: PropTypes.any,
@@ -194,4 +190,4 @@ Feed.propTypes = {
   getTextPostRef: PropTypes.any,
 }
 
-export default withTranslation()(withTheme(Feed))
+export default withTheme(Feed)

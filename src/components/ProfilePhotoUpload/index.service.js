@@ -23,7 +23,7 @@ const ProfilePhotoUploadComponentService = ({ children }) => {
   const handleUploadSuccess = (postsCreate) => {
     dispatch(usersActions.usersEditProfileRequest({ photoPostId: postsCreate.payload.postId }))
   }
-  const handleUploadFailure = (postsCreate) => {
+  const handleUploadFailure = () => {
     navigationActions.navigateSettings(navigation)()
     navigationActions.navigateVerification(navigation, { actionType: 'BACK' })()
   }

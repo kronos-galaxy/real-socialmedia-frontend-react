@@ -13,18 +13,15 @@ import * as navigationActions from 'navigation/actions'
 import BellIcon from 'assets/svg/action/Bell'
 
 import { withTheme } from 'react-native-paper'
-import { useNavigation, useRoute } from '@react-navigation/native'
-import { withTranslation } from 'react-i18next'
+import { useNavigation } from '@react-navigation/native'
 
 const PostsGrid = ({
-  t,
   theme,
   postsGet,
   thread,
 }) => {
   const styling = styles(theme)
   const navigation = useNavigation()
-  const route = useRoute()
 
   const activeIcon = (
     <View style={{ padding: theme.spacing.base }}><BellIcon fill="red" /></View>
@@ -82,10 +79,9 @@ PostsGrid.defaultProps = {
 }
 
 PostsGrid.propTypes = {
-  t: PropTypes.any,
   theme: PropTypes.any,
   postsGet: PropTypes.any,
   thread: PropTypes.any,
 }
 
-export default withTranslation()(withTheme(PostsGrid))
+export default withTheme(PostsGrid)

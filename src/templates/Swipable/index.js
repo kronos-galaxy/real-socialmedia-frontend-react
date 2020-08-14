@@ -27,7 +27,7 @@ const RenderRightActions = (rowProps) => (progress, dragX) => {
     <View>
       <Animated.View style={[
         [{ transform: [{ translateX: trans }] }],
-        [styles.swipeable]
+        [styles.swipeable],
       ]}>
         {rowProps.handleReportPress ?
           <RectButton style={[styles.button, styles.report]} onPress={rowProps.handleReportPress}>

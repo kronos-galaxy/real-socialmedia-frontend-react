@@ -10,15 +10,12 @@ import { AnimatedCircularProgress } from 'react-native-circular-progress'
 import pathOr from 'ramda/src/pathOr'
 
 import { withTheme } from 'react-native-paper'
-import { useNavigation } from '@react-navigation/native'
-import { withTranslation } from 'react-i18next'
 
 const Photo = ({
-  t,
   theme,
   activeUpload,
 }) => {
-  const styling = styles(theme)
+  const styling = styles
   const progress = pathOr(0, ['meta', 'progress'])(activeUpload)
   const image = (
     pathOr(null, ['payload', 'preview', 0])(activeUpload) ||
@@ -53,7 +50,7 @@ const Photo = ({
   )
 }
 
-const styles = theme => StyleSheet.create({
+const styles = StyleSheet.create({
   root: {
     alignItems: 'center',
     marginBottom: 24,
@@ -70,9 +67,8 @@ const styles = theme => StyleSheet.create({
 })
 
 Photo.propTypes = {
-  t: PropTypes.any,
   theme: PropTypes.any,
   activeUpload: PropTypes.any,
 }
 
-export default withTranslation()(withTheme(Photo))
+export default withTheme(Photo)

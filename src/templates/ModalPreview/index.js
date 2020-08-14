@@ -9,17 +9,12 @@ import LinearGradient from 'react-native-linear-gradient'
 import path from 'ramda/src/path'
 import CacheComponent from 'components/Cache'
 
-import { withTheme } from 'react-native-paper'
-import { useNavigation } from '@react-navigation/native'
-import { withTranslation } from 'react-i18next'
-
 const ModalPreview = ({
-  t,
   theme,
   post,
   renderUri,
 }) => {
-  const styling = styles(theme)
+  const styling = styles
   const thumbnailSource = { uri: path(['image', 'url64p'])(post) }
   const imageSource = { uri: path(['image', 'url1080p'])(post) }
 
@@ -56,7 +51,7 @@ const ModalPreview = ({
   )
 }
 
-const styles = theme => StyleSheet.create({
+const styles = StyleSheet.create({
   preview: {
     height: 160,
     width: Layout.window.width,
@@ -73,8 +68,8 @@ const styles = theme => StyleSheet.create({
 
 ModalPreview.propTypes = {
   theme: PropTypes.any,
-  thumbnailSource: PropTypes.any,
-  imageSource: PropTypes.any,
+  post: PropTypes.any,
+  renderUri: PropTypes.any,
 }
 
-export default withTranslation()(withTheme(ModalPreview))
+export default ModalPreview

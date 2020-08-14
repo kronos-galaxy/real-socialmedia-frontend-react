@@ -16,7 +16,6 @@ import PostCreateScreen from 'screens/PostCreateScreen'
 
 export const media = ({
   Stack,
-  stackScreenCardProps,
   stackScreenPageProps,
 }) => {
   return (

@@ -6,11 +6,8 @@ import {
 } from 'react-native'
 
 import { withTheme } from 'react-native-paper'
-import { useNavigation } from '@react-navigation/native'
-import { withTranslation } from 'react-i18next'
 
 const ThemeAvatarTemplate = ({
-  t,
   theme,
   size,
   colors,
@@ -90,4 +87,4 @@ ThemeAvatarTemplate.propTypes = {
   colors: PropTypes.any,
 }
 
-export default withTranslation()(withTheme(ThemeAvatarTemplate))
+export default withTheme(ThemeAvatarTemplate)

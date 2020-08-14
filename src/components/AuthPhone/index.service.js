@@ -32,7 +32,7 @@ const AuthPhoneComponentService = ({ children }) => {
   }, [])
 
   useEffect(() => {
-    const tabNavigator = navigation.dangerouslyGetParent();
+    const tabNavigator = navigation.dangerouslyGetParent()
     if (!tabNavigator) return
     tabNavigator.setOptions({
       headerLeft: (props) => pageHeaderLeft({ ...props, onPress: handleGoBack }),
@@ -86,7 +86,7 @@ const AuthPhoneComponentService = ({ children }) => {
 
     signupUsername.status,
     signupPhone.status,
-    signupPassword.status
+    signupPassword.status,
   ])
 
   /**

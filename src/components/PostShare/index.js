@@ -8,7 +8,6 @@ import {
 import path from 'ramda/src/path'
 import { Headline, Caption } from 'react-native-paper'
 import AccordionComponent from 'templates/Accordion'
-import dayjs from 'dayjs'
 import NativeError from 'templates/NativeError'
 import * as PrivacyService from 'services/Privacy'
 
@@ -17,7 +16,7 @@ import PreviewPostComponent from 'components/Preview/Post'
 import PreviewUserComponent from 'components/Preview/User'
 
 import { withTheme } from 'react-native-paper'
-import { useNavigation, useRoute } from '@react-navigation/native'
+import { useRoute } from '@react-navigation/native'
 import { withTranslation } from 'react-i18next'
 
 const PostShare = ({
@@ -28,7 +27,6 @@ const PostShare = ({
   postsShare,
   postsShareRequest,
   watermark,
-  handleWatermark,
 }) => {
   const styling = styles(theme)
   const route = useRoute()
@@ -105,7 +103,7 @@ const PostShare = ({
               ]}
             />
             <View style={styling.bottomSpacing} />
-            <Caption style={[styling.bottomSpacing]}>{t('Prove your post is verified by sharing a link to your REAL profile in it\'s description')}</Caption>
+            <Caption style={styling.bottomSpacing}>{t('Prove your post is verified by sharing a link to your REAL profile in it\'s description')}</Caption>
             <View style={styling.bottomSpacing} />
           </View>
         : null}
@@ -121,7 +119,7 @@ const PostShare = ({
             }]}
           />
           <View style={styling.bottomSpacing} />
-          <Caption style={[styling.bottomSpacing]}>{t('Prove your post is verified by sharing a link to your REAL profile in it\'s description')}</Caption>
+          <Caption style={styling.bottomSpacing}>{t('Prove your post is verified by sharing a link to your REAL profile in it\'s description')}</Caption>
         </View>
       </ScrollView>
     </View>
@@ -153,7 +151,6 @@ PostShare.propTypes = {
   t: PropTypes.any,
   user: PropTypes.any,
   watermark: PropTypes.any,
-  handleWatermark: PropTypes.any,
 }
 
 export default withTranslation()(withTheme(PostShare))

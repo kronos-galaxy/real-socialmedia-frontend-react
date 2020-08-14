@@ -42,7 +42,7 @@ extend('$usersResourceSetSuccess', ({ payload }, original) => {
  */
 extend('$usersResourcePoolHash', ({ payload }, original) => {
   return update(original, {
-    $set: pathOr([], ['data'])(payload).map(user => user.userId)
+    $set: pathOr([], ['data'])(payload).map(user => user.userId),
   })
 })
 
@@ -52,6 +52,6 @@ extend('$usersResourcePoolHash', ({ payload }, original) => {
 extend('$usersResourcePoolSet', ({ payload }, original) => {
   return compose(
     assocPath([payload.data.userId, 'data'], payload.data),
-    assocPath([payload.data.userId, 'status'], 'success')
+    assocPath([payload.data.userId, 'status'], 'success'),
   )(original)
 })

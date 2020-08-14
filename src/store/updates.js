@@ -5,7 +5,7 @@ import set from 'ramda/src/set'
 import lensProp from 'ramda/src/lensProp'
 
 update.extend('$map', (value, nextObject) =>
-  nextObject.map((element) => update(element, value))
+  nextObject.map((element) => update(element, value)),
 )
 
 const getFilteredState = map(set(lensProp('status'), 'idle'))
@@ -88,7 +88,7 @@ extend('$resourceCacheSetIdle', ({ payload, resourceKey, initialState }, origina
 extend('$resourceCacheSetRemove', ({ resourceKey }, original) =>
   update(original, {
     $unset: [resourceKey],
-  })
+  }),
 )
 
 /**

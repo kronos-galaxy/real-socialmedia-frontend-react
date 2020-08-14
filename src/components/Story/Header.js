@@ -15,16 +15,14 @@ import * as navigationActions from 'navigation/actions'
 import * as UserService from 'services/User'
 import * as PrivacyService from 'services/Privacy'
 
-import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
 import { withTranslation } from 'react-i18next'
 
 const Header = ({
   t,
-  theme,
   post,
 }) => {
-  const styling = styles(theme)
+  const styling = styles
   const navigation = useNavigation()
 
   const repostedUsername = path(['originalPost', 'postedBy', 'username'])(post)
@@ -82,7 +80,7 @@ const Header = ({
   )
 }
 
-const styles = theme => StyleSheet.create({
+const styles = StyleSheet.create({
   header: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -115,8 +113,6 @@ const styles = theme => StyleSheet.create({
 })
 
 Header.propTypes = {
-  theme: PropTypes.any,
-  
   user: PropTypes.any,
   post: PropTypes.any,
   handleEditPress: PropTypes.any,
@@ -131,4 +127,4 @@ Header.propTypes = {
   actionSheetRef: PropTypes.any,
 }
 
-export default withTranslation()(withTheme(Header))
+export default withTranslation()(Header)

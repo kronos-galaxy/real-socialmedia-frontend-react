@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { createStackNavigator } from '@react-navigation/stack'
 import { withTheme } from 'react-native-paper'
 
@@ -19,6 +20,10 @@ const DatingNavigator = ({ theme }) => {
       />
     </Stack.Navigator>
   )
+}
+
+DatingNavigator.propTypes = {
+  theme: PropTypes.any,
 }
 
 export default withTheme(DatingNavigator)

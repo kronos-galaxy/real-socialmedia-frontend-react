@@ -8,13 +8,10 @@ import FormComponent from 'components/AuthUsername/Form'
 import AuthHeaderTemplate from 'templates/Auth/Header'
 import AuthErrorTemplate from 'templates/Auth/Error'
 
-import { withTheme } from 'react-native-paper'
-import { useNavigation } from '@react-navigation/native'
 import { withTranslation } from 'react-i18next'
 
 const AuthUsername = ({
   t,
-  theme,
   formErrorMessage,
   handleFormSubmit,
   handleFormTransform,
@@ -23,8 +20,7 @@ const AuthUsername = ({
   formSubmitDisabled,
   formInitialValues,
 }) => {
-  const styling = styles(theme)
-  const navigation = useNavigation()
+  const styling = styles
 
   return (
     <View testID="components/AuthUsername" style={styling.root}>
@@ -55,7 +51,7 @@ const AuthUsername = ({
   )
 }
 
-const styles = theme => StyleSheet.create({
+const styles = StyleSheet.create({
   root: {
     flex: 1,
   },
@@ -70,7 +66,6 @@ const styles = theme => StyleSheet.create({
 
 AuthUsername.propTypes = {
   t: PropTypes.any,
-  theme: PropTypes.any,
   formErrorMessage: PropTypes.any,
   handleFormSubmit: PropTypes.any,
   handleFormTransform: PropTypes.any,
@@ -80,4 +75,4 @@ AuthUsername.propTypes = {
   formInitialValues: PropTypes.any,
 }
 
-export default withTranslation()(withTheme(AuthUsername))
+export default withTranslation()(AuthUsername)

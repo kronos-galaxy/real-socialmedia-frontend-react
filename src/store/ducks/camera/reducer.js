@@ -27,7 +27,7 @@ const cameraCaptureSuccess = (state, action) => update(state, {
   },
 })
 
-const cameraCaptureFailure = (state, action) => update(state, {
+const cameraCaptureFailure = (state) => update(state, {
   cameraCapture: {
     status: { $set: 'failure' },
   },

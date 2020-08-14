@@ -33,10 +33,10 @@ export const navigateNestedPostLikes = (navigation, params) => () =>
  * Root -> Home -> Feed -> Feed
  */
 
-export const navigateBack = (navigation, params) => () =>
+export const navigateBack = (navigation) => () =>
   navigation.goBack()
 
-export const navigatePop = (navigation, params) => () =>
+export const navigatePop = (navigation) => () =>
   navigation.popToTop()
 
 export const navigateHome = (navigation, params) => () =>
@@ -68,99 +68,99 @@ export const navigateCamera = (navigation, params) => () =>
 
   
 export const navigateStory = (navigation, params) => defaultThrottle(() =>
-  navigation.push('Story', params)
+  navigation.push('Story', params),
 )
 
 export const navigateChat = (navigation, params) => defaultThrottle(() =>
-  navigation.navigate('Chat', params)
+  navigation.navigate('Chat', params),
 )
 
 export const navigateChatDirect = (navigation, params) => defaultThrottle(() =>
-  navigation.navigate('ChatDirect', params)
+  navigation.navigate('ChatDirect', params),
 )
 
 export const navigateChatOptions = (navigation, params) => defaultThrottle(() =>
-  navigation.navigate('ChatOptions', params)
+  navigation.navigate('ChatOptions', params),
 )
 
 export const navigatePostShare = (navigation, params) => defaultThrottle(() =>
-  navigation.push('PostShare', params)
+  navigation.push('PostShare', params),
 )
 
 export const navigatePostEdit = (navigation, params) => defaultThrottle(() =>
-  navigation.navigate('PostEdit', params)
+  navigation.navigate('PostEdit', params),
 )
 
 export const navigateProfileRequests = (navigation, params) => defaultThrottle(() =>
-  navigation.navigate('ProfileRequests', params)
+  navigation.navigate('ProfileRequests', params),
 )
 
 export const navigateProfilePhotoUpload = (navigation, params) => defaultThrottle(() =>
-  navigation.navigate('ProfilePhotoUpload', params)
+  navigation.navigate('ProfilePhotoUpload', params),
 )
 
 export const navigateAlbum = (navigation, params) => defaultThrottle(() =>
-  navigation.push('Album', params)
+  navigation.push('Album', params),
 )
 
 export const navigateAlbumCreate = (navigation, params) => defaultThrottle(() =>
-  navigation.navigate('AlbumCreate', params)
+  navigation.navigate('AlbumCreate', params),
 )
 
 export const navigateAlbumEdit = (navigation, params) => defaultThrottle(() =>
-  navigation.navigate('AlbumEdit', params)
+  navigation.navigate('AlbumEdit', params),
 )
 
 export const navigateAlbums = (navigation, params) => defaultThrottle(() =>
-  navigation.navigate('Albums', params)
+  navigation.navigate('Albums', params),
 )
 
 export const navigateComments = (navigation, params) => defaultThrottle(() =>
-  navigation.push('Comments', params)
+  navigation.push('Comments', params),
 )
 
 export const navigatePostType = (navigation, params) => defaultThrottle(() =>
-  navigation.navigate('PostType', params)
+  navigation.navigate('PostType', params),
 )
 
 export const navigateProfile = (navigation, params) => defaultThrottle(() =>
-  navigation.push('Profile', params)
+  navigation.push('Profile', params),
 )
 
 export const navigateProfileSelf = (navigation, params) => defaultThrottle(() =>
-  navigation.push('ProfileSelf', params)
+  navigation.push('ProfileSelf', params),
 )
 
 export const navigateProfileFollower = (navigation, params) => defaultThrottle(() =>
-  navigation.push('ProfileFollower', params)
+  navigation.push('ProfileFollower', params),
 )
 
 export const navigateProfileFollowed = (navigation, params) => defaultThrottle(() =>
-  navigation.push('ProfileFollowed', params)
+  navigation.push('ProfileFollowed', params),
 )
 
 export const navigatePostMedia = (navigation, params) => defaultThrottle(() =>
-  navigation.push('PostMedia', params)
+  navigation.push('PostMedia', params),
 )
 
 export const navigatePostLikes = (navigation, params) => defaultThrottle(() =>
-  navigation.push('PostLikes', params)
+  navigation.push('PostLikes', params),
 )
 
 export const navigatePostViews = (navigation, params) => defaultThrottle(() =>
-  navigation.push('PostViews', params)
+  navigation.push('PostViews', params),
 )
 
 export const navigateSettings = (navigation, params) => defaultThrottle(() =>
-  navigation.navigate('Settings', params)
+  navigation.navigate('Settings', params),
 )
 
 export const navigatePayout = (navigation, params) => defaultThrottle(() =>
-  navigation.navigate('Payout', params)
+  navigation.navigate('Payout', params),
 )
 
 export const navigateVerification = (navigation, params) => defaultThrottle(() =>
-  navigation.navigate('Verification', params)
+  navigation.navigate('Verification', params),
 )
 
 

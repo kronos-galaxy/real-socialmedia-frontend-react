@@ -1,6 +1,5 @@
 import update, { extend } from 'immutability-helper'
 import path from 'ramda/src/path'
-import pathOr from 'ramda/src/pathOr'
 import map from 'ramda/src/map'
 import set from 'ramda/src/set'
 import lensProp from 'ramda/src/lensProp'
@@ -74,7 +73,7 @@ extend('$postsResourceRemoveSuccess', ({ payload }, original) => {
  */
 extend('$postsResourcePoolHash', ({ payload }, original) => {
   return update(original, {
-    $set: payload.data
+    $set: payload.data,
   })
 })
 

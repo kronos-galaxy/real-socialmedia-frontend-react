@@ -1,6 +1,4 @@
-import { graphqlOperation } from '@aws-amplify/api'
-import { put, takeLatest, getContext, select } from 'redux-saga/effects'
-import { eventChannel } from 'redux-saga'
+import { put, takeLatest, getContext } from 'redux-saga/effects'
 import path from 'ramda/src/path'
 import compose from 'ramda/src/compose'
 import omit from 'ramda/src/omit'
@@ -8,7 +6,6 @@ import assocPath from 'ramda/src/assocPath'
 import * as actions from 'store/ducks/posts/actions'
 import * as queries from 'store/ducks/posts/queries'
 import * as constants from 'store/ducks/posts/constants'
-import * as usersActions from 'store/ducks/users/actions'
 import * as entitiesActions from 'store/ducks/entities/actions'
 import * as queryService from 'services/Query'
 import * as normalizer from 'normalizer/schemas'
@@ -218,7 +215,7 @@ function* postsFeedGetRequest(req) {
     const next = yield postsFeedGetRequestData(req, data)
     yield put(actions.postsFeedGetSuccess({ data: next.data, payload: next.payload, meta: next.meta }))
   } catch (error) {
-    yield put(actions.postsFeedGetFailure({ message: errorWrapper(error), payload: req.payload, }))
+    yield put(actions.postsFeedGetFailure({ message: errorWrapper(error), payload: req.payload }))
   }
 }
 
@@ -230,7 +227,7 @@ function* postsFeedGetMoreRequest(req) {
     const next = yield postsFeedGetRequestData(req, data)
     yield put(actions.postsFeedGetMoreSuccess({ data: next.data, payload: next.payload, meta: next.meta }))
   } catch (error) {
-    yield put(actions.postsFeedGetMoreFailure({ message: errorWrapper(error), payload: req.payload, }))
+    yield put(actions.postsFeedGetMoreFailure({ message: errorWrapper(error), payload: req.payload }))
   }
 }
 
@@ -561,7 +558,7 @@ function* postsDislikeRequest(req) {
     const next = yield postsDislikeRequestData(req, data)
     yield put(actions.postsDislikeSuccess({ data: next.data, payload: next.payload, meta: next.meta }))
   } catch (error) {
-    yield put(actions.postsDislikeFailure({ message: errorWrapper(error), payload: req.payload, }))
+    yield put(actions.postsDislikeFailure({ message: errorWrapper(error), payload: req.payload }))
   }
 }
 

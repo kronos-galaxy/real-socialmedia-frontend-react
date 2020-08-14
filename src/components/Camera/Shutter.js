@@ -7,11 +7,8 @@ import FlashOnIcon from 'assets/svg/camera/FlashOn'
 import FlashOffIcon from 'assets/svg/camera/FlashOff'
 
 import { withTheme } from 'react-native-paper'
-import { useNavigation } from '@react-navigation/native'
-import { withTranslation } from 'react-i18next'
 
 const Shutter = ({
-  t,
   theme,
   flashMode,
   handleFlipToggle,
@@ -93,8 +90,7 @@ Shutter.propTypes = {
   handleFlipToggle: PropTypes.any,
   handleCameraSnap: PropTypes.any,
   handleFlashToggle: PropTypes.any,
-  t: PropTypes.any,
   handleLibrarySnap: PropTypes.any,
 }
 
-export default withTranslation()(withTheme(Shutter))
+export default withTheme(Shutter)

@@ -10,7 +10,7 @@ export class MissingDeeplinkParamsError extends Error {
 const options = { segmentValueCharset: ':a-zA-Z0-9_-' }
 const matchedPostAction = new urlPattern(
   '*/user/(:userId)/post/(:postId)((/):action)(/)((/):actionId)(/)',
-  options
+  options,
 )
 
 export const deeplinkPath = (action) => {

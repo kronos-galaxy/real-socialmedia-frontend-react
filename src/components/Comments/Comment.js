@@ -17,10 +17,8 @@ import * as UserService from 'services/User'
 
 import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
-import { withTranslation } from 'react-i18next'
 
 const Comment = ({
-  t,
   theme,
   comment,
   tappable,
@@ -62,7 +60,7 @@ const Comment = ({
               }
               
               return <Text style={styling.textDefault}>{`@${match}`}</Text>
-            })
+            }),
           ]}
         </Paragraph>
         <Caption>{dayjs(path(['commentedAt'])(comment)).from(dayjs())} | Reply</Caption>
@@ -106,11 +104,10 @@ const styles = theme => StyleSheet.create({
 
 Comment.propTypes = {
   theme: PropTypes.any,
-  t: PropTypes.any,
   comment: PropTypes.any,
   tappable: PropTypes.any,
   handleTap: PropTypes.any,
   handleUserReply: PropTypes.any,
 }
 
-export default withTranslation()(withTheme(Comment))
+export default withTheme(Comment)

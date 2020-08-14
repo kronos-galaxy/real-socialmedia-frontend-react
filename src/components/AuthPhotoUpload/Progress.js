@@ -7,16 +7,13 @@ import {
 import SubtitleTemplate from 'templates/Subtitle'
 import path from 'ramda/src/path'
 
-import { withTheme } from 'react-native-paper'
-import { useNavigation } from '@react-navigation/native'
 import { withTranslation } from 'react-i18next'
 
 const Actions = ({
   t,
-  theme,
   activeUpload,
 }) => {
-  const styling = styles(theme)
+  const styling = styles
   
   const progress = path(['meta', 'progress'])(activeUpload)
 
@@ -50,13 +47,12 @@ const Actions = ({
 }
 
 Actions.propTypes = {
-  theme: PropTypes.any,
   t: PropTypes.any,
   activeUpload: PropTypes.any,
   handleErrorClose: PropTypes.any,
 }
 
-const styles = theme => StyleSheet.create({
+const styles = StyleSheet.create({
   root: {
   },
   item: {
@@ -64,4 +60,4 @@ const styles = theme => StyleSheet.create({
   },
 })
 
-export default withTranslation()(withTheme(Actions))
+export default withTranslation()(Actions)

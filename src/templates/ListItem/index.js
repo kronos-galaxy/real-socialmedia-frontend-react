@@ -7,21 +7,17 @@ import {
 import path from 'ramda/src/path'
 import { getDimensionsFromPostSize } from 'services/Dimensions'
 import PinchZoom from 'templates/ListItem/PinchZoom'
-import Layout from 'constants/Layout'
 import LinearGradient from 'react-native-linear-gradient'
 
 import { withTheme } from 'react-native-paper'
-import { useNavigation } from '@react-navigation/native'
-import { withTranslation } from 'react-i18next'
 
 const ListItemTemplate = ({
-  t,
   theme,
   children,
   post,
   feedRef,
 }) => {
-  const styling = styles(theme)
+  const styling = styles
   const image = path(['image'])(post)
   const color = path(['image', 'colors', 0])(post)
 
@@ -51,7 +47,7 @@ const ListItemTemplate = ({
   )
 }
 
-const styles = theme => StyleSheet.create({
+const styles = StyleSheet.create({
   root: {
     position: 'relative',
     zIndex: 10,
@@ -77,6 +73,8 @@ ListItemTemplate.defaultProps = {
 ListItemTemplate.propTypes = {
   theme: PropTypes.any,
   children: PropTypes.any,
+  post: PropTypes.any,
+  feedRef: PropTypes.any,
 }
 
-export default withTranslation()(withTheme(ListItemTemplate))
+export default withTheme(ListItemTemplate)

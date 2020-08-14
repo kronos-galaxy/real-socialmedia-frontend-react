@@ -9,13 +9,10 @@ import ActionsComponent from 'components/AuthCognito/Actions'
 import AuthHeaderTemplate from 'templates/Auth/Header'
 import AuthErrorTemplate from 'templates/Auth/Error'
 
-import { withTheme } from 'react-native-paper'
-import { useNavigation } from '@react-navigation/native'
 import { withTranslation } from 'react-i18next'
 
 const AuthCognito = ({
   t,
-  theme,
   authSignoutRequest,
   formErrorMessage,
   handleFormSubmit,
@@ -25,8 +22,7 @@ const AuthCognito = ({
   formSubmitDisabled,
   formInitialValues,
 }) => {
-  const styling = styles(theme)
-  const navigation = useNavigation()
+  const styling = styles
 
   return (
     <View testID="components/AuthCognito" style={styling.root}>
@@ -61,7 +57,7 @@ const AuthCognito = ({
   )
 }
 
-const styles = theme => StyleSheet.create({
+const styles = StyleSheet.create({
   root: {
     flex: 1,
   },
@@ -76,7 +72,6 @@ const styles = theme => StyleSheet.create({
 
 AuthCognito.propTypes = {
   t: PropTypes.any,
-  theme: PropTypes.any,
   authSignoutRequest: PropTypes.any,
   formErrorMessage: PropTypes.any,
   handleFormSubmit: PropTypes.any,
@@ -87,4 +82,4 @@ AuthCognito.propTypes = {
   formInitialValues: PropTypes.any,
 }
 
-export default withTranslation()(withTheme(AuthCognito))
+export default withTranslation()(AuthCognito)

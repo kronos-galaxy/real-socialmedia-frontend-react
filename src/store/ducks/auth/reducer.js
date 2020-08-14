@@ -111,7 +111,7 @@ const authCheckIdle = (state, action) => update(state, {
   },
 })
 
-const authCheckReset = (state, action) => update(state, {
+const authCheckReset = (state) => update(state, {
   user: { $set: initialState.user },
 })
 
@@ -143,7 +143,7 @@ const authSigninFailure = (state, action) => update(state, {
   },
 })
 
-const authSigninIdle = (state, action) => update(state, {
+const authSigninIdle = (state) => update(state, {
   authSignin: {
     data: { $set: initialState.authSignin.data },
     status: { $set: 'idle' },
@@ -155,7 +155,7 @@ const authSigninIdle = (state, action) => update(state, {
 /**
  *
  */
-const authGoogleRequest = (state, action) => update(state, {
+const authGoogleRequest = (state) => update(state, {
   authGoogle: {
     status: { $set: 'loading' },
   },
@@ -177,7 +177,7 @@ const authGoogleFailure = (state, action) => update(state, {
   },
 })
 
-const authGoogleIdle = (state, action) => update(state, {
+const authGoogleIdle = (state) => update(state, {
   authGoogle: {
     data: { $set: initialState.authGoogle.data },
     status: { $set: 'idle' },
@@ -189,7 +189,7 @@ const authGoogleIdle = (state, action) => update(state, {
 /**
  *
  */
-const authAppleRequest = (state, action) => update(state, {
+const authAppleRequest = (state) => update(state, {
   authApple: {
     status: { $set: 'loading' },
   },
@@ -211,7 +211,7 @@ const authAppleFailure = (state, action) => update(state, {
   },
 })
 
-const authAppleIdle = (state, action) => update(state, {
+const authAppleIdle = (state) => update(state, {
   authApple: {
     data: { $set: initialState.authApple.data },
     status: { $set: 'idle' },
@@ -223,7 +223,7 @@ const authAppleIdle = (state, action) => update(state, {
 /**
  *
  */
-const authSignoutRequest = (state, action) => update(state, {
+const authSignoutRequest = (state) => update(state, {
   authSignout: {
     status: { $set: 'loading' },
   },
@@ -244,7 +244,7 @@ const authSignoutFailure = (state, action) => update(state, {
   },
 })
 
-const authSignoutIdle = (state, action) => update(state, {
+const authSignoutIdle = (state) => update(state, {
   authSignout: {
     data: { $set: initialState.authSignout.data },
     status: { $set: 'idle' },
@@ -280,7 +280,7 @@ const authForgotFailure = (state, action) => update(state, {
   },
 })
 
-const authForgotIdle = (state, action) => update(state, {
+const authForgotIdle = (state) => update(state, {
   authForgot: {
     data: { $set: initialState.authForgot.data },
     status: { $set: 'idle' },
@@ -292,7 +292,7 @@ const authForgotIdle = (state, action) => update(state, {
 /**
  *
  */
-const authForgotConfirmRequest = (state, action) => update(state, {
+const authForgotConfirmRequest = (state) => update(state, {
   authForgotConfirm: {
     status: { $set: 'loading' },
   },
@@ -314,7 +314,7 @@ const authForgotConfirmFailure = (state, action) => update(state, {
   },
 })
 
-const authForgotConfirmIdle = (state, action) => update(state, {
+const authForgotConfirmIdle = (state) => update(state, {
   authForgotConfirm: {
     data: { $set: initialState.authForgotConfirm.data },
     status: { $set: 'idle' },

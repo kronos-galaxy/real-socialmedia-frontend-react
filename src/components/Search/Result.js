@@ -17,10 +17,8 @@ import * as UserService from 'services/User'
 
 import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
-import { withTranslation } from 'react-i18next'
 
 const Result = ({
-  t,
   theme,
   usersSearch,
   usersFollow,
@@ -29,7 +27,6 @@ const Result = ({
   usersUnfollowRequest,
   usersAcceptFollowerUser,
   usersAcceptFollowerUserRequest,
-  loading = false,
 }) => {
   const styling = styles(theme)
   const navigation = useNavigation()
@@ -105,10 +102,8 @@ Result.propTypes = {
   usersFollowRequest: PropTypes.any,
   usersUnfollow: PropTypes.any,
   usersUnfollowRequest: PropTypes.any,
-  t: PropTypes.any,
   usersAcceptFollowerUser: PropTypes.any,
   usersAcceptFollowerUserRequest: PropTypes.any,
-  loading: PropTypes.any,
 }
 
-export default withTranslation()(withTheme(Result))
+export default withTheme(Result)

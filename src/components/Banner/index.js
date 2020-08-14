@@ -1,22 +1,13 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import {
   StyleSheet,
   View,
 } from 'react-native'
 import { ifIphoneX } from 'react-native-iphone-x-helper'
 import { Text } from 'react-native-paper'
-import DefaultButton from 'components/Formik/Button/DefaultButton'
 
-import { withTheme } from 'react-native-paper'
-import { useNavigation } from '@react-navigation/native'
-import { withTranslation } from 'react-i18next'
-
-const Banner = ({
-  t,
-  theme,
-}) => {
-  const styling = styles(theme)
+const Banner = () => {
+  const styling = styles
 
   return (
     <View style={styling.root}>
@@ -25,7 +16,7 @@ const Banner = ({
   )
 }
 
-const styles = theme => StyleSheet.create({
+const styles = StyleSheet.create({
   root: {
     position: 'absolute',
     top: 0,
@@ -43,9 +34,4 @@ const styles = theme => StyleSheet.create({
   },
 })
 
-Banner.propTypes = {
-  t: PropTypes.any,
-  theme: PropTypes.any,
-}
-
-export default withTranslation()(withTheme(Banner))
+export default Banner

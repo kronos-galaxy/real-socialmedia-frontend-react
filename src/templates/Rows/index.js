@@ -5,17 +5,11 @@ import {
   View,
 } from 'react-native'
 
-import { withTheme } from 'react-native-paper'
-import { useNavigation } from '@react-navigation/native'
-import { withTranslation } from 'react-i18next'
-
 const RowsTemplate = ({
-  t,
-  theme,
   children,
   items,
 }) => {
-  const styling = styles(theme)
+  const styling = styles
   
   return (
     <View style={styling.root}>
@@ -28,7 +22,7 @@ const RowsTemplate = ({
   )
 }
 
-const styles = theme => StyleSheet.create({
+const styles = StyleSheet.create({
   root: {
   },
 })
@@ -39,9 +33,8 @@ RowsTemplate.defaultProps = {
 }
 
 RowsTemplate.propTypes = {
-  theme: PropTypes.any,
   children: PropTypes.any,
   items: PropTypes.any,
 }
 
-export default withTranslation()(withTheme(RowsTemplate))
+export default RowsTemplate

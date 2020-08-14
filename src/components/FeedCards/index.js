@@ -9,10 +9,8 @@ import Layout from 'constants/Layout'
 import Carousel from 'react-native-snap-carousel'
 
 import { withTheme } from 'react-native-paper'
-import { withTranslation } from 'react-i18next'
 
 const FeedCards = ({
-  t,
   theme,
   filteredCardsData,
   handleCardPress,
@@ -39,10 +37,7 @@ const FeedCards = ({
         sliderWidth={Layout.window.width}
         itemWidth={Layout.window.width}
         removeClippedSubviews={false}
-        slideStyle={{
-          margin: 0,
-          padding: 0,
-        }}
+        slideStyle={styling.slideStyle}
         inactiveSlideScale={1}
         inactiveSlideOpacity={1}
         layout="stack"
@@ -52,10 +47,10 @@ const FeedCards = ({
 }
 
 FeedCards.propTypes = {
-  t: PropTypes.any,
   theme: PropTypes.any,
   filteredCardsData: PropTypes.any,
   handleCardPress: PropTypes.any,
+  usersDeleteCardRequest: PropTypes.any,
 }
 
 const styles = theme => StyleSheet.create({
@@ -63,6 +58,10 @@ const styles = theme => StyleSheet.create({
     height: 100,
     backgroundColor: theme.colors.secondary,
   },
+  slideStyle: {
+    margin: 0,
+    padding: 0,
+  },
 })
 
-export default withTranslation()(withTheme(FeedCards))
+export default withTheme(FeedCards)

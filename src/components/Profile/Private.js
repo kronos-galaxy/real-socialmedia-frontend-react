@@ -3,12 +3,10 @@ import PropTypes from 'prop-types'
 import {
   StyleSheet,
   View,
-  TouchableOpacity,
 } from 'react-native'
 import { Caption, Text } from 'react-native-paper'
 
 import { withTheme } from 'react-native-paper'
-import { useNavigation } from '@react-navigation/native'
 import { withTranslation } from 'react-i18next'
 
 const Private = ({

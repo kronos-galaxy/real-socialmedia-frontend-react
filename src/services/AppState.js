@@ -1,28 +1,28 @@
-import { useState, useEffect } from 'react';
-import { AppState } from 'react-native';
+import { useState, useEffect } from 'react'
+import { AppState } from 'react-native'
 
 export default function useAppState(settings) {
-  const { onChange, onForeground, onBackground } = settings || {};
-  const [appState, setAppState] = useState(AppState.currentState);
+  const { onChange, onForeground, onBackground } = settings || {}
+  const [appState, setAppState] = useState(AppState.currentState)
 
   useEffect(() => {
     function handleAppStateChange(nextAppState) {
       if (nextAppState === 'active') {
-        isValidFunction(onForeground) && onForeground();
+        isValidFunction(onForeground) && onForeground()
       } else if (appState === 'active' && nextAppState.match(/inactive|background/)) {
-        isValidFunction(onBackground) && onBackground();
+        isValidFunction(onBackground) && onBackground()
       }
-      setAppState(nextAppState);
-      isValidFunction(onChange) && onChange(nextAppState);
+      setAppState(nextAppState)
+      isValidFunction(onChange) && onChange(nextAppState)
     }
-    AppState.addEventListener('change', handleAppStateChange);
+    AppState.addEventListener('change', handleAppStateChange)
     
-    return () => AppState.removeEventListener('change', handleAppStateChange);
-  }, [onChange, onForeground, onBackground, appState]);
+    return () => AppState.removeEventListener('change', handleAppStateChange)
+  }, [onChange, onForeground, onBackground, appState])
 
   // settings validation
   function isValidFunction(func) {
-    return func && typeof func === 'function';
+    return func && typeof func === 'function'
   }
-  return { appState };
+  return { appState }
 }

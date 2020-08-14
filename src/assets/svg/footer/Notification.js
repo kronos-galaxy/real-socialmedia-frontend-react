@@ -1,7 +1,8 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import Svg, { G, Path } from 'react-native-svg'
 
-const Notification = ({ fill = '#333', style = {} }) => (
+const Notification = ({ fill = '#333' }) => (
   <Svg height={24} width={24} viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
     <G fill={fill} stroke={fill} strokeLinecap="round" strokeWidth="2">
       <Path d="M19,11V8A7,7,0,0,0,5,8v3c0,3.3-3,4.1-3,6,0,1.7,3.9,3,10,3s10-1.3,10-3C22,15.1,19,14.3,19,11Z" fill="none" stroke={fill}/>
@@ -9,5 +10,9 @@ const Notification = ({ fill = '#333', style = {} }) => (
     </G>
   </Svg>
 )
+
+Notification.propTypes = {
+  fill: PropTypes.string,
+}
 
 export default Notification

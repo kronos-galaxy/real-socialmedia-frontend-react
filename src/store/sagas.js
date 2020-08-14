@@ -47,7 +47,7 @@ export default function* rootSaga(persistor) {
     .concat(postsShare())
 
     .concat([
-      takeEvery(action => /FAILURE$/.test(action.type), captureErrors)
-    ])
+      takeEvery(action => /FAILURE$/.test(action.type), captureErrors),
+    ]),
   )
 }

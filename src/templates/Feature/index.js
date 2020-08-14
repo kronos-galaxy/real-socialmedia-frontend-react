@@ -6,11 +6,8 @@ import {
 } from 'react-native'
 import { Text } from 'react-native-paper'
 import TickIcon from 'assets/svg/feature/Tick'
-import BulletIcon from 'assets/svg/feature/Bullet'
 
 import { withTheme } from 'react-native-paper'
-import { useNavigation } from '@react-navigation/native'
-import { withTranslation } from 'react-i18next'
 
 const Feature = ({
   theme,
@@ -51,6 +48,9 @@ const styles = theme => StyleSheet.create({
 
 Feature.propTypes = {
   theme: PropTypes.any,
+  children: PropTypes.any,
+  active: PropTypes.any,
+  disabled: PropTypes.any,
 }
 
 export default withTheme(Feature)

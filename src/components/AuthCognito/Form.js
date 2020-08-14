@@ -10,8 +10,6 @@ import { Formik, Field } from 'formik'
 import * as Yup from 'yup'
 import Config from 'react-native-config'
 
-import { withTheme } from 'react-native-paper'
-import { useNavigation } from '@react-navigation/native'
 import { withTranslation } from 'react-i18next'
 
 const formSchema = Yup.object().shape({
@@ -22,7 +20,7 @@ const formSchema = Yup.object().shape({
     .trim()
     .required()
     .test('usernameReserve', 'username is reserved', (value) =>
-      new Promise((resolve, reject) => {
+      new Promise((resolve) => {
         fetch(`${Config.AWS_API_GATEWAY_ENDPOINT}/username/status?username=${value}`, {
           method: 'GET',
           headers: {
@@ -31,22 +29,20 @@ const formSchema = Yup.object().shape({
         })
         .then((resp) => resp.json())
         .then((resp) => resolve(resp.status === 'AVAILABLE'))
-        .catch((error) => resolve(true))
-      })
+        .catch(() => resolve(true))
+      }),
     ),
 })
 
 const CognitoForm = ({
   t,
-  theme,
   handleSubmit,
   loading,
   disabled,
-  dirty,
   isValid,
   isValidating,
 }) => {
-  const styling = styles(theme)
+  const styling = styles
 
   const submitDisabled = (
     disabled ||
@@ -66,7 +62,7 @@ const CognitoForm = ({
   )
 }
 
-const styles = theme => StyleSheet.create({
+const styles = StyleSheet.create({
   root: {
   },
   input: {
@@ -76,12 +72,14 @@ const styles = theme => StyleSheet.create({
 
 CognitoForm.propTypes = {
   t: PropTypes.any,
-  theme: PropTypes.any,
   handleSubmit: PropTypes.any,
   loading: PropTypes.any,
+  disabled: PropTypes.any,
+  isValid: PropTypes.any,
+  isValidating: PropTypes.any,
 }
 
-export default withTranslation()(withTheme(({
+export default withTranslation()(({
   handleFormSubmit,
   handleFormTransform,
   formSubmitLoading,
@@ -109,4 +107,4 @@ export default withTranslation()(withTheme(({
       />
     )}
   </Formik>
-)))
+))

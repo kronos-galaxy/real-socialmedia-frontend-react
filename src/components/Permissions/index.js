@@ -3,14 +3,11 @@ import PropTypes from 'prop-types'
 import {
   View,
   StyleSheet,
-  ScrollView,
 } from 'react-native'
 import DefaultButton from 'components/Formik/Button/DefaultButton'
-import { Text } from 'react-native-paper'
 import FeatureComponent from 'templates/Feature'
 
 import { withTheme } from 'react-native-paper'
-import { useNavigation } from '@react-navigation/native'
 import { withTranslation } from 'react-i18next'
 
 const Permissions = ({
@@ -61,7 +58,9 @@ const styles = theme => StyleSheet.create({
 })
 
 Permissions.propTypes = {
+  t: PropTypes.any,
   theme: PropTypes.any,
+  openSettings: PropTypes.any,
 }
 
 export default withTranslation()(withTheme(Permissions))

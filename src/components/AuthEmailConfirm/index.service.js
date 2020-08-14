@@ -29,7 +29,7 @@ const AuthEmailConfirmComponentService = ({ children }) => {
   }, [])
 
   useEffect(() => {
-    const tabNavigator = navigation.dangerouslyGetParent();
+    const tabNavigator = navigation.dangerouslyGetParent()
     if (!tabNavigator) return
     tabNavigator.setOptions({
       headerLeft: (props) => pageHeaderLeft({ ...props, onPress: handleGoBack }),
@@ -65,7 +65,7 @@ const AuthEmailConfirmComponentService = ({ children }) => {
   }, [
     signupUsername.status,
     signupEmail.status,
-    signupPassword.status
+    signupPassword.status,
   ])
 
   /**

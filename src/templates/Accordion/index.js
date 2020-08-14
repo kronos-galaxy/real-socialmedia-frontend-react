@@ -9,11 +9,8 @@ import {
 import { Text } from 'react-native-paper'
 
 import { withTheme } from 'react-native-paper'
-import { useNavigation } from '@react-navigation/native'
-import { withTranslation } from 'react-i18next'
 
 const Accordion = ({
-  t,
   theme,
   items,
 }) => {
@@ -70,4 +67,4 @@ Accordion.propTypes = {
   items: PropTypes.any,
 }
 
-export default withTranslation()(withTheme(Accordion))
+export default withTheme(Accordion)

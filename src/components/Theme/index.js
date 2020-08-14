@@ -14,7 +14,6 @@ import path from 'ramda/src/path'
 import ThemeAvatar from 'templates/ThemeAvatar'
 
 import { withTheme } from 'react-native-paper'
-import { useNavigation } from '@react-navigation/native'
 import { withTranslation } from 'react-i18next'
 
 const Theme = ({
@@ -22,7 +21,6 @@ const Theme = ({
   theme,
   user,
   themeFetch,
-  themePreview,
   themePreviewRequest,
   themePreviewIdle,
 }) => {
@@ -83,13 +81,12 @@ const styles = theme => StyleSheet.create({
 })
 
 Theme.propTypes = {
+  t: PropTypes.any,
   theme: PropTypes.any,
-  initialValues: PropTypes.any,
+  user: PropTypes.any,
   themeFetch: PropTypes.any,
-  themePreview: PropTypes.any,
   themePreviewRequest: PropTypes.any,
   themePreviewIdle: PropTypes.any,
-  t: PropTypes.any,
 }
 
 export default withTranslation()(withTheme(Theme))

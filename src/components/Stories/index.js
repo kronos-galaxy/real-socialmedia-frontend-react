@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import {
   StyleSheet,
@@ -13,10 +13,8 @@ import * as UserService from 'services/User'
 
 import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
-import { withTranslation } from 'react-i18next'
 
 const Stories = ({
-  t,
   theme,
   user,
   usersGetFollowedUsersWithStories,
@@ -90,7 +88,6 @@ Stories.propTypes = {
   theme: PropTypes.any,
   user: PropTypes.any,
   usersGetFollowedUsersWithStories: PropTypes.any,
-  t: PropTypes.any,
 }
 
-export default withTranslation()(withTheme(Stories))
+export default withTheme(Stories)

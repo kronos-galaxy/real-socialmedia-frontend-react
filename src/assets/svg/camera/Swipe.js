@@ -1,7 +1,8 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import Svg, { G, Path, Polyline } from 'react-native-svg'
 
-const Swipe = ({ fill = '#333', style = {} }) => (
+const Swipe = ({ fill = '#333' }) => (
   <Svg height={24} width={24} viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
     <G fill={fill} stroke={fill} strokeLinecap="round" strokeWidth="2">
       <Path d="M6,22V7 c0-2.76142,2.23857-5,5-5h0" fill="none"/>
@@ -10,5 +11,9 @@ const Swipe = ({ fill = '#333', style = {} }) => (
     </G>
   </Svg>
 )
+
+Swipe.propTypes = {
+  fill: PropTypes.string,
+}
 
 export default Swipe

@@ -12,10 +12,8 @@ import { useHeader } from 'components/Albums/header'
 
 import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
-import { withTranslation } from 'react-i18next'
 
 const Albums = ({
-  t,
   theme,
   themeFetch,
   albumsGet,
@@ -57,7 +55,6 @@ Albums.propTypes = {
   themeFetch:PropTypes.any,
   albumsGet:PropTypes.any,
   user:PropTypes.any,
-  t:PropTypes.any,
 }
 
-export default withTranslation()(withTheme(Albums))
+export default withTheme(Albums)

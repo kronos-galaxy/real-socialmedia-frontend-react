@@ -10,11 +10,8 @@ import FormLifetime from 'components/PostCreate/FormLifetime'
 import FormAlbums from 'components/PostCreate/FormAlbums'
 
 import { withTheme } from 'react-native-paper'
-import { useNavigation } from '@react-navigation/native'
-import { withTranslation } from 'react-i18next'
 
 const PostCreateComponent = ({
-  t,
   theme,
   user,
   cameraCapture,
@@ -26,7 +23,6 @@ const PostCreateComponent = ({
   type,
 }) => {
   const styling = styles(theme)
-  const navigation = useNavigation()
 
   return (
     <View style={styling.root}>
@@ -74,7 +70,6 @@ PostCreateComponent.propTypes = {
   cameraCapture: PropTypes.any,
   postsCreateRequest: PropTypes.any,
   postsCreate: PropTypes.any,
-  t: PropTypes.any,
   user: PropTypes.any,
   cameraCaptureLength: PropTypes.any,
   handlePostPress: PropTypes.any,
@@ -92,4 +87,4 @@ const styles = theme => StyleSheet.create({
   },
 })
 
-export default withTranslation()(withTheme(PostCreateComponent))
+export default withTheme(PostCreateComponent)

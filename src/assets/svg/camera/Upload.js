@@ -1,7 +1,8 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import Svg, { G, Rect, Polygon, Circle } from 'react-native-svg'
 
-const Direct = ({ fill = '#333', style = {} }) => (
+const Upload = ({ fill = '#333' }) => (
   <Svg height={24} width={24} viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
     <G fill={fill} stroke={fill} strokeLinecap="round" strokeWidth="2">
       <Rect height="20" width="20" fill="none" stroke={fill} x="2" y="2"/>
@@ -11,4 +12,8 @@ const Direct = ({ fill = '#333', style = {} }) => (
   </Svg>
 )
 
-export default Direct
+Upload.propTypes = {
+  fill: PropTypes.string,
+}
+
+export default Upload

@@ -5,7 +5,6 @@ import * as chatActions from 'store/ducks/chat/actions'
 import * as authSelector from 'store/ducks/auth/selectors'
 import { v4 as uuid } from 'uuid'
 import { useNavigation, useRoute } from '@react-navigation/native'
-import pathOr from 'ramda/src/pathOr'
 import { ifIphoneX } from 'react-native-iphone-x-helper'
 import * as chatSelector from 'store/ducks/chat/selectors'
 import * as usersSelector from 'store/ducks/users/selectors'
@@ -106,7 +105,7 @@ const ChatDirectService = ({ children }) => {
     setOffset(event.endCoordinates.height - ifIphoneX(40, 0) + 12)
   }
 
-  const keyboardWillHide = (event) => {
+  const keyboardWillHide = () => {
     setOffset(0)
   }
 

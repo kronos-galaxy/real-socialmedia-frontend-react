@@ -19,7 +19,7 @@ const initialState = {
 /**
  *
  */
-const themeFetchRequest = (state, action) => update(state, {
+const themeFetchRequest = (state) => update(state, {
   themeFetch: {
     status: { $set: 'loading' },
   },
@@ -32,13 +32,13 @@ const themeFetchSuccess = (state, action) => update(state, {
   },
 })
 
-const themeFetchFailure = (state, action) => update(state, {
+const themeFetchFailure = (state) => update(state, {
   themeFetch: {
     status: { $set: 'failure' },
   },
 })
 
-const themeFetchIdle = (state, action) => update(state, {
+const themeFetchIdle = (state) => update(state, {
   themeFetch: {
     data: { $set: initialState.themeFetch.data },
     status: { $set: 'idle' },
@@ -48,7 +48,7 @@ const themeFetchIdle = (state, action) => update(state, {
 /**
  *
  */
-const themePreviewRequest = (state, action) => update(state, {
+const themePreviewRequest = (state) => update(state, {
   themePreview: {
     status: { $set: 'loading' },
   },
@@ -61,13 +61,13 @@ const themePreviewSuccess = (state, action) => update(state, {
   },
 })
 
-const themePreviewFailure = (state, action) => update(state, {
+const themePreviewFailure = (state) => update(state, {
   themePreview: {
     status: { $set: 'failure' },
   },
 })
 
-const themePreviewIdle = (state, action) => update(state, {
+const themePreviewIdle = (state) => update(state, {
   themePreview: {
     data: { $set: initialState.themePreview.data },
     status: { $set: 'idle' },

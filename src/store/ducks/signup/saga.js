@@ -79,7 +79,7 @@ function* linkUserIdentities(payload) {
   })
 
   const authenticateUser = yield new Promise((onSuccess, onFailure) =>
-    cognitoUser.authenticateUser(authenticationDetails, { onSuccess, onFailure })
+    cognitoUser.authenticateUser(authenticationDetails, { onSuccess, onFailure }),
   )
 
   AWS.config.region = Config.AWS_COGNITO_REGION

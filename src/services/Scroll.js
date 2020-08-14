@@ -1,4 +1,3 @@
-import { memo } from 'react'
 import path from 'ramda/src/path'
 import Layout from 'constants/Layout'
 

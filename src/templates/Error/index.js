@@ -8,17 +8,11 @@ import {
 import { Text } from 'react-native-paper'
 import CloseIcon from 'assets/svg/post/Close'
 
-import { withTheme } from 'react-native-paper'
-import { useNavigation } from '@react-navigation/native'
-import { withTranslation } from 'react-i18next'
-
 const Error = ({
-  t,
-  theme,
   text,
   onClose,
 }) => {
-  const styling = styles(theme)
+  const styling = styles
 
   return (
     <View style={styling.root}>
@@ -32,7 +26,7 @@ const Error = ({
   )
 }
 
-const styles = theme => StyleSheet.create({
+const styles = StyleSheet.create({
   root: {
     position: 'absolute',
     width: '100%',
@@ -57,10 +51,8 @@ const styles = theme => StyleSheet.create({
 })
 
 Error.propTypes = {
-  t: PropTypes.any,
-  theme: PropTypes.any,
   text: PropTypes.any,
   onClose: PropTypes.any,
 }
 
-export default withTranslation()(withTheme(Error))
+export default Error

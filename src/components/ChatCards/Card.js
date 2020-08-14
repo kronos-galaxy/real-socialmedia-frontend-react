@@ -23,7 +23,7 @@ const ChatCard = ({
   const users = uniq(
     post.comments.items
     .reverse()
-    .map(comment => comment.commentedBy.username)
+    .map(comment => comment.commentedBy.username),
   )
 
   return (

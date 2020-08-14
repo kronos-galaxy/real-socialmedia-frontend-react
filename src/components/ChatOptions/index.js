@@ -9,7 +9,6 @@ import ContactsComponent from 'components/ChatOptions/Contacts'
 import { Subheading } from 'react-native-paper'
 
 import { withTheme } from 'react-native-paper'
-import { useNavigation } from '@react-navigation/native'
 import { withTranslation } from 'react-i18next'
 
 const ChatOptions = ({
@@ -21,7 +20,6 @@ const ChatOptions = ({
   usersUnblockRequest,
 }) => {
   const styling = styles(theme)
-  const navigation = useNavigation()
 
   return (
     <View style={styling.root}>

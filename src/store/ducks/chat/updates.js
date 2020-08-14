@@ -57,7 +57,7 @@ extend('$chatResourcePoolMerge', ({ payload, initialState }, original) => {
         status: { $set: 'success' },
       })
       return acc
-    }, {})
+    }, {}),
   })
 })
 

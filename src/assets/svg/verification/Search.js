@@ -1,7 +1,8 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import Svg, { G, Circle, Line, Path } from 'react-native-svg'
 
-const Search = ({ fill = '#333', style = {} }) => (
+const Search = ({ fill = '#333' }) => (
   <Svg height={28} width={28} viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
     <G fill={fill} stroke={fill} strokeLinecap="square" strokeWidth="1.5">
       <Line fill="none" x1="22" x2="18" y1="22" y2="18"/>
@@ -10,5 +11,9 @@ const Search = ({ fill = '#333', style = {} }) => (
     </G>
   </Svg>
 )
+
+Search.propTypes = {
+  fill: PropTypes.string,
+}
 
 export default Search

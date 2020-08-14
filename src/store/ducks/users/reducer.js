@@ -146,7 +146,7 @@ const usersSearchFailure = (state, action) => update(state, {
   },
 })
 
-const usersSearchIdle = (state, action) => update(state, {
+const usersSearchIdle = (state) => update(state, {
   usersSearch: {
     data: { $set: initialState.usersSearch.data },
     error: { $set: initialState.usersSearch.error },
@@ -178,7 +178,7 @@ const usersDeleteFailure = (state, action) => update(state, {
   },
 })
 
-const usersDeleteIdle = (state, action) => update(state, {
+const usersDeleteIdle = (state) => update(state, {
   usersDelete: {
     data: { $set: initialState.usersDelete.data },
     error: { $set: initialState.usersDelete.error },
@@ -210,7 +210,7 @@ const usersGetFollowedUsersWithStoriesFailure = (state, action) => update(state,
   },
 })
 
-const usersGetFollowedUsersWithStoriesIdle = (state, action) => update(state, {
+const usersGetFollowedUsersWithStoriesIdle = (state) => update(state, {
   usersGetFollowedUsersWithStories: {
     data: { $set: initialState.usersGetFollowedUsersWithStories.data },
     error: { $set: initialState.usersGetFollowedUsersWithStories.error },
@@ -328,7 +328,7 @@ const usersGetPendingFollowersFailure = (state, action) => update(state, {
   },
 })
 
-const usersGetPendingFollowersIdle = (state, action) => update(state, {
+const usersGetPendingFollowersIdle = (state) => update(state, {
   usersGetPendingFollowers: {
     data: { $set: initialState.usersGetPendingFollowers.data },
     error: { $set: initialState.usersGetPendingFollowers.error },
@@ -360,7 +360,7 @@ const usersFollowFailure = (state, action) => update(state, {
   },
 })
 
-const usersFollowIdle = (state, action) => update(state, {
+const usersFollowIdle = (state) => update(state, {
   usersFollow: {
     data: { $set: initialState.usersFollow.data },
     error: { $set: initialState.usersFollow.error },
@@ -392,7 +392,7 @@ const usersUnfollowFailure = (state, action) => update(state, {
   },
 })
 
-const usersUnfollowIdle = (state, action) => update(state, {
+const usersUnfollowIdle = (state) => update(state, {
   usersUnfollow: {
     data: { $set: initialState.usersUnfollow.data },
     error: { $set: initialState.usersUnfollow.error },
@@ -424,7 +424,7 @@ const usersAcceptFollowerUserFailure = (state, action) => update(state, {
   },
 })
 
-const usersAcceptFollowerUserIdle = (state, action) => update(state, {
+const usersAcceptFollowerUserIdle = (state) => update(state, {
   usersAcceptFollowerUser: {
     data: { $set: initialState.usersAcceptFollowerUser.data },
     error: { $set: initialState.usersAcceptFollowerUser.error },
@@ -456,7 +456,7 @@ const usersBlockFailure = (state, action) => update(state, {
   },
 })
 
-const usersBlockIdle = (state, action) => update(state, {
+const usersBlockIdle = (state) => update(state, {
   usersBlock: {
     data: { $set: initialState.usersBlock.data },
     error: { $set: initialState.usersBlock.error },
@@ -488,7 +488,7 @@ const usersUnblockFailure = (state, action) => update(state, {
   },
 })
 
-const usersUnblockIdle = (state, action) => update(state, {
+const usersUnblockIdle = (state) => update(state, {
   usersUnblock: {
     data: { $set: initialState.usersUnblock.data },
     error: { $set: initialState.usersUnblock.error },
@@ -520,7 +520,7 @@ const usersGetProfileFailure = (state, action) => update(state, {
   },
 })
 
-const usersGetProfileIdle = (state, action) => update(state, {
+const usersGetProfileIdle = (state) => update(state, {
   usersGetProfile: {
     data: { $set: initialState.usersGetProfile.data },
     error: { $set: initialState.usersGetProfile.error },
@@ -552,7 +552,7 @@ const usersGetProfileSelfFailure = (state, action) => update(state, {
   },
 })
 
-const usersGetProfileSelfIdle = (state, action) => update(state, {
+const usersGetProfileSelfIdle = (state) => update(state, {
   usersGetProfileSelf: {
     data: { $set: initialState.usersGetProfileSelf.data },
     error: { $set: initialState.usersGetProfileSelf.error },
@@ -584,7 +584,7 @@ const usersEditProfileFailure = (state, action) => update(state, {
   },
 })
 
-const usersEditProfileIdle = (state, action) => update(state, {
+const usersEditProfileIdle = (state) => update(state, {
   usersEditProfile: {
     data: { $set: initialState.usersEditProfile.data },
     error: { $set: initialState.usersEditProfile.error },
@@ -616,7 +616,7 @@ const usersImagePostsGetFailure = (state, action) => update(state, {
   },
 })
 
-const usersImagePostsGetIdle = (state, action) => update(state, {
+const usersImagePostsGetIdle = (state) => update(state, {
   usersImagePostsGet: {
     data: { $set: initialState.usersImagePostsGet.data },
     error: { $set: initialState.usersImagePostsGet.error },
@@ -648,7 +648,7 @@ const usersGetTrendingUsersFailure = (state, action) => update(state, {
   },
 })
 
-const usersGetTrendingUsersIdle = (state, action) => update(state, {
+const usersGetTrendingUsersIdle = (state) => update(state, {
   usersGetTrendingUsers: {
     data: { $set: initialState.usersGetTrendingUsers.data },
     error: { $set: initialState.usersGetTrendingUsers.error },
@@ -680,7 +680,7 @@ const usersGetCardsFailure = (state, action) => update(state, {
   },
 })
 
-const usersGetCardsIdle = (state, action) => update(state, {
+const usersGetCardsIdle = (state) => update(state, {
   usersGetCards: {
     data: { $set: initialState.usersGetCards.data },
     error: { $set: initialState.usersGetCards.error },
@@ -718,7 +718,7 @@ const usersDeleteCardFailure = (state, action) => update(state, {
   },
 })
 
-const usersDeleteCardIdle = (state, action) => update(state, {
+const usersDeleteCardIdle = (state) => update(state, {
   usersDeleteCard: {
     data: { $set: initialState.usersGetCards.data },
     error: { $set: initialState.usersGetCards.error },
@@ -750,7 +750,7 @@ const usersSetApnsTokenFailure = (state, action) => update(state, {
   },
 })
 
-const usersSetApnsTokenIdle = (state, action) => update(state, {
+const usersSetApnsTokenIdle = (state) => update(state, {
   usersSetApnsToken: {
     data: { $set: initialState.usersSetApnsToken.data },
     error: { $set: initialState.usersSetApnsToken.error },
@@ -858,5 +858,5 @@ export default handleActions({
   /**
    * Clear on logout
    */
-  ['AUTH_SIGNOUT_REQUEST']: (state, action) => initialState,
+  ['AUTH_SIGNOUT_REQUEST']: () => initialState,
 }, initialState)

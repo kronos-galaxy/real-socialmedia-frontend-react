@@ -8,16 +8,10 @@ import {
 } from 'react-native'
 import { Text } from 'react-native-paper'
 
-import { withTheme } from 'react-native-paper'
-import { useNavigation } from '@react-navigation/native'
-import { withTranslation } from 'react-i18next'
-
 const PhoneField = ({
-  t,
-  theme,
   inputRef,
 }) => {
-  const styling = styles(theme)
+  const styling = styles
 
   return (
     <TouchableOpacity style={styling.root} onPress={inputRef.current.onPressFlag}>
@@ -34,7 +28,7 @@ const PhoneField = ({
   )
 }
 
-const styles = theme => StyleSheet.create({
+const styles = StyleSheet.create({
   root: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -61,9 +55,7 @@ const styles = theme => StyleSheet.create({
 })
 
 PhoneField.propTypes = {
-  t: PropTypes.any,
-  theme: PropTypes.any,
   inputRef: PropTypes.any,
 }
 
-export default withTranslation()(withTheme(PhoneField))
+export default PhoneField

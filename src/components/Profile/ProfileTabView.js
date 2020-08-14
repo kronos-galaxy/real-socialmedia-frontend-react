@@ -11,8 +11,6 @@ import { TabView, TabBar, SceneMap } from 'react-native-tab-view'
 import { Text } from 'react-native-paper'
 
 import { withTheme } from 'react-native-paper'
-import { useNavigation, useRoute } from '@react-navigation/native'
-import { withTranslation } from 'react-i18next'
 
 const renderScene = SceneMap({
   feed: FeedComponent,
@@ -20,7 +18,6 @@ const renderScene = SceneMap({
 })
 
 const ProfileTabView = ({
-  t,
   theme,
   index,
   setIndex,
@@ -57,7 +54,6 @@ const ProfileTabView = ({
 }
 
 const Profile = ({
-  t,
   theme,
 }) => {
   const styling = styles(theme)
@@ -104,7 +100,6 @@ const styles = theme => StyleSheet.create({
 })
 
 Profile.propTypes = {
-  t: PropTypes.any,
   theme: PropTypes.any,
   index: PropTypes.any,
   setIndex: PropTypes.any,
@@ -112,7 +107,6 @@ Profile.propTypes = {
 }
 
 ProfileTabView.propTypes = {
-  t: PropTypes.any,
   theme: PropTypes.any,
   index: PropTypes.any,
   setIndex: PropTypes.any,
@@ -120,4 +114,4 @@ ProfileTabView.propTypes = {
   styling: PropTypes.any,
 }
 
-export default withTranslation()(withTheme(Profile))
+export default withTheme(Profile)

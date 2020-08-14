@@ -18,6 +18,7 @@ export const captureException = (error) => {
   try {
     Sentry.captureException(error)
   } catch (error) {
+    // ignore
   }
 }
 
@@ -28,6 +29,7 @@ export const captureMessage = (error) => {
   try {
     Sentry.captureMessage(error)
   } catch (error) {
+    // ignore
   }
 }
 

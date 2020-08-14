@@ -6,7 +6,6 @@ import {
   StyleSheet,
   View,
 } from 'react-native'
-import LinearGradient from 'react-native-linear-gradient'
 import TextIcon from 'assets/svg/types/Text'
 import PhotoIcon from 'assets/svg/types/Photo'
 import GalleryIcon from 'assets/svg/types/Gallery'
@@ -52,7 +51,7 @@ const PostType = ({
           </TouchableOpacity>
           <TouchableOpacity style={styling.type} onPress={() => {
             navigation.popToTop()
-            navigationActions.navigatePostCreate(navigation, { type: 'TEXT_ONLY', })()
+            navigationActions.navigatePostCreate(navigation, { type: 'TEXT_ONLY' })()
           }}>
             <View style={styling.icon}>
               <TextIcon fill={theme.colors.backgroundSecondary} />

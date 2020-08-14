@@ -8,11 +8,8 @@ import { TextInput, Text } from 'react-native-paper'
 import { ErrorMessage } from 'formik'
 
 import { withTheme } from 'react-native-paper'
-import { useNavigation } from '@react-navigation/native'
-import { withTranslation } from 'react-i18next'
 
 const TextField = ({
-  t,
   theme,
   field: {
     value,
@@ -32,7 +29,7 @@ const TextField = ({
   maxLength,
   testID,
 }) => {
-  const styling = styles(theme)
+  const styling = styles
   
   const onFocus = () => {
     form.setFieldTouched(name, true)
@@ -80,7 +77,7 @@ const TextField = ({
   )
 }
 
-const styles = theme => StyleSheet.create({
+const styles = StyleSheet.create({
   root: {
     position: 'relative',
     marginTop: -6,
@@ -108,7 +105,6 @@ TextField.propTypes = {
   keyboardType: PropTypes.any,
   onSubmitEditing: PropTypes.any,
   disabled: PropTypes.any,
-  t: PropTypes.any,
   hideError: PropTypes.any,
   autoCompleteType: PropTypes.any,
   secureTextEntry: PropTypes.any,
@@ -118,4 +114,4 @@ TextField.propTypes = {
   testID: PropTypes.any,
 }
 
-export default withTranslation()(withTheme(TextField))
+export default withTheme(TextField)

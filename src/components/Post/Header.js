@@ -29,7 +29,6 @@ const Header = ({
   postsArchiveRequest,
   postsFlagRequest,
   postsDeleteRequest,
-  postsShareRequest,
   postsRestoreArchivedRequest,
   handlePostShare,
   createActionSheetRef,

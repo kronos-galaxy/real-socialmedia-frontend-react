@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 import React, { useEffect } from 'react'
 import PropTypes from 'prop-types'
 import {
@@ -16,9 +17,7 @@ import { getCameraBonds } from 'services/Dimensions'
 import { BlurView } from '@react-native-community/blur'
 import * as navigationActions from 'navigation/actions'
 
-import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
-import { withTranslation } from 'react-i18next'
 
 const usePulse = (fromValue, toValue) => {
   const width = new Animated.Value(fromValue)
@@ -28,8 +27,6 @@ const usePulse = (fromValue, toValue) => {
 }
 
 const CameraComponent = ({
-  t,
-  theme,
   photoSize,
   setPhotoSize,
   cameraRef,
@@ -42,7 +39,7 @@ const CameraComponent = ({
   postsCreateRequest,
   postsCreate,
 }) => {
-  const styling = styles(theme)
+  const styling = styles
   const navigation = useNavigation()
   
   /**
@@ -61,7 +58,7 @@ const CameraComponent = ({
           />
         )}
         content={(
-          <View style={[styling.cameraWrapper]}>
+          <View style={styling.cameraWrapper}>
             <Animated.View style={[{ top: 0, height: topHeight }, styling.overflow]}>
               <BlurView style={styling.blur} />
             </Animated.View>
@@ -107,7 +104,7 @@ const CameraComponent = ({
   )
 }
 
-const styles = theme => StyleSheet.create({
+const styles = StyleSheet.create({
   root: {
     flex: 1,
   },
@@ -137,8 +134,6 @@ const styles = theme => StyleSheet.create({
 })
 
 CameraComponent.propTypes = {
-  theme: PropTypes.any,
-  
   cameraRef: PropTypes.any,
   flashMode: PropTypes.any,
   flipMode: PropTypes.any,
@@ -148,12 +143,10 @@ CameraComponent.propTypes = {
   handleFlashToggle: PropTypes.any,
   postsCreateRequest: PropTypes.any,
   postsCreate: PropTypes.any,
-  t: PropTypes.any,
   photoSize: PropTypes.any,
   setPhotoSize: PropTypes.any,
-  handleLibrarySnap: PropTypes.any,
   cameraEnabled: PropTypes.any,
   libraryEnabled: PropTypes.any,
 }
 
-export default withTranslation()(withTheme(CameraComponent))
+export default CameraComponent

@@ -1,24 +1,18 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { useSelector } from 'react-redux'
 import {
   StyleSheet,
   View,
 } from 'react-native'
 import { Text } from 'react-native-paper'
-import Layout from 'constants/Layout'
 import LinearGradient from 'react-native-linear-gradient'
 
 import { withTheme } from 'react-native-paper'
-import { useNavigation } from '@react-navigation/native'
-import { withTranslation } from 'react-i18next'
 
 const TextComponent = ({
-  t,
   theme,
   children,
   text,
-  themeCode,
 }) => {
   const styling = styles(theme)
 
@@ -53,7 +47,8 @@ const styles = theme => StyleSheet.create({
 
 TextComponent.propTypes = {
   theme: PropTypes.any,
-  post: PropTypes.any,
+  children: PropTypes.any,
+  text: PropTypes.any,
 }
 
-export default withTranslation()(withTheme(TextComponent))
+export default withTheme(TextComponent)

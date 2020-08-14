@@ -9,11 +9,8 @@ import { Text } from 'react-native-paper'
 import { ErrorMessage } from 'formik'
 
 import { withTheme } from 'react-native-paper'
-import { useNavigation } from '@react-navigation/native'
-import { withTranslation } from 'react-i18next'
 
 const TextCaption = ({
-  t,
   theme,
   field: {
     value,
@@ -96,7 +93,6 @@ TextCaption.propTypes = {
   keyboardType: PropTypes.any,
   onSubmitEditing: PropTypes.any,
   disabled: PropTypes.any,
-  t: PropTypes.any,
 }
 
-export default withTranslation()(withTheme(TextCaption))
+export default withTheme(TextCaption)

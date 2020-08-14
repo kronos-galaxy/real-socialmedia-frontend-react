@@ -1,7 +1,8 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import Svg, { G, Circle, Path } from 'react-native-svg'
 
-const Camera = ({ fill = '#333', style = {} }) => (
+const Camera = ({ fill = '#333' }) => (
   <Svg height={28} width={28} viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
     <G fill={fill} stroke={fill} strokeLinecap="round" strokeWidth="1.5">
       <Circle cx="10" cy="9" r="2" stroke="none"/>
@@ -11,5 +12,9 @@ const Camera = ({ fill = '#333', style = {} }) => (
     </G>
   </Svg>
 )
+
+Camera.propTypes = {
+  fill: PropTypes.string,
+}
 
 export default Camera

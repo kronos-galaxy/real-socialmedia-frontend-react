@@ -3,23 +3,13 @@ import PropTypes from 'prop-types'
 import {
   View,
   StyleSheet,
-  TouchableOpacity,
-  Image,
 } from 'react-native'
 import PhoneInput from 'react-native-phone-input'
 import TextField from 'components/Formik/TextField'
 import FlagComponent from 'components/Formik/PhoneField/Flag'
 
-import { withTheme } from 'react-native-paper'
-import { useNavigation } from '@react-navigation/native'
-import { withTranslation } from 'react-i18next'
-
-const PhoneField = ({
-  t,
-  theme,
-  ...props
-}) => {
-  const styling = styles(theme)
+const PhoneField = (props) => {
+  const styling = styles
 
   const inputRef = useRef(null)
   
@@ -51,7 +41,7 @@ const PhoneField = ({
   )
 }
 
-const styles = theme => StyleSheet.create({
+const styles = StyleSheet.create({
   root: {
     flexDirection: 'row',
   },
@@ -64,8 +54,8 @@ const styles = theme => StyleSheet.create({
 })
 
 PhoneField.propTypes = {
-  theme: PropTypes.any,
   field: PropTypes.any,
+  form: PropTypes.any,
 }
 
-export default withTranslation()(withTheme(PhoneField))
+export default PhoneField

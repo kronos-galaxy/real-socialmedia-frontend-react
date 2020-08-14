@@ -10,11 +10,8 @@ import path from 'ramda/src/path'
 import PostsLoadingComponent from 'components/Feed/PostsLoading'
 
 import { withTheme } from 'react-native-paper'
-import { useNavigation, useRoute } from '@react-navigation/native'
-import { withTranslation } from 'react-i18next'
 
 const ProfileFeed = ({
-  t,
   theme,
 }) => {
   const styling = styles(theme)
@@ -48,7 +45,6 @@ const styles = theme => StyleSheet.create({
 
 ProfileFeed.propTypes = {
   theme: PropTypes.any,
-  t: PropTypes.any,
 }
 
-export default withTranslation()(withTheme(ProfileFeed))
+export default withTheme(ProfileFeed)

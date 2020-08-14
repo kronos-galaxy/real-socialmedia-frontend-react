@@ -1,4 +1,5 @@
 import React, { useState, useContext } from 'react'
+import PropTypes from 'prop-types'
 import { StatusBar, Text, TextInput } from 'react-native'
 import { Provider } from 'react-redux'
 import { PersistGate } from 'redux-persist/integration/react'
@@ -79,6 +80,12 @@ const Routes = ({
       : null}
     </NavigationContainer>
   )
+}
+
+Routes.propTypes = {
+  authenticated: PropTypes.any,
+  appErrorMessage: PropTypes.any,
+  handleErrorClose: PropTypes.any,
 }
 
 const App = () => {

@@ -8,11 +8,8 @@ import { Text, Caption } from 'react-native-paper'
 import Avatar from 'templates/Avatar'
 
 import { withTheme } from 'react-native-paper'
-import { useNavigation } from '@react-navigation/native'
-import { withTranslation } from 'react-i18next'
 
 const UserPreview = ({
-  t,
   theme,
   image: {
     thumbnailSource,
@@ -51,10 +48,9 @@ const styles = theme => StyleSheet.create({
 
 UserPreview.propTypes = {
   theme: PropTypes.any,
-  thumbnailSource: PropTypes.any,
-  imageSource: PropTypes.any,
+  image: PropTypes.any,
   title: PropTypes.any,
   subtitle: PropTypes.any,
 }
 
-export default withTranslation()(withTheme(UserPreview))
+export default withTheme(UserPreview)

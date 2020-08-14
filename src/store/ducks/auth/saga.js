@@ -271,7 +271,9 @@ function* handleAuthSignoutRequest() {
   try {
     yield resetPhotoValidation()
     yield federatedGoogleSignout()
-  } catch (error) {}
+  } catch (error) {
+    // ignore
+  }
 
   yield AwsAuth.signOut({ global: true })
   yield AwsCredentials.clear()

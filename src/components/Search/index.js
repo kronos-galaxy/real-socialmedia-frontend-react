@@ -17,7 +17,6 @@ import PostsLoadingComponent from 'components/Feed/PostsLoading'
 import ScrollService from 'services/Scroll'
 
 import { withTheme } from 'react-native-paper'
-import { useNavigation } from '@react-navigation/native'
 import { withTranslation } from 'react-i18next'
 
 const SearchComponent = ({

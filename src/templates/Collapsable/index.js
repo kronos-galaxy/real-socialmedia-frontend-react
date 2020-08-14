@@ -12,7 +12,6 @@ import DownIcon from 'assets/svg/collapsable/Down'
 import { Caption } from 'react-native-paper'
 
 import { withTheme } from 'react-native-paper'
-import { useNavigation } from '@react-navigation/native'
 import { withTranslation } from 'react-i18next'
 
 const Collapsable = ({

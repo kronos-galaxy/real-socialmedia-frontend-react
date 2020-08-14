@@ -1,7 +1,8 @@
 import React from 'react'
-import Svg, { G, Circle, Polyline } from 'react-native-svg'
+import PropTypes from 'prop-types'
+import Svg, { G, Polyline } from 'react-native-svg'
 
-const Checked = ({ fill = '#333', style = {} }) => (
+const Bullet = ({ fill = '#333' }) => (
   <Svg height={32} width={32} viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
     <G fill={fill} stroke={fill} strokeLinecap="round" strokeWidth="1.5">
       <Polyline fill="none" points="6,12 10,16 18,8 " stroke={fill} />
@@ -9,4 +10,8 @@ const Checked = ({ fill = '#333', style = {} }) => (
   </Svg>
 )
 
-export default Checked
+Bullet.propTypes = {
+  fill: PropTypes.string,
+}
+
+export default Bullet

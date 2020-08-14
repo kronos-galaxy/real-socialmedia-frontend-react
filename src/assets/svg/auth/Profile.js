@@ -1,7 +1,8 @@
 import React from 'react'
-import Svg, { G, Path, Circle } from 'react-native-svg'
+import PropTypes from 'prop-types'
+import Svg, { G, Path } from 'react-native-svg'
 
-const Profile = ({ fill = '#333', style = {} }) => (
+const Profile = ({ fill = '#333' }) => (
   <Svg height={120} width={120} viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
     <G fill={fill} stroke={fill} strokeLinecap="round" strokeWidth="0.6">
       <Path d="M18.989,20.495 c-0.135-2.388-1.497-3.146-3.489-3.81c-1.522-0.507-1.941-2.105-2.056-2.953" fill="none"/>
@@ -10,5 +11,9 @@ const Profile = ({ fill = '#333', style = {} }) => (
     </G>
   </Svg>
 )
+
+Profile.propTypes = {
+  fill: PropTypes.string,
+}
 
 export default Profile

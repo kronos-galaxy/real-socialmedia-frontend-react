@@ -23,17 +23,13 @@ import * as navigationActions from 'navigation/actions'
 
 import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
-import { withTranslation } from 'react-i18next'
 
 const StoryCarousel = ({
-  ref,
   theme,
-  countStories,
   currentStory,
   onNextStory,
   onPrevStory,
   onCloseStory,
-  createTextPostRef,
   getTextPostRef,
   textPostRefs,
   navigation,
@@ -42,7 +38,6 @@ const StoryCarousel = ({
   postsDislikeRequest,
 }) => ({
   item: user,
-  index,
 }) => {
   const styling = styles(theme)
 
@@ -135,7 +130,6 @@ const StoryCarousel = ({
 }
 
 const Story = ({
-  t,
   theme,
   userId,
   stories,
@@ -184,10 +178,7 @@ const Story = ({
         sliderWidth={Layout.window.width}
         itemWidth={Layout.window.width}
         removeClippedSubviews={false}
-        slideStyle={{
-          margin: 0,
-          padding: 0,
-        }}
+        slideStyle={styling.slideStyle}
         inactiveSlideScale={1}
         inactiveSlideOpacity={1}
         layout="stack"
@@ -258,20 +249,29 @@ const styles = theme => StyleSheet.create({
     height: 30,
     paddingHorizontal: 10,
   },
+  slideStyle: {
+    margin: 0,
+    padding: 0,
+  },
 })
 
 Story.propTypes = {
   theme: PropTypes.any,
+  userId: PropTypes.any,
+  stories: PropTypes.any,
+  storyRef: PropTypes.any,
   countStories: PropTypes.any,
   currentStory: PropTypes.any,
   onNextStory: PropTypes.any,
   onPrevStory: PropTypes.any,
   onCloseStory: PropTypes.any,
-  t: PropTypes.any,
-  userId: PropTypes.any,
-  stories: PropTypes.any,
-  storyRef: PropTypes.any,
   onSnapItem: PropTypes.any,
+  createTextPostRef: PropTypes.any,
+  getTextPostRef: PropTypes.any,
+  textPostRefs: PropTypes.any,
+  postsShareRequest: PropTypes.any,
+  postsOnymouslyLikeRequest: PropTypes.any,
+  postsDislikeRequest: PropTypes.any,
 }
 
-export default withTranslation()(withTheme(Story))
+export default withTheme(Story)

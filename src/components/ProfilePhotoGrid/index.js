@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import {
   StyleSheet,
@@ -14,11 +14,8 @@ import UncheckedIcon from 'assets/svg/other/Unchecked'
 import { useHeader } from 'components/ProfilePhotoGrid/header'
 
 import { withTheme } from 'react-native-paper'
-import { useNavigation } from '@react-navigation/native'
-import { withTranslation } from 'react-i18next'
 
 const ProfilePhotoGrid = ({
-  t,
   theme,
   usersImagePostsGet,
   handlePostPress,
@@ -82,7 +79,6 @@ ProfilePhotoGrid.propTypes = {
   usersImagePostsGet: PropTypes.any,
   handlePostPress: PropTypes.any,
   selectedPost: PropTypes.any,
-  t: PropTypes.any,
   usersEditProfileRequest: PropTypes.any,
   user: PropTypes.any,
   postsCreateRequest: PropTypes.any,
@@ -91,4 +87,4 @@ ProfilePhotoGrid.propTypes = {
   postsCreateIdle: PropTypes.any,
 }
 
-export default withTranslation()(withTheme(ProfilePhotoGrid))
+export default withTheme(ProfilePhotoGrid)

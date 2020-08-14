@@ -8,11 +8,8 @@ import {
 } from 'react-native'
 
 import { withTheme } from 'react-native-paper'
-import { useNavigation } from '@react-navigation/native'
-import { withTranslation } from 'react-i18next'
 
 const Button = ({
-  t,
   theme,
   children,
   style,
@@ -53,9 +50,6 @@ const styles = theme => StyleSheet.create({
     position: 'relative',
   },
   loading: {
-    opacity: 0.5,
-  },
-  loading: {
     position: 'absolute',
     top: 0,
     bottom: 0,
@@ -72,7 +66,6 @@ Button.propTypes = {
   children: PropTypes.any,
   style: PropTypes.any,
   loading: PropTypes.any,
-  t: PropTypes.any,
 }
 
-export default withTranslation()(withTheme(Button))
+export default withTheme(Button)

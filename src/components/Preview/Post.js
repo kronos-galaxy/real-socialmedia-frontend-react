@@ -6,16 +6,12 @@ import {
 } from 'react-native'
 import Layout from 'constants/Layout'
 import LinearGradient from 'react-native-linear-gradient'
-import path from 'ramda/src/path'
 import CacheComponent from 'components/Cache'
 import TextOnlyComponent from 'templates/TextOnly'
 
 import { withTheme } from 'react-native-paper'
-import { useNavigation } from '@react-navigation/native'
-import { withTranslation } from 'react-i18next'
 
 const PostPreview = ({
-  t,
   theme,
   text: {
     text,
@@ -26,7 +22,7 @@ const PostPreview = ({
   },
   renderUri,
 }) => {
-  const styling = styles(theme)
+  const styling = styles
 
   return (
     <View style={styling.preview}>
@@ -67,7 +63,7 @@ const PostPreview = ({
   )
 }
 
-const styles = theme => StyleSheet.create({
+const styles = StyleSheet.create({
   preview: {
     height: 160,
     width: Layout.window.width,
@@ -84,11 +80,10 @@ const styles = theme => StyleSheet.create({
 })
 
 PostPreview.propTypes = {
-  t: PropTypes.any,
   theme: PropTypes.any,
-  thumbnailSource: PropTypes.any,
-  imageSource: PropTypes.any,
+  text: PropTypes.any,
+  image: PropTypes.any,
   renderUri: PropTypes.any,
 }
 
-export default withTranslation()(withTheme(PostPreview))
+export default withTheme(PostPreview)

@@ -9,7 +9,6 @@ import PostComponent from 'components/Post'
 import NativeError from 'templates/NativeError'
 
 import { withTheme } from 'react-native-paper'
-import { useNavigation } from '@react-navigation/native'
 import { withTranslation } from 'react-i18next'
 
 const PostMedia = ({

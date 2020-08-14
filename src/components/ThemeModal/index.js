@@ -11,7 +11,6 @@ import { useSelector } from 'react-redux'
 import * as themeSelector from 'store/ducks/theme/selectors'
 
 import { withTheme, Paragraph } from 'react-native-paper'
-import { useNavigation } from '@react-navigation/native'
 import { withTranslation } from 'react-i18next'
 
 const ThemeModal = ({

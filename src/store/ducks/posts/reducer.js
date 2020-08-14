@@ -403,13 +403,13 @@ const postsGetArchivedSuccess = (state, action) => update(state, {
   },
 })
 
-const postsGetArchivedFailure = (state, action) => update(state, {
+const postsGetArchivedFailure = (state) => update(state, {
   postsGetArchived: {
     status: { $set: 'failure' },
   },
 })
 
-const postsGetArchivedIdle = (state, action) => update(state, {
+const postsGetArchivedIdle = (state) => update(state, {
   postsGetArchived: {
     data: { $set: initialState.postsGetArchived.data },
     status: { $set: 'idle' },
@@ -433,13 +433,13 @@ const postsEditSuccess = (state, action) => update(state, {
   },
 })
 
-const postsEditFailure = (state, action) => update(state, {
+const postsEditFailure = (state) => update(state, {
   postsEdit: {
     status: { $set: 'failure' },
   },
 })
 
-const postsEditIdle = (state, action) => update(state, {
+const postsEditIdle = (state) => update(state, {
   postsEdit: {
     data: { $set: initialState.postsEdit.data },
     status: { $set: 'idle' },
@@ -470,13 +470,13 @@ const postsDeleteSuccess = (state, action) => update(state, {
   },
 })
 
-const postsDeleteFailure = (state, action) => update(state, {
+const postsDeleteFailure = (state) => update(state, {
   postsDelete: {
     status: { $set: 'failure' },
   },
 })
 
-const postsDeleteIdle = (state, action) => update(state, {
+const postsDeleteIdle = (state) => update(state, {
   postsDelete: {
     data: { $set: initialState.postsDelete.data },
     status: { $set: 'idle' },
@@ -507,13 +507,13 @@ const postsArchiveSuccess = (state, action) => update(state, {
   },
 })
 
-const postsArchiveFailure = (state, action) => update(state, {
+const postsArchiveFailure = (state) => update(state, {
   postsArchive: {
     status: { $set: 'failure' },
   },
 })
 
-const postsArchiveIdle = (state, action) => update(state, {
+const postsArchiveIdle = (state) => update(state, {
   postsArchive: {
     data: { $set: initialState.postsArchive.data },
     status: { $set: 'idle' },
@@ -541,13 +541,13 @@ const postsRestoreArchivedSuccess = (state, action) => update(state, {
   },
 })
 
-const postsRestoreArchivedFailure = (state, action) => update(state, {
+const postsRestoreArchivedFailure = (state) => update(state, {
   postsRestoreArchived: {
     status: { $set: 'failure' },
   },
 })
 
-const postsRestoreArchivedIdle = (state, action) => update(state, {
+const postsRestoreArchivedIdle = (state) => update(state, {
   postsRestoreArchived: {
     data: { $set: initialState.postsRestoreArchived.data },
     status: { $set: 'idle' },
@@ -571,13 +571,13 @@ const postsFlagSuccess = (state, action) => update(state, {
   },
 })
 
-const postsFlagFailure = (state, action) => update(state, {
+const postsFlagFailure = (state) => update(state, {
   postsFlag: {
     status: { $set: 'failure' },
   },
 })
 
-const postsFlagIdle = (state, action) => update(state, {
+const postsFlagIdle = (state) => update(state, {
   postsFlag: {
     data: { $set: initialState.postsFlag.data },
     status: { $set: 'idle' },
@@ -601,13 +601,13 @@ const postsSingleGetSuccess = (state, action) => update(state, {
   },
 })
 
-const postsSingleGetFailure = (state, action) => update(state, {
+const postsSingleGetFailure = (state) => update(state, {
   postsSingleGet: {
     status: { $set: 'failure' },
   },
 })
 
-const postsSingleGetIdle = (state, action) => update(state, {
+const postsSingleGetIdle = (state) => update(state, {
   postsSingleGet: {
     data: { $set: initialState.postsSingleGet.data },
     status: { $set: 'idle' },
@@ -633,13 +633,13 @@ const postsFeedGetSuccess = (state, action) => update(state, {
   },
 })
 
-const postsFeedGetFailure = (state, action) => update(state, {
+const postsFeedGetFailure = (state) => update(state, {
   postsFeedGet: {
     status: { $set: 'failure' },
   },
 })
 
-const postsFeedGetIdle = (state, action) => update(state, {
+const postsFeedGetIdle = (state) => update(state, {
   postsFeedGet: {
     data: { $set: initialState.postsFeedGet.data },
     status: { $set: 'idle' },
@@ -771,13 +771,13 @@ const postsOnymouslyLikeSuccess = (state, action) => update(state, {
   },
 })
 
-const postsOnymouslyLikeFailure = (state, action) => update(state, {
+const postsOnymouslyLikeFailure = (state) => update(state, {
   postsOnymouslyLike: {
     status: { $set: 'failure' },
   },
 })
 
-const postsOnymouslyLikeIdle = (state, action) => update(state, {
+const postsOnymouslyLikeIdle = (state) => update(state, {
   postsOnymouslyLike: {
     data: { $set: initialState.postsOnymouslyLike.data },
     status: { $set: 'idle' },
@@ -801,13 +801,13 @@ const postsDislikeSuccess = (state, action) => update(state, {
   },
 })
 
-const postsDislikeFailure = (state, action) => update(state, {
+const postsDislikeFailure = (state) => update(state, {
   postsDislike: {
     status: { $set: 'failure' },
   },
 })
 
-const postsDislikeIdle = (state, action) => update(state, {
+const postsDislikeIdle = (state) => update(state, {
   postsDislike: {
     data: { $set: initialState.postsDislike.data },
     status: { $set: 'idle' },
@@ -831,13 +831,13 @@ const postsShareSuccess = (state, action) => update(state, {
   },
 })
 
-const postsShareFailure = (state, action) => update(state, {
+const postsShareFailure = (state) => update(state, {
   postsShare: {
     status: { $set: 'failure' },
   },
 })
 
-const postsShareIdle = (state, action) => update(state, {
+const postsShareIdle = (state) => update(state, {
   postsShare: {
     data: { $set: initialState.postsShare.data },
     status: { $set: 'idle' },
@@ -861,13 +861,13 @@ const postsReportPostViewsSuccess = (state, action) => update(state, {
   },
 })
 
-const postsReportPostViewsFailure = (state, action) => update(state, {
+const postsReportPostViewsFailure = (state) => update(state, {
   postsReportPostViews: {
     status: { $set: 'failure' },
   },
 })
 
-const postsReportPostViewsIdle = (state, action) => update(state, {
+const postsReportPostViewsIdle = (state) => update(state, {
   postsReportPostViews: {
     data: { $set: initialState.postsReportPostViews.data },
     status: { $set: 'idle' },
@@ -893,13 +893,13 @@ const postsGetTrendingPostsSuccess = (state, action) => update(state, {
   },
 })
 
-const postsGetTrendingPostsFailure = (state, action) => update(state, {
+const postsGetTrendingPostsFailure = (state) => update(state, {
   postsGetTrendingPosts: {
     status: { $set: 'failure' },
   },
 })
 
-const postsGetTrendingPostsIdle = (state, action) => update(state, {
+const postsGetTrendingPostsIdle = (state) => update(state, {
   postsGetTrendingPosts: {
     data: { $set: initialState.postsGetTrendingPosts.data },
     status: { $set: 'idle' },
@@ -983,13 +983,13 @@ const commentsAddSuccess = (state, action) => update(state, {
   },
 })
 
-const commentsAddFailure = (state, action) => update(state, {
+const commentsAddFailure = (state) => update(state, {
   commentsAdd: {
     status: { $set: 'failure' },
   },
 })
 
-const commentsAddIdle = (state, action) => update(state, {
+const commentsAddIdle = (state) => update(state, {
   commentsAdd: {
     data: { $set: initialState.commentsAdd.data },
     status: { $set: 'idle' },
@@ -1013,13 +1013,13 @@ const commentsDeleteSuccess = (state, action) => update(state, {
   },
 })
 
-const commentsDeleteFailure = (state, action) => update(state, {
+const commentsDeleteFailure = (state) => update(state, {
   commentsDelete: {
     status: { $set: 'failure' },
   },
 })
 
-const commentsDeleteIdle = (state, action) => update(state, {
+const commentsDeleteIdle = (state) => update(state, {
   commentsDelete: {
     data: { $set: initialState.commentsDelete.data },
     status: { $set: 'idle' },
@@ -1043,13 +1043,13 @@ const commentsFlagSuccess = (state, action) => update(state, {
   },
 })
 
-const commentsFlagFailure = (state, action) => update(state, {
+const commentsFlagFailure = (state) => update(state, {
   commentsFlag: {
     status: { $set: 'failure' },
   },
 })
 
-const commentsFlagIdle = (state, action) => update(state, {
+const commentsFlagIdle = (state) => update(state, {
   commentsFlag: {
     data: { $set: initialState.commentsFlag.data },
     status: { $set: 'idle' },
@@ -1179,5 +1179,5 @@ export default handleActions({
   /**
    * Clear on logout
    */
-  ['AUTH_SIGNOUT_REQUEST']: (state, action) => initialState,
+  ['AUTH_SIGNOUT_REQUEST']: () => initialState,
 }, initialState)

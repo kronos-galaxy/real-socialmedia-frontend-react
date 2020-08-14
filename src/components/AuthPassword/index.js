@@ -7,23 +7,17 @@ import {
 import FormComponent from 'components/AuthPassword/Form'
 import AuthHeaderTemplate from 'templates/Auth/Header'
 
-import { withTheme } from 'react-native-paper'
-import { useNavigation } from '@react-navigation/native'
 import { withTranslation } from 'react-i18next'
 
 const AuthPassword = ({
   t,
-  theme,
-  formErrorMessage,
   handleFormSubmit,
   handleFormTransform,
-  handleErrorClose,
   formSubmitLoading,
   formSubmitDisabled,
   formInitialValues,
 }) => {
-  const styling = styles(theme)
-  const navigation = useNavigation()
+  const styling = styles
 
   return (
     <View testID="components/AuthPassword" style={styling.root}>
@@ -47,7 +41,7 @@ const AuthPassword = ({
   )
 }
 
-const styles = theme => StyleSheet.create({
+const styles = StyleSheet.create({
   root: {
     flex: 1,
   },
@@ -62,7 +56,6 @@ const styles = theme => StyleSheet.create({
 
 AuthPassword.propTypes = {
   t: PropTypes.any,
-  theme: PropTypes.any,
   formErrorMessage: PropTypes.any,
   handleFormSubmit: PropTypes.any,
   handleFormTransform: PropTypes.any,
@@ -72,4 +65,4 @@ AuthPassword.propTypes = {
   formInitialValues: PropTypes.any,
 }
 
-export default withTranslation()(withTheme(AuthPassword))
+export default withTranslation()(AuthPassword)

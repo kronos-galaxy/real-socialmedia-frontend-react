@@ -9,10 +9,8 @@ import AlbumCreateForm from 'components/AlbumCreate/Form'
 
 import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
-import { withTranslation } from 'react-i18next'
 
 const AlbumCreateComponent = ({
-  t,
   theme,
   user,
   albumsCreate,
@@ -38,7 +36,6 @@ const AlbumCreateComponent = ({
 }
 
 AlbumCreateComponent.propTypes = {
-  t: PropTypes.any,
   theme: PropTypes.any,
   user: PropTypes.any,
   albumsCreate: PropTypes.any,
@@ -55,4 +52,4 @@ const styles = theme => StyleSheet.create({
   },
 })
 
-export default withTranslation()(withTheme(AlbumCreateComponent))
+export default withTheme(AlbumCreateComponent)

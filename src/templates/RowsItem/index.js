@@ -4,19 +4,12 @@ import {
   StyleSheet,
   View,
 } from 'react-native'
-import Layout from 'constants/Layout'
-
-import { withTheme } from 'react-native-paper'
-import { useNavigation } from '@react-navigation/native'
-import { withTranslation } from 'react-i18next'
 
 const RowsItemTemplate = ({
-  t,
-  theme,
   children,
   hasBorders,
 }) => {
-  const styling = styles(theme)
+  const styling = styles
   
   const rootStyle = hasBorders ? styling.rootBorder : styling.rootDefault
 
@@ -29,7 +22,7 @@ const RowsItemTemplate = ({
   )
 }
 
-const styles = theme => StyleSheet.create({
+const styles = StyleSheet.create({
   rootDefault: {
     borderBottomColor: 'transparent',
     borderBottomWidth: 1,
@@ -52,9 +45,8 @@ RowsItemTemplate.defaultProps = {
 }
 
 RowsItemTemplate.propTypes = {
-  theme: PropTypes.any,
   children: PropTypes.any,
   hasBorders: PropTypes.any,
 }
 
-export default withTranslation()(withTheme(RowsItemTemplate))
+export default RowsItemTemplate

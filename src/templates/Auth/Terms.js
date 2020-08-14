@@ -9,7 +9,6 @@ import { Text } from 'react-native-paper'
 import DeviceInfo from 'react-native-device-info'
 
 import { withTheme } from 'react-native-paper'
-import { useNavigation } from '@react-navigation/native'
 import { withTranslation } from 'react-i18next'
 
 const Header = ({

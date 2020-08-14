@@ -13,11 +13,8 @@ import ThemeRowActionComponent from 'templates/ThemeRowAction'
 import path from 'ramda/src/path'
 
 import { withTheme } from 'react-native-paper'
-import { useNavigation } from '@react-navigation/native'
-import { withTranslation } from 'react-i18next'
 
 const Translation = ({
-  t,
   theme,
   user,
   usersEditProfileRequest,
@@ -71,9 +68,8 @@ Translation.propTypes = {
   translationFetch: PropTypes.any,
   translationUpdate: PropTypes.any,
   translationUpdateRequest: PropTypes.any,
-  t: PropTypes.any,
   user: PropTypes.any,
   usersEditProfileRequest: PropTypes.any,
 }
 
-export default withTranslation()(withTheme(Translation))
+export default withTheme(Translation)

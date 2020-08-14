@@ -41,7 +41,7 @@ const translationFetchFailure = (state, action) => update(state, {
   },
 })
 
-const translationFetchIdle = (state, action) => update(state, {
+const translationFetchIdle = (state) => update(state, {
   translationFetch: {
     data: { $set: initialState.translationFetch.data },
     status: { $set: 'idle' },

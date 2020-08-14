@@ -11,5 +11,5 @@ export const userThemeSelector = themeCode => createSelector(
   themeFetchSelector,
   (themeFetch) => {
     return (themeFetch.find(theme => theme.key === themeCode) || {}).theme
-  }
+  },
 )

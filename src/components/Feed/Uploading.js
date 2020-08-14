@@ -126,7 +126,7 @@ const styles = theme => StyleSheet.create({
   caption: {
     flexDirection: 'row',
     alignItems: 'center',
-  }
+  },
 })
 
 Uploading.propTypes = {

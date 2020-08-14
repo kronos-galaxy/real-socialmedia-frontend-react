@@ -10,13 +10,11 @@ import AuthHeaderTemplate from 'templates/Auth/Header'
 import AuthErrorTemplate from 'templates/Auth/Error'
 import * as navigationActions from 'navigation/actions'
 
-import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
 import { withTranslation } from 'react-i18next'
 
 const AuthForgotConfirm = ({
   t,
-  theme,
   formErrorMessage,
   handleFormSubmit,
   handleFormTransform,
@@ -25,7 +23,7 @@ const AuthForgotConfirm = ({
   formSubmitDisabled,
   formInitialValues,
 }) => {
-  const styling = styles(theme)
+  const styling = styles
   const navigation = useNavigation()
 
   return (
@@ -61,7 +59,7 @@ const AuthForgotConfirm = ({
   )
 }
 
-const styles = theme => StyleSheet.create({
+const styles = StyleSheet.create({
   root: {
     flex: 1,
   },
@@ -76,7 +74,6 @@ const styles = theme => StyleSheet.create({
 
 AuthForgotConfirm.propTypes = {
   t: PropTypes.any,
-  theme: PropTypes.any,
   formErrorMessage: PropTypes.any,
   handleFormSubmit: PropTypes.any,
   handleFormTransform: PropTypes.any,
@@ -86,4 +83,4 @@ AuthForgotConfirm.propTypes = {
   formInitialValues: PropTypes.any,
 }
 
-export default withTranslation()(withTheme(AuthForgotConfirm))
+export default withTranslation()(AuthForgotConfirm)

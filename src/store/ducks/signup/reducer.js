@@ -80,7 +80,7 @@ const signupUsernameFailure = (state, action) => update(state, {
   },
 })
 
-const signupUsernameIdle = (state, action) => update(state, {
+const signupUsernameIdle = (state) => update(state, {
   signupUsername: {
     status: { $set: 'idle' },
     payload: { $set: initialState.signupUsername.payload },
@@ -114,7 +114,7 @@ const signupPhoneFailure = (state, action) => update(state, {
   },
 })
 
-const signupPhoneIdle = (state, action) => update(state, {
+const signupPhoneIdle = (state) => update(state, {
   signupPhone: {
     status: { $set: 'idle' },
     payload: { $set: initialState.signupPhone.payload },
@@ -148,7 +148,7 @@ const signupEmailFailure = (state, action) => update(state, {
   },
 })
 
-const signupEmailIdle = (state, action) => update(state, {
+const signupEmailIdle = (state) => update(state, {
   signupEmail: {
     status: { $set: 'idle' },
     payload: { $set: initialState.signupEmail.payload },
@@ -182,7 +182,7 @@ const signupPasswordFailure = (state, action) => update(state, {
   },
 })
 
-const signupPasswordIdle = (state, action) => update(state, {
+const signupPasswordIdle = (state) => update(state, {
   signupPassword: {
     status: { $set: 'idle' },
     payload: { $set: initialState.signupPassword.payload },
@@ -219,7 +219,7 @@ const signupCreateFailure = (state, action) => update(state, {
   },
 })
 
-const signupCreateIdle = (state, action) => update(state, {
+const signupCreateIdle = (state) => update(state, {
   signupCreate: {
     status: { $set: 'idle' },
     payload: { $set: initialState.signupCreate.payload },
@@ -256,7 +256,7 @@ const signupConfirmFailure = (state, action) => update(state, {
   },
 })
 
-const signupConfirmIdle = (state, action) => update(state, {
+const signupConfirmIdle = (state) => update(state, {
   signupConfirm: {
     status: { $set: 'idle' },
     payload: { $set: initialState.signupConfirm.payload },
@@ -290,7 +290,7 @@ const signupCognitoFailure = (state, action) => update(state, {
   },
 })
 
-const signupCognitoIdle = (state, action) => update(state, {
+const signupCognitoIdle = (state) => update(state, {
   signupCognito: {
     status: { $set: 'idle' },
     payload: { $set: initialState.signupConfirm.payload },

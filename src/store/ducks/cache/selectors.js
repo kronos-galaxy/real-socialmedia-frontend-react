@@ -4,7 +4,7 @@ import equals from 'ramda/src/equals'
 
 const createDeepEqualSelector = createSelectorCreator(
   defaultMemoize,
-  equals
+  equals,
 )
 
 /**
@@ -14,7 +14,7 @@ const cached = (partial) => path(['cache', 'cached', partial])
 
 export const cachedSelector = (partial) => createDeepEqualSelector(
   [cached(partial)],
-  (cached) => cached
+  (cached) => cached,
 )
 
 /**
@@ -24,7 +24,7 @@ const progress = (partial) => path(['cache', 'progress', partial])
 
 export const progressSelector = (partial) => createDeepEqualSelector(
   [progress(partial)],
-  (progress) => progress
+  (progress) => progress,
 )
 
 /**
@@ -34,5 +34,5 @@ const failed = (partial) => path(['cache', 'failed', partial])
 
 export const failedSelector = (partial) => createDeepEqualSelector(
   [failed(partial)],
-  (failed) => failed
+  (failed) => failed,
 )

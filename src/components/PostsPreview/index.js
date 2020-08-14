@@ -13,17 +13,13 @@ import SwipeIcon from 'assets/svg/camera/Swipe'
 import { ifIphoneX } from 'react-native-iphone-x-helper'
 import * as Animatable from 'react-native-animatable'
 
-import { withTheme, Caption } from 'react-native-paper'
-import { useNavigation } from '@react-navigation/native'
-import { withTranslation } from 'react-i18next'
+import { Caption } from 'react-native-paper'
 
 const PostsPreview = ({
-  t,
-  theme,
   selectedPost,
   handlePostClose,
 }) => {
-  const styling = styles(theme)
+  const styling = styles
 
   return (
     <Modal visible={selectedPost.length > 0} transparent>
@@ -65,13 +61,9 @@ const PostsPreview = ({
 PostsPreview.propTypes = {
   selectedPost: PropTypes.any,
   handlePostClose: PropTypes.any,
-  t: PropTypes.any,
-  theme: PropTypes.any,
-  selectedPost: PropTypes.any,
-  handlePostClose: PropTypes.any,
 }
 
-const styles = theme => StyleSheet.create({
+const styles = StyleSheet.create({
   header: {
     position: 'absolute',
     padding: 24,
@@ -105,4 +97,4 @@ const styles = theme => StyleSheet.create({
   },
 })
 
-export default withTranslation()(withTheme(PostsPreview))
+export default PostsPreview

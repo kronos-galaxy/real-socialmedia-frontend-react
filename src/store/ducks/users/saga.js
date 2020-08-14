@@ -1,4 +1,3 @@
-import { graphqlOperation } from '@aws-amplify/api'
 import { put, takeLatest, getContext } from 'redux-saga/effects'
 import path from 'ramda/src/path'
 import compose from 'ramda/src/compose'
@@ -401,8 +400,6 @@ function* usersEditProfileRequestData(req, api) {
 }
 
 function* usersEditProfileRequest(req) {
-  const errorWrapper = yield getContext('errorWrapper')
-
   try {
     const data = yield queryService.apiRequest(queries.setUserDetails, req.payload)
     const next = yield usersEditProfileRequestData(req, data)

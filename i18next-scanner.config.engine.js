@@ -33,12 +33,12 @@ module.exports = {
 
     // Location of translation files
     resource: {
-      loadPath: "translations/locales/{{lng}}/{{ns}}.json",
-      savePath: "translations/locales/{{lng}}/{{ns}}.json",
+      loadPath: 'translations/locales/{{lng}}/{{ns}}.json',
+      savePath: 'translations/locales/{{lng}}/{{ns}}.json',
       jsonIndent: 2,
     },
 
     nsSeparator: ':',
     keySeparator: '.',
   },
-};
+}

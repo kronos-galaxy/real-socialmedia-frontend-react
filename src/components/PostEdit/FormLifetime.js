@@ -11,7 +11,6 @@ import LifetimeIndicator from 'components/PostCreate/LifetimeIndicator'
 import dayjs from 'dayjs'
 
 import { withTheme } from 'react-native-paper'
-import { useNavigation } from '@react-navigation/native'
 import { withTranslation } from 'react-i18next'
 
 const getIndexByValue = (lifetime) => {

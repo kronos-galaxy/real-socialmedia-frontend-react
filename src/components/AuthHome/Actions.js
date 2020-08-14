@@ -10,19 +10,17 @@ import PhoneIcon from 'assets/svg/auth/Phone'
 import AppleIcon from 'assets/svg/auth/Apple'
 import GoogleIcon from 'assets/svg/auth/Google'
 
-import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
 import { withTranslation } from 'react-i18next'
 
 const Actions = ({
   t,
-  theme,
   authGoogle,
   authGoogleRequest,
   authApple,
   authAppleRequest,
 }) => {
-  const styling = styles(theme)
+  const styling = styles
   const navigation = useNavigation()
   
   return (
@@ -42,14 +40,13 @@ const Actions = ({
 
 Actions.propTypes = {
   t: PropTypes.any,
-  theme: PropTypes.any,
   authGoogle: PropTypes.any,
   authGoogleRequest: PropTypes.any,
   authApple: PropTypes.any,
   authAppleRequest: PropTypes.any,
 }
 
-const styles = theme => StyleSheet.create({
+const styles = StyleSheet.create({
   root: {
   },
   item: {
@@ -69,4 +66,4 @@ const styles = theme => StyleSheet.create({
   },
 })
 
-export default withTranslation()(withTheme(Actions))
+export default withTranslation()(Actions)

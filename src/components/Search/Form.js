@@ -14,8 +14,6 @@ import useDebounce from 'react-use/lib/useDebounce'
 import CloseIcon from 'assets/svg/camera/Close'
 import { useIsFocused } from '@react-navigation/native'
 
-import { withTheme } from 'react-native-paper'
-import { useNavigation } from '@react-navigation/native'
 import { withTranslation } from 'react-i18next'
 
 const formSchema = Yup.object().shape({
@@ -24,7 +22,6 @@ const formSchema = Yup.object().shape({
 
 const SearchForm = ({
   t,
-  theme,
   handleSubmit,
   handleFormFocus,
   handleFormChange,
@@ -32,14 +29,14 @@ const SearchForm = ({
   handleReset,
   values,
 }) => {
-  const styling = styles(theme)
+  const styling = styles
   
 
   const formFocus = getFieldMeta('searchToken').touched
   const formChange = path(['searchToken', 'length'])(values)
   const isFocused = useIsFocused()
 
-  const close = (event) => {
+  const close = () => {
     Keyboard.dismiss()
     handleReset()
   }
@@ -72,7 +69,7 @@ const SearchForm = ({
   )
 }
 
-const styles = theme => StyleSheet.create({
+const styles = StyleSheet.create({
   root: {
     flexDirection: 'row',
     height: 64,
@@ -93,7 +90,6 @@ const styles = theme => StyleSheet.create({
 })
 
 SearchForm.propTypes = {
-  theme: PropTypes.any,
   handleSubmit: PropTypes.any,
   submitErrors: PropTypes.any,
   dirtySinceLastSubmit: PropTypes.any,
@@ -107,7 +103,7 @@ SearchForm.propTypes = {
   values: PropTypes.any,
 }
 
-export default withTranslation()(withTheme(({
+export default withTranslation()(({
   usersSearch,
   usersSearchRequest,
   ...props
@@ -127,4 +123,4 @@ export default withTranslation()(withTheme(({
       />
     )}
   </Formik>
-)))
+))

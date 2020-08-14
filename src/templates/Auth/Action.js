@@ -7,11 +7,8 @@ import {
 import { Subheading } from 'react-native-paper'
 
 import { withTheme } from 'react-native-paper'
-import { useNavigation } from '@react-navigation/native'
-import { withTranslation } from 'react-i18next'
 
 const BottomAction = ({
-  t,
   theme,
   children,
   onPress,
@@ -40,10 +37,9 @@ const styles = theme => StyleSheet.create({
 })
 
 BottomAction.propTypes = {
-  t: PropTypes.any,
   theme: PropTypes.any,
   children: PropTypes.any,
   onPress: PropTypes.any,
 }
 
-export default withTranslation()(withTheme(BottomAction))
+export default withTheme(BottomAction)

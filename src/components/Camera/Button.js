@@ -6,11 +6,8 @@ import useInterval from 'react-use/lib/useInterval'
 import useBoolean from 'react-use/lib/useBoolean'
 
 import { withTheme } from 'react-native-paper'
-import { useNavigation } from '@react-navigation/native'
-import { withTranslation } from 'react-i18next'
 
 const Button = ({
-  t,
   theme,
   handleCameraRecordStart,
   handleCameraRecordStop,
@@ -29,7 +26,7 @@ const Button = ({
         handleCameraRecordStop()
       }
     },
-    isRunning ? 100 : null
+    isRunning ? 100 : null,
   )
 
   const handlePress = () => {
@@ -66,7 +63,6 @@ Button.propTypes = {
   theme: PropTypes.any,
   handleCameraRecordStart: PropTypes.any,
   handleCameraRecordStop: PropTypes.any,
-  t: PropTypes.any,
 }
 
-export default withTranslation()(withTheme(Button))
+export default withTheme(Button)

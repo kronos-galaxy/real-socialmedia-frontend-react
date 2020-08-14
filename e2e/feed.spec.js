@@ -78,7 +78,7 @@ describe('Example', () => {
     /**
      * Password reservation
      */
-    const password = `123123123`
+    const password = '123123123'
     await element(by.id('components/AuthPassword/Form/password')).clearText()
     await element(by.id('components/AuthPassword/Form/password')).typeText(password)
     await element(by.id('components/AuthPassword/Form/submit')).tap()
@@ -110,7 +110,7 @@ describe('Example', () => {
     /**
      * Phone reservation
      */
-    const phone = `+123123123`
+    const phone = '+123123123'
     await element(by.id('components/AuthPhone/Form/phone')).clearText()
     await element(by.id('components/AuthPhone/Form/phone')).typeText(phone)
     await element(by.id('components/AuthPhone/Form/submit')).tap()

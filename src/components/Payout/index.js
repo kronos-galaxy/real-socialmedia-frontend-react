@@ -5,11 +5,10 @@ import {
   View,
   ScrollView,
 } from 'react-native'
-import { Text, Paragraph, Title, Caption, Subheading } from 'react-native-paper'
+import { Paragraph, Title, Caption, Subheading } from 'react-native-paper'
 import Formula from 'components/Payout/Formula'
 
 import { withTheme } from 'react-native-paper'
-import { useNavigation } from '@react-navigation/native'
 import { withTranslation } from 'react-i18next'
 
 const Payout = ({

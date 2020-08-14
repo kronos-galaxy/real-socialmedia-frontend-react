@@ -5,18 +5,13 @@ import {
   StyleSheet,
 } from 'react-native'
 import FormComponent from 'components/AuthEmailConfirm/Form'
-import AuthActionTemplate from 'templates/Auth/Action'
 import AuthHeaderTemplate from 'templates/Auth/Header'
 import AuthErrorTemplate from 'templates/Auth/Error'
-import * as navigationActions from 'navigation/actions'
 
-import { withTheme } from 'react-native-paper'
-import { useNavigation } from '@react-navigation/native'
 import { withTranslation } from 'react-i18next'
 
 const AuthEmailConfirm = ({
   t,
-  theme,
   formErrorMessage,
   handleFormSubmit,
   handleFormTransform,
@@ -25,8 +20,7 @@ const AuthEmailConfirm = ({
   formSubmitDisabled,
   formInitialValues,
 }) => {
-  const styling = styles(theme)
-  const navigation = useNavigation()
+  const styling = styles
 
   return (
     <View testID="components/AuthEmailConfirm" style={styling.root}>
@@ -57,7 +51,7 @@ const AuthEmailConfirm = ({
   )
 }
 
-const styles = theme => StyleSheet.create({
+const styles = StyleSheet.create({
   root: {
     flex: 1,
   },
@@ -72,7 +66,6 @@ const styles = theme => StyleSheet.create({
 
 AuthEmailConfirm.propTypes = {
   t: PropTypes.any,
-  theme: PropTypes.any,
   formErrorMessage: PropTypes.any,
   handleFormSubmit: PropTypes.any,
   handleFormTransform: PropTypes.any,
@@ -82,4 +75,4 @@ AuthEmailConfirm.propTypes = {
   formInitialValues: PropTypes.any,
 }
 
-export default withTranslation()(withTheme(AuthEmailConfirm))
+export default withTranslation()(AuthEmailConfirm)

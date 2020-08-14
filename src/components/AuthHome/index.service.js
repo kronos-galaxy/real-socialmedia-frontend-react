@@ -88,7 +88,7 @@ const AuthHomeComponentService = ({ children }) => {
       navigation.navigate(authCheck.nextRoute)
     }
   }, [
-    authCheck.nextRoute
+    authCheck.nextRoute,
   ])
 
   return children({

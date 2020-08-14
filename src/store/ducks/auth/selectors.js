@@ -12,14 +12,14 @@ export const authUserSelector = createSelector(
   [authUser(), usersEditProfile(), usersGetProfileSelf(), entities()],
   (authUser, usersEditProfile, usersGetProfileSelf, entities) => {
     return normalizer.denormalizeUserGet(authUser, entities)
-  }
+  },
 )
 
 export const authUserIdSelector = createSelector(
   [authUser()],
   (authUser) => {
     return authUser
-  }
+  },
 )
 
 export const languageCodeSelector = 
@@ -37,5 +37,5 @@ export const themeSelector = createSelector(
   (authUser, themeFetch) => {
     const activeTheme = (authUser.themeCode || 'black.green')
     return (themeFetch.find(theme => theme.key === activeTheme) || {}).theme
-  }
+  },
 )

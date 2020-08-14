@@ -11,7 +11,6 @@ import path from 'ramda/src/path'
 import { Text, Switch, Caption } from 'react-native-paper'
 
 import { withTheme } from 'react-native-paper'
-import { useNavigation } from '@react-navigation/native'
 import { withTranslation } from 'react-i18next'
 
 const Privacy = ({
@@ -24,7 +23,6 @@ const Privacy = ({
   toggleLikesDisabled,
   toggleCommentsDisabled,
   toggleSharingDisabled,
-  toggleVerificationHidden,
 }) => {
   const styling = styles(theme)
   

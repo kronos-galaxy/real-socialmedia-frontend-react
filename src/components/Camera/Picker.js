@@ -11,14 +11,13 @@ import { Text } from 'react-native-paper'
 import SquareIcon from 'assets/svg/camera/Square'
 import PortraitIcon from 'assets/svg/camera/Portrait'
 
-import { withTheme } from 'react-native-paper'
 import { withTranslation } from 'react-i18next'
 
-const PickerItem = (ref, theme) => ({
+const PickerItem = (ref) => ({
   item,
   index,
 }) => {
-  const styling = styles(theme)
+  const styling = styles
 
   const onPress = () => {
     item.handleChange()
@@ -45,9 +44,8 @@ const PickerItem = (ref, theme) => ({
 const Picker = ({
   t,
   setPhotoSize,
-  theme,
 }) => {
-  const styling = styles(theme)
+  const styling = styles
   const pickerRef = useRef(null)
 
   return (
@@ -59,19 +57,14 @@ const Picker = ({
           { title: t('Rectangle'), handleChange: () => setPhotoSize('4:3') },
           { title: t('Square'), handleChange: () => setPhotoSize('1:1') },
         ]}
-        renderItem={PickerItem(pickerRef, theme)}
+        renderItem={PickerItem(pickerRef)}
         sliderWidth={Layout.window.width - 24}
         sliderHeight={30}
         itemHeight={30}
         itemWidth={110}
         removeClippedSubviews={false}
-        contentContainerCustomStyle={{
-          height: 30,
-        }}
-        slideStyle={{
-          margin: 0,
-          padding: 0,
-        }}
+        contentContainerCustomStyle={styling.contentContainerCustomStyle}
+        slideStyle={styling.slideStyle}
         onSnapToItem={(index) => {
           if (index === 1) setPhotoSize('1:1')
           if (index === 0) setPhotoSize('4:3')
@@ -89,11 +82,10 @@ const Picker = ({
 
 Picker.propTypes = {
   setPhotoSize: PropTypes.any,
-  theme: PropTypes.any,
   t: PropTypes.any,
 }
 
-const styles = theme => StyleSheet.create({
+const styles = StyleSheet.create({
   root: {
     height: 30,
     justifyContent: 'center',
@@ -135,6 +127,13 @@ const styles = theme => StyleSheet.create({
   sliderItemIcon: {
     marginRight: 4,
   },
+  slideStyle: {
+    margin: 0,
+    padding: 0,
+  },
+  contentContainerCustomStyle: {
+    height: 30,
+  },
 })
 
-export default withTranslation()(withTheme(Picker))
+export default withTranslation()(Picker)

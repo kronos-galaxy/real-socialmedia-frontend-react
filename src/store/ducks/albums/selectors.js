@@ -7,7 +7,7 @@ import { initialState } from 'store/ducks/albums/reducer'
 
 const createDeepEqualSelector = createSelectorCreator(
   defaultMemoize,
-  equals
+  equals,
 )
 
 const entities = () => path(['entities'])
@@ -23,7 +23,7 @@ export const albumsGetSelector = (userId) => createDeepEqualSelector(
     const albums = path(['data'])(albumsGetCache) ? albumsGetCache : initialState.albumsGet
     const denormalized = normalizer.denormalizeAlbumsGet(albums.data, entities)
     return assocPath(['data'], denormalized)(albums)
-  }
+  },
 )
 
 /**
@@ -36,7 +36,7 @@ export const albumsSingleGetSelector = (albumId) => createDeepEqualSelector(
   (albumsSingleGet, entities) => {
     const denormalized = normalizer.denormalizeAlbumGet(albumId, entities)
     return assocPath(['data'], denormalized)(albumsSingleGet)
-  }
+  },
 )
 
 /**
@@ -50,5 +50,5 @@ export const albumsPostsGetSelector = (albumId) => createDeepEqualSelector(
     const posts = path(['data'])(albumsPostsGetCache) ? albumsPostsGetCache : initialState.albumsPostsGet
     const denormalized = normalizer.denormalizePostsGet(posts.data, entities)
     return assocPath(['data'], denormalized)(posts)
-  }
+  },
 )

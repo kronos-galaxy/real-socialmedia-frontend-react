@@ -5,15 +5,10 @@ import {
   View,
   TextInput,
 } from 'react-native'
-import { Text } from 'react-native-paper'
-import { ErrorMessage } from 'formik'
 
 import { withTheme } from 'react-native-paper'
-import { useNavigation } from '@react-navigation/native'
-import { withTranslation } from 'react-i18next'
 
 const TextGrowing = ({
-  t,
   theme,
   field: {
     value,
@@ -102,8 +97,7 @@ TextGrowing.propTypes = {
   keyboardType: PropTypes.any,
   onSubmitEditing: PropTypes.any,
   disabled: PropTypes.any,
-  t: PropTypes.any,
   inputRef: PropTypes.any,
 }
 
-export default withTranslation()(withTheme(TextGrowing))
+export default withTheme(TextGrowing)

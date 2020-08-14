@@ -41,7 +41,7 @@ const StoryService = ({ children }) => {
 
   const onSnapItem = (index) => {
     navigation.setParams({
-      user: stories[index]
+      user: stories[index],
     })
     resetStory()
   }
@@ -53,7 +53,7 @@ const StoryService = ({ children }) => {
 
     if (nextUserStoryPool.length) {
       navigation.setParams({
-        user: nextUserStoryPool
+        user: nextUserStoryPool,
       })
       resetStory()
       storyRef.current.snapToNext()
@@ -70,7 +70,7 @@ const StoryService = ({ children }) => {
     
     if (prevUserStoryPool.length) {
       navigation.setParams({
-        user: prevUserStoryPool
+        user: prevUserStoryPool,
       })
       resetStory()
       storyRef.current.snapToPrev()

@@ -3,11 +3,10 @@ import { useSelector, useDispatch } from 'react-redux'
 import * as postsActions from 'store/ducks/posts/actions'
 import * as usersActions from 'store/ducks/users/actions'
 import * as postsSelector from 'store/ducks/posts/selectors'
-import { useNavigation, useRoute } from '@react-navigation/native'
+import { useRoute } from '@react-navigation/native'
 
 const PostsLikesService = ({ children }) => {
   const dispatch = useDispatch()
-  const navigation = useNavigation()
   const route = useRoute()
   const postId = route.params.postId
   const userId = route.params.userId

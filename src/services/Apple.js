@@ -1,5 +1,4 @@
 import appleAuth, {
-  AppleButton,
   AppleAuthRequestOperation,
   AppleAuthRequestScope,
   AppleAuthCredentialState,
