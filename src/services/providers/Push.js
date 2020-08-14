@@ -57,10 +57,7 @@ export const usePushNotification = () => {
    * Check if push notification permissions are enabled, request them if not
    * once permissions are enabled, handleRegistrationEvent will be called
    */
-  const handlePermissions = (permissions) => {
-    if (permissions && permissions.alert && permissions.badge) {
-      return
-    }
+  const handlePermissions = () => {
     PushNotificationIOS.requestPermissions()
   }
 
@@ -75,8 +72,11 @@ export const usePushNotification = () => {
     dispatch(usersActions.usersSetApnsTokenRequest({ token }))
   }
 
-  const handleRegistrationError = (error) => {
-    Logger.captureException(error)
+  const handleRegistrationError = (payload) => {
+    Logger.withScope(scope => {
+      scope.setExtra('payload', JSON.stringify(payload))
+      Logger.captureMessage('PUSH_NOTIFICATION_REGISTER_ERROR')
+    })
   }
 
   /**
@@ -86,13 +86,16 @@ export const usePushNotification = () => {
     if (user.userId) {
       PushNotificationIOS.checkPermissions(handlePermissions)
       PushNotificationIOS.getInitialNotification().then(handleNotificationEvent)
+
       PushNotificationIOS.addEventListener('notification', handleNotificationEvent)
+      PushNotificationIOS.addEventListener('localNotification', handleNotificationEvent)
       PushNotificationIOS.addEventListener('register', handleRegistrationEvent)
       PushNotificationIOS.addEventListener('registrationError', handleRegistrationError)
     }
 
     return () => {
       PushNotificationIOS.removeEventListener('notification', handleNotificationEvent)
+      PushNotificationIOS.removeEventListener('localNotification', handleNotificationEvent)
       PushNotificationIOS.removeEventListener('register', handleRegistrationEvent)
       PushNotificationIOS.removeEventListener('registrationError', handleRegistrationError)
     }
