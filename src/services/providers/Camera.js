@@ -24,7 +24,7 @@ const generateAssetFormat = (extension) => {
  * which only works by applying a patch from patches/react-native-image-crop-picker
  */
 export const formatPickerResponse = (selectedPhoto) => {
-  const extension = selectedPhoto.filename.split('?')[0].split('#')[0].split('.').pop()
+  const extension = selectedPhoto.fileSource.split('?')[0].split('#')[0].split('.').pop()
   const format = generateAssetFormat(extension)
 
   return {
