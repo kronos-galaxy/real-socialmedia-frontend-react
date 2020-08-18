@@ -43,7 +43,7 @@ function* handleAuthCheckValidation(self) {
    * But some users might not reach that step due to missing profile photo
    */
   Logger.setUser({
-    id: path(['data', 'self', 'id'])(self),
+    id: path(['data', 'self', 'userId'])(self),
     username: path(['data', 'self', 'username'])(self),
     email: path(['data', 'self', 'email'])(self),
   })

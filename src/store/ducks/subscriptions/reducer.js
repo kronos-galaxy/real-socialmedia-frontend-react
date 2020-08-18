@@ -97,7 +97,7 @@ const subscriptionsPollFailure = (state) => update(state, {
 
 const subscriptionsPollIdle = (state) => update(state, {
   subscriptionsPoll: {
-    data: { $set: initialState.themePreview.data },
+    data: { $set: initialState.subscriptionsPoll.data },
     status: { $set: 'idle' },
   },
 })

@@ -3,6 +3,7 @@ import { call, put, take, takeEvery, takeLatest, getContext, select } from 'redu
 import { eventChannel } from 'redux-saga'
 import path from 'ramda/src/path'
 import pathOr from 'ramda/src/pathOr'
+import tryCatch from 'ramda/src/tryCatch'
 import * as postsActions from 'store/ducks/posts/actions'
 import * as usersActions from 'store/ducks/users/actions'
 import * as postsQueries from 'store/ducks/posts/queries'
@@ -32,7 +33,7 @@ function* subscriptionStateHandler({ identifier }) {
   function* errorHandler(error) {
     yield put(subscriptionsActions.subscriptionsMainFailure({ data: identifier }))
     Logger.withScope(scope => {
-      scope.setExtra('payload', JSON.stringify(error))
+      scope.setExtra('payload', tryCatch(JSON.stringify, () => null)(path(['error'])(error)))
       Logger.captureMessage('SUBSCRIPTIONS_EMITTER_ERROR')
     })
   }
