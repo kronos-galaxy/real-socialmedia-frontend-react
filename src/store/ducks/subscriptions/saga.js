@@ -1,5 +1,5 @@
 import { graphqlOperation } from '@aws-amplify/api'
-import { call, put, take, takeEvery, takeLatest, getContext, select } from 'redux-saga/effects'
+import { call, put, take, takeEvery, getContext, select } from 'redux-saga/effects'
 import { eventChannel } from 'redux-saga'
 import path from 'ramda/src/path'
 import pathOr from 'ramda/src/pathOr'
@@ -358,9 +358,9 @@ function* subscriptionPollStart() {
 }
 
 export default () => [
-  takeLatest(constants.SUBSCRIPTIONS_MAIN_REQUEST, subscriptionNotificationStart),
-  takeLatest(constants.SUBSCRIPTIONS_MAIN_REQUEST, chatMessageSubscription),
-  takeLatest(constants.SUBSCRIPTIONS_MAIN_REQUEST, cardSubscription),
-  takeLatest(constants.SUBSCRIPTIONS_MAIN_REQUEST, appSubscription),
-  takeLatest(constants.SUBSCRIPTIONS_POLL_REQUEST, subscriptionPollStart),
+  takeEvery(constants.SUBSCRIPTIONS_MAIN_REQUEST, subscriptionNotificationStart),
+  takeEvery(constants.SUBSCRIPTIONS_MAIN_REQUEST, chatMessageSubscription),
+  takeEvery(constants.SUBSCRIPTIONS_MAIN_REQUEST, cardSubscription),
+  takeEvery(constants.SUBSCRIPTIONS_MAIN_REQUEST, appSubscription),
+  takeEvery(constants.SUBSCRIPTIONS_POLL_REQUEST, subscriptionPollStart),
 ]
