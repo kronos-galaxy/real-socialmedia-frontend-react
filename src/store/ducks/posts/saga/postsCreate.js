@@ -190,8 +190,6 @@ function* handleImagePost(req) {
 
       if (upload.status === 'success') {
         yield put(actions.postsCreateProgress({ data: {}, payload: req.payload, meta: meta(99) }))
-        yield put(subscriptionsActions.subscriptionsMainRequest())
-        yield put(subscriptionsActions.subscriptionsPollRequest())
       }
 
       if (upload.status === 'failure') {
@@ -211,6 +209,9 @@ function* handleImagePost(req) {
  * 
  */
 function* postsCreateRequest(req) {
+  yield put(subscriptionsActions.subscriptionsMainRequest())
+  yield put(subscriptionsActions.subscriptionsPollRequest())
+
   if (req.payload.postType === 'TEXT_ONLY') {
     return yield handleTextOnlyPost(req)
   }

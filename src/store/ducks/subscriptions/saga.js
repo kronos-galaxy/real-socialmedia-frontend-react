@@ -298,7 +298,7 @@ function* subscriptionNotificationStart(req) {
     /**
      * Fires when a post is added to User.feed
      */
-    if (type === 'USER_FEED_POST_ADDED') {
+    if (type === 'USER_FEED_CHANGED') {
       yield put(postsActions.postsFeedGetRequest({ limit: 20 }))
     }
 
