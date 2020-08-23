@@ -1,9 +1,7 @@
 import { useRef } from 'react'
-import { InteractionManager } from 'react-native'
 import { useSelector, useDispatch } from 'react-redux'
 import * as postsActions from 'store/ducks/posts/actions'
 import { useScrollToTop } from '@react-navigation/native'
-import path from 'ramda/src/path'
 import pathOr from 'ramda/src/pathOr'
 import * as authSelector from 'store/ducks/auth/selectors'
 import * as postsSelector from 'store/ducks/posts/selectors'
@@ -28,19 +26,6 @@ const FeedService = ({ children }) => {
 
   const postsCreateIdle = (payload) =>
     dispatch(postsActions.postsCreateIdle(payload))
-
-  const onViewableItemsChanged = ({ viewableItems }) => {
-    const postIds = viewableItems.map(viewable => path(['item', 'postId'])(viewable))
-      .filter(item => item)
-
-    if (!Array.isArray(postIds) || !postIds.length) {
-      return
-    }
-
-    InteractionManager.runAfterInteractions(() => {
-      dispatch(postsActions.postsReportPostViewsRequest({ postIds }))
-    })
-  }
 
   const handleScrollPrev = (index) => () => {
     try {
@@ -86,16 +71,6 @@ const FeedService = ({ children }) => {
    */
   const textPostRefs = useRef({})
 
-  /**
-   * FlatList feed config ref, used for reporting scroll events
-   */
-  const onViewableItemsChangedRef = useRef(onViewableItemsChanged)
-  const viewabilityConfigRef = useRef({
-    minimumViewTime: 3000,
-    viewAreaCoveragePercentThreshold: 90,
-    waitForInteraction: true,
-  })
-
   const createActionSheetRef = post => element => {
     if (!actionSheetRefs.current[post.postId]) {
       actionSheetRefs.current[post.postId] = element
@@ -124,11 +99,7 @@ const FeedService = ({ children }) => {
     postsGetTrendingPosts,
     handleScrollPrev,
     handleScrollNext,
-
     bookmarkSeparatorIndex,
-    onViewableItemsChangedRef,
-    viewabilityConfigRef,
-
     feedRef,
     createActionSheetRef,
     getActionSheetRef,

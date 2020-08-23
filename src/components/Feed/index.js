@@ -17,6 +17,7 @@ import StoriesServiceComponent from 'components/Stories/index.service'
 import FeedCardsComponent from 'components/FeedCards'
 import FeedCardsServiceComponent from 'components/FeedCards/index.service'
 import ScrollService from 'services/Scroll'
+import useViewable from 'services/providers/Viewable'
 
 import { withTheme } from 'react-native-paper'
 
@@ -36,8 +37,6 @@ const Feed = ({
 
   bookmarkSeparatorIndex,
   feedRef,
-  onViewableItemsChangedRef,
-  viewabilityConfigRef,
 
   createActionSheetRef,
   getActionSheetRef,
@@ -52,6 +51,11 @@ const Feed = ({
     loadMore: postsFeedGetMoreRequest,
     multiplier: 3,
   })
+
+  const {
+    onViewableItemsChangedRef,
+    viewabilityConfigRef,
+  } = useViewable()
 
   const renderItem = useCallback(({ item: post, index }) => (
     <React.Fragment>
@@ -182,8 +186,6 @@ Feed.propTypes = {
   handleScrollNext: PropTypes.any,
   postsGetTrendingPosts: PropTypes.any,
   bookmarkSeparatorIndex: PropTypes.any,
-  onViewableItemsChangedRef: PropTypes.any,
-  viewabilityConfigRef: PropTypes.any,
   createActionSheetRef: PropTypes.any,
   getActionSheetRef: PropTypes.any,
   createTextPostRef: PropTypes.any,
