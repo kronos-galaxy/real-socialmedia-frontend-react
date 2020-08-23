@@ -5,6 +5,7 @@ import { useScrollToTop } from '@react-navigation/native'
 import pathOr from 'ramda/src/pathOr'
 import * as authSelector from 'store/ducks/auth/selectors'
 import * as postsSelector from 'store/ducks/posts/selectors'
+import useUpload from 'services/providers/Upload'
 
 const FeedService = ({ children }) => {
   const dispatch = useDispatch()
@@ -20,9 +21,11 @@ const FeedService = ({ children }) => {
   const postsFeedGetMoreRequest = (payload) =>
     dispatch(postsActions.postsFeedGetMoreRequest(payload))
 
-  const postsCreateRequest = (payload) => {
-    dispatch(postsActions.postsCreateRequest(payload))
-  }
+  const { handlePostUpload } = useUpload({
+    handlePostUploadStarted: () => {},
+  })
+
+  const postsCreateRequest = handlePostUpload
 
   const postsCreateIdle = (payload) =>
     dispatch(postsActions.postsCreateIdle(payload))

@@ -8,6 +8,7 @@ import replace from 'ramda/src/replace'
 import * as actions from 'store/ducks/posts/actions'
 import * as queries from 'store/ducks/posts/queries'
 import * as constants from 'store/ducks/posts/constants'
+import * as subscriptionsActions from 'store/ducks/subscriptions/actions'
 import dayjs from 'dayjs'
 import { v4 as uuid } from 'uuid'
 import RNFS from 'react-native-fs' 
@@ -189,6 +190,8 @@ function* handleImagePost(req) {
 
       if (upload.status === 'success') {
         yield put(actions.postsCreateProgress({ data: {}, payload: req.payload, meta: meta(99) }))
+        yield put(subscriptionsActions.subscriptionsMainRequest())
+        yield put(subscriptionsActions.subscriptionsPollRequest())
       }
 
       if (upload.status === 'failure') {
