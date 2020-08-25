@@ -9,6 +9,7 @@ import toLower from 'ramda/src/toLower'
 import pathOr from 'ramda/src/pathOr'
 import { logEvent } from 'services/Analytics'
 import { pageHeaderLeft } from 'navigation/options'
+import testIDs from './test-ids'
 
 const AuthUsernameComponentService = ({ children }) => {
   const dispatch = useDispatch()
@@ -31,7 +32,10 @@ const AuthUsernameComponentService = ({ children }) => {
 
   useEffect(() => {
     navigation.setOptions({
-      headerLeft: (props) => pageHeaderLeft({ ...props, onPress: handleGoBack }),
+      headerLeft: () => pageHeaderLeft({ 
+        testID: testIDs.header.backBtn, 
+        onPress: handleGoBack, 
+      }),
     })
   }, [])
 

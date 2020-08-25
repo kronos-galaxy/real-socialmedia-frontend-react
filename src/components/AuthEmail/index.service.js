@@ -9,6 +9,7 @@ import toLower from 'ramda/src/toLower'
 import pathOr from 'ramda/src/pathOr'
 import { logEvent } from 'services/Analytics'
 import { pageHeaderLeft } from 'navigation/options'
+import testIDs from './test-ids'
 
 const AuthEmailComponentService = ({ children }) => {
   const dispatch = useDispatch()
@@ -32,9 +33,13 @@ const AuthEmailComponentService = ({ children }) => {
 
   useEffect(() => {
     const tabNavigator = navigation.dangerouslyGetParent()
+    
     if (!tabNavigator) return
     tabNavigator.setOptions({
-      headerLeft: (props) => pageHeaderLeft({ ...props, onPress: handleGoBack }),
+      headerLeft: () => pageHeaderLeft({ 
+        testID: testIDs.header.backBtn, 
+        onPress: handleGoBack, 
+      }),
     })
   }, [])
 

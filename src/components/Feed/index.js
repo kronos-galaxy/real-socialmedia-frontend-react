@@ -20,6 +20,7 @@ import ScrollService from 'services/Scroll'
 import useViewable from 'services/providers/Viewable'
 
 import { withTheme } from 'react-native-paper'
+import testIDs from './test-ids'
 
 const Feed = ({
   theme,
@@ -86,7 +87,7 @@ const Feed = ({
   ), [path(['data'])(postsFeedGet)])
 
   return (
-    <View style={styling.root}>
+    <View testID={testIDs.root} style={styling.root}>
       <FlatList
         ref={feedRef}
         keyExtractor={item => item.postId}

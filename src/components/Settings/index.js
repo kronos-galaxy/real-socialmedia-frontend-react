@@ -31,6 +31,7 @@ import DeviceInfo from 'react-native-device-info'
 import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
 import { withTranslation } from 'react-i18next'
+import testIDs from './test-ids'
 
 const Settings = ({
   t,
@@ -72,7 +73,7 @@ const Settings = ({
   // }
 
   return (
-    <ScrollView style={styling.root}>
+    <ScrollView testID={testIDs.root} style={styling.root}>
       <TouchableOpacity onPress={() => navigation.navigate('ProfilePhotoGrid')}>
         <Avatar
           size="large"
@@ -119,6 +120,7 @@ const Settings = ({
         onPress: () => navigation.navigate('Privacy'),
         icon: <PrivacyIcon fill={theme.colors.text} />,
       }, {
+        testID: testIDs.actions.signOutBtn,
         label: t('Signout'),
         onPress: () => authSignoutRequest(),
         icon: <SignoutIcon fill={theme.colors.text} />,
@@ -126,6 +128,7 @@ const Settings = ({
         {(settings) => (
           <RowsItemComponent hasBorders>
             <UserRowComponent
+              testID={settings.testID}
               onPress={path(['onPress'])(settings)}
               avatar={
                 <SettingsAvatar icon={path(['icon'])(settings)} />

@@ -10,11 +10,13 @@ import { Formik, Field } from 'formik'
 import * as Yup from 'yup'
 
 import { withTranslation } from 'react-i18next'
+import testIDs from './test-ids'
 
 const formSchema = Yup.object().shape({
   email: Yup.string()
     .min(3)
     .max(50)
+    .email()
     .matches(/^\S*$/, 'no whitespace')
     .trim()
     .required(),
@@ -24,16 +26,25 @@ const EmailForm = ({
   t,
   handleSubmit,
   loading,
+  disabled, 
+  isValid,
+  isValidating,
 }) => {
   const styling = styles
+
+  const submitDisabled = (
+    disabled ||
+    !isValid ||
+    isValidating
+  )
   
   return (
     <View style={styling.root}>
       <View style={styling.input}>
-        <Field testID="components/AuthEmail/Form/email" name="email" component={TextField} placeholder={t('Email Address')} keyboardType="email-address" textContentType="emailAddress" autoCompleteType="email" autoFocus />
+        <Field testID={testIDs.form.email} name="email" component={TextField} placeholder={t('Email Address')} keyboardType="email-address" textContentType="emailAddress" autoCompleteType="email" autoFocus />
       </View>
       <View style={styling.input}>
-        <DefaultButton testID="components/AuthEmail/Form/submit" label={t('Next')} onPress={handleSubmit} loading={loading} disabled={loading} />
+        <DefaultButton testID={testIDs.form.submitBtn} label={t('Next')} onPress={handleSubmit} loading={loading} disabled={submitDisabled} />
       </View>
     </View>
   )
@@ -51,6 +62,9 @@ EmailForm.propTypes = {
   t: PropTypes.any,
   handleSubmit: PropTypes.any,
   loading: PropTypes.any,
+  disabled: PropTypes.bool, 
+  isValid: PropTypes.bool,
+  isValidating: PropTypes.bool,
 }
 
 export default withTranslation()(({

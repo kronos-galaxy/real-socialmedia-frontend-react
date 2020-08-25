@@ -13,10 +13,12 @@ import CameraIcon from 'assets/svg/header/Camera'
 import DirectIcon from 'assets/svg/header/Direct'
 import BackIcon from 'assets/svg/header/Back'
 
-export const pageHeaderLeft = ({ onPress }) => {
+const getInitialRouteName = path(['route', 'params', 'initialRouteName'])
+
+export const pageHeaderLeft = ({ onPress, testID = null }) => {
   if (!onPress) { return null }
   return (
-    <TouchableOpacity style={styles.button} onPress={onPress}>
+    <TouchableOpacity testID={testID} style={styles.button} onPress={onPress}>
       <BackIcon fill="#fff" />
     </TouchableOpacity>
   )
@@ -105,8 +107,8 @@ export const tabNavigatorDefaultProps = () => ({
   pager,
 })
 
-export const tabNavigatorAuthProps = ({ theme }) => ({
-  initialRouteName: 'Root',
+export const tabNavigatorAuthProps = ({ theme, props }) => ({
+  initialRouteName: getInitialRouteName(props),
   sceneContainerStyle: {
     backgroundColor: 'white',
   },

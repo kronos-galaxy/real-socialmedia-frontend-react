@@ -9,6 +9,7 @@ import DefaultButton from 'components/Formik/Button/DefaultButton'
 import { Formik, Field } from 'formik'
 import * as Yup from 'yup'
 import Config from 'react-native-config'
+import testIDs from './test-ids'
 
 import { withTranslation } from 'react-i18next'
 
@@ -28,8 +29,8 @@ const remoteUsernameValidation = (value) =>
 const formSchema = Yup.object().shape({
   username: Yup.string()
     .min(3)
-    .max(50)
-    .matches(/^[a-zA-Z0-9_.]{3,30}$/, 'username must only contain letters & numbers')
+    .max(30)
+    .matches(/^[a-zA-Z0-9_.]*$/, 'username must only contain letters & numbers')
     .trim()
     .required()
     .test('usernameReserve', 'username is reserved', remoteUsernameValidation),
@@ -54,10 +55,10 @@ const UsernameForm = ({
   return (
     <View style={styling.root}>
       <View style={styling.input}>
-        <Field testID="components/AuthUsername/Form/username" name="username" component={TextField} placeholder={t('Username')} keyboardType="default" textContentType="username" autoCompleteType="username" autoFocus />
+        <Field testID={testIDs.form.username} name="username" component={TextField} placeholder={t('Username')} keyboardType="default" textContentType="username" autoCompleteType="username" autoFocus />
       </View>
       <View style={styling.input}>
-        <DefaultButton testID="components/AuthUsername/Form/submit" label={t('Next')} onPress={handleSubmit} loading={loading} disabled={submitDisabled} />
+        <DefaultButton testID={testIDs.form.submitBtn} label={t('Next')} onPress={handleSubmit} loading={loading} disabled={submitDisabled} />
       </View>
     </View>
   )

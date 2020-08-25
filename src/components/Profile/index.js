@@ -25,6 +25,7 @@ import useViewable from 'services/providers/Viewable'
 import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
 import { withTranslation } from 'react-i18next'
+import testIDs from './test-ids'
 
 const Profile = ({
   t,

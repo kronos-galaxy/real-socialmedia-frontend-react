@@ -1,17 +1,29 @@
-import { MailSlurp } from 'mailslurp-client'
-const mailslurp = new MailSlurp({ apiKey: '4d066a5ab39edc3f5be220c0b211b29290468611b4af39baa4dd16a48110eddb' })
+import {MailSlurp} from 'mailslurp-client'
+
+const mailslurp = new MailSlurp({apiKey: process.env.MAIL_SLURP_API_KEY})
 
 export const createInbox = async () => {
-	const inbox = await mailslurp.createInbox()
-	return inbox
+  return await mailslurp.createInbox()
 }
 
-export const getLatestEmail = async (inbox) => {
-	const latestEmail = await mailslurp.waitForLatestEmail(inbox.id)
-	return latestEmail
+export const getLatestEmail = async (inboxId) => {
+  return await mailslurp.waitForLatestEmail(inboxId)
 }
 
-export const extractConfirmationCode = async (email) => {
-	const body = email.body
-	return body.split('confirmation code is ').pop().split('.')[0]
+export const emptyInbox = async (inboxId) => {
+  await mailslurp.emptyInbox(inboxId)
+}
+
+export const deleteInbox = async (inboxId) => {
+  await mailslurp.deleteInbox(inboxId)
+}
+
+function extractCode(text) {
+  return text.match(/\d{6}/).pop()
+}
+
+export async function extractCodeFromLatestEmail(inboxId) {
+  const email = await getLatestEmail(inboxId)
+
+  return extractCode(email.body)
 }

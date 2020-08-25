@@ -11,11 +11,12 @@ import * as Yup from 'yup'
 import path from 'ramda/src/path'
 
 import { withTranslation } from 'react-i18next'
+import testIDs from './test-ids'
 
 const formSchema = Yup.object().shape({
   confirmationCode: Yup.string()
-    .min(6)
-    .max(6)
+    .length(6)
+    .matches(/^[0-9]*$/, 'must only contain numbers')
     .matches(/^\S*$/, 'no whitespace')
     .trim()
     .required(),
@@ -31,12 +32,12 @@ const EmailConfirmForm = ({
   return (
     <View style={styling.root}>
       <View style={styling.input}>
-        <Field testID="components/AuthEmailConfirm/Form/confirmationCode" name="confirmationCode" component={TextField} placeholder={t('Confirmation Code')} keyboardType="number-pad" textContentType="oneTimeCode" autoCompleteType="off" autoFocus maxLength={6} />
+        <Field testID={testIDs.form.confirmationCode} name="confirmationCode" component={TextField} placeholder={t('Confirmation Code')} keyboardType="number-pad" textContentType="oneTimeCode" autoCompleteType="off" autoFocus maxLength={6} />
       </View>
 
       {loading ?
         <View style={styling.input}>
-          <DefaultButton testID="components/AuthEmailConfirm/Form/submit" label={t('Next')} onPress={handleSubmit} loading={loading} disabled={loading} />
+          <DefaultButton label={t('Next')} onPress={handleSubmit} loading={loading} disabled={loading} />
         </View>
       : null}
     </View>
