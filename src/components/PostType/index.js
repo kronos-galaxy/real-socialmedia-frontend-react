@@ -36,7 +36,7 @@ const PostType = ({
             navigationActions.navigateCamera(navigation)()
           }}>
             <View style={styling.icon}>
-              <PhotoIcon fill={theme.colors.backgroundSecondary} />
+              <PhotoIcon fill={color(theme.colors.text).negate().string()} />
             </View>
             <Subheading style={styling.text}>{t('Photo')}</Subheading>
           </TouchableOpacity>
@@ -45,7 +45,7 @@ const PostType = ({
             handleLibrarySnap(true)
           }}>
             <View style={styling.icon}>
-              <GalleryIcon fill={theme.colors.backgroundSecondary} />
+              <GalleryIcon fill={color(theme.colors.text).negate().string()} />
             </View>
             <Subheading style={styling.text}>{t('Gallery')}</Subheading>
           </TouchableOpacity>
@@ -54,7 +54,7 @@ const PostType = ({
             navigationActions.navigatePostCreate(navigation, { type: 'TEXT_ONLY' })()
           }}>
             <View style={styling.icon}>
-              <TextIcon fill={theme.colors.backgroundSecondary} />
+              <TextIcon fill={color(theme.colors.text).negate().string()} />
             </View>
             <Subheading style={styling.text}>{t('Text')}</Subheading>
           </TouchableOpacity>
@@ -107,13 +107,13 @@ const styles = theme => StyleSheet.create({
     width: 70,
     height: 70,
     borderRadius: 35,
-    backgroundColor: theme.colors.border,
+    backgroundColor: theme.colors.text,
     justifyContent: 'center',
     alignItems: 'center',
     overflow: 'hidden',
   },
   text: {
-    color: color(theme.colors.text).fade(.4),
+    color: theme.colors.text,
     fontWeight: '500',
     alignSelf: 'center',
     fontSize: 14,
