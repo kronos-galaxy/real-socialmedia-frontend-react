@@ -4,9 +4,9 @@ import { createStackNavigator } from '@react-navigation/stack'
 import { withTheme } from 'react-native-paper'
 
 import * as navigationOptions from 'navigation/options'
-import DatingScreen from 'screens/DatingScreen'
+import ChatScreen from 'screens/ChatScreen'
 
-const DatingNavigator = ({ theme }) => {
+const ChatNavigator = ({ theme }) => {
   const Stack = createStackNavigator()
   const stackNavigatorDefaultProps = navigationOptions.stackNavigatorDefaultProps({ theme })
   const stackScreenDefaultProps = navigationOptions.stackScreenDefaultProps({ theme })
@@ -14,16 +14,16 @@ const DatingNavigator = ({ theme }) => {
   return (
     <Stack.Navigator {...stackNavigatorDefaultProps}>
       <Stack.Screen
-        name="Dating"
-        component={DatingScreen}
+        name="Chat"
+        component={ChatScreen}
         {...stackScreenDefaultProps}
       />
     </Stack.Navigator>
   )
 }
 
-DatingNavigator.propTypes = {
+ChatNavigator.propTypes = {
   theme: PropTypes.any,
 }
 
-export default withTheme(DatingNavigator)
+export default withTheme(ChatNavigator)
