@@ -30,10 +30,10 @@ const Actions = ({
         <DefaultButton testID={testIDs.actions.signUpBtn} icon={PhoneIcon} label={t('Use Phone or Email')} onPress={navigationActions.navigateAuthUsername(navigation)} style={styling.phone} labelStyle={styling.labelStyle} />
       </View>
       <View style={styling.item}>
-        <DefaultButton testID={testIDs.actions.appleBtn} icon={AppleIcon} label={t('Sign in with Apple')} onPress={authAppleRequest} loading={authApple.status === 'loading'} style={styling.apple} labelStyle={styling.labelStyle} />
+        <DefaultButton testID={testIDs.actions.googleBtn} icon={GoogleIcon} label={t('Sign in with Google')} onPress={authGoogleRequest} loading={authGoogle.status === 'loading'} style={styling.google} labelStyle={styling.labelStyle} />
       </View>
       <View style={styling.item}>
-        <DefaultButton testID={testIDs.actions.googleBtn} icon={GoogleIcon} label={t('Sign in with Google')} onPress={authGoogleRequest} loading={authGoogle.status === 'loading'} style={styling.google} labelStyle={styling.labelStyle} />
+        <DefaultButton testID={testIDs.actions.appleBtn} icon={AppleIcon} label={t('Sign in with Apple')} onPress={authAppleRequest} loading={authApple.status === 'loading'} style={styling.apple} labelStyle={styling.labelStyle} />
       </View>
     </View>
   )
