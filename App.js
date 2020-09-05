@@ -7,6 +7,7 @@ import { NavigationContainer } from '@react-navigation/native'
 import { AuthProvider } from 'services/providers/Auth'
 import { Provider as PaperProvider } from 'react-native-paper'
 import { ThemesContext } from 'navigation/context'
+import { ReduxNetworkProvider } from 'react-native-offline'
 import AuthNavigator from 'navigation/AuthNavigator'
 import AppNavigator from 'navigation/AppNavigator'
 import store, { persistor } from 'store/index'
@@ -14,9 +15,11 @@ import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
 import 'services/Logger'
 import { enableScreens } from 'react-native-screens'
+import NetworkComponent from 'components/Network'
 import PinchZoomComponent from 'components/Feed/PinchZoom'
 import FeedContextComponent from 'components/Feed/Context'
 import ErrorTemplate from 'templates/Error'
+import LoadingComponent from 'components/Loading'
 
 const linking = {
   prefixes: ['real.app://', 'https://real.app/'],
@@ -93,29 +96,35 @@ const App = () => {
 
   return (
     <Provider store={store}>
-      <PersistGate loading={null} persistor={persistor}>
-        <AuthProvider>
-          {({
-            theme,
-            themes,
-            authenticated,
-            appErrorMessage,
-            handleErrorClose,
-          }) => (
-            <ThemesContext.Provider value={{ theme, themes }}>
-              <FeedContextComponent.Provider value={{ draggedImage, setDraggedImage }}>
-                <StatusBar barStyle={theme.dark ? 'light-content' : 'dark-content'} />
-                <PinchZoomComponent />
-                <Routes
-                  authenticated={authenticated}
-                  appErrorMessage={appErrorMessage}
-                  handleErrorClose={handleErrorClose}
-                />
-              </FeedContextComponent.Provider>
-            </ThemesContext.Provider>
-          )}
-        </AuthProvider>
-      </PersistGate>
+      <ReduxNetworkProvider>
+        <PersistGate loading={(<LoadingComponent />)} persistor={persistor}>
+          <AuthProvider>
+            {({
+              theme,
+              themes,
+              authenticated,
+              appErrorMessage,
+              handleErrorClose,
+              networkIsConnected,
+            }) => (
+              <ThemesContext.Provider value={{ theme, themes }}>
+                <FeedContextComponent.Provider value={{ draggedImage, setDraggedImage }}>
+                  <StatusBar barStyle={theme.dark ? 'light-content' : 'dark-content'} />
+                  <PinchZoomComponent />
+                  <NetworkComponent
+                    networkIsConnected={networkIsConnected}
+                  />
+                  <Routes
+                    authenticated={authenticated}
+                    appErrorMessage={appErrorMessage}
+                    handleErrorClose={handleErrorClose}
+                  />
+                </FeedContextComponent.Provider>
+              </ThemesContext.Provider>
+            )}
+          </AuthProvider>
+        </PersistGate>
+      </ReduxNetworkProvider>
     </Provider>
   )
 }
