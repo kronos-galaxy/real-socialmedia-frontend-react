@@ -51,7 +51,7 @@ const codePushOptions = {
   deploymentKey: Config.CODE_PUSH_DEPLOYMENT_KEY,
 }
 
-codePush.sync(codePushOptions)
+// codePush.sync(codePushOptions)
 
 enableScreens()
 
