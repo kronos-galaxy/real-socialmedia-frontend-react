@@ -137,7 +137,7 @@ function* handleAuthAppleRequest() {
     token: apple.token,
   }
 
-  const AppleCognitoIdentityCredentials = yield AwsAuth.federatedSignIn('apple', {
+  const AppleCognitoIdentityCredentials = yield AwsAuth.federatedSignIn('appleid.apple.com', {
     token: apple.token,
     expires_at: apple.expires_at,
   }, userPayload)
