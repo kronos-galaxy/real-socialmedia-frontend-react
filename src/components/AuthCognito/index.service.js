@@ -71,7 +71,7 @@ const AuthCognitoComponentService = ({ children }) => {
   )
   const formErrorMessage = (
     signupUsername.error.text ||
-    signupUsername.error.text
+    signupCognito.error.text
   )
 
   const formInitialValues = {
