@@ -7,7 +7,6 @@ import path from 'ramda/src/path'
 import Avatar from 'templates/Avatar'
 import MoreIcon from 'assets/svg/action/More'
 import BellIcon from 'assets/svg/action/Bell'
-import VerificationIcon from 'assets/svg/action/Verification'
 import dayjs from 'dayjs'
 import * as navigationActions from 'navigation/actions'
 import * as UserService from 'services/User'
@@ -96,10 +95,7 @@ const Header = ({
             onPress={navigationActions.navigateVerification(navigation, { actionType: 'BACK', post })}
             style={styling.verification}
           >
-            <Caption style={styling.verificationStatus}>
-              {t('Failed Verification')} - {t('Learn More')}
-            </Caption>
-            <VerificationIcon fill="#DC3644" />
+            <Caption style={styling.verificationStatus}>{t('unverified')}</Caption>
           </TouchableOpacity>
         ) : null}
       </View>
@@ -172,38 +168,37 @@ const Header = ({
   )
 }
 
-const styles = (theme) =>
-  StyleSheet.create({
-    header: {
-      flexDirection: 'row',
-      alignItems: 'center',
-      padding: theme.spacing.base,
-    },
-    headerText: {
-      paddingHorizontal: 8,
-      justifyContent: 'center',
-      flex: 1,
-    },
-    headerAction: {
-      justifyContent: 'center',
-      alignItems: 'center',
-      height: 38,
-      width: 38,
-    },
-    headerUsername: {},
-    headerStatus: {
-      color: '#676767',
-      marginRight: 4,
-    },
-    verificationStatus: {
-      color: '#DC3644',
-      marginRight: 4,
-    },
-    verification: {
-      flexDirection: 'row',
-      alignItems: 'center',
-    },
-  })
+const styles = theme => StyleSheet.create({
+  header: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    padding: theme.spacing.base,
+  },
+  headerText: {
+    paddingHorizontal: 8,
+    justifyContent: 'center',
+    flex: 1,
+  },
+  headerAction: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: 38,
+    width: 38,
+  },
+  headerUsername: {
+  },
+  headerStatus: {
+    color: '#676767',
+    marginRight: 4,
+  },
+  verificationStatus: {
+    marginRight: 4,
+  },
+  verification: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+})
 
 Header.propTypes = {
   t: PropTypes.any,
