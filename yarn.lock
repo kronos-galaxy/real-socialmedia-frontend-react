@@ -24,7 +24,7 @@
     "@aws-amplify/core" "^3.5.2"
     axios "0.19.0"
 
-"@aws-amplify/api@^3.1.24":
+"@aws-amplify/api@^3.2.2":
   version "3.2.2"
   resolved "https://registry.npmjs.org/@aws-amplify/api/-/api-3.2.2.tgz#13d6241191d55d28298aa833ce50eaad6d1ec21e"
   integrity sha512-mfyxZ+zQVmmT/0uv9AXEPd0eSWjwFeSFx4xBhbkaRfUekMO38QZfJ7ER2tpIZ50k+ZWDN4qlQ4CXi3xliuBsbA==
@@ -32,7 +32,7 @@
     "@aws-amplify/api-graphql" "^1.2.2"
     "@aws-amplify/api-rest" "^1.2.2"
 
-"@aws-amplify/auth@^3.3.6", "@aws-amplify/auth@^3.4.2":
+"@aws-amplify/auth@^3.4.2":
   version "3.4.2"
   resolved "https://registry.npmjs.org/@aws-amplify/auth/-/auth-3.4.2.tgz#9eb76ddcf3ab8eedc0f60db83601ab277ec763bb"
   integrity sha512-robElnT09sdYEuK1Clx7sQcE1UulwfXW+PMrnwzGrg2Gj/FS5kL7sl6I8q6M7cFX3y7PYhfym0KiQATXWIN26g==
@@ -49,7 +49,7 @@
   dependencies:
     "@aws-amplify/core" "^3.5.2"
 
-"@aws-amplify/core@^3.4.7", "@aws-amplify/core@^3.5.2":
+"@aws-amplify/core@^3.5.2":
   version "3.5.2"
   resolved "https://registry.npmjs.org/@aws-amplify/core/-/core-3.5.2.tgz#d731ed1de566111cb5c63399158ae0f298fc8ccf"
   integrity sha512-wSVyaOuhik5aCfKpIyYvNZFOY6LomKKIQE3Y3zeMwVFzV/JYl+x2GEBt6QJU6vZVNXY0z8dWnO4RfFA9RAlnaQ==
@@ -2470,7 +2470,7 @@ ajv@^6.10.0, ajv@^6.10.2, ajv@^6.12.3, ajv@^6.12.4:
     json-schema-traverse "^0.4.1"
     uri-js "^4.2.2"
 
-amazon-cognito-identity-js@^4.3.5, amazon-cognito-identity-js@^4.4.0:
+amazon-cognito-identity-js@^4.4.0:
   version "4.4.0"
   resolved "https://registry.npmjs.org/amazon-cognito-identity-js/-/amazon-cognito-identity-js-4.4.0.tgz#758bb4774bba6675fbd123207e5553ea15f87a7d"
   integrity sha512-CS2mitoNqhMH5OEc2LildbelGUL/cpEwgqkZUOxyQa67i8J8ZdQzZ1yfaCijY3GtAsX5i1C6T7l1DeEwK2n4Aw==
@@ -2751,7 +2751,7 @@ atob@^2.1.2:
   resolved "https://registry.npmjs.org/atob/-/atob-2.1.2.tgz#6d9517eb9e030d2436666651e86bd9f6f13533c9"
   integrity sha512-Wm6ukoaOGJi/73p/cl2GvLjTI5JM1k/O14isD73YML8StrH/7/lRFgmg8nICZgD3bZZvjwCGxtMOD3wWNAu8cg==
 
-aws-sdk@^2.740.0:
+aws-sdk@^2.752.0:
   version "2.752.0"
   resolved "https://registry.npmjs.org/aws-sdk/-/aws-sdk-2.752.0.tgz#0d6e38bd43f023f44ad5db66be6f6afc0d9a1278"
   integrity sha512-0/8Pt8/qEgxt02IEvRjinR3cEj1YmmPlJqie4NhCWmmXmI4wDmEb5Em3A2XvU1dNwS0fpQEcuRcaQ/pWi/mScg==

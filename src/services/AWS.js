@@ -1,4 +1,4 @@
-import Amplify from '@aws-amplify/core'
+import Amplify, { Credentials } from '@aws-amplify/core'
 import Auth from '@aws-amplify/auth'
 import API from '@aws-amplify/api'
 import Config from 'react-native-config'
@@ -34,9 +34,10 @@ export const amplifyConfig = () => {
     },
   }
 
-  Amplify.configure(config)
+  Credentials.configure(config.Auth)
   Auth.configure(config.Auth)
   API.configure(config.API)
+  Amplify.configure(config)
 }
 
 export const federatedGoogleSignin = Google.signin
