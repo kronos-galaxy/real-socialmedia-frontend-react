@@ -6,14 +6,12 @@ import pathOr from 'ramda/src/pathOr'
 import tryCatch from 'ramda/src/tryCatch'
 import * as postsActions from 'store/ducks/posts/actions'
 import * as usersActions from 'store/ducks/users/actions'
-import * as postsQueries from 'store/ducks/posts/queries'
 import * as usersQueries from 'store/ducks/users/queries'
 import * as chatQueries from 'store/ducks/chat/queries'
 import * as chatActions from 'store/ducks/chat/actions'
 import * as authSelector from 'store/ducks/auth/selectors'
 import * as subscriptionsActions from 'store/ducks/subscriptions/actions'
 import * as constants from 'store/ducks/subscriptions/constants'
-import * as queryService from 'services/Query'
 import * as Logger from 'services/Logger'
 import { checkInternetConnection } from 'react-native-offline'
 
@@ -312,22 +310,15 @@ function* subscriptionNotificationStart(req) {
       return yield call(subscriptionState.disconnectHandler, eventData)
     }
 
-    const postId = path(['value', 'data', 'onNotification', 'postId'])(eventData)
-    const userId = path(['value', 'data', 'onNotification', 'userId'])(eventData)
-    const type = path(['value', 'data', 'onNotification', 'type'])(eventData)
+    const payload  = path(['value', 'data', 'onNotification'], eventData)
+    const userId = path(['userId'], payload)
+    const type = path(['type'], payload)
 
     /**
      * Fires when one of the user's followeds changes their first story
      */
     if (type === 'USER_CHATS_WITH_UNVIEWED_MESSAGES_COUNT_CHANGED') {
       yield put(usersActions.usersGetProfileSelfRequest({ userId }))
-    }
-
-    /**
-     * Fires when a post is added to User.feed
-     */
-    if (type === 'USER_FEED_CHANGED') {
-      yield put(postsActions.postsFeedGetRequest({ limit: 20 }))
     }
 
     /**
@@ -338,24 +329,17 @@ function* subscriptionNotificationStart(req) {
     }
 
     /**
-     * Fires when one of the user's posts reaches COMPLETED state for the first time
+     * Fires when one of the user's posts reaches COMPLETED state for the first time 
      */
     if (type === 'POST_COMPLETED') {
-      const data = yield queryService.apiRequest(postsQueries.getPost, { postId })
-      const selector = path(['data', 'post'])
-
-      yield put(postsActions.postsCreateSuccess({ data: {}, payload: selector(data), meta: {} }))
-      yield put(postsActions.postsGetRequest({ userId }))
-      yield put(usersActions.usersImagePostsGetRequest({ userId }))
+      yield put(subscriptionsActions.subscriptionsPostCompleted(payload))
     }
 
     /**
      * Fires when one of the user's posts reaches ERROR state
      */
     if (type === 'POST_ERROR') {
-      const data = yield queryService.apiRequest(postsQueries.getPost, { postId })
-      const selector = path(['data', 'post'])
-      yield put(postsActions.postsCreateFailure({ data: {}, payload: selector(data), meta: {} }))
+      yield put(subscriptionsActions.subscriptionsPostError(payload))
     }
   })
 
@@ -363,7 +347,7 @@ function* subscriptionNotificationStart(req) {
    * Close channel subscription on application toggle
    */
   yield take(constants.SUBSCRIPTIONS_MAIN_IDLE)
-  channel.close()
+  channel.close() 
 }
 
 /**
@@ -389,6 +373,6 @@ export default () => [
   takeEvery(constants.SUBSCRIPTIONS_MAIN_REQUEST, subscriptionNotificationStart),
   takeEvery(constants.SUBSCRIPTIONS_MAIN_REQUEST, chatMessageSubscription),
   takeEvery(constants.SUBSCRIPTIONS_MAIN_REQUEST, cardSubscription),
-  takeEvery(constants.SUBSCRIPTIONS_MAIN_REQUEST, appSubscription),
+  takeEvery(constants.SUBSCRIPTIONS_PREFETCH_DATA, appSubscription),
   takeEvery(constants.SUBSCRIPTIONS_POLL_REQUEST, subscriptionPollStart),
 ]
