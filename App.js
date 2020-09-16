@@ -30,15 +30,24 @@ const linking = {
     AuthForgotConfirm: 'confirm/forgot/:userId/:confirmationCode',
     Chat: {
       screens: {
-        Chat: 'chat',
         ChatDirect: 'chat/:chatId',
+        Chat: 'chat',
       },
     },
     Root: {
       screens: {
-        Profile: 'user/:userId',
-        PostMedia: 'user/:userId/post/:postId',
+        Home: {
+          screens: {
+            Profile: {
+              screens: {
+                ProfilePhoto: 'user/:userId/settings/photo',
+              },
+            },
+          },
+        },
         Comments: 'user/:userId/post/:postId/comments',
+        PostMedia: 'user/:userId/post/:postId',
+        Profile: 'user/:userId',
       },
     },
   },
