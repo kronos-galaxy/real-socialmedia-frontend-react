@@ -322,6 +322,17 @@ function* subscriptionNotificationStart(req) {
     }
 
     /**
+     * Fires when a post is added to User.feed
+     */
+    if (type === 'USER_FEED_CHANGED') {
+      const postsCreate = yield select(state => state.posts.postsCreate)
+
+      if (postsCreate.status !== 'loading') {
+        yield put(postsActions.postsFeedGetRequest({ limit: 20 }))
+      }
+    }
+
+    /**
      * Fires when User.chatsWithUnviewedMessagesCount changes
      */
     if (type === 'USER_FOLLOWED_USERS_WITH_STORIES_CHANGED') {
@@ -373,6 +384,6 @@ export default () => [
   takeEvery(constants.SUBSCRIPTIONS_MAIN_REQUEST, subscriptionNotificationStart),
   takeEvery(constants.SUBSCRIPTIONS_MAIN_REQUEST, chatMessageSubscription),
   takeEvery(constants.SUBSCRIPTIONS_MAIN_REQUEST, cardSubscription),
-  takeEvery(constants.SUBSCRIPTIONS_PREFETCH_DATA, appSubscription),
+  takeEvery(constants.SUBSCRIPTIONS_PREFETCH_REQUEST, appSubscription),
   takeEvery(constants.SUBSCRIPTIONS_POLL_REQUEST, subscriptionPollStart),
 ]
