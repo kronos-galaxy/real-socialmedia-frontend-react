@@ -13,9 +13,9 @@
     "validate": "npm run lint && npm run tests:unit"
   },
   "dependencies": {
-    "@aws-amplify/api": "^3.2.2",
-    "@aws-amplify/auth": "^3.4.2",
-    "@aws-amplify/core": "^3.5.2",
+    "@aws-amplify/api": "^3.2.3",
+    "@aws-amplify/auth": "^3.4.3",
+    "@aws-amplify/core": "^3.5.3",
     "@invertase/react-native-apple-authentication": "^1.1.2",
     "@react-native-community/async-storage": "^1.12.0",
     "@react-native-community/blur": "^3.6.0",
@@ -34,7 +34,7 @@
     "@welldone-software/why-did-you-render": "^4.2.7",
     "amazon-cognito-identity-js": "^4.4.0",
     "async": "^3.2.0",
-    "aws-sdk": "^2.752.0",
+    "aws-sdk": "^2.753.0",
     "color": "^3.1.2",
     "dayjs": "^1.8.34",
     "es6-promisify": "^6.1.1",
