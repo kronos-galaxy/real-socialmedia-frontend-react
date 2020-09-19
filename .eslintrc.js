@@ -56,6 +56,8 @@ module.exports = {
           'expectSaga',
           'testSaga',
           'testToggle',
+          'silentRun',
+          'run',
         ],
       },
     ],
