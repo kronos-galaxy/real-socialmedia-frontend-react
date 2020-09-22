@@ -22,4 +22,12 @@ function* subscriptionPollStart() {
   channel.close()
 }
 
-export default subscriptionPollStart
+function* _subscriptionPollStart() {
+  try {
+    yield subscriptionPollStart()
+  } catch (error) {
+    // ignore
+  }
+}
+
+export default _subscriptionPollStart
