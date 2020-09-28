@@ -684,6 +684,29 @@ function* commentsFlagRequest(req) {
   }
 }
 
+/**
+ *
+ */
+
+function* postsDeleteSuccess(req) {
+  yield put(actions.postsDeleteIdle({}))
+  yield put(actions.postsGetRequest({ userId: req.payload.payload.userId }))
+}
+
+function* postsArchiveSuccess(req) {
+  yield put(actions.postsArchiveIdle({}))
+  yield put(actions.postsGetRequest({ userId: req.payload.payload.userId }))
+}
+
+function* postsRestoreArchivedSuccess(req) {
+  yield put(actions.postsRestoreArchivedIdle({}))
+  yield put(actions.postsGetRequest({ userId: req.payload.payload.userId }))
+}
+
+function* postsFlagSuccess() {
+  yield put(actions.postsFlagIdle({}))
+}
+
 export default () => [
   takeLatest(constants.POSTS_GET_REQUEST, postsGetRequest),
   takeLatest(constants.POSTS_GET_MORE_REQUEST, postsGetMoreRequest),
@@ -713,4 +736,9 @@ export default () => [
   takeLatest(constants.COMMENTS_ADD_REQUEST, commentsAddRequest),
   takeLatest(constants.COMMENTS_DELETE_REQUEST, commentsDeleteRequest),
   takeLatest(constants.COMMENTS_FLAG_REQUEST, commentsFlagRequest),
+
+  takeLatest(constants.POSTS_DELETE_SUCCESS, postsDeleteSuccess),
+  takeLatest(constants.POSTS_ARCHIVE_SUCCESS, postsArchiveSuccess),
+  takeLatest(constants.POSTS_RESTORE_ARCHIVED_SUCCESS, postsRestoreArchivedSuccess),
+  takeLatest(constants.POSTS_FLAG_SUCCESS, postsFlagSuccess),
 ]

@@ -1,107 +1,22 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import { createStackNavigator } from '@react-navigation/stack'
-import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs'
 import { withTheme } from 'react-native-paper'
 
-import { ThemesContext } from 'navigation/context'
 import * as navigationOptions from 'navigation/options'
+import SignupNavigator from 'navigation/Auth/Signup'
+import SigninNavigator from 'navigation/Auth/Signin'
+import ForgotNavigator from 'navigation/Auth/Forgot'
 
 import AuthHomeScreen from 'screens/AuthHomeScreen'
-import AuthSigninPhoneScreen from 'screens/AuthSigninPhoneScreen'
-import AuthSigninEmailScreen from 'screens/AuthSigninEmailScreen'
 import AuthUsernameScreen from 'screens/AuthUsernameScreen'
-import AuthPhoneScreen from 'screens/AuthPhoneScreen'
 import AuthPasswordScreen from 'screens/AuthPasswordScreen'
 import AuthPhoneConfirmScreen from 'screens/AuthPhoneConfirmScreen'
-import AuthEmailScreen from 'screens/AuthEmailScreen'
 import AuthEmailConfirmScreen from 'screens/AuthEmailConfirmScreen'
 import VerificationScreen from 'screens/VerificationScreen'
 import CameraScreen from 'screens/CameraScreen'
-import AuthForgotPhoneScreen from 'screens/AuthForgotPhoneScreen'
-import AuthForgotEmailScreen from 'screens/AuthForgotEmailScreen'
 import AuthForgotConfirmScreen from 'screens/AuthForgotConfirmScreen'
 import AuthCognitoScreen from 'screens/AuthCognitoScreen'
-import testIDs from './test-ids'
-
-const SignupNavigator = (props) => {
-  const Tab = createMaterialTopTabNavigator()
-  const { theme } = useContext(ThemesContext)
-  const tabNavigatorAuthProps = navigationOptions.tabNavigatorAuthProps({ theme, props })
-  return (
-    <Tab.Navigator {...tabNavigatorAuthProps}>
-      <Tab.Screen
-        name="AuthPhone"
-        component={AuthPhoneScreen}
-        options={{
-          tabBarLabel: 'Phone',
-          tabBarTestID: testIDs.authNavigator.signUp.phone,
-        }}
-      />
-      <Tab.Screen
-        name="AuthEmail"
-        component={AuthEmailScreen}
-        options={{
-          tabBarLabel: 'Email',
-          tabBarTestID: testIDs.authNavigator.signUp.email,
-        }}
-      />
-    </Tab.Navigator>
-  )
-}
-
-const SigninNavigator = (props) => {
-  const Tab = createMaterialTopTabNavigator()
-  const { theme } = useContext(ThemesContext)
-  const tabNavigatorAuthProps = navigationOptions.tabNavigatorAuthProps({ theme, props })
-  return (
-    <Tab.Navigator {...tabNavigatorAuthProps}>
-      <Tab.Screen
-        name="AuthSigninPhone"
-        component={AuthSigninPhoneScreen}
-        options={{
-          tabBarLabel: 'Phone',
-          tabBarTestID: testIDs.authNavigator.signIn.phone,
-        }}
-      />
-      <Tab.Screen
-        name="AuthSigninEmail"
-        component={AuthSigninEmailScreen}
-        options={{
-          tabBarLabel: 'Email',
-          tabBarTestID: testIDs.authNavigator.signIn.email,
-        }}
-      />
-    </Tab.Navigator>
-  )
-}
-
-const ForgotNavigator = (props) => {
-  const Tab = createMaterialTopTabNavigator()
-  const { theme } = useContext(ThemesContext)
-  const tabNavigatorAuthProps = navigationOptions.tabNavigatorAuthProps({ theme, props })
-
-  return (
-    <Tab.Navigator {...tabNavigatorAuthProps}>
-      <Tab.Screen
-        name="AuthForgotPhone"
-        component={AuthForgotPhoneScreen}
-        options={{
-          tabBarLabel: 'Phone',
-          tabBarTestID: 'navigation/AuthNavigator/Forgot/phone',
-        }}
-      />
-      <Tab.Screen
-        name="AuthForgotEmail"
-        component={AuthForgotEmailScreen}
-        options={{
-          tabBarLabel: 'Email',
-          tabBarTestID: 'navigation/AuthNavigator/Forgot/email',
-        }}
-      />
-    </Tab.Navigator>
-  )
-}
 
 const AuthNavigator = ({ theme }) => {
   const Stack = createStackNavigator()

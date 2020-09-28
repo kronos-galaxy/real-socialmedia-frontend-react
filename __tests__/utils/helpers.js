@@ -1,3 +1,5 @@
+import { all } from 'redux-saga/effects'
+
 export const applyActions = (actions, reducer) => {
   let state
 
@@ -9,3 +11,9 @@ export const applyActions = (actions, reducer) => {
 }
 
 export const sleep = () => new Promise((r) => setTimeout(r, 0))
+
+export function testAsRootSaga(saga) {
+  return function* pseudoRootSaga() {
+    yield all(saga())
+  }
+}

@@ -20,15 +20,15 @@ const Theme = ({
   t,
   theme,
   user,
-  themeFetch,
-  themePreviewRequest,
-  themePreviewIdle,
+  appTheme,
+  appThemePreviewRequest,
+  appThemePreviewIdle,
 }) => {
   const styling = styles(theme)
   
   return (
     <ScrollView style={styling.root}>
-      <RowsComponent items={path(['data'])(themeFetch)}>
+      <RowsComponent items={path(['data'])(appTheme)}>
         {(theme) => (
           <RowsItemComponent>
             <UserRowComponent
@@ -57,8 +57,8 @@ const Theme = ({
               action={
                 <ThemeRowActionComponent
                   enabled={user.themeCode === theme.key}
-                  onEnablePress={() => themePreviewRequest({ name: theme.key, theme: theme.theme })}
-                  onDisablePress={themePreviewIdle}
+                  onEnablePress={() => appThemePreviewRequest({ name: theme.key, theme: theme.theme })}
+                  onDisablePress={appThemePreviewIdle}
                 />
               }
             />
@@ -84,9 +84,9 @@ Theme.propTypes = {
   t: PropTypes.any,
   theme: PropTypes.any,
   user: PropTypes.any,
-  themeFetch: PropTypes.any,
-  themePreviewRequest: PropTypes.any,
-  themePreviewIdle: PropTypes.any,
+  appTheme: PropTypes.any,
+  appThemePreviewRequest: PropTypes.any,
+  appThemePreviewIdle: PropTypes.any,
 }
 
 export default withTranslation()(withTheme(Theme))

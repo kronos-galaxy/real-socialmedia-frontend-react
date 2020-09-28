@@ -12,7 +12,6 @@ const AuthCognitoComponentService = ({ children }) => {
 
   const signupUsername = useSelector(state => state.signup.signupUsername)
   const signupCognito = useSelector(state => state.signup.signupCognito)
-  const authSignout = useSelector(state => state.auth.authSignout)
 
   const authSignoutRequest = () => 
     dispatch(authActions.authSignoutRequest({}))
@@ -20,15 +19,6 @@ const AuthCognitoComponentService = ({ children }) => {
   const handleFormSubmit = (payload) => {
     dispatch(signupActions.signupUsernameRequest(payload))
   }
-
-  useEffect(() => {
-    if (authSignout.status === 'success') {
-      dispatch(authActions.authCheckIdle({}))
-      dispatch(authActions.authSignoutIdle({}))
-    }
-  }, [
-    authSignout.status,
-  ])
 
   /**
    * Create cognito user
@@ -46,19 +36,6 @@ const AuthCognitoComponentService = ({ children }) => {
   }, [
     signupUsername.status,
     signupUsername.payload.username,
-  ])
-
-  /**
-   * Redirect to password selection once username is available
-   */
-  useEffect(() => {
-    if (
-      signupCognito.status !== 'success'
-    ) return
-
-    dispatch(authActions.authCheckRequest())
-  }, [
-    signupCognito.status,
   ])
 
   const formSubmitLoading = (

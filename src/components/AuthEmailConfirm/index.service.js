@@ -1,6 +1,5 @@
 import { useEffect, useCallback } from 'react'
 import { Keyboard } from 'react-native'
-import * as authActions from 'store/ducks/auth/actions'
 import * as signupActions from 'store/ducks/signup/actions'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigation, useRoute } from '@react-navigation/native'
@@ -40,6 +39,7 @@ const AuthEmailConfirmComponentService = ({ children }) => {
   const handleFormSubmit = (payload) => {
     logEvent('SIGNUP_CONFIRM_REQUEST')
     const nextPayload = {
+      usernameType: 'email',
       confirmationCode: payload.confirmationCode,
       cognitoUsername: signupCognitoIdentity.cognitoUsername,
       cognitoUserId: signupCognitoIdentity.cognitoUserId,
@@ -84,7 +84,6 @@ const AuthEmailConfirmComponentService = ({ children }) => {
     dispatch(signupActions.signupPasswordIdle({}))
  
     Keyboard.dismiss()
-    dispatch(authActions.authCheckRequest())
   }, [
     signupConfirm.status,
   ])

@@ -1,17 +1,32 @@
 import { all, takeEvery } from 'redux-saga/effects'
-import signup from 'store/ducks/signup/saga'
 import camera from 'store/ducks/camera/saga'
-import theme from 'store/ducks/theme/saga'
 import albums from 'store/ducks/albums/saga'
 import chat from 'store/ducks/chat/saga'
 import users from 'store/ducks/users/saga'
-import layout from 'store/ducks/layout/saga'
-import translation from 'store/ducks/translation/saga'
 import cache from 'store/ducks/cache/saga'
 import subscriptions from 'store/ducks/subscriptions/saga'
 
+import appReady from 'store/ducks/app/saga/appReady'
+import appTranslation from 'store/ducks/app/saga/appTranslation'
+import appTheme from 'store/ducks/app/saga/appTheme'
+
 import auth from 'store/ducks/auth/saga'
-import authCheck from 'store/ducks/auth/saga/authCheck'
+import authSigninCognito from 'store/ducks/auth/saga/authSigninCognito'
+import authSigninGoogle from 'store/ducks/auth/saga/authSigninGoogle'
+import authUpgradeGoogle from 'store/ducks/auth/saga/authUpgradeGoogle'
+import authSigninApple from 'store/ducks/auth/saga/authSigninApple'
+import authSigninAnonymous from 'store/ducks/auth/saga/authSigninAnonymous'
+import authSignout from 'store/ducks/auth/saga/authSignout'
+import authReset from 'store/ducks/auth/saga/authReset'
+
+import authData from 'store/ducks/auth/saga/authData'
+import authToken from 'store/ducks/auth/saga/authToken'
+import authFlow from 'store/ducks/auth/saga/authFlow'
+import authPrefetch from 'store/ducks/auth/saga/authPrefetch'
+
+import signup from 'store/ducks/signup/saga'
+import signupCreate from 'store/ducks/signup/saga/signupCreate'
+import signupConfirm from 'store/ducks/signup/saga/signupConfirm'
 
 import posts from 'store/ducks/posts/saga'
 import postsCreate from 'store/ducks/posts/saga/postsCreate'
@@ -34,19 +49,33 @@ const captureErrors = (payload) => {
 
 export default function* rootSaga(persistor) {
   yield all([]
-    .concat(signup())
+    .concat(appReady())
+    .concat(appTranslation())
+    .concat(appTheme())
+
     .concat(camera())
-    .concat(theme())
     .concat(albums())
     .concat(chat())
     .concat(users())
-    .concat(layout())
-    .concat(translation())
     .concat(cache())
     .concat(subscriptions())
 
     .concat(auth(persistor))
-    .concat(authCheck(persistor))
+    .concat(authSigninCognito(persistor))
+    .concat(authSigninGoogle(persistor))
+    .concat(authUpgradeGoogle(persistor))
+    .concat(authSigninApple(persistor))
+    .concat(authSigninAnonymous(persistor))
+    .concat(authData(persistor))
+    .concat(authToken(persistor))
+    .concat(authFlow(persistor))
+    .concat(authPrefetch(persistor))
+    .concat(authSignout(persistor))
+    .concat(authReset(persistor))
+
+    .concat(signup())
+    .concat(signupCreate())
+    .concat(signupConfirm())
 
     .concat(posts())
     .concat(postsCreate())

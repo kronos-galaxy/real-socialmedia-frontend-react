@@ -132,7 +132,7 @@ const Header = ({
           options={[
             {
               name: t('Restore from Archived'),
-              onPress: () => postsRestoreArchivedRequest({ postId: post.postId }),
+              onPress: () => postsRestoreArchivedRequest({ postId: post.postId, userId: path(['userId'])(user) }),
               isVisible: isUserPostOwner && archived,
             },
             {
@@ -142,7 +142,7 @@ const Header = ({
             },
             {
               name: t('Report'),
-              onPress: () => postsFlagRequest({ postId: post.postId }),
+              onPress: () => postsFlagRequest({ postId: post.postId, userId: path(['userId'])(user) }),
               isVisible: !isUserPostOwner,
             },
             {

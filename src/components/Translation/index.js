@@ -18,14 +18,14 @@ const Translation = ({
   theme,
   user,
   usersEditProfileRequest,
-  translationFetch,
+  appTranslation,
 }) => {
   const styling = styles(theme)
   
   return (
     <ScrollView>
       <View style={styling.root}>
-        <RowsComponent items={Object.keys(path(['data'])(translationFetch))}>
+        <RowsComponent items={Object.keys(path(['data'])(appTranslation))}>
           {(translation) => (
             <RowsItemComponent>
               <UserRowComponent
@@ -65,7 +65,7 @@ const styles = theme => StyleSheet.create({
 Translation.propTypes = {
   theme: PropTypes.any,
   initialValues: PropTypes.any,
-  translationFetch: PropTypes.any,
+  appTranslation: PropTypes.any,
   translationUpdate: PropTypes.any,
   translationUpdateRequest: PropTypes.any,
   user: PropTypes.any,

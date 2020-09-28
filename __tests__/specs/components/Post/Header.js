@@ -70,7 +70,7 @@ describe('Post Header component', () => {
       expect(handlePostShare).toHaveBeenCalled()
 
       onPress(1)
-      expect(postsFlagRequest).toHaveBeenCalledWith({ postId })
+      expect(postsFlagRequest).toHaveBeenCalledWith({ postId, userId: user.userId })
     })
 
     it('user is an owner of a post', () => {
@@ -120,7 +120,7 @@ describe('Post Header component', () => {
       expect(cancelButtonIndex).toBe(1)
 
       onPress(0)
-      expect(postsRestoreArchivedRequest).toHaveBeenCalledWith({ postId: archived.postId })
+      expect(postsRestoreArchivedRequest).toHaveBeenCalledWith({ postId: archived.postId, userId: user.userId })
     })
 
     describe('Sharing button', () => {

@@ -17,8 +17,10 @@ const AuthSigninEmail = ({
   t,
   formErrorMessage,
   handleFormSubmit,
+  handleFormTransform,
   handleErrorClose,
-  formSubmitting,
+  formSubmitLoading,
+  formSubmitDisabled,
   formInitialValues,
 }) => {
   const styling = styles
@@ -42,7 +44,9 @@ const AuthSigninEmail = ({
         <View style={styling.content}>
           <FormComponent
             handleFormSubmit={handleFormSubmit}
-            formSubmitting={formSubmitting}
+            handleFormTransform={handleFormTransform}
+            formSubmitLoading={formSubmitLoading}
+            formSubmitDisabled={formSubmitDisabled}
             formInitialValues={formInitialValues}
           />
         </View>
@@ -72,13 +76,11 @@ AuthSigninEmail.propTypes = {
   t: PropTypes.any,
   formErrorMessage: PropTypes.any,
   handleFormSubmit: PropTypes.any,
+  handleFormTransform: PropTypes.any,
   handleErrorClose: PropTypes.any,
-  formSubmitting: PropTypes.bool,
+  formSubmitLoading: PropTypes.any,
+  formSubmitDisabled: PropTypes.any,
   formInitialValues: PropTypes.any,
-}
-
-AuthSigninEmail.defaultProps = {
-  formSubmitting: false,
 }
 
 export default withTranslation()(AuthSigninEmail)

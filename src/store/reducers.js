@@ -5,14 +5,11 @@ import { STORAGE_PROVIDER } from 'services/Storage'
 import auth from 'store/ducks/auth/reducer'
 import signup from 'store/ducks/signup/reducer'
 import camera from 'store/ducks/camera/reducer'
-import theme from 'store/ducks/theme/reducer'
 import posts from 'store/ducks/posts/reducer'
 import albums from 'store/ducks/albums/reducer'
 import chat from 'store/ducks/chat/reducer'
 import users from 'store/ducks/users/reducer'
-import layout from 'store/ducks/layout/reducer'
-import translation from 'store/ducks/translation/reducer'
-import ui from 'store/ducks/ui/reducer'
+import app from 'store/ducks/app/reducer'
 import cache from 'store/ducks/cache/reducer'
 import entities from 'store/ducks/entities/reducer'
 import subscriptions from 'store/ducks/subscriptions/reducer'
@@ -21,6 +18,14 @@ import { reducer as network } from 'react-native-offline'
 import 'store/ducks/posts/updates'
 import 'store/ducks/users/updates'
 import 'store/ducks/chat/updates'
+
+const appPersistConfig = {
+  key: '/v2/app',
+  storage: STORAGE_PROVIDER,
+  whitelist: [
+    // 'user',
+  ],
+}
 
 const postsPersistConfig = {
   key: '/v2/posts',
@@ -70,18 +75,15 @@ const chatPersistConfig = {
 }
 
 export default combineReducers({
+  app: persistReducer(appPersistConfig, app),
   network,
   auth: persistReducer(authPersistConfig, auth),
   signup: persistReducer(signupPersistConfig, signup),
-  theme,
   camera,
   albums,
   chat: persistReducer(chatPersistConfig, chat),
   posts: persistReducer(postsPersistConfig, posts),
   users: persistReducer(usersPersistConfig, users),
-  layout,
-  translation,
-  ui,
   cache,
   entities,
   subscriptions,

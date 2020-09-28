@@ -95,7 +95,7 @@ const AuthPhoneComponentService = ({ children }) => {
   useEffect(() => {
     if (
       signupCreate.status !== 'success' ||
-      signupCreate.data.cognitoDelivery !== 'SMS'
+      signupCreate.data.cognitoDelivery !== 'phone'
     ) return
 
     logEvent('SIGNUP_CREATE_SUCCESS')

@@ -99,7 +99,7 @@ const AuthEmailComponentService = ({ children }) => {
   useEffect(() => {
     if (
       signupCreate.status !== 'success' ||
-      signupCreate.data.cognitoDelivery !== 'EMAIL'
+      signupCreate.data.cognitoDelivery !== 'email'
     ) return
 
     logEvent('SIGNUP_CREATE_SUCCESS')

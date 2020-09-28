@@ -37,3 +37,57 @@ export const setUserAcceptedEULAVersion = `
   }
   ${userFragment}
 `
+
+export const createAnonymousUser = `
+  mutation createAnonymousUser {
+    createAnonymousUser {
+      ...userFragment
+    }
+  }
+  ${userFragment}
+`
+
+export const startChangeUserPhoneNumber = `
+  mutation startChangeUserPhoneNumber($phoneNumber: AWSPhone!) {
+    startChangeUserPhoneNumber(phoneNumber: $phoneNumber) {
+      ...userFragment
+    }
+  }
+  ${userFragment}
+`
+
+export const finishChangeUserPhoneNumber = `
+  mutation finishChangeUserPhoneNumber($verificationCode: String!) {
+    finishChangeUserPhoneNumber(verificationCode: $verificationCode) {
+      ...userFragment
+    }
+  }
+  ${userFragment}
+`
+
+export const startChangeUserEmail = `
+  mutation startChangeUserEmail($email: AWSEmail!) {
+    startChangeUserEmail(email: $email) {
+      ...userFragment
+    }
+  }
+  ${userFragment}
+`
+
+export const finishChangeUserEmail = `
+  mutation finishChangeUserEmail($verificationCode: String!) {
+    finishChangeUserEmail(verificationCode: $verificationCode) {
+      ...userFragment
+    }
+  }
+  ${userFragment}
+`
+
+export const setFullname = `
+  mutation setFullname($fullName: String) {
+    setUserDetails(fullName: $fullName) {
+      ...userFragment
+    }
+  }
+  ${userFragment}
+`

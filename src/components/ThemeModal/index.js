@@ -8,7 +8,7 @@ import Modal from 'react-native-modal'
 import DefaultButton from 'components/Formik/Button/DefaultButton'
 import { Provider as PaperProvider } from 'react-native-paper'
 import { useSelector } from 'react-redux'
-import * as themeSelector from 'store/ducks/theme/selectors'
+import * as appSelector from 'store/ducks/app/selectors'
 
 import { withTheme, Paragraph } from 'react-native-paper'
 import { withTranslation } from 'react-i18next'
@@ -21,7 +21,7 @@ const ThemeModal = ({
   onApplyClick,
   onDiscardClick,
 }) => {
-  const activeTheme = useSelector(themeSelector.userThemeSelector('black.green'))
+  const activeTheme = useSelector(appSelector.userThemeSelector('black.green'))
 
   const styling = styles(theme)
   

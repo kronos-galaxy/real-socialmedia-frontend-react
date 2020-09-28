@@ -18,8 +18,10 @@ const AuthSigninPhone = ({
   t,
   formErrorMessage,
   handleFormSubmit,
+  handleFormTransform,
   handleErrorClose,
-  formSubmitting,
+  formSubmitLoading,
+  formSubmitDisabled,
   formInitialValues,
 }) => {
   const styling = styles
@@ -43,7 +45,9 @@ const AuthSigninPhone = ({
         <View style={styling.content}>
           <FormComponent
             handleFormSubmit={handleFormSubmit}
-            formSubmitting={formSubmitting}
+            handleFormTransform={handleFormTransform}
+            formSubmitLoading={formSubmitLoading}
+            formSubmitDisabled={formSubmitDisabled}
             formInitialValues={formInitialValues}
           />
         </View>
@@ -75,12 +79,9 @@ AuthSigninPhone.propTypes = {
   handleFormSubmit: PropTypes.any,
   handleFormTransform: PropTypes.any,
   handleErrorClose: PropTypes.any,
-  formSubmitting: PropTypes.bool,
+  formSubmitLoading: PropTypes.any,
+  formSubmitDisabled: PropTypes.any,
   formInitialValues: PropTypes.any,
-}
-
-AuthSigninPhone.defaultProps = {
-  formSubmitting: false,
 }
 
 export default withTranslation()(AuthSigninPhone)

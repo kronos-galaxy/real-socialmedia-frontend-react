@@ -16,7 +16,7 @@ const SearchService = ({ children }) => {
   const usersUnfollow = useSelector(state => state.users.usersUnfollow)
   const usersGetTrendingUsers = useSelector(usersSelector.usersGetTrendingUsersSelector())
   const postsGetTrendingPosts = useSelector(postsSelector.postsGetTrendingPostsSelector())
-  const themeFetch = useSelector(state => state.theme.themeFetch)
+  const appTheme = useSelector(state => state.app.appTheme)
   const usersAcceptFollowerUser = useSelector(state => state.users.usersAcceptFollowerUser)
 
   /**
@@ -75,7 +75,7 @@ const SearchService = ({ children }) => {
   return children({
     feedRef,
     user,
-    themeFetch,
+    appTheme,
     usersSearch,
     usersSearchRequest,
     usersFollow,

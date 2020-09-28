@@ -39,6 +39,9 @@ export const navigateBack = (navigation) => () =>
 export const navigatePop = (navigation) => () =>
   navigation.popToTop()
 
+export const navigateApp = (navigation) => () =>
+  navigation.navigate('App')
+
 export const navigateHome = (navigation, params) => () =>
   navigation.navigate('Root', {
     screen: 'Home',
@@ -180,7 +183,10 @@ export const navigateVerification = (navigation, params) => defaultThrottle(() =
  * 
  */
 export const navigateAuthHome = (navigation, params) => () =>
-  navigation.navigate('AuthHome', params)
+  navigation.navigate('Auth', {
+    screen: 'AuthHome',
+    params,
+  })
 
 export const navigateAuthUsername = (navigation, params) => () =>
   navigation.navigate('AuthUsername', params)

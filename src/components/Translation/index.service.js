@@ -6,7 +6,7 @@ import * as authSelector from 'store/ducks/auth/selectors'
 const TranslationService = ({ children }) => {
   const dispatch = useDispatch()
   const user = useSelector(authSelector.authUserSelector)
-  const translationFetch = useSelector(state => state.translation.translationFetch)
+  const appTranslation = useSelector(state => state.app.appTranslation)
   const usersEditProfile = useSelector(state => state.users.usersEditProfile)
 
   const usersEditProfileRequest = (payload) =>
@@ -20,7 +20,7 @@ const TranslationService = ({ children }) => {
 
   return children({
     user,
-    translationFetch,
+    appTranslation,
     usersEditProfileRequest,
   })
 }

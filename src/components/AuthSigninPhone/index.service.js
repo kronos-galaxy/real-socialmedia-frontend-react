@@ -9,8 +9,26 @@ import pathOr from 'ramda/src/pathOr'
 const AuthSigninComponentService = ({ children }) => {
   const dispatch = useDispatch()
 
-  const authSignin = useSelector(state => state.auth.authSignin)
-  const authCheck = useSelector(state => state.auth.authCheck)
+  const authSigninCognito = useSelector(state => state.auth.authSigninCognito)
+
+  const handleFormSubmit = (payload) => {
+    dispatch(authActions.authSigninCognitoRequest({
+      usernameType: 'phone',
+      countryCode: payload.countryCode,
+      username: `${payload.countryCode}${payload.username}`,
+      password: payload.password,
+    }))
+  }
+
+  const formSubmitLoading = authSigninCognito.status === 'loading'
+  const formSubmitDisabled = authSigninCognito.status === 'loading'
+  const formErrorMessage = authSigninCognito.error.text
+
+  const formInitialValues = {
+    countryCode: '+1',
+    username: replace(pathOr('', ['payload', 'countryCode'])(authSigninCognito), '', pathOr('', ['payload', 'username'])(authSigninCognito)),
+    password: pathOr('', ['payload', 'password'])(authSigninCognito),
+  }
 
   const handleFormTransform = (values) => ({
     countryCode: compose(replace(/[^+0-9]/g, ''), trim, toLower, pathOr('', ['countryCode']))(values),
@@ -18,37 +36,15 @@ const AuthSigninComponentService = ({ children }) => {
     password: values.password,
   })
 
-  const handleFormSubmit = (values, formApi) => {
-    const nextValues = handleFormTransform(values)
-    formApi.setValues(nextValues)
-
-    dispatch(authActions.authSigninSubmit({
-      usernameType: 'phone',
-      countryCode: nextValues.countryCode,
-      username: `${nextValues.countryCode}${nextValues.username}`,
-      password: nextValues.password,
-    }))
-  }
-
-  const formSubmitting = authSignin.status === 'loading' || authCheck.status === 'loading'
-  const formErrorMessage = authSignin.error.text 
-
-  const formInitialValues = {
-    countryCode: '+1',
-    username: replace(pathOr('', ['payload', 'countryCode'])(authSignin), '', pathOr('', ['payload', 'username'])(authSignin)),
-    password: pathOr('', ['payload', 'password'])(authSignin),
-  }
-
-  const handleErrorClose = () => {
-    dispatch(authActions.authSigninIdle())
-    dispatch(authActions.authCheckIdle())
-  }
+  const handleErrorClose = () => dispatch(authActions.authSigninCognitoIdle({}))
 
   return children({
     formErrorMessage,
     handleFormSubmit,
+    handleFormTransform,
     handleErrorClose,
-    formSubmitting,
+    formSubmitLoading,
+    formSubmitDisabled,
     formInitialValues,
   })
 }

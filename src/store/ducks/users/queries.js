@@ -256,3 +256,9 @@ export const onNotification = `
     }
   }
 `
+
+export const reportScreenViews = `
+  mutation reportScreenViews($screens: [String!]!) {
+    reportScreenViews(screens: $screens)
+  }
+` 

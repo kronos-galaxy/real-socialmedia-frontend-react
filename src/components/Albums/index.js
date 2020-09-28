@@ -15,7 +15,7 @@ import { useNavigation } from '@react-navigation/native'
 
 const Albums = ({
   theme,
-  themeFetch,
+  appTheme,
   albumsGet,
   user,
 }) => {
@@ -32,7 +32,7 @@ const Albums = ({
       <ScrollView bounces={false}>
         <AlbumsGridComponent
           albumsGet={albumsGet}
-          themeFetch={themeFetch}
+          appTheme={appTheme}
           themeCode={path(['data', 'themeCode'])(user)}
         />
       </ScrollView>
@@ -52,7 +52,7 @@ Albums.propTypes = {
   postsSingleGet: PropTypes.any,
   postsShare: PropTypes.any,
   postsShareRequest: PropTypes.any,
-  themeFetch:PropTypes.any,
+  appTheme:PropTypes.any,
   albumsGet:PropTypes.any,
   user:PropTypes.any,
 }
