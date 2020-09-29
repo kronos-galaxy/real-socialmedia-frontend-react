@@ -17,6 +17,7 @@ export const amplifyConfig = () => {
       refreshHandlers: {
         'google': Google.refresh,
         'apple': Apple.refresh,
+        // [`cognito-idp.${Config.AWS_COGNITO_REGION}.amazonaws.com/${Config.AWS_COGNITO_USER_POOL_ID}`]: console.log,
       },
     },
     API: {

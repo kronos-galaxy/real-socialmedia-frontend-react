@@ -1,10 +1,9 @@
-import { put, call, getContext, takeEvery } from 'redux-saga/effects'
+import { put, call, race, take, getContext, takeEvery } from 'redux-saga/effects'
 import * as actions from 'store/ducks/auth/actions'
 import * as constants from 'store/ducks/auth/constants'
 import * as errors from 'store/ducks/auth/errors'
 import { federatedGoogleSignout } from 'services/AWS'
 import { resetAuthUserPersist } from 'services/Auth'
-import Config from 'react-native-config'
 import * as navigationActions from 'navigation/actions'
 
 /**
@@ -12,12 +11,15 @@ import * as navigationActions from 'navigation/actions'
  */
 function* handleAuthSignoutRequest() {
   const AwsAuth = yield getContext('AwsAuth')
-  const AwsCache = yield getContext('AwsCache')
-  const AwsCredentials = yield getContext('AwsCredentials')
 
-  yield call([AwsCredentials, 'clear'])
-  yield call([AwsCache, 'removeItem'], `CognitoIdentityId-${Config.AWS_COGNITO_IDENTITY_POOL_ID}`)
   yield call([AwsAuth, 'signOut'], { global: true })
+
+  yield put(actions.authResetRequest({ allowAnonymous: true }))
+  yield race({
+    resetSuccess: take(constants.AUTH_RESET_SUCCESS),
+    resetFailure: take(constants.AUTH_RESET_FAILURE),
+  })
+
   yield call(resetAuthUserPersist)
   yield call(federatedGoogleSignout)
 

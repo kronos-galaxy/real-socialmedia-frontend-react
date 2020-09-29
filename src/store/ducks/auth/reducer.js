@@ -312,6 +312,41 @@ const authSigninAppleIdle = (state) => update(state, {
 /**
  *
  */
+const authSigninAnonymousRequest = (state) => update(state, {
+  authSigninAnonymous: {
+    status: { $set: 'loading' },
+  },
+})
+
+const authSigninAnonymousSuccess = (state, action) => update(state, {
+  authSigninAnonymous: {
+    message: { $set: action.payload.message },
+    data: { $set: action.payload.data },
+    status: { $set: 'success' },
+  },
+})
+
+const authSigninAnonymousFailure = (state, action) => update(state, {
+  authSigninAnonymous: {
+    message: { $set: action.payload.message },
+    error: { $set: action.payload.message },
+    status: { $set: 'failure' },
+  },
+})
+
+const authSigninAnonymousIdle = (state) => update(state, {
+  authSigninAnonymous: {
+    data: { $set: initialState.authSigninAnonymous.data },
+    status: { $set: 'idle' },
+    error: { $set: initialState.authSigninAnonymous.error },
+    message: { $set: initialState.authSigninAnonymous.message },
+  },
+})
+
+
+/**
+ *
+ */
 const authSignoutRequest = (state) => update(state, {
   authSignout: {
     status: { $set: 'loading' },
@@ -440,6 +475,11 @@ export default handleActions({
   [constants.AUTH_SIGNIN_APPLE_SUCCESS]: authSigninAppleSuccess,
   [constants.AUTH_SIGNIN_APPLE_FAILURE]: authSigninAppleFailure,
   [constants.AUTH_SIGNIN_APPLE_IDLE]: authSigninAppleIdle,
+
+  [constants.AUTH_SIGNIN_ANONYMOUS_REQUEST]: authSigninAnonymousRequest,
+  [constants.AUTH_SIGNIN_ANONYMOUS_SUCCESS]: authSigninAnonymousSuccess,
+  [constants.AUTH_SIGNIN_ANONYMOUS_FAILURE]: authSigninAnonymousFailure,
+  [constants.AUTH_SIGNIN_ANONYMOUS_IDLE]: authSigninAnonymousIdle,
 
   [constants.AUTH_SIGNOUT_REQUEST]: authSignoutRequest,
   [constants.AUTH_SIGNOUT_SUCCESS]: authSignoutSuccess,

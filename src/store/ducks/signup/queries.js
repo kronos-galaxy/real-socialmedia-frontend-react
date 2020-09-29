@@ -41,10 +41,13 @@ export const setUserAcceptedEULAVersion = `
 export const createAnonymousUser = `
   mutation createAnonymousUser {
     createAnonymousUser {
-      ...userFragment
+      AccessToken
+      ExpiresIn
+      TokenType
+      RefreshToken
+      IdToken
     }
   }
-  ${userFragment}
 `
 
 export const startChangeUserPhoneNumber = `

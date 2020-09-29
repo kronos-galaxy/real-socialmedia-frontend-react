@@ -1,9 +1,8 @@
-import { call, put, take, race, takeEvery, getContext } from 'redux-saga/effects'
+import { put, take, race, takeEvery, getContext } from 'redux-saga/effects'
 import * as actions from 'store/ducks/auth/actions'
 import * as constants from 'store/ducks/auth/constants'
 import * as errors from 'store/ducks/auth/errors'
 import pathOr from 'ramda/src/pathOr'
-import Config from 'react-native-config'
 import * as navigationActions from 'navigation/actions'
 
 function hasAuthenticatedCondition({ dataSuccess }) {
@@ -13,9 +12,6 @@ function hasAuthenticatedCondition({ dataSuccess }) {
 }
 
 function* handleAuthFlowRequest(payload = {}) {
-  const AwsCache = yield getContext('AwsCache')
-  const AwsCredentials = yield getContext('AwsCredentials')
-
   /**
    * Fetching cognito credentials/tokens
    */
@@ -39,8 +35,12 @@ function* handleAuthFlowRequest(payload = {}) {
   })
 
   if (dataFailure) {
-    yield call([AwsCredentials, 'clear'])
-    yield call([AwsCache, 'removeItem'], `CognitoIdentityId-${Config.AWS_COGNITO_IDENTITY_POOL_ID}`)
+    yield put(actions.authResetRequest({ allowAnonymous: true }))
+    yield race({
+      resetSuccess: take(constants.AUTH_RESET_SUCCESS),
+      resetFailure: take(constants.AUTH_RESET_FAILURE),
+    })
+
     throw new Error('Failed to fetch data')
   }
 

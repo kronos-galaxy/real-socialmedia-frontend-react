@@ -39,10 +39,13 @@ export const linkGoogleLogin = `
 export const createAnonymousUser = `
   mutation createAnonymousUser {
     createAnonymousUser {
-      ...singleUserFragment
+      AccessToken
+      ExpiresIn
+      TokenType
+      RefreshToken
+      IdToken
     }
   }
-  ${usersSingle.singleUserFragment}
 `
 
 export const setFullname = `

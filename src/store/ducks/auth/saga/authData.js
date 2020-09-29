@@ -1,4 +1,4 @@
-import { call, put, takeEvery } from 'redux-saga/effects'
+import { call, put, takeEvery, getContext } from 'redux-saga/effects'
 import * as actions from 'store/ducks/auth/actions'
 import * as constants from 'store/ducks/auth/constants'
 import * as errors from 'store/ducks/auth/errors'
@@ -12,12 +12,37 @@ import * as entitiesActions from 'store/ducks/entities/actions'
 import * as normalizer from 'normalizer/schemas'
 import * as Logger from 'services/Logger'
 import path from 'ramda/src/path'
+import Config from 'react-native-config'
+
+const COGNITO_PROVIDER = `cognito-idp.${Config.AWS_COGNITO_REGION}.amazonaws.com/${Config.AWS_COGNITO_USER_POOL_ID}`
 
 class MissingUserAttributeError extends Error {
   constructor(...args) {
     super(...args)
     this.code = 'MISSING_USER_ATTRIBUTEE_ERROR'
   }
+}
+
+export function* handleAnonymousSignin(anonymousUser) {
+  const AwsAuth = yield getContext('AwsAuth')
+
+  /**
+   *
+   */
+  const cognito = {
+    id: null,
+    name: null,
+    email: null,
+    authProvider: 'COGNITO',
+    token: anonymousUser.IdToken,
+    expires_at: new Date().getTime() + (50 * 60 * 1000),
+  }
+  const credentials = {
+    token: cognito.token,
+    expires_at: cognito.expires_at,
+  }
+  
+  yield AwsAuth.federatedSignIn(COGNITO_PROVIDER, credentials, {})
 }
 
 /**
@@ -78,7 +103,8 @@ function* onlineData() {
  */
 function* createAnonymousUser() {
   try {
-    yield queryService.apiRequest(queries.createAnonymousUser)
+    const request = yield queryService.apiRequest(queries.createAnonymousUser)
+    yield call(handleAnonymousSignin, request.data.createAnonymousUser)
   } catch (error) {
     // ignore
   }

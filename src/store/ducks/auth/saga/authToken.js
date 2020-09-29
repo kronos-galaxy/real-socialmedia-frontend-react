@@ -1,8 +1,7 @@
-import { call, put, getContext, takeEvery } from 'redux-saga/effects'
+import { call, put, race, take, getContext, takeEvery } from 'redux-saga/effects'
 import * as actions from 'store/ducks/auth/actions'
 import * as constants from 'store/ducks/auth/constants'
 import * as errors from 'store/ducks/auth/errors'
-import Config from 'react-native-config'
 
 class MissingCognitoTokenError extends Error {
   constructor(...args) {
@@ -25,8 +24,6 @@ class UnauthorizedTokenError extends Error {
  */
 function* fetchCognitoCredentials() {
   const AwsAuth = yield getContext('AwsAuth')
-  const AwsCache = yield getContext('AwsCache')
-  const AwsCredentials = yield getContext('AwsCredentials')
 
   /**
    * Fetch latest token from cognito api, bypass cache from asyncstorage
@@ -37,8 +34,12 @@ function* fetchCognitoCredentials() {
    * Cognito may throw an error if user is unathorized to stale token coming from asyncStorage
    */
   if (credentials.message && credentials.message.includes('Access to Identity') && credentials.message.includes('is forbidden')) {
-    yield call([AwsCredentials, 'clear'])
-    yield call([AwsCache, 'removeItem'], `CognitoIdentityId-${Config.AWS_COGNITO_IDENTITY_POOL_ID}`)
+    yield put(actions.authResetRequest({ allowAnonymous: true }))
+    yield race({
+      resetSuccess: take(constants.AUTH_RESET_SUCCESS),
+      resetFailure: take(constants.AUTH_RESET_FAILURE),
+    })
+
     return yield call([AwsAuth, 'currentUserCredentials'], { bypassCache: true })
   }
 

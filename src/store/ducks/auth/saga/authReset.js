@@ -9,8 +9,10 @@ import Config from 'react-native-config'
  */
 function* resetCognitoCredentials() {
   const AwsCache = yield getContext('AwsCache')
+  const AwsCredentials = yield getContext('AwsCredentials')
 
   yield call([AwsCache, 'removeItem'], `CognitoIdentityId-${Config.AWS_COGNITO_IDENTITY_POOL_ID}`)
+  yield call([AwsCredentials, 'clear'])
 }
 
 /**
