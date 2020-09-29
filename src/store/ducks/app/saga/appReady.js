@@ -9,6 +9,13 @@ import i18n from 'i18next'
 import { initReactI18next } from 'react-i18next'
 import * as Updates from 'services/Updates'
 
+function* getCachedAuthentication() {
+  const AwsAuth = yield getContext('AwsAuth')
+
+  const credentials = yield call([AwsAuth, 'currentCredentials'])
+  return credentials.authenticated
+}
+
 /**
  * Translation library setup, appTranslation.data is an object of:
  * {
@@ -68,12 +75,20 @@ function* appReadyRequest(req) {
 }
 
 function* appReadySuccess() {
+  const ReactNavigationRef = yield getContext('ReactNavigationRef')
+
   /**
    * Is application at latest version
    */
   yield call([Updates, 'versionCheck'])
-  const ReactNavigationRef = yield getContext('ReactNavigationRef')
-  navigationActions.navigateAuthHome(ReactNavigationRef.current)()
+
+  const hasCachedAuthentication = yield call(getCachedAuthentication)
+
+  if (hasCachedAuthentication) {
+    navigationActions.navigateApp(ReactNavigationRef.current)()
+  } else {
+    navigationActions.navigateAuthHome(ReactNavigationRef.current)()
+  }
 }
 
 export default () => [

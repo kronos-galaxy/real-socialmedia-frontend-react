@@ -7,31 +7,17 @@ import Config from 'react-native-config'
 /**
  *
  */
-function* resetCognitoCredentials() {
+function* resetCognitoFederated() {
   const AwsCache = yield getContext('AwsCache')
   const AwsCredentials = yield getContext('AwsCredentials')
 
+  yield call([AwsCache, 'removeItem'], 'aws-amplify-federatedInfo')
   yield call([AwsCache, 'removeItem'], `CognitoIdentityId-${Config.AWS_COGNITO_IDENTITY_POOL_ID}`)
   yield call([AwsCredentials, 'clear'])
 }
 
-/**
- *
- */
-function* resetCognitoFederated() {
-  const AwsCache = yield getContext('AwsCache')
-
-  yield call([AwsCache, 'removeItem'], 'aws-amplify-federatedInfo')
-}
-
-function* handleAuthResetRequest(payload = { credentials: true, federated: true }) {
-  if (payload.credentials) {
-    yield call(resetCognitoCredentials)
-  }
-
-  if (payload.federated) {
-    yield call(resetCognitoFederated)
-  }
+function* handleAuthResetRequest() {
+  yield call(resetCognitoFederated)
 }
 
 /**
