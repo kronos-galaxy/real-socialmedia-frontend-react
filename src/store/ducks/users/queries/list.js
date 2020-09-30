@@ -47,6 +47,7 @@ export const listUserFragment = `
   fragment listUserFragment on User {
     userId
     username
+    userStatus
     privacyStatus
     followedStatus
     followerStatus

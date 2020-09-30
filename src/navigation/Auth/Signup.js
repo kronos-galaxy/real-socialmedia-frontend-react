@@ -1,14 +1,14 @@
 import React, { useContext } from 'react'
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs'
 
-import { ThemesContext } from 'navigation/context'
+import { ThemeContext } from 'services/providers/Theme'
 import * as navigationOptions from 'navigation/options'
 import AuthPhoneScreen from 'screens/AuthPhoneScreen'
 import AuthEmailScreen from 'screens/AuthEmailScreen'
 import testIDs from '../test-ids'
 
 const SignupNavigator = () => {
-  const { theme, themes } = useContext(ThemesContext)
+  const { theme, themes } = useContext(ThemeContext)
   const Tab = createMaterialTopTabNavigator()
   const tabNavigatorAuthProps = navigationOptions.tabNavigatorAuthProps({ theme, themes })
 

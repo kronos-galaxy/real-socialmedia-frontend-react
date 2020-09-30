@@ -2,7 +2,6 @@ import React, { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import * as appActions from 'store/ducks/app/actions'
 import * as usersActions from 'store/ducks/users/actions'
-import * as authSelector from 'store/ducks/auth/selectors'
 import LoadingComponent from 'components/Loading'
 
 /**
@@ -16,9 +15,6 @@ export const AppProvider = ({
 }) => {
   const dispatch = useDispatch()
   const appReady = useSelector(state => state.app.appReady)
-  const appTheme = useSelector(state => state.app.appTheme)
-  const theme = useSelector(authSelector.themeSelector)
-  const networkIsConnected = useSelector(state => state.network.isConnected)
 
   const onStateChange = () => {
     const previousRouteName = routeNameRef.current
@@ -40,16 +36,9 @@ export const AppProvider = ({
     dispatch(appActions.appReadyRequest())
   }, [])
 
-  useEffect(() => {
-  }, [])
-
   if (appReady.status !== 'success') {
     return <LoadingComponent />
   }
 
-  return children({
-    theme,
-    themes: appTheme.data,
-    networkIsConnected,
-  })
+  return children
 }

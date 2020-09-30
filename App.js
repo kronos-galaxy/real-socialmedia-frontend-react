@@ -1,12 +1,10 @@
 import React, { useState, useRef, useEffect } from 'react'
-import { StatusBar } from 'react-native'
 import { Provider } from 'react-redux'
 import { PersistGate } from 'redux-persist/integration/react'
 import { NavigationContainer } from '@react-navigation/native'
 import { AuthProvider } from 'services/providers/Auth'
 import { AppProvider } from 'services/providers/App'
-import { Provider as PaperProvider } from 'react-native-paper'
-import { ThemesContext } from 'navigation/context'
+import { ThemeProvider } from 'services/providers/Theme'
 import { ReduxNetworkProvider } from 'react-native-offline'
 import initializeStore from 'store/index'
 import codePush from 'react-native-code-push' 
@@ -36,21 +34,16 @@ const Application = (navigationProps) => {
       <ReduxNetworkProvider>
         <PersistGate loading={(<LoadingComponent />)} persistor={persistor}>
           <AppProvider {...navigationProps}>
-            {({ theme, themes, networkIsConnected }) => (
-              <PaperProvider theme={theme}>
-              <ThemesContext.Provider value={{ theme, themes }}>
-                <FeedContextComponent.Provider value={{ draggedImage, setDraggedImage }}>
-                  <StatusBar barStyle={theme.dark ? 'light-content' : 'dark-content'} />
-                  <PinchZoomComponent />
-                  <NetworkComponent networkIsConnected={networkIsConnected} />
+            <FeedContextComponent.Provider value={{ draggedImage, setDraggedImage }}>
+              <PinchZoomComponent />
+              <NetworkComponent />
 
-                  <AuthProvider>
-                    <Router navigationRef={navigationProps.navigationRef} />
-                  </AuthProvider>
-                </FeedContextComponent.Provider>
-              </ThemesContext.Provider>
-              </PaperProvider>
-            )}
+              <AuthProvider>
+                <ThemeProvider>
+                  <Router navigationRef={navigationProps.navigationRef} />
+                </ThemeProvider>
+              </AuthProvider>
+            </FeedContextComponent.Provider>
           </AppProvider>
         </PersistGate>
       </ReduxNetworkProvider>

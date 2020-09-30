@@ -4,7 +4,7 @@ import { createStackNavigator } from '@react-navigation/stack'
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs'
 import { withTheme } from 'react-native-paper'
 
-import { ThemesContext } from 'navigation/context'
+import { ThemeContext } from 'services/providers/Theme'
 import * as navigationOptions from 'navigation/options'
 import * as navigationFragments from 'navigation/fragments'
 
@@ -19,9 +19,10 @@ import ChatOptionsScreen from 'screens/ChatOptionsScreen'
 import ProfileScreen from 'screens/ProfileScreen'
 import ProfileRequestsScreen from 'screens/ProfileRequestsScreen'
 import VerificationScreen from 'screens/VerificationScreen'
+import ProfileUpgradeScreen from 'screens/ProfileUpgradeScreen'
 
 const ChatNavigator = ({ navigation }) => {
-  const { theme, themes } = useContext(ThemesContext)
+  const { theme, themes } = useContext(ThemeContext)
   const Stack = createStackNavigator()
   const stackNavigatorDefaultProps = navigationOptions.stackNavigatorDefaultProps({ theme })
   const stackScreenPageProps = navigationOptions.stackScreenPageProps({ theme, themes })
@@ -68,7 +69,7 @@ ChatNavigator.propTypes = {
 
 const RootNavigator = () => {
   const Stack = createStackNavigator()
-  const { theme, themes } = useContext(ThemesContext)
+  const { theme, themes } = useContext(ThemeContext)
   const stackNavigatorDefaultProps = navigationOptions.stackNavigatorDefaultProps({ theme, themes })
   const stackScreenBlankProps = navigationOptions.stackScreenBlankProps({ theme, themes })
   const stackScreenPageProps = navigationOptions.stackScreenPageProps({ theme, themes })
@@ -81,6 +82,12 @@ const RootNavigator = () => {
         name="Home"
         component={TabNavigator}
         {...stackScreenBlankProps}
+      />
+
+      <Stack.Screen
+        name="ProfileUpgrade"
+        component={ProfileUpgradeScreen}
+        {...stackScreenModalProps}
       />
 
       <Stack.Screen

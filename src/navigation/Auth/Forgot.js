@@ -1,13 +1,13 @@
 import React, { useContext } from 'react'
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs'
 
-import { ThemesContext } from 'navigation/context'
+import { ThemeContext } from 'services/providers/Theme'
 import * as navigationOptions from 'navigation/options'
 import AuthForgotPhoneScreen from 'screens/AuthForgotPhoneScreen'
 import AuthForgotEmailScreen from 'screens/AuthForgotEmailScreen'
 
 const ForgotNavigator = () => {
-  const { theme, themes } = useContext(ThemesContext)
+  const { theme, themes } = useContext(ThemeContext)
   const Tab = createMaterialTopTabNavigator()
   const tabNavigatorAuthProps = navigationOptions.tabNavigatorAuthProps({ theme, themes })
 

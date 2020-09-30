@@ -19,6 +19,7 @@ export const userFragment = `
   fragment rootUser on User {
     userId
     username
+    userStatus
     photo {
       ...imageFragment
     }

@@ -1,32 +1,56 @@
-import throttle from 'lodash.throttle'
+const withAuthValidation = (callback) => {
+  return (navigation, params = {}, meta = {}) => {
+    return () => {
+      if (!meta.protected) {
+        return callback(navigation, params)
+      }
 
-const defaultThrottle = functor => throttle(functor, 200, { trailing: false })
+      if (meta.user && meta.user.userStatus === 'ACTIVE') {
+        return callback(navigation, params)
+      }
+
+      return navigation.navigate('ProfileUpgrade', params)
+    }
+  }
+}
 
 /**
  *
  */
 export const navigateNestedPost = (navigation, params) => () =>
-  navigation.navigate('Root', {
-    screen: 'PostMedia',
-    params,
+  navigation.navigate('App', {
+    screen: 'Root',
+    params: {
+      screen: 'PostMedia',
+      params,
+    },
   })
 
 export const navigateNestedPostViews = (navigation, params) => () =>
-  navigation.navigate('Root', {
-    screen: 'PostViews',
-    params,
+  navigation.navigate('App', {
+    screen: 'Root',
+    params: {
+      screen: 'PostViews',
+      params,
+    },
   })
 
 export const navigateNestedComments = (navigation, params) => () =>
-  navigation.navigate('Root', {
-    screen: 'Comments',
-    params,
+  navigation.navigate('App', {
+    screen: 'Root',
+    params: {
+      screen: 'Comments',
+      params,
+    },
   })
 
 export const navigateNestedPostLikes = (navigation, params) => () =>
-  navigation.navigate('Root', {
-    screen: 'PostLikes',
-    params,
+  navigation.navigate('App', {
+    screen: 'Root',
+    params: {
+      screen: 'PostLikes',
+      params,
+    },
   })
 
 /**
@@ -70,31 +94,31 @@ export const navigateCamera = (navigation, params) => () =>
   navigation.navigate('Camera', params)
 
   
-export const navigateStory = (navigation, params) => defaultThrottle(() =>
+export const navigateStory = withAuthValidation((navigation, params) =>
   navigation.push('Story', params),
 )
 
-export const navigateChat = (navigation, params) => defaultThrottle(() =>
+export const navigateChat = withAuthValidation((navigation, params) =>
   navigation.navigate('Chat', params),
 )
 
-export const navigateChatDirect = (navigation, params) => defaultThrottle(() =>
+export const navigateChatDirect = withAuthValidation((navigation, params) =>
   navigation.navigate('ChatDirect', params),
 )
 
-export const navigateChatOptions = (navigation, params) => defaultThrottle(() =>
+export const navigateChatOptions = withAuthValidation((navigation, params) =>
   navigation.navigate('ChatOptions', params),
 )
 
-export const navigatePostShare = (navigation, params) => defaultThrottle(() =>
+export const navigatePostShare = withAuthValidation((navigation, params) =>
   navigation.push('PostShare', params),
 )
 
-export const navigatePostEdit = (navigation, params) => defaultThrottle(() =>
+export const navigatePostEdit = withAuthValidation((navigation, params) =>
   navigation.navigate('PostEdit', params),
 )
 
-export const navigateProfileRequests = (navigation, params) => defaultThrottle(() =>
+export const navigateProfileRequests = withAuthValidation((navigation, params) =>
   navigation.navigate('ProfileRequests', params),
 )
 
@@ -110,71 +134,84 @@ export const navigateProfilePhoto = (navigation, params) => () =>
     },
   })
 
-export const navigateProfilePhotoUpload = (navigation, params) => defaultThrottle(() =>
+export const navigateProfilePhotoUpload = withAuthValidation((navigation, params) =>
   navigation.navigate('ProfilePhotoUpload', params),
 )
 
-export const navigateAlbum = (navigation, params) => defaultThrottle(() =>
+export const navigateAlbum = withAuthValidation((navigation, params) =>
   navigation.push('Album', params),
 )
 
-export const navigateAlbumCreate = (navigation, params) => defaultThrottle(() =>
+export const navigateAlbumCreate = withAuthValidation((navigation, params) =>
   navigation.navigate('AlbumCreate', params),
 )
 
-export const navigateAlbumEdit = (navigation, params) => defaultThrottle(() =>
+export const navigateAlbumEdit = withAuthValidation((navigation, params) =>
   navigation.navigate('AlbumEdit', params),
 )
 
-export const navigateAlbums = (navigation, params) => defaultThrottle(() =>
+export const navigateAlbums = withAuthValidation((navigation, params) =>
   navigation.navigate('Albums', params),
 )
 
-export const navigateComments = (navigation, params) => defaultThrottle(() =>
+export const navigateComments = withAuthValidation((navigation, params) =>
   navigation.push('Comments', params),
 )
 
-export const navigatePostType = (navigation, params) => defaultThrottle(() =>
+export const navigatePostType = withAuthValidation((navigation, params) =>
   navigation.navigate('PostType', params),
 )
 
-export const navigateProfile = (navigation, params) => defaultThrottle(() =>
+export const navigateProfileUpgrade = withAuthValidation((navigation, params) =>
+  navigation.navigate('ProfileUpgrade', params),
+)
+
+export const navigateProfile = withAuthValidation((navigation, params) =>
   navigation.push('Profile', params),
 )
 
-export const navigateProfileSelf = (navigation, params) => defaultThrottle(() =>
-  navigation.push('ProfileSelf', params),
+export const navigateProfileSelf = withAuthValidation((navigation, params) =>
+  navigation.navigate('App', {
+    screen: 'Root',
+    params: {
+      screen: 'Home',
+      params: {
+        screen: 'Profile',
+        params,
+      },
+    },
+  }),
 )
 
-export const navigateProfileFollower = (navigation, params) => defaultThrottle(() =>
+export const navigateProfileFollower = withAuthValidation((navigation, params) =>
   navigation.push('ProfileFollower', params),
 )
 
-export const navigateProfileFollowed = (navigation, params) => defaultThrottle(() =>
+export const navigateProfileFollowed = withAuthValidation((navigation, params) =>
   navigation.push('ProfileFollowed', params),
 )
 
-export const navigatePostMedia = (navigation, params) => defaultThrottle(() =>
+export const navigatePostMedia = withAuthValidation((navigation, params) =>
   navigation.push('PostMedia', params),
 )
 
-export const navigatePostLikes = (navigation, params) => defaultThrottle(() =>
+export const navigatePostLikes = withAuthValidation((navigation, params) =>
   navigation.push('PostLikes', params),
 )
 
-export const navigatePostViews = (navigation, params) => defaultThrottle(() =>
+export const navigatePostViews = withAuthValidation((navigation, params) =>
   navigation.push('PostViews', params),
 )
 
-export const navigateSettings = (navigation, params) => defaultThrottle(() =>
+export const navigateSettings = withAuthValidation((navigation, params) =>
   navigation.navigate('Settings', params),
 )
 
-export const navigatePayout = (navigation, params) => defaultThrottle(() =>
+export const navigatePayout = withAuthValidation((navigation, params) =>
   navigation.navigate('Payout', params),
 )
 
-export const navigateVerification = (navigation, params) => defaultThrottle(() =>
+export const navigateVerification = withAuthValidation((navigation, params) =>
   navigation.navigate('Verification', params),
 )
 
