@@ -1,12 +1,15 @@
 import * as usersSingle from 'store/ducks/users/queries/single'
+import {
+  userFragment,
+} from 'store/fragments'
 
 export const self = `
   query self {
     self {
-      ...singleUserFragment
+      ...userFragment
     }
   }
-  ${usersSingle.singleUserFragment}
+  ${userFragment}
 `
 
 export const linkAppleLogin = `

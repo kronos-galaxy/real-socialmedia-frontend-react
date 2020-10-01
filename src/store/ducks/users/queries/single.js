@@ -48,6 +48,7 @@ export const singleUserFragment = `
     userId
     username
     userStatus
+    datingStatus
     privacyStatus
     followedStatus
     followerStatus

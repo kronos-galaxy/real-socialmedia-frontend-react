@@ -424,6 +424,43 @@ function* usersEditProfileRequest(req) {
 /**
  *
  */
+function* usersSetUserDatingStatusRequestData(req, api) {
+  const dataSelector = path(['data', 'setUserDetails'])
+
+  const data = dataSelector(api)
+  const meta = {}
+  const payload = req.payload
+
+  const normalized = normalizer.normalizeUserGet(data)
+  yield put(entitiesActions.entitiesAlbumsMerge({ data: normalized.entities.albums || {} }))
+  yield put(entitiesActions.entitiesPostsMerge({ data: normalized.entities.posts || {} }))
+  yield put(entitiesActions.entitiesUsersMerge({ data: normalized.entities.users || {} }))
+  yield put(entitiesActions.entitiesCommentsMerge({ data: normalized.entities.comments || {} }))
+  yield put(entitiesActions.entitiesImagesMerge({ data: normalized.entities.images || {} }))
+
+  return {
+    data: normalized.result,
+    meta,
+    payload,
+  }
+}
+
+function* usersSetUserDatingStatusRequest(req) {
+  try {
+    const data = yield queryService.apiRequest(queries.setUserDatingStatus, req.payload)
+    const next = yield usersSetUserDatingStatusRequestData(req, data)
+    yield put(actions.usersSetUserDatingStatusSuccess({ data: next.data, payload: next.payload, meta: next.meta }))
+  } catch (error) {
+    yield put(actions.usersSetUserDatingStatusFailure({
+      message: errors.getMessagePayload(constants.USERS_SET_USER_DATING_STATUS_FAILURE, 'GENERIC', error.message),
+      payload: req.payload,
+    }))
+  }
+}
+
+/**
+ *
+ */
 function* usersDeleteProfilePhoto() {
   try {
     const req = { payload: { photoPostId: '' } }
@@ -742,4 +779,5 @@ export default () => [
   takeLatest(constants.USERS_SET_APNS_TOKEN_REQUEST, usersSetApnsTokenRequest),
   takeLatest(constants.USERS_DELETE_AVATAR_REQUEST, usersDeleteProfilePhoto),
   takeLatest(constants.USERS_REPORT_SCREEN_VIEWS_REQUEST, usersReportScreenViewsRequest),
+  takeLatest(constants.USERS_SET_USER_DATING_STATUS_REQUEST, usersSetUserDatingStatusRequest),
 ]

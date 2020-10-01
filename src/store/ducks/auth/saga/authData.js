@@ -133,6 +133,7 @@ function* authDataRequest(req) {
       meta,
     }))
   } catch (error) {
+    console.log(error)
     const primaryClientError = queryService.getPrimaryClientError(error)
       
     if (primaryClientError && primaryClientError.message.includes('User does not exist')) {
