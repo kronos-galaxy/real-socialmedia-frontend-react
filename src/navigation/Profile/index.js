@@ -18,6 +18,7 @@ import SettingsScreen from 'screens/SettingsScreen'
 import PayoutScreen from 'screens/PayoutScreen'
 import MembershipScreen from 'screens/MembershipScreen'
 import ArchivedScreen from 'screens/ArchivedScreen'
+import InviteFriendsScreen from 'screens/InviteFriendsScreen'
 
 const ProfileNavigator = () => {
   const { theme, themes } = useContext(ThemeContext)
@@ -81,6 +82,11 @@ const ProfileNavigator = () => {
         name="Membership"
         component={MembershipScreen}
         {...stackScreenPageProps({ options: { title: 'Join Diamond' } })}
+      />
+      <Stack.Screen
+        name="InviteFriends"
+        component={InviteFriendsScreen}
+        {...stackScreenPageProps({ options: { title: 'Follow & Invite Friends' } })}
       />
       <Stack.Screen
         name="Archived"

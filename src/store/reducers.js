@@ -13,6 +13,7 @@ import app from 'store/ducks/app/reducer'
 import cache from 'store/ducks/cache/reducer'
 import entities from 'store/ducks/entities/reducer'
 import subscriptions from 'store/ducks/subscriptions/reducer'
+import contacts from 'store/ducks/contacts/reducer'
 import { reducer as network } from 'react-native-offline'
 
 import 'store/ducks/posts/updates'
@@ -74,6 +75,11 @@ const chatPersistConfig = {
   ],
 }
 
+const contactsPersistConfig = {
+  key: '/v2/contacts',
+  storage: STORAGE_PROVIDER,
+}
+
 export default combineReducers({
   app: persistReducer(appPersistConfig, app),
   network,
@@ -84,6 +90,7 @@ export default combineReducers({
   chat: persistReducer(chatPersistConfig, chat),
   posts: persistReducer(postsPersistConfig, posts),
   users: persistReducer(usersPersistConfig, users),
+  contacts: persistReducer(contactsPersistConfig, contacts),
   cache,
   entities,
   subscriptions,

@@ -21,7 +21,7 @@ const Permissions = ({
     <View style={styling.root}>
       <View>
         <View style={styling.features}>
-          <FeatureComponent active>Open the "Settings" app on your iPhone or iPad.</FeatureComponent>
+          <FeatureComponent active>Open Settings app on your iPhone or iPad.</FeatureComponent>
           <FeatureComponent active>Tap the "Privacy" menu item.</FeatureComponent>
           <FeatureComponent active>Tap the "Photos" menu item.</FeatureComponent>
           <FeatureComponent active>Find "REAL" in the list of apps and tap it.</FeatureComponent>
