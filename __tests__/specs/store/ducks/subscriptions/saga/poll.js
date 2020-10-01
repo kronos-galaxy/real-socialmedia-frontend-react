@@ -18,11 +18,10 @@ describe('subscriptionPollStart', () => {
   })
 
   it('close channel on idle action', async () => {
-    const saga = expectSaga(subscriptionPollStart)
+    const promise = expectSaga(subscriptionPollStart)
       .not.put(postsActions.postsGetTrendingPostsRequest({ limit: 100 }))
       .dispatch(subscriptionsActions.subscriptionsPollIdle())
-
-    const promise = saga.silentRun()
+      .silentRun()
 
     setTimeout(() => {
       jest.runTimersToTime(30 * 60000)

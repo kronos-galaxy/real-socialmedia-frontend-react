@@ -7,6 +7,7 @@ import signup from 'store/ducks/signup/reducer'
 import camera from 'store/ducks/camera/reducer'
 import posts from 'store/ducks/posts/reducer'
 import albums from 'store/ducks/albums/reducer'
+import purchases from 'store/ducks/purchases/reducer'
 import chat from 'store/ducks/chat/reducer'
 import users from 'store/ducks/users/reducer'
 import app from 'store/ducks/app/reducer'
@@ -75,6 +76,11 @@ const chatPersistConfig = {
   ],
 }
 
+const purchasesPersistConfig = {
+  key: '/v2/purchases',
+  storage: STORAGE_PROVIDER,
+}
+
 const contactsPersistConfig = {
   key: '/v2/contacts',
   storage: STORAGE_PROVIDER,
@@ -87,6 +93,7 @@ export default combineReducers({
   signup: persistReducer(signupPersistConfig, signup),
   camera,
   albums,
+  purchases: persistReducer(purchasesPersistConfig, purchases),
   chat: persistReducer(chatPersistConfig, chat),
   posts: persistReducer(postsPersistConfig, posts),
   users: persistReducer(usersPersistConfig, users),

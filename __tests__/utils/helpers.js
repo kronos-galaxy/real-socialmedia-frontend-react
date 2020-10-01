@@ -11,6 +11,9 @@ export const applyActions = (actions, reducer) => {
 }
 
 export const sleep = () => new Promise((r) => setTimeout(r, 0))
+export const provideDelay = (value) => {
+  return { call: ({ fn }, next) => (fn.name === 'delayP' ? value : next()) }
+}
 
 export function testAsRootSaga(saga) {
   return function* pseudoRootSaga() {
