@@ -49,7 +49,7 @@ const DatingAboutForm = ({
     ({ label: 'December', value: '12' }),
   ]
   const dateOfBirthDay = Array.from({ length: 31 }, (_, i) => ({ label: numberToString(i + 1), value: numberToString(i + 1) }))
-  const dateOfBirthYear = Array.from({ length: 103 }, (_, i) => ({ label: `${i + 1900}`, value: i + 1900 }))
+  const dateOfBirthYear = Array.from({ length: 103 }, (_, i) => ({ label: `${i + 1900}`, value: `${i + 1900}` }))
 
   /**
    * [gender] User genders

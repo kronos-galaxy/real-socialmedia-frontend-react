@@ -36,11 +36,9 @@ const Dating = ({
 
         <Paragraph style={styling.paragraph}>{t('Tell us a bit more about your self and your interests to start REAL Dating')}.</Paragraph>
 
-        {!isDatingAvailable ?
-          <View style={styling.action}>
-            <DefaultButton label={t('Next')} onPress={navigationActions.navigateDatingAbout(navigation)} loading={false} />
-          </View>
-        : null}
+        <View style={styling.action}>
+          <DefaultButton label={t('Edit')} onPress={navigationActions.navigateDatingAbout(navigation)} loading={false} />
+        </View>
 
         {isDatingAvailable ?
           <View style={styling.action}>

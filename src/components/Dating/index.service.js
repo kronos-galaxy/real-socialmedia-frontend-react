@@ -35,8 +35,6 @@ const DatingService = ({ children }) => {
     photo: !user.photo.url.includes('placeholder'),    
   }, null, 2)
 
-  console.log(isDatingAvailableDebug)
-
   return children({
     user,
     usersSetUserDatingStatusRequest,

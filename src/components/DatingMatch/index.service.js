@@ -44,9 +44,9 @@ const DatingMatchService = ({ children }) => {
   const formErrorMessage = usersEditProfile.error.text
 
   const formInitialValues = {
-    matchAgeRangeMin: 18,
-    matchAgeRangeMax: 21,
-    matchGenders: user.matchGenders,
+    matchAgeRangeMin: user.matchAgeRange.min || 18,
+    matchAgeRangeMax: user.matchAgeRange.max || 21,
+    matchGenders: user.matchGenders && user.matchGenders[0],
     matchLocationRadius: user.matchLocationRadius,
     location: user.location,
   }
