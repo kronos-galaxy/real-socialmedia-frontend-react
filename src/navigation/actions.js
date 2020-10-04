@@ -67,13 +67,16 @@ export const navigateApp = (navigation) => () =>
   navigation.navigate('App')
 
 export const navigateHome = (navigation, params) => () =>
-  navigation.navigate('Root', {
-    screen: 'Home',
+  navigation.navigate('App', {
+    screen: 'Root',
     params: {
-      screen: 'Feed',
+      screen: 'Home',
       params: {
         screen: 'Feed',
-        ...params,
+        params: {
+          screen: 'Feed',
+          ...params,
+        },
       },
     },
   })

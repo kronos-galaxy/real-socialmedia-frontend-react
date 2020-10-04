@@ -16,7 +16,6 @@ const AuthSigninComponentService = ({ children }) => {
       usernameType: 'phone',
       countryCode: payload.countryCode,
       username: `${payload.countryCode}${payload.username}`,
-      password: payload.password,
     }))
   }
 
@@ -27,13 +26,11 @@ const AuthSigninComponentService = ({ children }) => {
   const formInitialValues = {
     countryCode: '+1',
     username: replace(pathOr('', ['payload', 'countryCode'])(authSigninCognito), '', pathOr('', ['payload', 'username'])(authSigninCognito)),
-    password: pathOr('', ['payload', 'password'])(authSigninCognito),
   }
 
   const handleFormTransform = (values) => ({
     countryCode: compose(replace(/[^+0-9]/g, ''), trim, toLower, pathOr('', ['countryCode']))(values),
     username: compose(trim, toLower, pathOr('', ['username']))(values),
-    password: values.password,
   })
 
   const handleErrorClose = () => dispatch(authActions.authSigninCognitoIdle({}))
