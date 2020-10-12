@@ -11,6 +11,23 @@ export const findUsers = `
   }
   ${userFragment}
 `
+
+export const findContacts = `
+  query findContacts($contacts: [ContactInput!]!) {
+    findContacts(contacts: $contacts) {
+      contactId
+      user {
+        userId
+        username
+        followedStatus
+        photo {
+          url64p
+        }
+      }
+    }
+  }
+`
+
 export const grantUserSubscriptionBonus = `
   mutation grantUserSubscriptionBonus {
     grantUserSubscriptionBonus {

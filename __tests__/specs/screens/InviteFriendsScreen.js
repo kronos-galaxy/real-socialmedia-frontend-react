@@ -7,14 +7,15 @@ import * as selectors from 'store/ducks/contacts/selectors'
 import InviteFriendsScreen from 'screens/InviteFriendsScreen'
 
 jest.mock('react-redux', () => ({ useDispatch: jest.fn(), useSelector: (fn) => fn() }))
-jest.mock('store/ducks/contacts/selectors', () => ({ contactsGet: jest.fn(), invited: jest.fn() }))
+jest.mock('store/ducks/contacts/selectors', () => ({ contactsGet: jest.fn(), contactsInvite: jest.fn() }))
 jest.mock('react-native-permissions', () => ({ openSettings: jest.fn() }))
 jest.mock('templates/Avatar', () => jest.fn().mockReturnValue(null))
+jest.mock('@react-navigation/native', () => ({ useNavigation: jest.fn() }))
 
 const dispatch = jest.fn()
 useDispatch.mockReturnValue(dispatch)
 selectors.contactsGet.mockReturnValue({ status: 'idle', error: '', items: [] })
-selectors.invited.mockReturnValue({ items: [] })
+selectors.contactsInvite.mockReturnValue({ invited: {} })
 
 const setup = () => renderWithProviders(<InviteFriendsScreen />)
 

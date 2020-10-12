@@ -1,8 +1,12 @@
 import prop from 'ramda/src/prop'
+import indexBy from 'ramda/src/indexBy'
 import { PERMISSIONS, RESULTS, check, request } from 'react-native-permissions'
 import { call, getContext, put } from 'redux-saga/effects'
 import Contacts from 'react-native-contacts'
+import { parsePhoneNumberFromString } from 'libphonenumber-js/min'
 import * as actions from 'store/ducks/contacts/actions'
+import * as queries from 'store/ducks/contacts/queries'
+import * as queryService from 'services/Query'
 
 function normalizeContacts(contacts) {
   const makeFullName = (user) => {
@@ -12,10 +16,10 @@ function normalizeContacts(contacts) {
   }
 
   return contacts.map((item) => ({
-    recordID: item.recordID,
+    contactId: item.recordID,
     fullName: makeFullName(item),
-    emailAddresses: item.emailAddresses.map(prop('email')),
-    phoneNumbers: item.phoneNumbers.map(prop('number')),
+    emails: item.emailAddresses.map(prop('email')),
+    phones: item.phoneNumbers.map(prop('number')),
     thumbnailPath: item.thumbnailPath,
   }))
 }
@@ -30,6 +34,43 @@ function getAllContacts() {
       }
     }),
   )
+}
+
+function normalizeContactsForGQLRequest(contacts) {
+  return contacts.map((item) => ({
+    contactId: item.contactId,
+    emails: item.emails,
+    phones: item.phones.reduce((acc, item) => {
+      try {
+        const phone = parsePhoneNumberFromString(item, 'US')
+
+        if (!phone.isValid()) {
+          throw new Error('Not valid phone number')
+        }
+
+        return [...acc, phone.format('E.164')]
+      } catch (error) {
+        return acc
+      }
+    }, []),
+  }))
+}
+
+function* findContacts() {
+  const contacts = yield call(getAllContacts)
+  const normalizedContacts = yield call(normalizeContacts, contacts)
+
+  try {
+    const variables = { contacts: normalizeContactsForGQLRequest(normalizedContacts) }
+    const response = yield call([queryService, 'apiRequest'], queries.findContacts, variables)
+    const users = indexBy(prop('contactId'), response.data.findContacts)
+
+    return normalizedContacts.map((item) => {
+      return { ...item, user: users[item.contactId] ? users[item.contactId].user : undefined }
+    })
+  } catch (error) {
+    return normalizedContacts
+  }
 }
 
 function* requestContactsPermission() {
@@ -52,8 +93,8 @@ function* contactsGetRequest() {
       throw new Error(`Contacts permission is ${permission}`)
     }
 
-    const contacts = yield call(getAllContacts)
-    yield put(actions.contactsGetSuccess({ items: normalizeContacts(contacts) }))
+    const contacts = yield call(findContacts)
+    yield put(actions.contactsGetSuccess({ items: contacts }))
   } catch (error) {
     yield put(actions.contactsGetFailure(errorWrapper(error)))
   }

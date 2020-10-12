@@ -8,8 +8,10 @@ const initialState = {
     error: '',
     items: [],
   },
-  invited: {
-    items: [],
+  contactsInvite: {
+    invited: {},
+    requested: {},
+    error: '',
   },
 }
 
@@ -44,10 +46,25 @@ const contactsFailure = (state, action) =>
 /**
  *
  */
+const contactsInviteRequest = (state, action) =>
+  update(state, {
+    contactsInvite: {
+      requested: { $merge: { [action.payload.contactId]: true } },
+    },
+  })
+
 const contactsInviteSuccess = (state, action) =>
   update(state, {
-    invited: {
-      items: { $push: [action.payload.recordID] },
+    contactsInvite: {
+      invited: { $merge: { [action.payload.contactId]: true } },
+      requested: { $unset: [action.payload.contactId] },
+    },
+  })
+
+const contactsInviteFailure = (state, action) =>
+  update(state, {
+    contactsInvite: {
+      requested: { $unset: [action.payload.contactId] },
     },
   })
 
@@ -57,7 +74,13 @@ export default handleActions(
     [constants.CONTACTS_GET_SUCCESS]: contactsSuccess,
     [constants.CONTACTS_GET_FAILURE]: contactsFailure,
 
+    [constants.CONTACTS_INVITE_REQUEST]: contactsInviteRequest,
     [constants.CONTACTS_INVITE_SUCCESS]: contactsInviteSuccess,
+    [constants.CONTACTS_INVITE_FAILURE]: contactsInviteFailure,
+
+    [constants.CONTACTS_FOLLOW_REQUEST]: contactsInviteRequest,
+    [constants.CONTACTS_FOLLOW_SUCCESS]: contactsInviteSuccess,
+    [constants.CONTACTS_FOLLOW_FAILURE]: contactsInviteFailure,
   },
   initialState,
 )

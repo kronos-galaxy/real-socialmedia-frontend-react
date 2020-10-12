@@ -83,6 +83,7 @@ const purchasesPersistConfig = {
 
 const contactsPersistConfig = {
   key: '/v2/contacts',
+  version: 2,
   storage: STORAGE_PROVIDER,
 }
 

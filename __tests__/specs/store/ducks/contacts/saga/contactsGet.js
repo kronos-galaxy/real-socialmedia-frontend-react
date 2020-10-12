@@ -4,26 +4,25 @@ import * as matchers from 'redux-saga-test-plan/matchers'
 import Contacts from 'react-native-contacts'
 import { PERMISSIONS, RESULTS, check, request } from 'react-native-permissions'
 import contacts from 'store/ducks/contacts/saga'
+import { parsePhoneNumberFromString } from 'libphonenumber-js/min'
 import * as actions from 'store/ducks/contacts/actions'
 import { testAsRootSaga } from 'tests/utils/helpers'
 import { errorWrapper } from 'store/helpers'
+import * as queryService from 'services/Query'
+import * as queries from 'store/ducks/contacts/queries'
 
-jest.mock('react-native-contacts', () => ({ getAll: jest.fn((cb) => cb(new Error('Get All Error'), undefined)) }))
-
-jest.mock('react-native-permissions', () => ({
-  check: jest.fn(),
-  request: jest.fn(),
-  PERMISSIONS: { IOS: { CONTACTS: 'CONTACTS' } },
-  RESULTS: {
-    DENIED: 'DENIED',
-    BLOCKED: 'BLOCKED',
-    UNAVAILABLE: 'UNAVAILABLE',
-    GRANTED: 'GRANTED',
-  },
-}))
+jest.mock('services/Query', () => ({ apiRequest: jest.fn().mockResolvedValue(true) }))
+Contacts.getAll.mockImplementation((cb) => cb(new Error('Get All Error'), undefined))
 
 const emailAddresses = [{ email: 'test1@email.com' }, { email: 'test2@email.com' }]
-const phoneNumbers = [{ number: '+19999999' }, { number: '+2999999' }]
+const phoneNumbers = [
+  { number: '+19999999' },
+  { number: '+2999999' },
+  { number: '(888) 555-5512' },
+  { number: '999-999' },
+  { number: '7' },
+  { number: '' },
+]
 const items = [
   {
     recordID: 1,
@@ -63,7 +62,91 @@ const items = [
   },
 ]
 
+const normalizedItems = [
+  {
+    contactId: 1,
+    fullName: 'givenName1 middleName1 familyName1',
+    emails: ['test1@email.com', 'test2@email.com'],
+    phones: ['+19999999', '+2999999', '(888) 555-5512', '999-999', '7', ''],
+    thumbnailPath: 'thumbnailPath',
+  },
+  {
+    contactId: 2,
+    fullName: 'middleName1 familyName1',
+    emails: ['test1@email.com', 'test2@email.com'],
+    phones: ['+19999999', '+2999999', '(888) 555-5512', '999-999', '7', ''],
+    thumbnailPath: 'thumbnailPath',
+  },
+  {
+    contactId: 3,
+    fullName: 'givenName1 familyName1',
+    emails: ['test1@email.com', 'test2@email.com'],
+    phones: ['+19999999', '+2999999', '(888) 555-5512', '999-999', '7', ''],
+    thumbnailPath: 'thumbnailPath',
+  },
+  {
+    contactId: 4,
+    fullName: 'Anonymous',
+    emails: ['test1@email.com', 'test2@email.com'],
+    phones: ['+19999999', '+2999999', '(888) 555-5512', '999-999', '7', ''],
+    thumbnailPath: 'thumbnailPath',
+  },
+]
+
+const mixedContacts = [
+  {
+    contactId: 1,
+    fullName: 'givenName1 middleName1 familyName1',
+    emails: ['test1@email.com', 'test2@email.com'],
+    phones: ['+19999999', '+2999999', '(888) 555-5512', '999-999', '7', ''],
+    thumbnailPath: 'thumbnailPath',
+    user: { userId: 1 },
+  },
+  {
+    contactId: 2,
+    fullName: 'middleName1 familyName1',
+    emails: ['test1@email.com', 'test2@email.com'],
+    phones: ['+19999999', '+2999999', '(888) 555-5512', '999-999', '7', ''],
+    thumbnailPath: 'thumbnailPath',
+    user: undefined,
+  },
+  {
+    contactId: 3,
+    fullName: 'givenName1 familyName1',
+    emails: ['test1@email.com', 'test2@email.com'],
+    phones: ['+19999999', '+2999999', '(888) 555-5512', '999-999', '7', ''],
+    thumbnailPath: 'thumbnailPath',
+    user: { userId: 2 },
+  },
+  {
+    contactId: 4,
+    fullName: 'Anonymous',
+    emails: ['test1@email.com', 'test2@email.com'],
+    phones: ['+19999999', '+2999999', '(888) 555-5512', '999-999', '7', ''],
+    thumbnailPath: 'thumbnailPath',
+    user: undefined,
+  },
+]
+
 describe('Contacts saga', () => {
+  afterEach(() => {
+    queryService.apiRequest.mockClear()
+  })
+
+  it('phone validation', () => {
+    const testNumber = (phoneStr, expected) => {
+      const phone = parsePhoneNumberFromString(phoneStr, 'US')
+      expect(phone.format('E.164')).toBe(expected.number)
+      expect(phone.isValid()).toBe(expected.isValid)
+    }
+
+    testNumber('(888) 555-5512', { number: '+18885555512', isValid: true })
+    testNumber('+18885555512', { number: '+18885555512', isValid: true })
+    testNumber('(888) 555-551', { number: '+1888555551', isValid: false })
+    testNumber('8885555512', { number: '+18885555512', isValid: true })
+    testNumber('555-5512', { number: '+15555512', isValid: false })
+  })
+
   it('Permission UNAVAILABLE', () => {
     const context = [
       [matchers.call.fn(check), RESULTS.UNAVAILABLE],
@@ -132,8 +215,17 @@ describe('Contacts saga', () => {
       .silentRun()
   })
 
-  it('success', () => {
+  it('mixed contacts with users', () => {
     Contacts.getAll.mockImplementationOnce((cb) => cb(null, items))
+
+    queryService.apiRequest.mockResolvedValueOnce({
+      data: {
+        findContacts: [
+          { contactId: normalizedItems[0].contactId, user: { userId: 1 } },
+          { contactId: normalizedItems[2].contactId, user: { userId: 2 } },
+        ],
+      },
+    })
 
     const context = [
       [matchers.call.fn(check), RESULTS.GRANTED],
@@ -144,40 +236,34 @@ describe('Contacts saga', () => {
       .provide(context)
 
       .call(check, PERMISSIONS.IOS.CONTACTS)
-      .put(
-        actions.contactsGetSuccess({
-          items: [
-            {
-              recordID: 1,
-              fullName: 'givenName1 middleName1 familyName1',
-              emailAddresses: ['test1@email.com', 'test2@email.com'],
-              phoneNumbers: ['+19999999', '+2999999'],
-              thumbnailPath: 'thumbnailPath',
-            },
-            {
-              recordID: 2,
-              fullName: 'middleName1 familyName1',
-              emailAddresses: ['test1@email.com', 'test2@email.com'],
-              phoneNumbers: ['+19999999', '+2999999'],
-              thumbnailPath: 'thumbnailPath',
-            },
-            {
-              recordID: 3,
-              fullName: 'givenName1 familyName1',
-              emailAddresses: ['test1@email.com', 'test2@email.com'],
-              phoneNumbers: ['+19999999', '+2999999'],
-              thumbnailPath: 'thumbnailPath',
-            },
-            {
-              recordID: 4,
-              fullName: 'Anonymous',
-              emailAddresses: ['test1@email.com', 'test2@email.com'],
-              phoneNumbers: ['+19999999', '+2999999'],
-              thumbnailPath: 'thumbnailPath',
-            },
-          ],
-        }),
-      )
+      .call([queryService, 'apiRequest'], queries.findContacts, {
+        contacts: [
+          { contactId: 1, emails: ['test1@email.com', 'test2@email.com'], phones: ['+18885555512'] },
+          { contactId: 2, emails: ['test1@email.com', 'test2@email.com'], phones: ['+18885555512'] },
+          { contactId: 3, emails: ['test1@email.com', 'test2@email.com'], phones: ['+18885555512'] },
+          { contactId: 4, emails: ['test1@email.com', 'test2@email.com'], phones: ['+18885555512'] },
+        ],
+      })
+      .put(actions.contactsGetSuccess({ items: mixedContacts }))
+
+      .dispatch(actions.contactsGetRequest())
+      .silentRun()
+  })
+
+  it('return pure contacts when findContacts failed', () => {
+    Contacts.getAll.mockImplementationOnce((cb) => cb(null, items))
+
+    queryService.apiRequest.mockRejectedValueOnce(false)
+
+    const context = [
+      [matchers.call.fn(check), RESULTS.GRANTED],
+      [getContext('errorWrapper'), errorWrapper],
+    ]
+
+    return expectSaga(testAsRootSaga(contacts))
+      .provide(context)
+
+      .put(actions.contactsGetSuccess({ items: normalizedItems }))
 
       .dispatch(actions.contactsGetRequest())
       .silentRun()

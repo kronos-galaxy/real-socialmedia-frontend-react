@@ -1,27 +1,14 @@
-import { Linking, Alert } from 'react-native'
-import { put, call, select, spawn } from 'redux-saga/effects'
-import * as usersActions from 'store/ducks/users/actions'
+import { Linking } from 'react-native'
+import { put, call, select } from 'redux-saga/effects'
 import { authUserSelector } from 'store/ducks/auth/selectors'
 import * as actions from 'store/ducks/contacts/actions'
-import * as selectors from 'store/ducks/contacts/selectors'
-import * as queries from 'store/ducks/contacts/queries'
-import * as queryService from 'services/Query'
+import path from 'ramda/src/path'
 
-function* grantUserSubscriptionBonus() {
-  try {
-    const invited = yield select(selectors.invited)
-
-    if (invited.items.length === 10) {
-      yield call(queryService.apiRequest, queries.grantUserSubscriptionBonus)
-      yield put(usersActions.usersGetProfileSelfRequest())
-      yield call([Alert, 'alert'], 'Congratulations', 'Your earned free REAL Diamond')
-    }
-  } catch (error) {
-    // ignore
-  }
-}
+const getContactId = path(['payload', 'user', 'contactId'])
 
 function* contactsInviteRequest(req) {
+  const contactId = getContactId(req)
+
   try {
     const authUser = yield select(authUserSelector)
     const subject = 'Invite to REAL.app'
@@ -36,10 +23,9 @@ function* contactsInviteRequest(req) {
       throw new Error('Invite supports only email and phone type')
     }
 
-    yield put(actions.contactsInviteSuccess(req.payload.user))
-    yield spawn(grantUserSubscriptionBonus)
+    yield put(actions.contactsInviteSuccess({ contactId }))
   } catch (error) {
-    yield put(actions.contactsInviteFailure(error.message))
+    yield put(actions.contactsInviteFailure({ error: error.message, contactId }))
   }
 }
 
