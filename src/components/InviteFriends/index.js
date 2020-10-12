@@ -14,7 +14,7 @@ import testIDs from 'components/InviteFriends/test-ids'
 import * as navigationActions from 'navigation/actions'
 
 const InviteFriends = ({
-  t, 
+  t,
   theme,
   navigation,
   contactsGet,
@@ -84,7 +84,7 @@ const InviteFriends = ({
 
     const action =
       isInvited || isFollowed ? (
-        <DefaultButton label={t('Followed')} mode="outlined" size="compact" disabled />
+        <DefaultButton label={isFollowed ? t('Followed') : t('Invited')} mode="outlined" size="compact" disabled />
       ) : (
         <DefaultButton
           label={t('Follow')}
@@ -144,7 +144,7 @@ const InviteFriends = ({
         }),
       }
     }
-  } 
+  }
 
   const renderHeader = () => {
     const invitedCount = Object.keys(contactsInvite.invited).length

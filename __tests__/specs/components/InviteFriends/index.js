@@ -225,17 +225,17 @@ describe('Invite Friends Component', () => {
             {
               contactId: '1',
               fullName: 'fullName1',
-              user: { userId: '1', username: 'username1', photo: { url64p: 'url64p', followedStatus: 'FOLLOWING' } },
+              user: { userId: '1', username: 'username1', photo: { url64p: 'url64p' }, followedStatus: 'FOLLOWING' },
             },
             {
               contactId: '2',
               fullName: 'fullName2',
-              user: { userId: '2', username: 'username2', photo: { url64p: '', followedStatus: 'NOT_FOLLOWING' } },
+              user: { userId: '2', username: 'username2', photo: { url64p: '' }, followedStatus: 'NOT_FOLLOWING' },
             },
             {
               contactId: '3',
               fullName: 'fullName3',
-              user: { userId: '3', username: 'username3', photo: { url64p: '', followedStatus: 'NOT_FOLLOWING' } },
+              user: { userId: '3', username: 'username3', photo: { url64p: '' }, followedStatus: 'NOT_FOLLOWING' },
             },
           ],
         }
@@ -257,6 +257,7 @@ describe('Invite Friends Component', () => {
         expect(within($rows[0]).getByText('Followed')).toBeTruthy()
 
         // Follow
+        expect(within($rows[1]).getByText('Follow')).toBeTruthy()
         const $fullName = within($rows[1]).getByText(contactsGet.items[1].fullName)
         const $username = within($rows[1]).getByText(contactsGet.items[1].user.username)
 
@@ -264,6 +265,9 @@ describe('Invite Friends Component', () => {
         expect($username).toBeTruthy()
         fireEvent.press($username)
         expect(navigation.push).toHaveBeenCalledWith('Profile', { userId: '2' })
+
+        // Invited
+        expect(within($rows[2]).getByText('Invited')).toBeTruthy()
       })
     })
   })
