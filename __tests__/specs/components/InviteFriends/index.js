@@ -41,14 +41,14 @@ describe('Invite Friends Component', () => {
       const { getByText } = setup()
 
       getByText('Earn Free REAL Diamond')
-      getByText('Follow or Invite 0/10 friends & get REAL Diamond FREE for 2 months!')
+      getByText('Follow or Invite 10 friends & get REAL Diamond FREE for 2 months!')
     })
 
     it('less than 10', () => {
       const { getByText } = setup({ contactsInvite })
 
       getByText('Earn Free REAL Diamond')
-      getByText('Follow or Invite 2/10 friends & get REAL Diamond FREE for 2 months!')
+      getByText('Follow or Invite 8 friends & get REAL Diamond FREE for 2 months!')
     })
 
     it('equal or more than 10', () => {

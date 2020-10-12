@@ -139,12 +139,12 @@ const InviteFriends = ({
     } else {
       return {
         title: t('Earn Free REAL Diamond'),
-        subtitle: t('Follow or Invite {{invitedCount}}/10 friends & get REAL Diamond FREE for 2 months!', {
-          invitedCount,
+        subtitle: t('Follow or Invite {{leftInvite}} friends & get REAL Diamond FREE for 2 months!', {
+          leftInvite: 10 - invitedCount,
         }),
       }
     }
-  }
+  } 
 
   const renderHeader = () => {
     const invitedCount = Object.keys(contactsInvite.invited).length
