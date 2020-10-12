@@ -95,6 +95,14 @@ const normalizedItems = [
 
 const mixedContacts = [
   {
+    contactId: 3,
+    fullName: 'givenName1 familyName1',
+    emails: ['test1@email.com', 'test2@email.com'],
+    phones: ['+19999999', '+2999999', '(888) 555-5512', '999-999', '7', ''],
+    thumbnailPath: 'thumbnailPath',
+    user: { userId: 2 },
+  },
+  {
     contactId: 1,
     fullName: 'givenName1 middleName1 familyName1',
     emails: ['test1@email.com', 'test2@email.com'],
@@ -109,14 +117,6 @@ const mixedContacts = [
     phones: ['+19999999', '+2999999', '(888) 555-5512', '999-999', '7', ''],
     thumbnailPath: 'thumbnailPath',
     user: undefined,
-  },
-  {
-    contactId: 3,
-    fullName: 'givenName1 familyName1',
-    emails: ['test1@email.com', 'test2@email.com'],
-    phones: ['+19999999', '+2999999', '(888) 555-5512', '999-999', '7', ''],
-    thumbnailPath: 'thumbnailPath',
-    user: { userId: 2 },
   },
   {
     contactId: 4,

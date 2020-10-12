@@ -64,9 +64,20 @@ function* findContacts() {
     const variables = { contacts: normalizeContactsForGQLRequest(normalizedContacts) }
     const response = yield call([queryService, 'apiRequest'], queries.findContacts, variables)
     const users = indexBy(prop('contactId'), response.data.findContacts)
-
-    return normalizedContacts.map((item) => {
+    const mixedContacts = normalizedContacts.map((item) => {
       return { ...item, user: users[item.contactId] ? users[item.contactId].user : undefined }
+    })
+
+    return mixedContacts.sort((a, b) => {
+      if (a.user && b.user) {
+        return a.fullName < b.fullName ? -1 : 1
+      }
+
+      if (!b.user) {
+        return -1
+      } else {
+        return 1
+      }
     })
   } catch (error) {
     return normalizedContacts
