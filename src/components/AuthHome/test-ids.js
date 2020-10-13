@@ -1,5 +1,6 @@
 export default {
   root: 'components/AuthHome',
+  closeBtn: 'components/AuthHome/closeBtn',
   actions: {
     signUpBtn: 'components/AuthHome/Actions/signup',
     appleBtn: 'components/AuthHome/Actions/apple',

@@ -3,12 +3,14 @@ import PropTypes from 'prop-types'
 import {
   View,
   StyleSheet,
+  TouchableOpacity,
 } from 'react-native'
 import ActionsComponent from 'components/AuthHome/Actions'
 import AuthActionTemplate from 'templates/Auth/Action'
 import AuthHeaderTemplate from 'templates/Auth/Header'
 import AuthTermsTemplate from 'templates/Auth/Terms'
 import * as navigationActions from 'navigation/actions'
+import CloseIcon from 'assets/svg/action/Close'
 
 import { useNavigation } from '@react-navigation/native'
 import { withTranslation } from 'react-i18next'
@@ -28,6 +30,14 @@ const AuthHome = ({
 
   return (
     <View testID={testIDs.root} style={styling.root}>
+      <TouchableOpacity
+        testID={testIDs.closeBtn}
+        style={[styling.closeBtn, authSigninAnonymous.status === 'loading' ? styling.disabled : null]}
+        onPress={authSigninAnonymousRequest}
+        disabled={authSigninAnonymous.status === 'loading'}
+      >
+        <CloseIcon />
+      </TouchableOpacity>
       <View style={styling.component}>
         <AuthHeaderTemplate
           title={t('Sign up for REAL')}
@@ -65,6 +75,17 @@ const styles = StyleSheet.create({
   },
   content: {
     flex: 1,
+  },
+  closeBtn: {
+    position: 'absolute',
+    top: 10,
+    left: 20,
+    paddingHorizontal: 5,
+    paddingVertical: 5,
+    zIndex: 1,
+  },
+  disabled: {
+    opacity: 0.4,
   },
 })
 
