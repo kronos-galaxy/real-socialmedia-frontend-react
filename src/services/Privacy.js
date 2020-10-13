@@ -48,16 +48,10 @@ const postShareVisibility = (post, user) => (
 /**
  * Visibility of seen by text, text will be visible if:
  * - Authenticated user owns the post
- * 
- * - Post has viewCountsHidden setting enabled
- * - Or Authenticated user has viewCountsHidden setting enabled 
- * 
  * - viewedByCount greater than 0
  */
 const postSeenByVisility = (post, user) => (
   path(['postedBy', 'userId'], post) === path(['userId'], user) &&
-  !path(['viewCountsHidden'], post) &&
-  !path(['viewCountsHidden'], user) &&
   post.viewedByCount > 0
 )
 

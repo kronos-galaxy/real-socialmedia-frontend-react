@@ -167,26 +167,15 @@ describe('Privacy service', () => {
     })
 
     it('enabled for post owner', () => {
-      falsyValues.forEach((viewCountsHidden) => {
-        const user = { userId, viewCountsHidden }
-        const post = { postedBy: { userId, viewCountsHidden }, viewedByCount: 1 }
+      const user = { userId }
+      const post = { postedBy: { userId }, viewedByCount: 1 }
 
-        expect(Privacy.postSeenByVisility(post, user)).toBe(true)
-      })
+      expect(Privacy.postSeenByVisility(post, user)).toBe(true)
     })
 
     it('disabled when viewedByCount is 0', () => {
-      falsyValues.forEach((viewCountsHidden) => {
-        const user = { userId, viewCountsHidden }
-        const post = { postedBy: { userId, viewCountsHidden }, viewedByCount: 0 }
-
-        expect(Privacy.postSeenByVisility(post, user)).toBe(false)
-      })
-    })
-
-    it('disabled in user mental health settings', () => {
-      const user = { userId, viewCountsHidden: true }
-      const post = { postedBy: { userId }, viewedByCount: 1 }
+      const user = { userId }
+      const post = { postedBy: { userId }, viewedByCount: 0 }
 
       expect(Privacy.postSeenByVisility(post, user)).toBe(false)
     })
