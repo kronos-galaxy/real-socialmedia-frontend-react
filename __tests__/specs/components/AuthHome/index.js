@@ -17,22 +17,45 @@ const requiredProps = {
 const setup = (props) => renderWithProviders(<AuthHomeComponent {...requiredProps} {...props} />)
 
 describe('Auth home component', () => {
-  it('continue as anonymous user on close button click', () => {
-    const authSigninAnonymousRequest = jest.fn()
-    const { getByTestId } = setup({ authSigninAnonymousRequest })
+  describe('header left', () => {
+    it('continue as anonymous user on close button click', () => {
+      const authSigninAnonymousRequest = jest.fn()
+      const { getByTestId } = setup({ authSigninAnonymousRequest })
 
-    fireEvent.press(getByTestId(testIDs.closeBtn))
+      fireEvent.press(getByTestId(testIDs.closeBtn))
 
-    expect(authSigninAnonymousRequest).toHaveBeenCalled()
+      expect(authSigninAnonymousRequest).toHaveBeenCalled()
+    })
+
+    it('disable close button on loading state', () => {
+      const authSigninAnonymousRequest = jest.fn()
+      const authSigninAnonymous = { status: 'loading' }
+      const { getByTestId } = setup({ authSigninAnonymousRequest, authSigninAnonymous })
+
+      fireEvent.press(getByTestId(testIDs.closeBtn))
+
+      expect(authSigninAnonymousRequest).not.toHaveBeenCalled()
+    })
   })
 
-  it('disable close button on loading state', () => {
-    const authSigninAnonymousRequest = jest.fn()
-    const authSigninAnonymous = { status: 'loading' }
-    const { getByTestId } = setup({ authSigninAnonymousRequest, authSigninAnonymous })
+  describe('header right', () => {
+    it('continue as anonymous user on skip button click', () => {
+      const authSigninAnonymousRequest = jest.fn()
+      const { getByTestId } = setup({ authSigninAnonymousRequest })
 
-    fireEvent.press(getByTestId(testIDs.closeBtn))
+      fireEvent.press(getByTestId(testIDs.skipBtn))
 
-    expect(authSigninAnonymousRequest).not.toHaveBeenCalled()
+      expect(authSigninAnonymousRequest).toHaveBeenCalled()
+    })
+
+    it('disable close button on loading state', () => {
+      const authSigninAnonymousRequest = jest.fn()
+      const authSigninAnonymous = { status: 'loading' }
+      const { getByTestId } = setup({ authSigninAnonymousRequest, authSigninAnonymous })
+
+      fireEvent.press(getByTestId(testIDs.skipBtn))
+
+      expect(authSigninAnonymousRequest).not.toHaveBeenCalled()
+    })
   })
 })
