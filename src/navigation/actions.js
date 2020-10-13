@@ -146,6 +146,18 @@ export const navigateProfilePhoto = (navigation, params) => () =>
     },
   })
 
+export const navigateInviteFriends = (navigation, params) => () =>
+  navigation.navigate('Root', {
+    screen: 'Home',
+    params: {
+      screen: 'Profile',
+      params: {
+        screen: 'InviteFriends',
+        ...params,
+      },
+    },
+  })
+
 export const navigateProfilePhotoUpload = withAuthValidation((navigation, params) =>
   navigation.navigate('ProfilePhotoUpload', params),
 )

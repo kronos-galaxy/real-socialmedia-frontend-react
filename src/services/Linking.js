@@ -8,20 +8,26 @@ export class MissingDeeplinkParamsError extends Error {
 }
 
 const options = { segmentValueCharset: ':a-zA-Z0-9_-' }
-
+ 
 const patterns = {
   post: new UrlPattern('*/user/(:userId)/post/(:postId)((/):action)(/)((/):actionId)(/)', options),
   profilePhoto: new UrlPattern('*/user/:userId/settings/photo(/)', options),
+  inviteFriends: new UrlPattern('*/user/:userId/settings/contacts(/)', options),
 }
 
 export const deeplinkPath = (action) => {
-  const [postMatch, profilePhotoMatch] = [
+  const [postMatch, profilePhotoMatch, inviteFriendsMatch] = [
     patterns.post.match(action), 
     patterns.profilePhoto.match(action),
+    patterns.inviteFriends.match(action),
   ]
 
   if (profilePhotoMatch !== null) {
     return { action: 'profilePhoto', ...profilePhotoMatch }
+  }
+
+  if (inviteFriendsMatch !== null) {
+    return { action: 'inviteFriends', ...inviteFriendsMatch }
   }
 
   if (action === 'https://real.app/chat/') {
@@ -74,6 +80,12 @@ export const deeplinkNavigation = (navigation, navigationActions, Linking) => (a
        * Profile Photo Upload
        */
       return navigationActions.navigateProfilePhoto(navigation, params)()
+    } else if (params && params.action === 'inviteFriends') {
+
+      /**
+       * Invite Friends
+       */
+      return navigationActions.navigateInviteFriends(navigation, params)()
     }
   } catch (error) {
     if (error.code === 'MISSING_DEEP_LINK_PARAMS_ERROR') {
