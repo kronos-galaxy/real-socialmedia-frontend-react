@@ -1,8 +1,9 @@
-import { useEffect, useCallback } from 'react'
+import { useEffect, useCallback, useContext } from 'react'
 import * as signupActions from 'store/ducks/signup/actions'
 import * as navigationActions from 'navigation/actions'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigation } from '@react-navigation/native'
+import { ThemeContext } from 'services/providers/Theme'
 import trim from 'ramda/src/trim'
 import compose from 'ramda/src/compose'
 import toLower from 'ramda/src/toLower'
@@ -14,6 +15,7 @@ import { pageHeaderLeft } from 'navigation/options'
 const AuthPhoneComponentService = ({ children }) => {
   const dispatch = useDispatch()
   const navigation = useNavigation()
+  const { theme } = useContext(ThemeContext)
 
   const signupUsername = useSelector(state => state.signup.signupUsername)
   const signupPhone = useSelector(state => state.signup.signupPhone)
@@ -35,7 +37,7 @@ const AuthPhoneComponentService = ({ children }) => {
     const tabNavigator = navigation.dangerouslyGetParent()
     if (!tabNavigator) return
     tabNavigator.setOptions({
-      headerLeft: (props) => pageHeaderLeft({ ...props, onPress: handleGoBack }),
+      headerLeft: (props) => pageHeaderLeft({ ...props, onPress: handleGoBack, theme }),
     })
   }, [])
 

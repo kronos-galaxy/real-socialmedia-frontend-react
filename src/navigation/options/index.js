@@ -15,20 +15,21 @@ import BackIcon from 'assets/svg/header/Back'
 import * as authSelector from 'store/ducks/auth/selectors'
 import { connect } from 'react-redux'
 
-export const pageHeaderLeft = ({ onPress, testID = null }) => {
+export const pageHeaderLeft = ({ onPress, testID = null, theme }) => {
   if (!onPress) {
     return null
   }
+
   return (
     <TouchableOpacity testID={testID} style={styles.button} onPress={onPress}>
-      <BackIcon fill="#fff" />
+      <BackIcon fill={theme.colors.primaryIcon} />
     </TouchableOpacity>
   )
 }
 
-export const chatHeaderLeft = ({ navigation }) => () => (
+export const chatHeaderLeft = ({ navigation, theme }) => () => (
   <TouchableOpacity style={styles.button} onPress={navigationActions.navigateHome(navigation)}>
-    <BackIcon fill="#fff" />
+    <BackIcon fill={theme.colors.primaryIcon} />
   </TouchableOpacity>
 )
 
@@ -301,7 +302,7 @@ export const stackScreenPageProps = ({ theme }) => ({ options } = {}) => ({
         borderBottomWidth: 0,
         shadowColor: 'transparent',
       },
-      headerLeft: pageHeaderLeft,
+      headerLeft: (props) => pageHeaderLeft({ ...props, theme }),
       headerRight: () => null,
       headerTintColor: 'red',
       ...options,

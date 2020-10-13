@@ -1,8 +1,9 @@
-import { useEffect, useCallback } from 'react'
+import { useEffect, useCallback, useContext } from 'react'
 import { Keyboard } from 'react-native'
 import * as signupActions from 'store/ducks/signup/actions'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigation, useRoute } from '@react-navigation/native'
+import { ThemeContext } from 'services/providers/Theme'
 import path from 'ramda/src/path'
 import { logEvent } from 'services/Analytics'
 import { pageHeaderLeft } from 'navigation/options'
@@ -12,6 +13,7 @@ const AuthEmailConfirmComponentService = ({ children }) => {
   const dispatch = useDispatch()
   const navigation = useNavigation()
   const route = useRoute()
+  const { theme } = useContext(ThemeContext)
 
   const signupUsername = useSelector(state => state.signup.signupUsername)
   const signupEmail = useSelector(state => state.signup.signupEmail)
@@ -32,6 +34,7 @@ const AuthEmailConfirmComponentService = ({ children }) => {
       headerLeft: () => pageHeaderLeft({ 
         testID: testIDs.header.backBtn, 
         onPress: handleGoBack, 
+        theme,
       }),
     })
   }, [])
