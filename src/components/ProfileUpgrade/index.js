@@ -51,7 +51,7 @@ const ProfileUpgrade = ({
 
         <View style={styling.description}>
           <Text style={styling.descriptionText}>
-            {t('Anonymous users can\'t follow, like other posts, chat with other people, use dating and much more' )}
+            {t('You must create an account to chat, follow, create, like or use dating.' )}
           </Text>
         </View>
       </SafeAreaView>
