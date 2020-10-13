@@ -76,17 +76,6 @@ const postVerificationVisibility = (post) => (
 )
 
 /**
- * Visibility of post verification, modal will be visible if:
- * - Authenticated user is owner of a post
- * - Post is not text only
- * - Post has isVerified setting enabled 
- */
-const selfPostVerificationVisibility = (post, user) => (
-  user.userId === path(['postedBy', 'userId'])(post) &&
-  PrivacyService.postVerificationVisibility(post)
-)
-
-/**
  * Visibility of post expiry, expiry will be visible if:
  * - Authenticated user is owner of a post
  * - Post is not text only
@@ -150,7 +139,6 @@ const PrivacyService = {
   postSeenByVisility,
   postRepostVisiblity,
   postVerificationVisibility,
-  selfPostVerificationVisibility,
   postExpiryVisiblity,
   postLikedVisibility,
   userFollowingVisibility,

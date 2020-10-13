@@ -102,16 +102,14 @@ const Verification = ({
           </View>
           <View style={styling.subheadingContent}>
             <Text style={styling.subheadingTitle}>{t('Device must be an iPhone7 or newer')}</Text>
-            <Text style={styling.subheadingSubtitle}>
-              {t('Photo must have been taken using the iOS camera app')}
-            </Text>
+            <Text style={styling.subheadingSubtitle}>{t('Photo must have been taken using the iOS camera app')}</Text>
           </View>
         </View>
 
         <View style={styling.description}>
           <Text style={styling.descriptionText}>
             {t(
-              'Unverified posts can’t be trending/discovered, used as profile pictures, or used in dating. They can only be seen by your followers',
+              'Verified posts will be boosted to the top of the explore page, and be more discoverable. Unverified posts can\'t be used in REAL Dating',
             )}
           </Text>
         </View>
