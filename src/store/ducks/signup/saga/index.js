@@ -1,18 +1,11 @@
-import { put, takeLatest } from 'redux-saga/effects'
-import Config from 'react-native-config'
+import { put, takeLatest, call } from 'redux-saga/effects'
 import * as actions from 'store/ducks/signup/actions'
 import * as constants from 'store/ducks/signup/constants'
 import * as errors from 'store/ducks/signup/errors'
+import { usernameStatusRequest } from 'services/Validation'
 
 function* gatewayUsernameStatus(payload) {
-  const data = yield fetch(`${Config.AWS_API_GATEWAY_ENDPOINT}/username/status?username=${payload.username}`, {
-    method: 'GET',
-    headers: {
-      'X-Api-Key': Config.AWS_API_GATEWAY_KEY,
-    },
-  })
-
-  const response = yield data.json()
+  const response = yield call(usernameStatusRequest, payload.username)
 
   if (response.status !== 'AVAILABLE') {
     throw new Error('USER_EXISTS')
