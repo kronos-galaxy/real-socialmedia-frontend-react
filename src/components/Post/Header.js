@@ -29,12 +29,14 @@ const Header = ({
   createActionSheetRef,
   actionSheetRef,
   navigation,
+  changeAvatarRequest,
 }) => {
   const styling = styles(theme)
 
   const handleOptionsPress = () => actionSheetRef && actionSheetRef.show()
   const archived = path(['postStatus'])(post) === 'ARCHIVED'
   const isUserPostOwner = path(['userId'])(user) === path(['postedBy', 'userId'])(post)
+  const isPostVerified = path(['isVerified'])(post) 
 
   const [repostVisiblity, verificationVisibility, expiryVisiblity] = useMemo(
     () => [
@@ -131,6 +133,11 @@ const Header = ({
           actionSheetRef={createActionSheetRef}
           options={[
             {
+              name: t('Set as an avatar'),
+              onPress: () => changeAvatarRequest({ postId: post.postId }),
+              isVisible: isUserPostOwner && isPostVerified && !archived,
+            },
+            {
               name: t('Restore from Archived'),
               onPress: () => postsRestoreArchivedRequest({ postId: post.postId, userId: path(['userId'])(user) }),
               isVisible: isUserPostOwner && archived,
@@ -220,6 +227,7 @@ Header.propTypes = {
   createActionSheetRef: PropTypes.any,
   actionSheetRef: PropTypes.any,
   navigation: PropTypes.any,
+  changeAvatarRequest: PropTypes.func,
 }
 
 export default withTranslation()(withTheme(Header))

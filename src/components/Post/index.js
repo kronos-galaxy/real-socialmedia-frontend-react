@@ -44,6 +44,7 @@ const PostComponent = ({
   textPostRef,
 
   feedRef,
+  changeAvatarRequest,
 }) => {
   const styling = styles(theme)
   const navigation = useNavigation()
@@ -82,6 +83,7 @@ const PostComponent = ({
         createActionSheetRef={createActionSheetRef}
         actionSheetRef={actionSheetRef}
         navigation={navigation}
+        changeAvatarRequest={changeAvatarRequest}
       />
 
       {post.postType === 'TEXT_ONLY' ?
@@ -195,6 +197,7 @@ PostComponent.propTypes = {
   actionSheetRef: PropTypes.any,
   createTextPostRef: PropTypes.any,
   textPostRef: PropTypes.any,
+  changeAvatarRequest: PropTypes.func,
 }
 
 export default withTheme(PostComponent)

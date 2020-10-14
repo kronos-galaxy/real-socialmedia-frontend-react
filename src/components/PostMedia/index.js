@@ -23,6 +23,7 @@ const PostMedia = ({
   postsFlag,
   postsFlagRequest,
   postsDeleteRequest,
+  changeAvatarRequest,
   postsOnymouslyLikeRequest,
   postsDislikeRequest,
   postsSingleGet,
@@ -70,6 +71,7 @@ const PostMedia = ({
             postsRestoreArchivedRequest={postsRestoreArchivedRequest}
             postsFlagRequest={postsFlagRequest}
             postsDeleteRequest={postsDeleteRequest}
+            changeAvatarRequest={changeAvatarRequest}
             postsShareRequest={postsShareRequest}
             postsOnymouslyLikeRequest={postsOnymouslyLikeRequest}
             postsDislikeRequest={postsDislikeRequest}
@@ -111,6 +113,7 @@ PostMedia.propTypes = {
   postsFlag: PropTypes.any,
   postsFlagRequest: PropTypes.any,
   postsDeleteRequest: PropTypes.any,
+  changeAvatarRequest: PropTypes.func,
   postsOnymouslyLikeRequest: PropTypes.any,
   postsDislikeRequest: PropTypes.any,
   usersGetFollowedUsersWithStories: PropTypes.any,

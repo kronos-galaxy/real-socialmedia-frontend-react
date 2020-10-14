@@ -121,6 +121,9 @@ export const initialState = {
     status: 'idle',
     error: {},
   },
+  usersChangeAvatar: {
+    status: 'idle',
+  },
 
   usersGetFollowerUsersCache: {},
   usersGetFollowedUsersCache: {},
@@ -762,6 +765,27 @@ const usersDeleteAvatarIdle = (state) => update(state, {
 /**
  *
  */
+const usersChangeAvatarRequest = (state) => update(state, {
+  usersChangeAvatar: {
+    status: { $set: 'loading' },
+  },
+})
+
+const usersChangeAvatarSuccess = (state) => update(state, {
+  usersChangeAvatar: {
+    status: { $set: 'success' },
+  },
+})
+
+const usersChangeAvatarFailure = (state) => update(state, {
+  usersChangeAvatar: {
+    status: { $set: 'failure' },
+  },
+})
+
+/**
+ *
+ */
 const usersSetApnsTokenRequest = (state, action) => update(state, {
   usersSetApnsToken: {
     status: { $set: 'loading' },
@@ -892,6 +916,10 @@ export default handleActions({
   [constants.USERS_DELETE_AVATAR_SUCCESS]: usersDeleteAvatarSuccess,
   [constants.USERS_DELETE_AVATAR_FAILURE]: usersDeleteAvatarFailure,
   [constants.USERS_DELETE_AVATAR_IDLE]: usersDeleteAvatarIdle,
+
+  [constants.USERS_CHANGE_AVATAR_REQUEST]: usersChangeAvatarRequest,
+  [constants.USERS_CHANGE_AVATAR_SUCCESS]: usersChangeAvatarSuccess,
+  [constants.USERS_CHANGE_AVATAR_FAILURE]: usersChangeAvatarFailure,
 
   /**
    * Clear on logout
