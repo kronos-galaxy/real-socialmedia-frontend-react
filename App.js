@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react'
+import React, { useState, useRef, useEffect, useMemo } from 'react'
 import { Provider } from 'react-redux'
 import { PersistGate } from 'redux-persist/integration/react'
 import { NavigationContainer } from '@react-navigation/native'
@@ -8,9 +8,6 @@ import { ThemeProvider } from 'services/providers/Theme'
 import { ReduxNetworkProvider } from 'react-native-offline'
 import initializeStore from 'store/index'
 import codePush from 'react-native-code-push' 
-import NetworkComponent from 'components/Network'
-import PinchZoomComponent from 'components/Feed/PinchZoom'
-import FeedContextComponent from 'components/Feed/Context'
 import Config from 'react-native-config' 
 import LoadingComponent from 'components/Loading'
 import linking from 'navigation/linking'
@@ -26,24 +23,18 @@ const codePushOptions = {
 // codePush.sync(codePushOptions)
 
 const Application = (navigationProps) => {
-  const [draggedImage, setDraggedImage] = useState({})
-  const { store, persistor } = initializeStore({ navigationRef: navigationProps.navigationRef })
+  const { store, persistor } = useMemo(() => initializeStore({ navigationRef: navigationProps.navigationRef }), [])
 
   return (
     <Provider store={store}>
       <ReduxNetworkProvider>
         <PersistGate loading={(<LoadingComponent />)} persistor={persistor}>
           <AppProvider {...navigationProps}>
-            <FeedContextComponent.Provider value={{ draggedImage, setDraggedImage }}>
-              <PinchZoomComponent />
-              <NetworkComponent />
-
               <AuthProvider>
                 <ThemeProvider>
                   <Router navigationRef={navigationProps.navigationRef} />
                 </ThemeProvider>
               </AuthProvider>
-            </FeedContextComponent.Provider>
           </AppProvider>
         </PersistGate>
       </ReduxNetworkProvider>
