@@ -63,6 +63,6 @@ describe('Profile Photo screen', () => {
     expect(confirm).toHaveBeenCalled()
 
     confirm.mock.calls[0][0].onConfirm()
-    expect(handleLibrarySnap).toHaveBeenCalledWith(false)
+    expect(handleLibrarySnap).toHaveBeenCalled()
   })
 })
