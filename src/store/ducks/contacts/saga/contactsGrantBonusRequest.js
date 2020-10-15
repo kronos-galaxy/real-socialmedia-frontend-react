@@ -5,7 +5,7 @@ import * as selectors from 'store/ducks/contacts/selectors'
 import * as queries from 'store/ducks/contacts/queries'
 import * as queryService from 'services/Query'
 
-function* grantUserSubscriptionBonus() {
+function* contactsGrantBonusRequest() {
   try {
     const { invited } = yield select(selectors.contactsInvite)
 
@@ -19,4 +19,4 @@ function* grantUserSubscriptionBonus() {
   }
 }
 
-export default grantUserSubscriptionBonus
+export default contactsGrantBonusRequest
