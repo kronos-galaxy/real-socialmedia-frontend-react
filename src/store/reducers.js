@@ -15,6 +15,7 @@ import cache from 'store/ducks/cache/reducer'
 import entities from 'store/ducks/entities/reducer'
 import subscriptions from 'store/ducks/subscriptions/reducer'
 import contacts from 'store/ducks/contacts/reducer'
+import dating from 'store/ducks/dating/reducer'
 import { reducer as network } from 'react-native-offline'
 
 import 'store/ducks/posts/updates'
@@ -98,6 +99,7 @@ export default combineReducers({
   posts: persistReducer(postsPersistConfig, posts),
   users: persistReducer(usersPersistConfig, users),
   contacts: persistReducer(contactsPersistConfig, contacts),
+  dating,
   cache,
   entities,
   subscriptions,

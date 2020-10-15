@@ -17,7 +17,7 @@ const DatingMatchService = ({ children }) => {
   useEffect(() => {
     if (usersEditProfile.status === 'success') {
       dispatch(usersActions.usersEditProfileIdle({}))
-      navigationActions.navigateDating(navigation)()
+      navigationActions.navigateDatingProfile(navigation)()
     }
   }, [usersEditProfile.status])
 
@@ -31,12 +31,11 @@ const DatingMatchService = ({ children }) => {
     },
     matchGenders: values.matchGenders,
     matchLocationRadius: values.matchLocationRadius,
-    location: { latitude: 50.01, longitude: 50.01, accuracy: 20 },
+    location: values.location,
   })
 
-  const handleFormSubmit = (values, { resetForm }) => {
+  const handleFormSubmit = (values) => {
     usersEditProfileRequest(handleFormTransform(values))
-    resetForm()
   }
 
   const formSubmitLoading = usersEditProfile.status === 'loading'
@@ -44,8 +43,8 @@ const DatingMatchService = ({ children }) => {
   const formErrorMessage = usersEditProfile.error.text
 
   const formInitialValues = {
-    matchAgeRangeMin: user.matchAgeRange.min || 18,
-    matchAgeRangeMax: user.matchAgeRange.max || 21,
+    matchAgeRangeMin: (user.matchAgeRange || {}).min || 18,
+    matchAgeRangeMax: (user.matchAgeRange || {}).max || 21,
     matchGenders: user.matchGenders && user.matchGenders[0],
     matchLocationRadius: user.matchLocationRadius,
     location: user.location,

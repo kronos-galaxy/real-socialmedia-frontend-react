@@ -1,45 +1,42 @@
+import { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import * as authSelector from 'store/ducks/auth/selectors'
-import * as usersActions from 'store/ducks/users/actions'
+import * as datingActions from 'store/ducks/dating/actions'
+import * as datingSelector from 'store/ducks/dating/selectors'
+import path from 'ramda/src/path'
 
 const DatingService = ({ children }) => {
   const dispatch = useDispatch()
   const user = useSelector(authSelector.authUserSelector)
+  const datingMatchedUsers = useSelector(datingSelector.datingMatchedUsersSelector())
+
+  useEffect(() => {
+    dispatch(datingActions.datingMatchedUsersRequest({ matchStatus: 'POTENTIAL' }))
+  }, [])
   
-  const usersSetUserDatingStatusRequest = () =>
-    dispatch(usersActions.usersSetUserDatingStatusRequest({ status: 'ENABLED' }))
+  const datingMatchedUsersRequest = () =>
+    dispatch(datingActions.datingMatchedUsersRequest({ matchStatus: 'POTENTIAL' }))
 
-  const isDatingAvailable = (
-    user.dateOfBirth &&
-    user.gender &&
-    user.location &&
-    user.matchAgeRange &&
-    user.matchGenders &&
-    user.matchLocationRadius && 
-    user.fullName &&
+  const datingMatchedUsersIdle = () =>
+    dispatch(datingActions.datingMatchedUsersIdle({}))
 
-    /**
-     * No default photos allowed
-     */
-    !user.photo.url.includes('placeholder')
-  )
+  const handleSwipedLeft = (index) => {
+    const swipedUserId = path(['data', index, 'userId'], datingMatchedUsers)
+    dispatch(datingActions.datingMatchRejectRequest({ userId: swipedUserId }))
+  }
 
-  const isDatingAvailableDebug = JSON.stringify({
-    dateOfBirth: user.dateOfBirth,
-    gender: user.gender,
-    location: user.location,
-    matchAgeRange: user.matchAgeRange,
-    matchGenders: user.matchGenders,
-    matchLocationRadius: user.matchLocationRadius ,
-    fullName: user.fullName,
-    photo: !user.photo.url.includes('placeholder'),    
-  }, null, 2)
+  const handleSwipedRight = (index) => {
+    const swipedUserId = path(['data', index, 'userId'], datingMatchedUsers)
+    dispatch(datingActions.datingMatchApproveRequest({ userId: swipedUserId }))
+  }
 
   return children({
     user,
-    usersSetUserDatingStatusRequest,
-    isDatingAvailable,
-    isDatingAvailableDebug,
+    datingMatchedUsersRequest,
+    datingMatchedUsersIdle,
+    datingMatchedUsers,
+    handleSwipedLeft,
+    handleSwipedRight,
   })
 }
 

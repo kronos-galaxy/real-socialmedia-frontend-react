@@ -1,90 +1,125 @@
-import React from 'react'
+import React, { useRef, useCallback, useMemo } from 'react'
 import PropTypes from 'prop-types'
 import {
   StyleSheet,
   View,
 } from 'react-native'
-import { Paragraph, Title, Text } from 'react-native-paper'
-import DefaultButton from 'components/Formik/Button/DefaultButton'
-import * as navigationActions from 'navigation/actions'
+import DatingCard from 'components/Dating/Card'
+import DatingActions from 'components/Dating/Actions'
+import DatingSettings from 'components/Dating/Settings'
+import DatingPlaceholder from 'components/Dating/Placeholder'
+import LoadingComponent from 'components/Loading'
+import Swiper from 'react-native-deck-swiper'
+import path from 'ramda/src/path'
 
-import { useNavigation } from '@react-navigation/native'
 import { withTheme } from 'react-native-paper'
 import { withTranslation } from 'react-i18next'
 
 const Dating = ({
-  t,
   theme,
   user,
-  usersSetUserDatingStatusRequest,
-  isDatingAvailable,
-  isDatingAvailableDebug,
+  datingMatchedUsersRequest,
+  datingMatchedUsersIdle,
+  datingMatchedUsers,
+  handleSwipedLeft,
+  handleSwipedRight,
 }) => {
   const styling = styles(theme)
-  const navigation = useNavigation()
+  const swiperRef = useRef(null)
+  const renderCard = useCallback((datingUser) => <DatingCard user={datingUser} />, [])
+
+  const settingsVisibility = useMemo(() =>
+    path(['datingStatus'], user) !== 'ENABLED'
+  , [user])
+
+  const loadingVisibility = useMemo(() =>
+    !settingsVisibility && path(['status'], datingMatchedUsers) === 'loading'
+  , [settingsVisibility, datingMatchedUsers])
+
+  const placeholderVisibility = useMemo(() =>
+    !settingsVisibility && path(['status'], datingMatchedUsers) !== 'loading' && !path(['data', 'length'], datingMatchedUsers)
+  , [settingsVisibility, datingMatchedUsers])
+
+  const matchesVisibility = useMemo(() =>
+    !settingsVisibility && path(['status'], datingMatchedUsers) === 'success' && path(['data', 'length'], datingMatchedUsers)
+  , [settingsVisibility, datingMatchedUsers])
+
+  const actionsVisibility = useMemo(() =>
+    !settingsVisibility && path(['status'], datingMatchedUsers) === 'success' && path(['data', 'length'], datingMatchedUsers)
+  , [settingsVisibility, datingMatchedUsers])
 
   return (
     <View style={styling.root}>
-      <View style={styling.content}>
-        {user.datingStatus === 'ENABLED' ?
-          <Title style={styling.title}>{t('REAL Dating is [Enabled]')}</Title>
+      <View style={styling.carousel}>
+        {settingsVisibility ?
+          <DatingSettings />
         : null}
 
-        {user.datingStatus === 'DISABLED' ?
-          <Title style={styling.title}>{t('REAL Dating is [Disabled]')}</Title>
+        {loadingVisibility ?
+          <LoadingComponent />
         : null}
 
-        <Paragraph style={styling.paragraph}>{t('Tell us a bit more about your self and your interests to start REAL Dating')}.</Paragraph>
-
-        <View style={styling.action}>
-          <DefaultButton label={t('Edit')} onPress={navigationActions.navigateDatingAbout(navigation)} loading={false} />
-        </View>
-
-        {isDatingAvailable ?
-          <View style={styling.action}>
-            <DefaultButton label={t('Start Dating')} onPress={usersSetUserDatingStatusRequest} loading={false} />
-          </View>
+        {placeholderVisibility ?
+          <DatingPlaceholder
+            datingMatchedUsersRequest={datingMatchedUsersRequest}
+          />
         : null}
 
-        <Text style={styling.debug}>{isDatingAvailableDebug}</Text>
+        {matchesVisibility ?
+          <Swiper
+            ref={swiperRef}
+            cards={datingMatchedUsers.data}
+            onSwipedLeft={handleSwipedLeft}
+            onSwipedRight={handleSwipedRight}
+            onSwipedAll={datingMatchedUsersIdle}
+            renderCard={renderCard}
+            cardIndex={0}
+            stackSize={3}
+            verticalSwipe={false}
+            cardVerticalMargin={theme.spacing.base}
+            cardHorizontalMargin={theme.spacing.base}
+            backgroundColor={theme.colors.backgroundPrimary}
+            cardStyle={styling.card}
+          />
+        : null}
       </View>
+
+      {actionsVisibility ?
+        <View style={styling.actions}>
+          <DatingActions swiperRef={swiperRef} />
+        </View>
+      : null}
     </View>
   )
 }
-  
+
 const styles = theme => StyleSheet.create({
   root: {
     flex: 1,
-    backgroundColor: theme.colors.backgroundPrimary,
-    alignItems: 'center',
-    justifyContent: 'center',
   },
-  content: {
-    padding: theme.spacing.base,
-    backgroundColor: theme.colors.backgroundPrimary,
+  carousel: {
+    flex: 1,
   },
-  title: {
-    textAlign: 'center',
-    marginBottom: 12,
-  },
-  paragraph: {
-    textAlign: 'center',
-  },
-  action: {
+  actions: {
+    height: 120,
     marginTop: theme.spacing.base,
   },
-  debug: {
-    fontSize: 8,
+  card: {
+    height: '100%',
+  },
+  placeholder: {
+    padding: theme.spacing.base,
   },
 })
 
 Dating.propTypes = {
   theme: PropTypes.any,
-  t: PropTypes.any,
   user: PropTypes.any,
-  usersSetUserDatingStatusRequest: PropTypes.any,
-  isDatingAvailable: PropTypes.any,
-  isDatingAvailableDebug: PropTypes.any,
+  datingMatchedUsersRequest: PropTypes.any,
+  datingMatchedUsersIdle: PropTypes.any,
+  datingMatchedUsers: PropTypes.any,
+  handleSwipedLeft: PropTypes.any,
+  handleSwipedRight: PropTypes.any,
 }
 
 export default withTranslation()(withTheme(Dating))

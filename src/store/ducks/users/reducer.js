@@ -121,6 +121,12 @@ export const initialState = {
     status: 'idle',
     error: {},
   },
+  usersSetUserDatingStatus: {
+    data: [],
+    status: 'idle',
+    error: {},
+    payload: {},
+  },
 
   usersGetFollowerUsersCache: {},
   usersGetFollowedUsersCache: {},
@@ -791,6 +797,38 @@ const usersSetApnsTokenIdle = (state) => update(state, {
   },
 })
 
+/**
+ *
+ */
+const usersSetUserDatingStatusRequest = (state, action) => update(state, {
+  usersSetUserDatingStatus: {
+    status: { $set: 'loading' },
+    payload: { $set: action.payload },
+  },
+})
+
+const usersSetUserDatingStatusSuccess = (state, action) => update(state, {
+  usersSetUserDatingStatus: {
+    data: { $set: action.payload.data },
+    status: { $set: 'success' },
+  },
+})
+
+const usersSetUserDatingStatusFailure = (state, action) => update(state, {
+  usersSetUserDatingStatus: {
+    status: { $set: 'failure' },
+    error: { $set: action.payload.message },
+  },
+})
+
+const usersSetUserDatingStatusIdle = (state) => update(state, {
+  usersSetUserDatingStatus: {
+    data: { $set: initialState.usersSetUserDatingStatus.data },
+    error: { $set: initialState.usersSetUserDatingStatus.error },
+    status: { $set: 'idle' },
+  },
+})
+
 export default handleActions({
   [constants.USERS_SEARCH_REQUEST]: usersSearchRequest,
   [constants.USERS_SEARCH_SUCCESS]: usersSearchSuccess,
@@ -892,6 +930,11 @@ export default handleActions({
   [constants.USERS_DELETE_AVATAR_SUCCESS]: usersDeleteAvatarSuccess,
   [constants.USERS_DELETE_AVATAR_FAILURE]: usersDeleteAvatarFailure,
   [constants.USERS_DELETE_AVATAR_IDLE]: usersDeleteAvatarIdle,
+
+  [constants.USERS_SET_USER_DATING_STATUS_REQUEST]: usersSetUserDatingStatusRequest,
+  [constants.USERS_SET_USER_DATING_STATUS_SUCCESS]: usersSetUserDatingStatusSuccess,
+  [constants.USERS_SET_USER_DATING_STATUS_FAILURE]: usersSetUserDatingStatusFailure,
+  [constants.USERS_SET_USER_DATING_STATUS_IDLE]: usersSetUserDatingStatusIdle,
 
   /**
    * Clear on logout

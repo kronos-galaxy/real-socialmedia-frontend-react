@@ -15,13 +15,13 @@ import testIDs from './test-ids'
 const formSchema = Yup.object().shape({
   username: Yup.string()
     .min(3)
-    .max(50)
+    .max(80)
     .email()
     .trim()
     .required(),
   password: Yup.string()
     .min(8)
-    .max(50)
+    .max(80)
     .trim()
     .required(),
 })

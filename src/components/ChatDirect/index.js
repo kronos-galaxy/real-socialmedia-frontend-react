@@ -44,6 +44,7 @@ const ChatDirect = ({
         name: pathOr(null, ['author', 'username'])(message),
         avatar: pathOr(null, ['author', 'photo', 'url64p'])(message),
       },
+      system: !pathOr(null, ['author', 'userId'])(message),
     }))
 
   const userAdapter = {

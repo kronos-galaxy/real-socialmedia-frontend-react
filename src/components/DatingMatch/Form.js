@@ -4,7 +4,7 @@ import {
   StyleSheet,
   View,
 } from 'react-native'
-import TextField from 'components/Formik/TextField'
+import MapField from 'components/Formik/MapField'
 import PickerField from 'components/Formik/PickerField'
 import DefaultButton from 'components/Formik/Button/DefaultButton'
 import CollapsableComponent from 'templates/Collapsable'
@@ -57,11 +57,10 @@ const DatingMatchForm = ({
    * [matchLocationRadius] Match radius
    */
   const locationItems = [
-    { label: '5 km', value: 5 },
-    { label: '10 km', value: 10 },
-    { label: '30 km', value: 30 },
-    { label: '50 km', value: 50 },
-    { label: '100 km', value: 100 },
+    { label: '15 mi', value: 10 },
+    { label: '30 mi', value: 30 },
+    { label: '50 mi', value: 50 },
+    { label: '100 mi', value: 100 },
   ]
 
   return (
@@ -108,7 +107,7 @@ const DatingMatchForm = ({
         active={false}
         success={values.location}
       >
-        <Field name="location" component={TextField} placeholder={t('Match Location')} />
+        <Field name="location" component={MapField} placeholder={t('Match Location')} />
       </CollapsableComponent>
       <View style={styling.input}>
         <DefaultButton label={t('Next')} onPress={handleSubmit} loading={loading} disabled={loading} />

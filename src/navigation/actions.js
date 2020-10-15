@@ -122,6 +122,10 @@ export const navigateDatingMatch = withAuthValidation((navigation, params) =>
   navigation.navigate('DatingMatch', params),
 )
 
+export const navigateDatingProfile = withAuthValidation((navigation, params) =>
+  navigation.navigate('DatingProfile', params),
+)
+
 export const navigatePostShare = withAuthValidation((navigation, params) =>
   navigation.push('PostShare', params),
 )
