@@ -3,6 +3,11 @@ export default {
   config: {
     AuthEmailConfirm: 'confirm/email/:userId/:confirmationCode',
     AuthForgotConfirm: 'confirm/forgot/:userId/:confirmationCode',
+    Auth: {
+      screens: {
+        AuthUsername: 'signup/:userId',
+      },
+    },
     Chat: {
       screens: {
         ChatDirect: 'chat/:chatId',

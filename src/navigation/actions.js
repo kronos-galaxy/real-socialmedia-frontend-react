@@ -250,7 +250,10 @@ export const navigateAuthHome = (navigation, params) => () =>
   })
 
 export const navigateAuthUsername = (navigation, params) => () =>
-  navigation.navigate('AuthUsername', params)
+  navigation.navigate('Auth', {
+    screen: 'AuthUsername', 
+    params,
+  })
 
 export const navigateAuthSigninPhone = (navigation, params) => () =>
   navigation.navigate('AuthSigninPhone', params)

@@ -13,13 +13,15 @@ const patterns = {
   post: new UrlPattern('*/user/(:userId)/post/(:postId)((/):action)(/)((/):actionId)(/)', options),
   profilePhoto: new UrlPattern('*/user/:userId/settings/photo(/)', options),
   inviteFriends: new UrlPattern('*/user/:userId/settings/contacts(/)', options),
+  signUp: new UrlPattern('*/signup/:userId(/)', options),
 }
 
 export const deeplinkPath = (action) => {
-  const [postMatch, profilePhotoMatch, inviteFriendsMatch] = [
+  const [postMatch, profilePhotoMatch, inviteFriendsMatch, signUpMatch] = [
     patterns.post.match(action), 
     patterns.profilePhoto.match(action),
     patterns.inviteFriends.match(action),
+    patterns.signUp.match(action),
   ]
 
   if (profilePhotoMatch !== null) {
@@ -28,6 +30,10 @@ export const deeplinkPath = (action) => {
 
   if (inviteFriendsMatch !== null) {
     return { action: 'inviteFriends', ...inviteFriendsMatch }
+  }
+
+  if (signUpMatch !== null) {
+    return { action: 'signup', ...signUpMatch }
   }
 
   if (action === 'https://real.app/chat/') {
@@ -86,6 +92,12 @@ export const deeplinkNavigation = (navigation, navigationActions, Linking) => (a
        * Invite Friends
        */
       return navigationActions.navigateInviteFriends(navigation, params)()
+    } else if (params && params.action === 'signup') {
+
+      /**
+       * Sign up
+       */
+      return navigationActions.navigateAuthUsername(navigation, params)()
     }
   } catch (error) {
     if (error.code === 'MISSING_DEEP_LINK_PARAMS_ERROR') {
