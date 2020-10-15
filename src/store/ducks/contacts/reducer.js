@@ -26,7 +26,7 @@ const contactsGetRequest = (state) =>
     },
   })
 
-const contactsSuccess = (state, action) =>
+const contactsGetSuccess = (state, action) =>
   update(state, {
     contactsGet: {
       status: { $set: 'success' },
@@ -34,11 +34,11 @@ const contactsSuccess = (state, action) =>
     },
   })
 
-const contactsFailure = (state, action) =>
+const contactsGetFailure = (state, action) =>
   update(state, {
     contactsGet: {
       status: { $set: 'failure' },
-      error: { $set: action.payload },
+      error: { $set: action.payload.message },
       items: { $set: initialState.contactsGet.items },
     },
   })
@@ -71,8 +71,8 @@ const contactsInviteFailure = (state, action) =>
 export default handleActions(
   {
     [constants.CONTACTS_GET_REQUEST]: contactsGetRequest,
-    [constants.CONTACTS_GET_SUCCESS]: contactsSuccess,
-    [constants.CONTACTS_GET_FAILURE]: contactsFailure,
+    [constants.CONTACTS_GET_SUCCESS]: contactsGetSuccess,
+    [constants.CONTACTS_GET_FAILURE]: contactsGetFailure,
 
     [constants.CONTACTS_INVITE_REQUEST]: contactsInviteRequest,
     [constants.CONTACTS_INVITE_SUCCESS]: contactsInviteSuccess,

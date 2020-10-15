@@ -41,7 +41,7 @@ describe('Contacts reducer', () => {
     })
 
     it('error state', () => {
-      const state = reducer(undefined, actions.contactsGetFailure(error.message))
+      const state = reducer(undefined, actions.contactsGetFailure(error))
 
       expect(selectors.contactsGet(state)).toEqual({
         error: error.message,
@@ -51,7 +51,7 @@ describe('Contacts reducer', () => {
     })
 
     it('clear error on request', () => {
-      const state = applyActions([actions.contactsGetFailure(error.message), actions.contactsGetRequest()], reducer)
+      const state = applyActions([actions.contactsGetFailure(error), actions.contactsGetRequest()], reducer)
 
       expect(selectors.contactsGet(state)).toEqual({
         error: '',
@@ -63,7 +63,7 @@ describe('Contacts reducer', () => {
     it('clear items on error', () => {
       const items = [{ id: 1 }, { id: 2 }]
       const state = applyActions(
-        [actions.contactsGetSuccess({ items }), actions.contactsGetFailure(error.message)],
+        [actions.contactsGetSuccess({ items }), actions.contactsGetFailure(error)],
         reducer,
       )
 

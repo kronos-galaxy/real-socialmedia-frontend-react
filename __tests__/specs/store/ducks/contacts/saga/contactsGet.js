@@ -158,7 +158,7 @@ describe('Contacts saga', () => {
 
       .call(check, PERMISSIONS.IOS.CONTACTS)
       .not.call(request, PERMISSIONS.IOS.CONTACTS)
-      .put(actions.contactsGetFailure('Contacts permission is UNAVAILABLE'))
+      .put(actions.contactsGetFailure({ message: 'Contacts permission is UNAVAILABLE' }))
 
       .dispatch(actions.contactsGetRequest())
       .silentRun()
@@ -175,7 +175,7 @@ describe('Contacts saga', () => {
 
       .call(check, PERMISSIONS.IOS.CONTACTS)
       .not.call(request, PERMISSIONS.IOS.CONTACTS)
-      .put(actions.contactsGetFailure('Contacts permission is BLOCKED'))
+      .put(actions.contactsGetFailure({ message: 'Contacts permission is BLOCKED' }))
 
       .dispatch(actions.contactsGetRequest())
       .silentRun()
@@ -193,7 +193,7 @@ describe('Contacts saga', () => {
 
       .call(check, PERMISSIONS.IOS.CONTACTS)
       .call(request, PERMISSIONS.IOS.CONTACTS)
-      .put(actions.contactsGetFailure('Contacts permission is DENIED'))
+      .put(actions.contactsGetFailure({ message: 'Contacts permission is DENIED' }))
 
       .dispatch(actions.contactsGetRequest())
       .silentRun()
@@ -209,7 +209,7 @@ describe('Contacts saga', () => {
       .provide(context)
 
       .call(check, PERMISSIONS.IOS.CONTACTS)
-      .put(actions.contactsGetFailure('Get All Error'))
+      .put(actions.contactsGetFailure({ message: 'Get All Error' }))
 
       .dispatch(actions.contactsGetRequest())
       .silentRun()
