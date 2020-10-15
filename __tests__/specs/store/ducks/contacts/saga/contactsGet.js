@@ -4,7 +4,7 @@ import * as matchers from 'redux-saga-test-plan/matchers'
 import Contacts from 'react-native-contacts'
 import { PERMISSIONS, RESULTS, check, request } from 'react-native-permissions'
 import contacts from 'store/ducks/contacts/saga'
-import { parsePhoneNumberFromString } from 'libphonenumber-js/min'
+import  parsePhoneNumber  from 'libphonenumber-js/min'
 import * as actions from 'store/ducks/contacts/actions'
 import { testAsRootSaga } from 'tests/utils/helpers'
 import { errorWrapper } from 'store/helpers'
@@ -135,7 +135,7 @@ describe('Contacts saga', () => {
 
   it('phone validation', () => {
     const testNumber = (phoneStr, expected) => {
-      const phone = parsePhoneNumberFromString(phoneStr, 'US')
+      const phone = parsePhoneNumber(phoneStr, 'US')
       expect(phone.format('E.164')).toBe(expected.number)
       expect(phone.isValid()).toBe(expected.isValid)
     }

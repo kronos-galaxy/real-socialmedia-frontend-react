@@ -2,6 +2,10 @@ import prop from 'ramda/src/prop'
 import sort from 'ramda/src/sort'
 import path from 'ramda/src/path'
 import indexBy from 'ramda/src/indexBy'
+import compose from 'ramda/src/compose'
+import head from 'ramda/src/head'
+import propOr from 'ramda/src/propOr'
+import { getLocales } from 'react-native-localize'
 import { PERMISSIONS, RESULTS, check, request } from 'react-native-permissions'
 import { call, getContext, put } from 'redux-saga/effects'
 import Contacts from 'react-native-contacts'
@@ -38,13 +42,17 @@ function getAllContacts() {
   )
 }
 
+const getLocale = compose(propOr('US', 'countryCode'), head, getLocales)
+
 function normalizeContactsForGQLRequest(contacts) {
+  const locale = getLocale()
+
   return contacts.map((item) => ({
     contactId: item.contactId,
     emails: item.emails,
     phones: item.phones.reduce((acc, item) => {
       try {
-        const phone = parsePhoneNumber(item, 'US')
+        const phone = parsePhoneNumber(item, locale)
 
         if (!phone.isValid()) {
           throw new Error('Not valid phone number')

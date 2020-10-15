@@ -13,6 +13,7 @@ jest.spyOn(Linking, 'openURL')
 Linking.openURL.mockResolvedValue(true)
 
 jest.mock('react-native-contacts', () => ({ getAll: jest.fn() }))
+
 jest.mock('services/Query', () => ({ apiRequest: jest.fn().mockResolvedValue(true) }))
 jest.mock('store/ducks/auth/selectors', () => ({ authUserSelector: jest.fn() }))
 
