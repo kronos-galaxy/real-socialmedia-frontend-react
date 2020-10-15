@@ -1,4 +1,5 @@
 import prop from 'ramda/src/prop'
+import sort from 'ramda/src/sort'
 import indexBy from 'ramda/src/indexBy'
 import { PERMISSIONS, RESULTS, check, request } from 'react-native-permissions'
 import { call, getContext, put } from 'redux-saga/effects'
@@ -56,6 +57,18 @@ function normalizeContactsForGQLRequest(contacts) {
   }))
 }
 
+const sortContacts = sort((a, b) => {
+  if (a.user && b.user) {
+    return a.fullName < b.fullName ? -1 : 1
+  }
+
+  if (!b.user) {
+    return -1
+  } else {
+    return 1
+  }
+})
+
 function* findContacts() {
   const contacts = yield call(getAllContacts)
   const normalizedContacts = yield call(normalizeContacts, contacts)
@@ -68,17 +81,7 @@ function* findContacts() {
       return { ...item, user: users[item.contactId] ? users[item.contactId].user : undefined }
     })
 
-    return mixedContacts.sort((a, b) => {
-      if (a.user && b.user) {
-        return a.fullName < b.fullName ? -1 : 1
-      }
-
-      if (!b.user) {
-        return -1
-      } else {
-        return 1
-      }
-    })
+    return sortContacts(mixedContacts)
   } catch (error) {
     return normalizedContacts
   }
