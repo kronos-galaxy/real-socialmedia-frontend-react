@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import {
   StyleSheet,
@@ -11,7 +11,6 @@ import AlbumComponent from 'components/Post/Album'
 import CommentComponent from 'components/Post/Comment'
 import DescriptionComponent from 'components/Post/Description'
 import HeaderComponent from 'components/Post/Header'
-import VerificationComponent from 'components/Post/Verification'
 
 import ListItemComponent from 'templates/ListItem'
 import CacheComponent from 'components/Cache'
@@ -19,7 +18,6 @@ import TextOnlyComponent from 'templates/TextOnly'
 import ReactionsPreviewTemplate from 'templates/ReactionsPreview'
 import ViewShot from 'react-native-view-shot'
 import * as navigationActions from 'navigation/actions'
-import PrivacyService from 'services/Privacy'
 
 import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
@@ -46,6 +44,7 @@ const PostComponent = ({
   textPostRef,
 
   feedRef,
+  changeAvatarRequest,
 }) => {
   const styling = styles(theme)
   const navigation = useNavigation()
@@ -66,8 +65,6 @@ const PostComponent = ({
     }
   }
 
-  const selfFailedPostVisibility = useMemo(() => PrivacyService.selfPostVerificationVisibility(post, user), [post, user])
-
   return (
     <View style={styling.root}>
       <TouchableOpacity style={styling.prev} onPress={handleScrollPrev} />
@@ -86,6 +83,7 @@ const PostComponent = ({
         createActionSheetRef={createActionSheetRef}
         actionSheetRef={actionSheetRef}
         navigation={navigation}
+        changeAvatarRequest={changeAvatarRequest}
       />
 
       {post.postType === 'TEXT_ONLY' ?
@@ -116,9 +114,7 @@ const PostComponent = ({
             resizeMode="contain"
             hideLabel={false}
           />
-          {selfFailedPostVisibility ?
-            <VerificationComponent />
-          : null}
+       
           <TouchableOpacity style={styling.prev} onPress={handleScrollPrev} />
           <TouchableOpacity style={styling.next} onPress={handleScrollNext} />
         </ListItemComponent>
@@ -201,6 +197,7 @@ PostComponent.propTypes = {
   actionSheetRef: PropTypes.any,
   createTextPostRef: PropTypes.any,
   textPostRef: PropTypes.any,
+  changeAvatarRequest: PropTypes.func,
 }
 
 export default withTheme(PostComponent)

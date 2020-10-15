@@ -11,6 +11,16 @@ const setup = (props) => renderWithProviders(<UploadingComponent {...props} />)
 
 describe('Feed Uploading', () => {
   describe('Loading state', () => {
+    it('preview', () => {
+      const { getByAccessibilityLabel } = setup({
+        post: { status: 'loading', payload: { preview: ['uri'] }, meta: { progress: 50 } },
+      })
+      const $image = getByAccessibilityLabel('preview')
+
+      expect($image).toHaveProp('source', { uri: 'uri' })
+      expect($image).toHaveProp('resizeMode', 'cover')
+    })
+
     it('represent progress', () => {
       [10, 50, 98].forEach((progress) => {
         const { getByText } = setup({ post: { status: 'loading', meta: { progress } } })

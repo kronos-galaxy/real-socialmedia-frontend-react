@@ -27,6 +27,21 @@ test('deeplinkPath determines provided post params', () => {
   })
 
   /**
+	 * Invite Friends
+	 */
+	const inviteFriendsUrl = 'https://real.app/user/us-east-1:6b33c0d0-cc30-4083-92a1-043f7cd313ce/settings/contacts'
+	expect(LinkingService.deeplinkPath(inviteFriendsUrl)).toMatchObject({
+    _: 'https://real.app',
+    userId: 'us-east-1:6b33c0d0-cc30-4083-92a1-043f7cd313ce',
+  })
+
+  const inviteFriendsUrlSlashed = 'https://real.app/user/us-east-1:6b33c0d0-cc30-4083-92a1-043f7cd313ce/settings/contacts/'
+	expect(LinkingService.deeplinkPath(inviteFriendsUrlSlashed)).toMatchObject({
+    _: 'https://real.app',
+    userId: 'us-east-1:6b33c0d0-cc30-4083-92a1-043f7cd313ce',
+  })
+
+  /**
    * Views action path
    */
 	const viewsUrl = 'https://real.app/user/us-east-1:6b33c0d0-cc30-4083-92a1-043f7cd313ce/post/1bb30c92-ff1d-4d38-98b7-73942557dfbd/views'
@@ -102,6 +117,7 @@ describe('deeplinkNavigation redirect routes', () => {
     navigateNestedPostLikes: jest.fn().mockName('mockedNavigateNestedPostLikes'),
     navigateNestedPost: jest.fn().mockName('mockedNavigateNestedPost'),
     navigateProfilePhoto: jest.fn().mockName('mockedNavigateProfilePhoto'),
+    navigateInviteFriends: jest.fn().mockName('mockedNavigateInviteFriends'),
   }
   const Linking = {
     openURL: jest.fn().mockName('mockedOpenUrl'),
@@ -175,6 +191,16 @@ describe('deeplinkNavigation redirect routes', () => {
       _: 'https://real.app',
       userId: 'us-east-1:6b33c0d0-cc30-4083-92a1-043f7cd313ce',
       action: 'profilePhoto',
+    })
+  })
+
+  test('invite friends', () => {
+    const rootUrl = 'https://real.app/user/us-east-1:6b33c0d0-cc30-4083-92a1-043f7cd313ce/settings/contacts'
+    LinkingService.deeplinkNavigation(navigation, actions, Linking)(rootUrl)
+    expect(actions.navigateInviteFriends).toHaveBeenLastCalledWith(navigation, {
+      _: 'https://real.app',
+      userId: 'us-east-1:6b33c0d0-cc30-4083-92a1-043f7cd313ce',
+      action: 'inviteFriends',
     })
   })
 

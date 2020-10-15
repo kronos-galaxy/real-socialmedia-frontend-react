@@ -4,9 +4,9 @@ import {
   StyleSheet,
   View,
   TouchableOpacity,
+  Image,
 } from 'react-native'
 import { Text, Caption } from 'react-native-paper'
-import Avatar from 'templates/Avatar'
 import path from 'ramda/src/path'
 import TickIcon from 'assets/svg/post/Tick'
 import CloseIcon from 'assets/svg/post/Close'
@@ -17,6 +17,8 @@ import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
 import { withTranslation } from 'react-i18next'
 import testIDs from 'components/Feed/test-ids'
+
+const getPreviewURI = path(['payload', 'preview', '0'])
 
 const Uploading = ({
   t,
@@ -33,14 +35,16 @@ const Uploading = ({
     return null
   }
 
+  const previewURI = getPreviewURI(post)
+
   /**
    * Immitating post object
    */
   const pseudoPost = {
     image: {
-      url64p: path(['payload', 'preview', '0'])(post),
-      url480p: path(['payload', 'preview', '0'])(post),
-      url1080p: path(['payload', 'preview', '0'])(post),
+      url64p: previewURI,
+      url480p: previewURI,
+      url1080p: previewURI,
     },
     postedBy: user,
     postedAt: Date.now(),
@@ -48,51 +52,64 @@ const Uploading = ({
 
   return (
     <View style={styling.root}>
-      <Avatar
-        thumbnailSource={{ uri: path(['payload', 'preview', '0'])(post) }}
-        imageSource={{ uri: path(['payload', 'preview', '0'])(post) }}
-      />
-
-      {post.status === 'loading' ?
+      <Image style={styling.preview} accessibilityLabel="preview" resizeMode="cover" source={{ uri: previewURI }} />
+      {post.status === 'loading' ? (
         <View style={styling.status}>
-          <TouchableOpacity style={styling.content} onPress={navigationActions.navigateVerification(navigation, { actionType: 'BACK', post: pseudoPost })}>
+          <TouchableOpacity
+            style={styling.content}
+            onPress={navigationActions.navigateVerification(navigation, { actionType: 'BACK', post: pseudoPost })}
+          >
             <Text style={styling.title}>Uploading {post.meta.progress || 0}%</Text>
             <View style={styling.caption}>
-              <Caption style={styling.subtitle}>{t('Pending Verification')} - {t('Learn More')}</Caption>
+              <Caption style={styling.subtitle}>
+                {t('Pending Verification')} - {t('Learn More')}
+              </Caption>
               <VerificationIcon fill="#676767" />
             </View>
           </TouchableOpacity>
-          {post.meta.progress !== 99 ? 
-            <TouchableOpacity testID={testIDs.uploading.cancelBtn} style={styling.icon} onPress={() => postsCreateIdle(post)}>
+          {post.meta.progress !== 99 ? (
+            <TouchableOpacity
+              testID={testIDs.uploading.cancelBtn}
+              style={styling.icon}
+              onPress={() => postsCreateIdle(post)}
+            >
               <CloseIcon fill="#ffffff" />
-            </TouchableOpacity> 
-          : null}
+            </TouchableOpacity>
+          ) : null}
         </View>
-      : null}
+      ) : null}
 
-      {post.status === 'failure' ?
+      {post.status === 'failure' ? (
         <View style={styling.status}>
           <TouchableOpacity style={styling.content} onPress={() => postsCreateRequest(post.payload)}>
             <Text style={styling.title}>{t('Failed to create your post')}</Text>
             <Caption style={styling.subtitle}>{t('Tap here to reupload')}</Caption>
           </TouchableOpacity>
-          <TouchableOpacity testID={testIDs.uploading.cancelBtn} style={styling.icon} onPress={() => postsCreateIdle(post)}>
+          <TouchableOpacity
+            testID={testIDs.uploading.cancelBtn}
+            style={styling.icon}
+            onPress={() => postsCreateIdle(post)}
+          >
             <CloseIcon fill="#ffffff" />
           </TouchableOpacity>
         </View>
-      : null}
-      
-      {post.status === 'success' ?
+      ) : null}
+
+      {post.status === 'success' ? (
         <View style={styling.status}>
           <TouchableOpacity style={styling.content} onPress={() => postsCreateIdle(post)}>
             <Text style={styling.title}>Done</Text>
             <Caption style={styling.subtitle}>{t('Successfully created')}</Caption>
           </TouchableOpacity>
-          <TouchableOpacity testID={testIDs.uploading.cancelBtn} style={styling.icon} onPress={() => postsCreateIdle(post)}>
+          <TouchableOpacity
+            testID={testIDs.uploading.cancelBtn}
+            style={styling.icon}
+            onPress={() => postsCreateIdle(post)}
+          >
             <TickIcon fill="#ffffff" />
           </TouchableOpacity>
         </View>
-      : null}
+      ) : null}
     </View>
   )
 }
@@ -129,6 +146,10 @@ const styles = theme => StyleSheet.create({
   caption: {
     flexDirection: 'row',
     alignItems: 'center',
+  },
+  preview: {
+    width: 44,
+    height: 44,
   },
 })
 
