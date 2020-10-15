@@ -244,7 +244,7 @@ describe('Contacts saga', () => {
           { contactId: 4, emails: ['test1@email.com', 'test2@email.com'], phones: ['+18885555512'] },
         ],
       })
-      .put(actions.contactsGetSuccess({ items: mixedContacts }))
+      .put(actions.contactsGetSuccess({ data: mixedContacts }))
 
       .dispatch(actions.contactsGetRequest())
       .silentRun()
@@ -263,7 +263,7 @@ describe('Contacts saga', () => {
     return expectSaga(testAsRootSaga(contacts))
       .provide(context)
 
-      .put(actions.contactsGetSuccess({ items: normalizedItems }))
+      .put(actions.contactsGetSuccess({ data: normalizedItems }))
 
       .dispatch(actions.contactsGetRequest())
       .silentRun()

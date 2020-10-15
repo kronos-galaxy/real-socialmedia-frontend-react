@@ -105,7 +105,7 @@ function* contactsGetRequest() {
     }
 
     const contacts = yield call(findContacts)
-    yield put(actions.contactsGetSuccess({ items: contacts }))
+    yield put(actions.contactsGetSuccess({ data: contacts }))
   } catch (error) {
     yield put(actions.contactsGetFailure({ message: errorWrapper(error) }))
   }

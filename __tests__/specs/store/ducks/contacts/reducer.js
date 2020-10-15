@@ -30,13 +30,13 @@ describe('Contacts reducer', () => {
     })
 
     it('success state', () => {
-      const items = [{ id: 1 }, { id: 2 }]
-      const state = reducer(undefined, actions.contactsGetSuccess({ items }))
+      const data = [{ id: 1 }, { id: 2 }]
+      const state = reducer(undefined, actions.contactsGetSuccess({ data }))
 
       expect(selectors.contactsGet(state)).toEqual({
         error: '',
         status: 'success',
-        items,
+        items: data,
       })
     })
 
@@ -61,9 +61,9 @@ describe('Contacts reducer', () => {
     })
 
     it('clear items on error', () => {
-      const items = [{ id: 1 }, { id: 2 }]
+      const data = [{ id: 1 }, { id: 2 }]
       const state = applyActions(
-        [actions.contactsGetSuccess({ items }), actions.contactsGetFailure(error)],
+        [actions.contactsGetSuccess({ data }), actions.contactsGetFailure(error)],
         reducer,
       )
 

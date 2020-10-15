@@ -30,7 +30,7 @@ const contactsGetSuccess = (state, action) =>
   update(state, {
     contactsGet: {
       status: { $set: 'success' },
-      items: { $set: action.payload.items },
+      items: { $set: action.payload.data },
     },
   })
 
