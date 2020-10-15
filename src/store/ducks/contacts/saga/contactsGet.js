@@ -5,7 +5,7 @@ import indexBy from 'ramda/src/indexBy'
 import { PERMISSIONS, RESULTS, check, request } from 'react-native-permissions'
 import { call, getContext, put } from 'redux-saga/effects'
 import Contacts from 'react-native-contacts'
-import { parsePhoneNumberFromString } from 'libphonenumber-js/min'
+import parsePhoneNumber from 'libphonenumber-js/min'
 import * as actions from 'store/ducks/contacts/actions'
 import * as queries from 'store/ducks/contacts/queries'
 import * as queryService from 'services/Query'
@@ -44,7 +44,7 @@ function normalizeContactsForGQLRequest(contacts) {
     emails: item.emails,
     phones: item.phones.reduce((acc, item) => {
       try {
-        const phone = parsePhoneNumberFromString(item, 'US')
+        const phone = parsePhoneNumber(item, 'US')
 
         if (!phone.isValid()) {
           throw new Error('Not valid phone number')
