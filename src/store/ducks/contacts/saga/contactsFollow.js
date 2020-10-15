@@ -4,15 +4,13 @@ import * as usersActions from 'store/ducks/users/actions'
 import * as usersConstants from 'store/ducks/users/constants'
 import path from 'ramda/src/path'
 
-const getContactId = path(['payload', 'contactId'])
-
 function* contactsFollowRequest(req) {
-  const contactId = getContactId(req)
+  const contactId = path(['payload', 'contactId'], req)
 
   try {
-    const { user } = req.payload
+    const userId = req.payload.user.userId
 
-    yield put(usersActions.usersFollowRequest({ userId: user.userId }))
+    yield put(usersActions.usersFollowRequest({ userId }))
 
     const { failure } = yield race({
       failure: take(usersConstants.USERS_FOLLOW_FAILURE),
