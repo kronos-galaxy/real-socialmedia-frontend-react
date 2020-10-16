@@ -177,7 +177,7 @@ const styles = (theme) =>
     headingSubtitle: {
       fontSize: 16,
       fontWeight: '400',
-      color: color(theme.colors.text).fade(0.4),
+      color: color(theme.colors.text).fade(0.4).string(),
       textAlign: 'center',
     },
     errorText: {

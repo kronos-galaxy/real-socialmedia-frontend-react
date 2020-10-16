@@ -94,12 +94,12 @@ const styles = (theme) =>
     headingSubtitle: {
       fontSize: 16,
       fontWeight: '400',
-      color: color(theme.colors.text).fade(0.4),
+      color: color(theme.colors.text).fade(0.4).string(),
       textAlign: 'center',
     },
     strong: {
       fontWeight: '500',
-      color: color(theme.colors.text).fade(0.4),
+      color: color(theme.colors.text).fade(0.4).string(),
     },
     description: {
       paddingHorizontal: 48,
