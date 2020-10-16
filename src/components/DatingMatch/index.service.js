@@ -4,6 +4,7 @@ import * as usersActions from 'store/ducks/users/actions'
 import * as authSelector from 'store/ducks/auth/selectors'
 import * as navigationActions from 'navigation/actions'
 import { useNavigation } from '@react-navigation/native'
+import pathOr from 'ramda/src/pathOr'
 
 const DatingMatchService = ({ children }) => {
   const dispatch = useDispatch()
@@ -43,9 +44,9 @@ const DatingMatchService = ({ children }) => {
   const formErrorMessage = usersEditProfile.error.text
 
   const formInitialValues = {
-    matchAgeRangeMin: (user.matchAgeRange || {}).min || 18,
-    matchAgeRangeMax: (user.matchAgeRange || {}).max || 21,
-    matchGenders: user.matchGenders && user.matchGenders[0],
+    matchAgeRangeMin: pathOr(18, ['matchAgeRange', 'min'], user),
+    matchAgeRangeMax: pathOr(21, ['matchAgeRange', 'max'], user),
+    matchGenders: pathOr('FEMALE', ['matchGenders', 0], user),
     matchLocationRadius: user.matchLocationRadius,
     location: user.location,
   }

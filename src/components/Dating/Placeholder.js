@@ -23,7 +23,7 @@ const Placeholder = ({
   return (
     <View style={styling.root}>
       <View style={styling.placeholder}>
-        <Text style={styling.text}>We cannot find potential matches or you have viewed them all based on your search criteria.</Text>
+        <Text style={styling.text}>{t('We cannot find potential matches or you have viewed them all based on your search criteria')}.</Text>
       </View>
       <View style={styling.placeholder}>
         <DefaultButton label={t('Your Dating Preferences')} onPress={navigationActions.navigateDatingAbout(navigation)} loading={false} />

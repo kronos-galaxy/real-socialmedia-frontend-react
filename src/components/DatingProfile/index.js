@@ -57,7 +57,7 @@ DatingProfile.propTypes = {
   theme: PropTypes.any,
   user: PropTypes.any,
   usersSetUserDatingStatus: PropTypes.any,
-  usersSetUserDatingStatusRequest: PropTypes.any,
+  usersSetUserDatingStatusRequest: PropTypes.func,
 }
 
 export default withTranslation()(withTheme(DatingProfile))

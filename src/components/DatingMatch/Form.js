@@ -57,7 +57,7 @@ const DatingMatchForm = ({
    * [matchLocationRadius] Match radius
    */
   const locationItems = [
-    { label: '15 mi', value: 10 },
+    { label: '15 mi', value: 15 },
     { label: '30 mi', value: 30 },
     { label: '50 mi', value: 50 },
     { label: '100 mi', value: 100 },

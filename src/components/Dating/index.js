@@ -115,11 +115,11 @@ const styles = theme => StyleSheet.create({
 Dating.propTypes = {
   theme: PropTypes.any,
   user: PropTypes.any,
-  datingMatchedUsersRequest: PropTypes.any,
-  datingMatchedUsersIdle: PropTypes.any,
+  datingMatchedUsersRequest: PropTypes.func,
+  datingMatchedUsersIdle: PropTypes.func,
   datingMatchedUsers: PropTypes.any,
-  handleSwipedLeft: PropTypes.any,
-  handleSwipedRight: PropTypes.any,
+  handleSwipedLeft: PropTypes.func,
+  handleSwipedRight: PropTypes.func,
 }
 
 export default withTranslation()(withTheme(Dating))

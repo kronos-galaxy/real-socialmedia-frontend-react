@@ -71,7 +71,7 @@ About.propTypes = {
   t: PropTypes.any,
   theme: PropTypes.any,
   user: PropTypes.any,
-  flingPosition: PropTypes.any,
+  flingPosition: PropTypes.oneOf(['DOWN', 'UP']),
 }
 
 export default withTranslation()(withTheme(About))
