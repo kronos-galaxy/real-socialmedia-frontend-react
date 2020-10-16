@@ -85,9 +85,12 @@ export const navigatePostCreate = (navigation, params) => () =>
   })
 
 export const navigateSearch = (navigation, params) => () =>
-  navigation.navigate('Search', {
-    screen: 'Search',
-    params,
+  navigation.navigate('Root', {
+    screen: 'Home',
+    params: {
+      screen: 'Search',
+      params,
+    },
   })
 
 export const navigateCamera = (navigation, params) => () =>
