@@ -2,11 +2,13 @@ import { all, takeEvery } from 'redux-saga/effects'
 import camera from 'store/ducks/camera/saga'
 import albums from 'store/ducks/albums/saga'
 import chat from 'store/ducks/chat/saga'
-import users from 'store/ducks/users/saga'
 import cache from 'store/ducks/cache/saga'
 import subscriptions from 'store/ducks/subscriptions/saga'
 import purchases from 'store/ducks/purchases/saga'
 import contacts from 'store/ducks/contacts/saga'
+
+import users from 'store/ducks/users/saga'
+import usersSetUserDatingStatus from 'store/ducks/users/saga/usersSetUserDatingStatus'
 
 import appReady from 'store/ducks/app/saga/appReady'
 import appTranslation from 'store/ducks/app/saga/appTranslation'
@@ -29,6 +31,11 @@ import authPrefetch from 'store/ducks/auth/saga/authPrefetch'
 import signup from 'store/ducks/signup/saga'
 import signupCreate from 'store/ducks/signup/saga/signupCreate'
 import signupConfirm from 'store/ducks/signup/saga/signupConfirm'
+
+import datingMatchedUsers from 'store/ducks/dating/saga/datingMatchedUsers'
+import datingConfirmedUsers from 'store/ducks/dating/saga/datingConfirmedUsers'
+import datingMatchApprove from 'store/ducks/dating/saga/datingMatchApprove'
+import datingMatchReject from 'store/ducks/dating/saga/datingMatchReject'
 
 import posts from 'store/ducks/posts/saga'
 import postsCreate from 'store/ducks/posts/saga/postsCreate'
@@ -58,11 +65,14 @@ export default function* rootSaga(persistor) {
     .concat(camera())
     .concat(albums())
     .concat(chat())
-    .concat(users())
+
     .concat(cache())
     .concat(subscriptions())
     .concat(purchases())
     .concat(contacts())
+
+    .concat(users())
+    .concat(usersSetUserDatingStatus())
 
     .concat(auth(persistor))
     .concat(authSigninCognito(persistor))
@@ -86,6 +96,11 @@ export default function* rootSaga(persistor) {
     .concat(postsShare())
     .concat(postsReportPostViews())
     .concat(postsGetTrendingPosts())
+
+    .concat(datingMatchedUsers())
+    .concat(datingConfirmedUsers())
+    .concat(datingMatchApprove())
+    .concat(datingMatchReject())
 
     .concat([
       takeEvery(action => /FAILURE$/.test(action.type), captureErrors),

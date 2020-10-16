@@ -1,10 +1,17 @@
 import React from 'react'
 import DatingProfileComponent from 'components/DatingProfile'
+import DatingProfileServiceComponent from 'components/DatingProfile/index.service'
 
 class DatingProfileScreen extends React.Component {
   render() {
     return (
-      <DatingProfileComponent />
+      <DatingProfileServiceComponent>
+        {(datingProps) => (
+          <DatingProfileComponent
+            {...datingProps}
+          />
+        )}
+      </DatingProfileServiceComponent>
     )
   }
 }

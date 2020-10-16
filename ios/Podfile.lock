@@ -321,6 +321,8 @@ PODS:
     - React
   - react-native-get-random-values (1.5.0):
     - React
+  - react-native-maps (0.27.1):
+    - React
   - react-native-netinfo (5.9.6):
     - React
   - react-native-safe-area-context (3.1.7):
@@ -488,6 +490,7 @@ DEPENDENCIES:
   - react-native-fbsdk (from `../node_modules/react-native-fbsdk`)
   - "react-native-geolocation (from `../node_modules/@react-native-community/geolocation`)"
   - react-native-get-random-values (from `../node_modules/react-native-get-random-values`)
+  - react-native-maps (from `../node_modules/react-native-maps`)
   - "react-native-netinfo (from `../node_modules/@react-native-community/netinfo`)"
   - react-native-safe-area-context (from `../node_modules/react-native-safe-area-context`)
   - "react-native-slider (from `../node_modules/@react-native-community/slider`)"
@@ -615,6 +618,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/@react-native-community/geolocation"
   react-native-get-random-values:
     :path: "../node_modules/react-native-get-random-values"
+  react-native-maps:
+    :path: "../node_modules/react-native-maps"
   react-native-netinfo:
     :path: "../node_modules/@react-native-community/netinfo"
   react-native-safe-area-context:
@@ -739,6 +744,7 @@ SPEC CHECKSUMS:
   react-native-fbsdk: 00c15d138bba6d4efa628670886fc58cec858c19
   react-native-geolocation: c956aeb136625c23e0dce0467664af2c437888c9
   react-native-get-random-values: 1404bd5cc0ab0e287f75ee1c489555688fc65f89
+  react-native-maps: f4b89da81626ad7f151a8bfcb79733295d31ce5c
   react-native-netinfo: 38a1e0b3e89b48e4b5833ed475d8df5f049f6f90
   react-native-safe-area-context: 955ecfce672683b495d9294d2f154a9ad1d9796b
   react-native-slider: e99fc201cefe81270fc9d81714a7a0f5e566b168
