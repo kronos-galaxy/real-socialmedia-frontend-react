@@ -1,16 +1,17 @@
 import * as Validation from 'services/Validation'
 import { repeat, join, times } from 'ramda'
+import API from '@aws-amplify/api'
+import * as usersQueries from 'store/ducks/users/queries'
 
-jest.mock('react-native-config', () => ({
-  AWS_API_GATEWAY_ENDPOINT: 'AWS_API_GATEWAY_ENDPOINT',
-  AWS_API_GATEWAY_KEY: 'AWS_API_GATEWAY_KEY',
+jest.mock('@aws-amplify/api', () => ({
+  graphql: jest.fn().mockResolvedValue({ data: { usernameStatus: 'AVAILABLE' } }),
+  graphqlOperation: jest.fn().mockResolvedValue(true),
 }))
-
-global.fetch = jest.fn().mockResolvedValue(true)
 
 describe('Validation service', () => {
   afterEach(() => {
-    global.fetch.mockClear()
+    API.graphql.mockClear()
+    API.graphqlOperation.mockClear()
   })
 
   it('username', async () => {
@@ -27,21 +28,15 @@ describe('Validation service', () => {
   })
 
   it('usernameStatusRequest', async () => {
-    const value = 'value'
-    const response = { json: jest.fn() }
-    global.fetch.mockResolvedValueOnce(response)
-
-    await Validation.usernameStatusRequest(value)
-    expect(global.fetch).toHaveBeenCalledWith('AWS_API_GATEWAY_ENDPOINT/username/status?username=value', {
-      headers: { 'X-Api-Key': 'AWS_API_GATEWAY_KEY' },
-      method: 'GET',
-    })
-    expect(response.json).toHaveBeenCalled()
+    const username = 'username'
+    await Validation.usernameStatusRequest(username)
+    expect(API.graphql).toHaveBeenCalled()
+    expect(API.graphqlOperation).toHaveBeenCalledWith(usersQueries.usernameStatus, { username })
   })
 
   describe('remoteUsernameValidation', () => {
     it('success', async () => {
-      global.fetch.mockResolvedValue({ json: jest.fn().mockResolvedValue({ status: 'AVAILABLE' }) })
+      API.graphql.mockResolvedValue({ data: { usernameStatus: 'AVAILABLE' } })
 
       const value = 'value'
       const validate = Validation.remoteUsernameValidation()
@@ -59,11 +54,11 @@ describe('Validation service', () => {
         undefined,
         true,
       ])
-      expect(global.fetch).toHaveBeenCalledTimes(2)
+      expect(API.graphql).toHaveBeenCalledTimes(2)
     })
 
     it('not available', async () => {
-      global.fetch.mockResolvedValue({ json: jest.fn().mockResolvedValue({ status: 'NOT_AVAILABLE' }) })
+      API.graphql.mockResolvedValue({ data: { usernameStatus: 'NOT_AVAILABLE' } })
 
       const value = 'value'
       const validate = Validation.remoteUsernameValidation()
@@ -81,11 +76,11 @@ describe('Validation service', () => {
         undefined,
         false,
       ])
-      expect(global.fetch).toHaveBeenCalledTimes(2)
+      expect(API.graphql).toHaveBeenCalledTimes(2)
     })
 
     it('not reject an error on failure request', async () => {
-      global.fetch.mockRejectedValue(false)
+      API.graphql.mockRejectedValue(false)
 
       const value = 'value'
       const validate = Validation.remoteUsernameValidation()
@@ -103,7 +98,7 @@ describe('Validation service', () => {
         undefined,
         true,
       ])
-      expect(global.fetch).toHaveBeenCalledTimes(2)
+      expect(API.graphql).toHaveBeenCalledTimes(2)
     })
   })
 })

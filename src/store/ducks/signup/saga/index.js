@@ -5,13 +5,11 @@ import * as errors from 'store/ducks/signup/errors'
 import { usernameStatusRequest } from 'services/Validation'
 
 function* gatewayUsernameStatus(payload) {
-  const response = yield call(usernameStatusRequest, payload.username)
+  const usernameStatus = yield call(usernameStatusRequest, payload.username)
 
-  if (response.status !== 'AVAILABLE') {
+  if (usernameStatus !== 'AVAILABLE') {
     throw new Error('USER_EXISTS')
   }
- 
-  return response
 }
 
 function* signupUsernameRequest(req) {
@@ -19,6 +17,7 @@ function* signupUsernameRequest(req) {
     yield gatewayUsernameStatus(req.payload)
     yield put(actions.signupUsernameSuccess({ payload: req.payload }))
   } catch (error) {
+    console.log(error)
     yield put(actions.signupUsernameFailure({
       message: errors.getMessagePayload(constants.SIGNUP_USERNAME_FAILURE, 'USER_EXISTS', error.message),
       payload: req.payload,

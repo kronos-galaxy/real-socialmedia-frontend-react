@@ -1,24 +1,19 @@
-import Config from 'react-native-config'
 import * as Yup from 'yup'
+import path from 'ramda/src/path'
 import debounce from 'debounce-async'
+import API, { graphqlOperation } from '@aws-amplify/api'
+import * as usersQueries from 'store/ducks/users/queries'
 
-export const usernameStatusRequest = (value) => {
-  const url = `${Config.AWS_API_GATEWAY_ENDPOINT}/username/status?username=${value}`
-  const options = {
-    method: 'GET',
-    headers: {
-      'X-Api-Key': Config.AWS_API_GATEWAY_KEY,
-    },
-  }
-
-  return fetch(url, options).then((resp) => resp.json())
+export async function usernameStatusRequest(username) {
+  const response = await API.graphql(graphqlOperation(usersQueries.usernameStatus, { username }))
+  return path(['data', 'usernameStatus'], response)
 }
 
 export const remoteUsernameValidation = () => {
   function validate(value) {
     return new Promise((resolve) => {
       usernameStatusRequest(value)
-        .then((resp) => resolve(resp.status === 'AVAILABLE'))
+        .then((usernameStatus) => resolve(usernameStatus === 'AVAILABLE'))
         .catch(() => resolve(true))
     })
   }
