@@ -30,18 +30,6 @@ function normalizeContacts(contacts) {
   }))
 }
 
-function getAllContacts() {
-  return new Promise((resolve, reject) =>
-    Contacts.getAll((error, contacts) => {
-      if (error) {
-        reject(error)
-      } else {
-        resolve(contacts)
-      }
-    }),
-  )
-}
-
 const getLocale = compose(propOr('US', 'countryCode'), head, getLocales)
 
 function normalizeContactsForGQLRequest(contacts) {
@@ -50,15 +38,10 @@ function normalizeContactsForGQLRequest(contacts) {
   return contacts.map((item) => ({
     contactId: item.contactId,
     emails: item.emails,
-    phones: item.phones.reduce((acc, item) => {
+    phones: item.phones.reduce((acc, phone) => {
       try {
-        const phone = parsePhoneNumber(item, locale)
-
-        if (!phone.isValid()) {
-          throw new Error('Not valid phone number')
-        }
-
-        return [...acc, phone.format('E.164')]
+        const parsedNumber = parsePhoneNumber(phone, locale)
+        return parsedNumber.isValid() ? [...acc, parsedNumber.format('E.164')] : acc
       } catch (error) {
         return acc
       }
@@ -79,7 +62,7 @@ const sortContacts = sort((a, b) => {
 })
 
 function* findContacts() {
-  const contacts = yield call(getAllContacts)
+  const contacts = yield call([Contacts, 'getAll'])
   const normalizedContacts = yield call(normalizeContacts, contacts)
 
   try {
@@ -94,13 +77,19 @@ function* findContacts() {
   }
 }
 
-function* requestContactsPermission() {
-  const status = yield call(check, PERMISSIONS.IOS.CONTACTS)
+function* checkContactsPermission() {
+  const permission = yield call(function* () {
+    const status = yield call(check, PERMISSIONS.IOS.CONTACTS)
 
-  if (status === RESULTS.DENIED) {
-    return yield call(request, PERMISSIONS.IOS.CONTACTS)
-  } else {
-    return status
+    if (status === RESULTS.DENIED) {
+      return yield call(request, PERMISSIONS.IOS.CONTACTS)
+    } else {
+      return status
+    }
+  })
+
+  if ([RESULTS.BLOCKED, RESULTS.UNAVAILABLE, RESULTS.DENIED].includes(permission)) {
+    throw new Error(`Contacts permission is ${permission}`)
   }
 }
 
@@ -108,12 +97,7 @@ function* contactsGetRequest() {
   const errorWrapper = yield getContext('errorWrapper')
 
   try {
-    const permission = yield call(requestContactsPermission)
-
-    if ([RESULTS.BLOCKED, RESULTS.UNAVAILABLE, RESULTS.DENIED].includes(permission)) {
-      throw new Error(`Contacts permission is ${permission}`)
-    }
-
+    yield call(checkContactsPermission)
     const contacts = yield call(findContacts)
     yield put(actions.contactsGetSuccess({ data: contacts }))
   } catch (error) {

@@ -8494,10 +8494,10 @@ react-native-config@^1.3.3:
   resolved "https://registry.npmjs.org/react-native-config/-/react-native-config-1.3.3.tgz#307ba512f92e4ecdc9ced06288610c0608da3ae7"
   integrity sha512-uc84IFVLqu2dC7Zutg3OlK6RZYvJlGbIdi0v1ZxjUhU379Nz9IkZR1t8J1L5QSnGV8885mtwWDPJRdQyVNFsAw==
 
-react-native-contacts@^5.2.7:
-  version "5.2.7"
-  resolved "https://registry.yarnpkg.com/react-native-contacts/-/react-native-contacts-5.2.7.tgz#136e12d5311f17c4c839dd20dcf9012245999065"
-  integrity sha512-fHcAlPbeEJuhCpH1ZBdHJ6r9sCzEGlas/k8wRCHGm6cmkMsY3jCrsEAZXT5o42dTCyldLDYM4Z7S1zlfO6K1ww==
+react-native-contacts@^6.0.2:
+  version "6.0.2"
+  resolved "https://registry.yarnpkg.com/react-native-contacts/-/react-native-contacts-6.0.2.tgz#c11c9b0ab0c0e124fa91c51c2e0a7358e331fc56"
+  integrity sha512-7OT6X/fAg8e9sk0glKBNpE5zv8bOebxVK1d+q9aL5Aoh0zIBqVFn/KVgv5Rx1txaL28qndc5iKDP+jehnv+4sw==
 
 react-native-device-info@^5.6.5:
   version "5.6.5"

@@ -25,7 +25,7 @@ function* contactsInviteRequest(req) {
 
     yield put(actions.contactsInviteSuccess({ contactId }))
   } catch (error) {
-    yield put(actions.contactsInviteFailure({ error: error.message, contactId }))
+    yield put(actions.contactsInviteFailure({ message: error.message, contactId }))
   }
 }
 

@@ -57,7 +57,7 @@ describe('Contacts Invite saga', () => {
       .not.call(queryService.apiRequest, queries.grantUserSubscriptionBonus)
       .put(
         actions.contactsInviteFailure({
-          error: 'Invite supports only email and phone type',
+          message: 'Invite supports only email and phone type',
           contactId: user.contactId,
         }),
       )

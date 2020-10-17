@@ -1,3 +1,4 @@
+import { Alert } from 'react-native'
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigation } from '@react-navigation/native'
@@ -15,6 +16,7 @@ const InviteFriendsService = ({ children }) => {
 
   const contactsGetRequest = () => dispatch(actions.contactsGetRequest())
   const contactsInviteRequest = (contact) => dispatch(actions.contactsInviteRequest(contact))
+  const contactsInviteIdle = () => dispatch(actions.contactsInviteIdle())
   const contactsFollowRequest = ({ contactId, user }) => dispatch(actions.contactsFollowRequest({ contactId, user }))
 
   const checkPermissionUpdates = () => {
@@ -22,6 +24,22 @@ const InviteFriendsService = ({ children }) => {
       contactsGetRequest()
     }
   }
+
+  useEffect(() => {
+    if (!contactsInvite.error) return
+
+    Alert.alert(
+      'Invite failed',
+      contactsInvite.error,
+      [
+        {
+          text: 'OK',
+          onPress: contactsInviteIdle,
+        },
+      ],
+      { cancelable: false },
+    )
+  }, [contactsInvite.error])
 
   useEffect(checkPermissionUpdates, [])
   useAppState({ onForeground: checkPermissionUpdates })

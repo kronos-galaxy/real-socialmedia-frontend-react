@@ -62,10 +62,7 @@ describe('Contacts reducer', () => {
 
     it('clear items on error', () => {
       const data = [{ id: 1 }, { id: 2 }]
-      const state = applyActions(
-        [actions.contactsGetSuccess({ data }), actions.contactsGetFailure(error)],
-        reducer,
-      )
+      const state = applyActions([actions.contactsGetSuccess({ data }), actions.contactsGetFailure(error)], reducer)
 
       expect(selectors.contactsGet(state)).toEqual({
         error: 'Error',
@@ -127,17 +124,30 @@ describe('Contacts reducer', () => {
           actions.contactsInviteRequest({ contactId: 2 }),
           actions.contactsInviteRequest({ contactId: 3 }),
 
-          actions.contactsInviteFailure({ contactId: 1 }),
+          actions.contactsInviteFailure({ contactId: 1, message: 'Error' }),
           actions.contactsInviteSuccess({ contactId: 2 }),
         ],
         reducer,
       )
 
       expect(selectors.contactsInvite(state)).toEqual({
-        error: '',
+        error: 'Error',
         invited: { 2: true },
         requested: { 3: true },
       })
+    })
+  })
+
+  it('clear error on idle action', () => {
+    const state = applyActions(
+      [actions.contactsInviteFailure({ contactId: 1, message: 'Error' }), actions.contactsInviteIdle()],
+      reducer,
+    )
+
+    expect(selectors.contactsInvite(state)).toEqual({
+      error: '',
+      invited: {},
+      requested: {},
     })
   })
 })

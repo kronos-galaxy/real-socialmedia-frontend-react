@@ -12,7 +12,7 @@ import * as queryService from 'services/Query'
 import * as queries from 'store/ducks/contacts/queries'
 
 jest.mock('services/Query', () => ({ apiRequest: jest.fn().mockResolvedValue(true) }))
-Contacts.getAll.mockImplementation((cb) => cb(new Error('Get All Error'), undefined))
+Contacts.getAll.mockRejectedValue(new Error('Get All Error'))
 
 const emailAddresses = [{ email: 'test1@email.com' }, { email: 'test2@email.com' }]
 const phoneNumbers = [
@@ -216,7 +216,7 @@ describe('Contacts saga', () => {
   })
 
   it('mixed contacts with users', () => {
-    Contacts.getAll.mockImplementationOnce((cb) => cb(null, items))
+    Contacts.getAll.mockResolvedValueOnce(items)
 
     queryService.apiRequest.mockResolvedValueOnce({
       data: {
@@ -251,7 +251,7 @@ describe('Contacts saga', () => {
   })
 
   it('return pure contacts when findContacts failed', () => {
-    Contacts.getAll.mockImplementationOnce((cb) => cb(null, items))
+    Contacts.getAll.mockResolvedValueOnce(items)
 
     queryService.apiRequest.mockRejectedValueOnce(false)
 

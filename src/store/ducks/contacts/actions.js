@@ -14,6 +14,7 @@ export const contactsGetFailure = createAction(constants.CONTACTS_GET_FAILURE)
 export const contactsInviteRequest = createAction(constants.CONTACTS_INVITE_REQUEST)
 export const contactsInviteSuccess = createAction(constants.CONTACTS_INVITE_SUCCESS)
 export const contactsInviteFailure = createAction(constants.CONTACTS_INVITE_FAILURE)
+export const contactsInviteIdle = createAction(constants.CONTACTS_INVITE_IDLE)
 
 /**
  * 
