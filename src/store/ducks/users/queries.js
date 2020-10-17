@@ -286,3 +286,9 @@ export const setUserDatingStatus = `
   }
   ${userFragment}
 `
+
+export const usernameStatus = `
+  query usernameStatus($username: String!) {
+    usernameStatus(username: $username)
+  }
+`
