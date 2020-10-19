@@ -86,7 +86,7 @@ function* authFlowRequest(req) {
  */
 function* authFlowSuccess() {
   const ReactNavigationRef = yield getContext('ReactNavigationRef')
-  navigationActions.navigateApp(ReactNavigationRef.current)()
+  navigationActions.navigateSearch(ReactNavigationRef.current)()
   yield put(actions.authPrefetchRequest())
 }
 
