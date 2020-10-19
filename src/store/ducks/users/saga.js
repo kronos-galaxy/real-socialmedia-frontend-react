@@ -1,4 +1,4 @@
-import { put, takeLatest, getContext } from 'redux-saga/effects'
+import { put, takeLatest, getContext, call } from 'redux-saga/effects'
 import path from 'ramda/src/path'
 import compose from 'ramda/src/compose'
 import omit from 'ramda/src/omit'
@@ -386,6 +386,7 @@ function* usersEditProfileRequestData(req, api) {
   const payload = req.payload
 
   const normalized = normalizer.normalizeUserGet(data)
+
   yield put(entitiesActions.entitiesAlbumsMerge({ data: normalized.entities.albums || {} }))
   yield put(entitiesActions.entitiesPostsMerge({ data: normalized.entities.posts || {} }))
   yield put(entitiesActions.entitiesUsersMerge({ data: normalized.entities.users || {} }))
@@ -472,6 +473,21 @@ function* usersDeleteProfilePhoto() {
     yield put(actions.usersDeleteAvatarFailure({
       message: errors.getMessagePayload(constants.USERS_DELETE_AVATAR_FAILURE, 'GENERIC', error.message),
     }))
+  }
+}
+
+/**
+ *
+ */
+function* usersChangeAvatarRequest(req) {
+  try {
+    const photoPostId = req.payload.postId
+    const data = yield call([queryService, 'apiRequest'], queries.setUserDetails, { photoPostId })
+
+    yield usersEditProfileRequestData(req, data)
+    yield put(actions.usersChangeAvatarSuccess())
+  } catch (error) {
+    yield put(actions.usersChangeAvatarFailure(error))
   }
 }
 
@@ -778,6 +794,7 @@ export default () => [
   takeLatest(constants.USERS_DELETE_CARD_REQUEST, usersDeleteCardRequest),
   takeLatest(constants.USERS_SET_APNS_TOKEN_REQUEST, usersSetApnsTokenRequest),
   takeLatest(constants.USERS_DELETE_AVATAR_REQUEST, usersDeleteProfilePhoto),
+  takeLatest(constants.USERS_CHANGE_AVATAR_REQUEST, usersChangeAvatarRequest),
   takeLatest(constants.USERS_REPORT_SCREEN_VIEWS_REQUEST, usersReportScreenViewsRequest),
   takeLatest(constants.USERS_SET_USER_DATING_STATUS_REQUEST, usersSetUserDatingStatusRequest),
 ]

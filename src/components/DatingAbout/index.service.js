@@ -33,9 +33,8 @@ const DatingAboutService = ({ children }) => {
     bio: values.bio,
   })
 
-  const handleFormSubmit = (values, { resetForm }) => {
+  const handleFormSubmit = (values) => {
     usersEditProfileRequest(handleFormTransform(values))
-    resetForm()
   }
 
   const formSubmitLoading = usersEditProfile.status === 'loading'

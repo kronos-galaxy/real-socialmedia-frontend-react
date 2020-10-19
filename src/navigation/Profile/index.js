@@ -19,6 +19,9 @@ import PayoutScreen from 'screens/PayoutScreen'
 import MembershipScreen from 'screens/MembershipScreen'
 import ArchivedScreen from 'screens/ArchivedScreen'
 import InviteFriendsScreen from 'screens/InviteFriendsScreen'
+import DatingAboutScreen from 'screens/DatingAboutScreen'
+import DatingMatchScreen from 'screens/DatingMatchScreen'
+import DatingProfileScreen from 'screens/DatingProfileScreen'
 
 const ProfileNavigator = () => {
   const { theme, themes } = useContext(ThemeContext)
@@ -93,7 +96,21 @@ const ProfileNavigator = () => {
         component={ArchivedScreen}
         {...stackScreenPageProps({ options: { title: 'Archived Photos' } })}
       />
-
+      <Stack.Screen
+        name="DatingAbout"
+        component={DatingAboutScreen}
+        {...stackScreenPageProps({ options: { title: 'Dating Profile' } })}
+      />
+      <Stack.Screen
+        name="DatingMatch"
+        component={DatingMatchScreen}
+        {...stackScreenPageProps({ options: { title: 'Dating Preferences' } })}
+      />
+      <Stack.Screen
+        name="DatingProfile"
+        component={DatingProfileScreen}
+        {...stackScreenPageProps({ options: { title: 'Dating Profile' } })}
+      />
       {navigationFragments.media({
         Stack,
         stackScreenPageProps,

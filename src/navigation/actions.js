@@ -122,6 +122,10 @@ export const navigateDatingMatch = withAuthValidation((navigation, params) =>
   navigation.navigate('DatingMatch', params),
 )
 
+export const navigateDatingProfile = withAuthValidation((navigation, params) =>
+  navigation.navigate('DatingProfile', params),
+)
+
 export const navigatePostShare = withAuthValidation((navigation, params) =>
   navigation.push('PostShare', params),
 )
@@ -141,6 +145,18 @@ export const navigateProfilePhoto = (navigation, params) => () =>
       screen: 'Profile',
       params: {
         screen: 'ProfilePhoto',
+        ...params,
+      },
+    },
+  })
+
+export const navigateInviteFriends = (navigation, params) => () =>
+  navigation.navigate('Root', {
+    screen: 'Home',
+    params: {
+      screen: 'Profile',
+      params: {
+        screen: 'InviteFriends',
         ...params,
       },
     },
@@ -238,7 +254,10 @@ export const navigateAuthHome = (navigation, params) => () =>
   })
 
 export const navigateAuthUsername = (navigation, params) => () =>
-  navigation.navigate('AuthUsername', params)
+  navigation.navigate('Auth', {
+    screen: 'AuthUsername', 
+    params,
+  })
 
 export const navigateAuthSigninPhone = (navigation, params) => () =>
   navigation.navigate('AuthSigninPhone', params)

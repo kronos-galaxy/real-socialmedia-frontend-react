@@ -4,6 +4,7 @@ import * as usersActions from 'store/ducks/users/actions'
 import * as authSelector from 'store/ducks/auth/selectors'
 import * as navigationActions from 'navigation/actions'
 import { useNavigation } from '@react-navigation/native'
+import pathOr from 'ramda/src/pathOr'
 
 const DatingMatchService = ({ children }) => {
   const dispatch = useDispatch()
@@ -17,7 +18,7 @@ const DatingMatchService = ({ children }) => {
   useEffect(() => {
     if (usersEditProfile.status === 'success') {
       dispatch(usersActions.usersEditProfileIdle({}))
-      navigationActions.navigateDating(navigation)()
+      navigationActions.navigateDatingProfile(navigation)()
     }
   }, [usersEditProfile.status])
 
@@ -31,12 +32,11 @@ const DatingMatchService = ({ children }) => {
     },
     matchGenders: values.matchGenders,
     matchLocationRadius: values.matchLocationRadius,
-    location: { latitude: 50.01, longitude: 50.01, accuracy: 20 },
+    location: values.location,
   })
 
-  const handleFormSubmit = (values, { resetForm }) => {
+  const handleFormSubmit = (values) => {
     usersEditProfileRequest(handleFormTransform(values))
-    resetForm()
   }
 
   const formSubmitLoading = usersEditProfile.status === 'loading'
@@ -44,9 +44,9 @@ const DatingMatchService = ({ children }) => {
   const formErrorMessage = usersEditProfile.error.text
 
   const formInitialValues = {
-    matchAgeRangeMin: user.matchAgeRange.min || 18,
-    matchAgeRangeMax: user.matchAgeRange.max || 21,
-    matchGenders: user.matchGenders && user.matchGenders[0],
+    matchAgeRangeMin: pathOr(18, ['matchAgeRange', 'min'], user),
+    matchAgeRangeMax: pathOr(21, ['matchAgeRange', 'max'], user),
+    matchGenders: pathOr('FEMALE', ['matchGenders', 0], user),
     matchLocationRadius: user.matchLocationRadius,
     location: user.location,
   }

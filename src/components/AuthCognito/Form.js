@@ -8,30 +8,12 @@ import TextField from 'components/Formik/TextField'
 import DefaultButton from 'components/Formik/Button/DefaultButton'
 import { Formik, Field } from 'formik'
 import * as Yup from 'yup'
-import Config from 'react-native-config'
+import * as Validation from 'services/Validation'
 
 import { withTranslation } from 'react-i18next'
 
 const formSchema = Yup.object().shape({
-  username: Yup.string()
-    .min(3)
-    .max(50)
-    .matches(/^[a-zA-Z0-9_.]{3,30}$/, 'username must only contain letters & numbers')
-    .trim()
-    .required()
-    .test('usernameReserve', 'username is reserved', (value) =>
-      new Promise((resolve) => {
-        fetch(`${Config.AWS_API_GATEWAY_ENDPOINT}/username/status?username=${value}`, {
-          method: 'GET',
-          headers: {
-            'X-Api-Key': Config.AWS_API_GATEWAY_KEY,
-          },
-        })
-        .then((resp) => resp.json())
-        .then((resp) => resolve(resp.status === 'AVAILABLE'))
-        .catch(() => resolve(true))
-      }),
-    ),
+  username: Validation.username,
 })
 
 const CognitoForm = ({

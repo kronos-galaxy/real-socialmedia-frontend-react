@@ -174,6 +174,13 @@ export const usersDeleteAvatarFailure = createAction(constants.USERS_DELETE_AVAT
 /**
  * 
  */
+export const usersChangeAvatarRequest = createAction(constants.USERS_CHANGE_AVATAR_REQUEST)
+export const usersChangeAvatarSuccess = createAction(constants.USERS_CHANGE_AVATAR_SUCCESS)
+export const usersChangeAvatarFailure = createAction(constants.USERS_CHANGE_AVATAR_FAILURE)
+
+/**
+ * 
+ */
 export const usersReportScreenViewsIdle = createAction(constants.USERS_REPORT_SCREEN_VIEWS_IDLE)
 export const usersReportScreenViewsRequest = createAction(constants.USERS_REPORT_SCREEN_VIEWS_REQUEST)
 export const usersReportScreenViewsSuccess = createAction(constants.USERS_REPORT_SCREEN_VIEWS_SUCCESS)

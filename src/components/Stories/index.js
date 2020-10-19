@@ -45,7 +45,7 @@ const Stories = ({
           imageSource={{ uri: path(['photo', 'url480p'])(user) }}
           icon={true}
         />
-        <Caption style={styling.username}>{path(['username'])(user)}</Caption>
+        <Caption style={styling.username} numberOfLines={1}>{path(['username'])(user)}</Caption>
       </TouchableOpacity>
 
       {(usersGetFollowedUsersWithStories.data || []).map((user, key) => (
@@ -61,7 +61,7 @@ const Stories = ({
             imageSource={{ uri: path(['photo', 'url480p'])(user) }}
             themeCode={path(['themeCode'])(user)}
           />
-          <Caption style={styling.username}>{path(['username'])(user)}</Caption>
+          <Caption style={styling.username} numberOfLines={1}>{path(['username'])(user)}</Caption>
         </TouchableOpacity>
       ))}
     </ScrollView>
@@ -81,6 +81,7 @@ const styles = theme => StyleSheet.create({
   username: {
     marginTop: 6,
     color: theme.colors.text,
+    maxWidth: 70,
   },
 })
 

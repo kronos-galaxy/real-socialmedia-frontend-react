@@ -79,6 +79,15 @@ function* handleAuthPrefetchGuest() {
   })
 
   /**
+   * 2. In-app notification cards
+   */
+  yield put(usersActions.usersGetCardsRequest({}))
+  yield race({
+    cardsSuccess: take(usersConstants.USERS_GET_CARDS_SUCCESS),
+    cardsFailure: take(usersConstants.USERS_GET_CARDS_FAILURE),
+  })
+
+  /**
    * Data which is important to load but not belongs to home screen
    * Sequential approach wasn't used cuz some calls are expensive and not top priority
    */

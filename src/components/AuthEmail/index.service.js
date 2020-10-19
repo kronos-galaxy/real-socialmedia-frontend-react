@@ -1,4 +1,4 @@
-import { useEffect, useCallback } from 'react'
+import { useEffect, useCallback, useContext } from 'react'
 import * as signupActions from 'store/ducks/signup/actions'
 import * as navigationActions from 'navigation/actions'
 import { useDispatch, useSelector } from 'react-redux'
@@ -7,6 +7,7 @@ import trim from 'ramda/src/trim'
 import compose from 'ramda/src/compose'
 import toLower from 'ramda/src/toLower'
 import pathOr from 'ramda/src/pathOr'
+import { ThemeContext } from 'services/providers/Theme'
 import { logEvent } from 'services/Analytics'
 import { pageHeaderLeft } from 'navigation/options'
 import testIDs from './test-ids'
@@ -14,6 +15,7 @@ import testIDs from './test-ids'
 const AuthEmailComponentService = ({ children }) => {
   const dispatch = useDispatch()
   const navigation = useNavigation()
+  const { theme } = useContext(ThemeContext)
 
   const signupUsername = useSelector(state => state.signup.signupUsername)
   const signupEmail = useSelector(state => state.signup.signupEmail)
@@ -39,6 +41,7 @@ const AuthEmailComponentService = ({ children }) => {
       headerLeft: () => pageHeaderLeft({ 
         testID: testIDs.header.backBtn, 
         onPress: handleGoBack, 
+        theme,
       }),
     })
   }, [])
