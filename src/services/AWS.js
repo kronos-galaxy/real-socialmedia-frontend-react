@@ -1,4 +1,5 @@
 import Amplify from '@aws-amplify/core'
+import Auth from '@aws-amplify/auth'
 import Config from 'react-native-config'
 import * as Google from 'services/Google'
 import * as Apple from 'services/Apple'
@@ -41,3 +42,17 @@ export const federatedGoogleSignout = Google.signout
 
 export const federatedAppleSignin = Apple.signin
 export const federatedAppleSignout = Apple.signout
+
+
+export const validateUserExistance = async (userPayload) => {
+  try {
+    /**
+     * If set to False, the API will throw an AliasExistsException error if the phone number/email used already exists as an alias with a different user
+     */
+    await Auth.confirmSignUp(userPayload.email, '000000', {
+      forceAliasCreation: false,
+    })
+  } catch (error) {
+    return error.code !== 'UserNotFoundException'
+  }
+}

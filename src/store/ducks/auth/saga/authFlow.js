@@ -35,12 +35,6 @@ function* handleAuthFlowRequest(payload = {}) {
   })
 
   if (dataFailure) {
-    yield put(actions.authResetRequest({ allowAnonymous: true }))
-    yield race({
-      resetSuccess: take(constants.AUTH_RESET_SUCCESS),
-      resetFailure: take(constants.AUTH_RESET_FAILURE),
-    })
-
     throw new Error('Failed to fetch data')
   }
 
