@@ -12,9 +12,6 @@ import CameraIcon from 'assets/svg/header/Camera'
 import DirectIcon from 'assets/svg/header/Direct'
 import BackIcon from 'assets/svg/header/Back'
 
-import * as authSelector from 'store/ducks/auth/selectors'
-import { connect } from 'react-redux'
-
 export const pageHeaderLeft = ({ onPress, testID = null, theme }) => {
   if (!onPress) {
     return null
@@ -41,15 +38,10 @@ const homeHeaderLeft = ({ theme, navigation, user }) => () => (
 
 const homeHeaderTitle = ({ theme }) => () => <LogoIcon height="28" fill={theme.colors.primaryIcon} />
 
-const mapStateToProps = (state, ownProps) => ({ user: authSelector.authUserSelector(state), ...ownProps })
-const Next = connect(mapStateToProps)(({ user, theme, navigation }) => (
-  <TouchableOpacity style={styles.chatButton} onPress={navigationActions.navigateChat(navigation)}>
+const homeHeaderRight = ({ theme, navigation, user }) => () => (
+  <TouchableOpacity style={styles.chatButton} onPress={navigationActions.navigateChat(navigation, {}, {protected: true, user})}>
     <DirectIcon fill={theme.colors.primaryIcon} user={user} />
   </TouchableOpacity>
-))
-
-const homeHeaderRight = ({ theme, navigation }) => () => (
-  <Next theme={theme} navigation={navigation} />
 )
 
 const AuthNavigationComponent = ({ theme }) => ({
@@ -79,24 +71,24 @@ const HomeNavigationComponent = ({ navigation, theme, user }) => ({
   },
   headerLeft: homeHeaderLeft({ navigation, theme, user }),
   headerTitle: homeHeaderTitle({ navigation, theme }),
-  headerRight: homeHeaderRight({ navigation, theme }),
+  headerRight: homeHeaderRight({ navigation, theme, user }),
 })
 
-const pager = (props) => {
+const pager = ({isUserActive, ...props}) => {
   const currentIndex = path(['navigationState', 'index'])(props)
   const nextIndex = path(['navigationState', 'routes', currentIndex, 'state', 'index'])(props)
-  const swipeEnabled = !nextIndex || nextIndex === 0
+  const swipeEnabled = isUserActive && (!nextIndex || nextIndex === 0)
   return <ViewPagerAdapter {...props} swipeEnabled={swipeEnabled} />
 }
 
-export const tabNavigatorDefaultProps = ({
+export const tabNavigatorDefaultProps = ({isUserActive}) => ({
   initialRouteName: 'Root',
   tabBar: () => null,
   lazy: true,
   sceneContainerStyle: {
     backgroundColor: 'transparent',
   },
-  pager,
+  pager: props => pager({...props, isUserActive}),
   gestureEnabled: false,
 })
 

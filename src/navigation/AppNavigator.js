@@ -4,6 +4,7 @@ import { createStackNavigator } from '@react-navigation/stack'
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs'
 import { withTheme } from 'react-native-paper'
 
+import { AuthContext } from 'services/providers/Auth'
 import { ThemeContext } from 'services/providers/Theme'
 import * as navigationOptions from 'navigation/options'
 import * as navigationFragments from 'navigation/fragments'
@@ -125,7 +126,8 @@ const RootNavigator = () => {
 
 const AppNavigator = withTheme(() => {
   const Tab = createMaterialTopTabNavigator()
-  const tabNavigatorDefaultProps = navigationOptions.tabNavigatorDefaultProps
+  const { isUserActive } = useContext(AuthContext)
+  const tabNavigatorDefaultProps = navigationOptions.tabNavigatorDefaultProps({isUserActive})
 
   return (
     <Tab.Navigator {...tabNavigatorDefaultProps}>
