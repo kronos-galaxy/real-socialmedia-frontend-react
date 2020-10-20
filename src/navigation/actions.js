@@ -9,7 +9,7 @@ const withAuthValidation = (callback) => {
         return callback(navigation, params)
       }
 
-      return navigation.navigate('ProfileUpgrade', params)
+      return navigateProfileUpgrade(navigation)
     }
   }
 }
@@ -100,7 +100,7 @@ export const navigateCamera = withAuthValidation((navigation, params) =>
 export const navigateStory = withAuthValidation((navigation, params) =>
   navigation.push('Story', params),
 )
-
+ 
 export const navigateChat = withAuthValidation((navigation, params) =>
   navigation.navigate('Chat', params),
 )
@@ -193,9 +193,8 @@ export const navigatePostType = withAuthValidation((navigation, params) =>
   navigation.navigate('PostType', params),
 )
 
-export const navigateProfileUpgrade = withAuthValidation((navigation, params) =>
-  navigation.navigate('ProfileUpgrade', params),
-)
+export const navigateProfileUpgrade = (navigation) =>
+  navigation.navigate('ProfileUpgrade')
 
 export const navigateProfile = withAuthValidation((navigation, params) =>
   navigation.push('Profile', params),

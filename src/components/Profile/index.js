@@ -32,6 +32,7 @@ const Profile = ({
   theme,
   profileRef,
 
+  user,
   usersBlock,
   usersGetProfile,
 
@@ -58,10 +59,14 @@ const Profile = ({
       return
     }
 
-    navigationActions.navigateStory(navigation, {
-      user: usersGetProfile.data,
-      usersGetFollowedUsersWithStories: { data: [usersGetProfile.data] },
-    })()
+    navigationActions.navigateStory(
+      navigation,
+      {
+        user: usersGetProfile.data,
+        usersGetFollowedUsersWithStories: { data: [usersGetProfile.data] },
+      },
+      { protected: true, user },
+    )()
   }
 
   const scroll = ScrollService({
@@ -204,6 +209,7 @@ const styles = theme => StyleSheet.create({
 
 Profile.propTypes = {
   theme: PropTypes.any,
+  user: PropTypes.any,
   usersGetProfile: PropTypes.any,
   user: PropTypes.any,
   usersBlock: PropTypes.any,

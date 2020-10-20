@@ -1,4 +1,4 @@
-import { put, takeLatest, getContext } from 'redux-saga/effects'
+import { put, takeLatest, getContext, call } from 'redux-saga/effects'
 import path from 'ramda/src/path'
 import compose from 'ramda/src/compose'
 import omit from 'ramda/src/omit'
@@ -8,6 +8,7 @@ import * as constants from 'store/ducks/posts/constants'
 import * as entitiesActions from 'store/ducks/entities/actions'
 import * as queryService from 'services/Query'
 import * as normalizer from 'normalizer/schemas'
+import usersCheckPermissions from 'store/ducks/users/saga/usersCheckPermissions'
 
 /**
  *
@@ -517,6 +518,7 @@ function* postsOnymouslyLikeRequest(req) {
   const errorWrapper = yield getContext('errorWrapper')
 
   try {
+    yield call(usersCheckPermissions)
     const data = yield queryService.apiRequest(queries.onymouslyLikePost, req.payload)
     const next = yield postsOnymouslyLikeRequestData(req, data)
     yield put(actions.postsOnymouslyLikeSuccess({ data: next.data, payload: next.payload, meta: next.meta }))
@@ -553,6 +555,7 @@ function* postsDislikeRequest(req) {
   const errorWrapper = yield getContext('errorWrapper')
 
   try {
+    yield call(usersCheckPermissions)
     const data = yield queryService.apiRequest(queries.dislikePost, req.payload)
     const next = yield postsDislikeRequestData(req, data)
     yield put(actions.postsDislikeSuccess({ data: next.data, payload: next.payload, meta: next.meta }))
@@ -626,6 +629,7 @@ function* commentsAddRequest(req) {
   const errorWrapper = yield getContext('errorWrapper')
 
   try {
+    yield call(usersCheckPermissions)
     const data = yield queryService.apiRequest(queries.addComment, req.payload)
     const next = yield commentsAddRequestData(req, data)
     yield put(actions.commentsAddSuccess({ data: next.data, payload: next.payload, meta: next.meta }))

@@ -1,4 +1,4 @@
-import { put, takeLatest, getContext } from 'redux-saga/effects'
+import { put, takeLatest, getContext, call } from 'redux-saga/effects'
 import path from 'ramda/src/path'
 import compose from 'ramda/src/compose'
 import omit from 'ramda/src/omit'
@@ -9,7 +9,7 @@ import * as queryService from 'services/Query'
 import * as errors from 'store/ducks/users/errors'
 import * as entitiesActions from 'store/ducks/entities/actions'
 import * as normalizer from 'normalizer/schemas'
-
+import usersCheckPermissions from 'store/ducks/users/saga/usersCheckPermissions'
 /**
  *
  */
@@ -386,6 +386,7 @@ function* usersEditProfileRequestData(req, api) {
   const payload = req.payload
 
   const normalized = normalizer.normalizeUserGet(data)
+
   yield put(entitiesActions.entitiesAlbumsMerge({ data: normalized.entities.albums || {} }))
   yield put(entitiesActions.entitiesPostsMerge({ data: normalized.entities.posts || {} }))
   yield put(entitiesActions.entitiesUsersMerge({ data: normalized.entities.users || {} }))
@@ -441,6 +442,21 @@ function* usersDeleteProfilePhoto() {
 /**
  *
  */
+function* usersChangeAvatarRequest(req) {
+  try {
+    const photoPostId = req.payload.postId
+    const data = yield call([queryService, 'apiRequest'], queries.setUserDetails, { photoPostId })
+
+    yield usersEditProfileRequestData(req, data)
+    yield put(actions.usersChangeAvatarSuccess())
+  } catch (error) {
+    yield put(actions.usersChangeAvatarFailure(error))
+  }
+}
+
+/**
+ *
+ */
 function* usersFollowRequestData(req, api) {
   const dataSelector = path(['data', 'followUser'])
 
@@ -466,6 +482,7 @@ function* usersFollowRequest(req) {
   const errorWrapper = yield getContext('errorWrapper')
 
   try {
+    yield call(usersCheckPermissions)
     const data = yield queryService.apiRequest(queries.followUser, req.payload)
     const next = yield usersFollowRequestData(req, data)
     yield put(actions.usersFollowSuccess({ data: next.data, payload: next.payload, meta: next.meta }))
@@ -502,6 +519,7 @@ function* usersUnfollowRequest(req) {
   const errorWrapper = yield getContext('errorWrapper')
 
   try {
+    yield call(usersCheckPermissions)
     const data = yield queryService.apiRequest(queries.unfollowUser, req.payload)
     const next = yield usersUnfollowRequestData(req, data)
     yield put(actions.usersUnfollowSuccess({ data: next.data, payload: next.payload, meta: next.meta }))
@@ -538,6 +556,7 @@ function* usersBlockRequest(req) {
   const errorWrapper = yield getContext('errorWrapper')
 
   try {
+    yield call(usersCheckPermissions)
     const data = yield queryService.apiRequest(queries.blockUser, req.payload)
     const next = yield usersBlockRequestData(req, data)
     yield put(actions.usersBlockSuccess({ data: next.data, payload: next.payload, meta: next.meta }))
@@ -574,6 +593,7 @@ function* usersUnblockRequest(req) {
   const errorWrapper = yield getContext('errorWrapper')
 
   try {
+    yield call(usersCheckPermissions)
     const data = yield queryService.apiRequest(queries.unblockUser, req.payload)
     const next = yield usersUnblockRequestData(req, data)
     yield put(actions.usersUnblockSuccess({ data: next.data, payload: next.payload, meta: next.meta }))
@@ -711,6 +731,7 @@ function* usersReportScreenViewsRequest(req) {
   const errorWrapper = yield getContext('errorWrapper')
 
   try {
+    yield call(usersCheckPermissions, {redirect: false})
     const data = yield queryService.apiRequest(queries.reportScreenViews, req.payload)
 
     yield put(actions.usersReportScreenViewsSuccess({ payload: req.payload, data, meta: {} }))
@@ -728,7 +749,7 @@ export default () => [
   takeLatest(constants.USERS_GET_PENDING_FOLLOWERS_REQUEST, usersGetPendingFollowersRequest),
   takeLatest(constants.USERS_ACCEPT_FOLLOWER_USER_REQUEST, usersAcceptFollowerUserRequest),
   takeLatest(constants.USERS_DECLINE_FOLLOWER_USER_REQUEST, usersDeclineFollowerUserRequest),
-  takeLatest(constants.USERS_FOLLOW_REQUEST, usersFollowRequest),
+  takeLatest(constants.USERS_FOLLOW_REQUEST, usersFollowRequest), 
   takeLatest(constants.USERS_UNFOLLOW_REQUEST, usersUnfollowRequest),
   takeLatest(constants.USERS_BLOCK_REQUEST, usersBlockRequest),
   takeLatest(constants.USERS_UNBLOCK_REQUEST, usersUnblockRequest),
@@ -742,4 +763,5 @@ export default () => [
   takeLatest(constants.USERS_SET_APNS_TOKEN_REQUEST, usersSetApnsTokenRequest),
   takeLatest(constants.USERS_DELETE_AVATAR_REQUEST, usersDeleteProfilePhoto),
   takeLatest(constants.USERS_REPORT_SCREEN_VIEWS_REQUEST, usersReportScreenViewsRequest),
+  takeLatest(constants.USERS_CHANGE_AVATAR_REQUEST, usersChangeAvatarRequest),
 ]

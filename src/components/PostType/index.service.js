@@ -1,3 +1,4 @@
+import { useContext } from 'react'
 import { useNavigation } from '@react-navigation/native'
 import { useDispatch } from 'react-redux'
 import * as navigationActions from 'navigation/actions'
@@ -5,10 +6,12 @@ import * as cameraActions from 'store/ducks/camera/actions'
 import useCamera from 'services/providers/Camera'
 import { VERIFICATION_TYPE } from 'components/Verification'
 import * as VerificationStorage from 'components/Verification/storage'
+import { AuthContext } from 'services/providers/Auth'
 
 const PostTypeService = ({ children }) => {
   const dispatch = useDispatch()
   const navigation = useNavigation()
+  const { user } = useContext(AuthContext)
 
   const handleProcessedPhoto = (payload) => {
     dispatch(cameraActions.cameraCaptureRequest(payload))
@@ -39,7 +42,7 @@ const PostTypeService = ({ children }) => {
 
   const handlePhotoTab = () => {
     handleClose()
-    navigationActions.navigateCamera(navigation)()
+    navigationActions.navigateCamera(navigation, {}, {protected: true, user})()
   }
 
   const handleTextPostTab = () => {

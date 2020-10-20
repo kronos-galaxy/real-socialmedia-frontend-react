@@ -51,10 +51,14 @@ const Header = ({
   const onProfilePhotoPress = () => {
     const hasStories = path(['stories', 'items', 'length'])(post.postedBy)
     if (hasStories) {
-      navigationActions.navigateStory(navigation, {
-        user: post.postedBy,
-        usersGetFollowedUsersWithStories: { data: [post.postedBy] },
-      })()
+      navigationActions.navigateStory(
+        navigation,
+        {
+          user: post.postedBy,
+          usersGetFollowedUsersWithStories: { data: [post.postedBy] },
+        },
+        { protected: true, user },
+      )()
     } else {
       navigationActions.navigateProfile(navigation, { userId: post.postedBy.userId })()
     }
