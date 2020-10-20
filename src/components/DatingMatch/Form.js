@@ -12,11 +12,27 @@ import { Formik, Field } from 'formik'
 import { withTranslation } from 'react-i18next'
 import * as Yup from 'yup'
 
+const matchAgeRangeMinError = 'Minimum age must be a selected'
+const matchAgeRangeMaxError = 'Maximum age must be a selected'
+const matchLocationRadiusError = 'Radius must be a selected'
+const matchGendersError = 'Gender must be a selected'
+
 const formSchema = Yup.object().shape({
-  matchAgeRangeMin: Yup.number().required('pick min age'),
-  matchAgeRangeMax: Yup.number().required('pick max age'),
-  matchGenders: Yup.string().required('pick gender'),
-  matchLocationRadius: Yup.number().required('pick location'),
+  matchAgeRangeMin: Yup.number()
+    .typeError(matchAgeRangeMinError)
+    .positive(matchAgeRangeMinError)
+    .required(matchAgeRangeMinError),
+  matchAgeRangeMax: Yup.number()
+    .typeError(matchAgeRangeMaxError)
+    .positive(matchAgeRangeMaxError)
+    .required(matchAgeRangeMaxError),
+  matchLocationRadius: Yup.number()
+    .typeError(matchLocationRadiusError)
+    .positive(matchLocationRadiusError)
+    .required(matchLocationRadiusError),
+  matchGenders: Yup.string()
+    .typeError(matchGendersError)
+    .required(matchGendersError),
 })
 
 const DatingMatchForm = ({

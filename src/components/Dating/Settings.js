@@ -7,6 +7,7 @@ import {
 import { Text } from 'react-native-paper'
 import DefaultButton from 'components/Formik/Button/DefaultButton'
 import * as navigationActions from 'navigation/actions'
+import { isAvatarEmpty } from 'components/Settings/helpers'
 
 import { useNavigation } from '@react-navigation/native'
 import { withTheme } from 'react-native-paper'
@@ -15,6 +16,7 @@ import { withTranslation } from 'react-i18next'
 const DatingSettings = ({
   t,
   theme,
+  user,
 }) => {
   const styling = styles(theme)
   const navigation = useNavigation()
@@ -25,7 +27,10 @@ const DatingSettings = ({
         <Text style={styling.text}>{t('Start dating by introducing yourself and setting your dating preferences')}</Text>
       </View>
       <View style={styling.placeholder}>
-        <DefaultButton label={t('Your Dating Preferences')} onPress={navigationActions.navigateDatingAbout(navigation)} loading={false} mode="outline" />
+        {isAvatarEmpty(user) ?
+          <DefaultButton label={t('Upload Profile Photo')} onPress={navigationActions.navigateSettings(navigation)} loading={false} mode="outline" /> :
+          <DefaultButton label={t('Your Dating Preferences')} onPress={navigationActions.navigateDatingAbout(navigation)} loading={false} mode="outline" />
+        }
       </View>
     </View>
   )
@@ -50,6 +55,7 @@ const styles = theme => StyleSheet.create({
 DatingSettings.propTypes = {
   t: PropTypes.any,
   theme: PropTypes.any,
+  user: PropTypes.any,
 }
 
 export default withTranslation()(withTheme(DatingSettings))
