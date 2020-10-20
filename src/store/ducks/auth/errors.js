@@ -235,38 +235,6 @@ const messageCodes = {
   /**
    * 
    */
-  [constants.AUTH_UPGRADE_GOOGLE_SUCCESS]: {
-    GENERIC: {
-      code: 'GENERIC',
-      text: 'Anonymous user has been upgraded via google',
-    },
-  },
-  [constants.AUTH_UPGRADE_GOOGLE_FAILURE]: {
-    GENERIC: {
-      code: 'GENERIC',
-      text: 'Failed to upgrade anonymous user via google',
-    },
-  },
-
-  /**
-   * 
-   */
-  [constants.AUTH_UPGRADE_APPLE_SUCCESS]: {
-    GENERIC: {
-      code: 'GENERIC',
-      text: 'Anonymous user has been upgraded via apple',
-    },
-  },
-  [constants.AUTH_UPGRADE_APPLE_FAILURE]: {
-    GENERIC: {
-      code: 'GENERIC',
-      text: 'Failed to upgrade anonymous user via apple',
-    },
-  },
-
-  /**
-   * 
-   */
   [constants.AUTH_RESET_SUCCESS]: {
     GENERIC: {
       code: 'GENERIC',
