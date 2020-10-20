@@ -11,6 +11,7 @@ jest.mock('services/Query', () => ({ apiRequest: jest.fn().mockResolvedValue(tru
 describe('Users saga', () => {
   describe('usersChangeAvatarRequest', () => {
     const postId = 1
+
     it('success', async () => {
       queryService.apiRequest.mockResolvedValueOnce({ data: { setUserDetails: { userId: 1 } } })
 

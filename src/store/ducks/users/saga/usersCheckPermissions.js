@@ -9,11 +9,11 @@ function* usersCheckPermissions(options) {
   if (authUser.userStatus !== 'ACTIVE') {
     if (propOr(true, 'redirect', options)) {
       const ReactNavigationRef = yield getContext('ReactNavigationRef')
-      navigationActions.navigateProfileUpgrade(ReactNavigationRef.current)()
+      navigationActions.navigateProfileUpgrade(ReactNavigationRef.current)
     }
 
     throw new Error('User is not ACTIVE')
-  }
+  } 
 }
 
 export default usersCheckPermissions
