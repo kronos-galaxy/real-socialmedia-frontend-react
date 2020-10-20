@@ -30,7 +30,7 @@ const AuthEmailComponentService = ({ children }) => {
     dispatch(signupActions.signupEmailIdle({}))
     dispatch(signupActions.signupPhoneIdle({}))
     dispatch(signupActions.signupCreateIdle({}))
-    navigationActions.navigateAuthPassword(navigation)()
+    navigationActions.navigateAuthUsername(navigation)()
   }, [])
 
   useEffect(() => {
@@ -58,7 +58,6 @@ const AuthEmailComponentService = ({ children }) => {
       usernameType: 'email',
       phone: null,
       email: payload.email,
-      password: signupPassword.payload.password,
     }
     dispatch(signupActions.signupCreateRequest(signupCreatePayload))
   }

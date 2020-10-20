@@ -96,6 +96,22 @@ const messageCodes = {
       text: 'Failed to sign up',
     },
   },
+
+  /**
+   * 
+   */
+  [constants.SIGNUP_PASSWORD_SUCCESS]: {
+    GENERIC: {
+      code: 'GENERIC',
+      text: 'Successfully set password',
+    },
+  },
+  [constants.SIGNUP_PASSWORD_FAILURE]: {
+    GENERIC: {
+      code: 'GENERIC',
+      text: 'Failed to set password',
+    },
+  },
 }
 
 export const getMessagePayload = (key, status = 'GENERIC', nativeError = '') => {

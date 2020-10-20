@@ -32,13 +32,8 @@ function* signupEmailRequest(req) {
   yield put(actions.signupEmailSuccess({ payload: req.payload }))
 }
 
-function* signupPasswordRequest(req) {
-  yield put(actions.signupPasswordSuccess({ payload: req.payload }))
-}
-
 export default () => [
   takeLatest(constants.SIGNUP_USERNAME_REQUEST, signupUsernameRequest),
   takeLatest(constants.SIGNUP_PHONE_REQUEST, signupPhoneRequest),
   takeLatest(constants.SIGNUP_EMAIL_REQUEST, signupEmailRequest),
-  takeLatest(constants.SIGNUP_PASSWORD_REQUEST, signupPasswordRequest),
 ]

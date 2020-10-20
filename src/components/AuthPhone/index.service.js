@@ -30,7 +30,7 @@ const AuthPhoneComponentService = ({ children }) => {
     dispatch(signupActions.signupEmailIdle({}))
     dispatch(signupActions.signupPhoneIdle({}))
     dispatch(signupActions.signupCreateIdle({}))
-    navigationActions.navigateAuthPassword(navigation)()
+    navigationActions.navigateAuthUsername(navigation)()
   }, [])
 
   useEffect(() => {
@@ -53,7 +53,6 @@ const AuthPhoneComponentService = ({ children }) => {
       usernameType: 'phone',
       phone: `${payload.countryCode}${payload.phone}`,
       email: null,
-      password: signupPassword.payload.password,
     }
     dispatch(signupActions.signupCreateRequest(signupCreatePayload))
   }
@@ -69,14 +68,12 @@ const AuthPhoneComponentService = ({ children }) => {
   useEffect(() => {
     if (
       !signupUsername.payload.username ||
-      !signupPhone.payload.phone ||
-      !signupPassword.payload.password
+      !signupPhone.payload.phone
     ) return
 
     if (
       signupUsername.payload.username === signupCognitoIdentity.username &&
-      signupPhone.payload.phone === signupCognitoIdentity.cognitoUsername &&
-      signupPassword.payload.password === signupCognitoIdentity.password
+      signupPhone.payload.phone === signupCognitoIdentity.cognitoUsername
     ) {
       navigationActions.navigateAuthPhoneConfirm(navigation)()
       return
@@ -84,7 +81,6 @@ const AuthPhoneComponentService = ({ children }) => {
   }, [
     signupUsername.payload.username,
     signupPhone.payload.phone,
-    signupPassword.payload.password,
 
     signupUsername.status,
     signupPhone.status,

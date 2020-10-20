@@ -30,6 +30,7 @@ import authPrefetch from 'store/ducks/auth/saga/authPrefetch'
 import signup from 'store/ducks/signup/saga'
 import signupCreate from 'store/ducks/signup/saga/signupCreate'
 import signupConfirm from 'store/ducks/signup/saga/signupConfirm'
+import signupPassword from 'store/ducks/signup/saga/signupPassword'
 
 import datingMatchedUsers from 'store/ducks/dating/saga/datingMatchedUsers'
 import datingConfirmedUsers from 'store/ducks/dating/saga/datingConfirmedUsers'
@@ -88,6 +89,7 @@ export default function* rootSaga(persistor) {
     .concat(signup())
     .concat(signupCreate())
     .concat(signupConfirm())
+    .concat(signupPassword())
 
     .concat(posts())
     .concat(postsCreate())

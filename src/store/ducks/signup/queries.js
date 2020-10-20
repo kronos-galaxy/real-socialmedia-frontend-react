@@ -94,3 +94,12 @@ export const setFullname = `
   }
   ${userFragment}
 `
+
+export const setUserPassword = `
+  mutation setUserPassword($encryptedPassword: String!) {
+    setUserPassword(encryptedPassword: $encryptedPassword) {
+      ...userFragment
+    }
+  }
+  ${userFragment}
+`

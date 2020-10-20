@@ -51,7 +51,7 @@ const AuthUsernameComponentService = ({ children }) => {
     ) return
 
     logEvent('SIGNUP_USERNAME_SUCCESS')
-    navigationActions.navigateAuthPassword(navigation)()
+    navigationActions.navigateSignup(navigation)()
   }, [
     signupUsername.status,
     signupUsername.payload.username,
