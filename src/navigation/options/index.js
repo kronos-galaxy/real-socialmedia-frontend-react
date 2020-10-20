@@ -33,8 +33,8 @@ export const chatHeaderLeft = ({ navigation, theme }) => () => (
   </TouchableOpacity>
 )
 
-const homeHeaderLeft = ({ theme, navigation }) => () => (
-  <TouchableOpacity style={styles.button} onPress={navigationActions.navigateCamera(navigation)}>
+const homeHeaderLeft = ({ theme, navigation, user }) => () => (
+  <TouchableOpacity style={styles.button} onPress={navigationActions.navigateCamera(navigation, {}, {protected: true, user})}>
     <CameraIcon fill={theme.colors.primaryIcon} />
   </TouchableOpacity>
 )
@@ -67,7 +67,7 @@ const AuthNavigationComponent = ({ theme }) => ({
   },
 })
 
-const HomeNavigationComponent = ({ navigation, theme }) => ({
+const HomeNavigationComponent = ({ navigation, theme, user }) => ({
   headerStyle: {
     backgroundColor: theme.colors.backgroundPrimary,
     shadowRadius: 0,
@@ -77,7 +77,7 @@ const HomeNavigationComponent = ({ navigation, theme }) => ({
     borderBottomWidth: 0,
     shadowColor: 'transparent',
   },
-  headerLeft: homeHeaderLeft({ navigation, theme }),
+  headerLeft: homeHeaderLeft({ navigation, theme, user }),
   headerTitle: homeHeaderTitle({ navigation, theme }),
   headerRight: homeHeaderRight({ navigation, theme }),
 })
@@ -143,9 +143,9 @@ export const stackNavigatorCardProps = ({ theme }) => ({
 /**
  * Used for Main Screens with application logo
  */
-export const stackScreenDefaultProps = ({ theme }) => ({
+export const stackScreenDefaultProps = ({ theme, user }) => ({
   options: (props) => ({
-    ...HomeNavigationComponent({ ...props, theme }),
+    ...HomeNavigationComponent({ ...props, theme, user }),
     gestureResponseDistance: {
       horizontal: Layout.window.width,
       vertical: Layout.window.height,

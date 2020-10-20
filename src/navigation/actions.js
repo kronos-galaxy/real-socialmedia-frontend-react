@@ -93,9 +93,9 @@ export const navigateSearch = (navigation, params) => () =>
     },
   })
 
-export const navigateCamera = (navigation, params) => () =>
+export const navigateCamera = withAuthValidation((navigation, params) => 
   navigation.navigate('Camera', params)
-
+)
   
 export const navigateStory = withAuthValidation((navigation, params) =>
   navigation.push('Story', params),
