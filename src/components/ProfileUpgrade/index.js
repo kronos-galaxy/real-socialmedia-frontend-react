@@ -8,7 +8,6 @@ import Actions from 'components/AuthHome/Actions'
 
 import { withTheme } from 'react-native-paper'
 import { withTranslation } from 'react-i18next'
-import testIDs from './test-ids'
 
 const ProfileUpgrade = ({
   t,
@@ -25,7 +24,7 @@ const ProfileUpgrade = ({
 
   return (
     <View style={styling.root}>
-      <TouchableOpacity testID={testIDs.backdrop} style={styling.backdrop} onPress={handleClose} />
+      <TouchableOpacity style={styling.backdrop} onPress={handleClose} />
 
       <SafeAreaView style={styling.component}>
         <View style={styling.heading}>
