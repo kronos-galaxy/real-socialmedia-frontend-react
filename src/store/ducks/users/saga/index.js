@@ -731,7 +731,7 @@ function* usersReportScreenViewsRequest(req) {
   const errorWrapper = yield getContext('errorWrapper')
 
   try {
-    yield call(usersCheckPermissions, {redirect: false})
+    yield call(usersCheckPermissions, { redirect: false })
     const data = yield queryService.apiRequest(queries.reportScreenViews, req.payload)
 
     yield put(actions.usersReportScreenViewsSuccess({ payload: req.payload, data, meta: {} }))

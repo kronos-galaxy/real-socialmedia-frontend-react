@@ -40,7 +40,7 @@ const Stories = ({
     >
       <TouchableOpacity
         key={user.userId}
-        onPress={navigationActions.navigateCamera(navigation, {}, {protected: true, user})}
+        onPress={navigationActions.navigateCamera(navigation, {}, { protected: true, user })}
         style={styling.story}
       >
         <Avatar

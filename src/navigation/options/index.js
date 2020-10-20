@@ -31,7 +31,7 @@ export const chatHeaderLeft = ({ navigation, theme }) => () => (
 )
 
 const homeHeaderLeft = ({ theme, navigation, user }) => () => (
-  <TouchableOpacity style={styles.button} onPress={navigationActions.navigateCamera(navigation, {}, {protected: true, user})}>
+  <TouchableOpacity style={styles.button} onPress={navigationActions.navigateCamera(navigation, {}, { protected: true, user })}>
     <CameraIcon fill={theme.colors.primaryIcon} />
   </TouchableOpacity>
 )
@@ -39,7 +39,7 @@ const homeHeaderLeft = ({ theme, navigation, user }) => () => (
 const homeHeaderTitle = ({ theme }) => () => <LogoIcon height="28" fill={theme.colors.primaryIcon} />
 
 const homeHeaderRight = ({ theme, navigation, user }) => () => (
-  <TouchableOpacity style={styles.chatButton} onPress={navigationActions.navigateChat(navigation, {}, {protected: true, user})}>
+  <TouchableOpacity style={styles.chatButton} onPress={navigationActions.navigateChat(navigation, {}, { protected: true, user })}>
     <DirectIcon fill={theme.colors.primaryIcon} user={user} />
   </TouchableOpacity>
 )
@@ -74,21 +74,21 @@ const HomeNavigationComponent = ({ navigation, theme, user }) => ({
   headerRight: homeHeaderRight({ navigation, theme, user }),
 })
 
-const pager = ({isUserActive, ...props}) => {
+const pager = ({ isUserActive, ...props }) => {
   const currentIndex = path(['navigationState', 'index'])(props)
   const nextIndex = path(['navigationState', 'routes', currentIndex, 'state', 'index'])(props)
   const swipeEnabled = isUserActive && (!nextIndex || nextIndex === 0)
   return <ViewPagerAdapter {...props} swipeEnabled={swipeEnabled} />
 }
 
-export const tabNavigatorDefaultProps = ({isUserActive}) => ({
+export const tabNavigatorDefaultProps = ({ isUserActive }) => ({
   initialRouteName: 'Root',
   tabBar: () => null,
   lazy: true,
   sceneContainerStyle: {
     backgroundColor: 'transparent',
   },
-  pager: props => pager({...props, isUserActive}),
+  pager: props => pager({ ...props, isUserActive }),
   gestureEnabled: false,
 })
 

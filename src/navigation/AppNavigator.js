@@ -127,7 +127,7 @@ const RootNavigator = () => {
 const AppNavigator = withTheme(() => {
   const Tab = createMaterialTopTabNavigator()
   const { isUserActive } = useContext(AuthContext)
-  const tabNavigatorDefaultProps = navigationOptions.tabNavigatorDefaultProps({isUserActive})
+  const tabNavigatorDefaultProps = navigationOptions.tabNavigatorDefaultProps({ isUserActive })
 
   return (
     <Tab.Navigator {...tabNavigatorDefaultProps}>

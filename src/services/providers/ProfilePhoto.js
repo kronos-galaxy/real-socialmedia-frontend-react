@@ -18,7 +18,7 @@ function useProfilePhoto() {
     },
   })
 
-  const handleCameraSnap = navigationActions.navigateCamera(navigation, { nextRoute: 'ProfilePhotoUpload' }, {protected: true, user})
+  const handleCameraSnap = navigationActions.navigateCamera(navigation, { nextRoute: 'ProfilePhotoUpload' }, { protected: true, user })
   const handleSkipUpload = () => navigation.replace('Settings')
   const handleLibrarySnap = () => camera.handleLibrarySnap()
 

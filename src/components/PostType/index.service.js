@@ -42,7 +42,7 @@ const PostTypeService = ({ children }) => {
 
   const handlePhotoTab = () => {
     handleClose()
-    navigationActions.navigateCamera(navigation, {}, {protected: true, user})()
+    navigationActions.navigateCamera(navigation, {}, { protected: true, user })()
   }
 
   const handleTextPostTab = () => {

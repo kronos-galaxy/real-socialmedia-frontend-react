@@ -211,7 +211,6 @@ Profile.propTypes = {
   theme: PropTypes.any,
   user: PropTypes.any,
   usersGetProfile: PropTypes.any,
-  user: PropTypes.any,
   usersBlock: PropTypes.any,
   usersBlockRequest: PropTypes.any,
   usersUnblock: PropTypes.any,
