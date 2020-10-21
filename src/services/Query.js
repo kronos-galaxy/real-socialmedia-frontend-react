@@ -1,5 +1,5 @@
 import { graphqlOperation } from '@aws-amplify/api'
-import { getContext, race, take} from 'redux-saga/effects'
+import { getContext, race, take } from 'redux-saga/effects'
 import path from 'ramda/src/path'
 import * as authConstants from 'store/ducks/auth/constants'
 
@@ -13,7 +13,7 @@ export function* apiRequest(query, payload) {
   })
 
   if (signout) {
-    const message = "Cancel request on signout"
+    const message = 'Cancel request on signout'
     AwsAPI.cancel(request, message)
     throw new Error(message)
   } else {

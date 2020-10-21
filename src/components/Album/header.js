@@ -27,7 +27,7 @@ export const useHeader = ({
   useEffect(() => {
     if(!albumName) return 
 
-    navigation.setOptions({title: albumName})
+    navigation.setOptions({ title: albumName })
   }, [albumName])
 
   /**
