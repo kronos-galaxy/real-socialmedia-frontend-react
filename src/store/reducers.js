@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux'
 import { persistReducer } from 'redux-persist'
-import { STORAGE_PROVIDER } from 'services/Storage'
+import Storage, { STORAGE_PROVIDER, STORAGE_KEYS } from 'services/Storage'
 
 import auth from 'store/ducks/auth/reducer'
 import signup from 'store/ducks/signup/reducer'
@@ -24,7 +24,8 @@ import 'store/ducks/users/updates'
 import 'store/ducks/chat/updates'
 
 const appPersistConfig = {
-  key: '/v2/app',
+  key: STORAGE_KEYS.APP_REDUCER,
+  version: 3,
   storage: STORAGE_PROVIDER,
   whitelist: [
     // 'user',
@@ -32,7 +33,8 @@ const appPersistConfig = {
 }
 
 const postsPersistConfig = {
-  key: '/v2/posts',
+  key: STORAGE_KEYS.POSTS_REDUCER,
+  version: 3,
   storage: STORAGE_PROVIDER,
   whitelist: [
     // 'postsFeedGet',
@@ -47,7 +49,8 @@ const postsPersistConfig = {
 }
 
 const usersPersistConfig = {
-  key: '/v2/users',
+  key: STORAGE_KEYS.USERS_REDUCER,
+  version: 3,
   storage: STORAGE_PROVIDER,
   whitelist: [
     // 'usersPool',
@@ -55,7 +58,8 @@ const usersPersistConfig = {
 }
 
 const authPersistConfig = {
-  key: '/v2/auth',
+  key: STORAGE_KEYS.AUTH_REDUCER,
+  version: 3,
   storage: STORAGE_PROVIDER,
   whitelist: [
     // 'user',
@@ -63,7 +67,8 @@ const authPersistConfig = {
 }
 
 const signupPersistConfig = {
-  key: '/v2/signup',
+  key: STORAGE_KEYS.SIGNUP_REDUCER,
+  version: 3,
   storage: STORAGE_PROVIDER,
   whitelist: [
     // 'signupCognitoIdentity',
@@ -71,7 +76,8 @@ const signupPersistConfig = {
 }
 
 const chatPersistConfig = {
-  key: '/v2/chat',
+  key: STORAGE_KEYS.CHAT_REDUCER,
+  version: 3,
   storage: STORAGE_PROVIDER,
   whitelist: [
     // 'chatGetChats',
@@ -79,13 +85,14 @@ const chatPersistConfig = {
 }
 
 const purchasesPersistConfig = {
-  key: '/v2/purchases',
+  key: STORAGE_KEYS.PURCHASES_REDUCER,
+  version: 3,
   storage: STORAGE_PROVIDER,
 }
 
 const contactsPersistConfig = {
-  key: '/v2/contacts',
-  version: 2,
+  key: STORAGE_KEYS.CONTACTS_REDUCER,
+  version: 3,
   storage: STORAGE_PROVIDER,
 }
 
@@ -110,6 +117,7 @@ const appReducer = combineReducers({
 const rootReducer = (state, action) => {
   if (action.type === authConstants.AUTH_SIGNOUT_SUCCESS) {
     state = undefined
+    Storage.clearAll()
   }
 
   return appReducer(state, action)

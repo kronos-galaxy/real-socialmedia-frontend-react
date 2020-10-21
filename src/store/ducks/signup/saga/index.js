@@ -17,7 +17,6 @@ function* signupUsernameRequest(req) {
     yield gatewayUsernameStatus(req.payload)
     yield put(actions.signupUsernameSuccess({ payload: req.payload }))
   } catch (error) {
-    console.log(error)
     yield put(actions.signupUsernameFailure({
       message: errors.getMessagePayload(constants.SIGNUP_USERNAME_FAILURE, 'USER_EXISTS', error.message),
       payload: req.payload,

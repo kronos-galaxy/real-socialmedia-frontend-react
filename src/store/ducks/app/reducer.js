@@ -2,7 +2,7 @@ import { handleActions } from 'redux-actions'
 import update from 'immutability-helper'
 import * as constants from 'store/ducks/app/constants'
 
-const initialState = {
+export const initialState = {
   appReady: {
     data: [],
     status: 'idle',
