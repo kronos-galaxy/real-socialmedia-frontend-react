@@ -41,7 +41,7 @@ export const STORAGE_KEYS = {
 }
 
 export const clearAll = async () => {
-  await Promise.all(Object.values(removeItem))
+  await Promise.all(Object.values(STORAGE_KEYS).map(removeItem))
 }
 
 export const STORAGE_PROVIDER = AsyncStorage
