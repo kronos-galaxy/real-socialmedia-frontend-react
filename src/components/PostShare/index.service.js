@@ -26,6 +26,8 @@ const ShareService = ({ children }) => {
     dispatch(postsActions.postsShareRequest(payload))
 
   useEffect(() => {
+    if(!postId || !postUserId) return
+    
     dispatch(postsActions.postsSingleGetRequest({ postId, userId: postUserId }))
   }, [postId])
 

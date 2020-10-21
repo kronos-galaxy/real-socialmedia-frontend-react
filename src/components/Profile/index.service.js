@@ -55,6 +55,8 @@ const ProfileService = ({ children }) => {
   ])
 
   useEffect(() => {
+    if(!userId) return
+
     usersGetProfileRequest({ userId })
   }, [userId])
 
