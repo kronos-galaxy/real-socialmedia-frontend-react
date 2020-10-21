@@ -84,10 +84,13 @@ function* authFlowRequest(req) {
 /**
  * Fetching initial data such as feed/cards/trending
  */
-function* authFlowSuccess() {
+function* authFlowSuccess() {  
   const ReactNavigationRef = yield getContext('ReactNavigationRef')
-  navigationActions.navigateSearch(ReactNavigationRef.current)()
   yield put(actions.authPrefetchRequest())
+
+  setTimeout(() => {
+    navigationActions.navigateSearch(ReactNavigationRef.current)()
+  }, 0)
 }
 
 export default () => [
