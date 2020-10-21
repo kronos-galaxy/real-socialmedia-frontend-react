@@ -1,4 +1,4 @@
-import { all } from 'redux-saga/effects'
+import { all, call } from 'redux-saga/effects'
 
 export const applyActions = (actions, reducer) => {
   let state
@@ -18,5 +18,20 @@ export const provideDelay = (value) => {
 export function testAsRootSaga(saga) {
   return function* pseudoRootSaga() {
     yield all(saga())
+  }
+}
+
+export function sagaWithError(saga, ...sagaArgs) {
+  return {
+    assertThrow: (expectedError) => {
+      return function* () {
+        try {
+          yield call(saga, ...sagaArgs)
+          throw new Error('Test failed')
+        } catch (e) {
+          expect(e).toEqual(expectedError)
+        }
+      }
+    },
   }
 }
