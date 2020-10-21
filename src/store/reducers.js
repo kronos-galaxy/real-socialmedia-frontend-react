@@ -17,6 +17,7 @@ import subscriptions from 'store/ducks/subscriptions/reducer'
 import contacts from 'store/ducks/contacts/reducer'
 import dating from 'store/ducks/dating/reducer'
 import { reducer as network } from 'react-native-offline'
+import * as authConstants from 'store/ducks/auth/constants'
 
 import 'store/ducks/posts/updates'
 import 'store/ducks/users/updates'
@@ -88,7 +89,7 @@ const contactsPersistConfig = {
   storage: STORAGE_PROVIDER,
 }
 
-export default combineReducers({
+const appReducer = combineReducers({
   app: persistReducer(appPersistConfig, app),
   network,
   auth: persistReducer(authPersistConfig, auth),
@@ -105,3 +106,13 @@ export default combineReducers({
   entities,
   subscriptions,
 })
+
+const rootReducer = (state, action) => {
+  if (action.type === authConstants.AUTH_SIGNOUT_SUCCESS) {
+    state = undefined
+  }
+
+  return appReducer(state, action)
+}
+
+export default rootReducer
