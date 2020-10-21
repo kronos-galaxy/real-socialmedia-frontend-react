@@ -1,7 +1,7 @@
+import pick from 'ramda/src/pick'
 import { combineReducers } from 'redux'
 import { persistReducer } from 'redux-persist'
 import Storage, { STORAGE_PROVIDER, STORAGE_KEYS } from 'services/Storage'
-
 import auth from 'store/ducks/auth/reducer'
 import signup from 'store/ducks/signup/reducer'
 import camera from 'store/ducks/camera/reducer'
@@ -42,7 +42,6 @@ const postsPersistConfig = {
     // 'postsGetCache',
     // 'postsGetTrendingPosts',
     // 'postsPool',
-    
     // 'postsCreateQueue',
     // 'postsRecreateQueue',
   ],
@@ -116,8 +115,8 @@ const appReducer = combineReducers({
 
 const rootReducer = (state, action) => {
   if (action.type === authConstants.AUTH_SIGNOUT_SUCCESS) {
-    state = undefined
     Storage.clearAll()
+    return { ...appReducer(undefined, action), ...pick(['app'], state) }
   }
 
   return appReducer(state, action)

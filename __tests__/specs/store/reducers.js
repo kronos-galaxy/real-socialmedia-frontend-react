@@ -15,7 +15,11 @@ import * as dating from 'store/ducks/dating/reducer'
 import rootReducer from 'store/reducers'
 import * as entitiesActions from 'store/ducks/entities/actions'
 import * as authActions from 'store/ducks/auth/actions'
+import * as appActions from 'store/ducks/app/actions'
 import { applyActions } from 'tests/utils/helpers'
+import Storage  from 'services/Storage'
+
+jest.spyOn(Storage, 'clearAll')
 
 const initialState = {
   app: app.initialState,
@@ -47,6 +51,10 @@ const entitiesMergeActions = [
 ]
 
 describe('rootReducer', () => {
+  afterEach(() => {
+    Storage.clearAll.mockClear()
+  })
+
   it('initial state', () => {
     expect(rootReducer(undefined, { type: 'MOCK_ACTION' })).toEqual(initialState)
   })
@@ -70,5 +78,19 @@ describe('rootReducer', () => {
 
     expect(state.entities).toEqual(initialState.entities)
     expect(state).toEqual(initialState)
+    expect(Storage.clearAll).toHaveBeenCalled()
+  })
+
+  it('save app state on signout', () => {
+    const state = applyActions([
+      appActions.appReadyRequest(),
+      appActions.appTranslationRequest(),
+      appActions.appThemeRequest(),
+      appActions.appThemePreviewRequest(),
+    ], rootReducer)
+
+    expect(state.app).not.toEqual(initialState.app)
+    expect(rootReducer(state, authActions.authSignoutSuccess()).app).toEqual(state.app)
+    expect(Storage.clearAll).toHaveBeenCalled()
   })
 })
