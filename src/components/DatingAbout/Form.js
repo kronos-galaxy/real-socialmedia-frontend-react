@@ -12,13 +12,35 @@ import { Formik, Field } from 'formik'
 import { withTranslation } from 'react-i18next'
 import * as Yup from 'yup'
 
+const dateOfBirthMonthError = 'Month must be selected'
+const dateOfBirthDayError = 'Date must be selected'
+const dateOfBirthYearError = 'Year must be selected'
+const genderError = 'Gender must be selected'
+const fullNameError = 'Name must be entered'
+const bioError = 'Bio must be filled'
+
 const formSchema = Yup.object().shape({
-  dateOfBirthMonth: Yup.string().required('pick month'),
-  dateOfBirthDay: Yup.number().required('pick day'),
-  dateOfBirthYear: Yup.number().required('pick year'),
-  gender: Yup.string().required('pick gender'),
-  fullName: Yup.string().required('enter full name'),
-  bio: Yup.string().required('enter bio'),
+  dateOfBirthMonth: Yup.number()
+    .typeError(dateOfBirthMonthError)
+    .positive(dateOfBirthMonthError)
+    .required(dateOfBirthMonthError),
+  dateOfBirthDay: Yup.number()
+    .typeError(dateOfBirthDayError)
+    .positive(dateOfBirthDayError)
+    .required(dateOfBirthDayError),
+  dateOfBirthYear: Yup.number()
+    .typeError(dateOfBirthYearError)
+    .positive(dateOfBirthYearError)
+    .required(dateOfBirthYearError),
+  gender: Yup.string()
+    .typeError(genderError)
+    .required(genderError),
+  fullName: Yup.string()
+    .typeError(fullNameError)
+    .required(fullNameError),
+  bio: Yup.string()
+    .typeError(bioError)
+    .required(bioError),
 })
 
 const DatingAboutForm = ({
