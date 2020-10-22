@@ -6,8 +6,6 @@ import cardSubscription from 'store/ducks/subscriptions/saga/card'
 import subscriptionPollStart from 'store/ducks/subscriptions/saga/poll'
 import subscriptions from 'store/ducks/subscriptions/saga'
 
-jest.mock('react-native-offline', () => ({ checkInternetConnection: jest.fn() }))
-
 test('Subscriptions root saga', () => {
   expect(subscriptions()).toEqual([
     takeEvery(constants.SUBSCRIPTIONS_MAIN_REQUEST, subscriptionNotificationStart),

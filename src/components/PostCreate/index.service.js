@@ -43,6 +43,8 @@ const PostCreateService = ({
   })
 
   useEffect(() => {
+    if(!user.userId) return
+    
     dispatch(albumsActions.albumsGetRequest({ userId: user.userId }))
   }, [])
 

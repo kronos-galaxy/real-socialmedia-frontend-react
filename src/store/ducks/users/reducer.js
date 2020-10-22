@@ -963,9 +963,4 @@ export default handleActions({
   [constants.USERS_CHANGE_AVATAR_REQUEST]: usersChangeAvatarRequest,
   [constants.USERS_CHANGE_AVATAR_SUCCESS]: usersChangeAvatarSuccess,
   [constants.USERS_CHANGE_AVATAR_FAILURE]: usersChangeAvatarFailure,
-
-  /**
-   * Clear on logout
-   */
-  ['AUTH_SIGNOUT_REQUEST']: () => initialState,
 }, initialState)
