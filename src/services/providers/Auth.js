@@ -17,6 +17,7 @@ export const AuthProvider = ({
 }) => {
   const dispatch = useDispatch()
   const user = useSelector(authSelector.authUserSelector)
+  const isUserActive = user.userStatus === 'ACTIVE'
 
   /**
    * Constructor function to fetch: Translations, Themes and Auth data
@@ -46,7 +47,7 @@ export const AuthProvider = ({
   })
 
   return (
-    <AuthContext.Provider value={{ user }}>
+    <AuthContext.Provider value={{ user, isUserActive }}>
       {children}
     </AuthContext.Provider>
   )

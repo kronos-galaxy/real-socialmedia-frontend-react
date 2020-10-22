@@ -22,10 +22,15 @@ const Stories = ({
   const styling = styles(theme)
   const navigation = useNavigation()
 
-  const handleUserStoryPress = (user) => navigationActions.navigateStory(navigation, {
-    user,
-    usersGetFollowedUsersWithStories,
-  })
+  const handleUserStoryPress = (user) => 
+    navigationActions.navigateStory(
+      navigation,
+      {
+        user,
+        usersGetFollowedUsersWithStories,
+      },
+      { protected: true, user },
+    )
 
   return (
     <ScrollView
@@ -35,7 +40,7 @@ const Stories = ({
     >
       <TouchableOpacity
         key={user.userId}
-        onPress={navigationActions.navigateCamera(navigation)}
+        onPress={navigationActions.navigateCamera(navigation, {}, { protected: true, user })}
         style={styling.story}
       >
         <Avatar

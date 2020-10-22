@@ -9,7 +9,7 @@ import * as queryService from 'services/Query'
 import * as errors from 'store/ducks/users/errors'
 import * as entitiesActions from 'store/ducks/entities/actions'
 import * as normalizer from 'normalizer/schemas'
-
+import usersCheckPermissions from 'store/ducks/users/saga/usersCheckPermissions'
 /**
  *
  */
@@ -482,6 +482,7 @@ function* usersFollowRequest(req) {
   const errorWrapper = yield getContext('errorWrapper')
 
   try {
+    yield call(usersCheckPermissions)
     const data = yield queryService.apiRequest(queries.followUser, req.payload)
     const next = yield usersFollowRequestData(req, data)
     yield put(actions.usersFollowSuccess({ data: next.data, payload: next.payload, meta: next.meta }))
@@ -518,6 +519,7 @@ function* usersUnfollowRequest(req) {
   const errorWrapper = yield getContext('errorWrapper')
 
   try {
+    yield call(usersCheckPermissions)
     const data = yield queryService.apiRequest(queries.unfollowUser, req.payload)
     const next = yield usersUnfollowRequestData(req, data)
     yield put(actions.usersUnfollowSuccess({ data: next.data, payload: next.payload, meta: next.meta }))
@@ -554,6 +556,7 @@ function* usersBlockRequest(req) {
   const errorWrapper = yield getContext('errorWrapper')
 
   try {
+    yield call(usersCheckPermissions)
     const data = yield queryService.apiRequest(queries.blockUser, req.payload)
     const next = yield usersBlockRequestData(req, data)
     yield put(actions.usersBlockSuccess({ data: next.data, payload: next.payload, meta: next.meta }))
@@ -590,6 +593,7 @@ function* usersUnblockRequest(req) {
   const errorWrapper = yield getContext('errorWrapper')
 
   try {
+    yield call(usersCheckPermissions)
     const data = yield queryService.apiRequest(queries.unblockUser, req.payload)
     const next = yield usersUnblockRequestData(req, data)
     yield put(actions.usersUnblockSuccess({ data: next.data, payload: next.payload, meta: next.meta }))
@@ -727,6 +731,7 @@ function* usersReportScreenViewsRequest(req) {
   const errorWrapper = yield getContext('errorWrapper')
 
   try {
+    yield call(usersCheckPermissions, { redirect: false })
     const data = yield queryService.apiRequest(queries.reportScreenViews, req.payload)
 
     yield put(actions.usersReportScreenViewsSuccess({ payload: req.payload, data, meta: {} }))

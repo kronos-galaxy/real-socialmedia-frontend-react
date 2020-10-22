@@ -12,9 +12,6 @@ import CameraIcon from 'assets/svg/header/Camera'
 import DirectIcon from 'assets/svg/header/Direct'
 import BackIcon from 'assets/svg/header/Back'
 
-import * as authSelector from 'store/ducks/auth/selectors'
-import { connect } from 'react-redux'
-
 export const pageHeaderLeft = ({ onPress, testID = null, theme }) => {
   if (!onPress) {
     return null
@@ -33,23 +30,19 @@ export const chatHeaderLeft = ({ navigation, theme }) => () => (
   </TouchableOpacity>
 )
 
-const homeHeaderLeft = ({ theme, navigation }) => () => (
-  <TouchableOpacity style={styles.button} onPress={navigationActions.navigateCamera(navigation)}>
+
+const homeHeaderLeft = ({ theme, navigation, user }) => () => (
+  <TouchableOpacity style={styles.button} onPress={navigationActions.navigateCamera(navigation, {}, { protected: true, user })}>
     <CameraIcon fill={path(['colors', 'primaryIcon'], theme)} />
   </TouchableOpacity>
 )
 
 const homeHeaderTitle = ({ theme }) => () => <LogoIcon height="28" fill={path(['colors', 'primaryIcon'], theme)} />
 
-const mapStateToProps = (state, ownProps) => ({ user: authSelector.authUserSelector(state), ...ownProps })
-const Next = connect(mapStateToProps)(({ user, theme, navigation }) => (
-  <TouchableOpacity style={styles.chatButton} onPress={navigationActions.navigateChat(navigation)}>
+const homeHeaderRight = ({ theme, navigation, user }) => () => (
+  <TouchableOpacity style={styles.chatButton} onPress={navigationActions.navigateChat(navigation, {}, { protected: true, user })}>
     <DirectIcon fill={path(['colors', 'primaryIcon'], theme)} user={user} />
   </TouchableOpacity>
-))
-
-const homeHeaderRight = ({ theme, navigation }) => () => (
-  <Next theme={theme} navigation={navigation} />
 )
 
 const AuthNavigationComponent = ({ theme }) => ({
@@ -67,7 +60,7 @@ const AuthNavigationComponent = ({ theme }) => ({
   },
 })
 
-const HomeNavigationComponent = ({ navigation, theme }) => ({
+const HomeNavigationComponent = ({ navigation, theme, user }) => ({
   headerStyle: {
     backgroundColor: theme.colors.backgroundPrimary,
     shadowRadius: 0,
@@ -77,26 +70,26 @@ const HomeNavigationComponent = ({ navigation, theme }) => ({
     borderBottomWidth: 0,
     shadowColor: 'transparent',
   },
-  headerLeft: homeHeaderLeft({ navigation, theme }),
+  headerLeft: homeHeaderLeft({ navigation, theme, user }),
   headerTitle: homeHeaderTitle({ navigation, theme }),
-  headerRight: homeHeaderRight({ navigation, theme }),
+  headerRight: homeHeaderRight({ navigation, theme, user }),
 })
 
-const pager = (props) => {
+const pager = ({ isUserActive, ...props }) => {
   const currentIndex = path(['navigationState', 'index'])(props)
   const nextIndex = path(['navigationState', 'routes', currentIndex, 'state', 'index'])(props)
-  const swipeEnabled = !nextIndex || nextIndex === 0
+  const swipeEnabled = isUserActive && (!nextIndex || nextIndex === 0)
   return <ViewPagerAdapter {...props} swipeEnabled={swipeEnabled} />
 }
 
-export const tabNavigatorDefaultProps = ({
+export const tabNavigatorDefaultProps = ({ isUserActive }) => ({
   initialRouteName: 'Root',
   tabBar: () => null,
   lazy: true,
   sceneContainerStyle: {
     backgroundColor: 'transparent',
   },
-  pager,
+  pager: props => pager({ ...props, isUserActive }),
   gestureEnabled: false,
 })
 
@@ -143,9 +136,9 @@ export const stackNavigatorCardProps = ({ theme }) => ({
 /**
  * Used for Main Screens with application logo
  */
-export const stackScreenDefaultProps = ({ theme }) => ({
+export const stackScreenDefaultProps = ({ theme, user }) => ({
   options: (props) => ({
-    ...HomeNavigationComponent({ ...props, theme }),
+    ...HomeNavigationComponent({ ...props, theme, user }),
     gestureResponseDistance: {
       horizontal: Layout.window.width,
       vertical: Layout.window.height,
