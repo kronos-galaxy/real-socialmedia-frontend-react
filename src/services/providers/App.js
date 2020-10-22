@@ -17,16 +17,21 @@ export const AppProvider = ({
   const appReady = useSelector(state => state.app.appReady)
 
   const onStateChange = () => {
-    const previousRouteName = routeNameRef.current
-    const currentRouteName = navigationRef.current.getCurrentRoute().name
+    try {
+      const previousRouteName = routeNameRef.current
+      const currentRouteName = navigationRef.current.getCurrentRoute().name
 
-    if (previousRouteName !== currentRouteName) {
-      dispatch(usersActions.usersReportScreenViewsRequest({ screens: [currentRouteName] }))
+      if (previousRouteName !== currentRouteName) {
+        dispatch(usersActions.usersReportScreenViewsRequest({ screens: [currentRouteName] }))
+      }
+
+      // Save the current route name for later comparision
+      routeNameRef.current = currentRouteName
+    } catch (error) {
+      // ignore
     }
-
-    // Save the current route name for later comparision
-    routeNameRef.current = currentRouteName
   }
+
   onStateChangeRef.current = onStateChange
 
   /**

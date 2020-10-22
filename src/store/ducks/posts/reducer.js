@@ -1167,9 +1167,4 @@ export default handleActions({
   [constants.COMMENTS_FLAG_SUCCESS]: commentsFlagSuccess,
   [constants.COMMENTS_FLAG_FAILURE]: commentsFlagFailure,
   [constants.COMMENTS_FLAG_IDLE]: commentsFlagIdle,
-
-  /**
-   * Clear on logout
-   */
-  ['AUTH_SIGNOUT_REQUEST']: () => initialState,
 }, initialState)
