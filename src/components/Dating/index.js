@@ -52,7 +52,9 @@ const Dating = ({
     <View style={styling.root}>
       <View style={styling.carousel}>
         {settingsVisibility ?
-          <DatingSettings />
+          <DatingSettings
+            user={user}
+          />
         : null}
 
         {loadingVisibility ?

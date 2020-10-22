@@ -8,23 +8,23 @@ import testIDs from 'components/InviteFriends/test-ids'
 jest.spyOn(Alert, 'alert')
 jest.mock('templates/Avatar', () => jest.fn().mockReturnValue(null))
 
-const emailAddresses = ['text0@email.com', 'text1@email.com', 'text2@email.com']
-const phoneNumbers = ['+199999999', '+299999999', '+399999999']
+const emails = ['text0@email.com', 'text1@email.com', 'text2@email.com']
+const phones = ['+199999999', '+299999999', '+399999999']
 
 const items = [
-  { recordID: '1', fullName: 'fullName1', thumbnailPath: 'thumbnailPath' },
-  { recordID: '2', fullName: 'fullName2', thumbnailPath: 'thumbnailPath' },
-  { recordID: '3', fullName: 'fullName3', thumbnailPath: 'thumbnailPath' },
-  { recordID: '4', fullName: 'fullName4', thumbnailPath: 'thumbnailPath' },
-].map((item) => ({ ...item, emailAddresses, phoneNumbers }))
+  { contactId: '1', fullName: 'fullName1', thumbnailPath: 'thumbnailPath' },
+  { contactId: '2', fullName: 'fullName2', thumbnailPath: 'thumbnailPath' },
+  { contactId: '3', fullName: 'fullName3', thumbnailPath: 'thumbnailPath' },
+  { contactId: '4', fullName: 'fullName4', thumbnailPath: 'thumbnailPath' },
+].map((item) => ({ ...item, emails, phones }))
 
-const invited = { items: [items[0].recordID, items[2].recordID] }
+const contactsInvite = { invited: { 1: true, 3: true } }
 
 const contactsGetRequest = jest.fn()
 const requiredProps = {
   contactsGetRequest,
   contactsGet: { status: 'idle', error: '', items: [] },
-  invited: { items: [] },
+  contactsInvite: { invited: {} },
 }
 
 const setup = (props) => renderWithProviders(<InviteFriendsComponent {...requiredProps} {...props} />)
@@ -41,26 +41,36 @@ describe('Invite Friends Component', () => {
       const { getByText } = setup()
 
       getByText('Earn Free REAL Diamond')
-      getByText('Follow or Invite 0/10 friends & get REAL Diamond FREE for 2 months!')
+      getByText('Follow or Invite 10 friends & get REAL Diamond FREE for 2 months!')
     })
 
     it('less than 10', () => {
-      const { getByText } = setup({ invited })
+      const { getByText } = setup({ contactsInvite })
 
       getByText('Earn Free REAL Diamond')
-      getByText(`Follow or Invite ${invited.items.length}/10 friends & get REAL Diamond FREE for 2 months!`)
+      getByText('Follow or Invite 8 friends & get REAL Diamond FREE for 2 months!')
     })
 
     it('equal or more than 10', () => {
-      const testTitles = (items) => {
-        const { getByText } = setup({ invited: { items } })
+      const { getByText } = setup({
+        contactsInvite: {
+          invited: {
+            1: true,
+            2: true,
+            3: true,
+            4: true,
+            5: true,
+            6: true,
+            7: true,
+            8: true,
+            9: true,
+            10: true,
+          },
+        },
+      })
 
-        getByText('Connect Your Contacts')
-        getByText('Find people you know on REAL and choose who to follow or invite')
-      }
-
-      testTitles(['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'])
-      testTitles(['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11'])
+      getByText('Connect Your Contacts')
+      getByText('Find people you know on REAL and choose who to follow or invite')
     })
   })
 
@@ -126,82 +136,139 @@ describe('Invite Friends Component', () => {
       expect($rows).toHaveLength(items.length)
     })
 
-    it('invite callback', () => {
-      const contactsInviteRequest = jest.fn()
-      const contactsGet = { status: 'success', error: '', items }
-      const { queryAllByTestId } = setup({ contactsGet, contactsInviteRequest })
-      const $rows = queryAllByTestId(testIDs.row)
-
-      contactsInviteRequest.mockClear()
-      fireEvent.press(within($rows[0]).getByText('Invite'))
-
-      expect(Alert.alert).toHaveBeenCalled()
-      const [title, message, buttons, options] = Alert.alert.mock.calls[0]
-      expect(title).toBe('Invite fullName1')
-      expect(message).toBe('Сhoose a contact')
-      expect(options).toEqual({ cancelable: true })
-
-      expect(buttons.map((item) => item.text)).toEqual([
-        'text0@email.com',
-        'text1@email.com',
-        'text2@email.com',
-        '+199999999',
-        '+299999999',
-        '+399999999',
-        'Cancel',
-      ])
-
-      buttons.forEach((btn) => {
-        if (btn.text === 'Cancel') return
+    describe('Invite a contact', () => {
+      it('invite callback', () => {
+        const contactsInviteRequest = jest.fn()
+        const contactsGet = { status: 'success', error: '', items }
+        const { queryAllByTestId } = setup({ contactsGet, contactsInviteRequest })
+        const $rows = queryAllByTestId(testIDs.row)
 
         contactsInviteRequest.mockClear()
-        btn.onPress()
-        expect(contactsInviteRequest).toHaveBeenCalled()
+        fireEvent.press(within($rows[0]).getByText('Invite'))
+
+        expect(Alert.alert).toHaveBeenCalled()
+        const [title, message, buttons, options] = Alert.alert.mock.calls[0]
+        expect(title).toBe('Invite fullName1')
+        expect(message).toBe('Сhoose a contact')
+        expect(options).toEqual({ cancelable: true })
+
+        expect(buttons.map((item) => item.text)).toEqual([
+          'text0@email.com',
+          'text1@email.com',
+          'text2@email.com',
+          '+199999999',
+          '+299999999',
+          '+399999999',
+          'Cancel',
+        ])
+
+        buttons.forEach((btn) => {
+          if (btn.text === 'Cancel') return
+
+          contactsInviteRequest.mockClear()
+          btn.onPress()
+          expect(contactsInviteRequest).toHaveBeenCalled()
+        })
+
+        contactsInviteRequest.mockClear()
+        buttons[0].onPress()
+        expect(contactsInviteRequest).toHaveBeenCalledWith({
+          contact: {
+            type: 'email',
+            value: 'text0@email.com',
+          },
+          user: items[0],
+        })
       })
 
-      contactsInviteRequest.mockClear()
-      buttons[0].onPress()
-      expect(contactsInviteRequest).toHaveBeenCalledWith({
-        contact: {
-          type: 'email',
-          value: 'text0@email.com',
-        },
-        user: items[0],
+      it('direct callback when only one contact number', () => {
+        const contactsInviteRequest = jest.fn()
+        const user = {
+          ...items[0],
+          emails: ['test@email.com'],
+          phones: [],
+        }
+        const contactsGet = { status: 'success', error: '', items: [user] }
+        const { getByText } = setup({ contactsGet, contactsInviteRequest })
+
+        contactsInviteRequest.mockClear()
+        fireEvent.press(getByText('Invite'))
+
+        expect(Alert.alert).not.toHaveBeenCalled()
+        expect(contactsInviteRequest).toHaveBeenCalledWith({
+          contact: {
+            type: 'email',
+            value: 'test@email.com',
+          },
+          user,
+        })
+      })
+
+      it('invited items', () => {
+        const contactsGet = { status: 'success', error: '', items }
+        const { queryAllByTestId } = setup({ contactsGet, contactsInvite })
+        const $rows = queryAllByTestId(testIDs.row)
+
+        expect(within($rows[0]).getByText('Invited')).toBeTruthy()
+        expect(within($rows[1]).getByText('Invite')).toBeTruthy()
+        expect(within($rows[2]).getByText('Invited')).toBeTruthy()
+        expect(within($rows[3]).getByText('Invite')).toBeTruthy()
       })
     })
 
-    it('direct callback when only one contact number', () => {
-      const contactsInviteRequest = jest.fn()
-      const user = {
-        ...items[0],
-        emailAddresses: ['test@email.com'],
-        phoneNumbers: [],
-      }
-      const contactsGet = { status: 'success', error: '', items: [user] }
-      const { getByText } = setup({ contactsGet, contactsInviteRequest })
+    describe('Follow an existed user', () => {
+      it('render rows', () => {
+        const contactsGet = {
+          status: 'success',
+          error: '',
+          items: [
+            {
+              contactId: '1',
+              fullName: 'fullName1',
+              user: { userId: '1', username: 'username1', photo: { url64p: 'url64p' }, followedStatus: 'FOLLOWING' },
+            },
+            {
+              contactId: '2',
+              fullName: 'fullName2',
+              user: { userId: '2', username: 'username2', photo: { url64p: '' }, followedStatus: 'NOT_FOLLOWING' },
+            },
+            {
+              contactId: '3',
+              fullName: 'fullName3',
+              user: { userId: '3', username: 'username3', photo: { url64p: '' }, followedStatus: 'NOT_FOLLOWING' },
+            },
+          ],
+        }
 
-      contactsInviteRequest.mockClear()
-      fireEvent.press(getByText('Invite'))
+        const contactsInvite = {
+          invited: { 1: true, 3: true },
+          requested: { 3: true },
+        }
+        const navigation = { push: jest.fn() }
 
-      expect(Alert.alert).not.toHaveBeenCalled()
-      expect(contactsInviteRequest).toHaveBeenCalledWith({
-        contact: {
-          type: 'email',
-          value: 'test@email.com',
-        },
-        user,
+        const { queryAllByTestId } = setup({ contactsGet, contactsInvite, navigation })
+
+        const $rows = queryAllByTestId(testIDs.row)
+        expect($rows).toHaveLength(3)
+
+        // Followed row
+        expect(within($rows[0]).getByText(contactsGet.items[0].fullName)).toBeTruthy()
+        expect(within($rows[0]).getByText(contactsGet.items[0].user.username)).toBeTruthy()
+        expect(within($rows[0]).getByText('Followed')).toBeTruthy()
+
+        // Follow
+        expect(within($rows[1]).getByText('Follow')).toBeTruthy()
+        const $fullName = within($rows[1]).getByText(contactsGet.items[1].fullName)
+        const $username = within($rows[1]).getByText(contactsGet.items[1].user.username)
+
+        expect($fullName).toBeTruthy()
+        expect($username).toBeTruthy()
+        fireEvent.press($username)
+        expect(navigation.push).toHaveBeenCalledWith('Profile', { userId: '2' })
+
+        // Invited
+        expect(within($rows[2]).getByText('Invited')).toBeTruthy()
       })
-    })
-
-    it('invited', () => {
-      const contactsGet = { status: 'success', error: '', items }
-      const { queryAllByTestId } = setup({ contactsGet, invited })
-      const $rows = queryAllByTestId(testIDs.row)
-
-      expect(within($rows[0]).getByText('Invited')).toBeTruthy()
-      expect(within($rows[1]).getByText('Invite')).toBeTruthy()
-      expect(within($rows[2]).getByText('Invited')).toBeTruthy()
-      expect(within($rows[3]).getByText('Invite')).toBeTruthy()
     })
   })
 })
