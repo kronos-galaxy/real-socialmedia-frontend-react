@@ -19,28 +19,29 @@ export const pageHeaderLeft = ({ onPress, testID = null, theme }) => {
 
   return (
     <TouchableOpacity testID={testID} style={styles.button} onPress={onPress}>
-      <BackIcon fill={theme.colors.primaryIcon} />
+      <BackIcon fill={path(['colors', 'primaryIcon'], theme)} />
     </TouchableOpacity>
   )
 }
 
 export const chatHeaderLeft = ({ navigation, theme }) => () => (
   <TouchableOpacity style={styles.button} onPress={navigationActions.navigateHome(navigation)}>
-    <BackIcon fill={theme.colors.primaryIcon} />
+    <BackIcon fill={path(['colors', 'primaryIcon'], theme)} />
   </TouchableOpacity>
 )
+
 
 const homeHeaderLeft = ({ theme, navigation, user }) => () => (
   <TouchableOpacity style={styles.button} onPress={navigationActions.navigateCamera(navigation, {}, { protected: true, user })}>
-    <CameraIcon fill={theme.colors.primaryIcon} />
+    <CameraIcon fill={path(['colors', 'primaryIcon'], theme)} />
   </TouchableOpacity>
 )
 
-const homeHeaderTitle = ({ theme }) => () => <LogoIcon height="28" fill={theme.colors.primaryIcon} />
+const homeHeaderTitle = ({ theme }) => () => <LogoIcon height="28" fill={path(['colors', 'primaryIcon'], theme)} />
 
 const homeHeaderRight = ({ theme, navigation, user }) => () => (
   <TouchableOpacity style={styles.chatButton} onPress={navigationActions.navigateChat(navigation, {}, { protected: true, user })}>
-    <DirectIcon fill={theme.colors.primaryIcon} user={user} />
+    <DirectIcon fill={path(['colors', 'primaryIcon'], theme)} user={user} />
   </TouchableOpacity>
 )
 

@@ -20,11 +20,12 @@ const About = ({
   flingPosition,
 }) => {
   const styling = styles(theme)
+  const age = user.dateOfBirth ? `, ${dayjs().diff(user.dateOfBirth, 'year')}` : null
 
   return (
     <Animated.View style={styling.root}>
       <View style={styling.title}>
-        <Text style={styling.name} numberOfLines={1} ellipsizeMode="tail">{user.fullName}, {dayjs().diff(user.dateOfBirth, 'year')}</Text>
+        <Text style={styling.name} numberOfLines={1} ellipsizeMode="tail">{user.fullName} {age}</Text>
           
         {flingPosition === 'DOWN' ?
           <InfoIcon fill={theme.colors.text} />

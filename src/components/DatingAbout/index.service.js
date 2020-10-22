@@ -23,6 +23,13 @@ const DatingAboutService = ({ children }) => {
     }
   }, [usersEditProfile.status])
 
+  const defaultDateValue = (date, placeholder) => {
+    if (!date || !date.isValid || !date.isValid()) {
+      return placeholder
+    }
+    return date
+  }
+
   /**
    * Form helpers
    */
@@ -42,9 +49,9 @@ const DatingAboutService = ({ children }) => {
   const formErrorMessage = usersEditProfile.error.text
 
   const formInitialValues = {
-    dateOfBirthYear: dateOfBirthParsed.format('YYYY') || '1990',
-    dateOfBirthMonth: dateOfBirthParsed.format('MM') || '01',
-    dateOfBirthDay: dateOfBirthParsed.format('DD') || '01',
+    dateOfBirthYear: defaultDateValue(dateOfBirthParsed.format('YYYY'), '2000'),
+    dateOfBirthMonth: defaultDateValue(dateOfBirthParsed.format('MM'), '01'),
+    dateOfBirthDay: defaultDateValue(dateOfBirthParsed.format('DD'), '01'),
     gender: user.gender,
     fullName: user.fullName,
     bio: user.bio,

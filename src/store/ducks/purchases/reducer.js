@@ -2,7 +2,7 @@ import { handleActions } from 'redux-actions'
 import update from 'immutability-helper'
 import * as constants from 'store/ducks/purchases/constants'
 
-const initialState = {
+export const initialState = {
   purchasesRequest: {
     status: 'idle',
     error: '',

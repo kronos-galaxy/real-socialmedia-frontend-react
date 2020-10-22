@@ -4,7 +4,6 @@ import * as subscriptionsActions from 'store/ducks/subscriptions/actions'
 import subscriptionPollStart from 'store/ducks/subscriptions/saga/poll'
 
 jest.useFakeTimers()
-jest.mock('react-native-offline', () => ({ checkInternetConnection: jest.fn() }))
 
 describe('subscriptionPollStart', () => {
   it('update trending page every 30 minutes', async () => {
