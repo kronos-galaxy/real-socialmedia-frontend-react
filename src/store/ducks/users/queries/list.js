@@ -60,6 +60,7 @@ export const listUserFragment = `
     signedUpAt
     blockedStatus
     blockerStatus
+    subscriptionLevel
 
     photo {
       ...userImageFragment
