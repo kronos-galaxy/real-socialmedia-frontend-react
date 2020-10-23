@@ -1,4 +1,4 @@
-import {useMemo} from 'react'
+import { useMemo } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import * as postsActions from 'store/ducks/posts/actions'
 import * as authSelector from 'store/ducks/auth/selectors'
@@ -14,9 +14,9 @@ const UploadingService = ({ children }) => {
   })
 
 
-  const {postsCreateRequest, postsCreateIdle} = useMemo(() => ({
+  const { postsCreateRequest, postsCreateIdle } = useMemo(() => ({
     postsCreateRequest: handlePostUpload,
-    postsCreateIdle: (payload) => dispatch(postsActions.postsCreateIdle(payload))
+    postsCreateIdle: (payload) => dispatch(postsActions.postsCreateIdle(payload)),
   }), [])
 
   return children({
