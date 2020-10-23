@@ -23,7 +23,6 @@ const getPreviewURI = path(['payload', 'preview', '0'])
 const UploadingItem = ({
   t,
   theme,
-  user,
   post,
   postsCreateRequest,
   postsCreateIdle,
@@ -35,29 +34,14 @@ const UploadingItem = ({
     return null
   }
 
-  const previewURI = getPreviewURI(post)
-
-  /**
-   * Immitating post object
-   */
-  const pseudoPost = {
-    image: {
-      url64p: previewURI,
-      url480p: previewURI,
-      url1080p: previewURI,
-    },
-    postedBy: user,
-    postedAt: Date.now(),
-  }
-
   return (
     <View style={styling.root}>
-      <Image style={styling.preview} accessibilityLabel="preview" resizeMode="cover" source={{ uri: previewURI }} />
+      <Image style={styling.preview} accessibilityLabel="preview" resizeMode="cover" source={{ uri: getPreviewURI(post) }} />
       {post.status === 'loading' ? (
         <View style={styling.status}>
           <TouchableOpacity
             style={styling.content}
-            onPress={navigationActions.navigateVerification(navigation, { actionType: 'BACK', post: pseudoPost })}
+            onPress={navigationActions.navigateVerification(navigation, { actionType: 'BACK' })}
           >
             <Text style={styling.title}>Uploading {post.meta.progress || 0}%</Text>
             <View style={styling.caption}>
@@ -156,7 +140,6 @@ const styles = theme => StyleSheet.create({
 UploadingItem.propTypes = {
   t: PropTypes.any,
   theme: PropTypes.any,
-  user: PropTypes.any,
   post: PropTypes.any,
   handleEditPress: PropTypes.any,
   postsArchiveRequest: PropTypes.any,

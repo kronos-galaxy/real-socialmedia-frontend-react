@@ -5,7 +5,6 @@ import testIDs from 'components/Uploading/test-ids'
 
 jest.mock('@react-navigation/native', () => ({ useNavigation: jest.fn() }))
 jest.mock('react-redux', () => ({ useDispatch: jest.fn() }))
-jest.mock('templates/Avatar', () => () => null)
 
 const setup = (props) => renderWithProviders(<UploadingItem {...props} />)
 
