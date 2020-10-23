@@ -13,10 +13,12 @@ const FeedCardsService = ({ children }) => {
 
   const { usersDeleteCardRequest, handleCardPress } = useMemo(
     () => ({
-      usersDeleteCardRequest: (payload) => dispatch(usersActions.usersDeleteCardRequest(payload)),
-      handleCardPress: ({ action, cardId }) => {
+      usersDeleteCardRequest: ({ cardId }) => {
         dispatch(usersActions.usersGetCardsOptimistic({ cardId }))
         dispatch(usersActions.usersDeleteCardRequest({ cardId }))
+      },
+      handleCardPress: ({ action, cardId }) => {
+        usersDeleteCardRequest({ cardId })
         LinkingService.deeplinkNavigation(navigation, navigationActions, Linking)(action)
       },
     }),
