@@ -1,9 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { StyleSheet, View, TouchableOpacity, Image } from 'react-native'
+import { StyleSheet, View, TouchableOpacity } from 'react-native'
 import { Text, Caption } from 'react-native-paper'
 import path from 'ramda/src/path'
-import equals from 'ramda/src/equals'
 import TickIcon from 'assets/svg/post/Tick'
 import CloseIcon from 'assets/svg/post/Close'
 import VerificationIcon from 'assets/svg/post/Verification'
@@ -13,20 +12,9 @@ import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
 import { withTranslation } from 'react-i18next'
 import testIDs from 'components/Uploading/test-ids'
+import UploadingItemPreview from 'components/Uploading/ItemPreview'
 
 const getPreviewURI = path(['payload', 'preview', '0'])
-
-const UploadingItemPreview = React.memo(
-  ({style, uri}) => (
-    <Image
-      style={style}
-      accessibilityLabel="preview"
-      resizeMode="cover"
-      source={{ uri }}
-    />
-  ),
-  equals,
-)
 
 const UploadingItem = ({ t, theme, post, postsCreateRequest, postsCreateIdle }) => {
   const styling = styles(theme)
