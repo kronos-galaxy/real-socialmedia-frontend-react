@@ -1,27 +1,26 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import equals from 'ramda/src/equals'
 import {
   StyleSheet,
   ScrollView,
   TouchableOpacity,
 } from 'react-native'
 import path from 'ramda/src/path'
+import { Caption, useTheme } from 'react-native-paper'
+import { useNavigation } from '@react-navigation/native'
 import Avatar from 'templates/Avatar'
-import { Caption } from 'react-native-paper'
 import * as navigationActions from 'navigation/actions'
 import * as UserService from 'services/User'
 
-import { withTheme } from 'react-native-paper'
-import { useNavigation } from '@react-navigation/native'
-
 const Stories = ({
-  theme,
   user,
   usersGetFollowedUsersWithStories,
 }) => {
-  const styling = styles(theme)
   const navigation = useNavigation()
-
+  const theme = useTheme()
+  const styling = styles(theme)
+  
   const handleUserStoryPress = (user) => 
     navigationActions.navigateStory(
       navigation,
@@ -91,9 +90,8 @@ const styles = theme => StyleSheet.create({
 })
 
 Stories.propTypes = {
-  theme: PropTypes.any,
   user: PropTypes.any,
   usersGetFollowedUsersWithStories: PropTypes.any,
 }
 
-export default withTheme(Stories)
+export default React.memo(Stories, equals)
