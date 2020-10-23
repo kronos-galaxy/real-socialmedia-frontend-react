@@ -19,8 +19,6 @@ const FeedCards = ({
   const styling = styles(theme)
   const cardsRef = useRef(null)
 
-  console.count('FeedCards')
-
   if (!cards.length) {
     return null
   }
@@ -65,9 +63,4 @@ const styles = theme => StyleSheet.create({
   },
 })
 
-const areEq = (p, n) => {
-  console.log({p, n, r: equals(p, n)})
-  return equals(p, n)
-}
-
-export default React.memo(FeedCards, areEq)
+export default React.memo(FeedCards, equals)

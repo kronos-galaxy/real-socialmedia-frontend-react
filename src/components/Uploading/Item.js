@@ -1,13 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {
-  StyleSheet,
-  View,
-  TouchableOpacity,
-  Image,
-} from 'react-native'
+import { StyleSheet, View, TouchableOpacity, Image } from 'react-native'
 import { Text, Caption } from 'react-native-paper'
 import path from 'ramda/src/path'
+import equals from 'ramda/src/equals'
 import TickIcon from 'assets/svg/post/Tick'
 import CloseIcon from 'assets/svg/post/Close'
 import VerificationIcon from 'assets/svg/post/Verification'
@@ -20,13 +16,19 @@ import testIDs from 'components/Uploading/test-ids'
 
 const getPreviewURI = path(['payload', 'preview', '0'])
 
-const UploadingItem = ({
-  t,
-  theme,
-  post,
-  postsCreateRequest,
-  postsCreateIdle,
-}) => {
+const UploadingItemPreview = React.memo(
+  ({style, uri}) => (
+    <Image
+      style={style}
+      accessibilityLabel="preview"
+      resizeMode="cover"
+      source={{ uri }}
+    />
+  ),
+  equals,
+)
+
+const UploadingItem = ({ t, theme, post, postsCreateRequest, postsCreateIdle }) => {
   const styling = styles(theme)
   const navigation = useNavigation()
 
@@ -36,7 +38,7 @@ const UploadingItem = ({
 
   return (
     <View style={styling.root}>
-      <Image style={styling.preview} accessibilityLabel="preview" resizeMode="cover" source={{ uri: getPreviewURI(post) }} />
+      <UploadingItemPreview style={styling.preview} uri={getPreviewURI(post)}  />
       {post.status === 'loading' ? (
         <View style={styling.status}>
           <TouchableOpacity

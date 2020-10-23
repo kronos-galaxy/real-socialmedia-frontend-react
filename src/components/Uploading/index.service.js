@@ -1,4 +1,3 @@
-import { useMemo } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import * as postsActions from 'store/ducks/posts/actions'
 import useUpload from 'services/providers/Upload'
@@ -11,10 +10,8 @@ const UploadingService = ({ children }) => {
     handlePostUploadStarted: () => {},
   })
 
-  const { postsCreateRequest, postsCreateIdle } = useMemo(() => ({
-    postsCreateRequest: handlePostUpload,
-    postsCreateIdle: (payload) => dispatch(postsActions.postsCreateIdle(payload)),
-  }), [])
+  const postsCreateRequest = handlePostUpload
+  const postsCreateIdle = (payload) => dispatch(postsActions.postsCreateIdle(payload))
 
   return children({
     postsCreateQueue,
