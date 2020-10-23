@@ -12,12 +12,13 @@ const FeedCardsService = ({ children }) => {
   const navigation = useNavigation()
   const usersGetCards = useSelector(state => state.users.usersGetCards)
 
-  const usersDeleteCardRequest = (payload) =>
-    dispatch(usersActions.usersDeleteCardRequest(payload))
-
-  const handleCardPress = ({ action, cardId }) => {
+  const usersDeleteCardRequest = ({ cardId }) => {
     dispatch(usersActions.usersGetCardsOptimistic({ cardId }))
     dispatch(usersActions.usersDeleteCardRequest({ cardId }))
+  }
+  
+  const handleCardPress = ({ action, cardId }) => {  
+    usersDeleteCardRequest({ cardId })
     LinkingService.deeplinkNavigation(navigation, navigationActions, Linking)(action)
   }
 
