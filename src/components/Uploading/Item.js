@@ -20,7 +20,7 @@ import testIDs from 'components/Feed/test-ids'
 
 const getPreviewURI = path(['payload', 'preview', '0'])
 
-const Uploading = ({
+const UploadingItem = ({
   t,
   theme,
   user,
@@ -153,7 +153,7 @@ const styles = theme => StyleSheet.create({
   },
 })
 
-Uploading.propTypes = {
+UploadingItem.propTypes = {
   t: PropTypes.any,
   theme: PropTypes.any,
   user: PropTypes.any,
@@ -165,4 +165,4 @@ Uploading.propTypes = {
   postsCreateIdle: PropTypes.func,
 }
 
-export default withTranslation()(withTheme(Uploading))
+export default withTranslation()(withTheme(UploadingItem))

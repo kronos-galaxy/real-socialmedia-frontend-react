@@ -12,14 +12,14 @@ import { withTheme } from 'react-native-paper'
 
 const FeedCards = ({
   theme,
-  filteredCardsData,
+  usersGetCards,
   handleCardPress,
   usersDeleteCardRequest,
 }) => {
   const styling = styles(theme)
   const cardsRef = useRef(null)
 
-  if (!filteredCardsData.length) {
+  if (!usersGetCards.data.length) {
     return null
   }
 
@@ -27,7 +27,7 @@ const FeedCards = ({
     <View style={styling.root}>
       <Carousel
         ref={cardsRef}
-        data={filteredCardsData}
+        data={usersGetCards.data}
         renderItem={Card({
           borderColor: theme.colors.border,
           backgroundColor: theme.colors.backgroundSecondary,
@@ -48,7 +48,7 @@ const FeedCards = ({
 
 FeedCards.propTypes = {
   theme: PropTypes.any,
-  filteredCardsData: PropTypes.any,
+  usersGetCards: PropTypes.any,
   handleCardPress: PropTypes.any,
   usersDeleteCardRequest: PropTypes.any,
 }
