@@ -16,7 +16,7 @@ import * as navigationActions from 'navigation/actions'
 import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
 import { withTranslation } from 'react-i18next'
-import testIDs from 'components/Feed/test-ids'
+import testIDs from 'components/Uploading/test-ids'
 
 const getPreviewURI = path(['payload', 'preview', '0'])
 
@@ -69,7 +69,7 @@ const UploadingItem = ({
           </TouchableOpacity>
           {post.meta.progress !== 99 ? (
             <TouchableOpacity
-              testID={testIDs.uploading.cancelBtn}
+              testID={testIDs.cancelBtn}
               style={styling.icon}
               onPress={() => postsCreateIdle(post)}
             >
@@ -86,7 +86,7 @@ const UploadingItem = ({
             <Caption style={styling.subtitle}>{t('Tap here to reupload')}</Caption>
           </TouchableOpacity>
           <TouchableOpacity
-            testID={testIDs.uploading.cancelBtn}
+            testID={testIDs.cancelBtn}
             style={styling.icon}
             onPress={() => postsCreateIdle(post)}
           >
@@ -102,7 +102,7 @@ const UploadingItem = ({
             <Caption style={styling.subtitle}>{t('Successfully created')}</Caption>
           </TouchableOpacity>
           <TouchableOpacity
-            testID={testIDs.uploading.cancelBtn}
+            testID={testIDs.cancelBtn}
             style={styling.icon}
             onPress={() => postsCreateIdle(post)}
           >

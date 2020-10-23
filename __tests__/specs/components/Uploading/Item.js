@@ -1,13 +1,13 @@
 import React from 'react'
 import { renderWithProviders, fireEvent } from 'tests/utils'
-import UploadingComponent from 'components/Feed/Uploading'
-import testIDs from 'components/Feed/test-ids'
+import UploadingItem from 'components/Uploading/Item'
+import testIDs from 'components/Uploading/test-ids'
 
 jest.mock('@react-navigation/native', () => ({ useNavigation: jest.fn() }))
 jest.mock('react-redux', () => ({ useDispatch: jest.fn() }))
 jest.mock('templates/Avatar', () => () => null)
 
-const setup = (props) => renderWithProviders(<UploadingComponent {...props} />)
+const setup = (props) => renderWithProviders(<UploadingItem {...props} />)
 
 describe('Feed Uploading', () => {
   describe('Loading state', () => {
@@ -34,7 +34,7 @@ describe('Feed Uploading', () => {
         const postsCreateIdle = jest.fn()
         const post = { status: 'loading', meta: { progress } }
         const { queryByTestId } = setup({ post, postsCreateIdle })
-        const $cancelBtn = queryByTestId(testIDs.uploading.cancelBtn)
+        const $cancelBtn = queryByTestId(testIDs.cancelBtn)
 
         expect($cancelBtn).toBeTruthy()
         fireEvent.press($cancelBtn)
@@ -46,7 +46,7 @@ describe('Feed Uploading', () => {
     it('hide cancel button when uploading done', () => {
       const { queryByTestId } = setup({ post: { status: 'loading', meta: { progress: 99 } } })
 
-      expect(queryByTestId(testIDs.uploading.cancelBtn)).toBeFalsy()
+      expect(queryByTestId(testIDs.cancelBtn)).toBeFalsy()
     })
   })
 })
