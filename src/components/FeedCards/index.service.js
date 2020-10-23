@@ -1,3 +1,4 @@
+import path from 'ramda/src/path'
 import { useMemo } from 'react'
 import { Linking } from 'react-native'
 import { useSelector, useDispatch } from 'react-redux'
@@ -9,7 +10,7 @@ import * as LinkingService from 'services/Linking'
 const FeedCardsService = ({ children }) => {
   const dispatch = useDispatch()
   const navigation = useNavigation()
-  const usersGetCards = useSelector((state) => state.users.usersGetCards)
+  const cards = useSelector(path(['users', 'usersGetCards', 'data']))
 
   const { usersDeleteCardRequest, handleCardPress } = useMemo(
     () => ({
@@ -26,7 +27,7 @@ const FeedCardsService = ({ children }) => {
   )
 
   return children({
-    usersGetCards,
+    cards,
     handleCardPress,
     usersDeleteCardRequest,
   })

@@ -4,22 +4,24 @@ import {
   View,
   StyleSheet,
 } from 'react-native'
+import equals from 'ramda/src/equals'
 import Card from 'components/FeedCards/Card'
 import Layout from 'constants/Layout'
 import Carousel from 'react-native-snap-carousel'
-
-import { withTheme } from 'react-native-paper'
+import { useTheme } from 'react-native-paper'
 
 const FeedCards = ({
-  theme,
-  usersGetCards,
+  cards,
   handleCardPress,
   usersDeleteCardRequest,
 }) => {
+  const theme = useTheme()
   const styling = styles(theme)
   const cardsRef = useRef(null)
 
-  if (!usersGetCards.data.length) {
+  console.count('FeedCards')
+
+  if (!cards.length) {
     return null
   }
 
@@ -27,7 +29,7 @@ const FeedCards = ({
     <View style={styling.root}>
       <Carousel
         ref={cardsRef}
-        data={usersGetCards.data}
+        data={cards}
         renderItem={Card({
           borderColor: theme.colors.border,
           backgroundColor: theme.colors.backgroundSecondary,
@@ -47,8 +49,7 @@ const FeedCards = ({
 }
 
 FeedCards.propTypes = {
-  theme: PropTypes.any,
-  usersGetCards: PropTypes.any,
+  cards: PropTypes.any,
   handleCardPress: PropTypes.any,
   usersDeleteCardRequest: PropTypes.any,
 }
@@ -64,4 +65,9 @@ const styles = theme => StyleSheet.create({
   },
 })
 
-export default withTheme(FeedCards)
+const areEq = (p, n) => {
+  console.log({p, n, r: equals(p, n)})
+  return equals(p, n)
+}
+
+export default React.memo(FeedCards, areEq)
