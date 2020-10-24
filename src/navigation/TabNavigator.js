@@ -2,7 +2,6 @@
 import React, { useContext } from 'react'
 import { TouchableOpacity } from 'react-native'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
-import { withTheme } from 'react-native-paper'
 
 import { ThemeContext } from 'services/providers/Theme'
 import { AuthContext } from 'services/providers/Auth'
@@ -20,6 +19,8 @@ import CreateIcon from 'assets/svg/footer/Create'
 import DatingIcon from 'assets/svg/footer/Dating'
 import UserIcon from 'assets/svg/footer/User'
 import testIDs from './test-ids'
+
+const Tab = createBottomTabNavigator()
 
 const TabNavigator = ({ navigation, route }) => {
   const { theme, themes } = useContext(ThemeContext)
@@ -73,8 +74,6 @@ const TabNavigator = ({ navigation, route }) => {
     },
   }
 
-  const Tab = createBottomTabNavigator()
-
   const PostType = () => null
 
   return (
@@ -108,4 +107,4 @@ const TabNavigator = ({ navigation, route }) => {
   )
 }
 
-export default withTheme(TabNavigator)
+export default TabNavigator

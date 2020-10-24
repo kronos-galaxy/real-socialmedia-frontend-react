@@ -6,9 +6,10 @@ import * as navigationOptions from 'navigation/options'
 import AuthForgotPhoneScreen from 'screens/AuthForgotPhoneScreen'
 import AuthForgotEmailScreen from 'screens/AuthForgotEmailScreen'
 
+const Tab = createMaterialTopTabNavigator()
+
 const ForgotNavigator = () => {
   const { theme, themes } = useContext(ThemeContext)
-  const Tab = createMaterialTopTabNavigator()
   const tabNavigatorAuthProps = navigationOptions.tabNavigatorAuthProps({ theme, themes })
 
   return (

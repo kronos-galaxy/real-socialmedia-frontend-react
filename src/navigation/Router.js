@@ -8,8 +8,9 @@ import NetworkComponent from 'components/Network'
 import PinchZoomComponent from 'components/Feed/PinchZoom'
 import FeedContextComponent from 'components/Feed/Context'
 
-const Router = () => {
-  const Stack = createStackNavigator()
+const Stack = createStackNavigator()
+
+const Router = () => {  
   const [draggedImage, setDraggedImage] = useState({})
 
   return (
@@ -35,9 +36,6 @@ const Router = () => {
       </Stack.Navigator>
     </FeedContextComponent.Provider>
   )
-}
-
-Router.propTypes = {
 }
 
 export default Router

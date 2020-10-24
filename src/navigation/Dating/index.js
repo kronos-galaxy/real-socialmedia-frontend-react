@@ -13,8 +13,9 @@ import DatingMatchScreen from 'screens/DatingMatchScreen'
 import DatingPreviewScreen from 'screens/DatingPreviewScreen'
 import DatingProfileScreen from 'screens/DatingProfileScreen'
 
+const Stack = createStackNavigator()
+
 const DatingNavigator = () => {
-  const Stack = createStackNavigator()
   const { theme, themes } = useContext(ThemeContext)
   const { user } = useContext(AuthContext)
   const stackNavigatorDefaultProps = navigationOptions.stackNavigatorDefaultProps({ theme, themes })

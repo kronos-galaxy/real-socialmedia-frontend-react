@@ -1,8 +1,7 @@
-import React from 'react'
-import PropTypes from 'prop-types'
+import React, { useContext } from 'react'
 import { createStackNavigator } from '@react-navigation/stack'
-import { withTheme } from 'react-native-paper'
 
+import { ThemeContext } from 'services/providers/Theme'
 import * as navigationOptions from 'navigation/options'
 import SignupNavigator from 'navigation/Auth/Signup'
 import SigninNavigator from 'navigation/Auth/Signin'
@@ -18,9 +17,10 @@ import CameraScreen from 'screens/CameraScreen'
 import AuthForgotConfirmScreen from 'screens/AuthForgotConfirmScreen'
 import AuthCognitoScreen from 'screens/AuthCognitoScreen'
 
-const AuthNavigator = ({ theme }) => {
-  const Stack = createStackNavigator()
+const Stack = createStackNavigator()
 
+const AuthNavigator = () => {
+  const { theme } = useContext(ThemeContext)
   const stackScreenOnboardProps = navigationOptions.stackScreenOnboardProps({ theme })
   const stackScreenBlankProps = navigationOptions.stackScreenBlankProps({ theme })
   const stackNavigatorDefaultProps = navigationOptions.stackNavigatorDefaultProps({ theme })
@@ -105,8 +105,4 @@ const AuthNavigator = ({ theme }) => {
   )
 }
 
-AuthNavigator.propTypes = {
-  theme: PropTypes.any,
-}
-
-export default withTheme(AuthNavigator)
+export default AuthNavigator
