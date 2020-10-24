@@ -52,7 +52,7 @@ const AuthSigninEmail = ({
         </View>
       </View>
 
-      <AuthActionTemplate testID={testIDs.resetPasswordBtn} onPress={navigationActions.navigateAuthForgotEmail(navigation)}>
+      <AuthActionTemplate testID={testIDs.resetPasswordBtn} onPress={() => navigationActions.navigateAuthForgotEmail(navigation, { initialRouteName: 'AuthForgotEmail' })}>
         {t('Reset your Password')}
       </AuthActionTemplate>
     </View>

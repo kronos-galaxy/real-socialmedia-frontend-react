@@ -8,11 +8,12 @@ import useCamera from 'services/providers/Camera'
 import { useNavigation } from '@react-navigation/native'
 import * as authSelector from 'store/ducks/auth/selectors'
 import { AuthProvider } from 'services/providers/Auth'
+import { testNavigate } from 'tests/utils/helpers'
 
 jest.spyOn(authSelector, 'authUserSelector').mockReturnValue({ userStatus: 'ACTIVE' })
 
 jest.mock('components/ProfilePhotoUpload/Photo', () => jest.fn().mockReturnValue(null))
-jest.mock('react-redux', () => ({ useDispatch: jest.fn(), useSelector: cb => cb() }))
+jest.mock('react-redux', () => ({ useDispatch: jest.fn(), useSelector: (cb) => cb() }))
 jest.mock('@react-navigation/native', () => ({ useNavigation: jest.fn() }))
 jest.mock('services/providers/Camera', () => jest.fn())
 jest.mock('components/Settings/helpers', () => ({ confirm: jest.fn() }))
@@ -67,9 +68,8 @@ describe('Profile Photo screen', () => {
     expect(confirm).toHaveBeenCalled()
 
     confirm.mock.calls[0][0].onConfirm()
-    expect(navigation.navigate).toHaveBeenCalledWith('ProfileUpgrade')
+    testNavigate(navigation, 'App.Root.ProfileUpgrade')
   })
-
 
   it('Choose From Gallery', () => {
     const payload = [{ preview: 'preview' }]
@@ -78,7 +78,7 @@ describe('Profile Photo screen', () => {
     expect(useCamera).toHaveBeenCalled()
     useCamera.mock.calls[0][0].handleProcessedPhoto(payload)
     expect(dispatch).toHaveBeenCalledWith(cameraActions.cameraCaptureRequest(payload))
-    expect(navigation.navigate).toHaveBeenCalledWith('ProfilePhotoUpload', {
+    testNavigate(navigation, 'App.Root.Home.Profile.ProfilePhotoUpload', {
       type: 'IMAGE',
       photos: [payload[0].preview],
     })

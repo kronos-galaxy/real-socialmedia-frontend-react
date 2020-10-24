@@ -7,9 +7,10 @@ import AuthPhoneScreen from 'screens/AuthPhoneScreen'
 import AuthEmailScreen from 'screens/AuthEmailScreen'
 import testIDs from '../test-ids'
 
+const Tab = createMaterialTopTabNavigator()
+
 const SignupNavigator = () => {
   const { theme, themes } = useContext(ThemeContext)
-  const Tab = createMaterialTopTabNavigator()
   const tabNavigatorAuthProps = navigationOptions.tabNavigatorAuthProps({ theme, themes })
 
   return (

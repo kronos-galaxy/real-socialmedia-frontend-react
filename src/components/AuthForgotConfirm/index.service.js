@@ -32,7 +32,7 @@ const AuthForgotConfirmComponentService = ({ children }) => {
    */
   const handleGoBack = useCallback(() => {
     dispatch(signupActions.authForgotConfirmIdle({}))
-    navigationActions.navigateAuthForgotPhone(navigation)()
+    navigationActions.navigateAuthForgotPhone(navigation)
   }, [])
 
   useEffect(() => {
@@ -51,7 +51,7 @@ const AuthForgotConfirmComponentService = ({ children }) => {
       authForgotConfirm.status !== 'success'
     ) return
 
-    navigationActions.navigateAuthSigninEmail(navigation)()
+    navigationActions.navigateAuthSigninEmail(navigation)
     dispatch(authActions.authForgotConfirmIdle({}))
   }, [
     authForgotConfirm.status === 'success',

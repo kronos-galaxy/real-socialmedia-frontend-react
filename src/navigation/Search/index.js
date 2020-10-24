@@ -1,6 +1,5 @@
 import React, { useContext } from 'react'
 import { createStackNavigator } from '@react-navigation/stack'
-import { withTheme } from 'react-native-paper'
 
 import { AuthContext } from 'services/providers/Auth'
 import { ThemeContext } from 'services/providers/Theme'
@@ -9,8 +8,9 @@ import * as navigationFragments from 'navigation/fragments'
 
 import SearchScreen from 'screens/SearchScreen'
 
+const Stack = createStackNavigator()
+
 const SearchNavigator = () => {
-  const Stack = createStackNavigator()
   const { theme, themes } = useContext(ThemeContext)
   const { user } = useContext(AuthContext)
   const stackNavigatorDefaultProps = navigationOptions.stackNavigatorDefaultProps({ theme, themes })
@@ -33,4 +33,4 @@ const SearchNavigator = () => {
   )
 }
 
-export default withTheme(SearchNavigator)
+export default SearchNavigator

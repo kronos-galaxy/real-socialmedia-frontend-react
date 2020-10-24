@@ -30,7 +30,7 @@ const AuthPhoneComponentService = ({ children }) => {
     dispatch(signupActions.signupEmailIdle({}))
     dispatch(signupActions.signupPhoneIdle({}))
     dispatch(signupActions.signupCreateIdle({}))
-    navigationActions.navigateAuthPassword(navigation)()
+    navigationActions.navigateAuthPassword(navigation)
   }, [])
 
   useEffect(() => {
@@ -78,7 +78,7 @@ const AuthPhoneComponentService = ({ children }) => {
       signupPhone.payload.phone === signupCognitoIdentity.cognitoUsername &&
       signupPassword.payload.password === signupCognitoIdentity.password
     ) {
-      navigationActions.navigateAuthPhoneConfirm(navigation)()
+      navigationActions.navigateAuthPhoneConfirm(navigation)
       return
     }
   }, [
@@ -101,7 +101,7 @@ const AuthPhoneComponentService = ({ children }) => {
     ) return
 
     logEvent('SIGNUP_CREATE_SUCCESS')
-    navigationActions.navigateAuthPhoneConfirm(navigation)()
+    navigationActions.navigateAuthPhoneConfirm(navigation)
   }, [
     signupCreate.status,
   ])
