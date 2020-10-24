@@ -252,7 +252,7 @@ describe('Post Header component', () => {
       expect($verificationStatus).toBeTruthy()
 
       fireEvent.press($verificationStatus)
-      expect(navigation.navigate).toHaveBeenCalledWith('Verification', { actionType: 'BACK', post })
+      expect(navigation.navigate).toHaveBeenCalledWith('Verification', { actionType: 'BACK' })
     })
   })
 })

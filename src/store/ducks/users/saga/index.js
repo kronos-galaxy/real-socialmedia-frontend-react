@@ -10,6 +10,9 @@ import * as errors from 'store/ducks/users/errors'
 import * as entitiesActions from 'store/ducks/entities/actions'
 import * as normalizer from 'normalizer/schemas'
 import usersCheckPermissions from 'store/ducks/users/saga/usersCheckPermissions'
+import * as LinkingService from 'services/Linking'
+import * as Logger from 'services/Logger'
+
 /**
  *
  */
@@ -676,6 +679,20 @@ function* usersGetTrendingUsersRequest(req) {
   }
 }
 
+const isCardSupported = (card) => {
+  try {
+    return LinkingService.deeplinkPath(card.action)
+  } catch (error) {
+    Logger.withScope((scope) => {
+      scope.setExtra('action', card.action)
+      scope.setExtra('code', error.code)
+      scope.setExtra('message', error.message)
+      Logger.captureMessage('FEED_CARDS_UNSUPPORTED_CARD')
+    })
+    return false
+  }
+}
+
 /**
  *
  */
@@ -687,7 +704,11 @@ function* usersGetCardsRequest(req) {
     const selector = path(['data', 'self', 'cards', 'items'])
     const metaSelector = compose(omit(['items']), path(['data', 'self', 'cards']))
 
-    yield put(actions.usersGetCardsSuccess({ payload: req.payload, data: selector(data), meta: metaSelector(data) }))
+    yield put(actions.usersGetCardsSuccess({ 
+      payload: req.payload, 
+      data: selector(data).filter(isCardSupported), 
+      meta: metaSelector(data),
+    }))
   } catch (error) {
     yield put(actions.usersGetCardsFailure({ payload: req.payload, message: errorWrapper(error) }))
   }
