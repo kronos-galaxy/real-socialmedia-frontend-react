@@ -30,7 +30,7 @@ const AuthEmailComponentService = ({ children }) => {
     dispatch(signupActions.signupEmailIdle({}))
     dispatch(signupActions.signupPhoneIdle({}))
     dispatch(signupActions.signupCreateIdle({}))
-    navigationActions.navigateAuthUsername(navigation)()
+    navigationActions.navigateAuthPassword(navigation)
   }, [])
 
   useEffect(() => {
@@ -82,7 +82,7 @@ const AuthEmailComponentService = ({ children }) => {
       signupEmail.payload.email === signupCognitoIdentity.cognitoUsername &&
       signupPassword.payload.password === signupCognitoIdentity.password
     ) {
-      navigationActions.navigateAuthEmailConfirm(navigation)()
+      navigationActions.navigateAuthEmailConfirm(navigation)
       return
     }
   }, [
@@ -105,7 +105,7 @@ const AuthEmailComponentService = ({ children }) => {
     ) return
 
     logEvent('SIGNUP_CREATE_SUCCESS')
-    navigationActions.navigateAuthEmailConfirm(navigation)()
+    navigationActions.navigateAuthEmailConfirm(navigation)
   }, [
     signupCreate.status,
   ])

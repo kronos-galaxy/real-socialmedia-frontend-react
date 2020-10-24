@@ -1,4 +1,5 @@
 import { all, call } from 'redux-saga/effects'
+import { createPath } from 'navigation/helpers'
 
 export const applyActions = (actions, reducer) => {
   let state
@@ -34,3 +35,9 @@ export function sagaWithError(saga, ...sagaArgs) {
       }
     },
   }
+}
+
+export const testNavigate = (navigation, pathString, params) => {
+  const path = createPath(pathString.split('.'), params)
+  expect(navigation.navigate).toHaveBeenCalledWith(path.screen, path.params)
+}

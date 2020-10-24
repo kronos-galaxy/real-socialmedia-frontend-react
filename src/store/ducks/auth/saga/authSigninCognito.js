@@ -62,7 +62,7 @@ function* authSigninCognitoRequest(req) {
 
 function* authSigninCognitoSuccess() {
   const ReactNavigationRef = yield getContext('ReactNavigationRef')
-  navigationActions.navigateApp(ReactNavigationRef.current)()
+  navigationActions.navigateApp(ReactNavigationRef.current)
 }
 
 export default () => [

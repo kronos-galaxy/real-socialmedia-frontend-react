@@ -83,7 +83,7 @@ function* authFlowSuccess() {
   yield put(actions.authPrefetchRequest())
 
   setTimeout(() => {
-    navigationActions.navigateSearch(ReactNavigationRef.current)()
+    navigationActions.navigateSearch(ReactNavigationRef.current)
   }, 0)
 }
 

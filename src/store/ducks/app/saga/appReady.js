@@ -85,9 +85,9 @@ function* appReadySuccess() {
   const hasCachedAuthentication = yield call(getCachedAuthentication)
 
   if (hasCachedAuthentication) {
-    navigationActions.navigateApp(ReactNavigationRef.current)()
+    navigationActions.navigateApp(ReactNavigationRef.current)
   } else {
-    navigationActions.navigateAuthHome(ReactNavigationRef.current)()
+    navigationActions.navigateAuthHome(ReactNavigationRef.current)
   }
 }
 

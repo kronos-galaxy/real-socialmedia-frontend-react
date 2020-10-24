@@ -28,7 +28,7 @@ const AuthForgotComponentService = ({ children }) => {
    */
   const handleGoBack = useCallback(() => {
     dispatch(authActions.authForgotIdle({}))
-    navigationActions.navigateAuthHome(navigation)()
+    navigationActions.navigateAuthHome(navigation)
   }, [])
 
   useEffect(() => {
@@ -47,7 +47,7 @@ const AuthForgotComponentService = ({ children }) => {
       authForgot.status !== 'success'
     ) return
 
-    navigationActions.navigateAuthForgotConfirm(navigation)()
+    navigationActions.navigateAuthForgotConfirm(navigation)
   }, [
     authForgot.status === 'success',
   ])
