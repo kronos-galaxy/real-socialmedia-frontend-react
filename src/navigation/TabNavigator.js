@@ -63,7 +63,7 @@ const TabNavigator = ({ navigation, route }) => {
   }
 
   const ProfileTabIconComponent = ({ color }) => <UserIcon fill={color} />
-  const ProfileTabButtonComponent = (props) => <TouchableOpacity {...props} onPress={() => navigationActions.navigateProfileSelf(navigation, {}, { protected: true, user })} />
+  const ProfileTabButtonComponent = (props) => <TouchableOpacity {...props} onPress={navigationActions.navigateProfileSelf(navigation, {}, { protected: true, user })} />
   const profileTabScreenPropsCard = {
     options: {
       tabBarIcon: ProfileTabIconComponent,

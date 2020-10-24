@@ -95,7 +95,7 @@ export const navigateStory = withAuthValidation(pushToPath('Story'))
 export const navigateChat = withAuthValidation(navigateToPath('App.Chat'))
 export const navigateChatDirect = withAuthValidation(navigateToPath('App.Chat.ChatDirect'))
 export const navigateChatOptions = withAuthValidation(navigateToPath('App.Chat.ChatOptions'))
-
+ 
 /**
  * Dating
  */

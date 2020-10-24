@@ -28,7 +28,7 @@ const DatingSettings = ({
       </View>
       <View style={styling.placeholder}>
         {isAvatarEmpty(user) ?
-          <DefaultButton label={t('Upload Profile Photo')} onPress={() => navigationActions.navigateSettings(navigation)} loading={false} mode="outline" /> :
+          <DefaultButton label={t('Upload Profile Photo')} onPress={navigationActions.navigateSettings(navigation)} loading={false} mode="outline" /> :
           <DefaultButton label={t('Your Dating Preferences')} onPress={navigationActions.navigateDatingAbout(navigation)} loading={false} mode="outline" />
         }
       </View>
