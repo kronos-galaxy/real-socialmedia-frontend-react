@@ -25,7 +25,7 @@ const ProfilePhotoGridService = ({ children }) => {
 
   useEffect(() => {
     if (usersEditProfile.status === 'success') {
-      navigationActions.navigateProfileSelf(navigation)()
+      navigationActions.navigateProfileSelf(navigation)
       dispatch(usersActions.usersEditProfileIdle({}))
     }
   }, [usersEditProfile.status])

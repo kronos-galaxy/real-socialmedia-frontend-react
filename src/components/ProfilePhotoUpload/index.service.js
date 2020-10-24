@@ -99,7 +99,7 @@ const ProfilePhotoUploadComponentService = ({ children }) => {
 
   const handleClose = () => {
     clearProfilePhotoUpload()
-    navigationActions.navigateSettings(navigation)()
+    navigationActions.navigateSettings(navigation)
   }
 
   return children({

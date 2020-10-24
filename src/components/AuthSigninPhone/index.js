@@ -53,7 +53,7 @@ const AuthSigninPhone = ({
         </View>
       </View>
 
-      <AuthActionTemplate onPress={navigationActions.navigateForgot(navigation)}>
+      <AuthActionTemplate onPress={() => navigationActions.navigateForgot(navigation)}>
         {t('Reset your Password')}
       </AuthActionTemplate>
     </View>

@@ -10,6 +10,7 @@ import AsyncStorage from '@react-native-community/async-storage'
 import testIDs from 'components/PostType/test-ids'
 import * as authSelector from 'store/ducks/auth/selectors'
 import { AuthProvider } from 'services/providers/Auth'
+import { testNavigate } from 'tests/utils/helpers'
 
 jest.spyOn(authSelector, 'authUserSelector').mockReturnValue({ userStatus: 'ACTIVE' })
 
@@ -54,7 +55,7 @@ describe('PostType screen', () => {
     const { getByText } = setup()
 
     fireEvent.press(getByText('Photo'))
-    expect(navigation.navigate).toHaveBeenCalledWith('ProfileUpgrade')
+    testNavigate(navigation, 'App.Root.ProfileUpgrade')
   })
 
   it('redirect to text post create form on Text button tab', () => {
@@ -66,7 +67,7 @@ describe('PostType screen', () => {
 
     fireEvent.press(getByText('Text'))
     expect(navigation.popToTop).toHaveBeenCalled()
-    expect(navigation.navigate).toHaveBeenCalledWith('Root', { params: { type: 'TEXT_ONLY' }, screen: 'PostCreate' })
+    testNavigate(navigation, 'Root.PostCreate', { type: 'TEXT_ONLY' })
   })
 
   it('redirect to verification screen only first time when user create a post from gallery', async () => {
@@ -153,10 +154,6 @@ describe('PostType screen', () => {
 
     handleProcessedPhoto(payload)
     expect(dispatch).toHaveBeenCalledWith(cameraActions.cameraCaptureRequest(payload))
-
-    expect(navigation.navigate).toHaveBeenCalledWith('Root', {
-      params: { photos: ['preview'], type: 'IMAGE' },
-      screen: 'PostCreate',
-    })
+    testNavigate(navigation, 'Root.PostCreate', { photos: ['preview'], type: 'IMAGE' })
   })
 })

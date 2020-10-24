@@ -21,14 +21,14 @@ const DatingSettings = ({
   const styling = styles(theme)
   const navigation = useNavigation()
 
-  return (
+  return ( 
     <View style={styling.root}>
       <View style={styling.placeholder}>
         <Text style={styling.text}>{t('Start dating by introducing yourself and setting your dating preferences')}</Text>
       </View>
       <View style={styling.placeholder}>
         {isAvatarEmpty(user) ?
-          <DefaultButton label={t('Upload Profile Photo')} onPress={navigationActions.navigateSettings(navigation)} loading={false} mode="outline" /> :
+          <DefaultButton label={t('Upload Profile Photo')} onPress={() => navigationActions.navigateSettings(navigation)} loading={false} mode="outline" /> :
           <DefaultButton label={t('Your Dating Preferences')} onPress={navigationActions.navigateDatingAbout(navigation)} loading={false} mode="outline" />
         }
       </View>

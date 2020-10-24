@@ -20,7 +20,7 @@ const AuthPasswordComponentService = ({ children }) => {
    */
   const handleGoBack = useCallback(() => {
     dispatch(signupActions.signupPasswordIdle({}))
-    navigationActions.navigateAuthUsername(navigation)()
+    navigationActions.navigateAuthUsername(navigation)
   }, [])
 
   useEffect(() => {
@@ -47,7 +47,7 @@ const AuthPasswordComponentService = ({ children }) => {
     ) return
 
     logEvent('SIGNUP_PASSWORD_SUCCESS')
-    navigationActions.navigateSignup(navigation)()
+    navigationActions.navigateSignup(navigation)
   }, [
     signupPassword.status,
     signupPassword.payload.password,

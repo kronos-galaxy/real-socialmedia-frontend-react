@@ -85,19 +85,19 @@ export const deeplinkNavigation = (navigation, navigationActions, Linking) => (a
       /**
        * Profile Photo Upload
        */
-      return navigationActions.navigateProfilePhoto(navigation, params)()
+      return navigationActions.navigateProfilePhoto(navigation, params)
     } else if (params && params.action === 'inviteFriends') {
 
       /**
        * Invite Friends
        */
-      return navigationActions.navigateInviteFriends(navigation, params)()
+      return navigationActions.navigateInviteFriends(navigation, params)
     } else if (params && params.action === 'signup') {
 
       /**
        * Sign up
        */
-      return navigationActions.navigateAuthUsername(navigation, params)()
+      return navigationActions.navigateAuthUsername(navigation, params)
     }
   } catch (error) {
     if (error.code === 'MISSING_DEEP_LINK_PARAMS_ERROR') {

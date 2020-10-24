@@ -9,7 +9,7 @@ import * as navigationFragments from 'navigation/fragments'
 
 import FeedScreen from 'screens/FeedScreen'
 
-const AppNavigator = () => {
+const FeedNavigator = () => {
   const { theme, themes } = useContext(ThemeContext)
   const { user } = useContext(AuthContext)
   const Stack = createStackNavigator()
@@ -33,4 +33,4 @@ const AppNavigator = () => {
   )
 }
 
-export default withTheme(AppNavigator)
+export default withTheme(FeedNavigator)
