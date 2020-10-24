@@ -1,6 +1,5 @@
 import React, { useContext } from 'react'
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs'
-import { withTheme } from 'react-native-paper'
 import { AuthContext } from 'services/providers/Auth'
 import * as navigationOptions from 'navigation/options'
 import CameraScreen from 'screens/CameraScreen'
@@ -30,4 +29,4 @@ const AppNavigator = () => {
   )
 }
 
-export default withTheme(AppNavigator)
+export default AppNavigator
