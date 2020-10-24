@@ -15,17 +15,9 @@ describe('Auth flow', () => {
       .dispatch(actions.authFlowSuccess())
       .silentRun()
 
-    expect(navigation.current.navigate).toHaveBeenCalledWith('App', {
-      screen: 'Root',
-      params: {
-        screen: 'Home',
-        params: {
-          screen: 'Search',
-          params: {
-            screen: 'Search',
-          },
-        },
-      },
+    expect(navigation.current.navigate).toHaveBeenCalledWith('Root', {
+      params: { params: undefined, screen: 'Search' },
+      screen: 'Home',
     })
   })
 })
