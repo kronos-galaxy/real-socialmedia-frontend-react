@@ -10,8 +10,9 @@ import CommentsScreen from 'screens/CommentsScreen'
 import VerificationScreen from 'screens/VerificationScreen'
 import ProfileUpgradeScreen from 'screens/ProfileUpgradeScreen'
 
+const Stack = createStackNavigator()
+
 const RootNavigator = () => {
-  const Stack = createStackNavigator()
   const { theme, themes } = useContext(ThemeContext)
   const stackNavigatorDefaultProps = navigationOptions.stackNavigatorDefaultProps({ theme, themes })
   const stackScreenBlankProps = navigationOptions.stackScreenBlankProps({ theme, themes })

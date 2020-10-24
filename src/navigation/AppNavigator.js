@@ -6,8 +6,9 @@ import CameraScreen from 'screens/CameraScreen'
 import RootNavigator from 'navigation/RootNavigator'
 import ChatNavigator from 'navigation/ChatNavigator'
 
+const Tab = createMaterialTopTabNavigator()
+
 const AppNavigator = () => {
-  const Tab = createMaterialTopTabNavigator()
   const { isUserActive } = useContext(AuthContext)
   const tabNavigatorDefaultProps = navigationOptions.tabNavigatorDefaultProps({ isUserActive })
 

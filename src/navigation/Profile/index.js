@@ -1,6 +1,5 @@
 import React, { useContext } from 'react'
 import { createStackNavigator } from '@react-navigation/stack'
-import { withTheme } from 'react-native-paper'
 
 import { ThemeContext } from 'services/providers/Theme'
 import * as navigationOptions from 'navigation/options'
@@ -23,9 +22,10 @@ import DatingAboutScreen from 'screens/DatingAboutScreen'
 import DatingMatchScreen from 'screens/DatingMatchScreen'
 import DatingProfileScreen from 'screens/DatingProfileScreen'
 
+const Stack = createStackNavigator()
+
 const ProfileNavigator = () => {
   const { theme, themes } = useContext(ThemeContext)
-  const Stack = createStackNavigator()
   const stackNavigatorDefaultProps = navigationOptions.stackNavigatorDefaultProps({ theme, themes })
   const stackScreenPageProps = navigationOptions.stackScreenPageProps({ theme, themes })
 
@@ -119,4 +119,4 @@ const ProfileNavigator = () => {
   )
 }
 
-export default withTheme(ProfileNavigator)
+export default ProfileNavigator

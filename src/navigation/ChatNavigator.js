@@ -10,9 +10,10 @@ import ChatOptionsScreen from 'screens/ChatOptionsScreen'
 import ProfileScreen from 'screens/ProfileScreen'
 import ProfileRequestsScreen from 'screens/ProfileRequestsScreen'
 
+const Stack = createStackNavigator()
+
 const ChatNavigator = ({ navigation }) => {
   const { theme, themes } = useContext(ThemeContext)
-  const Stack = createStackNavigator()
   const stackNavigatorDefaultProps = navigationOptions.stackNavigatorDefaultProps({ theme })
   const stackScreenPageProps = navigationOptions.stackScreenPageProps({ theme, themes })
 
