@@ -1,4 +1,4 @@
-import { navigateToPath, createPath } from 'navigation/helpers'
+import { navigateToPath, pushToPath, createPath } from 'navigation/helpers'
 
 const params = { a: 1, b: 2 }
 
@@ -41,5 +41,20 @@ describe('Navigation helpers', () => {
     testNavigate({ path: '', params: {}, expected: ['', {}] })
     testNavigate({ path: 'a.b', params, expected: ['a', { screen: 'b', params }] })
     testNavigate({ path: 'a.b.c', params, expected: ['a', { screen: 'b', params: { screen: 'c', params } }] })
+  })
+
+  it('pushToPath', () => {
+    const navigation = { push: jest.fn() }
+
+    const testPush = ({ path, params, expected }) => {
+      pushToPath(path)(navigation, params)
+      expect(navigation.push).toHaveBeenCalledWith(...expected)
+      navigation.push.mockClear()
+    }
+
+    testPush({ path: undefined, params: undefined, expected: ['', {}] })
+    testPush({ path: '', params: {}, expected: ['', {}] })
+    testPush({ path: 'a.b', params, expected: ['a', { screen: 'b', params }] })
+    testPush({ path: 'a.b.c', params, expected: ['a', { screen: 'b', params: { screen: 'c', params } }] })
   })
 })
