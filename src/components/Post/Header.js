@@ -103,7 +103,7 @@ const Header = ({
         {verificationVisibility ? (
           <TouchableOpacity
             testID={testIDs.header.verificationStatus}
-            onPress={navigationActions.navigateVerification(navigation, { actionType: 'BACK', post })}
+            onPress={navigationActions.navigateVerification(navigation, { actionType: 'BACK' })}
             style={styling.verification}
           >
             <Caption style={styling.verificationStatus}>{t('unverified')}</Caption>

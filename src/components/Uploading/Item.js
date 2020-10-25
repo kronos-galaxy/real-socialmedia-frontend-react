@@ -1,11 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {
-  StyleSheet,
-  View,
-  TouchableOpacity,
-  Image,
-} from 'react-native'
+import { StyleSheet, View, TouchableOpacity } from 'react-native'
 import { Text, Caption } from 'react-native-paper'
 import path from 'ramda/src/path'
 import TickIcon from 'assets/svg/post/Tick'
@@ -16,18 +11,12 @@ import * as navigationActions from 'navigation/actions'
 import { withTheme } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
 import { withTranslation } from 'react-i18next'
-import testIDs from 'components/Feed/test-ids'
+import testIDs from 'components/Uploading/test-ids'
+import UploadingItemPreview from 'components/Uploading/ItemPreview'
 
 const getPreviewURI = path(['payload', 'preview', '0'])
 
-const Uploading = ({
-  t,
-  theme,
-  user,
-  post,
-  postsCreateRequest,
-  postsCreateIdle,
-}) => {
+const UploadingItem = ({ t, theme, post, postsCreateRequest, postsCreateIdle }) => {
   const styling = styles(theme)
   const navigation = useNavigation()
 
@@ -35,29 +24,14 @@ const Uploading = ({
     return null
   }
 
-  const previewURI = getPreviewURI(post)
-
-  /**
-   * Immitating post object
-   */
-  const pseudoPost = {
-    image: {
-      url64p: previewURI,
-      url480p: previewURI,
-      url1080p: previewURI,
-    },
-    postedBy: user,
-    postedAt: Date.now(),
-  }
-
   return (
     <View style={styling.root}>
-      <Image style={styling.preview} accessibilityLabel="preview" resizeMode="cover" source={{ uri: previewURI }} />
+      <UploadingItemPreview style={styling.preview} uri={getPreviewURI(post)}  />
       {post.status === 'loading' ? (
         <View style={styling.status}>
           <TouchableOpacity
             style={styling.content}
-            onPress={navigationActions.navigateVerification(navigation, { actionType: 'BACK', post: pseudoPost })}
+            onPress={navigationActions.navigateVerification(navigation, { actionType: 'BACK' })}
           >
             <Text style={styling.title}>Uploading {post.meta.progress || 0}%</Text>
             <View style={styling.caption}>
@@ -69,7 +43,7 @@ const Uploading = ({
           </TouchableOpacity>
           {post.meta.progress !== 99 ? (
             <TouchableOpacity
-              testID={testIDs.uploading.cancelBtn}
+              testID={testIDs.cancelBtn}
               style={styling.icon}
               onPress={() => postsCreateIdle(post)}
             >
@@ -86,7 +60,7 @@ const Uploading = ({
             <Caption style={styling.subtitle}>{t('Tap here to reupload')}</Caption>
           </TouchableOpacity>
           <TouchableOpacity
-            testID={testIDs.uploading.cancelBtn}
+            testID={testIDs.cancelBtn}
             style={styling.icon}
             onPress={() => postsCreateIdle(post)}
           >
@@ -102,7 +76,7 @@ const Uploading = ({
             <Caption style={styling.subtitle}>{t('Successfully created')}</Caption>
           </TouchableOpacity>
           <TouchableOpacity
-            testID={testIDs.uploading.cancelBtn}
+            testID={testIDs.cancelBtn}
             style={styling.icon}
             onPress={() => postsCreateIdle(post)}
           >
@@ -153,10 +127,9 @@ const styles = theme => StyleSheet.create({
   },
 })
 
-Uploading.propTypes = {
+UploadingItem.propTypes = {
   t: PropTypes.any,
   theme: PropTypes.any,
-  user: PropTypes.any,
   post: PropTypes.any,
   handleEditPress: PropTypes.any,
   postsArchiveRequest: PropTypes.any,
@@ -165,4 +138,4 @@ Uploading.propTypes = {
   postsCreateIdle: PropTypes.func,
 }
 
-export default withTranslation()(withTheme(Uploading))
+export default withTranslation()(withTheme(UploadingItem))
