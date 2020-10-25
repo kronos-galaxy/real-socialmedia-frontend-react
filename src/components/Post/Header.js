@@ -60,7 +60,7 @@ const Header = ({
         { protected: true, user },
       )()
     } else {
-      navigationActions.navigateProfile(navigation, { userId: post.postedBy.userId })()
+      navigationActions.navigateProfile(navigation, { userId: post.postedBy.userId })
     }
   }
 
@@ -76,7 +76,7 @@ const Header = ({
       </TouchableOpacity>
 
       <View style={styling.headerText}>
-        <TouchableOpacity onPress={navigationActions.navigateProfile(navigation, { userId: path(['postedBy', 'userId'], post) })}>
+        <TouchableOpacity onPress={() => navigationActions.navigateProfile(navigation, { userId: path(['postedBy', 'userId'], post) })}>
           <Text style={styling.headerUsername}>{path(['postedBy', 'username'])(post)}</Text>
         </TouchableOpacity>
 
@@ -84,7 +84,7 @@ const Header = ({
           <TouchableOpacity
             testID={testIDs.header.repostBtn}
             style={styling.verification}
-            onPress={navigationActions.navigateProfile(navigation, { userId: path(['originalPost', 'postedBy', 'userId'], post) })}
+            onPress={() => navigationActions.navigateProfile(navigation, { userId: path(['originalPost', 'postedBy', 'userId'], post) })}
           >
             <Caption style={styling.headerStatus}>
               {t('Reposted from {{ username }}', { username: path(['originalPost', 'postedBy', 'username'], post) })}
@@ -158,7 +158,7 @@ const Header = ({
             },
             {
               name: t('Edit'),
-              onPress: () => navigationActions.navigatePostEdit(navigation, { post })(),
+              onPress: () => navigationActions.navigatePostEdit(navigation, { post }),
               isVisible: isUserPostOwner && !archived,
             },
             {

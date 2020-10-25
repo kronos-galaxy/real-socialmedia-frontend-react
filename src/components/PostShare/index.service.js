@@ -33,12 +33,12 @@ const ShareService = ({ children }) => {
 
   useEffect(() => {
     if (postsShare.status === 'success' && cameraCapture.status === 'success') {
-      navigationActions.navigatePostCreate(navigation, { type: 'IMAGE', photos: [] })()
+      navigationActions.navigatePostCreate(navigation, { type: 'IMAGE', photos: [] })
     }
 
     if (postsShare.status === 'success') {
       dispatch(postsActions.postsShareIdle({}))
-      navigationActions.navigateBack(navigation)()
+      navigationActions.navigateBack(navigation)
     }
   }, [
     postsShare.status,

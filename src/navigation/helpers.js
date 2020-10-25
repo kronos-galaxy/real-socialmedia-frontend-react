@@ -16,3 +16,5 @@ export const pushToPath = (pathString = '') => (navigation, params) => {
   const path = createPath(pathString.split('.'), params)
   navigation.push(path.screen, path.params)
 }
+
+export const curryNavigate = (callback) => (navigation, params) => callback(navigation, params)

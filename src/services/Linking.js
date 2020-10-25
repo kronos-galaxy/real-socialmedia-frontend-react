@@ -61,25 +61,25 @@ export const deeplinkNavigation = (navigation, navigationActions, Linking) => (a
     /**
      * Comments screen
      */
-      return navigationActions.navigateNestedComments(navigation, params)()
+      return navigationActions.navigateNestedComments(navigation, params)
     } else if (params && params.action === 'views') {
 
     /**
      * Views screen
      */
-      return navigationActions.navigateNestedPostViews(navigation, params)()
+      return navigationActions.navigateNestedPostViews(navigation, params)
     } else if (params && params.action === 'likes') {
 
     /**
      * Likes screen
      */
-      return navigationActions.navigateNestedPostLikes(navigation, params)()
+      return navigationActions.navigateNestedPostLikes(navigation, params)
     } else if (params && !params.action) {
 
     /**
      * Post screen
      */
-      return navigationActions.navigateNestedPost(navigation, params)()
+      return navigationActions.navigateNestedPost(navigation, params)
     } else if (params && params.action === 'profilePhoto') {
 
       /**

@@ -17,77 +17,29 @@ const withAuthValidation = (callback) => {
 }
 
 /**
- *
+ * Common
  */
-export const navigateNestedPost = (navigation, params) => () =>
-  navigation.navigate('App', {
-    screen: 'Root',
-    params: {
-      screen: 'PostMedia',
-      params,
-    },
-  })
-
-export const navigateNestedPostViews = (navigation, params) => () =>
-  navigation.navigate('App', {
-    screen: 'Root',
-    params: {
-      screen: 'PostViews',
-      params,
-    },
-  })
-
-export const navigateNestedComments = (navigation, params) => () =>
-  navigation.navigate('App', {
-    screen: 'Root',
-    params: {
-      screen: 'Comments',
-      params,
-    },
-  })
-
-export const navigateNestedPostLikes = (navigation, params) => () =>
-  navigation.navigate('App', {
-    screen: 'Root',
-    params: {
-      screen: 'PostLikes',
-      params,
-    },
-  })
+export const navigateProfile = pushToPath('Profile')
+export const navigatePostMedia = pushToPath('PostMedia')
+export const navigateProfileFollowed = pushToPath('ProfileFollowed')
+export const navigateProfileFollower = pushToPath('ProfileFollower')
+export const navigatePostViews = pushToPath('PostViews')
+export const navigatePostLikes = pushToPath('PostLikes')
+export const navigatePostShare = pushToPath('PostShare')
+export const navigatePostCreate = navigateToPath('PostCreate')
+export const navigateAlbum = pushToPath('Album')
+export const navigateAlbums = navigateToPath('Albums')
+export const navigateAlbumCreate = navigateToPath('AlbumCreate')
+export const navigateAlbumEdit = navigateToPath('AlbumEdit')
+export const navigatePostEdit = navigateToPath('PostEdit')
 
 /**
- * Root -> Home -> Feed -> Feed
+ * Nested Routes
  */
-
-export const navigateBack = (navigation) => () => navigation.goBack()
-
-export const navigatePop = (navigation) => () => navigation.popToTop()
-
-export const navigateApp = navigateToPath('App')
-
-export const navigateHome = (navigation, params) => () =>
-  navigation.navigate('Root', {
-    screen: 'Home',
-    params: {
-      screen: 'Feed',
-      params: {
-        screen: 'Feed',
-        ...params,
-      },
-    },
-  })
-
-export const navigatePostCreate = (navigation, params) => () =>
-  navigation.navigate('Root', {
-    screen: 'PostCreate',
-    params,
-  })
-
-export const navigateSearch = navigateToPath('App.Root.Home.Search')
-
-export const navigateCamera = withAuthValidation(navigateToPath('Camera'))
-
-export const navigateStory = withAuthValidation(pushToPath('Story'))
+export const navigateNestedPost = navigateToPath('App.Root.PostMedia')
+export const navigateNestedPostViews = navigateToPath('App.Root.PostViews')
+export const navigateNestedComments = navigateToPath('App.Root.Comments')
+export const navigateNestedPostLikes = navigateToPath('App.Root.PostLikes')
 
 /**
  * Chat
@@ -95,6 +47,7 @@ export const navigateStory = withAuthValidation(pushToPath('Story'))
 export const navigateChat = withAuthValidation(navigateToPath('App.Chat'))
 export const navigateChatDirect = withAuthValidation(navigateToPath('App.Chat.ChatDirect'))
 export const navigateChatOptions = withAuthValidation(navigateToPath('App.Chat.ChatOptions'))
+export const navigateProfileRequests = navigateToPath('App.Chat.ProfileRequests')
  
 /**
  * Dating
@@ -104,34 +57,20 @@ export const navigateDatingAbout = withAuthValidation(navigateToPath('DatingAbou
 export const navigateDatingMatch = withAuthValidation(navigateToPath('DatingMatch'))
 export const navigateDatingProfile = withAuthValidation(navigateToPath('DatingProfile'))
 
-export const navigatePostShare = withAuthValidation(pushToPath('PostShare'))
-export const navigatePostEdit = withAuthValidation(navigateToPath('PostEdit'))
-export const navigateProfileRequests = withAuthValidation(navigateToPath('App.Chat.ProfileRequests'))
-export const navigateProfilePhoto = navigateToPath('App.Root.Home.Profile.ProfilePhoto')
-export const navigateInviteFriends = navigateToPath('App.Root.Home.Profile.InviteFriends')
-export const navigateProfilePhotoUpload = withAuthValidation(navigateToPath('App.Root.Home.Profile.ProfilePhotoUpload'))
-
 /**
- * Albums
+ * Profile
  */
-export const navigateAlbum = withAuthValidation(pushToPath('Album'))
-export const navigateAlbumCreate = withAuthValidation(navigateToPath('AlbumCreate'))
-export const navigateAlbumEdit = withAuthValidation(navigateToPath('AlbumEdit'))
-export const navigateAlbums = withAuthValidation(navigateToPath('Albums'))
-
-export const navigateComments = withAuthValidation(pushToPath('Comments'))
-export const navigatePostType = withAuthValidation(navigateToPath('PostType'))
-export const navigateProfileUpgrade = navigateToPath('App.Root.ProfileUpgrade')
-export const navigateProfile = withAuthValidation(pushToPath('Profile'))
 export const navigateProfileSelf = withAuthValidation(navigateToPath('App.Root.Home.Profile'))
-export const navigateProfileFollower = withAuthValidation(pushToPath('ProfileFollower'))
-export const navigateProfileFollowed = withAuthValidation(pushToPath('ProfileFollowed'))
-export const navigatePostMedia = withAuthValidation(pushToPath('PostMedia'))
-export const navigatePostLikes = withAuthValidation(pushToPath('PostLikes'))
-export const navigatePostViews = withAuthValidation(pushToPath('PostViews'))
 export const navigateSettings = withAuthValidation(navigateToPath('App.Root.Home.Profile.Settings'))
-export const navigatePayout = withAuthValidation(navigateToPath('Payout'))
-export const navigateVerification = withAuthValidation(navigateToPath('Verification'))
+export const navigateProfilePhotoUpload = withAuthValidation(navigateToPath('App.Root.Home.Profile.ProfilePhotoUpload'))
+export const navigateProfilePhoto = navigateToPath('App.Root.Home.Profile.ProfilePhoto')
+export const navigateProfilePhotoGrid = navigateToPath('App.Root.Home.Profile.ProfilePhotoGrid')
+export const navigateProfileEdit = navigateToPath('App.Root.Home.Profile.ProfileEdit')
+export const navigateInviteFriends = navigateToPath('App.Root.Home.Profile.InviteFriends')
+export const navigateTheme = navigateToPath('App.Root.Home.Profile.Theme')
+export const navigatePrivacy = navigateToPath('App.Root.Home.Profile.Privacy')
+export const navigateMembership = navigateToPath('App.Root.Home.Profile.Membership')
+export const navigateArchived = navigateToPath('App.Root.Home.Profile.Archived')
 
 /**
  * Auth
@@ -163,3 +102,22 @@ export const navigateAuthEmail = navigateToPath('Auth.Signup.AuthEmail')
 export const navigateForgot = navigateToPath('Auth.Forgot')
 export const navigateAuthForgotEmail = navigateToPath('Auth.Forgot.AuthForgotEmail')
 export const navigateAuthForgotPhone = navigateToPath('Auth.Forgot.AuthForgotPhone')
+
+/**
+ * Root
+ */
+export const navigateProfileUpgrade = navigateToPath('App.Root.ProfileUpgrade')
+export const navigatePostType = withAuthValidation(navigateToPath('PostType'))
+export const navigateStory = withAuthValidation(pushToPath('Story'))
+export const navigateVerification = withAuthValidation(navigateToPath('Verification'))
+export const navigateComments = withAuthValidation(pushToPath('Comments'))
+
+/**
+ * Other
+ */
+export const navigateBack = (navigation) => navigation.goBack()
+export const navigateApp = navigateToPath('App')
+export const navigateHome = navigateToPath('App.Root.Home.Feed')
+export const navigateSearch = navigateToPath('App.Root.Home.Search')
+export const navigateCamera = withAuthValidation(navigateToPath('Camera'))
+export const navigatePayout = withAuthValidation(navigateToPath('Payout'))

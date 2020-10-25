@@ -20,7 +20,7 @@ const VerificationService = ({ children }) => {
     }
   }, [showHeader])
 
-  const handleClose = navigationActions.navigateBack(navigation)
+  const handleClose = () => navigationActions.navigateBack(navigation)
 
   const handleBackAction = () => {
     dispatch(usersActions.usersEditProfileIdle({}))

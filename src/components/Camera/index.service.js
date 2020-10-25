@@ -20,7 +20,7 @@ const CameraService = ({ children }) => {
     if (nextRoute) {
       navigation.navigate(nextRoute, nextPayload)
     } else {
-      navigationActions.navigatePostCreate(navigation, nextPayload)()
+      navigationActions.navigatePostCreate(navigation, nextPayload)
     }
   }
 

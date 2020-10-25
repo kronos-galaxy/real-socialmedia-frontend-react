@@ -34,10 +34,10 @@ const PostMediaService = ({ children }) => {
 
   useEffect(() => {
     if (postsDelete.status === 'loading') {
-      navigationActions.navigateBack(navigation)()
+      navigationActions.navigateBack(navigation)
     }
     if (postsArchive.status === 'loading') {
-      navigationActions.navigateBack(navigation)()
+      navigationActions.navigateBack(navigation)
     }
   }, [
     postsDelete.status,
