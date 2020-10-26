@@ -94,7 +94,7 @@ const Album = ({
         destructiveButtonIndex={1}
         onPress={(index) => {
           if (index === 0) {
-            navigationActions.navigateAlbumEdit(navigation, { album: albumsSingleGet.data })()
+            navigationActions.navigateAlbumEdit(navigation, { album: albumsSingleGet.data })
           }
           if (index === 1) {
             albumsDeleteRequest({ albumId: albumsSingleGet.data.albumId })

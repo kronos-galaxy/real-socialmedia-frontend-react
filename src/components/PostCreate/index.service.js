@@ -28,10 +28,10 @@ const PostCreateService = ({
    */
   const handlePostUploadStarted = (post) => {
     if (post.postType === 'TEXT_ONLY') {
-      navigationActions.navigateHome(navigation)()
+      navigationActions.navigateHome(navigation)
     }
     if (post.postType === 'IMAGE' && cameraCaptureLength === 1) {
-      navigationActions.navigateHome(navigation)()
+      navigationActions.navigateHome(navigation)
     }
   }
 

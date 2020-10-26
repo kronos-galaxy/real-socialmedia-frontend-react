@@ -1,4 +1,6 @@
 import UrlPattern from 'url-pattern'
+import { Linking } from 'react-native'
+import * as navigationActions from 'navigation/actions'
 
 class NotSupportedInAppCardError extends Error {
   constructor(...args) {
@@ -41,7 +43,7 @@ export const deeplinkPath = (action) => {
   throw new NotSupportedInAppCardError('The in-app card is not supported')
 }
 
-export const deeplinkNavigation = (navigation, navigationActions, Linking) => (action) => {
+export const deeplinkNavigation = (navigation) => (action) => {
   try {
     const params = deeplinkPath(action)
 
@@ -50,25 +52,25 @@ export const deeplinkNavigation = (navigation, navigationActions, Linking) => (a
         navigationActions.navigateChat(navigation)()
         break
       case ACTIONS.COMMENTS:
-        navigationActions.navigateNestedComments(navigation, params)()
+        navigationActions.navigateNestedComments(navigation, params)
         break
       case ACTIONS.VIEWS:
-        navigationActions.navigateNestedPostViews(navigation, params)()
+        navigationActions.navigateNestedPostViews(navigation, params)
         break
       case ACTIONS.LIKES:
-        navigationActions.navigateNestedPostLikes(navigation, params)()
+        navigationActions.navigateNestedPostLikes(navigation, params)
         break
       case ACTIONS.POST:
-        navigationActions.navigateNestedPost(navigation, params)()
+        navigationActions.navigateNestedPost(navigation, params)
         break
       case ACTIONS.PROFILE_PHOTO:
-        navigationActions.navigateProfilePhoto(navigation, params)()
+        navigationActions.navigateProfilePhoto(navigation, params)
         break
       case ACTIONS.INVITE_FRIENDS:
-        navigationActions.navigateInviteFriends(navigation, params)()
+        navigationActions.navigateInviteFriends(navigation, params)
         break
       case ACTIONS.SIGNUP:
-        navigationActions.navigateAuthUsername(navigation, params)()
+        navigationActions.navigateAuthUsername(navigation, params)
         break
       default:
         break

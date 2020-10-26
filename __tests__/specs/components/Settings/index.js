@@ -4,6 +4,7 @@ import ActionSheet from 'components/ActionSheet'
 import SettingsComponent from 'components/Settings'
 import { prop } from 'ramda'
 import { isAvatarEmpty, confirm } from 'components/Settings/helpers'
+import { testNavigate } from 'tests/utils/helpers'
 
 jest.mock('components/ActionSheet', () => jest.fn().mockReturnValue(null))
 jest.mock('components/Settings/helpers', () => ({ isAvatarEmpty: jest.fn(), confirm: jest.fn() }))
@@ -93,7 +94,7 @@ describe('Settings component', () => {
       expect(name).toBe('Choose From Existing')
 
       onPress()
-      expect(navigation.navigate).toHaveBeenCalledWith('ProfilePhotoGrid')
+      testNavigate(navigation, 'App.Root.Home.Profile.ProfilePhotoGrid')
     })
 
     it('Delete Profile Photo should not be visible when avatar empty', () => {
@@ -149,7 +150,7 @@ describe('Settings component', () => {
 
       fireEvent.press(getByText('Edit Profile'))
 
-      expect(navigation.navigate).toHaveBeenCalledWith('ProfileEdit')
+      testNavigate(navigation, 'App.Root.Home.Profile.ProfileEdit')
     })
 
     it('Change Profile Photo', () => {
@@ -163,7 +164,7 @@ describe('Settings component', () => {
 
       fireEvent.press(getByText('Choose Theme'))
 
-      expect(navigation.navigate).toHaveBeenCalledWith('Theme')
+      testNavigate(navigation, 'App.Root.Home.Profile.Theme')
     })
 
     it('Archived Photos', () => {
@@ -171,7 +172,7 @@ describe('Settings component', () => {
 
       fireEvent.press(getByText('Archived Photos'))
 
-      expect(navigation.navigate).toHaveBeenCalledWith('Archived')
+      testNavigate(navigation, 'App.Root.Home.Profile.Archived')
     })
 
     it('Mental Health & Privacy Settings', () => {
@@ -179,7 +180,7 @@ describe('Settings component', () => {
 
       fireEvent.press(getByText('Mental Health & Privacy Settings'))
 
-      expect(navigation.navigate).toHaveBeenCalledWith('Privacy')
+      testNavigate(navigation, 'App.Root.Home.Profile.Privacy')
     })
 
     it('Follow & Invite Friends', () => {
@@ -187,7 +188,7 @@ describe('Settings component', () => {
 
       fireEvent.press(getByText('Follow & Invite Friends'))
 
-      expect(navigation.navigate).toHaveBeenCalledWith('InviteFriends')
+      testNavigate(navigation, 'App.Root.Home.Profile.InviteFriends')
     })
 
     it('Signout', () => {

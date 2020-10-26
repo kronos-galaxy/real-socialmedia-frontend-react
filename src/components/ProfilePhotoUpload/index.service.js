@@ -73,7 +73,7 @@ const ProfilePhotoUploadComponentService = ({ children }) => {
   useEffect(() => {
     if (usersEditProfile.status === 'success') {
       clearProfilePhotoUpload()
-      navigationActions.navigateProfile(navigation, user)()
+      navigationActions.navigateProfile(navigation, user)
     }
   }, [usersEditProfile.status])
 

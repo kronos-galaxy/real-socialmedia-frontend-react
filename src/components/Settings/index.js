@@ -26,6 +26,7 @@ import DeviceInfo from 'react-native-device-info'
 import { withTheme } from 'react-native-paper'
 import { withTranslation } from 'react-i18next'
 import { isAvatarEmpty, confirm } from 'components/Settings/helpers'
+import * as navigationActions from 'navigation/actions'
 import testIDs from './test-ids'
 
 const Settings = ({
@@ -62,7 +63,7 @@ const Settings = ({
   return (
     <React.Fragment>
       <ScrollView testID={testIDs.root} style={styling.root}>
-        <TouchableOpacity onPress={() => navigation.navigate('ProfilePhotoGrid')}>
+        <TouchableOpacity onPress={() => navigationActions.navigateProfilePhotoGrid(navigation)}>
           <Avatar
             size="large"
             thumbnailSource={{ uri: path(['photo', 'url64p'])(user) }}
@@ -83,7 +84,7 @@ const Settings = ({
             },
             {
               name: t('Choose From Existing'),
-              onPress: () => navigation.navigate('ProfilePhotoGrid'),
+              onPress: () => navigationActions.navigateProfilePhotoGrid(navigation),
             },
             {
               name: t('Delete Profile Photo'),
@@ -103,7 +104,7 @@ const Settings = ({
           items={[
             {
               label: t('Edit Profile'),
-              onPress: () => navigation.navigate('ProfileEdit'),
+              onPress: () => navigationActions.navigateProfileEdit(navigation),
               icon: <EditIcon fill={theme.colors.text} />,
             },
             {
@@ -113,32 +114,32 @@ const Settings = ({
             },
             {
               label: t('Choose Theme'),
-              onPress: () => navigation.navigate('Theme'),
+              onPress: () => navigationActions.navigateTheme(navigation),
               icon: <ThemeIcon fill={theme.colors.text} />,
             },
             {
               label: t('Mental Health & Privacy Settings'),
-              onPress: () => navigation.navigate('Privacy'),
+              onPress: () => navigationActions.navigatePrivacy(navigation),
               icon: <PrivacyIcon fill={theme.colors.text} />,
             },
             {
               label: t('Join Diamond'),
-              onPress: () => navigation.navigate('Membership'),
+              onPress: () => navigationActions.navigateMembership(navigation),
               icon: <DiamondIcon fill={theme.colors.text} />,
             },
             {
               label: t('Dating'),
-              onPress: () => navigation.navigate('DatingAbout'),
+              onPress: () => navigationActions.navigateDatingAbout(navigation)(),
               icon: <DatingIcon fill={theme.colors.text} />,
             },
             {
               label: t('Follow & Invite Friends'),
-              onPress: () => navigation.navigate('InviteFriends'),
+              onPress: () => navigationActions.navigateInviteFriends(navigation),
               icon: <ContactsIcon fill={theme.colors.text} />,
             },
             {
               label: t('Archived Photos'),
-              onPress: () => navigation.navigate('Archived'),
+              onPress: () => navigationActions.navigateArchived(navigation),
               icon: <ArchiveIcon fill={theme.colors.text} />,
             },
             {

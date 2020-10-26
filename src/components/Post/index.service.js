@@ -39,7 +39,7 @@ const PostsService = ({ children }) => {
     dispatch(postsActions.postsDeleteRequest(payload))
 
   const handleEditPress = (post) =>
-    navigationActions.navigatePostEdit(navigation, { post })()
+    navigationActions.navigatePostEdit(navigation, { post })
 
   const changeAvatarRequest = (post) => 
     dispatch(usersActions.usersChangeAvatarRequest(post))

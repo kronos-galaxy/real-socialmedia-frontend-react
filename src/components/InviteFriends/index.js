@@ -77,7 +77,7 @@ const InviteFriends = ({
   const renderExistedUser = ({ item }) => {
     const user = item.user
     const avatarSource = { uri: item.thumbnailPath ? item.thumbnailPath : user.photo.url64p }
-    const navigateProfile = navigationActions.navigateProfile(navigation, { userId: user.userId })
+    const navigateProfile = () => navigationActions.navigateProfile(navigation, { userId: user.userId })
     const isInvited = contactsInvite.invited[item.contactId]
     const isFollowed = user.followedStatus === 'FOLLOWING'
     const isRequested = contactsInvite.requested[item.contactId]

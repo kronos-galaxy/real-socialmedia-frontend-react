@@ -76,7 +76,7 @@ const ChatDirect = ({
         user={userAdapter}
         renderInputToolbar={() => null}
         minInputToolbarHeight={0}
-        onPressAvatar={({ _id }) => navigationActions.navigateProfile(navigation, { userId: _id })()}
+        onPressAvatar={({ _id }) => navigationActions.navigateProfile(navigation, { userId: _id })}
         isKeyboardInternallyHandled={false}
         onLongPress={(_, message) => {
           setSelectedMessage(message)

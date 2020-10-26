@@ -25,7 +25,7 @@ export const pageHeaderLeft = ({ onPress, testID = null, theme }) => {
 }
 
 export const chatHeaderLeft = ({ navigation, theme }) => () => (
-  <TouchableOpacity style={styles.button} onPress={navigationActions.navigateHome(navigation)}>
+  <TouchableOpacity style={styles.button} onPress={() => navigationActions.navigateHome(navigation)}>
     <BackIcon fill={path(['colors', 'primaryIcon'], theme)} />
   </TouchableOpacity>
 )

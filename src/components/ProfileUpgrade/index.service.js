@@ -15,7 +15,7 @@ const ProfileUpgradeService = ({ children }) => {
 
   const handleProcessedPhoto = (payload) => {
     dispatch(cameraActions.cameraCaptureRequest(payload))
-    navigationActions.navigatePostCreate(navigation, { type: 'IMAGE', photos: [payload[0].preview] })()
+    navigationActions.navigatePostCreate(navigation, { type: 'IMAGE', photos: [payload[0].preview] })
   }
 
   const camera = useCamera({
@@ -47,7 +47,7 @@ const ProfileUpgradeService = ({ children }) => {
 
   const handleTextPostTab = () => {
     handleClose()
-    navigationActions.navigatePostCreate(navigation, { type: 'TEXT_ONLY' })()
+    navigationActions.navigatePostCreate(navigation, { type: 'TEXT_ONLY' })
   }
 
   return children({
