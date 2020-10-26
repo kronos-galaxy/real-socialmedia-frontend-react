@@ -24,7 +24,7 @@ const Albums = ({
 
   useHeader({
     title: 'Create',
-    onPress: navigationActions.navigateAlbumCreate(navigation),
+    onPress: () => navigationActions.navigateAlbumCreate(navigation),
   })
 
   return (

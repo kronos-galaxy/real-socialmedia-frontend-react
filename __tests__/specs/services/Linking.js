@@ -1,4 +1,9 @@
+/* eslint jest/expect-expect: ["error", { "assertFunctionNames": ["expect", "testNavigate"] }] */
+import { Linking } from 'react-native'
 import * as LinkingService from 'services/Linking'
+import { testNavigate } from 'tests/utils/helpers'
+
+jest.spyOn(Linking, 'openURL')
 
 const baseUrl = 'https:/real.app'
 const userId = 'us-east-1:6b33c0d0-cc30-4083-92a1-043f7cd313ce'
@@ -80,33 +85,22 @@ describe('deeplinkNavigation redirect routes', () => {
   })
 
   const navigation = {
-    navigate: jest.fn().mockName('mockedNavigate'),
-    push: jest.fn().mockName('mockedPush'),
-  }
-  const actions = {
-    navigateChat: jest.fn().mockName('mockedNavigateChat'),
-    navigateNestedComments: jest.fn().mockName('mockedNavigateNestedComments'),
-    navigateNestedPostViews: jest.fn().mockName('mockedNavigateNestedPostViews'),
-    navigateNestedPostLikes: jest.fn().mockName('mockedNavigateNestedPostLikes'),
-    navigateNestedPost: jest.fn().mockName('mockedNavigateNestedPost'),
-    navigateProfilePhoto: jest.fn().mockName('mockedNavigateProfilePhoto'),
-    navigateInviteFriends: jest.fn().mockName('mockedNavigateInviteFriends'),
-    navigateAuthUsername: jest.fn().mockName('navigateAuthUsername'),
-  }
-  const Linking = {
-    openURL: jest.fn().mockName('mockedOpenUrl'),
+    navigate: jest.fn(),
+    push: jest.fn(),
   }
 
   it('chats', () => {
     const rootUrl = `${baseUrl}/chat/`
-    LinkingService.deeplinkNavigation(navigation, actions, Linking)(rootUrl)
-    expect(actions.navigateChat).toHaveBeenLastCalledWith(navigation)
+    LinkingService.deeplinkNavigation(navigation)(rootUrl)
+
+    testNavigate(navigation, 'App.Chat')
   })
 
   it('post', () => {
     const rootUrl = `${baseUrl}/user/${userId}/post/${postId}`
-    LinkingService.deeplinkNavigation(navigation, actions, Linking)(rootUrl)
-    expect(actions.navigateNestedPost).toHaveBeenLastCalledWith(navigation, {
+    LinkingService.deeplinkNavigation(navigation)(rootUrl)
+
+    testNavigate(navigation, 'App.Root.PostMedia', {
       _: baseUrl,
       userId,
       postId,
@@ -116,8 +110,9 @@ describe('deeplinkNavigation redirect routes', () => {
 
   it('comments', () => {
     const rootUrl = `${baseUrl}/user/${userId}/post/${postId}/comments`
-    LinkingService.deeplinkNavigation(navigation, actions, Linking)(rootUrl)
-    expect(actions.navigateNestedComments).toHaveBeenLastCalledWith(navigation, {
+    LinkingService.deeplinkNavigation(navigation)(rootUrl)
+
+    testNavigate(navigation, 'App.Root.Comments', {
       _: baseUrl,
       userId,
       postId,
@@ -127,8 +122,9 @@ describe('deeplinkNavigation redirect routes', () => {
 
   it('comments with commentId', () => {
     const rootUrl = `${baseUrl}/user/${userId}/post/${postId}/comments/3fb30c92-ffgg-4d53-98b7-73957dfs425`
-    LinkingService.deeplinkNavigation(navigation, actions, Linking)(rootUrl)
-    expect(actions.navigateNestedComments).toHaveBeenLastCalledWith(navigation, {
+    LinkingService.deeplinkNavigation(navigation)(rootUrl)
+
+    testNavigate(navigation, 'App.Root.Comments', {
       _: baseUrl,
       userId,
       postId,
@@ -139,8 +135,9 @@ describe('deeplinkNavigation redirect routes', () => {
 
   it('likes', () => {
     const rootUrl = `${baseUrl}/user/${userId}/post/${postId}/likes`
-    LinkingService.deeplinkNavigation(navigation, actions, Linking)(rootUrl)
-    expect(actions.navigateNestedPostLikes).toHaveBeenLastCalledWith(navigation, {
+    LinkingService.deeplinkNavigation(navigation)(rootUrl)
+
+    testNavigate(navigation, 'App.Root.PostLikes', {
       _: baseUrl,
       userId,
       postId,
@@ -150,8 +147,9 @@ describe('deeplinkNavigation redirect routes', () => {
 
   it('views', () => {
     const rootUrl = `${baseUrl}/user/${userId}/post/${postId}/views`
-    LinkingService.deeplinkNavigation(navigation, actions, Linking)(rootUrl)
-    expect(actions.navigateNestedPostViews).toHaveBeenLastCalledWith(navigation, {
+    LinkingService.deeplinkNavigation(navigation)(rootUrl)
+
+    testNavigate(navigation, 'App.Root.PostViews', {
       _: baseUrl,
       userId,
       postId,
@@ -161,8 +159,9 @@ describe('deeplinkNavigation redirect routes', () => {
 
   it('profile photo', () => {
     const rootUrl = `${baseUrl}/user/${userId}/settings/photo`
-    LinkingService.deeplinkNavigation(navigation, actions, Linking)(rootUrl)
-    expect(actions.navigateProfilePhoto).toHaveBeenLastCalledWith(navigation, {
+    LinkingService.deeplinkNavigation(navigation)(rootUrl)
+
+    testNavigate(navigation, 'App.Root.Home.Profile.ProfilePhoto', {
       _: baseUrl,
       userId,
       action: 'profilePhoto',
@@ -171,8 +170,9 @@ describe('deeplinkNavigation redirect routes', () => {
 
   it('invite friends', () => {
     const rootUrl = `${baseUrl}/user/${userId}/settings/contacts`
-    LinkingService.deeplinkNavigation(navigation, actions, Linking)(rootUrl)
-    expect(actions.navigateInviteFriends).toHaveBeenLastCalledWith(navigation, {
+    LinkingService.deeplinkNavigation(navigation)(rootUrl)
+
+    testNavigate(navigation, 'App.Root.Home.Profile.InviteFriends', {
       _: baseUrl,
       userId,
       action: 'inviteFriends',
@@ -181,13 +181,14 @@ describe('deeplinkNavigation redirect routes', () => {
 
   it('sign up', () => {
     const rootUrl = `${baseUrl}/signup/${userId}`
-    LinkingService.deeplinkNavigation(navigation, actions, Linking)(rootUrl)
-    expect(actions.navigateAuthUsername).toHaveBeenLastCalledWith(navigation, { _: baseUrl, userId, action: 'signup' })
+    LinkingService.deeplinkNavigation(navigation)(rootUrl)
+
+    testNavigate(navigation, 'Auth.AuthUsername', { _: baseUrl, userId, action: 'signup' })
   })
 
   it('open url', () => {
     const rootUrl = 'https:/google.com'
-    LinkingService.deeplinkNavigation(navigation, actions, Linking)(rootUrl)
+    LinkingService.deeplinkNavigation(navigation)(rootUrl)
     expect(Linking.openURL).toHaveBeenLastCalledWith(rootUrl)
   })
 })

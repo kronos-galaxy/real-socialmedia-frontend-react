@@ -34,7 +34,7 @@ const AlbumService = ({ children }) => {
     if (albumsDelete.status === 'success') {
       dispatch(albumsActions.albumsDeleteIdle({}))
       dispatch(albumsActions.albumsGetRequest({ userId: user.userId }))
-      navigationActions.navigateBack(navigation)()
+      navigationActions.navigateBack(navigation)
     }
   }, [albumsDelete.status])
 

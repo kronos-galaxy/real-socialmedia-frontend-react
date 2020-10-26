@@ -67,7 +67,7 @@ describe('PostType screen', () => {
 
     fireEvent.press(getByText('Text'))
     expect(navigation.popToTop).toHaveBeenCalled()
-    testNavigate(navigation, 'Root.PostCreate', { type: 'TEXT_ONLY' })
+    testNavigate(navigation, 'PostCreate', { type: 'TEXT_ONLY' })
   })
 
   it('redirect to verification screen only first time when user create a post from gallery', async () => {
@@ -154,6 +154,6 @@ describe('PostType screen', () => {
 
     handleProcessedPhoto(payload)
     expect(dispatch).toHaveBeenCalledWith(cameraActions.cameraCaptureRequest(payload))
-    testNavigate(navigation, 'Root.PostCreate', { photos: ['preview'], type: 'IMAGE' })
+    testNavigate(navigation, 'PostCreate', { photos: ['preview'], type: 'IMAGE' })
   })
 })
