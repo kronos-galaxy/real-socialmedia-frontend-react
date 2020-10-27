@@ -43,9 +43,14 @@ function* googleAuthenticateExisting(userPayload) {
  *
  */
 function* createAnonymousUser(userPayload) {
-  yield call([queryService, 'apiRequest'], queries.createAnonymousUser)
-  yield call([queryService, 'apiRequest'], queries.linkGoogleLogin, { googleIdToken: userPayload.token })
-  yield call([queryService, 'apiRequest'], queries.setFullname, { fullName: userPayload.name })
+  try {
+    yield call([queryService, 'apiRequest'], queries.createAnonymousUser)
+  } catch (error) {
+    // ignore
+  } finally {
+    yield call([queryService, 'apiRequest'], queries.linkGoogleLogin, { googleIdToken: userPayload.token })
+    yield call([queryService, 'apiRequest'], queries.setFullname, { fullName: userPayload.name })
+  }
 }
 
 /**
