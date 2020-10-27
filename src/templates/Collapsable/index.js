@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import PropTypes from 'prop-types'
 import {
   StyleSheet,
@@ -10,6 +10,7 @@ import useToggle from 'react-use/lib/useToggle'
 import UpIcon from 'assets/svg/collapsable/Up'
 import DownIcon from 'assets/svg/collapsable/Down'
 import SuccessIcon from 'assets/svg/collapsable/Success'
+import ErrorIcon from 'assets/svg/collapsable/Error'
 import { Caption } from 'react-native-paper'
 
 import { withTheme } from 'react-native-paper'
@@ -22,19 +23,28 @@ const Collapsable = ({
   title,
   active,
   success,
+  error,
   helper,
 }) => {
   const styling = styles(theme)
   const [visible, setVisible] = useToggle(active)
 
-  const upIconVisibility = !success && visible
-  const downIconVisibility = !success && !visible
-  const successIconVisibility = success
+  const upIconVisibility = !error && !success && visible
+  const downIconVisibility = !error && !success && !visible
+  const successIconVisibility = !error && success
+  const errorIconVisibility = error
 
+  useEffect(() => {
+    if (error && !visible) setVisible()
+  }, [error, visible])
+
+  const handlePress = () => {
+    if (!error) setVisible()
+  }
 
   return (
     <View style={[styling.root, style]}>
-      <TouchableOpacity onPress={setVisible} style={styling.spacing}>
+      <TouchableOpacity onPress={handlePress} style={styling.spacing}>
         <View style={styling.header}>
           <Title style={styling.title}>{title}</Title>
 
@@ -48,11 +58,14 @@ const Collapsable = ({
             {successIconVisibility ?
               <SuccessIcon fill={theme.colors.primary} />
             : null}
+            {errorIconVisibility ?
+              <ErrorIcon fill={'red'} />
+            : null}
           </View>
         </View>
 
         {!visible ?
-          <Caption>{helper}</Caption>
+          <Caption style={error ? styling.error : null}>{helper}</Caption>
         : null}
       </TouchableOpacity>
 
@@ -77,6 +90,9 @@ const styles = theme => StyleSheet.create({
   title: {
     fontSize: 18,
   },
+  error: {
+    color: 'red',
+  },
 })
 
 Collapsable.propTypes = {
@@ -86,6 +102,7 @@ Collapsable.propTypes = {
   title: PropTypes.any,
   active: PropTypes.any,
   success: PropTypes.any,
+  error: PropTypes.any,
   helper: PropTypes.any,
 }
 
