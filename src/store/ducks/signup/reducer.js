@@ -28,6 +28,12 @@ export const initialState = {
     error: {},
     payload: {},
   },
+  signupUsername: {
+    data: [],
+    status: 'idle',
+    error: {},
+    payload: {},
+  },
   signupPassword: {
     data: [],
     status: 'idle',
@@ -79,6 +85,40 @@ const signupCheckIdle = (state) => update(state, {
     status: { $set: 'idle' },
     payload: { $set: initialState.signupCheck.payload },
     error: { $set: initialState.signupCheck.error },
+  },
+})
+
+/**
+ *
+ */
+const signupUsernameRequest = (state, action) => update(state, {
+  signupUsername: {
+    status: { $set: 'loading' },
+    payload: { $set: action.payload },
+  },
+})
+
+const signupUsernameSuccess = (state, action) => update(state, {
+  signupUsername: {
+    data: { $set: action.payload.data },
+    status: { $set: 'success' },
+    payload: { $set: action.payload.payload },
+  },
+})
+
+const signupUsernameFailure = (state, action) => update(state, {
+  signupUsername: {
+    status: { $set: 'failure' },
+    payload: { $set: action.payload.payload },
+    error: { $set: action.payload.message },
+  },
+})
+
+const signupUsernameIdle = (state) => update(state, {
+  signupUsername: {
+    status: { $set: 'idle' },
+    payload: { $set: initialState.signupUsername.payload },
+    error: { $set: initialState.signupUsername.error },
   },
 })
 
@@ -263,6 +303,11 @@ export default handleActions({
   [constants.SIGNUP_CHECK_SUCCESS]: signupCheckSuccess,
   [constants.SIGNUP_CHECK_FAILURE]: signupCheckFailure,
   [constants.SIGNUP_CHECK_IDLE]: signupCheckIdle,
+
+  [constants.SIGNUP_USERNAME_REQUEST]: signupUsernameRequest,
+  [constants.SIGNUP_USERNAME_SUCCESS]: signupUsernameSuccess,
+  [constants.SIGNUP_USERNAME_FAILURE]: signupUsernameFailure,
+  [constants.SIGNUP_USERNAME_IDLE]: signupUsernameIdle,
 
   [constants.SIGNUP_PHONE_REQUEST]: signupPhoneRequest,
   [constants.SIGNUP_PHONE_SUCCESS]: signupPhoneSuccess,

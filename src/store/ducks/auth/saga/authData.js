@@ -6,6 +6,7 @@ import * as queries from 'store/ducks/auth/queries'
 import * as queryService from 'services/Query'
 import {
   saveAuthUserPersist,
+  getAuthUserPersist,
 } from 'services/Auth'
 
 import * as entitiesActions from 'store/ducks/entities/actions'
@@ -20,6 +21,13 @@ class MissingUserAttributeError extends Error {
   constructor(...args) {
     super(...args)
     this.code = 'MISSING_USER_ATTRIBUTEE_ERROR'
+  }
+}
+
+class GuestUserError extends Error {
+  constructor(...args) {
+    super(...args)
+    this.code = 'GUEST_USER_ERROR'
   }
 }
 
@@ -99,6 +107,24 @@ function* onlineData() {
 }
 
 /**
+ *
+ */
+function* cachedData() {
+  const response = yield getAuthUserPersist()
+
+  if (!path(['data', 'self', 'userId'])(response)) {
+    throw new MissingUserAttributeError()
+  }
+
+  // temporary check to only return active user data
+  if (path(['data', 'self', 'userStatus'])(response) !== 'ACTIVE') {
+    throw new GuestUserError()
+  }
+
+  return response
+}
+
+/**
  * Handled anonymous user creation, throws an error if user already exists
  */
 function* createAnonymousUser() {
@@ -115,7 +141,14 @@ function* handleAuthDataRequest(payload = {}) {
     yield createAnonymousUser()
   }
 
-  const data = yield call(onlineData)
+  const data = yield (function* () {
+    try {
+      return yield call(cachedData)
+    } catch (error) {
+      return yield call(onlineData)
+    }
+  })()
+
   const next = yield call(handleAuthDataRequestData, { meta: { type: 'ONLINE' } }, data)
   yield handleAuthLogger(data)
   return next

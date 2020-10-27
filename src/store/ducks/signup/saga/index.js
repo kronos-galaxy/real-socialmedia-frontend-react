@@ -1,8 +1,7 @@
-import { put, takeLatest, call, getContext } from 'redux-saga/effects'
+import { put, takeLatest, call } from 'redux-saga/effects'
 import * as actions from 'store/ducks/signup/actions'
 import * as constants from 'store/ducks/signup/constants'
 import * as errors from 'store/ducks/signup/errors'
-import * as navigationActions from 'navigation/actions'
 import { logEvent } from 'services/Analytics'
 import { usernameStatusRequest } from 'services/Validation'
 
@@ -34,9 +33,7 @@ function* signupPhoneRequest(req) {
   yield put(actions.signupPhoneSuccess({ payload: req.payload }))
 }
 
-function* signupPhoneSuccess() {
-  const ReactNavigationRef = yield getContext('ReactNavigationRef')
-  navigationActions.navigateAuthPhoneConfirm(ReactNavigationRef.current)
+function signupPhoneSuccess() {
   logEvent('SIGNUP_PHONE_SUCCESS')
 }
 
@@ -44,9 +41,7 @@ function* signupEmailRequest(req) {
   yield put(actions.signupEmailSuccess({ payload: req.payload }))
 }
 
-function* signupEmailSuccess() {
-  const ReactNavigationRef = yield getContext('ReactNavigationRef')
-  navigationActions.navigateAuthEmailConfirm(ReactNavigationRef.current)
+function signupEmailSuccess() {
   logEvent('SIGNUP_EMAIL_SUCCESS')
 }
 

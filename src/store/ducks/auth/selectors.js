@@ -7,12 +7,13 @@ import * as entitiesSelector from 'store/ducks/entities/selectors'
 import * as usersSelector from 'store/ducks/users/selectors'
 
 const authUser = () => path(['auth', 'user'])
+const authData = () => path(['auth', 'authData'])
 const usersEditProfile = () => path(['users', 'usersEditProfile'])
 const usersGetProfileSelf = () => path(['users', 'usersGetProfileSelf'])
 
 export const authUserSelector = createSelector(
-  [authUser(), usersEditProfile(), usersGetProfileSelf(), usersSelector.usersDeleteAvatar, usersSelector.usersChangeAvatar, entitiesSelector.entities],
-  (authUser, usersEditProfile, usersGetProfileSelf, usersDeleteAvatar, usersChangeAvatar, entities) => {
+  [authUser(), authData(), usersEditProfile(), usersGetProfileSelf(), usersSelector.usersDeleteAvatar, usersSelector.usersChangeAvatar, entitiesSelector.entities],
+  (authUser, authData, usersEditProfile, usersGetProfileSelf, usersDeleteAvatar, usersChangeAvatar, entities) => {
     return normalizer.denormalizeUserGet(authUser, entities)
   },
 )

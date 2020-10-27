@@ -17,7 +17,7 @@ const AuthUsernameComponentService = ({ children }) => {
   const navigation = useNavigation()
   const { theme } = useContext(ThemeContext)
 
-  const signupCheck = useSelector(state => state.signup.signupCheck)
+  const signupUsername = useSelector(state => state.signup.signupUsername)
 
   const handleFormSubmit = (payload) => {
     logEvent('SIGNUP_CHECK_REQUEST')
@@ -42,12 +42,12 @@ const AuthUsernameComponentService = ({ children }) => {
     })
   }, [])
 
-  const formSubmitLoading = signupCheck.status === 'loading'
-  const formSubmitDisabled = signupCheck.status === 'loading'
-  const formErrorMessage = signupCheck.error.text
+  const formSubmitLoading = signupUsername.status === 'loading'
+  const formSubmitDisabled = signupUsername.status === 'loading'
+  const formErrorMessage = signupUsername.error.text
 
   const formInitialValues = {
-    username: signupCheck.payload.username,
+    username: signupUsername.payload.username,
   }
 
   const handleFormTransform = (values) => ({
