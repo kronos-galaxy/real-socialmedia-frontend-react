@@ -1,5 +1,4 @@
 import { useEffect, useCallback, useContext } from 'react'
-import { Keyboard } from 'react-native'
 import * as signupActions from 'store/ducks/signup/actions'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigation, useRoute } from '@react-navigation/native'
@@ -15,8 +14,6 @@ const AuthEmailConfirmComponentService = ({ children }) => {
   const route = useRoute()
   const { theme } = useContext(ThemeContext)
 
-  const signupUsername = useSelector(state => state.signup.signupUsername)
-  const signupEmail = useSelector(state => state.signup.signupEmail)
   const signupConfirm = useSelector(state => state.signup.signupConfirm)
   const signupCognitoIdentity = useSelector(state => state.signup.signupCognitoIdentity)
 
@@ -49,43 +46,6 @@ const AuthEmailConfirmComponentService = ({ children }) => {
     }
     dispatch(signupActions.signupConfirmRequest(nextPayload))
   }
-
-  /**
-   * Create new user once email and password is received from previous steps
-   * 
-   * Previous steps include:
-   * - signupUsername -> AuthUsernameScreen
-   * - signupEmail -> AuthEmailScreen
-   * - signupPassword -> AuthPasswordScreen
-   */
-  useEffect(() => {
-    if (
-      !signupUsername.payload.username ||
-      !signupEmail.payload.email
-    ) return
-  }, [
-    signupUsername.status,
-    signupEmail.status,
-  ])
-
-  /**
-   * Redirect to verification confirmation once signup was successful
-   */
-  useEffect(() => {
-    if (
-      signupConfirm.status !== 'success'
-    ) return
-
-    logEvent('SIGNUP_CONFIRM_SUCCESS')
-    dispatch(signupActions.signupCreateIdle({}))
-    dispatch(signupActions.signupConfirmIdle({}))
-    dispatch(signupActions.signupUsernameIdle({}))
-    dispatch(signupActions.signupPasswordIdle({}))
- 
-    Keyboard.dismiss()
-  }, [
-    signupConfirm.status,
-  ])
 
   const formSubmitLoading = signupConfirm.status === 'loading'
   const formSubmitDisabled = signupConfirm.status === 'loading'

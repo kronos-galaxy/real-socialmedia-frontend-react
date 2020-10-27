@@ -38,21 +38,6 @@ const AuthPasswordComponentService = ({ children }) => {
     dispatch(signupActions.signupPasswordRequest(payload))
   }
 
-  /**
-   * Redirect to verification confirmation once signup was successful
-   */
-  useEffect(() => {
-    if (
-      signupPassword.status !== 'success'
-    ) return
-
-    logEvent('SIGNUP_PASSWORD_SUCCESS')
-    navigationActions.navigateSignup(navigation)
-  }, [
-    signupPassword.status,
-    signupPassword.payload.password,
-  ])
-
   const formSubmitLoading = signupPassword.status === 'loading'
   const formSubmitDisabled = signupPassword.status === 'loading'
   const formErrorMessage = signupPassword.error.text

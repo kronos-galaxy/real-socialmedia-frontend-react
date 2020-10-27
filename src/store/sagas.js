@@ -31,6 +31,7 @@ import signup from 'store/ducks/signup/saga'
 import signupCreate from 'store/ducks/signup/saga/signupCreate'
 import signupConfirm from 'store/ducks/signup/saga/signupConfirm'
 import signupPassword from 'store/ducks/signup/saga/signupPassword'
+import signupUsername from 'store/ducks/signup/saga/signupUsername'
 
 import datingMatchedUsers from 'store/ducks/dating/saga/datingMatchedUsers'
 import datingConfirmedUsers from 'store/ducks/dating/saga/datingConfirmedUsers'
@@ -90,6 +91,7 @@ export default function* rootSaga(persistor) {
     .concat(signupCreate())
     .concat(signupConfirm())
     .concat(signupPassword())
+    .concat(signupUsername())
 
     .concat(posts())
     .concat(postsCreate())

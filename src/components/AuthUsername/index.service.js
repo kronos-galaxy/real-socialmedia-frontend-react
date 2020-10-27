@@ -17,10 +17,10 @@ const AuthUsernameComponentService = ({ children }) => {
   const navigation = useNavigation()
   const { theme } = useContext(ThemeContext)
 
-  const signupUsername = useSelector(state => state.signup.signupUsername)
+  const signupCheck = useSelector(state => state.signup.signupCheck)
 
   const handleFormSubmit = (payload) => {
-    logEvent('SIGNUP_USERNAME_REQUEST')
+    logEvent('SIGNUP_CHECK_REQUEST')
     dispatch(signupActions.signupUsernameRequest(payload))
   }
 
@@ -28,7 +28,7 @@ const AuthUsernameComponentService = ({ children }) => {
    * Navigation state reset on back button press
    */
   const handleGoBack = useCallback(() => {
-    dispatch(signupActions.signupUsernameIdle({}))
+    dispatch(signupActions.signupCheckIdle({}))
     navigationActions.navigateAuthHome(navigation)
   }, [])
 
@@ -42,34 +42,19 @@ const AuthUsernameComponentService = ({ children }) => {
     })
   }, [])
 
-  /**
-   * Redirect to password selection once username is available
-   */
-  useEffect(() => {
-    if (
-      signupUsername.status !== 'success'
-    ) return
-
-    logEvent('SIGNUP_USERNAME_SUCCESS')
-    navigationActions.navigateAuthPassword(navigation)
-  }, [
-    signupUsername.status,
-    signupUsername.payload.username,
-  ])
-
-  const formSubmitLoading = signupUsername.status === 'loading'
-  const formSubmitDisabled = signupUsername.status === 'loading'
-  const formErrorMessage = signupUsername.error.text
+  const formSubmitLoading = signupCheck.status === 'loading'
+  const formSubmitDisabled = signupCheck.status === 'loading'
+  const formErrorMessage = signupCheck.error.text
 
   const formInitialValues = {
-    username: signupUsername.payload.username,
+    username: signupCheck.payload.username,
   }
 
   const handleFormTransform = (values) => ({
     username: compose(trim, toLower, pathOr('', ['username']))(values),
   })
 
-  const handleErrorClose = () => dispatch(signupActions.signupUsernameIdle({}))
+  const handleErrorClose = () => dispatch(signupActions.signupCheckIdle({}))
 
   return children({
     formErrorMessage,

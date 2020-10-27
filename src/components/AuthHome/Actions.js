@@ -29,7 +29,7 @@ const Actions = ({
   return (
     <View style={styling.root}>
       <View style={styling.item}>
-        <DefaultButton testID={testIDs.actions.signUpBtn} icon={PhoneIcon} label={t('Use Phone or Email')} onPress={() => navigationActions.navigateAuthUsername(navigation)} style={styling.phone} labelStyle={styling.labelStyle} />
+        <DefaultButton testID={testIDs.actions.signUpBtn} icon={PhoneIcon} label={t('Use Phone or Email')} onPress={() => navigationActions.navigateSignup(navigation)} style={styling.phone} labelStyle={styling.labelStyle} />
       </View>
       <View style={styling.item}>
         <DefaultButton testID={testIDs.actions.googleBtn} icon={GoogleIcon} label={t('Continue with Google')} onPress={authSigninGoogleRequest} loading={authSigninGoogle.status === 'loading'} style={styling.google} labelStyle={styling.labelStyle} />

@@ -10,7 +10,7 @@ export const initialState = {
     
   },
 
-  signupUsername: {
+  signupCheck: {
     data: [],
     status: 'idle',
     error: {},
@@ -46,45 +46,39 @@ export const initialState = {
     error: {},
     payload: {},
   },
-  signupCognito: {
-    data: [],
-    status: 'idle',
-    error: {},
-    payload: {},
-  },
 }
 
 /**
  *
  */
-const signupUsernameRequest = (state, action) => update(state, {
-  signupUsername: {
+const signupCheckRequest = (state, action) => update(state, {
+  signupCheck: {
     status: { $set: 'loading' },
     payload: { $set: action.payload },
   },
 })
 
-const signupUsernameSuccess = (state, action) => update(state, {
-  signupUsername: {
+const signupCheckSuccess = (state, action) => update(state, {
+  signupCheck: {
     data: { $set: action.payload.data },
     status: { $set: 'success' },
     payload: { $set: action.payload.payload },
   },
 })
 
-const signupUsernameFailure = (state, action) => update(state, {
-  signupUsername: {
+const signupCheckFailure = (state, action) => update(state, {
+  signupCheck: {
     status: { $set: 'failure' },
     payload: { $set: action.payload.payload },
     error: { $set: action.payload.message },
   },
 })
 
-const signupUsernameIdle = (state) => update(state, {
-  signupUsername: {
+const signupCheckIdle = (state) => update(state, {
+  signupCheck: {
     status: { $set: 'idle' },
-    payload: { $set: initialState.signupUsername.payload },
-    error: { $set: initialState.signupUsername.error },
+    payload: { $set: initialState.signupCheck.payload },
+    error: { $set: initialState.signupCheck.error },
   },
 })
 
@@ -264,46 +258,11 @@ const signupConfirmIdle = (state) => update(state, {
   },
 })
 
-/**
- *
- */
-const signupCognitoRequest = (state, action) => update(state, {
-  signupCognito: {
-    status: { $set: 'loading' },
-    payload: { $set: action.payload },
-  },
-})
-
-const signupCognitoSuccess = (state, action) => update(state, {
-  signupCognito: {
-    data: { $set: action.payload.data },
-    status: { $set: 'success' },
-    payload: { $set: action.payload.payload },
-  },
-})
-
-const signupCognitoFailure = (state, action) => update(state, {
-  signupCognito: {
-    status: { $set: 'failure' },
-    payload: { $set: action.payload.payload },
-    error: { $set: action.payload.message },
-  },
-})
-
-const signupCognitoIdle = (state) => update(state, {
-  signupCognito: {
-    status: { $set: 'idle' },
-    payload: { $set: initialState.signupConfirm.payload },
-    error: { $set: initialState.signupConfirm.error },
-  },
-})
-
-
 export default handleActions({
-  [constants.SIGNUP_USERNAME_REQUEST]: signupUsernameRequest,
-  [constants.SIGNUP_USERNAME_SUCCESS]: signupUsernameSuccess,
-  [constants.SIGNUP_USERNAME_FAILURE]: signupUsernameFailure,
-  [constants.SIGNUP_USERNAME_IDLE]: signupUsernameIdle,
+  [constants.SIGNUP_CHECK_REQUEST]: signupCheckRequest,
+  [constants.SIGNUP_CHECK_SUCCESS]: signupCheckSuccess,
+  [constants.SIGNUP_CHECK_FAILURE]: signupCheckFailure,
+  [constants.SIGNUP_CHECK_IDLE]: signupCheckIdle,
 
   [constants.SIGNUP_PHONE_REQUEST]: signupPhoneRequest,
   [constants.SIGNUP_PHONE_SUCCESS]: signupPhoneSuccess,
@@ -329,9 +288,4 @@ export default handleActions({
   [constants.SIGNUP_CONFIRM_SUCCESS]: signupConfirmSuccess,
   [constants.SIGNUP_CONFIRM_FAILURE]: signupConfirmFailure,
   [constants.SIGNUP_CONFIRM_IDLE]: signupConfirmIdle,
-
-  [constants.SIGNUP_COGNITO_REQUEST]: signupCognitoRequest,
-  [constants.SIGNUP_COGNITO_SUCCESS]: signupCognitoSuccess,
-  [constants.SIGNUP_COGNITO_FAILURE]: signupCognitoFailure,
-  [constants.SIGNUP_COGNITO_IDLE]: signupCognitoIdle,
 }, initialState)

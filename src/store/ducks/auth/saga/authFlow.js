@@ -82,9 +82,7 @@ function* authFlowSuccess() {
   const ReactNavigationRef = yield getContext('ReactNavigationRef')
   yield put(actions.authPrefetchRequest())
 
-  setTimeout(() => {
-    navigationActions.navigateSearch(ReactNavigationRef.current)
-  }, 0)
+  navigationActions.navigateSearch(ReactNavigationRef.current)
 }
 
 export default () => [

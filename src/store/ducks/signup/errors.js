@@ -64,6 +64,26 @@ const messageCodes = {
   /**
    * 
    */
+  [constants.SIGNUP_CHECK_SUCCESS]: {
+    GENERIC: {
+      code: 'GENERIC',
+      text: 'Username is available',
+    },
+  },
+  [constants.SIGNUP_CHECK_FAILURE]: {
+    GENERIC: {
+      code: 'GENERIC',
+      text: 'Failed to reserve username',
+    },
+    USER_EXISTS: {
+      code: 'USER_EXISTS',
+      text: 'Username is not available',
+    },
+  },
+
+  /**
+   * 
+   */
   [constants.SIGNUP_USERNAME_SUCCESS]: {
     GENERIC: {
       code: 'GENERIC',
