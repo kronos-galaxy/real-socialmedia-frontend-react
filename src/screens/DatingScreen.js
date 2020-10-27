@@ -16,13 +16,14 @@ class DatingScreen extends React.Component {
                 location
               />
             : null}
-              <DatingServiceComponent>
-                {(datingProps) => (
-                  <DatingComponent
-                    {...datingProps}
-                  />
-                )}
-              </DatingServiceComponent>
+
+            <DatingServiceComponent>
+              {(datingProps) => (
+                <DatingComponent
+                  {...datingProps}
+                />
+              )}
+            </DatingServiceComponent>
           </React.Fragment>
         )}
       </PermissionsServiceComponent>

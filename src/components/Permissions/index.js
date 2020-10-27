@@ -3,9 +3,11 @@ import PropTypes from 'prop-types'
 import {
   View,
   StyleSheet,
+  TouchableOpacity,
 } from 'react-native'
 import DefaultButton from 'components/Formik/Button/DefaultButton'
 import FeatureComponent from 'templates/Feature'
+import CloseIcon from 'assets/svg/action/Close'
 import Modal from 'react-native-modal'
 
 import { withTheme } from 'react-native-paper'
@@ -37,12 +39,20 @@ const Permissions = ({
   openSettings,
   camera,
   location,
+  isModalOpen,
+  handleClose,
 }) => {
   const styling = styles(theme)
   
   return (
-    <Modal isVisible={true}>
+    <Modal isVisible={isModalOpen}>
       <View style={styling.root}>
+        <View style={styling.headers}>
+          <TouchableOpacity onPress={handleClose}>
+            <CloseIcon fill={theme.colors.border} />
+          </TouchableOpacity>
+        </View>
+
         <View style={styling.features}>
           {camera ?
             <CameraPermissions />
@@ -67,13 +77,18 @@ const styles = theme => StyleSheet.create({
     marginVertical: 40,
     borderRadius: 4,
     overflow: 'hidden',
-    padding: theme.spacing.base,
+    padding: theme.spacing.base * 2,
+  },
+  headers: {
+    position: 'absolute',
+    flexDirection: 'row-reverse',
+    top: theme.spacing.base,
+    right: theme.spacing.base,
   },
   features: {
-    marginVertical: theme.spacing.base,
   },
   action: {
-    padding: theme.spacing.base,
+    paddingTop: theme.spacing.base * 2,
   },
 })
 
@@ -83,6 +98,8 @@ Permissions.propTypes = {
   openSettings: PropTypes.any,
   camera: PropTypes.any,
   location: PropTypes.any,
+  isModalOpen: PropTypes.any,
+  handleClose: PropTypes.any,
 }
 
 export default withTranslation()(withTheme(Permissions))

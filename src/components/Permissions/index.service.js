@@ -2,8 +2,27 @@ import { useState, useEffect } from 'react'
 import { PERMISSIONS, RESULTS, check, request } from 'react-native-permissions'
 import useAppState from 'services/AppState'
 import { openSettings } from 'react-native-permissions'
+import { useNavigation, useFocusEffect } from '@react-navigation/native'
 
 const Permissions = ({ children, camera, library, location }) => {
+  const navigation = useNavigation()
+
+  /**
+   * Ui state
+   */
+  const [isModalOpen, setIsModalOpen] = useState(false)
+  useFocusEffect(() => {
+    setIsModalOpen(true)
+  })
+
+  const handleClose = () => {
+    navigation.goBack()
+    setIsModalOpen(false)
+  }
+
+  /**
+   * Permissions state
+   */  
   const [cameraEnabled, setCameraEnabled] = useState(true)
   const [libraryEnabled, setLibraryEnabled] = useState(true)
   const [locationEnabled, setLocationEnabled] = useState(true)
@@ -76,6 +95,8 @@ const Permissions = ({ children, camera, library, location }) => {
   }, [])
 
   return children({
+    handleClose,
+    isModalOpen,
     cameraEnabled,
     libraryEnabled,
     locationEnabled,
