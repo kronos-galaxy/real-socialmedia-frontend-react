@@ -48,6 +48,7 @@ const DatingAboutForm = ({
   handleSubmit,
   loading,
   values,
+  errors,
 }) => {
   const styling = styles
     
@@ -89,6 +90,7 @@ const DatingAboutForm = ({
         helper="Change your date of birth"
         active={true}
         success={values.dateOfBirthMonth && values.dateOfBirthDay && values.dateOfBirthYear}
+        error={errors.dateOfBirthMonth || errors.dateOfBirthDay || errors.dateOfBirthYear}
       >
         <View style={styling.row}>
           <View style={styling.item}>
@@ -109,6 +111,7 @@ const DatingAboutForm = ({
         helper="Change your gender"
         active={false}
         success={values.gender}
+        error={errors.gender}
       >
         <Field name="gender" component={PickerField} placeholder={{ label: 'Your Gender', value: undefined }} items={genderItems} />
       </CollapsableComponent>
@@ -118,6 +121,7 @@ const DatingAboutForm = ({
         helper="Change your full name"
         active={false}
         success={values.fullName}
+        error={errors.fullName}
       >
         <Field name="fullName" component={TextField} placeholder={t('Your Full Name')}/>
       </CollapsableComponent>
@@ -127,6 +131,7 @@ const DatingAboutForm = ({
         helper="Change your bio"
         active={false}
         success={values.bio}
+        error={errors.bio}
       >
         <Field name="bio" component={TextField} placeholder={t('Bio')} />
       </CollapsableComponent>
@@ -159,6 +164,7 @@ DatingAboutForm.propTypes = {
   loading: PropTypes.any,
   values: PropTypes.any,
   setFieldValue: PropTypes.any,
+  errors: PropTypes.any,
 }
 
 export default withTranslation()(({

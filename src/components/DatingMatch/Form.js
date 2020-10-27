@@ -41,6 +41,7 @@ const DatingMatchForm = ({
   loading,
   values,
   setFieldValue,
+  errors,
 }) => {
   const styling = styles
   
@@ -87,6 +88,7 @@ const DatingMatchForm = ({
         helper="Change match age range"
         active={true}
         success={values.matchAgeRangeMin && values.matchAgeRangeMax}
+        error={errors.matchAgeRangeMin || errors.matchAgeRangeMax}
       >
         <View style={styling.row}>
           <View style={styling.item}>
@@ -104,6 +106,7 @@ const DatingMatchForm = ({
         helper="Change match gender"
         active={false}
         success={values.matchGenders}
+        errors={values.matchGenders}
       >
         <Field name="matchGenders" component={PickerField} placeholder={{ label: 'Match Gender', value: undefined }} items={genderItems} />
       </CollapsableComponent>
@@ -113,6 +116,7 @@ const DatingMatchForm = ({
         helper="Change match location range"
         active={false}
         success={values.matchLocationRadius}
+        error={errors.matchLocationRadius}
       >
         <Field name="matchLocationRadius" component={PickerField} placeholder={{ label: 'Match Location Range', value: undefined }} items={locationItems} />
       </CollapsableComponent>
@@ -122,6 +126,7 @@ const DatingMatchForm = ({
         helper="Change match location"
         active={false}
         success={values.location}
+        error={errors.location}
       >
         <Field name="location" component={MapField} placeholder={t('Match Location')} />
       </CollapsableComponent>
@@ -154,6 +159,7 @@ DatingMatchForm.propTypes = {
   loading: PropTypes.any,
   values: PropTypes.any,
   setFieldValue: PropTypes.any,
+  errors: PropTypes.any,
 }
 
 export default withTranslation()(({
