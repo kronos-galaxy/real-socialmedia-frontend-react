@@ -11,7 +11,7 @@ jobs:
         sudo n stable
     - name: Yarn
       run: |
-        yarn install
+        yarn install --network-timeout 1000000
     - name: Install react native
       run: |
         sudo npm install -g react-native-cli
