@@ -1,5 +1,8 @@
 name: CI
 on: [workflow_dispatch]
+defaults:
+  run:
+    working-directory: ios
 jobs:
   build:
     runs-on: macOS-latest
@@ -35,6 +38,5 @@ jobs:
         TAG=$(echo ${GITHUB_REF}| cut -d'-' -f 3)
         export BUILD_NUM=$(echo $TAG| cut -d'b' -f 2)
         export VERSION_NUM=$(echo $TAG| cut -d'b' -f 3)
-        pod install --project-directory=ios --repo-update
-        cd ios
+        pod install --repo-update
         fastlane beta --env development --verbose
