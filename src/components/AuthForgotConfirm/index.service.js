@@ -43,20 +43,6 @@ const AuthForgotConfirmComponentService = ({ children }) => {
     })
   }, [])
 
-  /**
-   * Redirect to verification confirmation once reset was successful
-   */
-  useEffect(() => {
-    if (
-      authForgotConfirm.status !== 'success'
-    ) return
-
-    navigationActions.navigateAuthSigninEmail(navigation)
-    dispatch(authActions.authForgotConfirmIdle({}))
-  }, [
-    authForgotConfirm.status === 'success',
-  ])
-
   const formSubmitLoading = authForgotConfirm.status === 'loading'
   const formSubmitDisabled = authForgotConfirm.status === 'loading'
   const formErrorMessage = authForgotConfirm.error.text

@@ -15,7 +15,6 @@ import AuthEmailConfirmScreen from 'screens/AuthEmailConfirmScreen'
 import VerificationScreen from 'screens/VerificationScreen'
 import CameraScreen from 'screens/CameraScreen'
 import AuthForgotConfirmScreen from 'screens/AuthForgotConfirmScreen'
-import AuthCognitoScreen from 'screens/AuthCognitoScreen'
 
 const Stack = createStackNavigator()
 
@@ -94,12 +93,6 @@ const AuthNavigator = () => {
         name="AuthForgotConfirm"
         component={AuthForgotConfirmScreen}
         {...stackScreenAuthProps({ options: { title: 'Forgot Confirm', headerLeft, gestureEnabled: true } })}
-      />
-
-      <Stack.Screen
-        name="AuthCognito"
-        component={AuthCognitoScreen}
-        {...stackScreenAuthProps({ options: { title: 'Signup', headerLeft: null } })}
       />
     </Stack.Navigator>
   )

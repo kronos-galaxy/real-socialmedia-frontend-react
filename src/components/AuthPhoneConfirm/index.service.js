@@ -1,5 +1,3 @@
-import { useEffect } from 'react'
-import { Keyboard } from 'react-native'
 import * as signupActions from 'store/ducks/signup/actions'
 import { useDispatch, useSelector } from 'react-redux'
 import { useRoute } from '@react-navigation/native'
@@ -10,9 +8,6 @@ const AuthPhoneConfirmComponentService = ({ children }) => {
   const dispatch = useDispatch()
   const route = useRoute()
 
-  const signupUsername = useSelector(state => state.signup.signupUsername)
-  const signupPhone = useSelector(state => state.signup.signupPhone)
-  const signupPassword = useSelector(state => state.signup.signupPassword)
   const signupConfirm = useSelector(state => state.signup.signupConfirm)
   const signupCognitoIdentity = useSelector(state => state.signup.signupCognitoIdentity)
 
@@ -24,49 +19,9 @@ const AuthPhoneConfirmComponentService = ({ children }) => {
       cognitoUsername: signupCognitoIdentity.cognitoUsername,
       cognitoUserId: signupCognitoIdentity.cognitoUserId,
       username: signupCognitoIdentity.username,
-      password: signupCognitoIdentity.password,
     }
     dispatch(signupActions.signupConfirmRequest(nextPayload))
   }
-
-  /**
-   * Create new user once phone and password is received from previous steps
-   * 
-   * Previous steps include:
-   * - signupUsername -> AuthUsernameScreen
-   * - signupPhone -> AuthPhoneScreen
-   * - signupPassword -> AuthPasswordScreen
-   */
-  useEffect(() => {
-    if (
-      !signupUsername.payload.username ||
-      !signupPhone.payload.phone ||
-      !signupPassword.payload.password
-    ) return
-  }, [
-    signupUsername.status,
-    signupPhone.status,
-    signupPassword.status,
-  ])
-
-  /**
-   * Redirect to verification confirmation once signup was successful
-   */
-  useEffect(() => {
-    if (
-      signupConfirm.status !== 'success'
-    ) return
-
-    logEvent('SIGNUP_CONFIRM_SUCCESS')
-    dispatch(signupActions.signupCreateIdle({}))
-    dispatch(signupActions.signupConfirmIdle({}))
-    dispatch(signupActions.signupUsernameIdle({}))
-    dispatch(signupActions.signupPasswordIdle({}))
-
-    Keyboard.dismiss()
-  }, [
-    signupConfirm.status,
-  ])
 
   const formSubmitLoading = signupConfirm.status === 'loading'
   const formSubmitDisabled = signupConfirm.status === 'loading'

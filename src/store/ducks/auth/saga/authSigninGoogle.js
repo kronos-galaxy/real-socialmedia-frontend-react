@@ -1,6 +1,7 @@
 import { put, call, take, race, getContext, takeEvery } from 'redux-saga/effects'
 import {
   federatedGoogleSignin,
+  validateUserExistance,
 } from 'services/AWS'
 import * as actions from 'store/ducks/auth/actions'
 import * as constants from 'store/ducks/auth/constants'
@@ -42,9 +43,14 @@ function* googleAuthenticateExisting(userPayload) {
  *
  */
 function* createAnonymousUser(userPayload) {
-  yield call([queryService, 'apiRequest'], queries.createAnonymousUser)
-  yield call([queryService, 'apiRequest'], queries.linkGoogleLogin, { googleIdToken: userPayload.token })
-  yield call([queryService, 'apiRequest'], queries.setFullname, { fullName: userPayload.name })
+  try {
+    yield call([queryService, 'apiRequest'], queries.createAnonymousUser)
+  } catch (error) {
+    // ignore
+  } finally {
+    yield call([queryService, 'apiRequest'], queries.linkGoogleLogin, { googleIdToken: userPayload.token })
+    yield call([queryService, 'apiRequest'], queries.setFullname, { fullName: userPayload.name })
+  }
 }
 
 /**
@@ -52,29 +58,15 @@ function* createAnonymousUser(userPayload) {
  */
 function* handleAuthSigninGoogleRequest() {
   const userPayload = yield call(getGooglePayload)
+  const userExists = yield call(validateUserExistance, userPayload)
 
-  yield call(googleAuthenticateExisting, userPayload)
-
-  yield put(actions.authFlowRequest({ allowAnonymous: true }))
-  const { flowSuccess } = yield race({
-    flowSuccess: take(constants.AUTH_FLOW_SUCCESS),
-    flowFailure: take(constants.AUTH_FLOW_FAILURE),
-  })
-
-  if (flowSuccess) {
-    return flowSuccess
+  if (!userExists) {
+    yield call(createAnonymousUser, userPayload)
   }
 
-  yield put(actions.authResetRequest({ allowAnonymous: true }))
-  yield race({
-    resetSuccess: take(constants.AUTH_RESET_SUCCESS),
-    resetFailure: take(constants.AUTH_RESET_FAILURE),
-  })
-
-  yield call(createAnonymousUser, userPayload)
   yield call(googleAuthenticateExisting, userPayload)
+  yield put(actions.authFlowRequest({ allowAnonymous: userExists }))
 
-  yield put(actions.authFlowRequest({ allowAnonymous: false }))
   yield race({
     flowSuccess: take(constants.AUTH_FLOW_SUCCESS),
     flowFailure: take(constants.AUTH_FLOW_FAILURE),

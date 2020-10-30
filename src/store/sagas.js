@@ -17,7 +17,6 @@ import appTheme from 'store/ducks/app/saga/appTheme'
 import auth from 'store/ducks/auth/saga'
 import authSigninCognito from 'store/ducks/auth/saga/authSigninCognito'
 import authSigninGoogle from 'store/ducks/auth/saga/authSigninGoogle'
-import authUpgradeGoogle from 'store/ducks/auth/saga/authUpgradeGoogle'
 import authSigninApple from 'store/ducks/auth/saga/authSigninApple'
 import authSigninAnonymous from 'store/ducks/auth/saga/authSigninAnonymous'
 import authSignout from 'store/ducks/auth/saga/authSignout'
@@ -31,6 +30,8 @@ import authPrefetch from 'store/ducks/auth/saga/authPrefetch'
 import signup from 'store/ducks/signup/saga'
 import signupCreate from 'store/ducks/signup/saga/signupCreate'
 import signupConfirm from 'store/ducks/signup/saga/signupConfirm'
+import signupPassword from 'store/ducks/signup/saga/signupPassword'
+import signupUsername from 'store/ducks/signup/saga/signupUsername'
 
 import datingMatchedUsers from 'store/ducks/dating/saga/datingMatchedUsers'
 import datingConfirmedUsers from 'store/ducks/dating/saga/datingConfirmedUsers'
@@ -77,7 +78,6 @@ export default function* rootSaga(persistor) {
     .concat(auth(persistor))
     .concat(authSigninCognito(persistor))
     .concat(authSigninGoogle(persistor))
-    .concat(authUpgradeGoogle(persistor))
     .concat(authSigninApple(persistor))
     .concat(authSigninAnonymous(persistor))
     .concat(authData(persistor))
@@ -90,6 +90,8 @@ export default function* rootSaga(persistor) {
     .concat(signup())
     .concat(signupCreate())
     .concat(signupConfirm())
+    .concat(signupPassword())
+    .concat(signupUsername())
 
     .concat(posts())
     .concat(postsCreate())

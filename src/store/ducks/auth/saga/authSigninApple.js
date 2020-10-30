@@ -1,72 +1,70 @@
 import { put, call, take, race, getContext, takeEvery } from 'redux-saga/effects'
-import path from 'ramda/src/path'
 import {
   federatedAppleSignin,
+  validateUserExistance,
 } from 'services/AWS'
-import {
-  saveAppleSigninPersist,
-  getAppleSigninPersist,
-} from 'services/Auth'
 import * as actions from 'store/ducks/auth/actions'
 import * as constants from 'store/ducks/auth/constants'
 import * as errors from 'store/ducks/auth/errors'
+import * as queries from 'store/ducks/auth/queries'
+import * as queryService from 'services/Query'
+
+function* getApplePayload() {
+  const apple = yield federatedAppleSignin()
+
+  const userPayload = {
+    id: apple.user.id,
+    name: apple.user.name,
+    email: apple.user.email,
+    authProvider: 'APPLE',
+    token: apple.token,
+    expires_at: apple.expires_at,
+  }
+
+  return userPayload
+}
 
 /**
  *
  */
-function* mergeAppleCache(apple) {
-  const cachedAppleUser = yield getAppleSigninPersist()
-  const isSameCachedUser = path(['user', 'id'])(apple) === path(['user', 'id'])(cachedAppleUser)
-  const isNewAppleUser = path(['user', 'email'])(apple)
-  const isCachedAppleUser = path(['user', 'email'])(cachedAppleUser)
-
-  if (isNewAppleUser) {
-    yield saveAppleSigninPersist(apple)
-    return apple
-  } else if (isCachedAppleUser && isSameCachedUser) {
-    return ({ ...apple, user: ({ ...apple.user, name: cachedAppleUser.user.name, email: cachedAppleUser.user.email }) })
-  } else {
-    return apple
-  }
-}
-
-/**
- * Authenticate using apple into identity pool
- */
-function* appleAuthentication() {
+function* appleAuthenticateExisting(userPayload) {
   const AwsAuth = yield getContext('AwsAuth')
 
-  const apple = yield federatedAppleSignin()
-  const cached = yield mergeAppleCache(apple)
-
-  const userPayload = {
-    id: apple.user.id,
-    name: cached.user.name,
-    email: cached.user.email,
-    authProvider: 'APPLE',
-    token: apple.token,
-  }
-
   return yield AwsAuth.federatedSignIn('appleid.apple.com', {
-    token: apple.token,
-    expires_at: apple.expires_at,
+    token: userPayload.token,
+    expires_at: userPayload.expires_at,
   }, userPayload)
 }
 
-function* handleAuthAppleRequest() {
-  yield call(appleAuthentication)
+/**
+ *
+ */
+function* createAnonymousUser(userPayload) {
+  try {
+    yield call([queryService, 'apiRequest'], queries.createAnonymousUser)
+  } catch (error) {
+    // ignore
+  } finally {
+    yield call([queryService, 'apiRequest'], queries.linkAppleLogin, { appleIdToken: userPayload.token })
+    yield call([queryService, 'apiRequest'], queries.setFullname, { fullName: userPayload.name })
+  }
+}
 
-  yield put(actions.authFlowRequest({ allowAnonymous: true }))
-  const { flowSuccess, flowFailure } = yield race({
+function* handleAuthAppleRequest() {
+  const userPayload = yield call(getApplePayload)
+  const userExists = yield call(validateUserExistance, userPayload)
+
+  if (!userExists) {
+    yield call(createAnonymousUser, userPayload)
+  } 
+
+  yield call(appleAuthenticateExisting, userPayload)
+  yield put(actions.authFlowRequest({ allowAnonymous: userExists }))
+
+  yield race({
     flowSuccess: take(constants.AUTH_FLOW_SUCCESS),
     flowFailure: take(constants.AUTH_FLOW_FAILURE),
   })
-
-  if (flowFailure) {
-    throw new Error('Failed to obtain flow')
-  }
-
-  return flowSuccess
 }
 
 /**

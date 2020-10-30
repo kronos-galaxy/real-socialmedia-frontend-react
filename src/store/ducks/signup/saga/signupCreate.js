@@ -1,4 +1,4 @@
-import { put, call, take, race, takeEvery } from 'redux-saga/effects'
+import { put, call, take, race, takeEvery, getContext } from 'redux-saga/effects'
 import * as actions from 'store/ducks/signup/actions'
 import * as constants from 'store/ducks/signup/constants'
 import * as queries from 'store/ducks/signup/queries'
@@ -6,6 +6,8 @@ import * as errors from 'store/ducks/signup/errors'
 import * as authActions from 'store/ducks/auth/actions'
 import * as authConstants from 'store/ducks/auth/constants'
 import * as queryService from 'services/Query'
+import * as navigationActions from 'navigation/actions'
+import { logEvent } from 'services/Analytics'
 
 /**
  *
@@ -92,6 +94,13 @@ function* signupCreateRequest(req) {
   }
 }
 
+function* signupCreateSuccess() {
+  const ReactNavigationRef = yield getContext('ReactNavigationRef')
+  navigationActions.navigateAuthEmailConfirm(ReactNavigationRef.current)
+  logEvent('SIGNUP_CREATE_SUCCESS')
+}
+
 export default () => [
   takeEvery(constants.SIGNUP_CREATE_REQUEST, signupCreateRequest),
+  takeEvery(constants.SIGNUP_CREATE_SUCCESS, signupCreateSuccess),
 ]

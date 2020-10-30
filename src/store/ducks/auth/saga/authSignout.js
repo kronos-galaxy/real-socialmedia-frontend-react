@@ -14,7 +14,7 @@ function* handleAuthSignoutRequest() {
 
   yield call([AwsAuth, 'signOut'], { global: true })
 
-  yield put(actions.authResetRequest({ allowAnonymous: true }))
+  yield put(actions.authResetRequest({}))
   yield race({
     resetSuccess: take(constants.AUTH_RESET_SUCCESS),
     resetFailure: take(constants.AUTH_RESET_FAILURE),

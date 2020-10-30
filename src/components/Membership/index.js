@@ -11,6 +11,7 @@ import SupportIcon from 'assets/svg/membership/Support'
 import DiamondIcon from 'assets/svg/settings/Diamond'
 import AppleIcon from 'assets/svg/auth/Apple'
 import DefaultButton from 'components/Formik/Button/DefaultButton'
+import AuthTermsTemplate from 'templates/Auth/Terms'
 
 import { withTranslation } from 'react-i18next'
 
@@ -132,6 +133,8 @@ const Membership = ({
         <View style={styling.action}>
           {errorMessage ? renderRetry() : isSubscribed ? renderUnsubscribe() : renderSubscribe()}
         </View>
+
+        <AuthTermsTemplate />
       </SafeAreaView>
     </ScrollView>
   )

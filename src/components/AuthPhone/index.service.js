@@ -17,11 +17,9 @@ const AuthPhoneComponentService = ({ children }) => {
   const navigation = useNavigation()
   const { theme } = useContext(ThemeContext)
 
-  const signupUsername = useSelector(state => state.signup.signupUsername)
+  const signupCheck = useSelector(state => state.signup.signupCheck)
   const signupPhone = useSelector(state => state.signup.signupPhone)
-  const signupPassword = useSelector(state => state.signup.signupPassword)
   const signupCreate = useSelector(state => state.signup.signupCreate)
-  const signupCognitoIdentity = useSelector(state => state.signup.signupCognitoIdentity)
 
   /**
    * Navigation state reset on back button press
@@ -49,62 +47,13 @@ const AuthPhoneComponentService = ({ children }) => {
      */
     logEvent('SIGNUP_CREATE_REQUEST')
     const signupCreatePayload = {
-      username: signupUsername.payload.username,
+      username: signupCheck.payload.username,
       usernameType: 'phone',
       phone: `${payload.countryCode}${payload.phone}`,
       email: null,
-      password: signupPassword.payload.password,
     }
     dispatch(signupActions.signupCreateRequest(signupCreatePayload))
   }
-
-  /**
-   * Create new user once phone and password is received from previous steps
-   * 
-   * Previous steps include:
-   * - signupUsername -> AuthUsernameScreen
-   * - signupPhone -> AuthPhoneScreen
-   * - signupPassword -> AuthPasswordScreen
-   */
-  useEffect(() => {
-    if (
-      !signupUsername.payload.username ||
-      !signupPhone.payload.phone ||
-      !signupPassword.payload.password
-    ) return
-
-    if (
-      signupUsername.payload.username === signupCognitoIdentity.username &&
-      signupPhone.payload.phone === signupCognitoIdentity.cognitoUsername &&
-      signupPassword.payload.password === signupCognitoIdentity.password
-    ) {
-      navigationActions.navigateAuthPhoneConfirm(navigation)
-      return
-    }
-  }, [
-    signupUsername.payload.username,
-    signupPhone.payload.phone,
-    signupPassword.payload.password,
-
-    signupUsername.status,
-    signupPhone.status,
-    signupPassword.status,
-  ])
-
-  /**
-   * Redirect to verification confirmation once signup was successful
-   */
-  useEffect(() => {
-    if (
-      signupCreate.status !== 'success' ||
-      signupCreate.data.cognitoDelivery !== 'phone'
-    ) return
-
-    logEvent('SIGNUP_CREATE_SUCCESS')
-    navigationActions.navigateAuthPhoneConfirm(navigation)
-  }, [
-    signupCreate.status,
-  ])
 
   const formSubmitLoading = signupCreate.status === 'loading'
   const formSubmitDisabled = signupCreate.status === 'loading'

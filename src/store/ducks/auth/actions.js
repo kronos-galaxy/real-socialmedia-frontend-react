@@ -68,14 +68,6 @@ export const authSigninGoogleFailure = createAction(constants.AUTH_SIGNIN_GOOGLE
 /**
  * 
  */
-export const authUpgradeGoogleIdle = createAction(constants.AUTH_UPGRADE_GOOGLE_IDLE)
-export const authUpgradeGoogleRequest = createAction(constants.AUTH_UPGRADE_GOOGLE_REQUEST)
-export const authUpgradeGoogleSuccess = createAction(constants.AUTH_UPGRADE_GOOGLE_SUCCESS)
-export const authUpgradeGoogleFailure = createAction(constants.AUTH_UPGRADE_GOOGLE_FAILURE)
-
-/**
- * 
- */
 export const authSigninAppleIdle = createAction(constants.AUTH_SIGNIN_APPLE_IDLE)
 export const authSigninAppleRequest = createAction(constants.AUTH_SIGNIN_APPLE_REQUEST)
 export const authSigninAppleSuccess = createAction(constants.AUTH_SIGNIN_APPLE_SUCCESS)

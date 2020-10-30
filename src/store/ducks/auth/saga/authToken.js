@@ -34,7 +34,7 @@ function* fetchCognitoCredentials() {
    * Cognito may throw an error if user is unathorized to stale token coming from asyncStorage
    */
   if (credentials.message && credentials.message.includes('Access to Identity') && credentials.message.includes('is forbidden')) {
-    yield put(actions.authResetRequest({ allowAnonymous: true }))
+    yield put(actions.authResetRequest({}))
     yield race({
       resetSuccess: take(constants.AUTH_RESET_SUCCESS),
       resetFailure: take(constants.AUTH_RESET_FAILURE),
