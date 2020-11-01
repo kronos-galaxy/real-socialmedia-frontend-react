@@ -54,7 +54,7 @@ const AuthForgotConfirm = ({
       </View>
 
       <AuthActionTemplate onPress={() => navigationActions.navigateAuthSigninPhone(navigation)}>
-        {t('Already Have an Account ? Log In')}
+        {t('Already Have an Account? Log In')}
       </AuthActionTemplate>
     </View>
   )

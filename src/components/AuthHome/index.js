@@ -68,7 +68,7 @@ const AuthHome = ({
       </View>
 
       <AuthActionTemplate testID={testIDs.footer.signInBtn} onPress={() => navigationActions.navigateSignin(navigation)}>
-        {t('Already Have an Account ? Log In')}
+        {t('Already Have an Account? Log In')}
       </AuthActionTemplate>
     </View>
   )
