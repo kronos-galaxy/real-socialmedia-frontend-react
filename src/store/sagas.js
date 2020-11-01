@@ -11,8 +11,6 @@ import users from 'store/ducks/users/saga'
 import usersSetUserDatingStatus from 'store/ducks/users/saga/usersSetUserDatingStatus'
 
 import appReady from 'store/ducks/app/saga/appReady'
-import appTranslation from 'store/ducks/app/saga/appTranslation'
-import appTheme from 'store/ducks/app/saga/appTheme'
 
 import auth from 'store/ducks/auth/saga'
 import authSigninCognito from 'store/ducks/auth/saga/authSigninCognito'
@@ -60,8 +58,6 @@ const captureErrors = (payload) => {
 export default function* rootSaga(persistor) {
   yield all([]
     .concat(appReady())
-    .concat(appTranslation())
-    .concat(appTheme())
 
     .concat(camera())
     .concat(albums())

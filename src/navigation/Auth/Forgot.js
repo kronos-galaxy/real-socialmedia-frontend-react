@@ -9,8 +9,8 @@ import AuthForgotEmailScreen from 'screens/AuthForgotEmailScreen'
 const Tab = createMaterialTopTabNavigator()
 
 const ForgotNavigator = () => {
-  const { theme, themes } = useContext(ThemeContext)
-  const tabNavigatorAuthProps = navigationOptions.tabNavigatorAuthProps({ theme, themes })
+  const { theme } = useContext(ThemeContext)
+  const tabNavigatorAuthProps = navigationOptions.tabNavigatorAuthProps({ theme })
 
   return (
     <Tab.Navigator {...tabNavigatorAuthProps}>

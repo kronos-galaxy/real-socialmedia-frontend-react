@@ -5,6 +5,7 @@ import is from 'ramda/src/is'
 import * as normalizer from 'normalizer/schemas'
 import * as entitiesSelector from 'store/ducks/entities/selectors'
 import * as usersSelector from 'store/ducks/users/selectors'
+import themesJson from 'assets/themes.json'
 
 const authUser = () => path(['auth', 'user'])
 const authData = () => path(['auth', 'authData'])
@@ -31,14 +32,10 @@ export const languageCodeSelector =
 export const themeCodeSelector = 
   state => pathOr('black.green', ['auth', 'user', 'themeCode'], state)
 
-export const appThemeSelector =
-  state => pathOr([], ['app', 'appTheme', 'data'], state)
-
 export const themeSelector = createSelector(
   authUserSelector,
-  appThemeSelector,
-  (authUser, appTheme) => {
+  (authUser) => {
     const activeTheme = pathOr('black.green', ['themeCode'])(authUser)
-    return (appTheme.find(theme => theme.key === activeTheme) || {}).theme
+    return (themesJson.find(theme => theme.key === activeTheme) || {}).theme
   },
 )

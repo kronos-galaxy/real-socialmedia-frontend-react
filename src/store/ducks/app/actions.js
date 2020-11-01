@@ -10,22 +10,6 @@ export const appReadySuccess = createAction(constants.APP_READY_SUCCESS)
 export const appReadyFailure = createAction(constants.APP_READY_FAILURE)
 
 /**
- *
- */
-export const appTranslationIdle = createAction(constants.APP_TRANSLATION_IDLE)
-export const appTranslationRequest = createAction(constants.APP_TRANSLATION_REQUEST)
-export const appTranslationSuccess = createAction(constants.APP_TRANSLATION_SUCCESS)
-export const appTranslationFailure = createAction(constants.APP_TRANSLATION_FAILURE)
-
-/**
- * 
- */
-export const appThemeIdle = createAction(constants.APP_THEME_IDLE)
-export const appThemeRequest = createAction(constants.APP_THEME_REQUEST)
-export const appThemeSuccess = createAction(constants.APP_THEME_SUCCESS)
-export const appThemeFailure = createAction(constants.APP_THEME_FAILURE)
-
-/**
  * 
  */
 export const appThemePreviewIdle = createAction(constants.APP_THEME_PREVIEW_IDLE)

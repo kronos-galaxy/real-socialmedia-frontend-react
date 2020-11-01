@@ -23,9 +23,9 @@ import testIDs from './test-ids'
 const Tab = createBottomTabNavigator()
 
 const TabNavigator = ({ navigation, route }) => {
-  const { theme, themes } = useContext(ThemeContext)
+  const { theme } = useContext(ThemeContext)
   const { user } = useContext(AuthContext)
-  const tabNavigatorProps = navigationOptions.tabNavigatorProps({ theme, themes, route })
+  const tabNavigatorProps = navigationOptions.tabNavigatorProps({ theme, route })
 
   const FeedTabIconComponent = ({ color }) => <HomeIcon fill={color} />
   const feedTabScreenPropsCard = {

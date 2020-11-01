@@ -11,21 +11,6 @@ export const initialState = {
     meta: {},
   },
 
-  appTranslation: {
-    data: {
-      en: {},
-      de: {},
-    },
-    status: 'idle',
-    error: {},
-    payload: {},
-  },
-
-  appTheme: {
-    data: [],
-    status: 'idle',
-  },
-
   appThemePreview: {
     data: {
       name: null,
@@ -74,66 +59,6 @@ const appReadyIdle = (state) => update(state, {
 /**
  *
  */
-const appTranslationRequest = (state, action) => update(state, {
-  appTranslation: {
-    status: { $set: 'loading' },
-    payload: { $set: action.payload },
-  },
-})
-
-const appTranslationSuccess = (state, action) => update(state, {
-  appTranslation: {
-    data: { $set: action.payload.data },
-    status: { $set: 'success' },
-  },
-})
-
-const appTranslationFailure = (state, action) => update(state, {
-  appTranslation: {
-    error: { $set: action.payload.error },
-    status: { $set: 'failure' },
-  },
-})
-
-const appTranslationIdle = (state) => update(state, {
-  appTranslation: {
-    data: { $set: initialState.appTranslation.data },
-    status: { $set: 'idle' },
-  },
-})
-
-/**
- *
- */
-const appThemeRequest = (state) => update(state, {
-  appTheme: {
-    status: { $set: 'loading' },
-  },
-})
-
-const appThemeSuccess = (state, action) => update(state, {
-  appTheme: {
-    data: { $set: action.payload.data },
-    status: { $set: 'success' },
-  },
-})
-
-const appThemeFailure = (state) => update(state, {
-  appTheme: {
-    status: { $set: 'failure' },
-  },
-})
-
-const appThemeIdle = (state) => update(state, {
-  appTheme: {
-    data: { $set: initialState.appTheme.data },
-    status: { $set: 'idle' },
-  },
-})
-
-/**
- *
- */
 const appThemePreviewRequest = (state) => update(state, {
   appThemePreview: {
     status: { $set: 'loading' },
@@ -165,16 +90,6 @@ export default handleActions({
   [constants.APP_READY_SUCCESS]: appReadySuccess,
   [constants.APP_READY_FAILURE]: appReadyFailure,
   [constants.APP_READY_IDLE]: appReadyIdle,
-
-  [constants.APP_TRANSLATION_REQUEST]: appTranslationRequest,
-  [constants.APP_TRANSLATION_SUCCESS]: appTranslationSuccess,
-  [constants.APP_TRANSLATION_FAILURE]: appTranslationFailure,
-  [constants.APP_TRANSLATION_IDLE]: appTranslationIdle,
-
-  [constants.APP_THEME_REQUEST]: appThemeRequest,
-  [constants.APP_THEME_SUCCESS]: appThemeSuccess,
-  [constants.APP_THEME_FAILURE]: appThemeFailure,
-  [constants.APP_THEME_IDLE]: appThemeIdle,
 
   [constants.APP_THEME_PREVIEW_REQUEST]: appThemePreviewRequest,
   [constants.APP_THEME_PREVIEW_SUCCESS]: appThemePreviewSuccess,

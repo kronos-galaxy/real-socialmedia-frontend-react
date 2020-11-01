@@ -12,7 +12,6 @@ const AlbumService = ({ children }) => {
   const route = useRoute()
   const albumId = route.params.album.albumId
   const user = useSelector(authSelector.authUserSelector)
-  const appTheme = useSelector(state => state.app.appTheme)
   const albumsDelete = useSelector(state => state.albums.albumsDelete)
   const albumsSingleGet = useSelector(albumsSelector.albumsSingleGetSelector(albumId))
   const albumsPostsGet = useSelector(albumsSelector.albumsPostsGetSelector(albumId))
@@ -40,7 +39,6 @@ const AlbumService = ({ children }) => {
 
   return children({
     user,
-    appTheme,
     albumsSingleGet,
     albumsPostsGet,
     albumsPostsGetRequest,

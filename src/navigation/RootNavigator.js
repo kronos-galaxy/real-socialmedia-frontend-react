@@ -13,11 +13,11 @@ import ProfileUpgradeScreen from 'screens/ProfileUpgradeScreen'
 const Stack = createStackNavigator()
 
 const RootNavigator = () => {
-  const { theme, themes } = useContext(ThemeContext)
-  const stackNavigatorDefaultProps = navigationOptions.stackNavigatorDefaultProps({ theme, themes })
-  const stackScreenBlankProps = navigationOptions.stackScreenBlankProps({ theme, themes })
-  const stackScreenPageProps = navigationOptions.stackScreenPageProps({ theme, themes })
-  const stackScreenCardProps = navigationOptions.stackScreenCardProps({ theme, themes })
+  const { theme } = useContext(ThemeContext)
+  const stackNavigatorDefaultProps = navigationOptions.stackNavigatorDefaultProps({ theme })
+  const stackScreenBlankProps = navigationOptions.stackScreenBlankProps({ theme })
+  const stackScreenPageProps = navigationOptions.stackScreenPageProps({ theme })
+  const stackScreenCardProps = navigationOptions.stackScreenCardProps({ theme })
   const stackScreenModalProps = navigationOptions.stackScreenModalProps
 
   return (

@@ -84,8 +84,6 @@ describe('rootReducer', () => {
   it('save app state on signout', () => {
     const state = applyActions([
       appActions.appReadyRequest(),
-      appActions.appTranslationRequest(),
-      appActions.appThemeRequest(),
       appActions.appThemePreviewRequest(),
     ], rootReducer)
 

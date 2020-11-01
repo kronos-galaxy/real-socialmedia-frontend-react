@@ -11,11 +11,11 @@ import FeedScreen from 'screens/FeedScreen'
 const Stack = createStackNavigator()
 
 const FeedNavigator = () => {
-  const { theme, themes } = useContext(ThemeContext)
+  const { theme } = useContext(ThemeContext)
   const { user } = useContext(AuthContext)
-  const stackNavigatorCardProps = navigationOptions.stackNavigatorCardProps({ theme, themes })
-  const stackScreenDefaultProps = navigationOptions.stackScreenDefaultProps({ theme, themes, user })
-  const stackScreenPageProps = navigationOptions.stackScreenPageProps({ theme, themes })
+  const stackNavigatorCardProps = navigationOptions.stackNavigatorCardProps({ theme })
+  const stackScreenDefaultProps = navigationOptions.stackScreenDefaultProps({ theme, user })
+  const stackScreenPageProps = navigationOptions.stackScreenPageProps({ theme })
 
   return (
     <Stack.Navigator {...stackNavigatorCardProps}>

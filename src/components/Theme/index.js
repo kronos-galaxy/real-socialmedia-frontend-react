@@ -12,6 +12,7 @@ import UserRowComponent from 'templates/UserRow'
 import ThemeRowActionComponent from 'templates/ThemeRowAction'
 import path from 'ramda/src/path'
 import ThemeAvatar from 'templates/ThemeAvatar'
+import themesJson from 'assets/themes.json'
 
 import { withTheme } from 'react-native-paper'
 import { withTranslation } from 'react-i18next'
@@ -20,7 +21,6 @@ const Theme = ({
   t,
   theme,
   user,
-  appTheme,
   appThemePreviewRequest,
   appThemePreviewIdle,
 }) => {
@@ -28,7 +28,7 @@ const Theme = ({
   
   return (
     <ScrollView style={styling.root}>
-      <RowsComponent items={path(['data'])(appTheme)}>
+      <RowsComponent items={themesJson}>
         {(theme) => (
           <RowsItemComponent>
             <UserRowComponent
@@ -84,7 +84,6 @@ Theme.propTypes = {
   t: PropTypes.any,
   theme: PropTypes.any,
   user: PropTypes.any,
-  appTheme: PropTypes.any,
   appThemePreviewRequest: PropTypes.any,
   appThemePreviewIdle: PropTypes.any,
 }

@@ -6,7 +6,6 @@ import * as authSelector from 'store/ducks/auth/selectors'
 
 const ThemeService = ({ children }) => {
   const dispatch = useDispatch()
-  const appTheme = useSelector(state => state.app.appTheme)
   const user = useSelector(authSelector.authUserSelector)
   const appThemePreview = useSelector(state => state.app.appThemePreview)
   const usersEditProfile = useSelector(state => state.users.usersEditProfile)
@@ -27,7 +26,6 @@ const ThemeService = ({ children }) => {
   }, [usersEditProfile.status])
 
   return children({
-    appTheme,
     user,
     usersEditProfileRequest,
     appThemePreview,

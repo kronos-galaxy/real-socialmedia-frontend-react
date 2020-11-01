@@ -11,11 +11,11 @@ import SearchScreen from 'screens/SearchScreen'
 const Stack = createStackNavigator()
 
 const SearchNavigator = () => {
-  const { theme, themes } = useContext(ThemeContext)
+  const { theme } = useContext(ThemeContext)
   const { user } = useContext(AuthContext)
-  const stackNavigatorDefaultProps = navigationOptions.stackNavigatorDefaultProps({ theme, themes })
-  const stackScreenDefaultProps = navigationOptions.stackScreenDefaultProps({ theme, themes, user })
-  const stackScreenPageProps = navigationOptions.stackScreenPageProps({ theme, themes })
+  const stackNavigatorDefaultProps = navigationOptions.stackNavigatorDefaultProps({ theme })
+  const stackScreenDefaultProps = navigationOptions.stackScreenDefaultProps({ theme, user })
+  const stackScreenPageProps = navigationOptions.stackScreenPageProps({ theme })
 
   return (
     <Stack.Navigator {...stackNavigatorDefaultProps}>

@@ -13,12 +13,11 @@ export const ThemeContext = React.createContext({})
 export const ThemeProvider = ({
   children,
 }) => {
-  const appTheme = useSelector(state => state.app.appTheme)
   const theme = useSelector(authSelector.themeSelector)
   
   return (
     <PaperProvider theme={theme}>
-      <ThemeContext.Provider value={{ theme, themes: appTheme.data }}>
+      <ThemeContext.Provider value={{ theme }}>
         <StatusBar barStyle={theme.dark ? 'light-content' : 'dark-content'} />
         {children}
       </ThemeContext.Provider>

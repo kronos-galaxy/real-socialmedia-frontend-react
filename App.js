@@ -30,11 +30,11 @@ const Application = (navigationProps) => {
       <ReduxNetworkProvider>
         <PersistGate loading={(<LoadingComponent />)} persistor={persistor}>
           <AppProvider {...navigationProps}>
-              <AuthProvider>
-                <ThemeProvider>
-                  <Router navigationRef={navigationProps.navigationRef} />
-                </ThemeProvider>
-              </AuthProvider>
+            <AuthProvider>
+              <ThemeProvider>
+                <Router navigationRef={navigationProps.navigationRef} />
+              </ThemeProvider>
+            </AuthProvider>
           </AppProvider>
         </PersistGate>
       </ReduxNetworkProvider>
