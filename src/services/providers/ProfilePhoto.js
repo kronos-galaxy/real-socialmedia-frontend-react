@@ -8,7 +8,7 @@ import { AuthContext } from 'services/providers/Auth'
 
 function useProfilePhoto() {
   const dispatch = useDispatch()
-  const navigation = useNavigation() 
+  const navigation = useNavigation()
   const { user } = useContext(AuthContext)
 
   const camera = useCamera({

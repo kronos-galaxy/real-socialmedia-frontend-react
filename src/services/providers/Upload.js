@@ -2,6 +2,7 @@ import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import * as postsActions from 'store/ducks/posts/actions'
 import * as cameraActions from 'store/ducks/camera/actions'
+import * as postsSelector from 'store/ducks/posts/selectors'
 import { v4 as uuid } from 'uuid'
 import dayjs from 'dayjs'
 import path from 'ramda/src/path'
@@ -43,7 +44,7 @@ export const useUploadState = ({
 }) => {
   const dispatch = useDispatch()
 
-  const postsCreate = useSelector(state => state.posts.postsCreate)
+  const postsCreate = useSelector(postsSelector.postsCreate)
   const postsCreateQueue = useSelector(state => state.posts.postsCreateQueue)
   const cameraCapture = useSelector(state => state.camera.cameraCapture)
 

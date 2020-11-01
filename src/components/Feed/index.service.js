@@ -8,7 +8,7 @@ import * as postsSelector from 'store/ducks/posts/selectors'
 const FeedService = ({ children }) => {
   const dispatch = useDispatch()
   const postsFeedGet = useSelector(postsSelector.postsFeedGetSelector())
-  const postsCreate = useSelector(state => state.posts.postsCreate)
+  const postsCreate = useSelector(postsSelector.postsCreate)
   const postsGetTrendingPosts = useSelector(postsSelector.postsGetTrendingPostsSelector())
   
   const postsFeedGetRequest = (payload) =>

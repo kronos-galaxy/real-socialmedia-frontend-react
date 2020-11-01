@@ -51,7 +51,13 @@ function* usersSetUserDatingStatusSuccess() {
   navigationActions.navigateDating(ReactNavigationRef.current)()
 }
 
+function* usersSetUserDatingStatusFailure() {
+  const ReactNavigationRef = yield getContext('ReactNavigationRef')
+  navigationActions.navigateDating(ReactNavigationRef.current)()
+}
+
 export default () => [
   takeLatest(constants.USERS_SET_USER_DATING_STATUS_REQUEST, usersSetUserDatingStatusRequest),
   takeLatest(constants.USERS_SET_USER_DATING_STATUS_SUCCESS, usersSetUserDatingStatusSuccess),
+  takeLatest(constants.USERS_SET_USER_DATING_STATUS_FAILURE, usersSetUserDatingStatusFailure),
 ]

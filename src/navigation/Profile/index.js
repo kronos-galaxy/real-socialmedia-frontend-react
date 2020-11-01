@@ -44,17 +44,17 @@ const ProfileNavigator = () => {
       <Stack.Screen
         name="ProfilePhotoGrid"
         component={ProfilePhotoGridScreen}
-        {...stackScreenPageProps({ options: { title: 'Change Profile Photo' } })}
+        {...stackScreenPageProps({ options: { title: 'Change Profile Picture' } })}
       />
       <Stack.Screen
         name="ProfilePhotoUpload"
         component={ProfilePhotoUploadScreen}
-        {...stackScreenPageProps({ options: { title: 'Change Profile Photo' } })}
+        {...stackScreenPageProps({ options: { title: 'Change Profile Picture' } })}
       />
       <Stack.Screen
         name="ProfilePhoto"
         component={ProfilePhotoScreen}
-        {...stackScreenPageProps({ options: { title: 'Change Profile Photo' } })}
+        {...stackScreenPageProps({ options: { title: 'Change Profile Picture' } })}
       />
       <Stack.Screen
         name="Theme"

@@ -2,8 +2,6 @@ import { useEffect } from 'react'
 import { Alert } from 'react-native'
 import * as postsActions from 'store/ducks/posts/actions'
 import * as usersActions from 'store/ducks/users/actions'
-import * as navigationActions from 'navigation/actions'
-import * as authSelector from 'store/ducks/auth/selectors'
 import useUpload, { useUploadState } from 'services/providers/Upload'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigation } from '@react-navigation/native'
@@ -13,7 +11,6 @@ import { pageHeaderLeft } from 'navigation/options'
 const ProfilePhotoUploadComponentService = ({ children }) => {
   const dispatch = useDispatch()
   const navigation = useNavigation()
-  const user = useSelector(authSelector.authUserSelector)
 
   const postsCreateQueue = useSelector((state) => state.posts.postsCreateQueue)
   const usersEditProfile = useSelector((state) => state.users.usersEditProfile)
@@ -35,7 +32,7 @@ const ProfilePhotoUploadComponentService = ({ children }) => {
 
   const handleUploadFailure = () => {
     Alert.alert(
-      'Profile Photo Upload Failed',
+      'Profile Picture Upload Failed',
       'Please try again',
       [
         {
@@ -72,8 +69,7 @@ const ProfilePhotoUploadComponentService = ({ children }) => {
    */
   useEffect(() => {
     if (usersEditProfile.status === 'success') {
-      clearProfilePhotoUpload()
-      navigationActions.navigateProfile(navigation, user)
+      handleClose()
     }
   }, [usersEditProfile.status])
 
@@ -99,7 +95,7 @@ const ProfilePhotoUploadComponentService = ({ children }) => {
 
   const handleClose = () => {
     clearProfilePhotoUpload()
-    navigationActions.navigateSettings(navigation)()
+    navigation.goBack()
   }
 
   return children({

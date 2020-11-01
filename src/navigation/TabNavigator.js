@@ -54,12 +54,12 @@ const TabNavigator = ({ navigation, route }) => {
   }
 
   const DatingTabIconComponent = ({ color }) => <DatingIcon fill={color} />
-  const ChatTabButtonComponent = (props) => <TouchableOpacity {...props} onPress={navigationActions.navigateDating(navigation, {}, { protected: true, user })} />
+  const DatingTabButtonComponent = (props) => <TouchableOpacity {...props} onPress={navigationActions.navigateDating(navigation, {}, { protected: true, user })} />
   const datingTabScreenPropsCard = {
     options: {
       tabBarIcon: DatingTabIconComponent,
       tabBarLabel: 'Dating',
-      tabBarButton: ChatTabButtonComponent,
+      tabBarButton: DatingTabButtonComponent,
     },
   }
 

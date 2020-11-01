@@ -1,13 +1,12 @@
 import { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import * as authSelector from 'store/ducks/auth/selectors'
 import * as datingActions from 'store/ducks/dating/actions'
 import * as datingSelector from 'store/ducks/dating/selectors'
 import path from 'ramda/src/path'
+import withDatingEnabledValidation from 'components/Dating/Permission'
 
 const DatingService = ({ children }) => {
   const dispatch = useDispatch()
-  const user = useSelector(authSelector.authUserSelector)
   const datingMatchedUsers = useSelector(datingSelector.datingMatchedUsersSelector())
 
   useEffect(() => {
@@ -31,7 +30,6 @@ const DatingService = ({ children }) => {
   }
 
   return children({
-    user,
     datingMatchedUsersRequest,
     datingMatchedUsersIdle,
     datingMatchedUsers,
@@ -40,4 +38,4 @@ const DatingService = ({ children }) => {
   })
 }
 
-export default DatingService
+export default withDatingEnabledValidation(DatingService)

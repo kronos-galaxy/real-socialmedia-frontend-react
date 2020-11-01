@@ -1,8 +1,7 @@
-import React, { useRef } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import { StyleSheet, View, ScrollView, TouchableOpacity } from 'react-native'
 import { Text, Caption } from 'react-native-paper'
-import ActionSheet from 'components/ActionSheet'
 import AuthErrorTemplate from 'templates/Auth/Error'
 import RowsComponent from 'templates/Rows'
 import RowsItemComponent from 'templates/RowsItem'
@@ -25,7 +24,6 @@ import DeviceInfo from 'react-native-device-info'
 
 import { withTheme } from 'react-native-paper'
 import { withTranslation } from 'react-i18next'
-import { isAvatarEmpty, confirm } from 'components/Settings/helpers'
 import * as navigationActions from 'navigation/actions'
 import testIDs from './test-ids'
 
@@ -33,32 +31,13 @@ const Settings = ({
   t,
   theme,
   authSignoutRequest,
-  handleLibrarySnap,
   navigation,
-  usersDeleteAvatarRequest,
   handleErrorClose,
   settingsErrorMessage,
-  handleCameraSnap,
   user,
+  openUploadAvatarMenu,
 }) => {
   const styling = styles(theme)
-  const actionSheetRef = useRef(null)
-
-  const confirmProfilePhotoUpload = (onConfirm) => () => {
-    confirm({
-      title: t('Profile Photo Upload'),
-      desc: t('Your photo will be uploaded as post'),
-      onConfirm,
-    })
-  }
-
-  const handleProfilePhotoDelete = () => {
-    confirm({
-      title: t('Delete Profile Photo'),
-      desc: t('Are you sure you want to delete the profile photo?'),
-      onConfirm: usersDeleteAvatarRequest,
-    })
-  }
 
   return (
     <React.Fragment>
@@ -71,35 +50,6 @@ const Settings = ({
           />
         </TouchableOpacity>
 
-        <ActionSheet
-          actionSheetRef={actionSheetRef}
-          options={[
-            {
-              name: t('Take a Photo'),
-              onPress: confirmProfilePhotoUpload(handleCameraSnap),
-            },
-            {
-              name: t('Choose From Gallery'),
-              onPress: confirmProfilePhotoUpload(handleLibrarySnap),
-            },
-            {
-              name: t('Choose From Existing'),
-              onPress: () => navigationActions.navigateProfilePhotoGrid(navigation),
-            },
-            {
-              name: t('Delete Profile Photo'),
-              onPress: () => handleProfilePhotoDelete(),
-              isDestructive: true,
-              isVisible: !isAvatarEmpty(user),
-            },
-            {
-              name: t('Cancel'),
-              onPress: () => {},
-              isCancel: true,
-            },
-          ]}
-        />
-
         <RowsComponent
           items={[
             {
@@ -108,8 +58,8 @@ const Settings = ({
               icon: <EditIcon fill={theme.colors.text} />,
             },
             {
-              label: t('Change Profile Photo'),
-              onPress: () => actionSheetRef.current && actionSheetRef.current.show(),
+              label: t('Change Profile Picture'),
+              onPress: openUploadAvatarMenu,
               icon: <PhotoIcon fill={theme.colors.text} />,
             },
             {
@@ -197,13 +147,11 @@ Settings.propTypes = {
   t: PropTypes.any,
   theme: PropTypes.any,
   authSignoutRequest: PropTypes.any,
-  handleLibrarySnap: PropTypes.any,
   navigation: PropTypes.any,
   user: PropTypes.any,
-  usersDeleteAvatarRequest: PropTypes.func,
   handleErrorClose: PropTypes.func,
   settingsErrorMessage: PropTypes.string,
-  handleCameraSnap: PropTypes.func,
+  openUploadAvatarMenu: PropTypes.func,
 }
 
 Settings.defaultProps = {

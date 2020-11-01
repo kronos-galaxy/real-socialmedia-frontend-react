@@ -12,6 +12,7 @@ import DatingAboutScreen from 'screens/DatingAboutScreen'
 import DatingMatchScreen from 'screens/DatingMatchScreen'
 import DatingPreviewScreen from 'screens/DatingPreviewScreen'
 import DatingProfileScreen from 'screens/DatingProfileScreen'
+import ProfilePhotoUploadScreen from 'screens/ProfilePhotoUploadScreen'
 
 const Stack = createStackNavigator()
 
@@ -51,6 +52,12 @@ const DatingNavigator = () => {
       <Stack.Screen
         name="DatingProfile"
         component={DatingProfileScreen}
+        {...stackScreenDefaultProps}
+      />
+
+      <Stack.Screen
+        name="ProfilePhotoUpload"
+        component={ProfilePhotoUploadScreen}
         {...stackScreenDefaultProps}
       />
 

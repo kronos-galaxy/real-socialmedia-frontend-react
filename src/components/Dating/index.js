@@ -6,7 +6,6 @@ import {
 } from 'react-native'
 import DatingCard from 'components/Dating/Card'
 import DatingActions from 'components/Dating/Actions'
-import DatingSettings from 'components/Dating/Settings'
 import DatingPlaceholder from 'components/Dating/Placeholder'
 import LoadingComponent from 'components/Loading'
 import Swiper from 'react-native-deck-swiper'
@@ -17,7 +16,6 @@ import { withTranslation } from 'react-i18next'
 
 const Dating = ({
   theme,
-  user,
   datingMatchedUsersRequest,
   datingMatchedUsersIdle,
   datingMatchedUsers,
@@ -28,35 +26,25 @@ const Dating = ({
   const swiperRef = useRef(null)
   const renderCard = useCallback((datingUser) => <DatingCard user={datingUser} />, [])
 
-  const settingsVisibility = useMemo(() =>
-    path(['datingStatus'], user) !== 'ENABLED'
-  , [user])
-
   const loadingVisibility = useMemo(() =>
-    !settingsVisibility && path(['status'], datingMatchedUsers) === 'loading'
-  , [settingsVisibility, datingMatchedUsers])
+    path(['status'], datingMatchedUsers) === 'loading'
+  , [datingMatchedUsers])
 
   const placeholderVisibility = useMemo(() =>
-    !settingsVisibility && path(['status'], datingMatchedUsers) !== 'loading' && !path(['data', 'length'], datingMatchedUsers)
-  , [settingsVisibility, datingMatchedUsers])
+    path(['status'], datingMatchedUsers) !== 'loading' && !path(['data', 'length'], datingMatchedUsers)
+  , [datingMatchedUsers])
 
   const matchesVisibility = useMemo(() =>
-    !settingsVisibility && path(['status'], datingMatchedUsers) === 'success' && path(['data', 'length'], datingMatchedUsers)
-  , [settingsVisibility, datingMatchedUsers])
+    path(['status'], datingMatchedUsers) === 'success' && path(['data', 'length'], datingMatchedUsers)
+  , [datingMatchedUsers])
 
   const actionsVisibility = useMemo(() =>
-    !settingsVisibility && path(['status'], datingMatchedUsers) === 'success' && path(['data', 'length'], datingMatchedUsers)
-  , [settingsVisibility, datingMatchedUsers])
+    path(['status'], datingMatchedUsers) === 'success' && path(['data', 'length'], datingMatchedUsers)
+  , [datingMatchedUsers])
 
   return (
     <View style={styling.root}>
       <View style={styling.carousel}>
-        {settingsVisibility ?
-          <DatingSettings
-            user={user}
-          />
-        : null}
-
         {loadingVisibility ?
           <LoadingComponent />
         : null}
@@ -116,7 +104,6 @@ const styles = theme => StyleSheet.create({
 
 Dating.propTypes = {
   theme: PropTypes.any,
-  user: PropTypes.any,
   datingMatchedUsersRequest: PropTypes.func,
   datingMatchedUsersIdle: PropTypes.func,
   datingMatchedUsers: PropTypes.any,
