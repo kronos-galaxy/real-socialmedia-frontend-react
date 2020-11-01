@@ -121,12 +121,13 @@ export const usersGetPendingFollowersSelector = () => createDeepEqualSelector(
   },
 )
 
-const usersImagePostsGet = () => path(['users', 'usersGetPendingFollowers'])
+const usersImagePostsGet = () => path(['users', 'usersImagePostsGet'])
 
 export const usersImagePostsGetSelector = () => createDeepEqualSelector(
   [usersImagePostsGet(), entitiesSelector.entities],
   (usersImagePostsGet, entities) => {
     const denormalized = normalizer.denormalizePostsGet(usersImagePostsGet.data, entities)
+
     return assocPath(['data'], denormalized)(usersImagePostsGet)
   },
 )

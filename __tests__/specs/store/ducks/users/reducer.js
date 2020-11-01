@@ -31,4 +31,54 @@ describe('Users reducer', () => {
       expect(selectors.usersChangeAvatar(state)).toEqual({ status: 'failure' })
     })
   })
+
+  describe('usersImagePostsGet', () => {
+    const selector = selectors.usersImagePostsGetSelector()
+    it('initial state', () => {
+      const state = reducer(undefined, { type: 'MOCK' })
+
+      expect(selector(state)).toEqual({
+        data: [],
+        status: 'idle',
+        error: {},
+        payload: {},
+      })
+    })
+
+    it('loading', () => {
+      const payload = { userId: 1 }
+      const state = reducer(undefined, actions.usersImagePostsGetRequest(payload))
+
+      expect(selector(state)).toEqual({
+        data: [],
+        status: 'loading',
+        error: {},
+        payload,
+      })
+    })
+
+    it('success', () => {
+      const data = [{ id: 1 }]
+      const state = reducer(undefined, actions.usersImagePostsGetSuccess({ data }))
+
+      expect(selector(state)).toEqual({
+        data,
+        status: 'success',
+        error: {},
+        payload: {},
+      })
+    })
+
+    it('failure', () => {
+      const error = { message: 'Error' }
+      const state = reducer(undefined, actions.usersImagePostsGetFailure(error))
+
+      expect(selector(state)).toEqual({
+        data: [],
+        status: 'failure',
+        error: error.message,
+        payload: {},
+      })
+    })
+  })
 })
