@@ -41,10 +41,12 @@ const Feed = ({
 
   const { onViewableItemsFocusRef, viewabilityConfigRef } = useViewable()
 
+  const renderBookmark = () => <BookmarkComponent postsGetTrendingPosts={postsGetTrendingPosts} />
+
   const renderItem = useCallback(
     ({ item: post, index }) => (
       <React.Fragment>
-        {bookmarkSeparatorIndex === index ? <BookmarkComponent postsGetTrendingPosts={postsGetTrendingPosts} /> : null}
+        {bookmarkSeparatorIndex === index ? renderBookmark() : null}
 
         <PostServiceComponent>
           {(postProps) => (
@@ -88,7 +90,7 @@ const Feed = ({
         viewabilityConfig={viewabilityConfigRef.current}
         ListHeaderComponent={ListHeaderComponent}
         renderItem={renderItem}
-        ListFooterComponent={scroll.loadingmore ? ActivityIndicator : null}
+        ListFooterComponent={scroll.loadingmore ? ActivityIndicator : renderBookmark}
         ListFooterComponentStyle={styling.loading}
       />
     </View>
@@ -101,7 +103,7 @@ const styles = (theme) =>
       backgroundColor: theme.colors.backgroundPrimary,
     },
     loading: {
-      padding: 16,
+      paddingVertical: 16,
     },
   })
 
