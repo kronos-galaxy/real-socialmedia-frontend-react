@@ -16,6 +16,7 @@ import SignoutIcon from 'assets/svg/settings/Signout'
 import PrivacyIcon from 'assets/svg/settings/Privacy'
 import DiamondIcon from 'assets/svg/settings/Diamond'
 import ContactsIcon from 'assets/svg/settings/Contacts'
+import PasswordIcon from 'assets/svg/settings/Password'
 import DatingIcon from 'assets/svg/settings/Dating'
 import Avatar from 'templates/Avatar'
 import path from 'ramda/src/path'
@@ -36,6 +37,7 @@ const Settings = ({
   settingsErrorMessage,
   user,
   openUploadAvatarMenu,
+  authForgotRequest,
 }) => {
   const styling = styles(theme)
 
@@ -91,6 +93,11 @@ const Settings = ({
               label: t('Archived Photos'),
               onPress: () => navigationActions.navigateArchived(navigation),
               icon: <ArchiveIcon fill={theme.colors.text} />,
+            },
+            {
+              label: t('Change Password'),
+              onPress: authForgotRequest,
+              icon: <PasswordIcon fill={theme.colors.text} />,
             },
             {
               testID: testIDs.actions.signOutBtn,
@@ -152,6 +159,7 @@ Settings.propTypes = {
   handleErrorClose: PropTypes.func,
   settingsErrorMessage: PropTypes.string,
   openUploadAvatarMenu: PropTypes.func,
+  authForgotRequest: PropTypes.func,
 }
 
 Settings.defaultProps = {

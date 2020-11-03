@@ -65,6 +65,15 @@ describe('Settings component', () => {
     testNavigate(navigation, 'App.Root.Home.Profile.InviteFriends')
   })
 
+  it('Change Password', () => {
+    const authForgotRequest = jest.fn()
+    const { getByText } = setup({ authForgotRequest })
+
+    fireEvent.press(getByText('Change Password'))
+
+    expect(authForgotRequest).toHaveBeenCalled()
+  })
+
   it('Signout', () => {
     const authSignoutRequest = jest.fn()
     const { getByText } = setup({ authSignoutRequest })
