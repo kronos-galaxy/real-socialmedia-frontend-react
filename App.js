@@ -1,5 +1,4 @@
 import React, { useState, useRef, useEffect, useMemo } from 'react'
-import PropTypes from 'prop-types'
 import { Provider } from 'react-redux'
 import { PersistGate } from 'redux-persist/integration/react'
 import { NavigationContainer } from '@react-navigation/native'
@@ -23,17 +22,17 @@ const codePushOptions = {
 
 // codePush.sync(codePushOptions)
 
-const Application = ({ navigationRef }) => {
-  const { store, persistor } = useMemo(() => initializeStore({ navigationRef }), [])
+const Application = (navigationProps) => {
+  const { store, persistor } = useMemo(() => initializeStore({ navigationRef: navigationProps.navigationRef }), [])
 
   return (
     <Provider store={store}>
       <ReduxNetworkProvider>
         <PersistGate loading={(<LoadingComponent />)} persistor={persistor}>
-          <AppProvider>
+          <AppProvider {...navigationProps}>
             <AuthProvider>
               <ThemeProvider>
-                <Router />
+                <Router navigationRef={navigationProps.navigationRef} />
               </ThemeProvider>
             </AuthProvider>
           </AppProvider>
@@ -43,27 +42,29 @@ const Application = ({ navigationRef }) => {
   )
 }
 
-Application.propTypes = {
-  navigationRef: PropTypes.any,
-}
-
 const WithNavigationContainer = () => {
   const navigationRef = useRef(null)
+  const onStateChangeRef = useRef(null)
+  const routeNameRef = useRef(null)
+
   const [navigationReady, setNavigationReady] = useState(false)
   const setMounted = () => setNavigationReady(true)
   const setUnmounted = () => setNavigationReady(false)
-
+  const onStateChange = () => onStateChangeRef.current && onStateChangeRef.current()
   useEffect(() => setUnmounted, [])
 
   return (
     <NavigationContainer
       ref={navigationRef}
       onReady={setMounted}
+      onStateChange={onStateChange}
       linking={linking}
     >
       {navigationReady ?
-        <Application 
-          navigationRef={navigationRef} 
+        <Application
+          navigationRef={navigationRef}
+          onStateChangeRef={onStateChangeRef}
+          routeNameRef={routeNameRef}
         />
       : null}
     </NavigationContainer>
