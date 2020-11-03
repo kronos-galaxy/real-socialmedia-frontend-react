@@ -61,10 +61,8 @@ const SearchComponent = ({
   const isEmpty = !path(['data', 'length'])(postsGetTrendingPosts)
   const isLoading = path(['status'])(postsGetTrendingPosts) === 'loading'
 
-  const flatListRef = React.useRef()
-
   const scrollToTop = () => {
-    flatListRef.current.scrollToOffset({ animated: true, offset: 0 })
+    feedRef.current.scrollToOffset({ animated: true, offset: 0 })
   }
 
   const handlePostsAllFilter = () => {
@@ -114,7 +112,7 @@ const SearchComponent = ({
       {!formFocus && isLoading && isEmpty ? <PostsLoadingComponent /> : null}
 
       <FlatList
-        ref={flatListRef}
+        ref={feedRef}
         data={postsGetTrendingPosts.data}
         numColumns={3}
         keyExtractor={(item) => item.postId}
