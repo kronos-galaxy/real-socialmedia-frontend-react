@@ -2,6 +2,7 @@ import { combineReducers } from 'redux'
 import users from 'store/ducks/users/reducer'
 import * as actions from 'store/ducks/users/actions'
 import * as selectors from 'store/ducks/users/selectors'
+import { applyActions } from 'tests/utils/helpers'
 
 const reducer = combineReducers({ users })
 
@@ -29,6 +30,15 @@ describe('Users reducer', () => {
       const state = reducer(undefined, actions.usersChangeAvatarFailure())
 
       expect(selectors.usersChangeAvatar(state)).toEqual({ status: 'failure' })
+    })
+
+    it('idle', () => {
+      const state = applyActions([
+        actions.usersChangeAvatarSuccess(),
+        actions.usersChangeAvatarIdle(),
+      ], reducer)
+
+      expect(selectors.usersChangeAvatar(state)).toEqual({ status: 'idle' })
     })
   })
 

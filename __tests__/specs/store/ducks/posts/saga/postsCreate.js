@@ -35,7 +35,7 @@ describe('Create post saga', () => {
         return saga
           .put(actions.postsCreateSuccess({ data: {}, payload: post, meta: {} }))
           .put(actions.postsGetRequest({ userId }))
-          .put(usersActions.usersImagePostsGetRequest({ userId }))
+          .put(usersActions.usersImagePostsGetRequest({ userId, isVerified: true }))
           .put(actions.postsFeedGetRequest({ limit: 20 }))
       }
 

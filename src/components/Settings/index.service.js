@@ -40,7 +40,7 @@ const SettingsService = ({ children }) => {
 }
 
 SettingsService.propTypes = {
-  children: PropTypes.element.isRequired,
+  children: PropTypes.any.isRequired,
 }
 
 export default SettingsService

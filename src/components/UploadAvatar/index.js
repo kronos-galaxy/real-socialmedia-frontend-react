@@ -20,7 +20,7 @@ const UploadAvatar = ({ children }) => {
 }
 
 UploadAvatar.propTypes = {
-  children: PropTypes.element.isRequired,
+  children: PropTypes.any.isRequired,
 }
 
 export default UploadAvatar

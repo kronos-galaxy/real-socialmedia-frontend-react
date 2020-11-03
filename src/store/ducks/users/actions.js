@@ -174,6 +174,7 @@ export const usersDeleteAvatarFailure = createAction(constants.USERS_DELETE_AVAT
 /**
  * 
  */
+export const usersChangeAvatarIdle = createAction(constants.USERS_CHANGE_AVATAR_IDLE)
 export const usersChangeAvatarRequest = createAction(constants.USERS_CHANGE_AVATAR_REQUEST)
 export const usersChangeAvatarSuccess = createAction(constants.USERS_CHANGE_AVATAR_SUCCESS)
 export const usersChangeAvatarFailure = createAction(constants.USERS_CHANGE_AVATAR_FAILURE)

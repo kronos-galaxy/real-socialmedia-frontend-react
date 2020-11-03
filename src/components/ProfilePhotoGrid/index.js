@@ -11,27 +11,27 @@ import GridItemComponent from 'templates/GridItem'
 import CacheComponent from 'components/Cache'
 import CheckedIcon from 'assets/svg/other/Checked'
 import UncheckedIcon from 'assets/svg/other/Unchecked'
-import { useHeader } from 'components/ProfilePhotoGrid/header'
+import DefaultButton from 'components/Formik/Button/DefaultButton'
 
-import { withTheme } from 'react-native-paper'
+import { Subheading, withTheme } from 'react-native-paper'
+import { withTranslation } from 'react-i18next'
 
 const ProfilePhotoGrid = ({
+  t,
   theme,
   usersImagePostsGet,
   handlePostPress,
   selectedPost,
-  usersEditProfileRequest,
+  handleOpenVerification,
 }) => {
   const styling = styles(theme)
 
-  useHeader({
-    title: 'Update',
-    onPress: usersEditProfileRequest,
-    hidden: !selectedPost.postId,
-  }, [selectedPost.postId])
-
   return (
     <View style={styling.root}>
+      <View style={styling.bookmark}>
+        <Subheading style={styling.subtitle}>{t('Only Verified Posts Can Be Set as a Profile Picture')}</Subheading>
+        <DefaultButton label={t('How to pass verification?')} onPress={handleOpenVerification} mode="outlined" />
+      </View>
       <ScrollView>
         <GridComponent items={path(['data'])(usersImagePostsGet)}>
           {(post, priorityIndex) => (
@@ -68,6 +68,16 @@ const styles = theme => StyleSheet.create({
     padding: theme.spacing.base,
     alignItems: 'center',
   },
+  bookmark: {
+    paddingHorizontal: theme.spacing.base,
+    paddingTop: theme.spacing.base,
+    paddingBottom: theme.spacing.base * 2,
+    backgroundColor: theme.colors.backgroundSecondary,
+  },
+  subtitle: {
+    textAlign: 'center',
+    marginBottom: theme.spacing.base,
+  },
 })
 
 ProfilePhotoGrid.defaultProps = {
@@ -75,11 +85,12 @@ ProfilePhotoGrid.defaultProps = {
 }
 
 ProfilePhotoGrid.propTypes = {
+  t: PropTypes.any,
   theme: PropTypes.any,
   usersImagePostsGet: PropTypes.any,
   handlePostPress: PropTypes.any,
   selectedPost: PropTypes.any,
-  usersEditProfileRequest: PropTypes.any,
+  handleOpenVerification: PropTypes.func,
 }
 
-export default withTheme(ProfilePhotoGrid)
+export default withTranslation()(withTheme(ProfilePhotoGrid))

@@ -123,10 +123,10 @@ export const setUserDetails = `
 `
 
 export const getImagePosts = `
-  query GetImagePosts($userId: ID!) {
+  query GetImagePosts($userId: ID!, $isVerified: Boolean) {
     user(userId: $userId) {
       posts(postType: IMAGE) {
-        items {
+        items(isVerified: $isVerified) {
           ...postFragment
         }
         nextToken

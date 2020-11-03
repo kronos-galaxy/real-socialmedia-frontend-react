@@ -789,6 +789,12 @@ const usersChangeAvatarFailure = (state) => update(state, {
   },
 })
 
+const usersChangeAvatarIdle = (state) => update(state, {
+  usersChangeAvatar: {
+    status: { $set: 'idle' },
+  },
+})
+
 /**
  *
  */
@@ -963,4 +969,5 @@ export default handleActions({
   [constants.USERS_CHANGE_AVATAR_REQUEST]: usersChangeAvatarRequest,
   [constants.USERS_CHANGE_AVATAR_SUCCESS]: usersChangeAvatarSuccess,
   [constants.USERS_CHANGE_AVATAR_FAILURE]: usersChangeAvatarFailure,
+  [constants.USERS_CHANGE_AVATAR_IDLE]: usersChangeAvatarIdle,
 }, initialState)

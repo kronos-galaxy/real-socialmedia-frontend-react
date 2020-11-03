@@ -173,7 +173,7 @@ function* handlePostsCreateSuccess(post) {
 
   yield put(actions.postsCreateSuccess({ data: {}, payload: post, meta: {} }))
   yield put(actions.postsGetRequest({ userId }))
-  yield put(usersActions.usersImagePostsGetRequest({ userId }))
+  yield put(usersActions.usersImagePostsGetRequest({ userId, isVerified: true }))
   yield put(actions.postsFeedGetRequest({ limit: 20 }))
 }
 
