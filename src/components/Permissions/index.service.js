@@ -28,25 +28,26 @@ const Permissions = ({ children, camera, library, location }) => {
   const [locationEnabled, setLocationEnabled] = useState(true)
 
   const checkCamera = async () => {
-    const result = await check(PERMISSIONS.IOS.CAMERA)
-    setCameraEnabled(result !== RESULTS.BLOCKED)
+    const result = await check(PERMISSIONS.IOS.CAMERA) === RESULTS.GRANTED
+    setCameraEnabled(result)
   }
 
   const checkLibrary = async () => {
-    const result = await check(PERMISSIONS.IOS.PHOTO_LIBRARY)
-    setLibraryEnabled(result !== RESULTS.BLOCKED)
+    const result = await check(PERMISSIONS.IOS.PHOTO_LIBRARY) === RESULTS.GRANTED
+    setLibraryEnabled(result)
   }
 
   const checkLocation = async () => {
-    const result = await check(PERMISSIONS.IOS.LOCATION_WHEN_IN_USE)
-    setLocationEnabled(result !== RESULTS.BLOCKED)
+    const result = await check(PERMISSIONS.IOS.LOCATION_WHEN_IN_USE) === RESULTS.GRANTED
+    setLocationEnabled(result)
   }
 
   const requestCamera = async () => {
     const result = await check(PERMISSIONS.IOS.CAMERA)
 
     if (result === RESULTS.DENIED) {
-      return request(PERMISSIONS.IOS.CAMERA)
+      await request(PERMISSIONS.IOS.CAMERA)
+      await checkCamera()
     }
   }
 
@@ -54,7 +55,8 @@ const Permissions = ({ children, camera, library, location }) => {
     const result = await check(PERMISSIONS.IOS.PHOTO_LIBRARY)
 
     if (result === RESULTS.DENIED) {
-      return request(PERMISSIONS.IOS.PHOTO_LIBRARY)
+      await request(PERMISSIONS.IOS.PHOTO_LIBRARY)
+      await checkLibrary()
     }
   }
 
@@ -62,7 +64,8 @@ const Permissions = ({ children, camera, library, location }) => {
     const result = await check(PERMISSIONS.IOS.LOCATION_WHEN_IN_USE)
 
     if (result === RESULTS.DENIED) {
-      return request(PERMISSIONS.IOS.LOCATION_WHEN_IN_USE)
+      await request(PERMISSIONS.IOS.LOCATION_WHEN_IN_USE)
+      await checkLocation()
     }
   }
 

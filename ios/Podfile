@@ -14,6 +14,7 @@ target 'REAL' do
   pod 'Permission-Camera', :path => "#{permissions_path}/Camera.podspec"
   pod 'Permission-PhotoLibrary', :path => "#{permissions_path}/PhotoLibrary.podspec"
   pod 'Permission-Contacts', :path => "#{permissions_path}/Contacts.podspec"
+  pod 'Permission-LocationWhenInUse', :path => "#{permissions_path}/LocationWhenInUse.podspec"
   pod 'react-native-contacts', :path => '../node_modules/react-native-contacts'
   pod 'RSKImageCropper', '2.0.0'
   pod 'GoogleSignIn', '~> 5.0.0'

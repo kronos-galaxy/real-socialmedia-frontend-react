@@ -29,7 +29,7 @@ const LocationPermissions = () => (
     <FeatureComponent active>Tap the "Privacy" menu item.</FeatureComponent>
     <FeatureComponent active>Tap the "Location" menu item.</FeatureComponent>
     <FeatureComponent active>Find "REAL" in the list of apps and tap it.</FeatureComponent>
-    <FeatureComponent active>Tap the "While Using the App" option to allow photo access by the REAL app.</FeatureComponent>
+    <FeatureComponent active>Tap the "While Using the App" option to allow location access by the REAL app.</FeatureComponent>
   </React.Fragment>
 )
 

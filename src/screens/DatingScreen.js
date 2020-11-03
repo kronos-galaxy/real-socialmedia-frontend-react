@@ -10,7 +10,7 @@ class DatingScreen extends React.Component {
       <PermissionsServiceComponent location>
         {(permissionsProps) => (
           <React.Fragment>
-            {!permissionsProps.datingEnabled ?
+            {!permissionsProps.locationEnabled ?
               <PermissionsComponent
                 {...permissionsProps}
                 location

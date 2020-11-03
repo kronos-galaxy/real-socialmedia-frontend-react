@@ -82,15 +82,15 @@
 		</dict>
 	</dict>
 	<key>NSCameraUsageDescription</key>
-	<string>We need camera permissions to use Photo Uploading on Public or Private Feed which you can define in profile settings.</string>
+	<string>REAL needs camera permissions to enable photo uploading</string>
 	<key>NSContactsUsageDescription</key>
-	<string>REAL needs contacts permission to allow you to find &amp; invite friends</string>
+	<string>REAL needs contacts permissions to enable find &amp; invite friends</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>We need location permissions to tag your Photo you upload.</string>
+	<string>REAL needs location permissions to tag your photo uploads and enable dating</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
-	<string>$(PRODUCT_NAME) wants to save photos</string>
+	<string>REAL wants to save photos</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>We need camera permissions to use Photo Uploading on Public or Private Feed which you can define in profile settings.</string>
+	<string>REAL needs gallery permissions to enable photo uploading</string>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>remote-notification</string>
