@@ -1,5 +1,6 @@
 /* eslint-disable react/prop-types */
 import React, { useContext } from 'react'
+import { useDispatch } from 'react-redux'
 import { TouchableOpacity } from 'react-native'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 
@@ -7,6 +8,7 @@ import { ThemeContext } from 'services/providers/Theme'
 import { AuthContext } from 'services/providers/Auth'
 import * as navigationOptions from 'navigation/options'
 import * as navigationActions from 'navigation/actions'
+import * as postsActions from 'store/ducks/posts/actions'
 
 import FeedNavigator from 'navigation/Feed'
 import SearchNavigator from 'navigation/Search'
@@ -23,6 +25,7 @@ import testIDs from './test-ids'
 const Tab = createBottomTabNavigator()
 
 const TabNavigator = ({ navigation, route }) => {
+  const dispatch = useDispatch()
   const { theme } = useContext(ThemeContext)
   const { user } = useContext(AuthContext)
   const tabNavigatorProps = navigationOptions.tabNavigatorProps({ theme, route })
@@ -35,11 +38,20 @@ const TabNavigator = ({ navigation, route }) => {
     },
   }
   
+  const handleSearchPress = (props) => () => { 
+    props.onPress()
+
+    setTimeout(() => {
+      dispatch(postsActions.postsGetTrendingPostsRequest())
+    }, 300)
+  }
   const SearchTabIconComponent = ({ color }) => <SearchIcon fill={color} />
+  const SearchTabButtonComponent = (props) => <TouchableOpacity {...props} onPress={handleSearchPress(props)} />
   const searchTabScreenPropsCard = {
     options: {
       tabBarIcon: SearchTabIconComponent,
       tabBarLabel: 'Explore',
+      tabBarButton: SearchTabButtonComponent,
     },
   }
 

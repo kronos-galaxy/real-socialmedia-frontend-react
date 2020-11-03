@@ -1,5 +1,6 @@
 import { createSelectorCreator, defaultMemoize } from 'reselect'
 import path from 'ramda/src/path'
+import compose from 'ramda/src/compose'
 import equals from 'ramda/src/equals'
 import assocPath from 'ramda/src/assocPath'
 import * as normalizer from 'normalizer/schemas'
@@ -127,6 +128,7 @@ export const postsLikesGetSelector = (postId) => createDeepEqualSelector(
  *
  */
 export const postsGetTrendingPosts = () => path(['posts', 'postsGetTrendingPosts'])
+export const postsGetTrendingPostsFilters = compose(path(['filters']), postsGetTrendingPosts())
 
 export const postsGetTrendingPostsSelector = () => createDeepEqualSelector(
   [postsGetTrendingPosts(), entitiesSelector.entities],

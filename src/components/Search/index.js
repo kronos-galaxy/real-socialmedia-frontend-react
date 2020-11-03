@@ -43,12 +43,13 @@ const SearchComponent = ({
   formChange,
   trendingFilters,
   handleFilterChange,
+  postsGetTrendingPostsRequest,
 }) => {
   const styling = styles(theme)
 
   const scroll = ScrollService({
     resource: postsGetTrendingPosts,
-    loadInit: () => {},
+    loadInit: postsGetTrendingPostsRequest, 
     loadMore: postsGetTrendingPostsMoreRequest,
     extra: { limit: path(['payload', 'limit'])(postsGetTrendingPosts) },
   })
@@ -60,31 +61,6 @@ const SearchComponent = ({
 
   const isEmpty = !path(['data', 'length'])(postsGetTrendingPosts)
   const isLoading = path(['status'])(postsGetTrendingPosts) === 'loading'
-
-  const scrollToTop = () => {
-    feedRef.current.scrollToOffset({ animated: true, offset: 0 })
-  }
-
-  const handlePostsAllFilter = () => {
-    handleFilterChange({ viewedStatus: undefined, isVerified: undefined })
-    scrollToTop()
-  }
-  const handlePostsViewedFilter = () => {
-    handleFilterChange({ ...trendingFilters, viewedStatus: 'VIEWED' })
-    scrollToTop()
-  }
-  const handlePostsNotViewedFilter = () => {
-    handleFilterChange({ ...trendingFilters, viewedStatus: 'NOT_VIEWED' })
-    scrollToTop()
-  }
-  const handlePostsVerifiedFilter = () => {
-    handleFilterChange({ ...trendingFilters, isVerified: true })
-    scrollToTop()
-  }
-  const handlePostsNotVerifiedFilter = () => {
-    handleFilterChange({ ...trendingFilters, isVerified: false })
-    scrollToTop()
-  }
 
   return (
     <View style={styling.root}>
@@ -99,11 +75,7 @@ const SearchComponent = ({
         <View style={styling.filters}>
           <FilterComponent
             trendingFilters={trendingFilters}
-            handlePostsAllFilter={handlePostsAllFilter}
-            handlePostsViewedFilter={handlePostsViewedFilter}
-            handlePostsNotViewedFilter={handlePostsNotViewedFilter}
-            handlePostsVerifiedFilter={handlePostsVerifiedFilter}
-            handlePostsNotVerifiedFilter={handlePostsNotVerifiedFilter}
+            handleFilterChange={handleFilterChange}
             isLoading={isLoading}
           />
         </View>
@@ -237,6 +209,7 @@ SearchComponent.propTypes = {
   formChange: PropTypes.any,
   trendingFilters: PropTypes.any,
   handleFilterChange: PropTypes.func,
+  postsGetTrendingPostsRequest: PropTypes.func,
 }
 
 export default withTranslation()(withTheme(SearchComponent))

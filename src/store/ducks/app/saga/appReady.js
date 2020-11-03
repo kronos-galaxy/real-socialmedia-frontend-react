@@ -1,4 +1,4 @@
-import { select, put, call, take, race, takeEvery } from 'redux-saga/effects'
+import { select, put, call, takeEvery } from 'redux-saga/effects'
 import * as actions from 'store/ducks/app/actions'
 import * as constants from 'store/ducks/app/constants'
 import * as errors from 'store/ducks/app/errors'

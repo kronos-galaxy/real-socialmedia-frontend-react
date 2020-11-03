@@ -21,6 +21,7 @@ describe('Posts reducer', () => {
         meta: {},
         payload: {},
         status: 'idle',
+        filters: {},
       })
     })
 
@@ -33,6 +34,7 @@ describe('Posts reducer', () => {
         meta,
         payload: {},
         status: 'success',
+        filters: {},
       })
     })
 
@@ -48,7 +50,15 @@ describe('Posts reducer', () => {
         meta: {},
         payload: undefined,
         status: 'loading',
-      })
+        filters: {},
+      }) 
+    })
+
+    it('filters', () => {
+      const filters = { a: 1, b: 2 }
+      const state = reducer(undefined, actions.postsGetTrendingPostsChangeFilters(filters))
+
+      expect(selectors.postsGetTrendingPostsFilters(state)).toEqual(filters)
     })
   })
 })

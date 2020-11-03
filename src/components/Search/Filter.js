@@ -2,23 +2,33 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { View, StyleSheet, TouchableOpacity, ScrollView } from 'react-native'
 import { Text } from 'react-native-paper'
-
+import pickAll from 'ramda/src/pickAll'
 import { withTheme } from 'react-native-paper'
 
 const Filter = ({
   theme,
-  trendingFilters: {
-    viewedStatus,
-    isVerified,
-  },
-  handlePostsAllFilter,
-  handlePostsViewedFilter,
-  handlePostsNotViewedFilter,
-  handlePostsVerifiedFilter,
-  handlePostsNotVerifiedFilter,
+  trendingFilters,
+  handleFilterChange,
   isLoading,
 }) => {
   const styling = styles(theme)
+  const { viewedStatus, isVerified } = pickAll(['viewedStatus', 'isVerified'], trendingFilters)
+
+  const handlePostsAllFilter = () => {
+    handleFilterChange({ viewedStatus: undefined, isVerified: undefined })
+  }
+  const handlePostsViewedFilter = () => {
+    handleFilterChange({ ...trendingFilters, viewedStatus: 'VIEWED' })
+  }
+  const handlePostsNotViewedFilter = () => {
+    handleFilterChange({ ...trendingFilters, viewedStatus: 'NOT_VIEWED' })
+  }
+  const handlePostsVerifiedFilter = () => {
+    handleFilterChange({ ...trendingFilters, isVerified: true })
+  }
+  const handlePostsNotVerifiedFilter = () => {
+    handleFilterChange({ ...trendingFilters, isVerified: false })
+  }
 
   const filters = [
     { title: 'All', isActive: viewedStatus === undefined && isVerified === undefined, onPress: handlePostsAllFilter },
@@ -88,18 +98,15 @@ Filter.propTypes = {
   trendingFilters: PropTypes.shape({
     viewedStatus: PropTypes.oneOf(['VIEWED', 'NOT_VIEWED']),
     isVerified: PropTypes.bool,
-  }).isRequired,
-  handlePostsAllFilter: PropTypes.func.isRequired,
-  handlePostsViewedFilter: PropTypes.func.isRequired,
-  handlePostsNotViewedFilter: PropTypes.func.isRequired,
-  handlePostsVerifiedFilter: PropTypes.func.isRequired,
-  handlePostsNotVerifiedFilter: PropTypes.func.isRequired,
+  }),
+  handleFilterChange: PropTypes.func.isRequired,
   isLoading: PropTypes.bool,
 }
 
 Filter.defaultProps = {
   values: {},
   isLoading: false,
+  trendingFilters: {},
 }
 
 export default withTheme(Filter)

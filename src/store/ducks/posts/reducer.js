@@ -130,6 +130,7 @@ export const initialState = {
     error: {},
     payload: {},
     meta: {},
+    filters: {},
   },
   postsCommentsGet: {
     data: [],
@@ -899,6 +900,12 @@ const postsGetTrendingPostsFailure = (state) => update(state, {
   },
 })
 
+const postsGetTrendingPostsChangeFilters = (state, action) => update(state, {
+  postsGetTrendingPosts: {
+    filters: { $set: action.payload },
+  },
+})
+
 const postsGetTrendingPostsMoreRequest = (state, action) => update(state, {
   postsGetTrendingPosts: {
     status: { $set: 'loading' },
@@ -1145,6 +1152,7 @@ export default handleActions({
   [constants.POSTS_GET_TRENDING_POSTS_REQUEST]: postsGetTrendingPostsRequest,
   [constants.POSTS_GET_TRENDING_POSTS_SUCCESS]: postsGetTrendingPostsSuccess,
   [constants.POSTS_GET_TRENDING_POSTS_FAILURE]: postsGetTrendingPostsFailure,
+  [constants.POSTS_GET_TRENDING_POSTS_CHANGE_FILTERS]: postsGetTrendingPostsChangeFilters,
   [constants.POSTS_GET_TRENDING_POSTS_MORE_REQUEST]: postsGetTrendingPostsMoreRequest,
   [constants.POSTS_GET_TRENDING_POSTS_MORE_SUCCESS]: postsGetTrendingPostsMoreSuccess,
 

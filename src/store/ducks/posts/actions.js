@@ -158,6 +158,7 @@ export const postsReportPostViewsFailure = createAction(constants.POSTS_REPORT_P
 export const postsGetTrendingPostsRequest = createAction(constants.POSTS_GET_TRENDING_POSTS_REQUEST)
 export const postsGetTrendingPostsSuccess = createAction(constants.POSTS_GET_TRENDING_POSTS_SUCCESS)
 export const postsGetTrendingPostsFailure = createAction(constants.POSTS_GET_TRENDING_POSTS_FAILURE)
+export const postsGetTrendingPostsChangeFilters = createAction(constants.POSTS_GET_TRENDING_POSTS_CHANGE_FILTERS)
 
 export const postsGetTrendingPostsMoreIdle = createAction(constants.POSTS_GET_TRENDING_POSTS_MORE_IDLE)
 export const postsGetTrendingPostsMoreRequest = createAction(constants.POSTS_GET_TRENDING_POSTS_MORE_REQUEST)
