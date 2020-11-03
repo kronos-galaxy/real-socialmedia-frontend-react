@@ -1,37 +1,18 @@
-import { useEffect, useCallback, useContext } from 'react'
+import { useEffect } from 'react'
 import * as signupActions from 'store/ducks/signup/actions'
-import * as navigationActions from 'navigation/actions'
-import { ThemeContext } from 'services/providers/Theme'
 import { useDispatch, useSelector } from 'react-redux'
-import { useNavigation } from '@react-navigation/native'
 import { logEvent } from 'services/Analytics'
-import { pageHeaderLeft } from 'navigation/options'
-import testIDs from './test-ids'
 
 const AuthPasswordComponentService = ({ children }) => {
   const dispatch = useDispatch()
-  const navigation = useNavigation()
-  const { theme } = useContext(ThemeContext)
 
   const signupPassword = useSelector(state => state.signup.signupPassword)
 
-  /**
-   * Navigation state reset on back button press
-   */
-  const handleGoBack = useCallback(() => {
-    dispatch(signupActions.signupPasswordIdle({}))
-    navigationActions.navigateAuthUsername(navigation)
-  }, [])
+  const onUnmount = () => {
+    dispatch(signupActions.signupPasswordIdle())
+  }
 
-  useEffect(() => {
-    navigation.setOptions({
-      headerLeft: () => pageHeaderLeft({ 
-        testID: testIDs.header.backBtn, 
-        onPress: handleGoBack, 
-        theme,
-      }),
-    })
-  }, [])
+  useEffect(() => onUnmount, [])
 
   const handleFormSubmit = (payload) => {
     logEvent('SIGNUP_PASSWORD_REQUEST')

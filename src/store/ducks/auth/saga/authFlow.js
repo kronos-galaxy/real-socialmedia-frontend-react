@@ -1,9 +1,8 @@
-import { put, take, race, takeEvery, getContext } from 'redux-saga/effects'
+import { put, take, race, takeEvery } from 'redux-saga/effects'
 import * as actions from 'store/ducks/auth/actions'
 import * as constants from 'store/ducks/auth/constants'
 import * as errors from 'store/ducks/auth/errors'
 import pathOr from 'ramda/src/pathOr'
-import * as navigationActions from 'navigation/actions'
 
 function hasAuthenticatedCondition({ dataSuccess }) {
   const authenticated = pathOr('', ['payload', 'data'])(dataSuccess).includes('us-east-1')
@@ -80,14 +79,6 @@ function* authFlowRequest(req) {
  */
 function* authFlowSuccess() {  
   yield put(actions.authPrefetchRequest())
-  
-  const ReactNavigationRef = yield getContext('ReactNavigationRef')
-  navigationActions.navigateApp(ReactNavigationRef.current)
-}
-
-function* authFlowFailure() {
-  const ReactNavigationRef = yield getContext('ReactNavigationRef')
-  navigationActions.navigateAuthHome(ReactNavigationRef.current)
 }
 
 export default () => [
