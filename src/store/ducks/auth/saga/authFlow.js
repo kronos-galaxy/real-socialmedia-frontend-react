@@ -79,13 +79,19 @@ function* authFlowRequest(req) {
  * Fetching initial data such as feed/cards/trending
  */
 function* authFlowSuccess() {  
-  const ReactNavigationRef = yield getContext('ReactNavigationRef')
   yield put(actions.authPrefetchRequest())
+  
+  const ReactNavigationRef = yield getContext('ReactNavigationRef')
+  navigationActions.navigateApp(ReactNavigationRef.current)
+}
 
-  navigationActions.navigateSearch(ReactNavigationRef.current)
+function* authFlowFailure() {
+  const ReactNavigationRef = yield getContext('ReactNavigationRef')
+  navigationActions.navigateAuthHome(ReactNavigationRef.current)
 }
 
 export default () => [
   takeEvery(constants.AUTH_FLOW_REQUEST, authFlowRequest),
   takeEvery(constants.AUTH_FLOW_SUCCESS, authFlowSuccess),
+  takeEvery(constants.AUTH_FLOW_FAILURE, authFlowFailure),
 ]

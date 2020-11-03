@@ -6,26 +6,31 @@ import authPrefetch from 'store/ducks/auth/saga/authPrefetch'
 import { testAsRootSaga } from 'tests/utils/helpers'
 
 describe('Auth prefetch', () => {
-  describe('guest', () => {
-    it('success', async () => {
-      await expectSaga(testAsRootSaga(authPrefetch))
-        .withState({
-          auth: { authToken: { meta: { type: 'COGNITO_GUEST' } } },
-        })
+  it('guest', async () => {
+    await expectSaga(testAsRootSaga(authPrefetch))
+      .withState({
+        auth: { authToken: { meta: { type: 'COGNITO_GUEST' } } },
+      })
 
-        .put(postsActions.postsFeedGetRequest({ limit: 20 }))
-        .put(usersActions.usersGetCardsRequest({}))
-        .put(postsActions.postsGetTrendingPostsRequest({ limit: 100 }))
-        .put(
-          authActions.authPrefetchSuccess({
-            message: { code: 'GENERIC', text: 'Auth prefetch is completed', nativeError: '' },
-          }),
-        )
+      .put(postsActions.postsFeedGetRequest({ limit: 20 }))
+      .put(postsActions.postsGetTrendingPostsRequest({ limit: 100 }))
+      .put(usersActions.usersGetCardsRequest())
 
-        .dispatch(authActions.authPrefetchRequest())
-        .dispatch(postsActions.postsFeedGetSuccess())
-        .dispatch(usersActions.usersGetCardsSuccess())
-        .silentRun()
-    })
+      .dispatch(authActions.authPrefetchRequest())
+      .silentRun()
+  })
+
+  it('authorized', async () => {
+    await expectSaga(testAsRootSaga(authPrefetch))
+      .withState({
+        auth: { authToken: { meta: { type: 'COGNITO_AUTHENTICATED' } } },
+      })
+
+      .put(postsActions.postsFeedGetRequest({ limit: 20 }))
+      .put(postsActions.postsGetTrendingPostsRequest({ limit: 100 }))
+      .put(usersActions.usersGetCardsRequest())
+
+      .dispatch(authActions.authPrefetchRequest())
+      .silentRun()
   })
 })

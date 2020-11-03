@@ -1,21 +1,14 @@
-import { select, put, call, takeEvery, getContext } from 'redux-saga/effects'
+import { select, put, call, take, race, takeEvery } from 'redux-saga/effects'
 import * as actions from 'store/ducks/app/actions'
 import * as constants from 'store/ducks/app/constants'
 import * as errors from 'store/ducks/app/errors'
 import * as authSelectors from 'store/ducks/auth/selectors'
-import * as navigationActions from 'navigation/actions'
+import * as authActions from 'store/ducks/auth/actions'
 
 import i18n from 'i18next'
 import { initReactI18next } from 'react-i18next'
 import * as Updates from 'services/Updates'
 import translationsJson from 'assets/translations.json'
-
-function* getCachedAuthentication() {
-  const AwsAuth = yield getContext('AwsAuth')
-
-  const credentials = yield call([AwsAuth, 'currentCredentials'])
-  return credentials.authenticated
-}
 
 /**
  * Translation library setup, appTranslation.data is an object of:
@@ -57,20 +50,15 @@ function* appReadyRequest(req) {
 }
 
 function* appReadySuccess() {
-  const ReactNavigationRef = yield getContext('ReactNavigationRef')
-
   /**
    * Is application at latest version
    */
   yield call([Updates, 'versionCheck'])
 
-  const hasCachedAuthentication = yield call(getCachedAuthentication)
-
-  if (hasCachedAuthentication) {
-    navigationActions.navigateApp(ReactNavigationRef.current)
-  } else {
-    navigationActions.navigateAuthHome(ReactNavigationRef.current)
-  }
+  /**
+   * Start auth flow
+   */
+  yield put(authActions.authFlowRequest({ allowAnonymous: false }))
 }
 
 export default () => [

@@ -9,7 +9,7 @@ const Filter = ({
   theme,
   trendingFilters: {
     viewedStatus,
-    verifiedStatus,
+    isVerified,
   },
   handlePostsAllFilter,
   handlePostsViewedFilter,
@@ -21,9 +21,9 @@ const Filter = ({
   const styling = styles(theme)
 
   const filters = [
-    { title: 'All', isActive: viewedStatus === undefined && verifiedStatus === undefined, onPress: handlePostsAllFilter },
-    { title: 'Verified', isActive: verifiedStatus === true, onPress: handlePostsVerifiedFilter },
-    { title: 'Unverified', isActive: verifiedStatus === false, onPress: handlePostsNotVerifiedFilter },
+    { title: 'All', isActive: viewedStatus === undefined && isVerified === undefined, onPress: handlePostsAllFilter },
+    { title: 'Verified', isActive: isVerified === true, onPress: handlePostsVerifiedFilter },
+    { title: 'Unverified', isActive: isVerified === false, onPress: handlePostsNotVerifiedFilter },
     { title: 'Viewed', isActive: viewedStatus === 'VIEWED', onPress: handlePostsViewedFilter },
     { title: 'Unviewed', isActive: viewedStatus === 'NOT_VIEWED', onPress: handlePostsNotViewedFilter },
   ]
@@ -87,7 +87,7 @@ Filter.propTypes = {
   t: PropTypes.any,
   trendingFilters: PropTypes.shape({
     viewedStatus: PropTypes.oneOf(['VIEWED', 'NOT_VIEWED']),
-    verifiedStatus: PropTypes.bool,
+    isVerified: PropTypes.bool,
   }).isRequired,
   handlePostsAllFilter: PropTypes.func.isRequired,
   handlePostsViewedFilter: PropTypes.func.isRequired,

@@ -71,7 +71,7 @@ describe('Search filter component', () => {
     const holder = setup({
       trendingFilters: {
         viewedStatus: undefined,
-        verifiedStatus: undefined,
+        isVerified: undefined,
       },
     })
 
@@ -88,7 +88,7 @@ describe('Search filter component', () => {
     const holder = setup({
       trendingFilters: {
         viewedStatus: undefined,
-        verifiedStatus: true,
+        isVerified: true,
       },
     })
 
@@ -105,7 +105,7 @@ describe('Search filter component', () => {
     const holder = setup({
       trendingFilters: {
         viewedStatus: undefined,
-        verifiedStatus: false,
+        isVerified: false,
       },
     })
 
@@ -122,7 +122,7 @@ describe('Search filter component', () => {
     const holder = setup({
       trendingFilters: {
         viewedStatus: 'VIEWED',
-        verifiedStatus: undefined,
+        isVerified: undefined,
       },
     })
 
@@ -139,7 +139,7 @@ describe('Search filter component', () => {
     const holder = setup({
       trendingFilters: {
         viewedStatus: 'NOT_VIEWED',
-        verifiedStatus: undefined,
+        isVerified: undefined,
       },
     })
 

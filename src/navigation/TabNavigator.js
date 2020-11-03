@@ -77,7 +77,7 @@ const TabNavigator = ({ navigation, route }) => {
   const PostType = () => null
 
   return (
-    <Tab.Navigator {...tabNavigatorProps}>
+    <Tab.Navigator {...tabNavigatorProps} initialRouteName="Search">
       <Tab.Screen
         name="Feed"
         component={FeedNavigator}

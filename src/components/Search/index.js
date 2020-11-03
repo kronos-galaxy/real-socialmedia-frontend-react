@@ -66,7 +66,7 @@ const SearchComponent = ({
   }
 
   const handlePostsAllFilter = () => {
-    handleFilterChange({ viewedStatus: undefined, verifiedStatus: undefined })
+    handleFilterChange({ viewedStatus: undefined, isVerified: undefined })
     scrollToTop()
   }
   const handlePostsViewedFilter = () => {
@@ -78,11 +78,11 @@ const SearchComponent = ({
     scrollToTop()
   }
   const handlePostsVerifiedFilter = () => {
-    handleFilterChange({ ...trendingFilters, verifiedStatus: true })
+    handleFilterChange({ ...trendingFilters, isVerified: true })
     scrollToTop()
   }
   const handlePostsNotVerifiedFilter = () => {
-    handleFilterChange({ ...trendingFilters, verifiedStatus: false })
+    handleFilterChange({ ...trendingFilters, isVerified: false })
     scrollToTop()
   }
 

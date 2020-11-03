@@ -6,7 +6,7 @@ import * as postsSelector from 'store/ducks/posts/selectors'
 import * as usersActions from 'store/ducks/users/actions'
 import * as postsActions from 'store/ducks/posts/actions'
 import SearchScreen from 'screens/SearchScreen'
-
+ 
 jest.mock('react-redux', () => ({ useDispatch: jest.fn(), useSelector: (i) => i }))
 jest.mock('@react-navigation/native', () => ({ useNavigation: jest.fn(), useScrollToTop: jest.fn() }))
 jest.mock('store/ducks/posts/selectors', () => ({ postsGetTrendingPostsSelector: jest.fn() }))
@@ -28,8 +28,6 @@ describe('Search screen', () => {
   it('initial fetch', () => {
     setup()
 
-    const fetchAllTrendingPosts = { viewedStatus: undefined, isVerified: undefined }
-    expect(dispatch).toHaveBeenCalledWith(postsActions.postsGetTrendingPostsRequest(fetchAllTrendingPosts))
     expect(dispatch).toHaveBeenCalledWith(usersActions.usersGetTrendingUsersRequest({ limit: 30 }))
   })
 
