@@ -8668,10 +8668,10 @@ react-native-gifted-chat@^0.16.3:
     react-native-typing-animation "^0.1.7"
     uuid "3.4.0"
 
-react-native-iap@^4.5.3:
-  version "4.6.3"
-  resolved "https://registry.yarnpkg.com/react-native-iap/-/react-native-iap-4.6.3.tgz#3f1a88e1561156f695f52134ee04e1ace5c37487"
-  integrity sha512-BUCnaIuUUcegarzDUbqvAwdauYaCNYqc+2ExluP8CXpKr0VdNpZxDGilHptDbBt9CCqWf7dvautNP/dsSI0J6A==
+react-native-iap@^5.1.1:
+  version "5.1.1"
+  resolved "https://registry.npmjs.org/react-native-iap/-/react-native-iap-5.1.1.tgz#467248fe4ed0ad9ec83b02d5a1354475978dc488"
+  integrity sha512-+R60GpJZzUFC0UHe0oyy1c/a3d3ph6KK0bMkGFa6lfNdD57jWG4PLhLQqirvWwnJRTNttlAF2HEXa+sQvLkmLA==
   dependencies:
     dooboolab-welcome "^1.2.0"
 

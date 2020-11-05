@@ -420,7 +420,7 @@ PODS:
   - RNGoogleSignin (4.0.3):
     - GoogleSignIn (~> 5.0.0)
     - React
-  - RNIap (4.6.3):
+  - RNIap (5.1.1):
     - React-Core
   - RNImageCropPicker (0.32.3):
     - React-Core
@@ -799,7 +799,7 @@ SPEC CHECKSUMS:
   RNFS: 2bd9eb49dc82fa9676382f0585b992c424cd59df
   RNGestureHandler: 7a5833d0f788dbd107fbb913e09aa0c1ff333c39
   RNGoogleSignin: ccf71ee4b6cfd324fd788a41e457e2043838c0d9
-  RNIap: 66b83af54a855b6314a243a200081a64d7f64c2e
+  RNIap: c0377981dfabe50887c5d1ff110011ed9b7cb6f3
   RNImageCropPicker: 54e5ea3d0e298ed51e1441a2fa0a0e7c90ee256d
   RNImageMarker: 3d2ad96afe3db0965ecff23ca97d65b812d06b47
   RNLocalize: 452d4118e338dee1e5ca3fac4d5a11a4ab26a46a
