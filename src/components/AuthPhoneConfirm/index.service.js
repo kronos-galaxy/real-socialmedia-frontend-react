@@ -9,16 +9,13 @@ const AuthPhoneConfirmComponentService = ({ children }) => {
   const route = useRoute()
 
   const signupConfirm = useSelector(state => state.signup.signupConfirm)
-  const signupCognitoIdentity = useSelector(state => state.signup.signupCognitoIdentity)
+  const signupCreate = useSelector(state => state.signup.signupCreate)
 
   const handleFormSubmit = (payload) => {
     logEvent('SIGNUP_CONFIRM_REQUEST')
     const nextPayload = {
-      usernameType: 'email',
+      usernameType: 'phone',
       confirmationCode: payload.confirmationCode,
-      cognitoUsername: signupCognitoIdentity.cognitoUsername,
-      cognitoUserId: signupCognitoIdentity.cognitoUserId,
-      username: signupCognitoIdentity.username,
     }
     dispatch(signupActions.signupConfirmRequest(nextPayload))
   }
@@ -28,12 +25,11 @@ const AuthPhoneConfirmComponentService = ({ children }) => {
   const formErrorMessage = signupConfirm.error.text
 
   const formInitialValues = {
-    cognitoUsername: path(['cognitoUsername'])(signupCognitoIdentity),
+    cognitoUsername: path(['payload', 'phone'])(signupCreate),
     confirmationCode: path(['params', 'confirmationCode'])(route),
   }
 
   const handleFormTransform = (values) => ({
-    cognitoUsername: values.cognitoUsername,
     confirmationCode: values.confirmationCode,
   })
 

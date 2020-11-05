@@ -70,7 +70,6 @@ const signupPersistConfig = {
   version: 3,
   storage: STORAGE_PROVIDER,
   whitelist: [
-    // 'signupCognitoIdentity',
   ],
 }
 

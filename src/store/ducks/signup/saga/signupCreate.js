@@ -94,10 +94,17 @@ function* signupCreateRequest(req) {
   }
 }
 
-function* signupCreateSuccess() {
-  const ReactNavigationRef = yield getContext('ReactNavigationRef')
-  navigationActions.navigateAuthEmailConfirm(ReactNavigationRef.current)
+function* signupCreateSuccess(req) {
   logEvent('SIGNUP_CREATE_SUCCESS')
+  const ReactNavigationRef = yield getContext('ReactNavigationRef')
+
+  if (req.payload.payload.usernameType === 'phone') {
+    navigationActions.navigateAuthPhoneConfirm(ReactNavigationRef.current)
+  }
+
+  if (req.payload.payload.usernameType === 'email') {
+    navigationActions.navigateAuthEmailConfirm(ReactNavigationRef.current)
+  }
 }
 
 export default () => [

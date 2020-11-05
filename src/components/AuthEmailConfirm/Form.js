@@ -85,7 +85,6 @@ export default withTranslation()(({
       React.useEffect(() => {
         if (
           path(['values', 'confirmationCode', 'length'])(formikProps) !== 6 ||
-          !path(['values', 'cognitoUsername', 'length'])(formikProps) ||
           formSubmitLoading ||
           formSubmitDisabled
         ) return
