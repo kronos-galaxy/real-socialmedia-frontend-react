@@ -1,7 +1,8 @@
-import { useEffect } from 'react'
-import { useDispatch } from 'react-redux'
+import React, { useEffect } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
 import * as appActions from 'store/ducks/app/actions'
 import * as usersActions from 'store/ducks/users/actions'
+import LoadingComponent from 'components/Loading'
 
 /**
  * 
@@ -13,6 +14,7 @@ export const AppProvider = ({
   navigationRef,
 }) => {
   const dispatch = useDispatch()
+  const appReady = useSelector(state => state.app.appReady)
 
   const onStateChange = () => {
     try {
@@ -36,8 +38,12 @@ export const AppProvider = ({
    * Constructor function to fetch: Translations, Themes and Auth data
    */
   useEffect(() => {
-    dispatch(appActions.appReadyRequest())
+    dispatch(appActions.appReadyRequest()) 
   }, [])
+
+  if (appReady.status !== 'success') {
+    return <LoadingComponent />
+  }
 
   return children
 }
