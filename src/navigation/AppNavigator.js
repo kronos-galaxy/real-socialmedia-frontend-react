@@ -1,4 +1,5 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
+import { Keyboard } from 'react-native'
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs'
 import { AuthContext } from 'services/providers/Auth'
 import * as navigationOptions from 'navigation/options'
@@ -11,6 +12,10 @@ const Tab = createMaterialTopTabNavigator()
 const AppNavigator = () => {
   const { isUserActive } = useContext(AuthContext)
   const tabNavigatorDefaultProps = navigationOptions.tabNavigatorDefaultProps({ isUserActive })
+
+  useEffect(() => {
+    Keyboard.dismiss()
+  }, [])
 
   return (
     <Tab.Navigator {...tabNavigatorDefaultProps}>
