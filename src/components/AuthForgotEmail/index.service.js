@@ -10,10 +10,15 @@ const AuthForgotComponentService = ({ children }) => {
 
   const authForgot = useSelector(state => state.auth.authForgot)
 
-  const handleFormSubmit = (payload) => {
-    dispatch(authActions.authForgotRequest({
-      username: toLower(payload.username),
-    }))
+  const handleFormTransform = (values) => ({
+    username: compose(trim, toLower, pathOr('', ['username']))(values),
+  })
+
+  const handleFormSubmit = (values, formApi) => {
+    const nextValues = handleFormTransform(values)
+    formApi.setValues(nextValues)
+
+    dispatch(authActions.authForgotRequest(nextValues))
   }
 
   const formSubmitLoading = authForgot.status === 'loading'
@@ -24,16 +29,11 @@ const AuthForgotComponentService = ({ children }) => {
     username: authForgot.payload.username,
   }
 
-  const handleFormTransform = (values) => ({
-    username: compose(trim, toLower, pathOr('', ['username']))(values),
-  })
-
   const handleErrorClose = () => dispatch(authActions.authForgotIdle({}))
 
   return children({
     formErrorMessage,
     handleFormSubmit,
-    handleFormTransform,
     handleErrorClose,
     formSubmitLoading,
     formSubmitDisabled,
