@@ -75,7 +75,7 @@ export const navigateArchived = navigateToPath('App.Root.Home.Profile.Archived')
 /**
  * Auth
  */
-export const navigateAuthHome = navigateToPath('Auth.AuthHome')
+export const navigateAuthHome = navigateToPath('Auth.AuthHome') 
 export const navigateAuthUsername = navigateToPath('Auth.AuthUsername')
 export const navigateAuthPhoneConfirm = navigateToPath('Auth.AuthPhoneConfirm')
 export const navigateAuthPassword = navigateToPath('Auth.AuthPassword')
@@ -121,3 +121,4 @@ export const navigateHome = navigateToPath('App.Root.Home.Feed')
 export const navigateSearch = navigateToPath('App.Root.Home.Search')
 export const navigateCamera = withAuthValidation(navigateToPath('Camera'))
 export const navigatePayout = withAuthValidation(navigateToPath('Payout'))
+export const navigateReset = (navigation) => navigation.reset({ index: 0, routes: [{ name: 'Auth' }] })
