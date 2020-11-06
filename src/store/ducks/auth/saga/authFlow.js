@@ -1,9 +1,10 @@
-import { put, take, race, takeEvery, getContext } from 'redux-saga/effects'
+import { put, take, race, takeEvery } from 'redux-saga/effects'
 import * as actions from 'store/ducks/auth/actions'
 import * as constants from 'store/ducks/auth/constants'
 import * as errors from 'store/ducks/auth/errors'
 import pathOr from 'ramda/src/pathOr'
 import * as navigationActions from 'navigation/actions'
+import * as NavigationService from 'services/Navigation'
 
 function hasAuthenticatedCondition({ dataSuccess }) {
   const authenticated = pathOr('', ['payload', 'data'])(dataSuccess).includes('us-east-1')
@@ -11,7 +12,7 @@ function hasAuthenticatedCondition({ dataSuccess }) {
   return (authenticated)
 }
 
-function* handleAuthFlowRequest(payload = {}) {
+function* handleAuthFlowRequest(payload = {}) { 
   /**
    * Fetching cognito credentials/tokens
    */
@@ -80,18 +81,15 @@ function* authFlowRequest(req) {
  */
 function* authFlowSuccess() {  
   yield put(actions.authPrefetchRequest())
-  
-  const ReactNavigationRef = yield getContext('ReactNavigationRef')
-  navigationActions.navigateApp(ReactNavigationRef.current)
 }
 
 function* authFlowFailure() {
-  const ReactNavigationRef = yield getContext('ReactNavigationRef')
-  navigationActions.navigateAuthHome(ReactNavigationRef.current)
+  const navigation = yield NavigationService.getNavigation()
+  navigationActions.navigateAuthHome(navigation)
 }
 
 export default () => [
   takeEvery(constants.AUTH_FLOW_REQUEST, authFlowRequest),
   takeEvery(constants.AUTH_FLOW_SUCCESS, authFlowSuccess),
   takeEvery(constants.AUTH_FLOW_FAILURE, authFlowFailure),
-]
+] 

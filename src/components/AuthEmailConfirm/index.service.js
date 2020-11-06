@@ -1,39 +1,22 @@
-import { useEffect, useCallback, useContext } from 'react'
+import { useEffect } from 'react'
 import * as signupActions from 'store/ducks/signup/actions'
 import { useDispatch, useSelector } from 'react-redux'
-import { useNavigation, useRoute } from '@react-navigation/native'
-import { ThemeContext } from 'services/providers/Theme'
+import {  useRoute } from '@react-navigation/native'
 import path from 'ramda/src/path'
 import { logEvent } from 'services/Analytics'
-import { pageHeaderLeft } from 'navigation/options'
-import testIDs from './test-ids'
 
 const AuthEmailConfirmComponentService = ({ children }) => {
   const dispatch = useDispatch()
-  const navigation = useNavigation()
   const route = useRoute()
-  const { theme } = useContext(ThemeContext)
 
   const signupConfirm = useSelector(state => state.signup.signupConfirm)
   const signupCreate = useSelector(state => state.signup.signupCreate)
 
-  /**
-   * Navigation state reset on back button press
-   */
-  const handleGoBack = useCallback(() => {
+  const onUnmount = () => {
     dispatch(signupActions.signupConfirmIdle({}))
-    navigation.goBack()
-  }, [])
-
-  useEffect(() => {
-    navigation.setOptions({
-      headerLeft: () => pageHeaderLeft({ 
-        testID: testIDs.header.backBtn, 
-        onPress: handleGoBack, 
-        theme,
-      }),
-    })
-  }, [])
+  }
+  
+  useEffect(() => onUnmount, [])
 
   const handleFormSubmit = (payload) => {
     logEvent('SIGNUP_CONFIRM_REQUEST')
