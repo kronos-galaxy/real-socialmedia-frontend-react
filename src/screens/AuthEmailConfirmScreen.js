@@ -1,7 +1,6 @@
 import React from 'react'
 import AuthEmailConfirmComponent from 'components/AuthEmailConfirm'
 import AuthEmailConfirmServiceComponent from 'components/AuthEmailConfirm/index.service'
-import ScreenWrapper from 'templates/Auth/ScreenWrapper'
 
 class AuthEmailConfirmScreen extends React.Component {
   render() {
@@ -17,4 +16,4 @@ class AuthEmailConfirmScreen extends React.Component {
   }
 }
 
-export default ScreenWrapper(AuthEmailConfirmScreen)
+export default AuthEmailConfirmScreen
