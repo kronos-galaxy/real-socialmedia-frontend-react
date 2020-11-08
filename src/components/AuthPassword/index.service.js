@@ -1,7 +1,7 @@
 import { useEffect } from 'react'
 import * as signupActions from 'store/ducks/signup/actions'
 import { useDispatch, useSelector } from 'react-redux'
-import { logEvent } from 'services/Analytics'
+import * as Validation from 'services/Validation'
 
 const AuthPasswordComponentService = ({ children }) => {
   const dispatch = useDispatch()
@@ -14,20 +14,20 @@ const AuthPasswordComponentService = ({ children }) => {
 
   useEffect(() => onUnmount, [])
 
-  const handleFormSubmit = (payload) => {
-    logEvent('SIGNUP_PASSWORD_REQUEST')
-    dispatch(signupActions.signupPasswordRequest(payload))
+  const handleFormTransform = (values) => ({
+    password: Validation.getPassword(values),
+  })
+
+  const handleFormSubmit = (values) => {
+    const nextValues = handleFormTransform(values)
+    
+    dispatch(signupActions.signupPasswordRequest(nextValues))
   }
 
   const formSubmitLoading = signupPassword.status === 'loading'
   const formSubmitDisabled = signupPassword.status === 'loading'
   const formErrorMessage = signupPassword.error.text
-
-  const formInitialValues = {
-    password: signupPassword.payload.password,
-  }
-
-  const handleFormTransform = (values) => values
+  const formInitialValues = handleFormTransform(signupPassword.payload)
 
   const handleErrorClose = () => dispatch(signupActions.signupPasswordIdle({}))
 

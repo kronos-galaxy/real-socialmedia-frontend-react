@@ -8,17 +8,13 @@ import TextField from 'components/Formik/TextField'
 import DefaultButton from 'components/Formik/Button/DefaultButton'
 import { Formik, Field } from 'formik'
 import * as Yup from 'yup'
+import * as Validation from 'services/Validation'
 
 import { withTranslation } from 'react-i18next'
 import testIDs from './test-ids'
 
 const formSchema = Yup.object().shape({
-  password: Yup.string()
-    .min(8)
-    .max(50)
-    .matches(/^\S*$/, 'no whitespace')
-    .trim()
-    .required(),
+  password: Validation.password,
 })
 
 const PasswordForm = ({
@@ -68,7 +64,6 @@ PasswordForm.propTypes = {
 
 export default withTranslation()(({
   handleFormSubmit,
-  handleFormTransform,
   formSubmitLoading,
   formSubmitDisabled,
   formInitialValues,
@@ -86,10 +81,6 @@ export default withTranslation()(({
         {...props}
         loading={formSubmitLoading}
         disabled={formSubmitDisabled}
-        handleSubmit={() => {
-          const nextValues = handleFormTransform(formikProps.values)
-          handleFormSubmit(nextValues)
-        }}
       />
     )}
   </Formik>

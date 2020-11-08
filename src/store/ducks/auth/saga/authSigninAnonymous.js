@@ -3,7 +3,7 @@ import * as actions from 'store/ducks/auth/actions'
 import * as constants from 'store/ducks/auth/constants'
 import * as errors from 'store/ducks/auth/errors'
 
-/**
+/** 
  * Fetching cognito credentials/tokens
  */
 function* handleAuthSigninAnonymousRequest() {
@@ -23,9 +23,9 @@ function* handleAuthSigninAnonymousRequest() {
 /**
  *
  */
-function* authSigninAnonymousRequest(req) {
+function* authSigninAnonymousRequest() {
   try {
-    const data = yield handleAuthSigninAnonymousRequest(req.payload)
+    const data = yield handleAuthSigninAnonymousRequest()
     yield put(actions.authSigninAnonymousSuccess({
       message: errors.getMessagePayload(constants.AUTH_SIGNIN_ANONYMOUS_SUCCESS, 'GENERIC'),
       data,
@@ -45,4 +45,4 @@ function* authSigninAnonymousRequest(req) {
 
 export default () => [
   takeEvery(constants.AUTH_SIGNIN_ANONYMOUS_REQUEST, authSigninAnonymousRequest),
-]
+] 

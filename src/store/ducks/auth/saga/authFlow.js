@@ -80,7 +80,10 @@ function* authFlowRequest(req) {
  * Fetching initial data such as feed/cards/trending
  */
 function* authFlowSuccess() {  
-  yield put(actions.authPrefetchRequest())
+  yield put(actions.authPrefetchRequest()) 
+
+  const navigation = yield NavigationService.getNavigation()
+  navigationActions.navigateApp(navigation)
 }
 
 function* authFlowFailure() {

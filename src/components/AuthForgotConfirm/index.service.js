@@ -1,28 +1,30 @@
 import { useEffect } from 'react'
 import * as authActions from 'store/ducks/auth/actions'
-import * as signupActions from 'store/ducks/signup/actions'
 import { useDispatch, useSelector } from 'react-redux'
-import trim from 'ramda/src/trim'
-import compose from 'ramda/src/compose'
-import toLower from 'ramda/src/toLower'
-import pathOr from 'ramda/src/pathOr'
+import * as authSelectors from 'store/ducks/auth/selectors'
+import * as Validation from 'services/Validation'
 
 const AuthForgotConfirmComponentService = ({ children }) => {
   const dispatch = useDispatch()
 
-  const authForgot = useSelector(state => state.auth.authForgot)
+  const authForgot = useSelector(authSelectors.authForgot)
   const authForgotConfirm = useSelector(state => state.auth.authForgotConfirm)
 
-  const handleFormSubmit = (payload) => {
-    dispatch(authActions.authForgotConfirmRequest({
-      username: payload.username,
-      code: payload.confirmationCode,
-      password: payload.password,
-    }))
+  const handleFormTransform = (values) => ({
+    username: Validation.getUsername(values),
+    confirmationCode: Validation.getConfirmationCode(values),
+    password: Validation.getPassword(values),
+  })
+
+  const handleFormSubmit = (values, formApi) => {
+    const nextValues = handleFormTransform(values)
+    formApi.setValues(nextValues)
+    
+    dispatch(authActions.authForgotConfirmRequest(nextValues))
   }
 
   const onUnmount = () => {
-    dispatch(signupActions.authForgotConfirmIdle())
+    dispatch(authActions.authForgotConfirmIdle())
   }
 
   useEffect(() => onUnmount, [])
@@ -30,23 +32,13 @@ const AuthForgotConfirmComponentService = ({ children }) => {
   const formSubmitLoading = authForgotConfirm.status === 'loading'
   const formSubmitDisabled = authForgotConfirm.status === 'loading'
   const formErrorMessage = authForgotConfirm.error.text
-
-  const formInitialValues = {
-    username: compose(trim, toLower)(authForgot.payload.username),
-  }
-
-  const handleFormTransform = (values) => ({
-    username: compose(trim, toLower, pathOr('', ['username']))(values),
-    confirmationCode: compose(trim, toLower, pathOr('', ['confirmationCode']))(values),
-    password: values.password,
-  })
+  const formInitialValues = handleFormTransform(authForgot.payload)
 
   const handleErrorClose = () => dispatch(authActions.authForgotConfirmIdle())
 
   return children({
     formErrorMessage,
     handleFormSubmit,
-    handleFormTransform,
     handleErrorClose,
     formSubmitLoading,
     formSubmitDisabled,

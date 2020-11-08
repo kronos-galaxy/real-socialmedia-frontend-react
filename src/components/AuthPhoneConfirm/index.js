@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import has from 'ramda/src/has'
+import propOr from 'ramda/src/propOr'
 import { View, StyleSheet } from 'react-native'
 import FormComponent from 'components/AuthPhoneConfirm/Form'
 import AuthHeaderTemplate from 'templates/Auth/Header'
@@ -12,7 +12,6 @@ const AuthPhoneConfirm = ({
   t,
   formErrorMessage,
   handleFormSubmit,
-  handleFormTransform,
   handleErrorClose,
   formSubmitLoading,
   formSubmitDisabled,
@@ -28,7 +27,7 @@ const AuthPhoneConfirm = ({
         <AuthHeaderTemplate
           title={t('Enter 6-digit code')}
           subtitle={
-            has('cognitoUsername', formInitialValues)
+            propOr(false, 'cognitoUsername', formInitialValues)
               ? t('Sent to {{cognitoUsername}}', formInitialValues)
               : t('You’ve been sent a password reset token')
           }
@@ -37,7 +36,6 @@ const AuthPhoneConfirm = ({
         <View style={styling.content}>
           <FormComponent
             handleFormSubmit={handleFormSubmit}
-            handleFormTransform={handleFormTransform}
             formSubmitLoading={formSubmitLoading}
             formSubmitDisabled={formSubmitDisabled}
             formInitialValues={formInitialValues}
@@ -66,7 +64,6 @@ AuthPhoneConfirm.propTypes = {
   t: PropTypes.any,
   formErrorMessage: PropTypes.any,
   handleFormSubmit: PropTypes.any,
-  handleFormTransform: PropTypes.any,
   handleErrorClose: PropTypes.any,
   formSubmitLoading: PropTypes.any,
   formSubmitDisabled: PropTypes.any,

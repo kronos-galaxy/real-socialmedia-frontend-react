@@ -3,28 +3,33 @@ import * as signupActions from 'store/ducks/signup/actions'
 import { useDispatch, useSelector } from 'react-redux'
 import {  useRoute } from '@react-navigation/native'
 import path from 'ramda/src/path'
-import { logEvent } from 'services/Analytics'
+import * as signupSelectors from 'store/ducks/signup/selectors'
+import * as Validation from 'services/Validation'
 
 const AuthEmailConfirmComponentService = ({ children }) => {
   const dispatch = useDispatch()
-  const route = useRoute()
+  const route = useRoute() 
 
-  const signupConfirm = useSelector(state => state.signup.signupConfirm)
-  const signupCreate = useSelector(state => state.signup.signupCreate)
+  const signupConfirm = useSelector(signupSelectors.signupConfirm)
+  const signupCreate = useSelector(signupSelectors.signupCreate)
 
   const onUnmount = () => {
-    dispatch(signupActions.signupConfirmIdle({}))
-  }
+    dispatch(signupActions.signupConfirmIdle())
+  } 
   
   useEffect(() => onUnmount, [])
 
-  const handleFormSubmit = (payload) => {
-    logEvent('SIGNUP_CONFIRM_REQUEST')
-    const nextPayload = {
+  const handleFormTransform = (values) => ({
+    confirmationCode: Validation.getConfirmationCode(values),
+  })
+
+  const handleFormSubmit = (values) => {
+    const nextValues = handleFormTransform(values)
+
+    dispatch(signupActions.signupConfirmRequest({
       usernameType: 'email',
-      confirmationCode: payload.confirmationCode,
-    }
-    dispatch(signupActions.signupConfirmRequest(nextPayload))
+      confirmationCode: nextValues.confirmationCode,
+    }))
   }
 
   const formSubmitLoading = signupConfirm.status === 'loading'
@@ -36,16 +41,11 @@ const AuthEmailConfirmComponentService = ({ children }) => {
     confirmationCode: path(['params', 'confirmationCode'])(route),
   }
 
-  const handleFormTransform = (values) => ({
-    confirmationCode: values.confirmationCode,
-  })
-
   const handleErrorClose = () => dispatch(signupActions.signupConfirmIdle({}))
 
   return children({
     formErrorMessage,
     handleFormSubmit,
-    handleFormTransform,
     handleErrorClose,
     formSubmitLoading,
     formSubmitDisabled,

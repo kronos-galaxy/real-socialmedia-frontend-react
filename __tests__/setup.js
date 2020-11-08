@@ -7,5 +7,6 @@ import 'tests/mocks/react-native-contacts'
 import 'tests/mocks/react-native-localize'
 import 'tests/mocks/react-native-offline'
 import 'tests/mocks/logger'
+import 'tests/mocks/Analytics'
 
 jest.mock('react-native/Libraries/Animated/src/NativeAnimatedHelper')

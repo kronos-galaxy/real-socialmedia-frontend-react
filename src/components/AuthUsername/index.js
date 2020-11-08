@@ -15,16 +15,13 @@ const AuthUsername = ({
   t,
   formErrorMessage,
   handleFormSubmit,
-  handleFormTransform,
   handleErrorClose,
   formSubmitLoading,
   formSubmitDisabled,
   formInitialValues,
 }) => {
-  const styling = styles
-
   return (
-    <View testID={testIDs.root} style={styling.root}>
+    <View testID={testIDs.root} style={styles.root}>
       {formErrorMessage ?
         <AuthErrorTemplate
           text={formErrorMessage}
@@ -32,16 +29,15 @@ const AuthUsername = ({
         />
       : null}
 
-      <View style={styling.component}>
+      <View style={styles.component}>
         <AuthHeaderTemplate
           title={t('Grab Your Username!')}
           subtitle={t('You can always change it later')}
         />
 
-        <View style={styling.content}>
+        <View style={styles.content}>
           <FormComponent
             handleFormSubmit={handleFormSubmit}
-            handleFormTransform={handleFormTransform}
             formSubmitLoading={formSubmitLoading}
             formSubmitDisabled={formSubmitDisabled}
             formInitialValues={formInitialValues}
@@ -70,7 +66,6 @@ AuthUsername.propTypes = {
   t: PropTypes.any,
   formErrorMessage: PropTypes.any,
   handleFormSubmit: PropTypes.any,
-  handleFormTransform: PropTypes.any,
   handleErrorClose: PropTypes.any,
   formSubmitLoading: PropTypes.any,
   formSubmitDisabled: PropTypes.any,

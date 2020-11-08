@@ -1,52 +1,36 @@
 import * as signupActions from 'store/ducks/signup/actions'
 import { useDispatch, useSelector } from 'react-redux'
-import trim from 'ramda/src/trim'
-import compose from 'ramda/src/compose'
-import toLower from 'ramda/src/toLower'
-import pathOr from 'ramda/src/pathOr'
-import { logEvent } from 'services/Analytics'
+import * as Validation from 'services/Validation'
+import * as signupSelectors from 'store/ducks/signup/selectors'
 
 const AuthEmailComponentService = ({ children }) => {
   const dispatch = useDispatch()
+  const signupCreate = useSelector(signupSelectors.signupCreate)
 
-  const signupCheck = useSelector(state => state.signup.signupCheck)
-  const signupEmail = useSelector(state => state.signup.signupEmail)
-  const signupCreate = useSelector(state => state.signup.signupCreate)
+  const handleFormTransform = (values) => ({
+    email: Validation.getEmail(values),
+  })
 
-  const handleFormSubmit = (payload) => {
-    dispatch(signupActions.signupEmailRequest(payload))
-
-    /**
-     *
-     */
-    logEvent('SIGNUP_CREATE_REQUEST')
-    const signupCreatePayload = {
-      username: signupCheck.payload.username,
+  const handleFormSubmit = (values, formApi) => {
+    const nextValues = handleFormTransform(values)
+    formApi.setValues(nextValues)
+   
+    dispatch(signupActions.signupCreateRequest({
       usernameType: 'email',
-      phone: null,
-      email: payload.email,
-    }
-    dispatch(signupActions.signupCreateRequest(signupCreatePayload))
+      email: nextValues.email,
+    }))
   }
 
   const formSubmitLoading = signupCreate.status === 'loading'
   const formSubmitDisabled = signupCreate.status === 'loading'
   const formErrorMessage = signupCreate.error.text
-
-  const formInitialValues = {
-    email: signupEmail.payload.email,
-  }
-
-  const handleFormTransform = (values) => ({
-    email: compose(trim, toLower, pathOr('', ['email']))(values),
-  })
+  const formInitialValues = handleFormTransform(signupCreate.payload)
 
   const handleErrorClose = () => dispatch(signupActions.signupCreateIdle({}))
 
   return children({
     formErrorMessage,
     handleFormSubmit,
-    handleFormTransform,
     handleErrorClose,
     formSubmitLoading,
     formSubmitDisabled,

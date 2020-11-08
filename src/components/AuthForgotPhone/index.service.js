@@ -1,43 +1,38 @@
 import * as authActions from 'store/ducks/auth/actions'
 import { useDispatch, useSelector } from 'react-redux'
-import trim from 'ramda/src/trim'
-import compose from 'ramda/src/compose'
-import replace from 'ramda/src/replace'
-import toLower from 'ramda/src/toLower'
-import pathOr from 'ramda/src/pathOr'
+import * as authSelectors from 'store/ducks/auth/selectors'
+import * as Validation from 'services/Validation'
 
 const AuthForgotComponentService = ({ children }) => {
   const dispatch = useDispatch()
+  const authForgot = useSelector(authSelectors.authForgot)
 
-  const authForgot = useSelector(state => state.auth.authForgot)
+  const handleFormTransform = (values) => ({
+    countryCode: Validation.getCountryCode(values),
+    phone: Validation.getPhone(values),
+  })
 
-  const handleFormSubmit = (payload) => {
+  const handleFormSubmit = (values, formApi) => {
+    const nextValues = handleFormTransform(values)
+    formApi.setValues(nextValues)
+
     dispatch(authActions.authForgotRequest({
-      countryCode: payload.countryCode,
-      username: `${payload.countryCode}${payload.username}`,
+      username: `${nextValues.countryCode}${nextValues.phone}`,
+      countryCode: nextValues.countryCode,
+      phone: nextValues.phone,
     }))
   }
 
   const formSubmitLoading = authForgot.status === 'loading'
   const formSubmitDisabled = authForgot.status === 'loading'
   const formErrorMessage = authForgot.error.text
-
-  const formInitialValues = {
-    countryCode: '+1',
-    username: authForgot.payload.username,
-  }
-
-  const handleFormTransform = (values) => ({
-    countryCode: compose(replace(/[^+0-9]/g, ''), trim, toLower, pathOr('', ['countryCode']))(values),
-    username: compose(trim, toLower, pathOr('', ['username']))(values),
-  })
+  const formInitialValues = handleFormTransform(authForgot.payload)
 
   const handleErrorClose = () => dispatch(authActions.authForgotIdle({}))
 
   return children({
     formErrorMessage,
     handleFormSubmit,
-    handleFormTransform,
     handleErrorClose,
     formSubmitLoading,
     formSubmitDisabled,

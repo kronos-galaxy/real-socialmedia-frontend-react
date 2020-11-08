@@ -8,15 +8,12 @@ import PhoneField from 'components/Formik/PhoneField'
 import DefaultButton from 'components/Formik/Button/DefaultButton'
 import { Formik, Field } from 'formik'
 import * as Yup from 'yup'
+import * as Validation from 'services/Validation'
 
 import { withTranslation } from 'react-i18next'
 
 const formSchema = Yup.object().shape({
-  username: Yup.string()
-    .min(3)
-    .max(50)
-    .trim()
-    .required(),
+  phone: Validation.phone,
 })
 
 const ForgotForm = ({
@@ -27,21 +24,18 @@ const ForgotForm = ({
   isValid,
   isValidating,
 }) => {
-  const styling = styles
-
   const submitDisabled = (
     disabled ||
     !isValid ||
     isValidating
   )
 
-  
   return (
-    <View style={styling.root}>
-      <View style={styling.input}>
-        <Field name="username" component={PhoneField} placeholder={t('Phone Number')} keyboardType="phone-pad" textContentType="telephoneNumber" autoCompleteType="tel" autoFocus />
+    <View style={styles.root}>
+      <View style={styles.input}>
+        <Field name="phone" component={PhoneField} placeholder={t('Phone Number')} keyboardType="phone-pad" textContentType="telephoneNumber" autoCompleteType="tel" autoFocus />
       </View>
-      <View style={styling.input}>
+      <View style={styles.input}>
         <DefaultButton label={t('Next')} onPress={handleSubmit} loading={loading} disabled={submitDisabled} />
       </View>
     </View>
@@ -67,7 +61,6 @@ ForgotForm.propTypes = {
 
 export default withTranslation()(({
   handleFormSubmit,
-  handleFormTransform,
   formSubmitLoading,
   formSubmitDisabled,
   formInitialValues,
@@ -85,11 +78,6 @@ export default withTranslation()(({
         {...props}
         loading={formSubmitLoading}
         disabled={formSubmitDisabled}
-        handleSubmit={() => {
-          const nextValues = handleFormTransform(formikProps.values)
-          formikProps.setValues(nextValues)
-          handleFormSubmit(nextValues)
-        }}
       />
     )}
   </Formik>

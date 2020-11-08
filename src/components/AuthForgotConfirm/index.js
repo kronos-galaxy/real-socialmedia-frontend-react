@@ -4,7 +4,7 @@ import {
   View,
   StyleSheet,
 } from 'react-native'
-import has from 'ramda/src/has'
+import propOr from 'ramda/src/propOr'
 import FormComponent from 'components/AuthForgotConfirm/Form'
 import AuthActionTemplate from 'templates/Auth/Action'
 import AuthHeaderTemplate from 'templates/Auth/Header'
@@ -19,7 +19,6 @@ const AuthForgotConfirm = ({
   t,
   formErrorMessage,
   handleFormSubmit,
-  handleFormTransform,
   handleErrorClose,
   formSubmitLoading,
   formSubmitDisabled,
@@ -33,7 +32,7 @@ const AuthForgotConfirm = ({
       {formErrorMessage ?
         <AuthErrorTemplate
           text={formErrorMessage}
-          onClose={handleErrorClose}
+          onClose={handleErrorClose} 
         />
       : null}
 
@@ -41,7 +40,7 @@ const AuthForgotConfirm = ({
         <AuthHeaderTemplate
           title={t('Enter 6-digit code')}
           subtitle={
-            has('username', formInitialValues)
+            propOr(false, 'username', formInitialValues)
               ? t('Sent to {{username}}', formInitialValues)
               : t('You’ve been sent a password reset token')
           }
@@ -50,7 +49,6 @@ const AuthForgotConfirm = ({
         <View style={styling.content}>
           <FormComponent
             handleFormSubmit={handleFormSubmit}
-            handleFormTransform={handleFormTransform}
             formSubmitLoading={formSubmitLoading}
             formSubmitDisabled={formSubmitDisabled}
             formInitialValues={formInitialValues}
@@ -83,7 +81,6 @@ AuthForgotConfirm.propTypes = {
   t: PropTypes.any,
   formErrorMessage: PropTypes.any,
   handleFormSubmit: PropTypes.any,
-  handleFormTransform: PropTypes.any,
   handleErrorClose: PropTypes.any,
   formSubmitLoading: PropTypes.any,
   formSubmitDisabled: PropTypes.any,

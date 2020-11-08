@@ -19,6 +19,7 @@ function* handleSignupUsernameRequest(payload) {
  */
 function* signupUsernameRequest(req) {
   try {
+    logEvent('SIGNUP_CHECK_REQUEST')
     const data = yield call(handleSignupUsernameRequest, req.payload)
     yield put(actions.signupUsernameSuccess({
       message: errors.getMessagePayload(constants.SIGNUP_USERNAME_SUCCESS, 'GENERIC'),

@@ -1,6 +1,8 @@
 import { createSelector } from 'reselect'
 import pathOr from 'ramda/src/pathOr'
 import path from 'ramda/src/path'
+import prop from 'ramda/src/prop'
+import compose from 'ramda/src/compose'
 import is from 'ramda/src/is'
 import * as normalizer from 'normalizer/schemas'
 import * as entitiesSelector from 'store/ducks/entities/selectors'
@@ -39,3 +41,7 @@ export const themeSelector = createSelector(
     return (themesJson.find(theme => theme.key === activeTheme) || {}).theme
   },
 )
+
+const authRoot = prop('auth')
+export const authForgot = compose(prop('authForgot'), authRoot)
+export const authSigninCognito = compose(prop('authSigninCognito'), authRoot)

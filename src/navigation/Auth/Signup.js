@@ -18,8 +18,6 @@ const SignupNavigator = () => {
   const tabNavigatorAuthProps = navigationOptions.tabNavigatorAuthProps({ theme })
 
   const onUnmount = () => {
-    dispatch(signupActions.signupEmailIdle())
-    dispatch(signupActions.signupPhoneIdle())
     dispatch(signupActions.signupCreateIdle())
   }
 

@@ -8,18 +8,13 @@ import TextField from 'components/Formik/TextField'
 import DefaultButton from 'components/Formik/Button/DefaultButton'
 import { Formik, Field } from 'formik'
 import * as Yup from 'yup'
+import * as Validation from 'services/Validation'
 
 import { withTranslation } from 'react-i18next'
-import testIDs from './test-ids'
+import testIDs from 'components/AuthEmail/test-ids'
 
 const formSchema = Yup.object().shape({
-  email: Yup.string()
-    .min(3)
-    .max(50)
-    .email()
-    .matches(/^\S*$/, 'no whitespace')
-    .trim()
-    .required(),
+  email: Validation.email,
 })
 
 const EmailForm = ({
@@ -30,8 +25,6 @@ const EmailForm = ({
   isValid,
   isValidating,
 }) => {
-  const styling = styles
-
   const submitDisabled = (
     disabled ||
     !isValid ||
@@ -39,12 +32,24 @@ const EmailForm = ({
   )
   
   return (
-    <View style={styling.root}>
-      <View style={styling.input}>
-        <Field testID={testIDs.form.email} name="email" component={TextField} placeholder={t('Email Address')} keyboardType="email-address" textContentType="emailAddress" autoCompleteType="email" autoFocus />
+    <View style={styles.root}>
+      <View style={styles.input}>
+        <Field
+          testID={testIDs.form.email}
+          name="email"
+          placeholder="Email"
+          component={TextField}
+          {...Validation.getInputTypeProps('email')}
+        />
       </View>
-      <View style={styling.input}>
-        <DefaultButton testID={testIDs.form.submitBtn} label={t('Next')} onPress={handleSubmit} loading={loading} disabled={submitDisabled} />
+      <View style={styles.input}>
+        <DefaultButton
+          testID={testIDs.form.submitBtn}
+          label={t('Next')}
+          onPress={handleSubmit}
+          loading={loading}
+          disabled={submitDisabled}
+        />
       </View>
     </View>
   )
@@ -69,8 +74,8 @@ EmailForm.propTypes = {
 
 export default withTranslation()(({
   handleFormSubmit,
-  handleFormTransform,
   formSubmitLoading,
+  formSubmitDisabled,
   formInitialValues,
   ...props
 }) => (
@@ -85,10 +90,7 @@ export default withTranslation()(({
         {...formikProps}
         {...props}
         loading={formSubmitLoading}
-        handleSubmit={() => {
-          const nextValues = handleFormTransform(formikProps.values)
-          handleFormSubmit(nextValues)
-        }}
+        disabled={formSubmitDisabled}
       />
     )}
   </Formik>

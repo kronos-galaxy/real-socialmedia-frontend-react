@@ -88,7 +88,7 @@ const styles = StyleSheet.create({
   },
   closeBtn: {
     position: 'absolute',
-    top: 6,
+    top: 56,
     left: 16,
     paddingHorizontal: 5,
     paddingVertical: 5,
@@ -96,7 +96,7 @@ const styles = StyleSheet.create({
   },
   skipBtn: {
     position: 'absolute',
-    top: 5,
+    top: 55,
     right: 5,
     paddingHorizontal: 5,
     paddingVertical: 5,

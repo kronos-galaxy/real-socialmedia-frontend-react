@@ -1,7 +1,7 @@
 export default {
   root: 'components/AuthForgotEmail',
   form: {
-    username: 'components/AuthForgot/Form/username',
+    email: 'components/AuthForgot/Form/email',
     submitBtn: 'components/AuthForgot/Form/submit',
   },
 }

@@ -64,7 +64,6 @@ UsernameForm.propTypes = {
 
 export default withTranslation()(({
   handleFormSubmit,
-  handleFormTransform,
   formSubmitLoading,
   formSubmitDisabled,
   formInitialValues,
@@ -82,11 +81,6 @@ export default withTranslation()(({
         {...props}
         loading={formSubmitLoading}
         disabled={formSubmitDisabled}
-        handleSubmit={() => {
-          const nextValues = handleFormTransform(formikProps.values)
-          formikProps.setValues(nextValues)
-          handleFormSubmit(nextValues)
-        }}
       />
     )}
   </Formik>

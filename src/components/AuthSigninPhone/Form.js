@@ -9,21 +9,14 @@ import TextField from 'components/Formik/TextField'
 import DefaultButton from 'components/Formik/Button/DefaultButton'
 import { Formik, Field } from 'formik'
 import * as Yup from 'yup'
+import * as Validation from 'services/Validation'
 
 import { withTranslation } from 'react-i18next'
 import testIDs from './test-ids'
 
 const formSchema = Yup.object().shape({
-  username: Yup.string()
-    .min(3)
-    .max(50)
-    .trim()
-    .required(),
-  password: Yup.string()
-    .min(8)
-    .max(50)
-    .trim()
-    .required(),
+  phone: Validation.phone,
+  password: Validation.password,
 })
 
 const SigninForm = ({
@@ -34,8 +27,6 @@ const SigninForm = ({
   isValid,
   isValidating,
 }) => {
-  const styling = styles
-
   const submitDisabled = (
     disabled ||
     !isValid ||
@@ -43,14 +34,14 @@ const SigninForm = ({
   )
 
   return (
-    <View style={styling.root}>
-      <View style={styling.input}>
-        <Field testID={testIDs.form.username} name="username" component={PhoneField} placeholder={t('Phone Number')} keyboardType="phone-pad" textContentType="telephoneNumber" autoCompleteType="tel" autoFocus />
+    <View style={styles.root}>
+      <View style={styles.input}>
+        <Field testID={testIDs.form.phone} name="phone" component={PhoneField} placeholder={t('Phone Number')} keyboardType="phone-pad" textContentType="telephoneNumber" autoCompleteType="tel" autoFocus />
       </View>
-      <View style={styling.input}>
+      <View style={styles.input}>
         <Field testID={testIDs.form.password} name="password" component={TextField} placeholder={t('Password')} secureTextEntry keyboardType="default" textContentType="password" autoCompleteType="password" />
       </View>
-      <View style={styling.input}>
+      <View style={styles.input}>
         <DefaultButton testID={testIDs.form.submitBtn} label={t('Next')} onPress={handleSubmit} loading={loading} disabled={submitDisabled} />
       </View>
     </View>
@@ -76,7 +67,6 @@ SigninForm.propTypes = {
 
 export default withTranslation()(({
   handleFormSubmit,
-  handleFormTransform,
   formSubmitLoading,
   formSubmitDisabled,
   formInitialValues,
@@ -94,11 +84,6 @@ export default withTranslation()(({
         {...props}
         loading={formSubmitLoading}
         disabled={formSubmitDisabled}
-        handleSubmit={() => {
-          const nextValues = handleFormTransform(formikProps.values)
-          formikProps.setValues(nextValues)
-          handleFormSubmit(nextValues)
-        }}
       />
     )}
   </Formik>

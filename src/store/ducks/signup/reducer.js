@@ -3,24 +3,6 @@ import update from 'immutability-helper'
 import * as constants from 'store/ducks/signup/constants'
 
 export const initialState = {
-  signupCheck: {
-    data: [],
-    status: 'idle',
-    error: {},
-    payload: {},
-  },
-  signupPhone: {
-    data: [],
-    status: 'idle',
-    error: {},
-    payload: {},
-  },
-  signupEmail: {
-    data: [],
-    status: 'idle',
-    error: {},
-    payload: {},
-  },
   signupUsername: {
     data: [],
     status: 'idle',
@@ -34,7 +16,6 @@ export const initialState = {
     payload: {},
   },
   signupCreate: {
-    data: [],
     status: 'idle',
     error: {},
     payload: {},
@@ -46,40 +27,6 @@ export const initialState = {
     payload: {},
   },
 }
-
-/**
- *
- */
-const signupCheckRequest = (state, action) => update(state, {
-  signupCheck: {
-    status: { $set: 'loading' },
-    payload: { $set: action.payload },
-  },
-})
-
-const signupCheckSuccess = (state, action) => update(state, {
-  signupCheck: {
-    data: { $set: action.payload.data },
-    status: { $set: 'success' },
-    payload: { $set: action.payload.payload },
-  },
-})
-
-const signupCheckFailure = (state, action) => update(state, {
-  signupCheck: {
-    status: { $set: 'failure' },
-    payload: { $set: action.payload.payload },
-    error: { $set: action.payload.message },
-  },
-})
-
-const signupCheckIdle = (state) => update(state, {
-  signupCheck: {
-    status: { $set: 'idle' },
-    payload: { $set: initialState.signupCheck.payload },
-    error: { $set: initialState.signupCheck.error },
-  },
-})
 
 /**
  *
@@ -112,74 +59,6 @@ const signupUsernameIdle = (state) => update(state, {
     status: { $set: 'idle' },
     payload: { $set: initialState.signupUsername.payload },
     error: { $set: initialState.signupUsername.error },
-  },
-})
-
-/**
- *
- */
-const signupPhoneRequest = (state, action) => update(state, {
-  signupPhone: {
-    status: { $set: 'loading' },
-    payload: { $set: action.payload },
-  },
-})
-
-const signupPhoneSuccess = (state, action) => update(state, {
-  signupPhone: {
-    data: { $set: action.payload.data },
-    status: { $set: 'success' },
-    payload: { $set: action.payload.payload },
-  },
-})
-
-const signupPhoneFailure = (state, action) => update(state, {
-  signupPhone: {
-    status: { $set: 'failure' },
-    payload: { $set: action.payload.payload },
-    error: { $set: action.payload.message },
-  },
-})
-
-const signupPhoneIdle = (state) => update(state, {
-  signupPhone: {
-    status: { $set: 'idle' },
-    payload: { $set: initialState.signupPhone.payload },
-    error: { $set: initialState.signupPhone.error },
-  },
-})
-
-/**
- *
- */
-const signupEmailRequest = (state, action) => update(state, {
-  signupEmail: {
-    status: { $set: 'loading' },
-    payload: { $set: action.payload },
-  },
-})
-
-const signupEmailSuccess = (state, action) => update(state, {
-  signupEmail: {
-    data: { $set: action.payload.data },
-    status: { $set: 'success' },
-    payload: { $set: action.payload.payload },
-  },
-})
-
-const signupEmailFailure = (state, action) => update(state, {
-  signupEmail: {
-    status: { $set: 'failure' },
-    payload: { $set: action.payload.payload },
-    error: { $set: action.payload.message },
-  },
-})
-
-const signupEmailIdle = (state) => update(state, {
-  signupEmail: {
-    status: { $set: 'idle' },
-    payload: { $set: initialState.signupEmail.payload },
-    error: { $set: initialState.signupEmail.error },
   },
 })
 
@@ -223,32 +102,25 @@ const signupPasswordIdle = (state) => update(state, {
 const signupCreateRequest = (state, action) => update(state, {
   signupCreate: {
     status: { $set: 'loading' },
-    payload: { $set: action.payload },
+    payload: { $merge: action.payload },
   },
 })
 
-const signupCreateSuccess = (state, action) => update(state, {
+const signupCreateSuccess = (state) => update(state, {
   signupCreate: {
-    data: { $set: action.payload.data },
     status: { $set: 'success' },
-    payload: { $set: action.payload.payload },
   },
 })
 
 const signupCreateFailure = (state, action) => update(state, {
   signupCreate: {
     status: { $set: 'failure' },
-    payload: { $set: action.payload.payload },
     error: { $set: action.payload.message },
   },
 })
 
 const signupCreateIdle = (state) => update(state, {
-  signupCreate: {
-    status: { $set: 'idle' },
-    payload: { $set: initialState.signupCreate.payload },
-    error: { $set: initialState.signupCreate.error },
-  },
+  signupCreate: { $set: initialState.signupCreate },
 })
 
 /**
@@ -286,25 +158,10 @@ const signupConfirmIdle = (state) => update(state, {
 })
 
 export default handleActions({
-  [constants.SIGNUP_CHECK_REQUEST]: signupCheckRequest,
-  [constants.SIGNUP_CHECK_SUCCESS]: signupCheckSuccess,
-  [constants.SIGNUP_CHECK_FAILURE]: signupCheckFailure,
-  [constants.SIGNUP_CHECK_IDLE]: signupCheckIdle,
-
   [constants.SIGNUP_USERNAME_REQUEST]: signupUsernameRequest,
   [constants.SIGNUP_USERNAME_SUCCESS]: signupUsernameSuccess,
   [constants.SIGNUP_USERNAME_FAILURE]: signupUsernameFailure,
   [constants.SIGNUP_USERNAME_IDLE]: signupUsernameIdle,
-
-  [constants.SIGNUP_PHONE_REQUEST]: signupPhoneRequest,
-  [constants.SIGNUP_PHONE_SUCCESS]: signupPhoneSuccess,
-  [constants.SIGNUP_PHONE_FAILURE]: signupPhoneFailure,
-  [constants.SIGNUP_PHONE_IDLE]: signupPhoneIdle,
-
-  [constants.SIGNUP_EMAIL_REQUEST]: signupEmailRequest,
-  [constants.SIGNUP_EMAIL_SUCCESS]: signupEmailSuccess,
-  [constants.SIGNUP_EMAIL_FAILURE]: signupEmailFailure,
-  [constants.SIGNUP_EMAIL_IDLE]: signupEmailIdle,
 
   [constants.SIGNUP_PASSWORD_REQUEST]: signupPasswordRequest,
   [constants.SIGNUP_PASSWORD_SUCCESS]: signupPasswordSuccess,

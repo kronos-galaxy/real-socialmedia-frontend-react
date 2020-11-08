@@ -8,49 +8,60 @@ import TextField from 'components/Formik/TextField'
 import DefaultButton from 'components/Formik/Button/DefaultButton'
 import { Formik, Field } from 'formik'
 import * as Yup from 'yup'
+import * as Validation from 'services/Validation'
 
 import { withTranslation } from 'react-i18next'
 import testIDs from './test-ids'
 
 const formSchema = Yup.object().shape({
-  username: Yup.string()
-    .min(3)
-    .max(50)
-    .trim()
-    .required(),
-  password: Yup.string()
-    .min(8)
-    .max(50)
-    .trim()
-    .required(),
-  confirmationCode: Yup.string()
-    .min(3)
-    .max(50)
-    .matches(/^\S*$/, 'no whitespace')
-    .trim()
-    .required(),
+  username: Validation.phoneOrEmail,
+  password: Validation.password,
+  confirmationCode: Validation.confirmationCode,
 })
 
 const ForgotConfirmForm = ({
   t,
   handleSubmit,
   loading,
+  disabled,
 }) => {
-  const styling = styles
-  
   return (
-    <View style={styling.root}>
-      <View style={styling.input}>
-        <Field testID={testIDs.form.username} name="username" component={TextField} placeholder={t('Phone or Email')} keyboardType="default" textContentType="username" autoCompleteType="username" />
+    <View style={styles.root}>
+      <View style={styles.input}>
+        <Field
+          testID={testIDs.form.username}
+          name="username"
+          component={TextField}
+          placeholder={t('Phone or Email')}
+          {...Validation.getInputTypeProps('username')}
+        />
       </View>
-      <View style={styling.input}>
-        <Field testID={testIDs.form.confirmationCode} name="confirmationCode" component={TextField} placeholder={t('Confirmation Code')} keyboardType="number-pad" textContentType="oneTimeCode" autoCompleteType="off" autoFocus />
+      <View style={styles.input}>
+        <Field
+          testID={testIDs.form.confirmationCode}
+          name="confirmationCode"
+          component={TextField}
+          placeholder={t('Confirmation Code')}
+          {...Validation.getInputTypeProps('confirmationCode')}
+        />
       </View>
-      <View style={styling.input}>
-        <Field testID={testIDs.form.password} name="password" component={TextField} placeholder={t('New Password')} secureTextEntry keyboardType="default" textContentType="password" autoCompleteType="password" />
+      <View style={styles.input}>
+        <Field
+          testID={testIDs.form.password}
+          name="password"
+          component={TextField}
+          placeholder={t('New Password')}
+          {...Validation.getInputTypeProps('password')}
+        />
       </View>
-      <View style={styling.input}>
-        <DefaultButton testID={testIDs.form.submitBtn} label={t('Next')} onPress={handleSubmit} loading={loading} disabled={loading} />
+      <View style={styles.input}>
+        <DefaultButton
+          testID={testIDs.form.submitBtn}
+          label={t('Next')}
+          onPress={handleSubmit}
+          loading={loading}
+          disabled={disabled}
+        />
       </View>
     </View>
   )
@@ -68,12 +79,17 @@ ForgotConfirmForm.propTypes = {
   t: PropTypes.any,
   handleSubmit: PropTypes.any,
   loading: PropTypes.any,
+  disabled: PropTypes.bool,
+}
+
+ForgotConfirmForm.defaultProps = {
+  disabled: false,
 }
 
 export default withTranslation()(({
   handleFormSubmit,
-  handleFormTransform,
   formSubmitLoading,
+  formSubmitDisabled,
   formInitialValues,
   ...props
 }) => (
@@ -88,10 +104,7 @@ export default withTranslation()(({
         {...formikProps}
         {...props}
         loading={formSubmitLoading}
-        handleSubmit={() => {
-          const nextValues = handleFormTransform(formikProps.values)
-          handleFormSubmit(nextValues)
-        }}
+        disabled={formSubmitDisabled}
       />
     )}
   </Formik>

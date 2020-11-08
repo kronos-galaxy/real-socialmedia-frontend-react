@@ -18,17 +18,15 @@ const AuthEmail = ({
   t,
   formErrorMessage,
   handleFormSubmit,
-  handleFormTransform,
   handleErrorClose,
   formSubmitLoading,
   formSubmitDisabled,
   formInitialValues,
 }) => {
-  const styling = styles
   const navigation = useNavigation()
 
   return (
-    <View testID={testIDs.root} style={styling.root}>
+    <View testID={testIDs.root} style={styles.root}>
       {formErrorMessage ?
         <AuthErrorTemplate
           text={formErrorMessage}
@@ -36,16 +34,15 @@ const AuthEmail = ({
         />
       : null}
 
-      <View style={styling.component}>
+      <View style={styles.component}>
         <AuthHeaderTemplate
           title={t('Signup with Email Address')}
           subtitle={t('We\'ll send a code to verify')}
         />
 
-        <View style={styling.content}>
+        <View style={styles.content}>
           <FormComponent
             handleFormSubmit={handleFormSubmit}
-            handleFormTransform={handleFormTransform}
             formSubmitLoading={formSubmitLoading}
             formSubmitDisabled={formSubmitDisabled}
             formInitialValues={formInitialValues}
@@ -77,7 +74,6 @@ AuthEmail.propTypes = {
   t: PropTypes.any,
   formErrorMessage: PropTypes.any,
   handleFormSubmit: PropTypes.any,
-  handleFormTransform: PropTypes.any,
   handleErrorClose: PropTypes.any,
   formSubmitLoading: PropTypes.any,
   formSubmitDisabled: PropTypes.any,

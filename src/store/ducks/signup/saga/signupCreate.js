@@ -14,15 +14,16 @@ import { logEvent } from 'services/Analytics'
  */
 function* queryBasedOnSignupType(payload) {
   if (payload.usernameType === 'email') {
-    return yield queryService.apiRequest(queries.startChangeUserEmail, { email: payload.email })
+    yield queryService.apiRequest(queries.startChangeUserEmail, { email: payload.email })
+  } else if (payload.usernameType === 'phone') {
+    const phoneNumber = `${payload.countryCode}${payload.phone}`
+    yield queryService.apiRequest(queries.startChangeUserPhoneNumber, { phoneNumber })
+  } else {
+    throw new Error('Unsupported usernameType')
   }
-  if (payload.usernameType === 'phone') {
-    return yield queryService.apiRequest(queries.startChangeUserPhoneNumber, { phoneNumber: payload.phone })
-  }
-  return {}
 }
 
-function* handleSignuptCreateRequest(payload) {
+function* handleSignupCreateRequest(payload) {
   /**
    * Fetching cognito credentials/tokens
    */
@@ -57,38 +58,33 @@ function* handleSignuptCreateRequest(payload) {
  */
 function* signupCreateRequest(req) {
   try {
-    yield handleSignuptCreateRequest(req.payload)
-
+    logEvent('SIGNUP_CREATE_REQUEST')
+    
+    yield handleSignupCreateRequest(req.payload)
     yield put(actions.signupCreateSuccess({
-      message: errors.getMessagePayload(constants.SIGNUP_CREATE_SUCCESS, 'GENERIC'),
-      payload: req.payload,
-      data: { cognitoDelivery: req.payload.usernameType },
+      message: errors.getMessagePayload(constants.SIGNUP_CREATE_SUCCESS, 'GENERIC' ), 
+      usernameType: req.payload.usernameType,
     }))
   } catch (error) {
     if (error.message === 'USER_CONFIRMATION_DELIVERY') {
       yield put(actions.signupCreateFailure({
         message: errors.getMessagePayload(constants.SIGNUP_CREATE_FAILURE, 'USER_CONFIRMATION_DELIVERY', error.message),
-        payload: req.payload,
       }))
     } else if (error.code === 'UsernameExistsException') {
       yield put(actions.signupCreateFailure({
         message: errors.getMessagePayload(constants.SIGNUP_CREATE_FAILURE, 'USER_EXISTS', error.message),
-        payload: req.payload,
       }))
     } else if (error.code === 'InvalidPasswordException') {
       yield put(actions.signupCreateFailure({
         message: errors.getMessagePayload(constants.SIGNUP_CREATE_FAILURE, 'INVALID_PASSWORD', error.message),
-        payload: req.payload,
       }))
     } else if (error.code === 'InvalidParameterException') {
       yield put(actions.signupCreateFailure({
         message: errors.getMessagePayload(constants.SIGNUP_CREATE_FAILURE, 'INVALID_PARAMETER', error.message),
-        payload: req.payload,
       }))
     } else {
       yield put(actions.signupCreateFailure({
         message: errors.getMessagePayload(constants.SIGNUP_CREATE_FAILURE, 'GENERIC', error.message),
-        payload: req.payload,
       }))
     }
   }
@@ -98,11 +94,13 @@ function* signupCreateSuccess(req) {
   logEvent('SIGNUP_CREATE_SUCCESS')
   const ReactNavigationRef = yield getContext('ReactNavigationRef')
 
-  if (req.payload.payload.usernameType === 'phone') {
+  if (req.payload.usernameType === 'phone') {
+    logEvent('SIGNUP_PHONE_SUCCESS')
     navigationActions.navigateAuthPhoneConfirm(ReactNavigationRef.current)
   }
 
-  if (req.payload.payload.usernameType === 'email') {
+  if (req.payload.usernameType === 'email') {
+    logEvent('SIGNUP_EMAIL_SUCCESS')
     navigationActions.navigateAuthEmailConfirm(ReactNavigationRef.current)
   }
 }

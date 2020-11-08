@@ -1,44 +1,41 @@
 import * as authActions from 'store/ducks/auth/actions'
 import { useDispatch, useSelector } from 'react-redux'
-import trim from 'ramda/src/trim'
-import compose from 'ramda/src/compose'
-import replace from 'ramda/src/replace'
-import toLower from 'ramda/src/toLower'
-import pathOr from 'ramda/src/pathOr'
+import * as Validation from 'services/Validation'
+import * as authSelectors from 'store/ducks/auth/selectors'
 
 const AuthSigninComponentService = ({ children }) => {
   const dispatch = useDispatch()
 
-  const authSigninCognito = useSelector(state => state.auth.authSigninCognito)
+  const authSigninCognito = useSelector(authSelectors.authSigninCognito)
 
-  const handleFormSubmit = (payload) => {
+  const handleFormTransform = (values) => ({
+    countryCode: Validation.getCountryCode(values),
+    phone: Validation.getPhone(values),
+    password: Validation.getPassword(values),
+  })
+
+  const handleFormSubmit = (values, formApi) => {
+    const nextValues = handleFormTransform(values)
+    formApi.setValues(nextValues)
+
     dispatch(authActions.authSigninCognitoRequest({
-      usernameType: 'phone',
-      countryCode: payload.countryCode,
-      username: `${payload.countryCode}${payload.username}`,
+      username: `${nextValues.countryCode}${nextValues.phone}`,
+      countryCode: nextValues.countryCode,
+      phone: nextValues.phone,
+      password: nextValues.password,
     }))
   }
 
   const formSubmitLoading = authSigninCognito.status === 'loading'
   const formSubmitDisabled = authSigninCognito.status === 'loading'
   const formErrorMessage = authSigninCognito.error.text
+  const formInitialValues = handleFormTransform(authSigninCognito.payload)
 
-  const formInitialValues = {
-    countryCode: '+1',
-    username: replace(pathOr('', ['payload', 'countryCode'])(authSigninCognito), '', pathOr('', ['payload', 'username'])(authSigninCognito)),
-  }
-
-  const handleFormTransform = (values) => ({
-    countryCode: compose(replace(/[^+0-9]/g, ''), trim, toLower, pathOr('', ['countryCode']))(values),
-    username: compose(trim, toLower, pathOr('', ['username']))(values),
-  })
-
-  const handleErrorClose = () => dispatch(authActions.authSigninCognitoIdle({}))
+  const handleErrorClose = () => dispatch(authActions.authSigninCognitoIdle())
 
   return children({
     formErrorMessage,
     handleFormSubmit,
-    handleFormTransform,
     handleErrorClose,
     formSubmitLoading,
     formSubmitDisabled,

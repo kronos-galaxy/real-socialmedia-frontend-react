@@ -41,3 +41,11 @@ export const testNavigate = (navigation, pathString, params) => {
   const path = createPath(pathString.split('.'), params)
   expect(navigation.navigate).toHaveBeenCalledWith(path.screen, path.params)
 }
+
+export const testField = (field, props) => {
+  expect(field).toBeTruthy()
+
+  Object.keys(props).forEach((key) => {
+    expect(field.props[key]).toEqual(props[key])
+  })
+}

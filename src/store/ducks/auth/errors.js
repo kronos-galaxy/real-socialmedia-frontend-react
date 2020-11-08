@@ -107,12 +107,6 @@ const messageCodes = {
   /**
    * 
    */
-  [constants.AUTH_FORGOT_SUCCESS]: {
-    GENERIC: {
-      code: 'GENERIC',
-      text: 'Successfully reset the password',
-    },
-  },
   [constants.AUTH_FORGOT_FAILURE]: {
     GENERIC: {
       code: 'GENERIC',

@@ -18,11 +18,8 @@ function* handleAuthForgotRequest(payload) {
  */
 function* authForgotRequest(req) {
   try {
-    const data = yield handleAuthForgotRequest(req.payload)
-    yield put(actions.authForgotSuccess({
-      message: errors.getMessagePayload(constants.AUTH_FORGOT_SUCCESS, 'GENERIC'),
-      data,
-    }))
+    yield handleAuthForgotRequest(req.payload)
+    yield put(actions.authForgotSuccess())
   } catch (error) {
     if (error.code === 'UserNotFoundException') {
       yield put(actions.authForgotFailure({
