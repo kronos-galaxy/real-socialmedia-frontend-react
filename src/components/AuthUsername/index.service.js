@@ -1,77 +1,42 @@
-import { useEffect, useCallback } from 'react'
+import { useEffect } from 'react'
 import * as signupActions from 'store/ducks/signup/actions'
-import * as navigationActions from 'navigation/actions'
 import { useDispatch, useSelector } from 'react-redux'
-import { useNavigation } from '@react-navigation/native'
-import trim from 'ramda/src/trim'
-import compose from 'ramda/src/compose'
-import toLower from 'ramda/src/toLower'
-import pathOr from 'ramda/src/pathOr'
-import { logEvent } from 'services/Analytics'
-import { pageHeaderLeft } from 'navigation/options'
-import testIDs from './test-ids'
+import * as Validation from 'services/Validation'
 
 const AuthUsernameComponentService = ({ children }) => {
   const dispatch = useDispatch()
-  const navigation = useNavigation()
 
   const signupUsername = useSelector(state => state.signup.signupUsername)
 
-  const handleFormSubmit = (payload) => {
-    logEvent('SIGNUP_USERNAME_REQUEST')
-    dispatch(signupActions.signupUsernameRequest(payload))
+  const handleFormTransform = (values) => ({
+    username: Validation.getUsername(values),
+  })
+
+  const handleFormSubmit = (values, formApi) => {
+    const nextValues = handleFormTransform(values)
+    formApi.setValues(nextValues)
+
+    dispatch(signupActions.signupUsernameRequest(nextValues))
   }
 
-  /**
-   * Navigation state reset on back button press
-   */
-  const handleGoBack = useCallback(() => {
-    dispatch(signupActions.signupUsernameIdle({}))
-    navigationActions.navigateAuthHome(navigation)()
-  }, [])
+  const handleClose = () => {
+    dispatch(signupActions.signupUsernameIdle())
+  }
 
-  useEffect(() => {
-    navigation.setOptions({
-      headerLeft: () => pageHeaderLeft({ 
-        testID: testIDs.header.backBtn, 
-        onPress: handleGoBack, 
-      }),
-    })
-  }, [])
+  const onUnmount = handleClose
 
-  /**
-   * Redirect to password selection once username is available
-   */
-  useEffect(() => {
-    if (
-      signupUsername.status !== 'success'
-    ) return
-
-    logEvent('SIGNUP_USERNAME_SUCCESS')
-    navigationActions.navigateAuthPassword(navigation)()
-  }, [
-    signupUsername.status,
-    signupUsername.payload.username,
-  ])
+  useEffect(() => onUnmount, [])
 
   const formSubmitLoading = signupUsername.status === 'loading'
   const formSubmitDisabled = signupUsername.status === 'loading'
   const formErrorMessage = signupUsername.error.text
+  const formInitialValues = handleFormTransform(signupUsername.payload)
 
-  const formInitialValues = {
-    username: signupUsername.payload.username,
-  }
-
-  const handleFormTransform = (values) => ({
-    username: compose(trim, toLower, pathOr('', ['username']))(values),
-  })
-
-  const handleErrorClose = () => dispatch(signupActions.signupUsernameIdle({}))
+  const handleErrorClose = handleClose
 
   return children({
     formErrorMessage,
     handleFormSubmit,
-    handleFormTransform,
     handleErrorClose,
     formSubmitLoading,
     formSubmitDisabled,

@@ -58,6 +58,7 @@ module.exports = {
           'testToggle',
           'silentRun',
           'run',
+          'testField',
         ],
       },
     ],

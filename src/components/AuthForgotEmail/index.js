@@ -12,13 +12,12 @@ import * as navigationActions from 'navigation/actions'
 
 import { useNavigation } from '@react-navigation/native'
 import { withTranslation } from 'react-i18next'
-import testIDs from './test-ids'
+import testIDs from 'components/AuthForgotEmail/test-ids'
 
 const AuthForgotEmail = ({
   t,
   formErrorMessage,
   handleFormSubmit,
-  handleFormTransform,
   handleErrorClose,
   formSubmitLoading,
   formSubmitDisabled,
@@ -45,7 +44,6 @@ const AuthForgotEmail = ({
         <View style={styling.content}>
           <FormComponent
             handleFormSubmit={handleFormSubmit}
-            handleFormTransform={handleFormTransform}
             formSubmitLoading={formSubmitLoading}
             formSubmitDisabled={formSubmitDisabled}
             formInitialValues={formInitialValues}
@@ -53,8 +51,8 @@ const AuthForgotEmail = ({
         </View>
       </View>
 
-      <AuthActionTemplate onPress={navigationActions.navigateAuthSigninEmail(navigation)}>
-        {t('Already Have an Account ? Log In')}
+      <AuthActionTemplate onPress={() => navigationActions.navigateAuthSigninEmail(navigation)}>
+        {t('Already Have an Account? Log In')}
       </AuthActionTemplate>
     </View>
   )
@@ -77,7 +75,6 @@ AuthForgotEmail.propTypes = {
   t: PropTypes.any,
   formErrorMessage: PropTypes.any,
   handleFormSubmit: PropTypes.any,
-  handleFormTransform: PropTypes.any,
   handleErrorClose: PropTypes.any,
   formSubmitLoading: PropTypes.any,
   formSubmitDisabled: PropTypes.any,

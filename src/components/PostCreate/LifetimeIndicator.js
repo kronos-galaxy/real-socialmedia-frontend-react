@@ -24,7 +24,7 @@ const LifetimeIndicator = ({
   return (
     <View style={styling.root}>
       <TouchableOpacity style={[{ left: '0%' }, styling.indicator]} onPress={() => onValueChange(1)}>
-        <Caption style={[styling.caption, styling.captionStart]}>{t('Day')}</Caption>
+        <Caption style={[styling.caption, styling.captionStart]}>{t('Story')}</Caption>
       </TouchableOpacity>
       <TouchableOpacity style={[{ left: '25%' }, styling.indicator]} onPress={() => onValueChange(2)}>
         <Caption style={styling.caption}>{t('Week')}</Caption>

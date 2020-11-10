@@ -16,8 +16,8 @@ const SearchService = ({ children }) => {
   const usersUnfollow = useSelector(state => state.users.usersUnfollow)
   const usersGetTrendingUsers = useSelector(usersSelector.usersGetTrendingUsersSelector())
   const postsGetTrendingPosts = useSelector(postsSelector.postsGetTrendingPostsSelector())
-  const themeFetch = useSelector(state => state.theme.themeFetch)
   const usersAcceptFollowerUser = useSelector(state => state.users.usersAcceptFollowerUser)
+  const trendingFilters = postsGetTrendingPosts.filters
 
   /**
    * FlatList feed ref, used for scroll to top on tab bar press
@@ -25,8 +25,9 @@ const SearchService = ({ children }) => {
   const feedRef = useRef(null)
   useScrollToTop(feedRef)
 
-  const [viewedStatus, handleViewedStatus] = useState(undefined)
-  const [verifiedStatus, handleVerifiedStatus] = useState(undefined)
+  const scrollToTop = () => {
+    feedRef.current.scrollToOffset({ animated: true, offset: 0 })
+  }
 
   const usersSearchRequest = ({ searchToken }) => {
     dispatch(usersActions.usersFollowIdle({}))
@@ -37,11 +38,14 @@ const SearchService = ({ children }) => {
   /**
    * Trending Filters
    */
-  const handleFilterChange = (filters) => {
-    handleViewedStatus(filters.viewedStatus)
-    handleVerifiedStatus(filters.verifiedStatus)
-  }
+  const postsGetTrendingPostsRequest = () => dispatch(postsActions.postsGetTrendingPostsRequest())
 
+  const handleFilterChange = (filters) => {
+    dispatch(postsActions.postsGetTrendingPostsChangeFilters(filters))
+    postsGetTrendingPostsRequest()
+    scrollToTop()
+  }
+    
   const usersFollowRequest = ({ userId }) =>
     dispatch(usersActions.usersFollowRequest({ userId }))
   
@@ -52,15 +56,11 @@ const SearchService = ({ children }) => {
     dispatch(usersActions.usersAcceptFollowerUserRequest({ userId }))
   
   const postsGetTrendingPostsMoreRequest = (payload) =>
-    dispatch(postsActions.postsGetTrendingPostsMoreRequest({ ...payload, viewedStatus, isVerified: verifiedStatus }))
+    dispatch(postsActions.postsGetTrendingPostsMoreRequest({ ...payload }))
 
   useEffect(() => {
     dispatch(usersActions.usersGetTrendingUsersRequest({ limit: 30 }))
   }, [])
-
-  useEffect(() => {
-    dispatch(postsActions.postsGetTrendingPostsRequest({ viewedStatus, isVerified: verifiedStatus }))
-  }, [viewedStatus, verifiedStatus])
 
   /**
    * Following two states are tracking values of Search/Form -> searchToken input field
@@ -75,7 +75,6 @@ const SearchService = ({ children }) => {
   return children({
     feedRef,
     user,
-    themeFetch,
     usersSearch,
     usersSearchRequest,
     usersFollow,
@@ -92,10 +91,8 @@ const SearchService = ({ children }) => {
     formChange,
     handleFormChange,
     handleFilterChange,
-    trendingFilters: {
-      viewedStatus,
-      verifiedStatus,
-    },
+    trendingFilters,
+    postsGetTrendingPostsRequest,
   })
 }
 

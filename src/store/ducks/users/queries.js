@@ -1,6 +1,7 @@
 import {
   cardFragment,
   postFragment,
+  userFragment,
 } from 'store/fragments'
 
 import * as usersSingle from 'store/ducks/users/queries/single'
@@ -74,6 +75,7 @@ export const user = `
 
 export const setUserDetails = `
   mutation setUserDetails(
+    $username: String,
     $fullName: String,
     $bio: String,
     $photoPostId: ID,
@@ -83,11 +85,18 @@ export const setUserDetails = `
     $commentsDisabled: Boolean,
     $likesDisabled: Boolean,
     $sharingDisabled: Boolean,
-    $themeCode: String,
+    $verificationHidden: Boolean,
     $languageCode: String,
-    $verificationHidden: Boolean
+    $themeCode: String,
+    $dateOfBirth: AWSDate,
+    $gender: UserGender,
+    $location: LocationInput,
+    $matchAgeRange: AgeRangeInput,
+    $matchGenders: [UserGender!],
+    $matchLocationRadius: Int
   ) {
     setUserDetails(
+      username: $username,
       fullName: $fullName,
       bio: $bio,
       photoPostId: $photoPostId,
@@ -97,9 +106,15 @@ export const setUserDetails = `
       commentsDisabled: $commentsDisabled,
       likesDisabled: $likesDisabled,
       sharingDisabled: $sharingDisabled,
-      themeCode: $themeCode,
+      verificationHidden: $verificationHidden,
       languageCode: $languageCode,
-      verificationHidden: $verificationHidden
+      themeCode: $themeCode,
+      dateOfBirth: $dateOfBirth,
+      gender: $gender,
+      location: $location,
+      matchAgeRange: $matchAgeRange,
+      matchGenders: $matchGenders,
+      matchLocationRadius: $matchLocationRadius,
     ) {
       ...singleUserFragment
     }
@@ -108,10 +123,10 @@ export const setUserDetails = `
 `
 
 export const getImagePosts = `
-  query GetImagePosts($userId: ID!) {
+  query GetImagePosts($userId: ID!, $isVerified: Boolean) {
     user(userId: $userId) {
       posts(postType: IMAGE) {
-        items {
+        items(isVerified: $isVerified) {
           ...postFragment
         }
         nextToken
@@ -184,10 +199,10 @@ export const denyFollowerUser = `
 export const self = `
   query self {
     self {
-      ...singleUserFragment
+      ...userFragment
     }
   }
-  ${usersSingle.singleUserFragment}
+  ${userFragment}
 `
 
 export const trendingUsers = `
@@ -254,5 +269,26 @@ export const onNotification = `
       type
       userChatsWithUnviewedMessagesCount
     }
+  }
+`
+
+export const reportScreenViews = `
+  mutation reportScreenViews($screens: [String!]!) {
+    reportScreenViews(screens: $screens)
+  }
+` 
+
+export const setUserDatingStatus = `
+  mutation setUserDatingStatus($status: DatingStatus!) {
+    setUserDatingStatus(status: $status) {
+      ...userFragment
+    }
+  }
+  ${userFragment}
+`
+
+export const usernameStatus = `
+  query usernameStatus($username: String!) {
+    usernameStatus(username: $username)
   }
 `

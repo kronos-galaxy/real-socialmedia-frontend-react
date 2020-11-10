@@ -1,4 +1,4 @@
-import { call, put, takeLatest, getContext } from 'redux-saga/effects'
+import { call, put, takeLatest, getContext, select } from 'redux-saga/effects'
 import path from 'ramda/src/path'
 import compose from 'ramda/src/compose'
 import omit from 'ramda/src/omit'
@@ -9,12 +9,14 @@ import * as constants from 'store/ducks/posts/constants'
 import * as entitiesActions from 'store/ducks/entities/actions'
 import * as queryService from 'services/Query'
 import * as normalizer from 'normalizer/schemas'
+import * as selectors from 'store/ducks/posts/selectors'
 
 /**
  *
  */
 export function* handlePostsGetTrendingPostsRequest(payload = {}, extraData = []) {
-  const api = yield call(queryService.apiRequest, queries.trendingPosts, payload)
+  const filters = yield select(selectors.postsGetTrendingPostsFilters)
+  const api = yield call(queryService.apiRequest, queries.trendingPosts, { ...payload, ...filters })
   const dataSelector = path(['data', 'trendingPosts', 'items'])
   const metaSelector = compose(omit(['items']), path(['data', 'trendingPosts']))
   

@@ -2,7 +2,7 @@ export default {
   root: 'components/AuthSigninEmail',
   resetPasswordBtn: 'components/AuthSigninEmail/BottomAction',
   form: {
-    username: 'components/AuthSigninEmail/Form/username',
+    email: 'components/AuthSigninEmail/Form/email',
     password: 'components/AuthSigninEmail/Form/password',
     submitBtn: 'components/AuthSigninEmail/Form/submit',
   },

@@ -22,7 +22,7 @@ const Error = ({
       <View style={styling.content}>
         <Text style={styling.text}>{text}</Text>
       </View>
-      <TouchableOpacity style={styling.action} onPress={onClose}>
+      <TouchableOpacity accessibilityLabel="Close error" accessibilityRole="button" style={styling.action} onPress={onClose}>
         <CloseIcon fill="#ffffff" />
       </TouchableOpacity>
     </View>

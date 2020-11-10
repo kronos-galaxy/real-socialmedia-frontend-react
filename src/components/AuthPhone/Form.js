@@ -8,16 +8,12 @@ import PhoneField from 'components/Formik/PhoneField'
 import DefaultButton from 'components/Formik/Button/DefaultButton'
 import { Formik, Field } from 'formik'
 import * as Yup from 'yup'
+import * as Validation from 'services/Validation'
 import { withTranslation } from 'react-i18next'
 import testIDs from './test-ids'
 
 const formSchema = Yup.object().shape({
-  phone: Yup.string()
-    .matches(/^[0-9]*$/gm, 'numbers only')
-    .min(3)
-    .max(50)
-    .trim()
-    .required(),
+  phone: Validation.phone,
 })
 
 const PhoneForm = ({
@@ -56,7 +52,6 @@ PhoneForm.propTypes = {
 export default withTranslation()(({
   handleFormSubmit,
   formSubmitLoading,
-  handleFormTransform,
   formInitialValues,
   ...props
 }) => (
@@ -71,10 +66,6 @@ export default withTranslation()(({
         {...formikProps}
         {...props}
         loading={formSubmitLoading}
-        handleSubmit={() => {
-          const nextValues = handleFormTransform(formikProps.values)
-          handleFormSubmit(nextValues)
-        }}
       />
     )}
   </Formik>

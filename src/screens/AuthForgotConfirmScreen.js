@@ -1,7 +1,6 @@
 import React from 'react'
 import AuthForgotConfirmComponent from 'components/AuthForgotConfirm'
 import AuthForgotConfirmServiceComponent from 'components/AuthForgotConfirm/index.service'
-import ScreenWrapper from 'templates/Auth/ScreenWrapper'
 
 class AuthForgotConfirmScreen extends React.Component {
   render() {
@@ -17,4 +16,4 @@ class AuthForgotConfirmScreen extends React.Component {
   }
 }
 
-export default ScreenWrapper(AuthForgotConfirmScreen)
+export default AuthForgotConfirmScreen

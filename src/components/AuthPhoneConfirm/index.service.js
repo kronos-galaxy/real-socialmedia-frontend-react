@@ -1,94 +1,45 @@
-import { useEffect } from 'react'
-import { Keyboard } from 'react-native'
 import * as signupActions from 'store/ducks/signup/actions'
-import * as authActions from 'store/ducks/auth/actions'
 import { useDispatch, useSelector } from 'react-redux'
 import { useRoute } from '@react-navigation/native'
 import path from 'ramda/src/path'
-import { logEvent } from 'services/Analytics'
+import * as Validation from 'services/Validation'
+import * as signupSelectors from 'store/ducks/signup/selectors'
 
 const AuthPhoneConfirmComponentService = ({ children }) => {
   const dispatch = useDispatch()
   const route = useRoute()
 
-  const signupUsername = useSelector(state => state.signup.signupUsername)
-  const signupPhone = useSelector(state => state.signup.signupPhone)
-  const signupPassword = useSelector(state => state.signup.signupPassword)
-  const signupConfirm = useSelector(state => state.signup.signupConfirm)
-  const signupCognitoIdentity = useSelector(state => state.signup.signupCognitoIdentity)
+  const signupConfirm = useSelector(signupSelectors.signupConfirm)
+  const signupCreate = useSelector(signupSelectors.signupCreate)
 
-  const handleFormSubmit = (payload) => {
-    logEvent('SIGNUP_CONFIRM_REQUEST')
-    const nextPayload = {
-      confirmationCode: payload.confirmationCode,
-      cognitoUsername: signupCognitoIdentity.cognitoUsername,
-      cognitoUserId: signupCognitoIdentity.cognitoUserId,
-      username: signupCognitoIdentity.username,
-      password: signupCognitoIdentity.password,
-    }
-    dispatch(signupActions.signupConfirmRequest(nextPayload))
+  const handleFormTransform = (values) => ({
+    confirmationCode: Validation.getConfirmationCode(values),
+  })
+
+  const handleFormSubmit = (values, formApi) => {
+    const nextValues = handleFormTransform(values)
+    formApi.setValues(nextValues)
+
+    dispatch(signupActions.signupConfirmRequest({
+      usernameType: 'phone',
+      confirmationCode: nextValues.confirmationCode,
+    }))
   }
-
-  /**
-   * Create new user once phone and password is received from previous steps
-   * 
-   * Previous steps include:
-   * - signupUsername -> AuthUsernameScreen
-   * - signupPhone -> AuthPhoneScreen
-   * - signupPassword -> AuthPasswordScreen
-   */
-  useEffect(() => {
-    if (
-      !signupUsername.payload.username ||
-      !signupPhone.payload.phone ||
-      !signupPassword.payload.password
-    ) return
-  }, [
-    signupUsername.status,
-    signupPhone.status,
-    signupPassword.status,
-  ])
-
-  /**
-   * Redirect to verification confirmation once signup was successful
-   */
-  useEffect(() => {
-    if (
-      signupConfirm.status !== 'success'
-    ) return
-
-    logEvent('SIGNUP_CONFIRM_SUCCESS')
-    dispatch(signupActions.signupCreateIdle({}))
-    dispatch(signupActions.signupConfirmIdle({}))
-    dispatch(signupActions.signupUsernameIdle({}))
-    dispatch(signupActions.signupPasswordIdle({}))
-
-    Keyboard.dismiss()
-    dispatch(authActions.authCheckRequest())
-  }, [
-    signupConfirm.status,
-  ])
 
   const formSubmitLoading = signupConfirm.status === 'loading'
   const formSubmitDisabled = signupConfirm.status === 'loading'
   const formErrorMessage = signupConfirm.error.text
 
   const formInitialValues = {
-    cognitoUsername: path(['cognitoUsername'])(signupCognitoIdentity),
+    cognitoUsername: path(['payload', 'phone'])(signupCreate),
     confirmationCode: path(['params', 'confirmationCode'])(route),
   }
 
-  const handleFormTransform = (values) => ({
-    cognitoUsername: values.cognitoUsername,
-    confirmationCode: values.confirmationCode,
-  })
-
-  const handleErrorClose = () => dispatch(signupActions.signupConfirmIdle({}))
+  const handleErrorClose = () => dispatch(signupActions.signupConfirmIdle())
 
   return children({
     formErrorMessage,
     handleFormSubmit,
-    handleFormTransform,
     handleErrorClose,
     formSubmitLoading,
     formSubmitDisabled,

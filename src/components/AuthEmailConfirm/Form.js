@@ -8,38 +8,35 @@ import TextField from 'components/Formik/TextField'
 import DefaultButton from 'components/Formik/Button/DefaultButton'
 import { Formik, Field } from 'formik'
 import * as Yup from 'yup'
-import path from 'ramda/src/path'
+import * as Validation from 'services/Validation'
 
 import { withTranslation } from 'react-i18next'
 import testIDs from './test-ids'
 
 const formSchema = Yup.object().shape({
-  confirmationCode: Yup.string()
-    .length(6)
-    .matches(/^[0-9]*$/, 'must only contain numbers')
-    .matches(/^\S*$/, 'no whitespace')
-    .trim()
-    .required(),
-})
+  confirmationCode: Validation.confirmationCode,
+}) 
 
 const EmailConfirmForm = ({
   t,
   handleSubmit,
   loading,
 }) => {
-  const styling = styles
-  
   return (
-    <View style={styling.root}>
-      <View style={styling.input}>
-        <Field testID={testIDs.form.confirmationCode} name="confirmationCode" component={TextField} placeholder={t('Confirmation Code')} keyboardType="number-pad" textContentType="oneTimeCode" autoCompleteType="off" autoFocus maxLength={6} />
+    <View style={styles.root}>
+      <View style={styles.input}>
+        <Field
+          testID={testIDs.form.confirmationCode}
+          component={TextField}
+          name="confirmationCode"
+          placeholder="Confirmation Code"
+          {...Validation.getInputTypeProps('confirmationCode')}
+        />
       </View>
 
-      {loading ?
-        <View style={styling.input}>
-          <DefaultButton label={t('Next')} onPress={handleSubmit} loading={loading} disabled={loading} />
-        </View>
-      : null}
+      <View style={styles.input}>
+        <DefaultButton label={t('Next')} onPress={handleSubmit} loading={loading} disabled={loading} />
+      </View>
     </View>
   )
 }
@@ -60,10 +57,9 @@ EmailConfirmForm.propTypes = {
 
 export default withTranslation()(({
   handleFormSubmit,
-  handleFormTransform,
   formSubmitLoading,
   formSubmitDisabled,
-  formInitialValues,
+  formInitialValues, 
   ...props
 }) => (
   <Formik
@@ -72,36 +68,13 @@ export default withTranslation()(({
     onSubmit={handleFormSubmit}
     enableReinitialize
   >
-    {(formikProps) => {
-      /**
-       *
-       */
-      const handleSubmit = () => {
-        const nextValues = handleFormTransform(formikProps.values)
-        formikProps.handleSubmit(nextValues)
-      }
-
-      /**
-       *
-       */
-      React.useEffect(() => {
-        if (
-          path(['values', 'confirmationCode', 'length'])(formikProps) !== 6 ||
-          !path(['values', 'cognitoUsername', 'length'])(formikProps) ||
-          formSubmitLoading ||
-          formSubmitDisabled
-        ) return
-        handleSubmit()
-      }, [formikProps.values])
-
-      return (
-        <EmailConfirmForm
-          {...formikProps}
-          {...props}
-          loading={formSubmitLoading}
-          handleSubmit={handleSubmit}
-        />
-      )
-    }}
+    {(formikProps) => (
+      <EmailConfirmForm
+        {...formikProps}
+        {...props}
+        loading={formSubmitLoading}
+        disabled={formSubmitDisabled}
+      />
+    )}
   </Formik>
 ))

@@ -18,7 +18,8 @@ const AuthSigninEmail = ({
   formErrorMessage,
   handleFormSubmit,
   handleErrorClose,
-  formSubmitting,
+  formSubmitLoading,
+  formSubmitDisabled,
   formInitialValues,
 }) => {
   const styling = styles
@@ -42,13 +43,14 @@ const AuthSigninEmail = ({
         <View style={styling.content}>
           <FormComponent
             handleFormSubmit={handleFormSubmit}
-            formSubmitting={formSubmitting}
+            formSubmitLoading={formSubmitLoading}
+            formSubmitDisabled={formSubmitDisabled}
             formInitialValues={formInitialValues}
           />
         </View>
       </View>
 
-      <AuthActionTemplate testID={testIDs.resetPasswordBtn} onPress={navigationActions.navigateAuthForgotEmail(navigation)}>
+      <AuthActionTemplate testID={testIDs.resetPasswordBtn} onPress={() => navigationActions.navigateAuthForgotEmail(navigation, { initialRouteName: 'AuthForgotEmail' })}>
         {t('Reset your Password')}
       </AuthActionTemplate>
     </View>
@@ -73,12 +75,9 @@ AuthSigninEmail.propTypes = {
   formErrorMessage: PropTypes.any,
   handleFormSubmit: PropTypes.any,
   handleErrorClose: PropTypes.any,
-  formSubmitting: PropTypes.bool,
+  formSubmitLoading: PropTypes.any,
+  formSubmitDisabled: PropTypes.any,
   formInitialValues: PropTypes.any,
-}
-
-AuthSigninEmail.defaultProps = {
-  formSubmitting: false,
 }
 
 export default withTranslation()(AuthSigninEmail)

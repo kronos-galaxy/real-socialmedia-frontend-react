@@ -43,50 +43,24 @@ const SearchComponent = ({
   formChange,
   trendingFilters,
   handleFilterChange,
+  postsGetTrendingPostsRequest,
 }) => {
   const styling = styles(theme)
 
   const scroll = ScrollService({
     resource: postsGetTrendingPosts,
-    loadInit: () => {},
+    loadInit: postsGetTrendingPostsRequest, 
     loadMore: postsGetTrendingPostsMoreRequest,
     extra: { limit: path(['payload', 'limit'])(postsGetTrendingPosts) },
   })
 
   const {
-    onViewableItemsChangedRef,
+    onViewableItemsThumbnailsRef,
     viewabilityConfigRef,
   } = useViewable()
 
   const isEmpty = !path(['data', 'length'])(postsGetTrendingPosts)
   const isLoading = path(['status'])(postsGetTrendingPosts) === 'loading'
-
-  const flatListRef = React.useRef()
-
-  const scrollToTop = () => {
-    flatListRef.current.scrollToOffset({ animated: true, offset: 0 })
-  }
-
-  const handlePostsAllFilter = () => {
-    handleFilterChange({ viewedStatus: undefined, verifiedStatus: undefined })
-    scrollToTop()
-  }
-  const handlePostsViewedFilter = () => {
-    handleFilterChange({ ...trendingFilters, viewedStatus: 'VIEWED' })
-    scrollToTop()
-  }
-  const handlePostsNotViewedFilter = () => {
-    handleFilterChange({ ...trendingFilters, viewedStatus: 'NOT_VIEWED' })
-    scrollToTop()
-  }
-  const handlePostsVerifiedFilter = () => {
-    handleFilterChange({ ...trendingFilters, verifiedStatus: true })
-    scrollToTop()
-  }
-  const handlePostsNotVerifiedFilter = () => {
-    handleFilterChange({ ...trendingFilters, verifiedStatus: false })
-    scrollToTop()
-  }
 
   return (
     <View style={styling.root}>
@@ -101,11 +75,7 @@ const SearchComponent = ({
         <View style={styling.filters}>
           <FilterComponent
             trendingFilters={trendingFilters}
-            handlePostsAllFilter={handlePostsAllFilter}
-            handlePostsViewedFilter={handlePostsViewedFilter}
-            handlePostsNotViewedFilter={handlePostsNotViewedFilter}
-            handlePostsVerifiedFilter={handlePostsVerifiedFilter}
-            handlePostsNotVerifiedFilter={handlePostsNotVerifiedFilter}
+            handleFilterChange={handleFilterChange}
             isLoading={isLoading}
           />
         </View>
@@ -114,7 +84,7 @@ const SearchComponent = ({
       {!formFocus && isLoading && isEmpty ? <PostsLoadingComponent /> : null}
 
       <FlatList
-        ref={flatListRef}
+        ref={feedRef}
         data={postsGetTrendingPosts.data}
         numColumns={3}
         keyExtractor={(item) => item.postId}
@@ -133,7 +103,7 @@ const SearchComponent = ({
         ListFooterComponentStyle={styling.activity}
         onEndReached={scroll.handleLoadMore}
         onEndReachedThreshold={0.5}
-        onViewableItemsChanged={onViewableItemsChangedRef.current}
+        onViewableItemsChanged={onViewableItemsThumbnailsRef.current}
         viewabilityConfig={viewabilityConfigRef.current}
       />
 
@@ -239,6 +209,7 @@ SearchComponent.propTypes = {
   formChange: PropTypes.any,
   trendingFilters: PropTypes.any,
   handleFilterChange: PropTypes.func,
+  postsGetTrendingPostsRequest: PropTypes.func,
 }
 
 export default withTranslation()(withTheme(SearchComponent))

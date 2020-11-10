@@ -3,21 +3,15 @@ import React from 'react'
 import { renderWithProviders, fireEvent, within } from 'tests/utils'
 import FilterComponent from 'components/Search/Filter'
 
-const callbacks = {
-  handlePostsAllFilter: jest.fn(),
-  handlePostsViewedFilter: jest.fn(),
-  handlePostsNotViewedFilter: jest.fn(),
-  handlePostsVerifiedFilter: jest.fn(),
-  handlePostsNotVerifiedFilter: jest.fn(),
-}
-
-const setup = (props) => renderWithProviders(<FilterComponent {...callbacks} {...props} />)
+const handleFilterChange = jest.fn()
+const setup = (props) => renderWithProviders(<FilterComponent handleFilterChange={handleFilterChange} {...props} />)
 
 const testFilterButtons = (holder, expected) => {
   const { getAllByRole } = holder
   const $buttons = getAllByRole('button')
 
   const testButton = ($button, { name, fn, selected }) => {
+    handleFilterChange.mockClear()
     expect(within($button).getByText(name)).toBeTruthy()
     expect($button).toHaveProp('accessibilityState', { selected })
     expect(fn).not.toHaveBeenCalled()
@@ -34,44 +28,44 @@ const testFilterButtons = (holder, expected) => {
   testButton($buttons[0], {
     name: 'All',
     selected: expected.all.isActive,
-    fn: callbacks.handlePostsAllFilter,
+    fn: handleFilterChange,
   })
 
   testButton($buttons[1], {
     name: 'Verified',
     selected: expected.verified.isActive,
-    fn: callbacks.handlePostsVerifiedFilter,
+    fn: handleFilterChange,
   })
 
   testButton($buttons[2], {
     name: 'Unverified',
     selected: expected.unverified.isActive,
-    fn: callbacks.handlePostsNotVerifiedFilter,
+    fn: handleFilterChange,
   })
 
   testButton($buttons[3], {
     name: 'Viewed',
     selected: expected.viewed.isActive,
-    fn: callbacks.handlePostsViewedFilter,
+    fn: handleFilterChange,
   })
 
   testButton($buttons[4], {
     name: 'Unviewed',
     selected: expected.unviewed.isActive,
-    fn: callbacks.handlePostsNotViewedFilter,
+    fn: handleFilterChange,
   })
 }
 
 describe('Search filter component', () => {
   afterEach(() => {
-    Object.values(callbacks).forEach((fn) => fn.mockClear())
+    handleFilterChange.mockClear()
   })
 
   it('All', () => {
     const holder = setup({
       trendingFilters: {
         viewedStatus: undefined,
-        verifiedStatus: undefined,
+        isVerified: undefined,
       },
     })
 
@@ -88,7 +82,7 @@ describe('Search filter component', () => {
     const holder = setup({
       trendingFilters: {
         viewedStatus: undefined,
-        verifiedStatus: true,
+        isVerified: true,
       },
     })
 
@@ -105,7 +99,7 @@ describe('Search filter component', () => {
     const holder = setup({
       trendingFilters: {
         viewedStatus: undefined,
-        verifiedStatus: false,
+        isVerified: false,
       },
     })
 
@@ -122,7 +116,7 @@ describe('Search filter component', () => {
     const holder = setup({
       trendingFilters: {
         viewedStatus: 'VIEWED',
-        verifiedStatus: undefined,
+        isVerified: undefined,
       },
     })
 
@@ -139,7 +133,7 @@ describe('Search filter component', () => {
     const holder = setup({
       trendingFilters: {
         viewedStatus: 'NOT_VIEWED',
-        verifiedStatus: undefined,
+        isVerified: undefined,
       },
     })
 

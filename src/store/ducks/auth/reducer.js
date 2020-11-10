@@ -1,9 +1,8 @@
 import { handleActions } from 'redux-actions'
 import update from 'immutability-helper'
 import * as constants from 'store/ducks/auth/constants'
-import path from 'ramda/src/path'
 
-const initialState = {
+export const initialState = {
   /**
    *
    */
@@ -12,7 +11,39 @@ const initialState = {
   /**
    *
    */
-  authCheck: {
+  authFlow: {
+    data: [],
+    status: 'idle',
+    error: {},
+    payload: {},
+    meta: {},
+  },
+  authToken: {
+    data: [],
+    status: 'idle',
+    error: {},
+    payload: {},
+    meta: {},
+  },
+  authData: {
+    data: [],
+    status: 'idle',
+    error: {},
+    payload: {},
+    meta: {},
+  },
+  authPrefetch: {
+    data: [],
+    status: 'idle',
+    error: {},
+    payload: {},
+    meta: {},
+  },
+
+  /**
+   *
+   */
+  authSigninAnonymous: {
     data: [],
     status: 'idle',
     error: {},
@@ -20,7 +51,12 @@ const initialState = {
     payload: {},
     nextRoute: null,
   },
-  authSignin: {
+  authSigninCognito: {
+    status: 'idle',
+    error: {},
+    payload: {},
+  },
+  authSigninGoogle: {
     data: [],
     status: 'idle',
     error: {},
@@ -28,15 +64,7 @@ const initialState = {
     payload: {},
     nextRoute: null,
   },
-  authGoogle: {
-    data: [],
-    status: 'idle',
-    error: {},
-    message: {},
-    payload: {},
-    nextRoute: null,
-  },
-  authApple: {
+  authSigninApple: {
     data: [],
     status: 'idle',
     error: {},
@@ -52,13 +80,14 @@ const initialState = {
     payload: {},
     nextRoute: null,
   },
+
+  /**
+   *
+   */
   authForgot: {
-    data: [],
     status: 'idle',
     error: {},
-    message: {},
     payload: {},
-    nextRoute: null,
   },
   authForgotConfirm: {
     data: [],
@@ -73,153 +102,235 @@ const initialState = {
 /**
  *
  */
-const authCheckRequest = (state, action) => update(state, {
-  authCheck: {
+const authFlowRequest = (state) => update(state, {
+  authFlow: {
     status: { $set: 'loading' },
-    payload: { $set: action.payload },
   },
 })
 
-const authCheckSuccess = (state, action) => update(state, {
-  user: { $set: action.payload.data },
-  authCheck: {
-    message: { $set: action.payload.message },
+const authFlowSuccess = (state, action) => update(state, {
+  authFlow: {
     data: { $set: action.payload.data },
     status: { $set: 'success' },
-    nextRoute: { $set: action.payload.nextRoute },
+    error: { $set: initialState.authFlow.error },
+    payload: {},
     meta: { $set: action.payload.meta },
   },
 })
 
-const authCheckFailure = (state, action) => update(state, {
-  authCheck: {
-    message: { $set: action.payload.message },
-    error: { $set: action.payload.message },
+const authFlowFailure = (state, action) => update(state, {
+  authFlow: {
+    data: { $set: initialState.authFlow.data },
     status: { $set: 'failure' },
-    nextRoute: { $set: action.payload.nextRoute },
+    error: { $set: action.payload.message },
+    payload: {},
     meta: { $set: action.payload.meta },
   },
 })
 
-const authCheckIdle = (state, action) => update(state, {
-  authCheck: {
-    data: { $set: initialState.authCheck.data },
-    status: { $set: 'idle' },
-    error: { $set: initialState.authCheck.error },
-    message: { $set: initialState.authCheck.message },
-    nextRoute: { $set: path(['payload', 'nextRoute'])(action) || path(['authCheck', 'nextRoute'])(state) },
-  },
-})
-
-const authCheckReset = (state) => update(state, {
-  user: { $set: initialState.user },
+const authFlowIdle = (state) => update(state, {
+  authFlow: { $set: initialState.authFlow },
 })
 
 /**
  *
  */
-const authSigninRequest = (state, action) => update(state, {
-  authSignin: {
+const authDataRequest = (state) => update(state, {
+  authData: {
     status: { $set: 'loading' },
-    payload: { $set: action.payload },
-    error: { $set: initialState.authSignin.error },
   },
 })
 
-const authSigninSuccess = (state, action) => update(state, {
-  authSignin: {
+const authDataSuccess = (state, action) => update(state, {
+  user: {
+    $set: action.payload.data,
+  },
+  authData: {
+    data: { $set: action.payload.data },
+    status: { $set: 'success' },
+    error: { $set: initialState.authData.error },
+    payload: {},
+    meta: { $set: action.payload.meta },
+  },
+})
+
+const authDataFailure = (state, action) => update(state, {
+  authData: {
+    data: { $set: initialState.authData.data },
+    status: { $set: 'failure' },
+    error: { $set: action.payload.message },
+    payload: {},
+    meta: { $set: action.payload.meta },
+  },
+})
+
+const authDataIdle = (state) => update(state, {
+  authData: { $set: initialState.authData },
+})
+
+/**
+ *
+ */
+const authTokenRequest = (state) => update(state, {
+  authToken: {
+    status: { $set: 'loading' },
+  },
+})
+
+const authTokenSuccess = (state, action) => update(state, {
+  authToken: {
+    data: { $set: action.payload.data },
+    status: { $set: 'success' },
+    error: { $set: initialState.authToken.error },
+    payload: {},
+    meta: { $set: action.payload.meta },
+  },
+})
+
+const authTokenFailure = (state, action) => update(state, {
+  authToken: {
+    data: { $set: initialState.authToken.data },
+    status: { $set: 'failure' },
+    error: { $set: action.payload.message },
+    payload: {},
+    meta: { $set: action.payload.meta },
+  },
+})
+
+const authTokenIdle = (state) => update(state, {
+  authToken: { $set: initialState.authToken },
+})
+
+/**
+ *
+ */
+const authSigninCognitoRequest = (state, action) => update(state, {
+  authSigninCognito: {
+    status: { $set: 'loading' },
+    payload: { $merge: action.payload },
+    error: { $set: initialState.authSigninCognito.error },
+  },
+})
+
+const authSigninCognitoSuccess = (state) => update(state, {
+  authSigninCognito: {
+    status: { $set: 'success' },
+  },
+})
+
+const authSigninCognitoFailure = (state, action) => update(state, {
+  authSigninCognito: {
+    error: { $set: action.payload.message },
+    status: { $set: 'failure' },
+  },
+})
+
+const authSigninCognitoIdle = (state) => update(state, {
+  authSigninCognito: { $set: initialState.authSigninCognito },
+})
+
+/**
+ *
+ */
+const authSigninGoogleRequest = (state) => update(state, {
+  authSigninGoogle: {
+    status: { $set: 'loading' },
+  },
+})
+
+const authSigninGoogleSuccess = (state, action) => update(state, {
+  authSigninGoogle: {
     message: { $set: action.payload.message },
     data: { $set: action.payload.data },
     status: { $set: 'success' },
-    nextRoute: { $set: action.payload.nextRoute },
   },
 })
 
-const authSigninFailure = (state, action) => update(state, {
-  authSignin: {
+const authSigninGoogleFailure = (state, action) => update(state, {
+  authSigninGoogle: {
     message: { $set: action.payload.message },
     error: { $set: action.payload.message },
     status: { $set: 'failure' },
-    nextRoute: { $set: action.payload.nextRoute },
   },
 })
 
-const authSigninIdle = (state) => update(state, {
-  authSignin: {
-    data: { $set: initialState.authSignin.data },
+const authSigninGoogleIdle = (state) => update(state, {
+  authSigninGoogle: {
+    data: { $set: initialState.authSigninGoogle.data },
     status: { $set: 'idle' },
-    error: { $set: initialState.authSignin.error },
-    message: { $set: initialState.authSignin.message },
+    error: { $set: initialState.authSigninGoogle.error },
+    message: { $set: initialState.authSigninGoogle.message },
   },
 })
 
 /**
  *
  */
-const authGoogleRequest = (state) => update(state, {
-  authGoogle: {
+const authSigninAppleRequest = (state) => update(state, {
+  authSigninApple: {
     status: { $set: 'loading' },
   },
 })
 
-const authGoogleSuccess = (state, action) => update(state, {
-  authGoogle: {
+const authSigninAppleSuccess = (state, action) => update(state, {
+  authSigninApple: {
     message: { $set: action.payload.message },
     data: { $set: action.payload.data },
     status: { $set: 'success' },
   },
 })
 
-const authGoogleFailure = (state, action) => update(state, {
-  authGoogle: {
+const authSigninAppleFailure = (state, action) => update(state, {
+  authSigninApple: {
     message: { $set: action.payload.message },
     error: { $set: action.payload.message },
     status: { $set: 'failure' },
   },
 })
 
-const authGoogleIdle = (state) => update(state, {
-  authGoogle: {
-    data: { $set: initialState.authGoogle.data },
+const authSigninAppleIdle = (state) => update(state, {
+  authSigninApple: {
+    data: { $set: initialState.authSigninApple.data },
     status: { $set: 'idle' },
-    error: { $set: initialState.authGoogle.error },
-    message: { $set: initialState.authGoogle.message },
+    error: { $set: initialState.authSigninApple.error },
+    message: { $set: initialState.authSigninApple.message },
   },
 })
 
 /**
  *
  */
-const authAppleRequest = (state) => update(state, {
-  authApple: {
+const authSigninAnonymousRequest = (state) => update(state, {
+  authSigninAnonymous: {
     status: { $set: 'loading' },
   },
 })
 
-const authAppleSuccess = (state, action) => update(state, {
-  authApple: {
+const authSigninAnonymousSuccess = (state, action) => update(state, {
+  authSigninAnonymous: {
     message: { $set: action.payload.message },
     data: { $set: action.payload.data },
     status: { $set: 'success' },
   },
 })
 
-const authAppleFailure = (state, action) => update(state, {
-  authApple: {
+const authSigninAnonymousFailure = (state, action) => update(state, {
+  authSigninAnonymous: {
     message: { $set: action.payload.message },
     error: { $set: action.payload.message },
     status: { $set: 'failure' },
   },
 })
 
-const authAppleIdle = (state) => update(state, {
-  authApple: {
-    data: { $set: initialState.authApple.data },
+const authSigninAnonymousIdle = (state) => update(state, {
+  authSigninAnonymous: {
+    data: { $set: initialState.authSigninAnonymous.data },
     status: { $set: 'idle' },
-    error: { $set: initialState.authApple.error },
-    message: { $set: initialState.authApple.message },
+    error: { $set: initialState.authSigninAnonymous.error },
+    message: { $set: initialState.authSigninAnonymous.message },
   },
 })
+
 
 /**
  *
@@ -230,11 +341,9 @@ const authSignoutRequest = (state) => update(state, {
   },
 })
 
-const authSignoutSuccess = (state, action) => update(initialState, {
-  authCheck: {
-    message: { $set: action.payload.message },
-    nextRoute: { $set: 'AuthHome' },
-  },
+const authSignoutSuccess = () => update(initialState, {
+  authFlow: { $set: initialState.authFlow },
+  authData: { $set: initialState.authData },
 })
 
 const authSignoutFailure = (state, action) => update(state, {
@@ -261,21 +370,18 @@ const authSignoutIdle = (state) => update(state, {
 const authForgotRequest = (state, action) => update(state, {
   authForgot: {
     status: { $set: 'loading' },
-    payload: { $set: action.payload },
+    payload: { $merge: action.payload },
   },
 })
 
-const authForgotSuccess = (state, action) => update(state, {
+const authForgotSuccess = (state) => update(state, {
   authForgot: {
-    message: { $set: action.payload.message },
-    data: { $set: action.payload.data },
     status: { $set: 'success' },
   },
 })
 
 const authForgotFailure = (state, action) => update(state, {
   authForgot: {
-    message: { $set: action.payload.message },
     error: { $set: action.payload.message },
     status: { $set: 'failure' },
   },
@@ -283,10 +389,8 @@ const authForgotFailure = (state, action) => update(state, {
 
 const authForgotIdle = (state) => update(state, {
   authForgot: {
-    data: { $set: initialState.authForgot.data },
     status: { $set: 'idle' },
     error: { $set: initialState.authForgot.error },
-    message: { $set: initialState.authForgot.message },
   },
 })
 
@@ -325,26 +429,40 @@ const authForgotConfirmIdle = (state) => update(state, {
 })
 
 export default handleActions({
-  [constants.AUTH_CHECK_REQUEST]: authCheckRequest,
-  [constants.AUTH_CHECK_SUCCESS]: authCheckSuccess,
-  [constants.AUTH_CHECK_FAILURE]: authCheckFailure,
-  [constants.AUTH_CHECK_IDLE]: authCheckIdle,
-  [constants.AUTH_CHECK_RESET]: authCheckReset,
+  [constants.AUTH_FLOW_REQUEST]: authFlowRequest,
+  [constants.AUTH_FLOW_SUCCESS]: authFlowSuccess,
+  [constants.AUTH_FLOW_FAILURE]: authFlowFailure,
+  [constants.AUTH_FLOW_IDLE]: authFlowIdle,
 
-  [constants.AUTH_SIGNIN_REQUEST]: authSigninRequest,
-  [constants.AUTH_SIGNIN_SUCCESS]: authSigninSuccess,
-  [constants.AUTH_SIGNIN_FAILURE]: authSigninFailure,
-  [constants.AUTH_SIGNIN_IDLE]: authSigninIdle,
+  [constants.AUTH_DATA_REQUEST]: authDataRequest,
+  [constants.AUTH_DATA_SUCCESS]: authDataSuccess,
+  [constants.AUTH_DATA_FAILURE]: authDataFailure,
+  [constants.AUTH_DATA_IDLE]: authDataIdle,
 
-  [constants.AUTH_GOOGLE_REQUEST]: authGoogleRequest,
-  [constants.AUTH_GOOGLE_SUCCESS]: authGoogleSuccess,
-  [constants.AUTH_GOOGLE_FAILURE]: authGoogleFailure,
-  [constants.AUTH_GOOGLE_IDLE]: authGoogleIdle,
+  [constants.AUTH_TOKEN_REQUEST]: authTokenRequest,
+  [constants.AUTH_TOKEN_SUCCESS]: authTokenSuccess,
+  [constants.AUTH_TOKEN_FAILURE]: authTokenFailure,
+  [constants.AUTH_TOKEN_IDLE]: authTokenIdle,
 
-  [constants.AUTH_APPLE_REQUEST]: authAppleRequest,
-  [constants.AUTH_APPLE_SUCCESS]: authAppleSuccess,
-  [constants.AUTH_APPLE_FAILURE]: authAppleFailure,
-  [constants.AUTH_APPLE_IDLE]: authAppleIdle,
+  [constants.AUTH_SIGNIN_COGNITO_REQUEST]: authSigninCognitoRequest,
+  [constants.AUTH_SIGNIN_COGNITO_SUCCESS]: authSigninCognitoSuccess,
+  [constants.AUTH_SIGNIN_COGNITO_FAILURE]: authSigninCognitoFailure,
+  [constants.AUTH_SIGNIN_COGNITO_IDLE]: authSigninCognitoIdle,
+
+  [constants.AUTH_SIGNIN_GOOGLE_REQUEST]: authSigninGoogleRequest,
+  [constants.AUTH_SIGNIN_GOOGLE_SUCCESS]: authSigninGoogleSuccess,
+  [constants.AUTH_SIGNIN_GOOGLE_FAILURE]: authSigninGoogleFailure,
+  [constants.AUTH_SIGNIN_GOOGLE_IDLE]: authSigninGoogleIdle,
+
+  [constants.AUTH_SIGNIN_APPLE_REQUEST]: authSigninAppleRequest,
+  [constants.AUTH_SIGNIN_APPLE_SUCCESS]: authSigninAppleSuccess,
+  [constants.AUTH_SIGNIN_APPLE_FAILURE]: authSigninAppleFailure,
+  [constants.AUTH_SIGNIN_APPLE_IDLE]: authSigninAppleIdle,
+
+  [constants.AUTH_SIGNIN_ANONYMOUS_REQUEST]: authSigninAnonymousRequest,
+  [constants.AUTH_SIGNIN_ANONYMOUS_SUCCESS]: authSigninAnonymousSuccess,
+  [constants.AUTH_SIGNIN_ANONYMOUS_FAILURE]: authSigninAnonymousFailure,
+  [constants.AUTH_SIGNIN_ANONYMOUS_IDLE]: authSigninAnonymousIdle,
 
   [constants.AUTH_SIGNOUT_REQUEST]: authSignoutRequest,
   [constants.AUTH_SIGNOUT_SUCCESS]: authSignoutSuccess,

@@ -4,9 +4,7 @@ import LoadingComponent from 'components/Loading'
 class LoadingScreen extends React.Component {
   render() {
     return (
-      <>
-        <LoadingComponent />
-      </>
+      <LoadingComponent />
     )
   }
 }

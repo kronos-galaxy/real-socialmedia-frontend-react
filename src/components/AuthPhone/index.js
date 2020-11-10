@@ -18,7 +18,6 @@ const AuthPhone = ({
   t,
   formErrorMessage,
   handleFormSubmit,
-  handleFormTransform,
   handleErrorClose,
   formSubmitLoading,
   formSubmitDisabled,
@@ -45,7 +44,6 @@ const AuthPhone = ({
         <View style={styling.content}>
           <FormComponent
             handleFormSubmit={handleFormSubmit}
-            handleFormTransform={handleFormTransform}
             formSubmitLoading={formSubmitLoading}
             formSubmitDisabled={formSubmitDisabled}
             formInitialValues={formInitialValues}
@@ -53,7 +51,7 @@ const AuthPhone = ({
         </View>
       </View>
 
-      <AuthActionTemplate onPress={navigationActions.navigateAuthEmail(navigation)}>
+      <AuthActionTemplate onPress={() => navigationActions.navigateAuthEmail(navigation)}>
         {t('Signup with Email Address')}
       </AuthActionTemplate>
     </View>
@@ -77,7 +75,6 @@ AuthPhone.propTypes = {
   t: PropTypes.any,
   formErrorMessage: PropTypes.any,
   handleFormSubmit: PropTypes.any,
-  handleFormTransform: PropTypes.any,
   handleErrorClose: PropTypes.any,
   formSubmitLoading: PropTypes.any,
   formSubmitDisabled: PropTypes.any,

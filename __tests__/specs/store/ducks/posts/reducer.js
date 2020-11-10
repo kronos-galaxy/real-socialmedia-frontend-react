@@ -21,6 +21,7 @@ describe('Posts reducer', () => {
         meta: {},
         payload: {},
         status: 'idle',
+        filters: {},
       })
     })
 
@@ -33,22 +34,31 @@ describe('Posts reducer', () => {
         meta,
         payload: {},
         status: 'success',
+        filters: {},
       })
     })
 
-    it('clear data on request', () => {
+    it('not clear data on request', () => {
       const state = applyActions([
         actions.postsGetTrendingPostsSuccess({ data, meta }), 
         actions.postsGetTrendingPostsRequest(),
       ], reducer)
 
       expect(selectPostsGetTrendingPosts(state)).toEqual({
-        data: [],
+        data,
         error: {},
         meta: {},
         payload: undefined,
         status: 'loading',
-      })
+        filters: {},
+      }) 
+    })
+
+    it('filters', () => {
+      const filters = { a: 1, b: 2 }
+      const state = reducer(undefined, actions.postsGetTrendingPostsChangeFilters(filters))
+
+      expect(selectors.postsGetTrendingPostsFilters(state)).toEqual(filters)
     })
   })
 })

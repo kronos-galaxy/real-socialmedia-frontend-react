@@ -13,7 +13,6 @@ import testIDs from './test-ids'
 const AuthPassword = ({
   t,
   handleFormSubmit,
-  handleFormTransform,
   formSubmitLoading,
   formSubmitDisabled,
   formInitialValues,
@@ -31,7 +30,6 @@ const AuthPassword = ({
         <View style={styling.content}>
           <FormComponent
             handleFormSubmit={handleFormSubmit}
-            handleFormTransform={handleFormTransform}
             formSubmitLoading={formSubmitLoading}
             formSubmitDisabled={formSubmitDisabled}
             formInitialValues={formInitialValues}
@@ -45,6 +43,7 @@ const AuthPassword = ({
 const styles = StyleSheet.create({
   root: {
     flex: 1,
+    paddingTop: 50,
   },
   component: {
     paddingHorizontal: 24,
@@ -59,7 +58,6 @@ AuthPassword.propTypes = {
   t: PropTypes.any,
   formErrorMessage: PropTypes.any,
   handleFormSubmit: PropTypes.any,
-  handleFormTransform: PropTypes.any,
   handleErrorClose: PropTypes.any,
   formSubmitLoading: PropTypes.any,
   formSubmitDisabled: PropTypes.any,

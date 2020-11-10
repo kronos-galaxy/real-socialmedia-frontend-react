@@ -19,7 +19,8 @@ const AuthSigninPhone = ({
   formErrorMessage,
   handleFormSubmit,
   handleErrorClose,
-  formSubmitting,
+  formSubmitLoading,
+  formSubmitDisabled,
   formInitialValues,
 }) => {
   const styling = styles
@@ -43,13 +44,14 @@ const AuthSigninPhone = ({
         <View style={styling.content}>
           <FormComponent
             handleFormSubmit={handleFormSubmit}
-            formSubmitting={formSubmitting}
+            formSubmitLoading={formSubmitLoading}
+            formSubmitDisabled={formSubmitDisabled}
             formInitialValues={formInitialValues}
           />
         </View>
       </View>
 
-      <AuthActionTemplate onPress={navigationActions.navigateForgot(navigation)}>
+      <AuthActionTemplate onPress={() => navigationActions.navigateForgot(navigation)}>
         {t('Reset your Password')}
       </AuthActionTemplate>
     </View>
@@ -73,14 +75,10 @@ AuthSigninPhone.propTypes = {
   t: PropTypes.any,
   formErrorMessage: PropTypes.any,
   handleFormSubmit: PropTypes.any,
-  handleFormTransform: PropTypes.any,
   handleErrorClose: PropTypes.any,
-  formSubmitting: PropTypes.bool,
+  formSubmitLoading: PropTypes.any,
+  formSubmitDisabled: PropTypes.any,
   formInitialValues: PropTypes.any,
-}
-
-AuthSigninPhone.defaultProps = {
-  formSubmitting: false,
 }
 
 export default withTranslation()(AuthSigninPhone)

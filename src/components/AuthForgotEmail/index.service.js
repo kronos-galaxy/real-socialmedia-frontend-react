@@ -1,73 +1,36 @@
-import { useEffect, useCallback } from 'react'
 import * as authActions from 'store/ducks/auth/actions'
-import * as navigationActions from 'navigation/actions'
 import { useDispatch, useSelector } from 'react-redux'
-import { useNavigation } from '@react-navigation/native'
-import trim from 'ramda/src/trim'
-import compose from 'ramda/src/compose'
-import toLower from 'ramda/src/toLower'
-import pathOr from 'ramda/src/pathOr'
-import { pageHeaderLeft } from 'navigation/options'
+import * as authSelectors from 'store/ducks/auth/selectors'
+import * as Validation from 'services/Validation'
 
 const AuthForgotComponentService = ({ children }) => {
   const dispatch = useDispatch()
-  const navigation = useNavigation()
+  const authForgot = useSelector(authSelectors.authForgot)
 
-  const authForgot = useSelector(state => state.auth.authForgot)
+  const handleFormTransform = (values) => ({
+    email: Validation.getEmail(values),
+  })
 
-  const handleFormSubmit = (payload) => {
+  const handleFormSubmit = (values, formApi) => {
+    const nextValues = handleFormTransform(values)
+    formApi.setValues(nextValues)
+
     dispatch(authActions.authForgotRequest({
-      username: toLower(payload.username),
+      username: nextValues.email,
+      email: nextValues.email,
     }))
   }
-
-  /**
-   * Navigation state reset on back button press
-   */
-  const handleGoBack = useCallback(() => {
-    dispatch(authActions.authForgotIdle({}))
-    navigationActions.navigateAuthHome(navigation)()
-  }, [])
-
-  useEffect(() => {
-    const tabNavigator = navigation.dangerouslyGetParent()
-    if (!tabNavigator) return
-    tabNavigator.setOptions({
-      headerLeft: (props) => pageHeaderLeft({ ...props, onPress: handleGoBack }),
-    })
-  }, [])
-
-  /**
-   * Redirect to verification confirmation once reset was successful
-   */
-  useEffect(() => {
-    if (
-      authForgot.status !== 'success'
-    ) return
-
-    navigationActions.navigateAuthForgotConfirm(navigation)()
-  }, [
-    authForgot.status === 'success',
-  ])
 
   const formSubmitLoading = authForgot.status === 'loading'
   const formSubmitDisabled = authForgot.status === 'loading'
   const formErrorMessage = authForgot.error.text
+  const formInitialValues = handleFormTransform(authForgot.payload)
 
-  const formInitialValues = {
-    username: authForgot.payload.username,
-  }
-
-  const handleFormTransform = (values) => ({
-    username: compose(trim, toLower, pathOr('', ['username']))(values),
-  })
-
-  const handleErrorClose = () => dispatch(authActions.authForgotIdle({}))
+  const handleErrorClose = () => dispatch(authActions.authForgotIdle())
 
   return children({
     formErrorMessage,
     handleFormSubmit,
-    handleFormTransform,
     handleErrorClose,
     formSubmitLoading,
     formSubmitDisabled,
