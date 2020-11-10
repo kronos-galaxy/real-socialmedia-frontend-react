@@ -91,16 +91,17 @@ const DatingAboutForm = ({
         active={true}
         success={values.dateOfBirthMonth && values.dateOfBirthDay && values.dateOfBirthYear}
         error={errors.dateOfBirthMonth || errors.dateOfBirthDay || errors.dateOfBirthYear}
+        accessibilityLabel="Toggle Your Date of Birth"
       >
         <View style={styling.row}>
           <View style={styling.item}>
-            <Field name="dateOfBirthMonth" component={PickerField} placeholder={{ label: 'Month', value: undefined }} items={dateOfBirthMonthItems}  />
+            <Field name="dateOfBirthMonth" component={PickerField} placeholder={{ label: 'Month', value: undefined }} items={dateOfBirthMonthItems} textInputProps={{ accessibilityLabel: 'DateOfBirthMonth' }} />
           </View>
           <View style={styling.item}>
-            <Field name="dateOfBirthDay" component={PickerField} placeholder={{ label: 'Day', value: undefined }} items={dateOfBirthDay}  />
+            <Field name="dateOfBirthDay" component={PickerField} placeholder={{ label: 'Day', value: undefined }} items={dateOfBirthDay} textInputProps={{ accessibilityLabel: 'dateOfBirthDay' }} />
           </View>
           <View style={styling.item}>
-            <Field name="dateOfBirthYear" component={PickerField} placeholder={{ label: 'Year', value: undefined }} items={dateOfBirthYear}  />
+            <Field name="dateOfBirthYear" component={PickerField} placeholder={{ label: 'Year', value: undefined }} items={dateOfBirthYear} textInputProps={{ accessibilityLabel: 'dateOfBirthYear' }} />
           </View>
         </View>
       </CollapsableComponent>
@@ -112,8 +113,9 @@ const DatingAboutForm = ({
         active={false}
         success={values.gender}
         error={errors.gender}
+        accessibilityLabel="Toggle Gender"
       >
-        <Field name="gender" component={PickerField} placeholder={{ label: 'Your Gender', value: undefined }} items={genderItems} />
+        <Field name="gender" component={PickerField} placeholder={{ label: 'Your Gender', value: undefined }} items={genderItems} textInputProps={{ accessibilityLabel: 'gender' }} />
       </CollapsableComponent>
       <CollapsableComponent
         style={styling.input}
@@ -122,8 +124,9 @@ const DatingAboutForm = ({
         active={false}
         success={values.fullName}
         error={errors.fullName}
+        accessibilityLabel="Toggle Full Name"
       >
-        <Field name="fullName" component={TextField} placeholder={t('Your Full Name')}/>
+        <Field name="fullName" component={TextField} placeholder={t('Your Full Name')} accessibilityLabel="fullName" />
       </CollapsableComponent>
       <CollapsableComponent
         style={styling.input}
@@ -132,8 +135,9 @@ const DatingAboutForm = ({
         active={false}
         success={values.bio}
         error={errors.bio}
+        accessibilityLabel="Toggle Bio"
       >
-        <Field name="bio" component={TextField} placeholder={t('Bio')} />
+        <Field name="bio" component={TextField} placeholder={t('Bio')} accessibilityLabel="bio" />
       </CollapsableComponent>
       <View style={styling.input}>
         <DefaultButton label={t('Next')} onPress={handleSubmit} loading={loading} disabled={loading} />

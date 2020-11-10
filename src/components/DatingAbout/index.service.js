@@ -1,4 +1,5 @@
 import { useEffect } from 'react'
+import propOr from 'ramda/src/propOr'
 import { useSelector, useDispatch } from 'react-redux'
 import * as usersActions from 'store/ducks/users/actions'
 import * as authSelector from 'store/ducks/auth/selectors'
@@ -6,13 +7,15 @@ import * as navigationActions from 'navigation/actions'
 import { useNavigation } from '@react-navigation/native'
 import dayjs from 'dayjs'
 
+const getDateOfBirth = propOr('2000-01-01', 'dateOfBirth')
+
 const DatingAboutService = ({ children }) => {
   const dispatch = useDispatch()
   const navigation = useNavigation()
   const user = useSelector(authSelector.authUserSelector)
   const usersEditProfile = useSelector(state => state.users.usersEditProfile)
-  const dateOfBirthParsed = dayjs(user.dateOfBirth, 'YYYY-MM-DD')
-  
+  const dateOfBirthParsed = dayjs(getDateOfBirth(user), 'YYYY-MM-DD')
+
   const usersEditProfileRequest = (payload) =>
     dispatch(usersActions.usersEditProfileRequest(payload))
   
@@ -22,13 +25,6 @@ const DatingAboutService = ({ children }) => {
       navigationActions.navigateDatingMatch(navigation)()
     }
   }, [usersEditProfile.status])
-
-  const defaultDateValue = (date, placeholder) => {
-    if (!date || !date.isValid || !date.isValid()) {
-      return placeholder
-    }
-    return date
-  }
 
   /**
    * Form helpers
@@ -49,9 +45,9 @@ const DatingAboutService = ({ children }) => {
   const formErrorMessage = usersEditProfile.error.text
 
   const formInitialValues = {
-    dateOfBirthYear: defaultDateValue(dateOfBirthParsed.format('YYYY'), '2000'),
-    dateOfBirthMonth: defaultDateValue(dateOfBirthParsed.format('MM'), '01'),
-    dateOfBirthDay: defaultDateValue(dateOfBirthParsed.format('DD'), '01'),
+    dateOfBirthYear: dateOfBirthParsed.format('YYYY'), 
+    dateOfBirthMonth: dateOfBirthParsed.format('MM'), 
+    dateOfBirthDay: dateOfBirthParsed.format('DD'), 
     gender: user.gender,
     fullName: user.fullName,
     bio: user.bio,

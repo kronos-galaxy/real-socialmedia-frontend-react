@@ -25,6 +25,7 @@ const Collapsable = ({
   success,
   error,
   helper,
+  accessibilityLabel,
 }) => {
   const styling = styles(theme)
   const [visible, setVisible] = useToggle(active)
@@ -41,10 +42,10 @@ const Collapsable = ({
   const handlePress = () => {
     if (!error) setVisible()
   }
-
+  
   return (
-    <View style={[styling.root, style]}>
-      <TouchableOpacity onPress={handlePress} style={styling.spacing}>
+    <View style={[styling.root, style]} >
+      <TouchableOpacity onPress={handlePress} accessibilityLabel={accessibilityLabel} style={styling.spacing}>
         <View style={styling.header}>
           <Title style={styling.title}>{title}</Title>
 
@@ -104,6 +105,11 @@ Collapsable.propTypes = {
   success: PropTypes.any,
   error: PropTypes.any,
   helper: PropTypes.any,
+  accessibilityLabel: PropTypes.string,
+}
+
+Collapsable.defaultProps = {
+  accessibilityLabel: null,
 }
 
 export default withTranslation()(withTheme(Collapsable))
